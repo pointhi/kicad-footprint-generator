@@ -13,10 +13,17 @@ class KicadMod(object):
         self.text_array = []
         self.line_array = []
         self.pad_array = []
-    
+        self.description = None
+        self.tags = None
     
     def setModuleName(self, name):
         self.module_name = name
+
+    def setDescription(self, description):
+        self.description = description
+        
+    def setTags(self, tags):
+        self.tags = tags
 
     def addRawText(self, data):
         self.text_array.append(data)
@@ -93,6 +100,12 @@ class KicadMod(object):
 
     def save(self, filename):
         output = '(module {name} (layer F.Cu) (tedit 55D37D85)\r\n'.format(name=self.module_name)
+        
+        if self.description:
+            output += '  (descr "{description}")\r\n'.format(description=self.description)
+
+        if self.tags:
+            output += '  (tags "{tags}")\r\n'.format(tags=self.tags)
         
         for text in self.text_array:
             output += self._saveText(text)
