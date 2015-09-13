@@ -1,11 +1,4 @@
-# create empty kicad footprint
-#obj = KicadMod("")
-
-#hole ={'number':1, 'type':'thru_hole', 'shape':'circle', 'pos':{'x':0, 'y':0, 'orientation':0}, 'size':{'x':2, 'y':2}, 'drill': {'size':{'x':0.8}, 'shape':'circle', 'offset':None}, 'layers':['*.Cu','*.Mask','F.SilkS'], 'die_length':None, 'rect_delta':None, 'clearance':None, 'solder_mask_margin':None, 'solder_paste_margin':None, 'solder_paste_margin_ratio':None, 'zone_connect':None, 'thermal_width':None, 'thermal_gap':None}
-
-#obj._addPads([hole])
-#
-#obj.save('test')
+# library to create kicad footprints
 
 class KicadMod(object):
     def __init__(self, name):
@@ -119,3 +112,18 @@ class KicadMod(object):
         output = output + ')'
         
         print(output)
+
+def createNumberedPadsTHT(kicad_mod, pincount, pad_spacing, pad_diameter, pad_size):
+    for pad_number in range(1, pincount+1):
+        pad_pos_x = (pad_number-1)*pad_spacing
+        if pad_number == 1:
+            kicad_mod.addPad(pad_number, 'thru_hole', 'rect', {'x':pad_pos_x, 'y':0}, pad_size, pad_diameter, ['*.Cu', '*.Mask', 'F.SilkS'])
+        elif pad_size['x'] == pad_size['y']:
+            kicad_mod.addPad(pad_number, 'thru_hole', 'circle', {'x':pad_pos_x, 'y':0}, pad_size, pad_diameter, ['*.Cu', '*.Mask', 'F.SilkS'])
+        else:
+            kicad_mod.addPad(pad_number, 'thru_hole', 'oval', {'x':pad_pos_x, 'y':0}, pad_size, pad_diameter, ['*.Cu', '*.Mask', 'F.SilkS'])
+
+def createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, pad_size, pad_pos_y):
+    for pad_number in range(1, pincount+1):
+        pad_pos_x = (pad_number-1)*pad_spacing
+        kicad_mod.addPad(pad_number, 'smd', 'rect', {'x':pad_pos_x, 'y':pad_pos_y}, pad_size, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
