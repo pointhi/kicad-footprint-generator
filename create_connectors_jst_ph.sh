@@ -13,3 +13,10 @@ for i in 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 do
    ./connectors_jst_ph_tht_side.py $i > "Connectors_JST_PH.pretty/Connectors_JST_S${i}B-PH-K.kicad_mod"
 done
+
+# SMT type shrouded header, SMT entry type
+for i in 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+do
+   ./connectors_jst_ph_smd_side.py $i > "Connectors_JST_PH.pretty/Connectors_JST_S${i}B-PH-SM4-TB.kicad_mod"
+done
+

@@ -5,6 +5,7 @@ class KicadMod(object):
         self.setModuleName(name)
         self.text_array = []
         self.line_array = []
+        self.circle_array = []
         self.pad_array = []
         self.description = None
         self.tags = None
@@ -49,6 +50,15 @@ class KicadMod(object):
                             ,layer
                             ,width)
 
+    def addRawCircle(self, data):
+        self.circle_array.append(data)
+
+    def addCircle(self, position, dimensions, layer='F.SilkS', width=0.15):
+        self.addRawCircle({'position':position
+                          ,'dimensions':dimensions
+                          ,'layer':layer
+                          ,'width':width})
+
     def addRawPad(self, data):
         self.pad_array.append(data)
     
@@ -79,6 +89,23 @@ class KicadMod(object):
         output += ' (layer {layer}) (width {width}))\r\n'.format(layer=data['layer']
                                                                 ,width=data['width'])
         return output
+    
+    def _saveCircle(self, data):
+        output = '  (fp_circle '
+        output += self._savePosition(data['position'], 'center')
+        output += ' '
+        
+        dimensions = []
+        dimensions = {'x':data['position']['x']+data['dimensions']['x']
+                     ,'y':data['position']['y']+data['dimensions']['y']}
+        
+        output += self._savePosition(dimensions, 'end')
+        output += ' (layer {layer}) (width {width}))\r\n'.format(layer=data['layer']
+                                                                ,width=data['width'])
+        return output    
+        #(fp_circle (center -12.5 0.25) (end -12.25 0.25) (layer F.SilkS) (width 0.15))
+
+        
 
     def _savePad(self, data):
         output = '  (pad {number} {type} {form} '.format(number=data['number']
@@ -103,6 +130,9 @@ class KicadMod(object):
         for text in self.text_array:
             output += self._saveText(text)
         
+        for circle in self.circle_array:
+            output += self._saveCircle(circle)
+        
         for line in self.line_array:
             output += self._saveLine(line)
         
@@ -124,6 +154,7 @@ def createNumberedPadsTHT(kicad_mod, pincount, pad_spacing, pad_diameter, pad_si
             kicad_mod.addPad(pad_number, 'thru_hole', 'oval', {'x':pad_pos_x, 'y':0}, pad_size, pad_diameter, ['*.Cu', '*.Mask', 'F.SilkS'])
 
 def createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, pad_size, pad_pos_y):
+    start_pos_x = -(pincount-1)*pad_spacing/2
     for pad_number in range(1, pincount+1):
-        pad_pos_x = (pad_number-1)*pad_spacing
+        pad_pos_x = start_pos_x+(pad_number-1)*pad_spacing
         kicad_mod.addPad(pad_number, 'smd', 'rect', {'x':pad_pos_x, 'y':pad_pos_y}, pad_size, 0, ['F.Cu', 'F.Paste', 'F.Mask'])

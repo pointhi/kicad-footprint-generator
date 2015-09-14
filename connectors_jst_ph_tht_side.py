@@ -30,19 +30,19 @@ kicad_mod.addPolygoneLine([{'x':0.5, 'y':6.25}
                           ,'F.SilkS', 0.15)
 
 kicad_mod.addPolygoneLine([{'x':-0.9, 'y':0.25}
-                          ,{'x':-1.95+0.65, 'y':0.25}
-                          ,{'x':-1.95+0.65, 'y':-1.35}
+                          ,{'x':-1.95+0.7, 'y':0.25}
+                          ,{'x':-1.95+0.7, 'y':-1.35}
                           ,{'x':-1.95, 'y':-1.35}
                           ,{'x':-1.95, 'y':6.25}
                           ,{'x':(pincount-1)*2+1.95, 'y':6.25}
                           ,{'x':(pincount-1)*2+1.95, 'y':-1.35}
-                          ,{'x':(pincount-1)*2+1.95-0.65, 'y':-1.35}
-                          ,{'x':(pincount-1)*2+1.95-0.65, 'y':0.25}
+                          ,{'x':(pincount-1)*2+1.95-0.7, 'y':-1.35}
+                          ,{'x':(pincount-1)*2+1.95-0.7, 'y':0.25}
                           ,{'x':(pincount-1)*2+0.9, 'y':0.25}]
                          ,'F.SilkS', 0.15) #TODO
 
-kicad_mod.addLine({'x':-1.95, 'y':0.25}, {'x':-1.95+0.65, 'y':0.25}, 'F.SilkS', 0.15)
-kicad_mod.addLine({'x':(pincount-1)*2+1.95, 'y':0.25}, {'x':(pincount-1)*2+1.95-0.65, 'y':0.25}, 'F.SilkS', 0.15)
+kicad_mod.addLine({'x':-1.95, 'y':0.25}, {'x':-1.95+0.7, 'y':0.25}, 'F.SilkS', 0.15)
+kicad_mod.addLine({'x':(pincount-1)*2+1.95, 'y':0.25}, {'x':(pincount-1)*2+1.95-0.7, 'y':0.25}, 'F.SilkS', 0.15)
 
 kicad_mod.addRectLine({'x':-1.3, 'y':2.5}, {'x':-0.3, 'y':4.1}, 'F.SilkS', 0.15)
 kicad_mod.addRectLine({'x':(pincount-1)*2+1.3, 'y':2.5}, {'x':(pincount-1)*2+0.3, 'y':4.1}, 'F.SilkS', 0.15)
