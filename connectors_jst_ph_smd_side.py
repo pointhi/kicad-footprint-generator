@@ -16,11 +16,12 @@ pad_spacing = 2
 start_pos_x = -(pincount-1)*pad_spacing/2
 end_pos_x = (pincount-1)*pad_spacing/2
 
-# SMT type shrouded header, SMT entry type
+# SMT type shrouded header, Side entry type
 footprint_name = 'Connectors_JST_S{pincount}B-PH-SM4-TB'.format(pincount=pincount)
 
 kicad_mod = KicadMod(footprint_name)
 kicad_mod.setDescription("JST PH series connector, S{pincount}B-PH-SM4-TB".format(pincount=pincount))
+kicad_mod.setAttribute('smd')
 
 # set general values
 kicad_mod.addText('reference', 'CON**', {'x':start_pos_x, 'y':-3}, 'F.SilkS')

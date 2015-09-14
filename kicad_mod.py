@@ -9,6 +9,7 @@ class KicadMod(object):
         self.pad_array = []
         self.description = None
         self.tags = None
+        self.attribute = None
     
     def setModuleName(self, name):
         self.module_name = name
@@ -18,6 +19,9 @@ class KicadMod(object):
         
     def setTags(self, tags):
         self.tags = tags
+
+    def setAttribute(self, value):
+        self.attribute = value
 
     def addRawText(self, data):
         self.text_array.append(data)
@@ -126,6 +130,9 @@ class KicadMod(object):
 
         if self.tags:
             output += '  (tags "{tags}")\r\n'.format(tags=self.tags)
+        
+        if self.attribute:
+            output += '  (attr "{attr}")\r\n'.format(attr=self.attribute)
         
         for text in self.text_array:
             output += self._saveText(text)
