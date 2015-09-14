@@ -22,6 +22,7 @@ footprint_name = 'Connectors_JST_S{pincount}B-PH-SM4-TB'.format(pincount=pincoun
 kicad_mod = KicadMod(footprint_name)
 kicad_mod.setDescription("JST PH series connector, S{pincount}B-PH-SM4-TB".format(pincount=pincount))
 kicad_mod.setAttribute('smd')
+kicad_mod.setCenterPos({'x':0, 'y':5.55/2})
 
 # set general values
 kicad_mod.addText('reference', 'CON**', {'x':start_pos_x, 'y':-3}, 'F.SilkS')
@@ -67,7 +68,7 @@ for i in range(0, pincount-1):
 kicad_mod.addCircle({'x':start_pos_x-2.95+0.8+0.75, 'y':0.25}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
 
 # create Courtyard
-kicad_mod.addRectLine({'x':start_pos_x-1.6-1.6-0.25, 'y':7.25+0.25}, {'x':end_pos_x+1.6+1.6+0.25, 'y':-1.75-0.25}, 'F.CrtYd', 0.05)
+kicad_mod.addRectLine({'x':start_pos_x-1.6-1.6-0.25, 'y':7.25+0.275}, {'x':end_pos_x+1.6+1.6+0.25, 'y':-1.75-0.275}, 'F.CrtYd', 0.05)
 
 # create pads
 createNumberedPadsSMD(kicad_mod, pincount, 2, {'x':1, 'y':3.5}, 0)
