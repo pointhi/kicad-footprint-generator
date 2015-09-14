@@ -10,7 +10,8 @@ class KicadMod(object):
         self.description = None
         self.tags = None
         self.attribute = None
-    
+        self.center_pos = {'x':0, 'y':0}
+
     def setModuleName(self, name):
         self.module_name = name
 
@@ -23,8 +24,11 @@ class KicadMod(object):
     def setAttribute(self, value):
         self.attribute = value
 
+    def setCenterPos(self, position):
+        self.center_pos = position
+
     def addRawText(self, data):
-        self.text_array.append(data)
+        self.text_array.append(data)    
     
     def addText(self, which_text, text, position, layer='F.SilkS'):
         self.addRawText({'which_text':which_text
@@ -71,9 +75,12 @@ class KicadMod(object):
     
     def _savePosition(self, position, keyword='at'):
         if position.get('orientation', 0) != 0:
-            return '({keyword} {x} {y} {orientation})'.format(keyword=keyword, x=position['x'], y=position['y'], orientation=(position['orientation']+360)%360)
+            return '({keyword} {x} {y} {orientation})'.format(keyword=keyword, x=position['x']-self.center_pos['x'], y=position['y']-self.center_pos['y'], orientation=(position['orientation']+360)%360)
         else:
-            return '({keyword} {x} {y})'.format(keyword=keyword, x=position['x'], y=position['y'])
+            return '({keyword} {x} {y})'.format(keyword=keyword, x=position['x']-self.center_pos['x'], y=position['y']-self.center_pos['y'])
+    
+    def _saveSize(self, size, keyword='at'):
+        return '({keyword} {x} {y})'.format(keyword=keyword, x=size['x'], y=size['y'])
     
     def _saveText(self, data):
         output = '  (fp_text {which_text} {text} '.format(which_text=data['which_text']
@@ -117,7 +124,7 @@ class KicadMod(object):
                                                         ,form=data['form'])
         output += self._savePosition(data['position'], 'at')
         output += ' '
-        output += self._savePosition(data['size'], 'size')
+        output += self._saveSize(data['size'], 'size')
         output += ' (drill {drill}) '.format(drill=data['drill'])
         output += '(layers ' + ' '.join(data['layers']) + '))\r\n'
         return output
@@ -132,7 +139,7 @@ class KicadMod(object):
             output += '  (tags "{tags}")\r\n'.format(tags=self.tags)
         
         if self.attribute:
-            output += '  (attr "{attr}")\r\n'.format(attr=self.attribute)
+            output += '  (attr {attr})\r\n'.format(attr=self.attribute)
         
         for text in self.text_array:
             output += self._saveText(text)
