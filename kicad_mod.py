@@ -130,7 +130,7 @@ class KicadMod(object):
         return output
 
     def save(self, filename):
-        output = '(module {name} (layer F.Cu) (tedit 55D37D85)\r\n'.format(name=self.module_name)
+        output = '(module {name} (layer F.Cu) (tedit 55F6C32A)\r\n'.format(name=self.module_name)
         
         if self.description:
             output += '  (descr "{description}")\r\n'.format(description=self.description)
