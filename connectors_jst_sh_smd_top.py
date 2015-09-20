@@ -31,30 +31,39 @@ kicad_mod.addText('value', footprint_name, {'x':0, 'y':4.5}, 'F.Fab')
 # create Silkscreen
 kicad_mod.addLine({'x':start_pos_x-0.4, 'y':-0.7}, {'x':end_pos_x+0.4, 'y':-0.7}, 'F.SilkS', 0.15)
 
-kicad_mod.addPolygoneLine([{'x':start_pos_x-1, 'y':1.2}
-                          ,{'x':start_pos_x-1, 'y':2.2}
+kicad_mod.addPolygoneLine([{'x':start_pos_x-1.5, 'y':1.2}
+                          ,{'x':start_pos_x-1.5, 'y':2.2}
                           ,{'x':start_pos_x-0.6, 'y':2.2}]
                           ,'F.SilkS', 0.15)
 
-kicad_mod.addPolygoneLine([{'x':end_pos_x+1, 'y':1.2}
-                          ,{'x':end_pos_x+1, 'y':2.2}
+kicad_mod.addRectLine({'x':start_pos_x-1, 'y':2.2}, {'x':start_pos_x-1, 'y':1.2}, 'F.SilkS', 0.15)
+kicad_mod.addRectLine({'x':start_pos_x-1, 'y':1.6}, {'x':start_pos_x-1.5, 'y':1.6}, 'F.SilkS', 0.15)
+
+kicad_mod.addPolygoneLine([{'x':end_pos_x+1.5, 'y':1.2}
+                          ,{'x':end_pos_x+1.5, 'y':2.2}
                           ,{'x':end_pos_x+0.6, 'y':2.2}]
                           ,'F.SilkS', 0.15)
 
-kicad_mod.addPolygoneLine([{'x':start_pos_x-0.4, 'y':2.525-1.55/2-0.3}
-                          ,{'x':start_pos_x-0.4, 'y':-0.2}
-                          ,{'x':end_pos_x+0.4, 'y':-0.2}
-                          ,{'x':end_pos_x+0.4, 'y':2.525-1.55/2-0.3}
-                          ,{'x':start_pos_x-0.4, 'y':2.525-1.55/2-0.3}] 
+kicad_mod.addRectLine({'x':end_pos_x+1, 'y':2.2}, {'x':end_pos_x+1, 'y':1.2}, 'F.SilkS', 0.15)
+kicad_mod.addRectLine({'x':end_pos_x+1, 'y':1.6}, {'x':end_pos_x+1.5, 'y':1.6}, 'F.SilkS', 0.15)
+
+kicad_mod.addPolygoneLine([{'x':start_pos_x-0.4, 'y':0.2}
+                          ,{'x':start_pos_x-0.4, 'y':-0.3}
+                          ,{'x':end_pos_x+0.4, 'y':-0.3}
+                          ,{'x':end_pos_x+0.4, 'y':0.2}] 
                           ,'F.SilkS', 0.15)
+                          
+kicad_mod.addPolygoneLine([{'x':start_pos_x-0.4, 'y':0.8}
+                          ,{'x':start_pos_x-0.4, 'y':2.525-1.55/2-0.3}
+                          ,{'x':end_pos_x+0.4, 'y':2.525-1.55/2-0.3}
+                          ,{'x':end_pos_x+0.4, 'y':0.8}] 
+                          ,'F.SilkS', 0.15)                     
+                          
+for i in range(0, pincount):
+    middle_x = start_pos_x+i*pad_spacing
+    kicad_mod.addLine({'x':middle_x, 'y':0.2}, {'x':middle_x, 'y':0.4}, 'F.SilkS', 0.15)
 
-for i in range(0, pincount-1):
-    middle_x = start_pos_x+pad_spacing/2.+i*pad_spacing
-    start_x = middle_x-0.05
-    end_x = middle_x+0.05
-    kicad_mod.addRectLine({'x':start_x, 'y':2.525-1.55/2-0.3}, {'x':end_x, 'y':2.525-1.55/2-0.3-0.2}, 'F.SilkS', 0.15)
-
-kicad_mod.addCircle({'x':start_pos_x-1, 'y':2.2+0.75}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
+kicad_mod.addCircle({'x':start_pos_x-1.15, 'y':2.2+0.65}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
 
 # create Courtyard
 kicad_mod.addRectLine({'x':start_pos_x-0.7-1.2-0.25, 'y':3.3+0.25+0.0125}, {'x':end_pos_x+0.7+1.2+0.25, 'y':-0.9-0.25-0.0375}, 'F.CrtYd', 0.05)
