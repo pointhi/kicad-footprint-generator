@@ -1,5 +1,8 @@
 # library to create kicad footprints
 
+def getFormatedFloat(val):
+    return ('%f' % val).rstrip('0').rstrip('.')
+
 class KicadMod(object):
     def __init__(self, name):
         self.setModuleName(name)
@@ -75,12 +78,19 @@ class KicadMod(object):
     
     def _savePosition(self, position, keyword='at'):
         if position.get('orientation', 0) != 0:
-            return '({keyword} {x} {y} {orientation})'.format(keyword=keyword, x=position['x']-self.center_pos['x'], y=position['y']-self.center_pos['y'], orientation=(position['orientation']+360)%360)
+            return '({keyword} {x} {y} {orientation})'.format(keyword=keyword
+                                                             ,x=getFormatedFloat(position['x']-self.center_pos['x'])
+                                                             ,y=getFormatedFloat(position['y']-self.center_pos['y'])
+                                                             ,orientation=getFormatedFloat((position['orientation']+360)%360))
         else:
-            return '({keyword} {x} {y})'.format(keyword=keyword, x=position['x']-self.center_pos['x'], y=position['y']-self.center_pos['y'])
+            return '({keyword} {x} {y})'.format(keyword=keyword
+                                               ,x=getFormatedFloat(position['x']-self.center_pos['x'])
+                                               ,y=getFormatedFloat(position['y']-self.center_pos['y']))
     
     def _saveSize(self, size, keyword='at'):
-        return '({keyword} {x} {y})'.format(keyword=keyword, x=size['x'], y=size['y'])
+        return '({keyword} {x} {y})'.format(keyword=keyword
+                                           ,x=getFormatedFloat(size['x'])
+                                           ,y=getFormatedFloat(size['y']))
     
     def _saveText(self, data):
         output = '  (fp_text {which_text} {text} '.format(which_text=data['which_text']
@@ -168,7 +178,7 @@ def createNumberedPadsTHT(kicad_mod, pincount, pad_spacing, pad_diameter, pad_si
             kicad_mod.addPad(pad_number, 'thru_hole', 'oval', {'x':pad_pos_x, 'y':0}, pad_size, pad_diameter, ['*.Cu', '*.Mask', 'F.SilkS'])
 
 def createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, pad_size, pad_pos_y):
-    start_pos_x = -(pincount-1)*pad_spacing/2
+    start_pos_x = -(pincount-1)*pad_spacing/2.
     for pad_number in range(1, pincount+1):
         pad_pos_x = start_pos_x+(pad_number-1)*pad_spacing
         kicad_mod.addPad(pad_number, 'smd', 'rect', {'x':pad_pos_x, 'y':pad_pos_y}, pad_size, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
