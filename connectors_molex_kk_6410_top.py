@@ -75,8 +75,12 @@ for i in range(0, pincount):
                               ,{'x':end_x, 'y':2.3}
                               ,{'x':end_x, 'y':2.92}], 'F.SilkS', 0.15)
 
+def round_to(n, precision):
+    correction = 0.5 if n >= 0 else -0.5
+    return int( n/precision+correction ) * precision
+
 # create Courtyard
-kicad_mod.addRectLine({'x':start_pos_x-2.54/2-0.25, 'y':2.92+0.25}, {'x':end_pos_x+2.54/2+0.25, 'y':-2.88-0.25}, 'F.CrtYd', 0.05)
+kicad_mod.addRectLine({'x':round_to(start_pos_x-2.54/2-0.25-0.03, 0.05), 'y':2.92+0.25+0.03}, {'x':round_to(end_pos_x+2.54/2+0.25+0.03, 0.05), 'y':-2.88-0.25-0.02}, 'F.CrtYd', 0.05)
 
 # create pads
 createNumberedPadsTHT(kicad_mod, pincount, -1*pad_spacing, 1, {'x':1.6, 'y':2.3}) # TODO pad?
