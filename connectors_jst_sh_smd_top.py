@@ -63,7 +63,7 @@ for i in range(0, pincount):
     middle_x = start_pos_x+i*pad_spacing
     kicad_mod.addLine({'x':middle_x, 'y':0.2}, {'x':middle_x, 'y':0.4}, 'F.SilkS', 0.15)
 
-kicad_mod.addCircle({'x':start_pos_x-1.15, 'y':2.2+0.65}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
+kicad_mod.addCircle({'x':start_pos_x-1, 'y':2.2+0.65}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
 
 # create Courtyard
 kicad_mod.addRectLine({'x':start_pos_x-0.7-1.2-0.25, 'y':3.3+0.25+0.0125}, {'x':end_pos_x+0.7+1.2+0.25, 'y':-0.9-0.25-0.0375}, 'F.CrtYd', 0.05)
