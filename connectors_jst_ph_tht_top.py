@@ -17,9 +17,10 @@ footprint_name = 'Connectors_JST_B{pincount}B-PH-K'.format(pincount=pincount)
 
 kicad_mod = KicadMod(footprint_name)
 kicad_mod.setDescription("JST PH series connector, B{pincount}B-PH-K".format(pincount=pincount))
+kicad_mod.setTags('connector jst ph')
 
 # set general values
-kicad_mod.addText('reference', 'CON**', {'x':0, 'y':-3}, 'F.SilkS')
+kicad_mod.addText('reference', 'REF**', {'x':0, 'y':-3}, 'F.SilkS')
 kicad_mod.addText('value', footprint_name, {'x':(pincount-1)*2/2, 'y':4}, 'F.Fab')
 
 # create Silkscreen
@@ -57,7 +58,7 @@ for i in range(0, pincount-1):
     kicad_mod.addLine({'x':middle_x, 'y':2.3}, {'x':middle_x, 'y':1.8}, 'F.SilkS', 0.15)
     
 # create Courtyard
-kicad_mod.addRectLine({'x':-1.95-0.25, 'y':2.8+0.25}, {'x':(pincount-1)*2+1.95+0.25, 'y':-1.7-0.25}, 'F.CrtYd', 0.05)
+kicad_mod.addRectLine({'x':-1.95-0.5, 'y':2.8+0.5}, {'x':(pincount-1)*2+1.95+0.5, 'y':-1.7-0.5}, 'F.CrtYd', 0.05)
 
 # create pads
 createNumberedPadsTHT(kicad_mod, pincount, 2, 0.7, {'x':1.2, 'y':1.7})

@@ -22,10 +22,11 @@ footprint_name = 'Connectors_JST_BM{pincount:02g}B-SRSS-TB'.format(pincount=pinc
 kicad_mod = KicadMod(footprint_name)
 kicad_mod.setDescription("JST SH series connector, BM{pincount:02g}B-SRSS-TB".format(pincount=pincount))
 kicad_mod.setAttribute('smd')
+kicad_mod.setTags('connector jst sh')
 kicad_mod.setCenterPos({'x':0, 'y':2.525/2})
 
 # set general values
-kicad_mod.addText('reference', 'CON**', {'x':start_pos_x, 'y':-2}, 'F.SilkS')
+kicad_mod.addText('reference', 'REF**', {'x':start_pos_x, 'y':-2}, 'F.SilkS')
 kicad_mod.addText('value', footprint_name, {'x':0, 'y':4.5}, 'F.Fab')
 
 # create Silkscreen
@@ -66,7 +67,7 @@ for i in range(0, pincount):
 kicad_mod.addCircle({'x':start_pos_x-1, 'y':2.2+0.65}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
 
 # create Courtyard
-kicad_mod.addRectLine({'x':start_pos_x-0.7-1.2-0.25, 'y':3.3+0.25+0.0125}, {'x':end_pos_x+0.7+1.2+0.25, 'y':-0.9-0.25-0.0375}, 'F.CrtYd', 0.05)
+kicad_mod.addRectLine({'x':start_pos_x-0.7-1.2-0.5, 'y':3.3+0.5+0.0125}, {'x':end_pos_x+0.7+1.2+0.5, 'y':-0.9-0.5-0.0375}, 'F.CrtYd', 0.5)
 
 # create pads
 createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, {'x':0.6, 'y':1.55}, 2.525)
