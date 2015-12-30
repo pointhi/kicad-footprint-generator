@@ -20,6 +20,7 @@ footprint_name = 'Connectors_Multicomp_MC9A22-{pincount:02g}34'.format(pincount=
 
 kicad_mod = KicadMod(footprint_name)
 kicad_mod.setDescription("Connectors_Multicomp_MC9A22-{pincount:02g}34".format(pincount=pincount))
+kicad_mod.setTags('connector multicomp mc9')
 
 # set general values
 kicad_mod.addText('reference', 'REF**', {'x':start_pos_x-3, 'y':-15}, 'F.SilkS')
