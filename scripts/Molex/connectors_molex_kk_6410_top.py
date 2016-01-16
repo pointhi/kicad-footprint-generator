@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.append("../../kicad_mod") # load kicad_mod path
+
 import argparse
 from kicad_mod import KicadMod, createNumberedPadsTHT
 
@@ -86,5 +89,5 @@ kicad_mod.addRectLine({'x':round_to(start_pos_x-2.54/2-0.5-0.03-0.1, 0.05), 'y':
 # create pads
 createNumberedPadsTHT(kicad_mod, pincount, pad_spacing, 1.2, {'x':2, 'y':2.6}) # TODO pad?
 
-# save model
-kicad_mod.save('Connectors_Molex.pretty/{footprint_name}.kicad_mod'.format(footprint_name=footprint_name))
+# output kicad model
+print(kicad_mod)

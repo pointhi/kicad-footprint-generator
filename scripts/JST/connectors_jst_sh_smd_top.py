@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.append("../../kicad_mod") # load kicad_mod path
+
 import argparse
 from kicad_mod import KicadMod, createNumberedPadsSMD
 
@@ -74,5 +77,5 @@ createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, {'x':0.6, 'y':1.55}, 2.5
 kicad_mod.addPad('""', 'smd', 'rect', {'x':start_pos_x-0.7-1.2/2, 'y':0}, {'x':1.2, 'y':1.8}, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
 kicad_mod.addPad('""', 'smd', 'rect', {'x':end_pos_x+0.7+1.2/2, 'y':0}, {'x':1.2, 'y':1.8}, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
 
-# save model
-kicad_mod.save('{footprint_name}.kicad_mod'.format(footprint_name=footprint_name))
+# output kicad model
+print(kicad_mod)

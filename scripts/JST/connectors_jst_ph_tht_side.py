@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.append("../../kicad_mod") # load kicad_mod path
+
 import argparse
 from kicad_mod import KicadMod, createNumberedPadsTHT
 
@@ -62,5 +65,5 @@ kicad_mod.addRectLine({'x':-1.95-0.5, 'y':6.25+0.5}, {'x':(pincount-1)*2+1.95+0.
 # create pads
 createNumberedPadsTHT(kicad_mod, pincount, 2, 0.7, {'x':1.2, 'y':1.7})
 
-# save model
-kicad_mod.save('{footprint_name}.kicad_mod'.format(footprint_name=footprint_name))
+# output kicad model
+print(kicad_mod)

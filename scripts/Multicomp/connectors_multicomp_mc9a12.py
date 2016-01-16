@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.append("../../kicad_mod") # load kicad_mod path
+
 import argparse
 from kicad_mod import KicadMod, createNumberedPadsTHT
 
@@ -106,5 +109,5 @@ for pad_number in range(1, pincount, 2):
 
     kicad_mod.addPad(pad_number+1, 'thru_hole', 'circle', {'x':pad_pos_x, 'y':-pad_spacing}, pad_size, pad_diameter, ['*.Cu', '*.Mask', 'F.SilkS'])
 
-# save model
-kicad_mod.save('Connectors_Multicomp.pretty/{footprint_name}.kicad_mod'.format(footprint_name=footprint_name))
+# output kicad model
+print(kicad_mod)
