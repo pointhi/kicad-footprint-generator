@@ -11,6 +11,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+
+(C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
 
