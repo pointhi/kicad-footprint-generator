@@ -92,3 +92,11 @@ def render_position_xyz(keyword, position):
                                            ,y=formatFloat(coord['y'])
                                            ,z=formatFloat(coord['z']))
 
+
+def render_position_xyr(keyword, position):
+    coord = parse_coordinate(position)
+    return '({keyword} {x} {y} {r})'.format(keyword=keyword
+                                           ,x=formatFloat(coord['x'])
+                                           ,y=formatFloat(coord['y'])
+                                           ,r=formatFloat(coord['r']))
+

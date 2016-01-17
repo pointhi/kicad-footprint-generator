@@ -16,7 +16,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 import math
 import time
 from copy import deepcopy
-from util import parse_coordinate, parse_coordinate_xy, parse_coordinate_xyz, render_position_xy, render_position_xyz
+from util import *
 
 
 '''
@@ -438,15 +438,23 @@ class Text(Node):
         self.at = parse_coordinate_xy(kwargs['at'])
 
         self.layer=kwargs['layer']
+        self.size=parse_coordinate_xy(kwargs.get('size', [1,1]))
         self.thickness = kwargs.get('thickness', 0.15)
 
 
     def renderList(self):
+        at_real_position = self.getRealPosition(self.at)
+        if at_real_position['r']:
+            at_string = render_position_xyr('at', at_real_position)
+        else:
+            at_string = render_position_xy('at', at_real_position)
+
         render_string = "(fp_text {type} {text} {at} (layer {layer})\r\n".format(type=self.type
                                                                                 ,text=self.text
-                                                                                ,at=render_position_xy('at', self.getRealPosition(self.at))
+                                                                                ,at=at_string
                                                                                 ,layer=self.layer)
-        render_string += "  (effects (font (thickness {thickness})))\r\n".format(thickness=self.thickness)
+        render_string += "  (effects (font {size} (thickness {thickness})))\r\n".format(size=render_position_xy('size', self.size)
+                                                                                       ,thickness=self.thickness)
         render_string += ")"
 
         render_list = [render_string]
@@ -456,18 +464,25 @@ class Text(Node):
 
 
     def calculateOutline(self):
-        # TODO: implementation
+        width = len(self.text)*self.size['x']
+        height = self.size['y']
 
-        return Node.calculateOutline()
+        min_x = self.at[x]-width/2.
+        min_y = self.at[y]-height/2.
+        max_x = self.at[x]+width/2.
+        max_y = self.at[y]+height/2.
+
+        return Node.calculateOutline({'min':parse_coordinate_xy((min_x, min_y)), 'max':parse_coordinate_xy((max_x, max_y))})
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [type: {type}, text: {text}, at: {at}, layer: {layer}, thickness: {thickness}]".format(type=self.type
-                                                                                                               ,text=self.text
-                                                                                                               ,at=render_position_xy('at', self.getRealPosition(self.at))
-                                                                                                               ,layer=self.layer
-                                                                                                               ,thickness=self.thickness)
+        render_text += " [type: {type}, text: {text}, at: {at}, layer: {layer}, size: {size}, thickness: {thickness}]".format(type=self.type
+                                                                                                                             ,text=self.text
+                                                                                                                             ,at=render_position_xy('at', self.getRealPosition(self.at))
+                                                                                                                             ,layer=self.layer
+                                                                                                                             ,size=render_position_xy('size', self.size)
+                                                                                                                             ,thickness=self.thickness)
 
         return render_text
 
