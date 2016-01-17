@@ -16,7 +16,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 import math
 import time
 from copy import deepcopy
-from util import parse_coordinate, parse_coordinate_xy, render_position_xy
+from util import parse_coordinate, parse_coordinate_xy, parse_coordinate_xyz, render_position_xy, render_position_xyz
 
 
 '''
@@ -29,10 +29,6 @@ ADVANTAGES:
 * simple duplication of rendering structures
 
 '''
-
-
-# define in which order the general "lisp" operators are arranged
-render_order = ['descr', 'tags', 'attr', 'fp_text', 'fp_circle', 'fp_line', 'pad', 'model']
 
 
 class Node(object):
@@ -179,7 +175,7 @@ class Node(object):
 
 class Translation(Node):
     '''
-    Apply translation and rotation to the child tree
+    Apply translation to the child tree
     '''
     def __init__(self, x, y):
         Node.__init__(self)
@@ -213,7 +209,7 @@ class Translation(Node):
 
 class Rotation(Node):
     '''
-    Apply translation and rotation to the child tree
+    Apply rotation to the child tree
     '''
     def __init__(self, r):
         Node.__init__(self)
@@ -429,6 +425,38 @@ class Arc(Node):
         return render_text
 
 
+class Model(Node):
+    def __init__(self, **kwargs):
+        Node.__init__(self)
+        self.filename = kwargs['filename']
+        self.at = parse_coordinate_xyz(kwargs['at'])
+        self.scale = parse_coordinate_xyz(kwargs['scale'])
+        self.rotate = parse_coordinate_xyz(kwargs['rotate'])
+
+
+    def renderList(self):
+        render_string = "(model {filename}\r\n".format(filename=self.filename)
+        render_string += "  (at {at}\r\n".format(at=render_position_xyz('xyz', self.at)) # TODO: apply position from parent nodes (missing z)
+        render_string += "  (scale {at}\r\n".format(at=render_position_xyz('xyz', self.scale)) # TODO: apply scale from parent nodes
+        render_string += "  (rotate {at}\r\n".format(at=render_position_xyz('xyz', self.rotate)) # TODO: apply rotation from parent nodes
+        render_string += ")"
+
+        render_list = [render_string]
+
+        render_list.extend(Node.renderList(self))
+        return render_list
+
+
+    def _getRenderTreeText(self):
+        render_text = Node._getRenderTreeText(self)
+        render_text += " [filename: {filename}, at: {at}, scale: {scale}, rotate: {rotate}]".format(filename=self.filename
+                                                                                                   ,at=render_position_xyz('xyz', self.at)
+                                                                                                   ,scale=render_position_xyz('xyz', self.scale)
+                                                                                                   ,rotate=render_position_xyz('xyz', self.rotate))
+
+        return render_text
+
+
 class KicadMod(Node):
     '''
     Root Node to generate KicadMod
@@ -474,10 +502,10 @@ class KicadMod(Node):
         if self.attribute:
             render_string += '  (attr {attr})\r\n'.format(attr=self.attribute)
 
-        
-        
+        # read render list, sort it by key and reformate multiline entities
         render_list = sorted(self.renderList(), key=lambda string: string.split()[0][1:])
-        
+        render_list = [s.replace('\r\n', '\r\n  ') for s in render_list]
+
         render_string += "  "
         render_string += "\r\n  ".join(render_list)
         render_string += "\r\n"

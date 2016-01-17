@@ -62,6 +62,12 @@ kicad_mod.append(RectLine(start=[-2.25,-2.25], end=[5.25,2.25], layer='F.CrtYd',
 # create pads
 # TODO
 
+# add model
+kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl"
+                      ,at=[0,0,0]
+                      ,scale=[1,1,1]
+                      ,rotate=[0,0,0]))
+
 # output kicad model
 print(kicad_mod)
 ```
