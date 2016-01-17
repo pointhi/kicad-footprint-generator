@@ -51,7 +51,8 @@ kicad_mod.setDescription("A example footprint")
 kicad_mod.setTags("example")
 
 # set general values
-# TODO
+kicad_mod.append(Text(type='reference', text='REF**', at=[0,-3], layer='F.SilkS'))
+kicad_mod.append(Text(type='value', text=footprint_name, at=[1.5,3], layer='F.Fab'))
 
 # create silscreen
 kicad_mod.append(RectLine(start=[-2,-2], end=[5,2], layer='F.SilkS', width=0.15))

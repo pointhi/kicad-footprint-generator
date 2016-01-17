@@ -20,7 +20,7 @@ from util import parse_coordinate, parse_coordinate_xy, parse_coordinate_xyz, re
 
 
 '''
-This is my new approach, using a render tree to allow footprint generation.
+This is my new approach, using a render tree for footprint generation.
 
 ADVANTAGES:
 
@@ -29,6 +29,11 @@ ADVANTAGES:
 * simple duplication of rendering structures
 
 '''
+
+
+# define in which order the general "lisp" operators are arranged
+render_order = ['descr', 'tags', 'attr', 'fp_text', 'fp_circle', 'fp_line', 'pad', 'model']
+# TODO: sort Text by type
 
 
 class Node(object):
@@ -424,6 +429,41 @@ class Arc(Node):
 
         return render_text
 
+class Text(Node):
+    def __init__(self, **kwargs):
+        Node.__init__(self)
+        self.type = kwargs['type']
+        self.text = kwargs['text']
+        self.at = parse_coordinate_xy(kwargs['at'])
+
+        self.layer=kwargs['layer']
+        self.thickness = kwargs.get('thickness', 0.15)
+
+
+    def renderList(self):
+        render_string = "(fp_text {type} {text} {at} (layer {layer})\r\n".format(type=self.type
+                                                                                ,text=self.text
+                                                                                ,at=render_position_xy('at', self.getRealPosition(self.at))
+                                                                                ,layer=self.layer)
+        render_string += "  (effects (font (thickness {thickness}))\r\n".format(thickness=self.thickness)
+        render_string += ")"
+
+        render_list = [render_string]
+
+        render_list.extend(Node.renderList(self))
+        return render_list
+
+
+    def _getRenderTreeText(self):
+        render_text = Node._getRenderTreeText(self)
+        render_text += " [type: {type} text: {text}, at: {at}, layer: {layer}, thickness: {thickness}]".format(type=self.type
+                                                                                                              ,text=self.text
+                                                                                                              ,at=render_position_xy('at', self.getRealPosition(self.at))
+                                                                                                              ,layer=self.layer
+                                                                                                              ,thickness=self.thickness)
+
+        return render_text
+
 
 class Model(Node):
     def __init__(self, **kwargs):
@@ -503,7 +543,7 @@ class KicadMod(Node):
             render_string += '  (attr {attr})\r\n'.format(attr=self.attribute)
 
         # read render list, sort it by key and reformate multiline entities
-        render_list = sorted(self.renderList(), key=lambda string: string.split()[0][1:])
+        render_list = sorted(self.renderList(), key=lambda string: render_order.index(string.split()[0][1:]))
         render_list = [s.replace('\r\n', '\r\n  ') for s in render_list]
 
         render_string += "  "
