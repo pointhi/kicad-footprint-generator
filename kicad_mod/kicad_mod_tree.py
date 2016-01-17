@@ -445,13 +445,19 @@ class Text(Node):
                                                                                 ,text=self.text
                                                                                 ,at=render_position_xy('at', self.getRealPosition(self.at))
                                                                                 ,layer=self.layer)
-        render_string += "  (effects (font (thickness {thickness}))\r\n".format(thickness=self.thickness)
+        render_string += "  (effects (font (thickness {thickness})))\r\n".format(thickness=self.thickness)
         render_string += ")"
 
         render_list = [render_string]
 
         render_list.extend(Node.renderList(self))
         return render_list
+
+
+    def calculateOutline(self):
+        # TODO: implementation
+
+        return Node.calculateOutline()
 
 
     def _getRenderTreeText(self):
@@ -476,9 +482,9 @@ class Model(Node):
 
     def renderList(self):
         render_string = "(model {filename}\r\n".format(filename=self.filename)
-        render_string += "  (at {at}\r\n".format(at=render_position_xyz('xyz', self.at)) # TODO: apply position from parent nodes (missing z)
-        render_string += "  (scale {at}\r\n".format(at=render_position_xyz('xyz', self.scale)) # TODO: apply scale from parent nodes
-        render_string += "  (rotate {at}\r\n".format(at=render_position_xyz('xyz', self.rotate)) # TODO: apply rotation from parent nodes
+        render_string += "  (at {at})\r\n".format(at=render_position_xyz('xyz', self.at)) # TODO: apply position from parent nodes (missing z)
+        render_string += "  (scale {at})\r\n".format(at=render_position_xyz('xyz', self.scale)) # TODO: apply scale from parent nodes
+        render_string += "  (rotate {at})\r\n".format(at=render_position_xyz('xyz', self.rotate)) # TODO: apply rotation from parent nodes
         render_string += ")"
 
         render_list = [render_string]
