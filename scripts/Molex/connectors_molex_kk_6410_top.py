@@ -26,7 +26,7 @@ kicad_mod.setDescription("Connector Headers with Friction Lock, 22-27-2{pincount
 kicad_mod.setTags('connector molex kk_6410')
 
 # set general values
-kicad_mod.addText('reference', 'CON**', {'x':start_pos_x+1, 'y':4}, 'F.SilkS')
+kicad_mod.addText('reference', 'REF**', {'x':start_pos_x+1, 'y':4}, 'F.SilkS')
 kicad_mod.addText('value', footprint_name, {'x':(pincount-1)*pad_spacing/2., 'y':-4}, 'F.Fab')
 
 # create Silkscreen

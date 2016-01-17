@@ -43,9 +43,12 @@ Furthermore, we are able to copy complex structures of the footprint and later t
 ```python
 from kicad_mod_tree import *
 
-kicad_mod = KicadMod("Test")
-kicad_mod.setDescription("some description")
-kicad_mod.setTags("test")
+footprint_name = "example_footprint"
+
+# init kicad footprint
+kicad_mod = KicadMod(footprint_name)
+kicad_mod.setDescription("A example footprint")
+kicad_mod.setTags("example")
 
 # set general values
 # TODO
