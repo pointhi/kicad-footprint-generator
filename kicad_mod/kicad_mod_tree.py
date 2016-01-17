@@ -429,6 +429,7 @@ class Arc(Node):
 
         return render_text
 
+
 class Text(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
@@ -462,11 +463,11 @@ class Text(Node):
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [type: {type} text: {text}, at: {at}, layer: {layer}, thickness: {thickness}]".format(type=self.type
-                                                                                                              ,text=self.text
-                                                                                                              ,at=render_position_xy('at', self.getRealPosition(self.at))
-                                                                                                              ,layer=self.layer
-                                                                                                              ,thickness=self.thickness)
+        render_text += " [type: {type}, text: {text}, at: {at}, layer: {layer}, thickness: {thickness}]".format(type=self.type
+                                                                                                               ,text=self.text
+                                                                                                               ,at=render_position_xy('at', self.getRealPosition(self.at))
+                                                                                                               ,layer=self.layer
+                                                                                                               ,thickness=self.thickness)
 
         return render_text
 
