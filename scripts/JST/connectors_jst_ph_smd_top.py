@@ -20,7 +20,7 @@ start_pos_x = -(pincount-1)*pad_spacing/2
 end_pos_x = (pincount-1)*pad_spacing/2
 
 # SMT type shrouded header, Top entry type
-footprint_name = 'Connectors_JST_B{pincount}B-PH-SM4-TB'.format(pincount=pincount)
+footprint_name = 'JST_PH_{pincount:02}x2.00mm_Straight_B{pincount}B-PH-SM4-TB'.format(pincount=pincount)
 
 kicad_mod = KicadMod(footprint_name)
 kicad_mod.setDescription("JST PH series connector, B{pincount}B-PH-SM4-TB".format(pincount=pincount))

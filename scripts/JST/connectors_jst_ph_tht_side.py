@@ -16,7 +16,7 @@ args = parser.parse_args()
 pincount = int(args.pincount[0])
 
 # Through-hole type shrouded header, Side entry type
-footprint_name = 'Connectors_JST_S{pincount}B-PH-K'.format(pincount=pincount)
+footprint_name = 'JST_PH_{pincount:02}x2.00mm_Angled_S{pincount}B-PH-K'.format(pincount=pincount)
 
 kicad_mod = KicadMod(footprint_name)
 kicad_mod.setDescription("JST PH series connector, S{pincount}B-PH-K".format(pincount=pincount))
@@ -44,6 +44,12 @@ kicad_mod.addPolygoneLine([{'x':-0.9, 'y':0.25}
                           ,{'x':(pincount-1)*2+1.95-0.7, 'y':0.25}
                           ,{'x':(pincount-1)*2+0.9, 'y':0.25}]
                          ,'F.SilkS', 0.15) #TODO
+
+kicad_mod.addPolygoneLine([{'x':0, 'y':-1.2}
+                          ,{'x':-0.4, 'y':-1.6}
+                          ,{'x':0.4, 'y':-1.6}
+                          ,{'x':0, 'y':-1.2}]
+                          ,'F.SilkS', 0.15)
 
 kicad_mod.addLine({'x':-1.95, 'y':0.25}, {'x':-1.95+0.7, 'y':0.25}, 'F.SilkS', 0.15)
 kicad_mod.addLine({'x':(pincount-1)*2+1.95, 'y':0.25}, {'x':(pincount-1)*2+1.95-0.7, 'y':0.25}, 'F.SilkS', 0.15)
