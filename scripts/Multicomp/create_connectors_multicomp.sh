@@ -5,11 +5,27 @@ mkdir Connectors_Multicomp.pretty
 # Wire-To-Board-Steckverbinder, Straight
 for i in "10" "14" "16" "20" "26" "34" "40" "50" "60" "64"
 do
-   ./connectors_multicomp_mc9a12.py $i > "Connectors_Multicomp.pretty/Connectors_Multicomp_MC9A12-${i}34.kicad_mod"
+    i_2=$((i/2))
+    if [ $i_2 -lt 10 ]
+    then
+        PIN_NUMBER="0${i_2}"
+    else
+        PIN_NUMBER=${i_2}
+    fi
+    
+   ./connectors_multicomp_mc9a12.py $i > "Connectors_Multicomp.pretty/Multicomp_MC9A12_02x${PIN_NUMBER}x2.54mm_Straight_MC9A12-${i}34.kicad_mod"
 done
 
 # Wire-To-Board-Steckverbinder, Right Angle
 for i in "10" "14" "16" "20" "26" "34" "40" "50" "60"
 do
-   ./connectors_multicomp_mc9a22.py $i > "Connectors_Multicomp.pretty/Connectors_Multicomp_MC9A22-${i}34.kicad_mod"
+    i_2=$((i/2))
+    if [ $i_2 -lt 10 ]
+    then
+        PIN_NUMBER="0${i_2}"
+    else
+        PIN_NUMBER=${i_2}
+    fi
+    
+   ./connectors_multicomp_mc9a22.py $i > "Connectors_Multicomp.pretty/Multicomp_MC9A22_02x${PIN_NUMBER}x2.54mm_Angled_MC9A22-${i}34.kicad_mod"
 done
