@@ -16,10 +16,10 @@ args = parser.parse_args()
 pincount = int(args.pincount[0])
 
 # Through-hole type shrouded header, Side entry type
-footprint_name = 'JST_PH_{pincount:02}x2.00mm_Angled_S{pincount}B-PH-K'.format(pincount=pincount)
+footprint_name = 'JST_PH_S{pincount}B-PH-K_{pincount:02}x2.00mm_Angled'.format(pincount=pincount)
 
 kicad_mod = KicadMod(footprint_name)
-kicad_mod.setDescription("JST PH series connector, S{pincount}B-PH-K".format(pincount=pincount))
+kicad_mod.setDescription("http://www.jst-mfg.com/product/pdf/eng/ePH.pdf")
 kicad_mod.setTags('connector jst ph')
 
 # set general values

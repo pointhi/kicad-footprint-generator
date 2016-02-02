@@ -13,7 +13,7 @@ do
         PIN_NUMBER=${i}
     fi
 
-   ./connectors_jst_ph_tht_top.py $i > "Connectors_JST.pretty/JST_PH_${PIN_NUMBER}x2.00mm_Straight_B${i}B-PH-K.kicad_mod"
+   ./connectors_jst_ph_tht_top.py $i > "Connectors_JST.pretty/JST_PH_B${i}B-PH-K_${PIN_NUMBER}x2.00mm_Straight.kicad_mod"
 done
 
 # create Through-hole type shrouded header, Side entry type
@@ -26,7 +26,7 @@ do
         PIN_NUMBER=${i}
     fi
 
-   ./connectors_jst_ph_tht_side.py $i > "Connectors_JST.pretty/JST_PH_${PIN_NUMBER}x2.00mm_Angled_S${i}B-PH-K.kicad_mod"
+   ./connectors_jst_ph_tht_side.py $i > "Connectors_JST.pretty/JST_PH_S${i}B-PH-K_${PIN_NUMBER}x2.00mm_Angled.kicad_mod"
 done
 
 # SMT type shrouded header, Top entry type
@@ -39,7 +39,7 @@ do
         PIN_NUMBER=${i}
     fi
 
-   ./connectors_jst_ph_smd_top.py $i > "Connectors_JST.pretty/JST_PH_${PIN_NUMBER}x2.00mm_Straight_B${i}B-PH-SM4-TB.kicad_mod"
+   ./connectors_jst_ph_smd_top.py $i > "Connectors_JST.pretty/JST_PH_B${i}B-PH-SM4-TB_${PIN_NUMBER}x2.00mm_Straight.kicad_mod"
 done
 
 # SMT type shrouded header, Side entry type
@@ -52,6 +52,6 @@ do
         PIN_NUMBER=${i}
     fi
 
-   ./connectors_jst_ph_smd_side.py $i > "Connectors_JST.pretty/JST_PH_${PIN_NUMBER}x2.00mm_Angled_S${i}B-PH-SM4-TB.kicad_mod"
+   ./connectors_jst_ph_smd_side.py $i > "Connectors_JST.pretty/JST_PH_S${i}B-PH-SM4-TB_${PIN_NUMBER}x2.00mm_Angled.kicad_mod"
 done
 

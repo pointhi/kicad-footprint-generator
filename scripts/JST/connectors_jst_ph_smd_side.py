@@ -20,17 +20,17 @@ start_pos_x = -(pincount-1)*pad_spacing/2
 end_pos_x = (pincount-1)*pad_spacing/2
 
 # SMT type shrouded header, Side entry type
-footprint_name = 'JST_PH_{pincount:02}x2.00mm_Angled_S{pincount}B-PH-SM4-TB'.format(pincount=pincount)
+footprint_name = 'JST_PH_S{pincount}B-PH-SM4-TB_{pincount:02}x2.00mm_Angled'.format(pincount=pincount)
 
 kicad_mod = KicadMod(footprint_name)
-kicad_mod.setDescription("JST PH series connector, S{pincount}B-PH-SM4-TB".format(pincount=pincount))
+kicad_mod.setDescription("http://www.jst-mfg.com/product/pdf/eng/ePH.pdf")
 kicad_mod.setAttribute('smd')
 kicad_mod.setTags('connector jst ph')
 kicad_mod.setCenterPos({'x':0, 'y':5.55/2})
 
 # set general values
-kicad_mod.addText('reference', 'REF**', {'x':start_pos_x, 'y':-3}, 'F.SilkS')
-kicad_mod.addText('value', footprint_name, {'x':0, 'y':8.5}, 'F.Fab')
+kicad_mod.addText('reference', 'REF**', {'x':start_pos_x-0.5, 'y':-3-0.225}, 'F.SilkS')
+kicad_mod.addText('value', footprint_name, {'x':0, 'y':8.5+0.275}, 'F.Fab')
 
 # create Silkscreen
 
