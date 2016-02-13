@@ -117,7 +117,7 @@ class Node(object):
 
     def getRealPosition(self, coordinate):
         if not self._parent:
-            return parse_coordinate(coordinate)
+            return Point(coordinate)
         
         return self._parent.getRealPosition(coordinate)
 
@@ -140,7 +140,7 @@ class Node(object):
             max_x = max([max_x, child_outline['max']['x']])
             max_y = max([max_y, child_outline['max']['y']])
 
-        return {'min':parse_coordinate_xy((min_x, min_y)), 'max':parse_coordinate_xy((max_x, max_y))}
+        return {'min':PointXY(min_x, min_y), 'max':PointXY(max_x, max_y)}
 
 
     def _getRenderTreeText(self):
@@ -193,12 +193,12 @@ class Translation(Node):
 
 
     def getRealPosition(self, coordinate):
-        parsed_coordinate = parse_coordinate(coordinate)
+        parsed_coordinate = Point(coordinate)
 
         # calculate translation
-        translation_coordinate = {'x': parsed_coordinate['x'] + self.offset_x
-                                 ,'y': parsed_coordinate['y'] + self.offset_y
-                                 ,'r': parsed_coordinate['r']}
+        translation_coordinate = {'x': parsed_coordinate.x + self.offset_x
+                                 ,'y': parsed_coordinate.y + self.offset_y
+                                 ,'r': parsed_coordinate.r}
 
         if not self._parent:
             return translation_coordinate
@@ -220,16 +220,16 @@ class Rotation(Node):
     '''
     def __init__(self, r):
         Node.__init__(self)
-        self.rotation = r # as degree
+        self.rotation = r # in degree
 
 
     def getRealPosition(self, coordinate):
-        parsed_coordinate = parse_coordinate(coordinate)
+        parsed_coordinate = Point(coordinate)
         
         phi = self.rotation*math.pi/180
-        rotation_coordinate = {'x': parsed_coordinate['x']*math.cos(phi) + parsed_coordinate['y']*math.sin(phi)
-                              ,'y': -parsed_coordinate['x']*math.sin(phi) + parsed_coordinate['y']*math.cos(phi)
-                              ,'r': parsed_coordinate['r'] + self.rotation}
+        rotation_coordinate = {'x': parsed_coordinate.x*math.cos(phi) + parsed_coordinate.y*math.sin(phi)
+                              ,'y': -parsed_coordinate.x*math.sin(phi) + parsed_coordinate.y*math.cos(phi)
+                              ,'r': parsed_coordinate.r + self.rotation}
 
         if not self._parent:
             return rotation_coordinate
@@ -247,16 +247,16 @@ class Rotation(Node):
 class Line(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = parse_coordinate(kwargs['start'])
-        self.end_pos = parse_coordinate(kwargs['end'])
+        self.start_pos = PointXY(kwargs['start'])
+        self.end_pos = PointXY(kwargs['end'])
 
         self.layer=kwargs['layer']
         self.width=kwargs['width']
 
 
     def renderList(self):
-        render_list = ["(fp_line {start} {end} (layer {layer}) (width {width}))".format(start=render_position_xy('start', self.getRealPosition(self.start_pos))
-                                                                                       ,end=render_position_xy('end', self.getRealPosition(self.end_pos))
+        render_list = ["(fp_line {start} {end} (layer {layer}) (width {width}))".format(start=self.getRealPosition(self.start_pos).render('(start {x} {y})')
+                                                                                       ,end=self.getRealPosition(self.end_pos).render('(end {x} {y})')
                                                                                        ,layer=self.layer
                                                                                        ,width=self.width)]
         render_list.extend(Node.renderList(self))
@@ -267,18 +267,18 @@ class Line(Node):
         render_start_pos = self.getRealPosition(self.start_pos)
         render_end_pos = self.getRealPosition(self.end_pos)
 
-        min_x = min([render_start_pos['x'], render_end_pos['x']])
-        min_y = min([render_start_pos['y'], render_end_pos['y']])
-        max_x = max([render_start_pos['x'], render_end_pos['x']])
-        max_y = max([render_start_pos['y'], render_end_pos['y']])
+        min_x = min([render_start_pos.x, render_end_pos.x])
+        min_y = min([render_start_pos.y, render_end_pos.y])
+        max_x = max([render_start_pos.x, render_end_pos.x])
+        max_y = max([render_start_pos.y, render_end_pos.y])
 
-        return Node.calculateOutline({'min':parse_coordinate_xy((min_x, min_y)), 'max':parse_coordinate_xy((max_x, max_y))})
+        return Node.calculateOutline({'min':PointXY(min_x, min_y), 'max':PointXY(max_x, max_y)})
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " (fp_line {start} {end} (layer {layer}) (width {width}))".format(start=render_position_xy('start', self.start_pos)
-                                                                                        ,end=render_position_xy('end', self.end_pos)
+        render_text += " (fp_line {start} {end} (layer {layer}) (width {width}))".format(start=self.start_pos.render('(start {x} {y})')
+                                                                                        ,end=self.end_pos.render('(end {x} {y})')
                                                                                         ,layer=self.layer
                                                                                         ,width=self.width)
         
@@ -310,9 +310,9 @@ class PolygoneLine(Node):
         
         node_strings = []
         for node in self.polygone_line:
-            node_position = parse_coordinate(node)
-            node_strings.append("[x: {x}, y: {y}]".format(x=node_position['x']
-                                                         ,y=node_position['y']))
+            node_position = Point(node)
+            node_strings.append("[x: {x}, y: {y}]".format(x=node_position.x
+                                                         ,y=node_position.y))
 
         if len(node_strings) <= 6:
             render_text += " ,".join(node_strings)
@@ -329,24 +329,24 @@ class PolygoneLine(Node):
 
 class RectLine(PolygoneLine):
     def __init__(self, **kwargs):
-        self.start_pos = parse_coordinate(kwargs['start'])
-        self.end_pos = parse_coordinate(kwargs['end'])
+        self.start_pos = PointXY(kwargs['start'])
+        self.end_pos = PointXY(kwargs['end'])
 
-        polygone_line = [{'x':self.start_pos['x'], 'y':self.start_pos['y']}
-                        ,{'x':self.start_pos['x'], 'y':self.end_pos['y']}
-                        ,{'x':self.end_pos['x'], 'y':self.end_pos['y']}
-                        ,{'x':self.end_pos['x'], 'y':self.start_pos['y']}
-                        ,{'x':self.start_pos['x'], 'y':self.start_pos['y']}]
+        polygone_line = [{'x':self.start_pos.x, 'y':self.start_pos.y}
+                        ,{'x':self.start_pos.x, 'y':self.end_pos.y}
+                        ,{'x':self.end_pos.x, 'y':self.end_pos.y}
+                        ,{'x':self.end_pos.x, 'y':self.start_pos.y}
+                        ,{'x':self.start_pos.x, 'y':self.start_pos.y}]
 
         PolygoneLine.__init__(self, polygone=polygone_line, layer=kwargs['layer'], width=kwargs['width'])
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [start: [x: {sx}, y: {sy}] end: [x: {ex}, y: {ey}]]".format(sx=self.start_pos['x']
-                                                                                    ,sy=self.start_pos['y']
-                                                                                    ,ex=self.end_pos['x']
-                                                                                    ,ey=self.end_pos['y'])
+        render_text += " [start: [x: {sx}, y: {sy}] end: [x: {ex}, y: {ey}]]".format(sx=self.start_pos.x
+                                                                                    ,sy=self.start_pos.y
+                                                                                    ,ex=self.end_pos.x
+                                                                                    ,ey=self.end_pos.y)
 
         return render_text
 
@@ -354,18 +354,18 @@ class RectLine(PolygoneLine):
 class Circle(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = parse_coordinate(kwargs['center'])
+        self.center_pos = ParseXY(kwargs['center'])
         self.radius = kwargs['radius']
 
-        self.end_pos = {'x':self.center_pos['x']+self.radius, 'y':self.center_pos['y']}
+        self.end_pos = {'x':self.center_pos.x+self.radius, 'y':self.center_pos.y}
 
         self.layer=kwargs['layer']
         self.width=kwargs['width']
 
 
     def renderList(self):
-        render_list = ["(fp_circle {center} {end} (layer {layer}) (width {width}))".format(center=render_position_xy('center', self.getRealPosition(self.center_pos))
-                                                                                          ,end=render_position_xy('end', self.getRealPosition(self.end_pos))
+        render_list = ["(fp_circle {center} {end} (layer {layer}) (width {width}))".format(center=self.getRealPosition(self.center_pos).render('(center {x} {y})')
+                                                                                          ,end=self.getRealPosition(self.end_pos).render('(end {x} {y})')
                                                                                           ,layer=self.layer
                                                                                           ,width=self.width)]
         render_list.extend(Node.renderList(self))
@@ -373,18 +373,18 @@ class Circle(Node):
 
 
     def calculateOutline(self):
-        min_x = self.center_pos['x']-self.radius
-        min_y = self.center_pos['y']-self.radius
-        max_x = self.center_pos['x']+self.radius
-        max_y = self.center_pos['y']+self.radius
+        min_x = self.center_pos.x-self.radius
+        min_y = self.center_pos.y-self.radius
+        max_x = self.center_pos.x+self.radius
+        max_y = self.center_pos.y+self.radius
 
-        return Node.calculateOutline({'min':parse_coordinate_xy((min_x, min_y)), 'max':parse_coordinate_xy((max_x, max_y))})
+        return Node.calculateOutline({'min':ParseXY(min_x, min_y), 'max':ParseXY(max_x, max_y)})
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " (fp_circle {center} {end} (layer {layer}) (width {width}))".format(center=render_position_xy('center', self.center_pos)
-                                                                                           ,end=render_position_xy('end', self.end_pos)
+        render_text += " (fp_circle {center} {end} (layer {layer}) (width {width}))".format(center=self.center_pos.render('(center {x} {y})')
+                                                                                           ,end=self.end_pos.render('(end {x} {y})')
                                                                                            ,layer=self.layer
                                                                                            ,width=self.width)
 
@@ -394,8 +394,8 @@ class Circle(Node):
 class Arc(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = parse_coordinate(kwargs['start'])
-        self.end_pos = parse_coordinate(kwargs['end'])
+        self.start_pos = ParseXY(kwargs['start'])
+        self.end_pos = ParseXY(kwargs['end'])
         self.angle = kwargs['angle']
 
         self.layer=kwargs['layer']
@@ -403,8 +403,8 @@ class Arc(Node):
 
 
     def renderList(self):
-        render_list = ["(fp_arc {start} {end} (angle {angle}) (layer {layer}) (width {width}))".format(start=render_position_xy('start', self.getRealPosition(self.start_pos))
-                                                                                                      ,end=render_position_xy('end', self.getRealPosition(self.end_pos))
+        render_list = ["(fp_arc {start} {end} (angle {angle}) (layer {layer}) (width {width}))".format(start=self.getRealPosition(self.start_pos).render('(center {x} {y})')
+                                                                                                      ,end=self.getRealPosition(self.end_pos).render('(end {x} {y})')
                                                                                                       ,angle=self.angle
                                                                                                       ,layer=self.layer
                                                                                                       ,width=self.width)]
@@ -413,18 +413,18 @@ class Arc(Node):
 
 
     def calculateOutline(self):
-        min_x = min(self.start_pos['x'], self.end_pos['x'])
-        min_y = min(self.start_pos['y'], self.end_pos['y'])
-        max_x = max(self.start_pos['x'], self.end_pos['x'])
-        max_y = max(self.start_pos['y'], self.end_pos['y'])
+        min_x = min(self.start_pos.x, self.end_pos.x)
+        min_y = min(self.start_pos.y, self.end_pos.y)
+        max_x = max(self.start_pos.x, self.end_pos.x)
+        max_y = max(self.start_pos.y, self.end_pos.y)
 
         return Node.calculateOutline({'min':parse_coordinate_xy((min_x, min_y)), 'max':parse_coordinate_xy((max_x, max_y))})
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " (fp_arc {start} {end} (angle {angle}) (layer {layer}) (width {width}))".format(start=render_position_xy('center', self.start_pos)
-                                                                                                       ,end=render_position_xy('end', self.end_pos)
+        render_text += " (fp_arc {start} {end} (angle {angle}) (layer {layer}) (width {width}))".format(start=self.start_pos.render('(center {x} {y})')
+                                                                                                       ,end=self.end_pos.render('(end {x} {y})')
                                                                                                        ,angle=self.angle
                                                                                                        ,layer=self.layer
                                                                                                        ,width=self.width)
@@ -437,25 +437,25 @@ class Text(Node):
         Node.__init__(self)
         self.type = kwargs['type']
         self.text = kwargs['text']
-        self.at = parse_coordinate_xy(kwargs['at'])
+        self.at = PointXY(kwargs['at'])
 
         self.layer=kwargs['layer']
-        self.size=parse_coordinate_xy(kwargs.get('size', [1,1]))
+        self.size=PointXY(kwargs.get('size', [1,1]))
         self.thickness = kwargs.get('thickness', 0.15)
 
 
     def renderList(self):
         at_real_position = self.getRealPosition(self.at)
-        if at_real_position['r']:
-            at_string = render_position_xyr('at', at_real_position)
+        if at_real_position.r:
+            at_string = at_real_position.render('(at {x} {y} {r})')
         else:
-            at_string = render_position_xy('at', at_real_position)
+            at_string = at_real_position.render('(at {x} {y})')
 
         render_string = "(fp_text {type} {text} {at} (layer {layer})\r\n".format(type=self.type
                                                                                 ,text=self.text
                                                                                 ,at=at_string
                                                                                 ,layer=self.layer)
-        render_string += "  (effects (font {size} (thickness {thickness})))\r\n".format(size=render_position_xy('size', self.size)
+        render_string += "  (effects (font {size} (thickness {thickness})))\r\n".format(size=self.size.render('(size {x} {y})')
                                                                                        ,thickness=self.thickness)
         render_string += ")"
 
@@ -474,16 +474,16 @@ class Text(Node):
         max_x = self.at[x]+width/2.
         max_y = self.at[y]+height/2.
 
-        return Node.calculateOutline({'min':parse_coordinate_xy((min_x, min_y)), 'max':parse_coordinate_xy((max_x, max_y))})
+        return Node.calculateOutline({'min':Point(min_x, min_y), 'max':Point(max_x, max_y)})
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
         render_text += " [type: {type}, text: {text}, at: {at}, layer: {layer}, size: {size}, thickness: {thickness}]".format(type=self.type
                                                                                                                              ,text=self.text
-                                                                                                                             ,at=render_position_xy('at', self.getRealPosition(self.at))
+                                                                                                                             ,at=self.at.render('(at {x} {y})')
                                                                                                                              ,layer=self.layer
-                                                                                                                             ,size=render_position_xy('size', self.size)
+                                                                                                                             ,size=self.size.render('(size {x} {y})')
                                                                                                                              ,thickness=self.thickness)
 
         return render_text
@@ -493,16 +493,16 @@ class Model(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.filename = kwargs['filename']
-        self.at = parse_coordinate_xyz(kwargs['at'])
-        self.scale = parse_coordinate_xyz(kwargs['scale'])
-        self.rotate = parse_coordinate_xyz(kwargs['rotate'])
+        self.at = PointXYZ(kwargs['at'])
+        self.scale = PointXYZ(kwargs['scale'])
+        self.rotate = PointXYZ(kwargs['rotate'])
 
 
     def renderList(self):
         render_string = "(model {filename}\r\n".format(filename=self.filename)
-        render_string += "  (at {at})\r\n".format(at=render_position_xyz('xyz', self.at)) # TODO: apply position from parent nodes (missing z)
-        render_string += "  (scale {at})\r\n".format(at=render_position_xyz('xyz', self.scale)) # TODO: apply scale from parent nodes
-        render_string += "  (rotate {at})\r\n".format(at=render_position_xyz('xyz', self.rotate)) # TODO: apply rotation from parent nodes
+        render_string += "  (at {at})\r\n".format(at=self.at.render('(xyz {x}  {y} {z})')) # TODO: apply position from parent nodes (missing z)
+        render_string += "  (scale {scale})\r\n".format(scale=self.scale.render('(xyz {x}  {y} {z})')) # TODO: apply scale from parent nodes
+        render_string += "  (rotate {rotate})\r\n".format(rotate=self.rotate.render('(xyz {x}  {y} {z})')) # TODO: apply rotation from parent nodes
         render_string += ")"
 
         render_list = [render_string]
@@ -514,9 +514,9 @@ class Model(Node):
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
         render_text += " [filename: {filename}, at: {at}, scale: {scale}, rotate: {rotate}]".format(filename=self.filename
-                                                                                                   ,at=render_position_xyz('xyz', self.at)
-                                                                                                   ,scale=render_position_xyz('xyz', self.scale)
-                                                                                                   ,rotate=render_position_xyz('xyz', self.rotate))
+                                                                                                   ,at=self.at.render('(xyz {x}  {y} {z})')
+                                                                                                   ,scale=self.scale.render('(xyz {x}  {y} {z})')
+                                                                                                   ,rotate=self.rotate.render('(xyz {x}  {y} {z})'))
 
         return render_text
 
