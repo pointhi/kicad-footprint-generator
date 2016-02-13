@@ -250,8 +250,8 @@ class Line(Node):
         self.start_pos = PointXY(kwargs['start'])
         self.end_pos = PointXY(kwargs['end'])
 
-        self.layer=kwargs['layer']
-        self.width=kwargs['width']
+        self.layer = kwargs['layer']
+        self.width = kwargs['width']
 
 
     def renderList(self):
@@ -290,8 +290,8 @@ class PolygoneLine(Node):
         Node.__init__(self)
         self.polygone_line = kwargs['polygone']
         
-        self.layer=kwargs['layer']
-        self.width=kwargs['width']
+        self.layer = kwargs['layer']
+        self.width = kwargs['width']
         
         self.extend(self._createChildNodes(self.polygone_line))
 
@@ -359,8 +359,8 @@ class Circle(Node):
 
         self.end_pos = {'x':self.center_pos.x+self.radius, 'y':self.center_pos.y}
 
-        self.layer=kwargs['layer']
-        self.width=kwargs['width']
+        self.layer = kwargs['layer']
+        self.width = kwargs['width']
 
 
     def renderList(self):
@@ -398,8 +398,8 @@ class Arc(Node):
         self.end_pos = ParseXY(kwargs['end'])
         self.angle = kwargs['angle']
 
-        self.layer=kwargs['layer']
-        self.width=kwargs['width']
+        self.layer = kwargs['layer']
+        self.width = kwargs['width']
 
 
     def renderList(self):
@@ -439,8 +439,8 @@ class Text(Node):
         self.text = kwargs['text']
         self.at = PointXY(kwargs['at'])
 
-        self.layer=kwargs['layer']
-        self.size=PointXY(kwargs.get('size', [1,1]))
+        self.layer = kwargs['layer']
+        self.size = PointXY(kwargs.get('size', [1,1]))
         self.thickness = kwargs.get('thickness', 0.15)
 
 
@@ -485,6 +485,47 @@ class Text(Node):
                                                                                                                              ,layer=self.layer
                                                                                                                              ,size=self.size.render('(size {x} {y})')
                                                                                                                              ,thickness=self.thickness)
+
+        return render_text
+
+
+class Pad(Node):
+    def __init__(self, **kwargs):
+        Node.__init__(self)
+        self.number = kwargs['number']
+        self.type = kwargs['type']
+        self.form = kwargs['form']
+        self.at = PointXY(kwargs['at'])
+        self.size = PointXY(kwargs.get('size'))
+        self.drill = kwargs.get('drill')
+        self.layers=kwargs['layers']
+
+
+    def renderList(self):
+        # TODO: rotation
+        render_list = ["(pad {number} {type} {form} {at} {size} (drill {drill}) (layers {layers}))".format(number=self.number
+                                                                                                          ,type=self.type
+                                                                                                          ,form=self.form
+                                                                                                          ,drill=self.drill
+                                                                                                          ,at=self.getRealPosition(self.at).render('(at {x} {y})')
+                                                                                                          ,size=self.getRealPosition(self.size).render('(size {x} {y})')
+                                                                                                          ,layers=' '.join(self.layers))]
+        return render_list
+
+
+    def calculateOutline(self):
+        return Node.calculateOutline(self)
+
+
+    def _getRenderTreeText(self):
+        render_text = Node._getRenderTreeText(self)
+        render_text += " (pad {number} {type} {form} {at} {size} (drill {drill}) (layers {layers}))".format(number=self.number
+                                                                                                           ,type=self.type
+                                                                                                           ,form=self.form
+                                                                                                           ,drill=self.drill
+                                                                                                           ,at=self.getRealPosition(self.at).render('(at {x} {y})')
+                                                                                                           ,size=self.getRealPosition(self.size).render('(size {x} {y})')
+                                                                                                           ,layers=' '.join(self.layers))
 
         return render_text
 
