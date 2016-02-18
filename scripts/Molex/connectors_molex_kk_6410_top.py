@@ -19,15 +19,15 @@ start_pos_x = 0
 end_pos_x = (pincount-1)*pad_spacing
 
 # Through-hole type shrouded header, Top entry type
-footprint_name = 'Connectors_Molex_KK_6410-{pincount:02g}'.format(pincount=pincount) # TODO: name
+footprint_name = 'Molex_KK_6410-{pincount:02g}'.format(pincount=pincount) # TODO: name
 
 kicad_mod = KicadMod(footprint_name)
-kicad_mod.setDescription("Connector Headers with Friction Lock, 22-27-2{pincount:02g}1".format(pincount=pincount))
-kicad_mod.setTags('connector molex kk_6410')
+kicad_mod.setDescription("Connector Headers with Friction Lock, 22-27-2{pincount:02g}1, http://www.molex.com/pdm_docs/sd/022272021_sd.pdf".format(pincount=pincount))
+kicad_mod.setTags('connector molex kk_6410 22-27-2{pincount:02g}1'.format(pincount=pincount))
 
 # set general values
-kicad_mod.addText('reference', 'REF**', {'x':start_pos_x+1, 'y':4}, 'F.SilkS')
-kicad_mod.addText('value', footprint_name, {'x':(pincount-1)*pad_spacing/2., 'y':-4}, 'F.Fab')
+kicad_mod.addText('reference', 'REF**', {'x':start_pos_x+1, 'y':-4.5}, 'F.SilkS')
+kicad_mod.addText('value', footprint_name, {'x':(pincount-1)*pad_spacing/2., 'y':4.5}, 'F.Fab')
 
 # create Silkscreen
 
