@@ -13,7 +13,7 @@ do
         PIN_NUMBER=${i_2}
     fi
     
-   ./connectors_multicomp_mc9a12.py $i > "Connectors_Multicomp.pretty/Multicomp_MC9A12_02x${PIN_NUMBER}x2.54mm_Straight_MC9A12-${i}34.kicad_mod"
+   ./connectors_multicomp_mc9a12.py $i > "Connectors_Multicomp.pretty/Multicomp_MC9A12-${i}34_2x${PIN_NUMBER}x2.54mm_Straight.kicad_mod"
 done
 
 # Wire-To-Board-Steckverbinder, Right Angle
@@ -27,5 +27,5 @@ do
         PIN_NUMBER=${i_2}
     fi
     
-   ./connectors_multicomp_mc9a22.py $i > "Connectors_Multicomp.pretty/Multicomp_MC9A22_02x${PIN_NUMBER}x2.54mm_Angled_MC9A22-${i}34.kicad_mod"
+   ./connectors_multicomp_mc9a22.py $i > "Connectors_Multicomp.pretty/Multicomp_MC9A22-${i}34_2x${PIN_NUMBER}x2.54mm_Angled.kicad_mod"
 done

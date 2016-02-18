@@ -19,10 +19,10 @@ start_pos_x = 0
 end_pos_x = pad_spacing*(pincount-2)/2
 
 # Through-hole type shrouded header, Top entry type
-footprint_name = "Multicomp_MC9A22_02x{pincount_half:02g}x2.54mm_Angled_MC9A22-{pincount:02g}34".format(pincount=pincount, pincount_half=pincount/2)
+footprint_name = "Multicomp_MC9A22-{pincount:02g}34_2x{pincount_half:02g}x2.54mm_Angled".format(pincount=pincount, pincount_half=pincount/2)
 
 kicad_mod = KicadMod(footprint_name)
-kicad_mod.setDescription(footprint_name)
+kicad_mod.setDescription('http://www.farnell.com/cad/360651.pdf')
 kicad_mod.setTags('connector multicomp MC9A MC9A22')
 
 # set general values
