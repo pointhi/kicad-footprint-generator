@@ -15,9 +15,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
-
-def formatFloat(val):
-    return ('%f' % val).rstrip('0').rstrip('.')
+from .util import formatFloat
 
 
 class Point(object):
@@ -101,4 +99,3 @@ class PointXYZ(Point):
                 raise TypeError('invalid list size')
         else:
             raise TypeError('dict or list type required')
-

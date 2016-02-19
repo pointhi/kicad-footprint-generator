@@ -2,6 +2,10 @@
 
 This repository contains a script to generate kicad footprints using python
 
+# kicad_mod (first generator script)
+
+**WARNING:** usable, but will be replaced by KicadModTree soon.
+
 ### example
 
 ```python
@@ -31,9 +35,11 @@ createNumberedPadsTHT(kicad_mod, 2, 3, 1.2, {'x':2, 'y':2.6})
 print(kicad_mod)
 ```
 
-# kicad_mod_tree (next gen kicad module generator) (currently under development)
+# KicadModTree (next gen kicad module generator)
 
-Currently, I'm working at kicad_mod_tree which is using a render tree to construct the model.
+**WARNING:** currently under development, but already usable for some footprints
+
+Currently, I'm working at KicadModTree which is using a render tree to construct the model.
 
 Advantage for example is simple usage of transformation operations like rotation and translation on the full (or a part) of the footprint.
 Furthermore, we are able to copy complex structures of the footprint and later transform them in any way you want.
@@ -41,12 +47,12 @@ Furthermore, we are able to copy complex structures of the footprint and later t
 ### example
 
 ```python
-from kicad_mod_tree import *
+from KicadModTree import *
 
 footprint_name = "example_footprint"
 
 # init kicad footprint
-kicad_mod = KicadMod(footprint_name)
+kicad_mod = KicadModTree(footprint_name)
 kicad_mod.setDescription("A example footprint")
 kicad_mod.setTags("example")
 
