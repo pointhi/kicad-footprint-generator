@@ -58,8 +58,8 @@ class Pad(Node):
         render_strings.append(lispString(self.number))
         render_strings.append(lispString(self.type))
         render_strings.append(lispString(self.form))
-        render_strings.append(self.getRealPosition(self.at).render('(at {x} {y})'))
-        render_strings.append(self.getRealPosition(self.size).render('(size {x} {y})'))
+        render_strings.append(self.at.render('(at {x} {y})'))
+        render_strings.append(self.size.render('(size {x} {y})'))
         render_strings.append('(drill {})'.format(self.drill))
         render_strings.append('(layers {})'.format(' '.join(self.layers)))
 
