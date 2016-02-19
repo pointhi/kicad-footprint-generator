@@ -30,11 +30,15 @@ class Line(Node):
 
 
     def renderList(self):
-        render_list = ["(fp_line {start} {end} (layer {layer}) (width {width}))".format(start=self.getRealPosition(self.start_pos).render('(start {x} {y})')
-                                                                                       ,end=self.getRealPosition(self.end_pos).render('(end {x} {y})')
-                                                                                       ,layer=self.layer
-                                                                                       ,width=self.width)]
+        render_strings = ['fp_line']
+        render_strings.append(self.getRealPosition(self.start_pos).render('(start {x} {y})'))
+        render_strings.append(self.getRealPosition(self.end_pos).render('(end {x} {y})'))
+        render_strings.append('(layer {layer})'.format(layer=self.layer))
+        render_strings.append('(width {width})'.format(width=self.width))
+
+        render_list = ['({})'.format(' '.join(render_strings))]
         render_list.extend(Node.renderList(self))
+
         return render_list
 
 
@@ -51,10 +55,13 @@ class Line(Node):
 
 
     def _getRenderTreeText(self):
+        render_strings = ['fp_line']
+        render_strings.append(self.start_pos.render('(start {x} {y})'))
+        render_strings.append(self.end_pos.render('(end {x} {y})'))
+        render_strings.append('(layer {layer})'.format(layer=self.layer))
+        render_strings.append('(width {width})'.format(width=self.width))
+
         render_text = Node._getRenderTreeText(self)
-        render_text += " (fp_line {start} {end} (layer {layer}) (width {width}))".format(start=self.start_pos.render('(start {x} {y})')
-                                                                                        ,end=self.end_pos.render('(end {x} {y})')
-                                                                                        ,layer=self.layer
-                                                                                        ,width=self.width)
+        render_text += ' ({})'.format(' '.join(render_strings))
 
         return render_text

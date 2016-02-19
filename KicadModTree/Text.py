@@ -17,6 +17,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 from .Point import *
 from .Node import Node
+from .util import lispString
 
 
 class Text(Node):
@@ -32,23 +33,30 @@ class Text(Node):
 
 
     def renderList(self):
+        render_strings1 = ['fp_text']
+        render_strings1.append(lispString(self.type))
+        render_strings1.append(lispString(self.text))
+
         at_real_position = self.getRealPosition(self.at)
         if at_real_position.r:
-            at_string = at_real_position.render('(at {x} {y} {r})')
+            render_strings1.append(at_real_position.render('(at {x} {y} {r})'))
         else:
-            at_string = at_real_position.render('(at {x} {y})')
+            render_strings1.append(at_real_position.render('(at {x} {y})'))
 
-        render_string = "(fp_text {type} {text} {at} (layer {layer})\r\n".format(type=self.type
-                                                                                ,text=self.text
-                                                                                ,at=at_string
-                                                                                ,layer=self.layer)
-        render_string += "  (effects (font {size} (thickness {thickness})))\r\n".format(size=self.size.render('(size {x} {y})')
-                                                                                       ,thickness=self.thickness)
-        render_string += ")"
+        render_strings1.append('(layer {layer})'.format(layer=self.layer))
 
-        render_list = [render_string]
+        render_strings_font = ['font']
+        render_strings_font.append(self.size.render('(size {x} {y})'))
+        render_strings_font.append('(thickness {thickness})'.format(thickness=self.thickness))
+
+        render_strings2 = ['effects']
+        render_strings2.append('({})'.format(' '.join(render_strings_font)))
+
+        render_list = ["({str1}\r\n{str2}\r\n)".format(str1=' '.join(render_strings1)
+                                                      ,str2='({})'.format(' '.join(render_strings2)))]
 
         render_list.extend(Node.renderList(self))
+
         return render_list
 
 
@@ -66,11 +74,13 @@ class Text(Node):
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [type: {type}, text: {text}, at: {at}, layer: {layer}, size: {size}, thickness: {thickness}]".format(type=self.type
-                                                                                                                             ,text=self.text
-                                                                                                                             ,at=self.at.render('(at {x} {y})')
-                                                                                                                             ,layer=self.layer
-                                                                                                                             ,size=self.size.render('(size {x} {y})')
-                                                                                                                             ,thickness=self.thickness)
+
+        render_string = ['type: "{}"'.format(self.type)]
+        render_string.append('text: "{}"'.format(self.text))
+        render_string.append('at: {}'.format(self.at.render('(at {x} {y})')))
+        render_string.append('layer: {}'.format(self.layer))
+        render_string.append('size: {}'.format(self.size.render('(size {x} {y})')))
+        render_string.append('thickness: {}'.format(self.thickness))
+        render_text += " [{}]".format(", ".join(render_string))
 
         return render_text

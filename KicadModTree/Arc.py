@@ -31,12 +31,16 @@ class Arc(Node):
 
 
     def renderList(self):
-        render_list = ["(fp_arc {start} {end} (angle {angle}) (layer {layer}) (width {width}))".format(start=self.getRealPosition(self.start_pos).render('(center {x} {y})')
-                                                                                                      ,end=self.getRealPosition(self.end_pos).render('(end {x} {y})')
-                                                                                                      ,angle=self.angle
-                                                                                                      ,layer=self.layer
-                                                                                                      ,width=self.width)]
+        render_strings = ['fp_arc']
+        render_strings.append(self.getRealPosition(self.start_pos).render('(center {x} {y})'))
+        render_strings.append(self.getRealPosition(self.end_pos).render('(end {x} {y})'))
+        render_strings.append('(angle {angle})'.format(angle=self.angle))
+        render_strings.append('(layer {layer})'.format(layer=self.layer))
+        render_strings.append('(width {width})'.format(width=self.width))
+
+        render_list = ['({})'.format(' '.join(render_strings))]
         render_list.extend(Node.renderList(self))
+
         return render_list
 
 
@@ -50,11 +54,14 @@ class Arc(Node):
 
 
     def _getRenderTreeText(self):
+        render_strings = ['fp_arc']
+        render_strings.append(self.start_pos.render('(center {x} {y})'))
+        render_strings.append(self.end_pos.render('(end {x} {y})'))
+        render_strings.append('(angle {angle})'.format(angle=self.angle))
+        render_strings.append('(layer {layer})'.format(layer=self.layer))
+        render_strings.append('(width {width})'.format(width=self.width))
+
         render_text = Node._getRenderTreeText(self)
-        render_text += " (fp_arc {start} {end} (angle {angle}) (layer {layer}) (width {width}))".format(start=self.start_pos.render('(center {x} {y})')
-                                                                                                       ,end=self.end_pos.render('(end {x} {y})')
-                                                                                                       ,angle=self.angle
-                                                                                                       ,layer=self.layer
-                                                                                                       ,width=self.width)
+        render_text += ' ({})'.format(' '.join(render_strings))
 
         return render_text

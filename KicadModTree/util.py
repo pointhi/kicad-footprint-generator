@@ -15,6 +15,25 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
+from string import whitespace as WHITESPACE_CHARACTERS
+
 
 def formatFloat(val):
+    '''
+    return well formated float
+    '''
     return ('%f' % val).rstrip('0').rstrip('.')
+
+
+def lispString(string):
+    '''
+    add quotation marks to string, when it include a white space
+    '''
+    if type(string) is not str:
+        string = str(string)
+
+    for character in string:
+        if character in WHITESPACE_CHARACTERS:
+            return '"{}"'.format(string)
+
+    return string

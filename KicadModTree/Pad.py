@@ -17,6 +17,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 from .Point import *
 from .Node import Node
+from .util import lispString
 
 
 class Pad(Node):
@@ -33,13 +34,18 @@ class Pad(Node):
 
     def renderList(self):
         # TODO: rotation
-        render_list = ["(pad {number} {type} {form} {at} {size} (drill {drill}) (layers {layers}))".format(number=self.number
-                                                                                                          ,type=self.type
-                                                                                                          ,form=self.form
-                                                                                                          ,drill=self.drill
-                                                                                                          ,at=self.getRealPosition(self.at).render('(at {x} {y})')
-                                                                                                          ,size=self.getRealPosition(self.size).render('(size {x} {y})')
-                                                                                                          ,layers=' '.join(self.layers))]
+        render_strings = ['pad']
+        render_strings.append(lispString(self.number))
+        render_strings.append(lispString(self.type))
+        render_strings.append(lispString(self.form))
+        render_strings.append(self.getRealPosition(self.at).render('(at {x} {y})'))
+        render_strings.append(self.getRealPosition(self.size).render('(size {x} {y})'))
+        render_strings.append('(drill {})'.format(self.drill))
+        render_strings.append('(layers {})'.format(' '.join(self.layers)))
+
+        render_list = ['({})'.format(' '.join(render_strings))]
+        render_list.extend(Node.renderList(self))
+
         return render_list
 
 
@@ -48,13 +54,16 @@ class Pad(Node):
 
 
     def _getRenderTreeText(self):
+        render_strings = ['pad']
+        render_strings.append(lispString(self.number))
+        render_strings.append(lispString(self.type))
+        render_strings.append(lispString(self.form))
+        render_strings.append(self.getRealPosition(self.at).render('(at {x} {y})'))
+        render_strings.append(self.getRealPosition(self.size).render('(size {x} {y})'))
+        render_strings.append('(drill {})'.format(self.drill))
+        render_strings.append('(layers {})'.format(' '.join(self.layers)))
+
         render_text = Node._getRenderTreeText(self)
-        render_text += " (pad {number} {type} {form} {at} {size} (drill {drill}) (layers {layers}))".format(number=self.number
-                                                                                                           ,type=self.type
-                                                                                                           ,form=self.form
-                                                                                                           ,drill=self.drill
-                                                                                                           ,at=self.getRealPosition(self.at).render('(at {x} {y})')
-                                                                                                           ,size=self.getRealPosition(self.size).render('(size {x} {y})')
-                                                                                                           ,layers=' '.join(self.layers))
+        render_text += '({})'.format(' '.join(render_strings))
 
         return render_text
