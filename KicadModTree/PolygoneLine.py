@@ -28,7 +28,8 @@ class PolygoneLine(Node):
         self.layer = kwargs['layer']
         self.width = kwargs['width']
 
-        self.extend(self._createChildNodes(self.polygone_line))
+        self.virtual_childs = self._createChildNodes(self.polygone_line)
+
 
     def _createChildNodes(self, polygone_line):
         nodes = []
@@ -37,6 +38,10 @@ class PolygoneLine(Node):
             nodes.append(Line(start=line_start, end=line_end, layer=self.layer, width=self.width))
 
         return nodes
+
+
+    def getVirtualChilds(self):
+        return self.virtual_childs
 
 
     def _getRenderTreeText(self):
