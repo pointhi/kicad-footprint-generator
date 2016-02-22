@@ -52,8 +52,8 @@ class Text(Node):
         render_strings2 = ['effects']
         render_strings2.append('({})'.format(' '.join(render_strings_font)))
 
-        render_list = ["({str1}\r\n{str2}\r\n)".format(str1=' '.join(render_strings1)
-                                                      ,str2='({})'.format(' '.join(render_strings2)))]
+        render_list = ["({str1}\n{str2}\n)".format(str1=' '.join(render_strings1)
+                                                  ,str2='({})'.format(' '.join(render_strings2)))]
 
         render_list.extend(Node.renderList(self))
 

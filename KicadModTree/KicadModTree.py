@@ -72,24 +72,24 @@ class KicadModTree(Node):
 
 
     def render(self):
-        render_string = "(module {name} (layer F.Cu) (tedit {timestamp:X})\r\n".format(name=self.name, timestamp=int(time.time()))
+        render_string = "(module {name} (layer F.Cu) (tedit {timestamp:X})\n".format(name=self.name, timestamp=int(time.time()))
 
         if self.description:
-            render_string += '  (descr "{description}")\r\n'.format(description=self.description)
+            render_string += '  (descr "{description}")\n'.format(description=self.description)
 
         if self.tags:
-            render_string += '  (tags "{tags}")\r\n'.format(tags=self.tags)
+            render_string += '  (tags "{tags}")\n'.format(tags=self.tags)
 
         if self.attribute:
-            render_string += '  (attr {attr})\r\n'.format(attr=self.attribute)
+            render_string += '  (attr {attr})\n'.format(attr=self.attribute)
 
         # read render list, sort it by key and reformate multiline entities
         render_list = sorted(self.renderList(), key=lambda string: render_order.index(string.split()[0][1:]))
-        render_list = [s.replace('\r\n', '\r\n  ') for s in render_list]
+        render_list = [s.replace('\n', '\n  ') for s in render_list]
 
         render_string += "  "
-        render_string += "\r\n  ".join(render_list)
-        render_string += "\r\n"
+        render_string += "\n  ".join(render_list)
+        render_string += "\n"
 
         render_string += ")"
 
@@ -98,3 +98,13 @@ class KicadModTree(Node):
 
     def __str__(self):
         return self.render()
+
+
+    def write(self, path=None):
+        if not path:
+            path = self.name + '.kicad_mod'
+
+        f = open(path,"w")
+
+        f.write(self.__str__())
+        f.close()

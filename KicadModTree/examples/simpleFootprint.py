@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 kicad-footprint-generator is free software: you can redistribute it and/or
 modify it under the terms of the GNU General Public License as published by
@@ -48,5 +50,9 @@ if __name__ == '__main__':
                           ,rotate=[0,0,0]))
 
     # output kicad model
-    print(kicad_mod)
-    #print(kicad_mod.getRenderTree())
+    #print(kicad_mod)
+
+    # print render tree
+    print(kicad_mod.getRenderTree())
+
+    kicad_mod.write() # use default path

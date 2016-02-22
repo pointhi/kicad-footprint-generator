@@ -189,7 +189,7 @@ class Node(object):
 
         tree_str = "{0} {1}".format(self._getRenderTreeSymbol(), self._getRenderTreeText())
         for child in self.getChilds():
-            tree_str += '\r\n  '
+            tree_str += '\n  '
             tree_str += '  '.join(child.getRenderTree(rendered_nodes).splitlines(True))
 
         return tree_str
@@ -209,7 +209,7 @@ class Node(object):
 
         tree_str = "{0} {1}".format(self._getRenderTreeSymbol(), self._getRenderTreeText())
         for child in self.getVirtualChilds():
-            tree_str += '\r\n  '
+            tree_str += '\n  '
             tree_str += '  '.join(child.getVirtualRenderTree(rendered_nodes).splitlines(True))
 
         return tree_str
