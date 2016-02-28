@@ -28,19 +28,6 @@ class Model(Node):
         self.rotate = PointXYZ(kwargs['rotate'])
 
 
-    def renderList(self):
-        render_string = "(model {filename}\n".format(filename=self.filename)
-        render_string += "  (at {at})\n".format(at=self.at.render('(xyz {x}  {y} {z})')) # TODO: apply position from parent nodes (missing z)
-        render_string += "  (scale {scale})\n".format(scale=self.scale.render('(xyz {x}  {y} {z})')) # TODO: apply scale from parent nodes
-        render_string += "  (rotate {rotate})\n".format(rotate=self.rotate.render('(xyz {x}  {y} {z})')) # TODO: apply rotation from parent nodes
-        render_string += ")"
-
-        render_list = [render_string]
-
-        render_list.extend(Node.renderList(self))
-        return render_list
-
-
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
         render_text += " [filename: {filename}, at: {at}, scale: {scale}, rotate: {rotate}]".format(filename=self.filename

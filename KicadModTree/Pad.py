@@ -17,7 +17,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 from .Point import *
 from .Node import Node
-from .util import lispString
+from .kicad_util import lispString
 
 
 class Pad(Node):
@@ -30,28 +30,6 @@ class Pad(Node):
         self.size = PointXY(kwargs.get('size'))
         self.drill = kwargs.get('drill')
         self.layers=kwargs['layers']
-
-
-    def renderList(self):
-        render_strings = ['pad']
-        render_strings.append(lispString(self.number))
-        render_strings.append(lispString(self.type))
-        render_strings.append(lispString(self.form))
-
-        rotation = self.getRealPosition(self.at).r
-        if not (rotation%90 == 0 and self.size.x == self.size.y):
-            render_strings.append(self.getRealPosition(self.at).render('(at {{x}} {{y}} {r})'.format(r=rotation)))
-        else:
-            render_strings.append(self.getRealPosition(self.at).render('(at {x} {y})'))
-
-        render_strings.append(self.size.render('(size {x} {y})'))
-        render_strings.append('(drill {})'.format(self.drill))
-        render_strings.append('(layers {})'.format(' '.join(self.layers)))
-
-        render_list = ['({})'.format(' '.join(render_strings))]
-        render_list.extend(Node.renderList(self))
-
-        return render_list
 
 
     def calculateOutline(self):

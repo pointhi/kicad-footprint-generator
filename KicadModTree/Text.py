@@ -17,7 +17,6 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 from .Point import *
 from .Node import Node
-from .util import lispString
 
 
 class Text(Node):
@@ -30,34 +29,6 @@ class Text(Node):
         self.layer = kwargs['layer']
         self.size = PointXY(kwargs.get('size', [1,1]))
         self.thickness = kwargs.get('thickness', 0.15)
-
-
-    def renderList(self):
-        render_strings1 = ['fp_text']
-        render_strings1.append(lispString(self.type))
-        render_strings1.append(lispString(self.text))
-
-        at_real_position = self.getRealPosition(self.at)
-        if at_real_position.r:
-            render_strings1.append(at_real_position.render('(at {x} {y} {r})'))
-        else:
-            render_strings1.append(at_real_position.render('(at {x} {y})'))
-
-        render_strings1.append('(layer {layer})'.format(layer=self.layer))
-
-        render_strings_font = ['font']
-        render_strings_font.append(self.size.render('(size {x} {y})'))
-        render_strings_font.append('(thickness {thickness})'.format(thickness=self.thickness))
-
-        render_strings2 = ['effects']
-        render_strings2.append('({})'.format(' '.join(render_strings_font)))
-
-        render_list = ["({str1}\n{str2}\n)".format(str1=' '.join(render_strings1)
-                                                  ,str2='({})'.format(' '.join(render_strings2)))]
-
-        render_list.extend(Node.renderList(self))
-
-        return render_list
 
 
     def calculateOutline(self):

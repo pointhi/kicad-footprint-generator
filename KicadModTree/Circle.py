@@ -31,19 +31,6 @@ class Circle(Node):
         self.width = kwargs['width']
 
 
-    def renderList(self):
-        render_strings = ['fp_circle']
-        render_strings.append(self.getRealPosition(self.center_pos).render('(center {x} {y})'))
-        render_strings.append(self.getRealPosition(self.end_pos).render('(end {x} {y})'))
-        render_strings.append('(layer {layer})'.format(layer=self.layer))
-        render_strings.append('(width {width})'.format(width=self.width))
-
-        render_list = ['({})'.format(' '.join(render_strings))]
-        render_list.extend(Node.renderList(self))
-
-        return render_list
-
-
     def calculateOutline(self):
         min_x = self.center_pos.x-self.radius
         min_y = self.center_pos.y-self.radius

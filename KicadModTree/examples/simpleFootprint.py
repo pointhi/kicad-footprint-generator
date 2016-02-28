@@ -53,6 +53,9 @@ if __name__ == '__main__':
     #print(kicad_mod)
 
     # print render tree
-    print(kicad_mod.getRenderTree())
+    #print(kicad_mod.getRenderTree())
+    print(kicad_mod.getCompleteRenderTree())
 
-    kicad_mod.write() # use default path
+    # write file
+    file_hander = KicadFileHandler(kicad_mod)
+    file_hander.writeFile('example_footprint.kicad_mod')

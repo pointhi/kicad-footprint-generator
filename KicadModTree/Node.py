@@ -78,6 +78,13 @@ class Node(object):
         return copy
 
 
+    def serialize(self):
+        nodes = [self]
+        for child in self.getAllChilds():
+            nodes += child.serialize()
+        return nodes
+
+
     def getNormalChilds(self):
         '''
         Get all normal childs of this node
@@ -117,21 +124,6 @@ class Node(object):
             return self
 
         return self.getParent().getRootNode()
-
-
-    def renderList(self):
-        '''
-        return a list of render strings which are required to create a file
-        '''
-        render_list = []
-
-        # TODO: recursion detection
-
-        for child in self.getAllChilds():
-            child_render_list = child.renderList()
-            if type(child_render_list) is list and len(child_render_list):
-                render_list.extend(child_render_list)
-        return render_list
 
 
     def getRealPosition(self, coordinate):

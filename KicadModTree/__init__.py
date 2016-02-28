@@ -35,3 +35,5 @@ from .Pad import Pad
 from .Model import Model
 
 from .KicadModTree import KicadModTree
+
+from .KicadFileHandler import KicadFileHandler

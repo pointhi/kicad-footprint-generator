@@ -77,5 +77,6 @@ kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl"
                       ,rotate=[0,0,0]))
 
 # output kicad model
-print(kicad_mod)
+file_hander = KicadFileHandler(kicad_mod)
+file_hander.writeFile('example_footprint.kicad_mod')
 ```
