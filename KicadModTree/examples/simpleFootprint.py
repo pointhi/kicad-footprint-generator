@@ -57,5 +57,5 @@ if __name__ == '__main__':
     print(kicad_mod.getCompleteRenderTree())
 
     # write file
-    file_hander = KicadFileHandler(kicad_mod)
-    file_hander.writeFile('example_footprint.kicad_mod')
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile('example_footprint.kicad_mod')
