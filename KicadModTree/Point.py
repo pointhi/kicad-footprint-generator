@@ -27,75 +27,41 @@ class Point(object):
             self.x = coordinates.x
             self.y = coordinates.y
             self.z = coordinates.z
-            self.r = coordinates.r
             return
 
-        if type(coordinates) is not dict:
-            raise TypeError('dict type required')
+        if type(coordinates) is dict:
+            self.x = float(coordinates.get('x', 0))
+            self.y = float(coordinates.get('y', 0))
+            self.z = float(coordinates.get('z', 0))
 
-        self.x = float(coordinates.get('x', 0))
-        self.y = float(coordinates.get('y', 0))
-        self.z = float(coordinates.get('z', 0))
-        self.r = float(coordinates.get('r', 0))
+        elif type(coordinates) is list or type(coordinates) is tuple:
+            if len(coordinates) >= 2:
+                self.x = coordinates[0]
+                self.y = coordinates[1]
+            else:
+                raise TypeError('invalid list size (to small)')
+
+            if len(coordinates) == 3:
+                self.z = coordinates[2]
+            else:
+                self.z = 0
+
+            if len(coordinates) > 3:
+                raise TypeError('invalid list size (to big)')
+
+        else:
+            raise TypeError('dict or list type required')
 
 
     def render(self, formatcode):
         return formatcode.format(x=formatFloat(self.x)
                                 ,y=formatFloat(self.y)
-                                ,z=formatFloat(self.z)
-                                ,r=formatFloat(self.r))
+                                ,z=formatFloat(self.z))
 
 
     def __dict__(self):
-        return {'x':self.x, 'y':self.y, 'z':self.z, 'r':self.r}
+        return {'x':self.x, 'y':self.y, 'z':self.z}
 
 
     def __str__(self):
-        return self.render("Point(x={x}, y={y}, z={z}, r={r})")
-
-
-class PointXY(Point):
-    def __init__(self, coordinates):
-        if type(coordinates) is dict:
-            Point.__init__(self, coordinates)
-        elif type(coordinates) is list or type(coordinates) is tuple:
-            Point.__init__(self)
-            if len(coordinates) == 2:
-                self.x = coordinates[0]
-                self.y = coordinates[1]
-            else:
-                raise TypeError('invalid list size')
-        else:
-            raise TypeError('dict or list type required')
-
-
-class PointXYR(Point):
-    def __init__(self, coordinates):
-        if type(coordinates) is dict or isinstance(coordinates, Point):
-            Point.__init__(self, coordinates)
-        elif type(coordinates) is list or type(coordinates) is tuple:
-            Point.__init__(self)
-            if len(coordinates) == 3:
-                self.x = coordinates[0]
-                self.y = coordinates[1]
-                self.r = coordinates[2]
-            else:
-                raise TypeError('invalid list size')
-        else:
-            raise TypeError('dict or list type required')
-
-
-class PointXYZ(Point):
-    def __init__(self, coordinates):
-        if type(coordinates) is dict or isinstance(coordinates, Point):
-            Point.__init__(self, coordinates)
-        elif type(coordinates) is list or type(coordinates) is tuple:
-            Point.__init__(self)
-            if len(coordinates) == 3:
-                self.x = coordinates[0]
-                self.y = coordinates[1]
-                self.z = coordinates[2]
-            else:
-                raise TypeError('invalid list size')
-        else:
-            raise TypeError('dict or list type required')
+        return self.render("Point(x={x}, y={y}, z={z}")

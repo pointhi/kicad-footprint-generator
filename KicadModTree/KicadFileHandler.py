@@ -18,6 +18,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 from .FileHandler import FileHandler
 from .KicadModTree import *
 from .kicad_util import *
+from .Pad import Pad # TODO: why .KicadModTree is not enough?
 
 
 class KicadFileHandler(FileHandler):
@@ -122,9 +123,9 @@ class KicadFileHandler(FileHandler):
         render_strings1.append(lispString(node.type))
         render_strings1.append(lispString(node.text))
 
-        at_real_position = node.getRealPosition(node.at)
-        if at_real_position.r:
-            render_strings1.append(at_real_position.render('(at {x} {y} {r})'))
+        at_real_position, real_rotation = node.getRealPosition(node.at, node.rotation)
+        if real_rotation:
+            render_strings1.append(at_real_position.render('(at {{x}} {{y}} {r})'.format(r=real_rotation)))
         else:
             render_strings1.append(at_real_position.render('(at {x} {y})'))
 
@@ -137,15 +138,15 @@ class KicadFileHandler(FileHandler):
         render_strings2 = ['effects']
         render_strings2.append('({})'.format(' '.join(render_strings_font)))
 
-        return "({str1}\n{str2}\n)".format(str1=' '.join(render_strings1)
+        return "({str1}\n  {str2}\n)".format(str1=' '.join(render_strings1)
                                             ,str2='({})'.format(' '.join(render_strings2)))
 
 
     def serialize_Model(self, node):
         render_string = "(model {filename}\n".format(filename=node.filename)
-        render_string += "  (at {at})\n".format(at=node.at.render('(xyz {x}  {y} {z})')) # TODO: apply position from parent nodes (missing z)
-        render_string += "  (scale {scale})\n".format(scale=node.scale.render('(xyz {x}  {y} {z})')) # TODO: apply scale from parent nodes
-        render_string += "  (rotate {rotate})\n".format(rotate=node.rotate.render('(xyz {x}  {y} {z})')) # TODO: apply rotation from parent nodes
+        render_string += "  (at {at})\n".format(at=node.at.render('(xyz {x} {y} {z})')) # TODO: apply position from parent nodes (missing z)
+        render_string += "  (scale {scale})\n".format(scale=node.scale.render('(xyz {x} {y} {z})')) # TODO: apply scale from parent nodes
+        render_string += "  (rotate {rotate})\n".format(rotate=node.rotate.render('(xyz {x} {y} {z})')) # TODO: apply rotation from parent nodes
         render_string += ")"
 
         return render_string
@@ -155,16 +156,20 @@ class KicadFileHandler(FileHandler):
         render_strings = ['pad']
         render_strings.append(lispString(node.number))
         render_strings.append(lispString(node.type))
-        render_strings.append(lispString(node.form))
+        render_strings.append(lispString(node.shape))
 
-        rotation = node.getRealPosition(node.at).r
+        position, rotation = node.getRealPosition(node.at, node.rotation)
         if not (rotation%90 == 0 and node.size.x == node.size.y):
             render_strings.append(node.getRealPosition(node.at).render('(at {{x}} {{y}} {r})'.format(r=rotation)))
         else:
             render_strings.append(node.getRealPosition(node.at).render('(at {x} {y})'))
 
         render_strings.append(node.size.render('(size {x} {y})'))
-        render_strings.append('(drill {})'.format(node.drill))
+        if node.type in [Pad.TYPE_SMT, Pad.TYPE_NPTH]:
+            if node.drill.x == node.drill.y:
+                render_strings.append('(drill {})'.format(node.drill.x))
+            else:
+                render_strings.append(node.drill.render('(drill oval {x} {y})'))
         render_strings.append('(layers {})'.format(' '.join(node.layers)))
 
         return '({})'.format(' '.join(render_strings))

@@ -22,7 +22,7 @@ from .Node import Node
 class Circle(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = ParseXY(kwargs['center'])
+        self.center_pos = Point(kwargs['center'])
         self.radius = kwargs['radius']
 
         self.end_pos = {'x':self.center_pos.x+self.radius, 'y':self.center_pos.y}

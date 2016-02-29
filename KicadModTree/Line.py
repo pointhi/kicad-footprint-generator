@@ -22,8 +22,8 @@ from .Node import Node
 class Line(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = PointXY(kwargs['start'])
-        self.end_pos = PointXY(kwargs['end'])
+        self.start_pos = Point(kwargs['start'])
+        self.end_pos = Point(kwargs['end'])
 
         self.layer = kwargs['layer']
         self.width = kwargs['width']
@@ -38,7 +38,7 @@ class Line(Node):
         max_x = max([render_start_pos.x, render_end_pos.x])
         max_y = max([render_start_pos.y, render_end_pos.y])
 
-        return Node.calculateOutline({'min':PointXY(min_x, min_y), 'max':PointXY(max_x, max_y)})
+        return Node.calculateOutline({'min':Point(min_x, min_y), 'max':Point(max_x, max_y)})
 
 
     def _getRenderTreeText(self):

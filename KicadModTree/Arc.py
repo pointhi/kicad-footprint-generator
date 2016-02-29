@@ -22,8 +22,8 @@ from .Node import Node
 class Arc(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = ParseXY(kwargs['start'])
-        self.end_pos = ParseXY(kwargs['end'])
+        self.start_pos = Point(kwargs['start'])
+        self.end_pos = Point(kwargs['end'])
         self.angle = kwargs['angle']
 
         self.layer = kwargs['layer']
@@ -36,7 +36,7 @@ class Arc(Node):
         max_x = max(self.start_pos.x, self.end_pos.x)
         max_y = max(self.start_pos.y, self.end_pos.y)
 
-        return Node.calculateOutline({'min':parse_coordinate_xy((min_x, min_y)), 'max':parse_coordinate_xy((max_x, max_y))})
+        return Node.calculateOutline({'min':Point((min_x, min_y)), 'max':Point((max_x, max_y))})
 
 
     def _getRenderTreeText(self):

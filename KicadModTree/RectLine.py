@@ -22,8 +22,8 @@ from .PolygoneLine import PolygoneLine
 
 class RectLine(PolygoneLine):
     def __init__(self, **kwargs):
-        self.start_pos = PointXY(kwargs['start'])
-        self.end_pos = PointXY(kwargs['end'])
+        self.start_pos = Point(kwargs['start'])
+        self.end_pos = Point(kwargs['end'])
 
         polygone_line = [{'x':self.start_pos.x, 'y':self.start_pos.y}
                         ,{'x':self.start_pos.x, 'y':self.end_pos.y}

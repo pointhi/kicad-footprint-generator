@@ -30,18 +30,25 @@ class Rotation(Node):
         self.rotation = r # in degree
 
 
-    def getRealPosition(self, coordinate):
+    def getRealPosition(self, coordinate, rotation=None):
+        if rotation is None:
+            rotation = 0
+
         parsed_coordinate = Point(coordinate)
 
         phi = self.rotation*math.pi/180
         rotation_coordinate = {'x': parsed_coordinate.x*math.cos(phi) + parsed_coordinate.y*math.sin(phi)
-                              ,'y': -parsed_coordinate.x*math.sin(phi) + parsed_coordinate.y*math.cos(phi)
-                              ,'r': parsed_coordinate.r + self.rotation}
+                              ,'y': -parsed_coordinate.x*math.sin(phi) + parsed_coordinate.y*math.cos(phi)}
 
         if not self._parent:
-            return rotation_coordinate
+            if rotation is None:
+                return rotation_coordinate
+            else:
+                return rotation_coordinate, rotation + self.rotation
         else:
-            return self._parent.getRealPosition(rotation_coordinate)
+            if rotation is None:
+                rotation = 0
+            return self._parent.getRealPosition(rotation_coordinate, rotation + self.rotation)
 
 
     def _getRenderTreeText(self):

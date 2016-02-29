@@ -24,10 +24,11 @@ class Text(Node):
         Node.__init__(self)
         self.type = kwargs['type']
         self.text = kwargs['text']
-        self.at = PointXY(kwargs['at'])
+        self.at = Point(kwargs['at'])
+        self.rotation = kwargs.get('rotation', 0)
 
         self.layer = kwargs['layer']
-        self.size = PointXY(kwargs.get('size', [1,1]))
+        self.size = Point(kwargs.get('size', [1,1]))
         self.thickness = kwargs.get('thickness', 0.15)
 
 
