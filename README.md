@@ -80,3 +80,17 @@ kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl"
 file_handler = KicadFileHandler(kicad_mod)
 file_handler.writeFile('example_footprint.kicad_mod')
 ```
+
+### running unit tests
+
+#### Install dependencies
+
+```sh
+pip install unittest2
+```
+
+#### run tests
+
+```sh
+python KicadModTree/tests/test.py
+```
