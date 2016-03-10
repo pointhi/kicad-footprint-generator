@@ -13,10 +13,13 @@ You should have received a copy of the GNU General Public License
 along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 '''
 
-from KicadModTree.Point import *
+from .Arc import Arc
+from .Circle import Circle
 
-# all different types of nodes
-from KicadModTree.nodes import *
+from .Line import Line
 
-# File Handlers
-from KicadModTree.KicadFileHandler import KicadFileHandler
+from .Model import Model
+
+from .Pad import Pad
+
+from .Text import Text

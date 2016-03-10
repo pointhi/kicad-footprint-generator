@@ -13,10 +13,8 @@ You should have received a copy of the GNU General Public License
 along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 '''
 
-from KicadModTree.Point import *
+from .Translation import Translation
+from .Rotation import Rotation
 
-# all different types of nodes
-from KicadModTree.nodes import *
-
-# File Handlers
-from KicadModTree.KicadFileHandler import KicadFileHandler
+from .PolygoneLine import PolygoneLine
+from .RectLine import RectLine

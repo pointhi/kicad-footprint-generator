@@ -15,41 +15,44 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
-from .Point import *
-from .Node import Node
+import math
+
+from KicadModTree.Point import *
+from KicadModTree.nodes.Node import Node
 
 
-class Translation(Node):
+class Rotation(Node):
     '''
-    Apply translation to the child tree
+    Apply rotation to the child tree
     '''
-    def __init__(self, x, y):
+    def __init__(self, r):
         Node.__init__(self)
-
-        # translation information
-        self.offset_x = x
-        self.offset_y = y
+        self.rotation = r # in degree
 
 
     def getRealPosition(self, coordinate, rotation=None):
+        if rotation is None:
+            rotation = 0
+
         parsed_coordinate = Point(coordinate)
 
-        # calculate translation
-        translation_coordinate = {'x': parsed_coordinate.x + self.offset_x
-                                 ,'y': parsed_coordinate.y + self.offset_y}
+        phi = self.rotation*math.pi/180
+        rotation_coordinate = {'x': parsed_coordinate.x*math.cos(phi) + parsed_coordinate.y*math.sin(phi)
+                              ,'y': -parsed_coordinate.x*math.sin(phi) + parsed_coordinate.y*math.cos(phi)}
 
         if not self._parent:
             if rotation is None:
-                return translation_coordinate
+                return rotation_coordinate
             else:
-                return translation_coordinate, rotation
+                return rotation_coordinate, rotation + self.rotation
         else:
-            return self._parent.getRealPosition(translation_coordinate, rotation)
+            if rotation is None:
+                rotation = 0
+            return self._parent.getRealPosition(rotation_coordinate, rotation + self.rotation)
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [x: {x}, y: {y}]".format(x=self.offset_x
-                                                 ,y=self.offset_y)
+        render_text += " [r: {r}]".format(r=self.rotation)
 
         return render_text

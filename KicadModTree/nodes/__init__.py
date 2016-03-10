@@ -13,10 +13,11 @@ You should have received a copy of the GNU General Public License
 along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 '''
 
-from KicadModTree.Point import *
+# generic node
+from .Node import Node
 
-# all different types of nodes
-from KicadModTree.nodes import *
+# root node
+from .KicadModTree import KicadModTree
 
-# File Handlers
-from KicadModTree.KicadFileHandler import KicadFileHandler
+from .base import *
+from .specialized import *

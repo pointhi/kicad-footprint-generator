@@ -15,44 +15,41 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
-import math
-
-from .Point import *
-from .Node import Node
+from KicadModTree.Point import *
+from KicadModTree.nodes.Node import Node
 
 
-class Rotation(Node):
+class Translation(Node):
     '''
-    Apply rotation to the child tree
+    Apply translation to the child tree
     '''
-    def __init__(self, r):
+    def __init__(self, x, y):
         Node.__init__(self)
-        self.rotation = r # in degree
+
+        # translation information
+        self.offset_x = x
+        self.offset_y = y
 
 
     def getRealPosition(self, coordinate, rotation=None):
-        if rotation is None:
-            rotation = 0
-
         parsed_coordinate = Point(coordinate)
 
-        phi = self.rotation*math.pi/180
-        rotation_coordinate = {'x': parsed_coordinate.x*math.cos(phi) + parsed_coordinate.y*math.sin(phi)
-                              ,'y': -parsed_coordinate.x*math.sin(phi) + parsed_coordinate.y*math.cos(phi)}
+        # calculate translation
+        translation_coordinate = {'x': parsed_coordinate.x + self.offset_x
+                                 ,'y': parsed_coordinate.y + self.offset_y}
 
         if not self._parent:
             if rotation is None:
-                return rotation_coordinate
+                return translation_coordinate
             else:
-                return rotation_coordinate, rotation + self.rotation
+                return translation_coordinate, rotation
         else:
-            if rotation is None:
-                rotation = 0
-            return self._parent.getRealPosition(rotation_coordinate, rotation + self.rotation)
+            return self._parent.getRealPosition(translation_coordinate, rotation)
 
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [r: {r}]".format(r=self.rotation)
+        render_text += " [x: {x}, y: {y}]".format(x=self.offset_x
+                                                 ,y=self.offset_y)
 
         return render_text

@@ -17,7 +17,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 from copy import deepcopy
 
-from .Point import *
+from KicadModTree.Point import *
 
 
 class Node(object):

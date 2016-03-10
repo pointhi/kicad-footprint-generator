@@ -15,9 +15,9 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
-from .Point import *
-from .Node import Node
-from .Line import Line
+from KicadModTree.Point import *
+from KicadModTree.nodes.Node import Node
+from KicadModTree.nodes.base.Line import Line
 
 
 class PolygoneLine(Node):

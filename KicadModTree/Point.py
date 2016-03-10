@@ -15,7 +15,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
-from .kicad_util import formatFloat
+from KicadModTree.util.kicad_util import formatFloat
 
 
 class Point(object):
