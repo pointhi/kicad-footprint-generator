@@ -52,7 +52,7 @@ from KicadModTree import *
 footprint_name = "example_footprint"
 
 # init kicad footprint
-kicad_mod = KicadModTree(footprint_name)
+kicad_mod = Footprint(footprint_name)
 kicad_mod.setDescription("A example footprint")
 kicad_mod.setTags("example")
 

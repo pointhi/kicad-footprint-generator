@@ -17,7 +17,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 from .Node import Node
 
 # root node
-from .KicadModTree import KicadModTree
+from .Footprint import Footprint
 
 from .base import *
 from .specialized import *
