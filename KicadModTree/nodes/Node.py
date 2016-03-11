@@ -20,6 +20,20 @@ from copy import deepcopy
 from KicadModTree.Point import *
 
 
+class MultipleParentsError(RuntimeError):
+    def __init__(self, message):
+
+        # Call the base class constructor with the parameters it needs
+        super(MultipleParentsError, self).__init__(message)
+
+
+class RecursionDetectedError(RuntimeError):
+    def __init__(self, message):
+
+        # Call the base class constructor with the parameters it needs
+        super(RecursionDetectedError, self).__init__(message)
+
+
 class Node(object):
     def __init__(self):
         self._parent = None
@@ -31,12 +45,13 @@ class Node(object):
         add node to child
         '''
         if not isinstance(node, Node):
-            raise Exception('invalid object, has to be based on Node')
+            raise TypeError('invalid object, has to be based on Node')
+
+        if node._parent:
+            raise MultipleParentsError('muliple parents are not allowed!')
 
         self._childs.append(node)
 
-        if node._parent:
-            raise Exception('muliple parents are not allowed!')
         node._parent = self
 
 
@@ -44,14 +59,30 @@ class Node(object):
         '''
         add list of nodes to child
         '''
+        new_nodes = []
         for node in nodes:
-            self.append(node)
+            if not isinstance(node, Node):
+                raise TypeError('invalid object, has to be based on Node')
+
+            if node._parent or node in new_nodes:
+                raise MultipleParentsError('muliple parents are not allowed!')
+
+            new_nodes.append(node)
+
+        # when all went smooth by now, we can set the parent nodes to ourself
+        for node in new_nodes:
+            node._parent = self
+
+        self._childs.extend(new_nodes)
 
 
     def remove(self, node):
         '''
         remove child from node
         '''
+        if not isinstance(node, Node):
+            raise TypeError('invalid object, has to be based on Node')
+
         while self._childs.count(node):
             self._childs.remove(node)
 
@@ -63,7 +94,7 @@ class Node(object):
         moving all childs into the node, and using the node as new parent of those childs
         '''
         if not isinstance(node, Node):
-            raise Exception('invalid object, has to be based on Node')
+            raise TypeError('invalid object, has to be based on Node')
 
         for child in self._childs.copy():
             self.remove(child)
@@ -185,7 +216,7 @@ class Node(object):
             rendered_nodes = set()
 
         if self in rendered_nodes:
-            raise Exception('recursive definition of render tree!')
+            raise RecursionDetectedError('recursive definition of render tree!')
 
         rendered_nodes.add(self)
 
@@ -205,7 +236,7 @@ class Node(object):
             rendered_nodes = set()
 
         if self in rendered_nodes:
-            raise Exception('recursive definition of render tree!')
+            raise RecursionDetectedError('recursive definition of render tree!')
 
         rendered_nodes.add(self)
 

@@ -14,7 +14,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 '''
 
 # generic node
-from .Node import Node
+from .Node import Node, MultipleParentsError, RecursionDetectedError
 
 # root node
 from .Footprint import Footprint
