@@ -164,7 +164,7 @@ class KicadFileHandler(FileHandler):
             render_strings.append(node.getRealPosition(node.at).render('(at {x} {y})'))
 
         render_strings.append(node.size.render('(size {x} {y})'))
-        if node.type in [Pad.TYPE_SMT, Pad.TYPE_NPTH]:
+        if node.type in [Pad.TYPE_THT, Pad.TYPE_NPTH]:
             if node.drill.x == node.drill.y:
                 render_strings.append('(drill {})'.format(node.drill.x))
             else:
