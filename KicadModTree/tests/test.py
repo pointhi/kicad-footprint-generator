@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 kicad-footprint-generator is free software: you can redistribute it and/or
 modify it under the terms of the GNU General Public License as published by
@@ -21,12 +23,8 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)),"../../
 
 from nodes import *
 
-#sys.path.append("../")
-
-
-
-def main():
+def run_tests():
     unittest.main()
 
 if __name__ == '__main__':
-    main()
+    run_tests()

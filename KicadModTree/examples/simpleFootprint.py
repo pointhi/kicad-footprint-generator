@@ -25,7 +25,7 @@ if __name__ == '__main__':
     footprint_name = "example_footprint"
 
     # init kicad footprint
-    kicad_mod = KicadModTree(footprint_name)
+    kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("A example footprint")
     kicad_mod.setTags("example")
 
@@ -48,9 +48,6 @@ if __name__ == '__main__':
                           ,at=[0,0,0]
                           ,scale=[1,1,1]
                           ,rotate=[0,0,0]))
-
-    # output kicad model
-    #print(kicad_mod)
 
     # print render tree
     #print(kicad_mod.getRenderTree())

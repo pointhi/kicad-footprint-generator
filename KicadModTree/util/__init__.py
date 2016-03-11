@@ -12,12 +12,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 '''
-
-# generic node
-from .Node import Node, MultipleParentsError, RecursionDetectedError
-
-# root node
-from .Footprint import Footprint
-
-from .base import *
-from .specialized import *

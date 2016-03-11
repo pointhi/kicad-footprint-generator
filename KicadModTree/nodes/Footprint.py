@@ -35,7 +35,7 @@ render_order = ['descr', 'tags', 'attr', 'fp_text', 'fp_circle', 'fp_line', 'pad
 # TODO: sort Text by type
 
 
-class KicadModTree(Node):
+class Footprint(Node):
     '''
     Root Node to generate KicadMod
     '''
