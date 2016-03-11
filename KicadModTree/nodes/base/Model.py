@@ -31,8 +31,8 @@ class Model(Node):
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
         render_text += " [filename: {filename}, at: {at}, scale: {scale}, rotate: {rotate}]".format(filename=self.filename
-                                                                                                   ,at=self.at.render('(xyz {x}  {y} {z})')
-                                                                                                   ,scale=self.scale.render('(xyz {x}  {y} {z})')
-                                                                                                   ,rotate=self.rotate.render('(xyz {x}  {y} {z})'))
+                                                                                                   ,at=self.at.render('(xyz {x} {y} {z})')
+                                                                                                   ,scale=self.scale.render('(xyz {x} {y} {z})')
+                                                                                                   ,rotate=self.rotate.render('(xyz {x} {y} {z})'))
 
         return render_text

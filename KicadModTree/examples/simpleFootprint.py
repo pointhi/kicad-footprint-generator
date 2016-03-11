@@ -49,9 +49,6 @@ if __name__ == '__main__':
                           ,scale=[1,1,1]
                           ,rotate=[0,0,0]))
 
-    # output kicad model
-    #print(kicad_mod)
-
     # print render tree
     #print(kicad_mod.getRenderTree())
     print(kicad_mod.getCompleteRenderTree())
