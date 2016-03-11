@@ -27,7 +27,7 @@ if __name__ == '__main__':
     footprint_name = "example_footprint"
 
     # init kicad footprint
-    kicad_mod = KicadModTree(footprint_name)
+    kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("A example footprint")
     kicad_mod.setTags("example")
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     kicad_mod.append(RectLine(start=[-2,-2], end=[5,2], layer='F.SilkS', width=0.15))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[-2.25,-2.25], end=[5.25,2.25], layer='F.CrtYd', width=0.05))
+    kicad_mod.append(RectLine(start=[-2.25,-2.25], end=[5.25,2.25], layer='F.CrtYd', width=0.05, offset=2))
 
     # create pads
     kicad_mod.append(Pad(number=7, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[0,0], size=[2,2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))

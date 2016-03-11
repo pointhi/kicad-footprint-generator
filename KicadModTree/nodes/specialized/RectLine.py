@@ -24,7 +24,36 @@ class RectLine(PolygoneLine):
     def __init__(self, **kwargs):
         self.start_pos = Point(kwargs['start'])
         self.end_pos = Point(kwargs['end'])
+        
+        """
+        If specifed, an 'offset' can be applied to the RectLine.
+        For example, creating a border around a given Rect of a specified size
+        """
+        if kwargs.get('offset'):
+            #offset for the rect line
+            #e.g. for creating a rectLine 0.5mm LARGER than the given rect, or similar
+            offset = [0,0]
+            
+            #has an offset / inset been specified?
+            if type(kwargs['offset']) in [int, float]:
+                offset[0] = offset[1] = kwargs['offset']
+            elif type(kwargs['offset']) in [list,tuple] and len(kwargs['offset']) == 2 and all([type(i) in [int, float] for i in kwargs['offset']]):
+                offset = kwargs['offset']
 
+            #for the offset to work properly, start-pos must be top-left, and end-pos must be bottom-right
+            x1 = min(self.start_pos.x, self.end_pos.x)
+            x2 = max(self.start_pos.x, self.end_pos.x)
+            
+            y1 = min(self.start_pos.y, self.end_pos.y)
+            y2 = max(self.start_pos.y, self.end_pos.y)
+            
+            #put the offset back in
+            self.start_pos.x = x1 - offset[0]
+            self.start_pos.y = y1 - offset[1]
+            
+            self.end_pos.x = x2 + offset[0]
+            self.end_pos.y = y2 + offset[1]
+            
         polygone_line = [{'x':self.start_pos.x, 'y':self.start_pos.y}
                         ,{'x':self.start_pos.x, 'y':self.end_pos.y}
                         ,{'x':self.end_pos.x, 'y':self.end_pos.y}
