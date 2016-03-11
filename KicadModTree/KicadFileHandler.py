@@ -183,7 +183,7 @@ class KicadFileHandler(FileHandler):
         render_strings.append(lispString(node.shape))
 
         position, rotation = node.getRealPosition(node.at, node.rotation)
-        if not (rotation%90 == 0 and node.size.x == node.size.y):
+        if not rotation%360 == 0:
             render_strings.append(node.getRealPosition(node.at).render('(at {{x}} {{y}} {r})'.format(r=rotation)))
         else:
             render_strings.append(node.getRealPosition(node.at).render('(at {x} {y})'))
