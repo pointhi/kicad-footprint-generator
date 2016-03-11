@@ -59,17 +59,42 @@ class KicadFileHandler(FileHandler):
 
         serial_tree = ""
 
-        for key, value in grouped_nodes.items():
-            #print("{0} : {1}".format(key, len(value)))
-            for node in value:
-                try:
-                    value_serialized = self._callSerialize(node)
-                    if value_serialized:
-                        serial_tree += "  " + value_serialized.replace('\n', '\n  ') + "\n"
-                except NotImplementedError:
-                    #print("{key} object is not serializable".format(key=key))
-                    pass
+        # serialize initial text nodes
+        if 'Text' in grouped_nodes:
+            reference_nodes = list(filter(lambda node: node.type == 'reference', grouped_nodes['Text']))
+            for node in reference_nodes:
+                value_serialized = self.serialize_Text(node)
+                if value_serialized:
+                    value_serialized = value_serialized.replace('\n', '\n  ') + "\n"
+                    serial_tree += "  " + value_serialized
+                grouped_nodes['Text'].remove(node)
 
+            value_nodes = list(filter(lambda node: node.type == 'value', grouped_nodes['Text']))
+            for node in value_nodes:
+                value_serialized = self.serialize_Text(node)
+                if value_serialized:
+                    value_serialized = value_serialized.replace('\n', '\n  ') + "\n"
+                    serial_tree += "  " + value_serialized
+                grouped_nodes['Text'].remove(node)
+
+
+        for key, value in sorted(grouped_nodes.items()):
+            # check if key is a base node, except Model
+            if key not in {'Arc', 'Circle', 'Line', 'Pad', 'Text'}:
+                continue
+
+            # render base nodes
+            for node in value:
+                value_serialized = self._callSerialize(node)
+                if value_serialized:
+                    value_serialized = value_serialized.replace('\n', '\n  ') + "\n"
+                    serial_tree += "  " + value_serialized
+
+        # serialize 3D Models at the end
+        for node in grouped_nodes.get('Model'):
+            value_serialized = self.serialize_Model(node)
+            if value_serialized:
+                serial_tree += "  " + value_serialized.replace('\n', '\n  ') + "\n"
 
         return serial_tree
 
