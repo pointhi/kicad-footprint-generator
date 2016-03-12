@@ -175,20 +175,19 @@ class Node(object):
         max_x, max_y = 0, 0
 
         if outline:
-            min_x = outline['min']['x']
-            min_y = outline['min']['y']
-            max_x = outline['max']['x']
-            max_y = outline['max']['y']
+            min_x = outline['min'].x
+            min_y = outline['min'].y
+            max_x = outline['max'].x
+            max_y = outline['max'].y
 
         for child in self.getAllChilds():
             child_outline = child.calculateOutline()
-
-            min_x = min([min_x, child_outline['min']['x']])
-            min_y = min([min_y, child_outline['min']['y']])
-            max_x = max([max_x, child_outline['max']['x']])
-            max_y = max([max_y, child_outline['max']['y']])
-
-        return {'min':Point(min_x, min_y), 'max':Point(max_x, max_y)}
+            min_x = min([min_x, child_outline['min'].x])
+            min_y = min([min_y, child_outline['min'].y])
+            max_x = max([max_x, child_outline['max'].x])
+            max_y = max([max_y, child_outline['max'].y])
+            
+        return {'min':Point(coordinates=[min_x, min_y]), 'max':Point(coordinates=[max_x, max_y])}
 
 
     def _getRenderTreeText(self):

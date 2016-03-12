@@ -117,8 +117,16 @@ class Pad(Node):
         self.layers=kwargs.get('layers')
 
 
+    #calculate the outline of a pad
     def calculateOutline(self):
-        return Node.calculateOutline(self)
+        x_min = self.at.x - self.size.x / 2
+        x_max = self.at.x + self.size.x / 2
+        
+        y_min = self.at.y - self.size.y / 2
+        y_max = self.at.y + self.size.y / 2
+        
+        outline = {'min':Point(coordinates=[x_min,y_min]), 'max':Point(coordinates=[x_max,y_max])}
+        return Node.calculateOutline(self, outline=outline)
 
 
     def _getRenderTreeText(self):
