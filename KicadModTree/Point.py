@@ -53,6 +53,72 @@ class Point(object):
             raise TypeError('dict or list type required')
 
 
+    def __add__(self, obj):
+        other_point = None
+        if type(obj) in [int, float]:
+            other_point = Point([obj, obj, obj])
+        else:
+            other_point = Point(obj)
+
+        return Point({'x':self.x + other_point.x
+                     ,'y':self.y + other_point.y
+                     ,'z':self.z + other_point.z})
+
+    def __sub__(self, obj):
+        other_point = None
+        if type(obj) in [int, float]:
+            other_point = Point([obj, obj, obj])
+        else:
+            other_point = Point(obj)
+
+        return Point({'x':self.x - other_point.x
+                     ,'y':self.y - other_point.y
+                     ,'z':self.z - other_point.z})
+
+    def __mul__(self, obj):
+        other_point = None
+        if type(obj) in [int, float]:
+            other_point = Point([obj, obj, obj])
+        else:
+            other_point = Point(obj)
+
+        # TODO: only overwrite None
+        if other_point.x == 0:
+            other_point.x = 1
+        if other_point.y == 0:
+            other_point.y = 1
+        if other_point.z == 0:
+            other_point.z = 1
+
+        return Point({'x':self.x * other_point.x
+                     ,'y':self.y * other_point.y
+                     ,'z':self.z * other_point.z})
+
+
+    def __div__(self, obj):
+        other_point = None
+        if type(obj) in [int, float]:
+            other_point = Point([obj, obj, obj])
+        else:
+            other_point = Point(obj)
+
+        # TODO: only overwrite None
+        if other_point.x == 0:
+            other_point.x = 1
+        if other_point.y == 0:
+            other_point.y = 1
+        if other_point.z == 0:
+            other_point.z = 1
+
+        return Point({'x':self.x / other_point.x
+                     ,'y':self.y / other_point.y
+                     ,'z':self.z / other_point.z})
+
+
+    def __truediv__(self, obj):
+        return self.__div__(obj)
+
+
     def render(self, formatcode):
         return formatcode.format(x=formatFloat(self.x)
                                 ,y=formatFloat(self.y)
@@ -63,5 +129,9 @@ class Point(object):
         return {'x':self.x, 'y':self.y, 'z':self.z}
 
 
+    def __repr__(self):
+        return self.render("Point (x={x}, y={y}, z={z})")
+
+
     def __str__(self):
-        return self.render("Point(x={x}, y={y}, z={z}")
+        return self.render("(x={x}, y={y}, z={z})")

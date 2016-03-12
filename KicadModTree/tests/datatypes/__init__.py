@@ -13,4 +13,4 @@ You should have received a copy of the GNU General Public License
 along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 '''
 
-from .test_Node import NodeTests
+from .test_Point import PointTests

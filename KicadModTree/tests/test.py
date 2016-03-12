@@ -22,6 +22,7 @@ import unittest
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)),"../../"))
 
 from nodes import *
+from datatypes import *
 
 def run_tests():
     unittest.main()
