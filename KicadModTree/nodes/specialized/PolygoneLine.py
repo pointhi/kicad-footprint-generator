@@ -23,24 +23,44 @@ from KicadModTree.nodes.base.Line import Line
 class PolygoneLine(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.polygone_line = kwargs['polygone']
 
-        self.layer = kwargs['layer']
-        self.width = kwargs['width']
+        self.layer = kwargs.get('layer','F.SilkS')
+        self.width = kwargs.get('width',0.15)
+        
+        self._initMirror(**kwargs)
+        
+        self._initPolygone(**kwargs)
 
         self.virtual_childs = self._createChildNodes(self.polygone_line)
 
+    def _initMirror(self, **kwargs):
+    
+        self.mirror = [None,None]
+        if kwargs.get('x_mirror') and type(kwargs['x_mirror']) in [float,int]:
+            self.mirror[0] = kwargs['x_mirror']
+        if kwargs.get('y_mirror') and type(kwargs['y_mirror']) in [float,int]:
+            self.mirror[1] = kwargs['y_mirror']
 
+    def _initPolygone(self, **kwargs):
+        self.polygone_line = kwargs['polygone']
+        
+        for point in self.polygone_line:
+        
+            if self.mirror[0] is not None:
+                point['x'] = 2 * self.mirror[0] - point['x']
+            if self.mirror[1] is not None:
+                point['y'] = 2 * self.mirror[1] - point['y']
+            
     def _createChildNodes(self, polygone_line):
         nodes = []
 
         for line_start, line_end in zip(polygone_line, polygone_line[1:]):
+        
             new_node = Line(start=line_start, end=line_end, layer=self.layer, width=self.width)
             new_node._parent = self
             nodes.append(new_node)
 
         return nodes
-
 
     def getVirtualChilds(self):
         return self.virtual_childs
