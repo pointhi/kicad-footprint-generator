@@ -128,12 +128,16 @@ class PadArray(Node):
         x_start, y_start = self.startingPosition
         x_spacing, y_spacing = self.spacing
         
+        padShape = kwargs.get('shape')
+        
         for i,number in enumerate(range(self.initialPin, self.initialPin + (self.pincount * self.increment), self.increment)):
             x_pad = x_start + i * x_spacing
             y_pad = y_start + i * y_spacing
             
             if kwargs.get('type') == Pad.TYPE_THT and number == 1:
                 kwargs['shape'] = Pad.SHAPE_RECT
+            else:
+                kwargs['shape'] = padShape
             
             pads.append(Pad(number=number, at=[x_pad,y_pad], **kwargs))
         return pads
