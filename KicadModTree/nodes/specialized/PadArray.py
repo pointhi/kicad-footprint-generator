@@ -132,6 +132,9 @@ class PadArray(Node):
             x_pad = x_start + i * x_spacing
             y_pad = y_start + i * y_spacing
             
+            if kwargs.get('type') == Pad.TYPE_THT and number == 1:
+                kwargs['shape'] = Pad.SHAPE_RECT
+            
             pads.append(Pad(number=number, at=[x_pad,y_pad], **kwargs))
         return pads
         
