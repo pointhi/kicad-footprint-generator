@@ -25,8 +25,8 @@ class Line(Node):
         self.start_pos = Point(kwargs['start'])
         self.end_pos = Point(kwargs['end'])
 
-        self.layer = kwargs['layer']
-        self.width = kwargs['width']
+        self.layer = kwargs.get('layer','F.SilkS')
+        self.width = kwargs.get('width',0.15)
 
 
     def calculateOutline(self):
