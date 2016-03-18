@@ -41,12 +41,12 @@ class PointTests(unittest.TestCase):
         self.assertEqual(p2_xy.y, 5)
         self.assertEqual(p2_xy.z, 0)
 
-        p3 = Point({'x':7, 'y':8, 'z':9})
+        p3 = Point({'x': 7, 'y': 8, 'z': 9})
         self.assertEqual(p3.x, 7)
         self.assertEqual(p3.y, 8)
         self.assertEqual(p3.z, 9)
 
-        p3_xy = Point({'x':7, 'y':8})
+        p3_xy = Point({'x': 7, 'y': 8})
         self.assertEqual(p3_xy.x, 7)
         self.assertEqual(p3_xy.y, 8)
         self.assertEqual(p3_xy.z, 0)
@@ -61,9 +61,18 @@ class PointTests(unittest.TestCase):
         self.assertEqual(p4.y, 2)
         self.assertEqual(p4.z, 3)
 
+        p5 = Point(1, 2, 3)
+        self.assertEqual(p5.x, 1)
+        self.assertEqual(p5.y, 2)
+        self.assertEqual(p5.z, 3)
+
+        p5_xy = Point(1, 2)
+        self.assertEqual(p5_xy.x, 1)
+        self.assertEqual(p5_xy.y, 2)
+        self.assertEqual(p5_xy.z, 0)
+
         # TODO: test float datatype
         # TODO: invalid type tests
-
 
     def testAdd(self):
         p1 = Point([1, 2, 3])
@@ -93,7 +102,6 @@ class PointTests(unittest.TestCase):
 
         # TODO: invalid type tests
 
-
     def testSub(self):
         p1 = Point([1, 2, 3])
         self.assertEqual(p1.x, 1)
@@ -121,7 +129,6 @@ class PointTests(unittest.TestCase):
         self.assertEqual(p5.z, 3)
 
         # TODO: invalid type tests
-
 
     def testMul(self):
         p1 = Point([1, 2, 3])
