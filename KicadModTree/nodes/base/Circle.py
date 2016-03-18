@@ -27,8 +27,8 @@ class Circle(Node):
 
         self.end_pos = {'x':self.center_pos.x+self.radius, 'y':self.center_pos.y}
 
-        self.layer = kwargs['layer']
-        self.width = kwargs['width']
+        self.layer = kwargs.get('layer', 'F.SilkS')
+        self.width = kwargs.get('width')
 
 
     def calculateOutline(self):

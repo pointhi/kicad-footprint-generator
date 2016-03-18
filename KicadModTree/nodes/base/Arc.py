@@ -26,8 +26,8 @@ class Arc(Node):
         self.end_pos = Point(kwargs['end'])
         self.angle = kwargs['angle']
 
-        self.layer = kwargs['layer']
-        self.width = kwargs['width']
+        self.layer = kwargs.get('layer', 'F.SilkS')
+        self.width = kwargs.get('width')
 
 
     def calculateOutline(self):

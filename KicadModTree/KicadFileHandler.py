@@ -20,6 +20,21 @@ from KicadModTree.util.kicad_util import *
 from KicadModTree.nodes.base.Pad import Pad # TODO: why .KicadModTree is not enough?
 
 
+DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.15,
+                       'B.SilkS': 0.15,
+                       'F.CrtYd': 0.05,
+                       'B.CrtYd': 0.05}
+
+DEFAULT_WIDTH = 0.15
+
+
+def get_layer_width(layer, width=None):
+    if width is not None:
+        return width
+    else:
+        return DEFAULT_LAYER_WIDTH.get(layer, DEFAULT_WIDTH)
+
+
 class KicadFileHandler(FileHandler):
     def __init__(self, kicad_mod):
         FileHandler.__init__(self, kicad_mod)
@@ -117,7 +132,7 @@ class KicadFileHandler(FileHandler):
         render_strings.append(node.getRealPosition(node.end_pos).render('(end {x} {y})'))
         render_strings.append('(angle {angle})'.format(angle=node.angle))
         render_strings.append('(layer {layer})'.format(layer=node.layer))
-        render_strings.append('(width {width})'.format(width=node.width))
+        render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
 
         return '({})'.format(' '.join(render_strings))
 
@@ -127,7 +142,7 @@ class KicadFileHandler(FileHandler):
         render_strings.append(node.getRealPosition(node.center_pos).render('(center {x} {y})'))
         render_strings.append(node.getRealPosition(node.end_pos).render('(end {x} {y})'))
         render_strings.append('(layer {layer})'.format(layer=node.layer))
-        render_strings.append('(width {width})'.format(width=node.width))
+        render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
 
         return '({})'.format(' '.join(render_strings))
 
@@ -137,7 +152,7 @@ class KicadFileHandler(FileHandler):
         render_strings.append(node.getRealPosition(node.start_pos).render('(start {x} {y})'))
         render_strings.append(node.getRealPosition(node.end_pos).render('(end {x} {y})'))
         render_strings.append('(layer {layer})'.format(layer=node.layer))
-        render_strings.append('(width {width})'.format(width=node.width))
+        render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
 
         return '({})'.format(' '.join(render_strings))
 

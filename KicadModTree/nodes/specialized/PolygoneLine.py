@@ -25,8 +25,8 @@ class PolygoneLine(Node):
         Node.__init__(self)
         self.polygone_line = kwargs['polygone']
 
-        self.layer = kwargs['layer']
-        self.width = kwargs['width']
+        self.layer = kwargs.get('layer', 'F.SilkS')
+        self.width = kwargs.get('width')
 
         self.virtual_childs = self._createChildNodes(self.polygone_line)
 
