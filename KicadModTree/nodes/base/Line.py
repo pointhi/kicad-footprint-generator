@@ -29,7 +29,7 @@ class Line(Node):
         self.width = kwargs.get('width')
 
 
-    def calculateOutline(self):
+    def calculateBoundingBox(self):
         render_start_pos = self.getRealPosition(self.start_pos)
         render_end_pos = self.getRealPosition(self.end_pos)
 
@@ -38,7 +38,7 @@ class Line(Node):
         max_x = max([render_start_pos.x, render_end_pos.x])
         max_y = max([render_start_pos.y, render_end_pos.y])
 
-        return Node.calculateOutline({'min':Point(min_x, min_y), 'max':Point(max_x, max_y)})
+        return Node.calculateBoundingBox({'min':Point(min_x, min_y), 'max':Point(max_x, max_y)})
 
 
     def _getRenderTreeText(self):

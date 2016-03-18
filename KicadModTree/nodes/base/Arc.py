@@ -30,13 +30,13 @@ class Arc(Node):
         self.width = kwargs.get('width')
 
 
-    def calculateOutline(self):
+    def calculateBoundingBox(self):
         min_x = min(self.start_pos.x, self.end_pos.x)
         min_y = min(self.start_pos.y, self.end_pos.y)
         max_x = max(self.start_pos.x, self.end_pos.x)
         max_y = max(self.start_pos.y, self.end_pos.y)
 
-        return Node.calculateOutline({'min':Point((min_x, min_y)), 'max':Point((max_x, max_y))})
+        return Node.calculateBoundingBox({'min':Point((min_x, min_y)), 'max':Point((max_x, max_y))})
 
 
     def _getRenderTreeText(self):

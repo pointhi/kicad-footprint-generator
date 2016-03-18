@@ -32,7 +32,7 @@ class Text(Node):
         self.thickness = kwargs.get('thickness', 0.15)
 
 
-    def calculateOutline(self):
+    def calculateBoundingBox(self):
         width = len(self.text)*self.size['x']
         height = self.size['y']
 
@@ -41,7 +41,7 @@ class Text(Node):
         max_x = self.at[x]+width/2.
         max_y = self.at[y]+height/2.
 
-        return Node.calculateOutline({'min':Point(min_x, min_y), 'max':Point(max_x, max_y)})
+        return Node.calculateBoundingBox({'min':Point(min_x, min_y), 'max':Point(max_x, max_y)})
 
 
     def _getRenderTreeText(self):

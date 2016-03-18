@@ -117,8 +117,8 @@ class Pad(Node):
         self.layers=kwargs.get('layers')
 
 
-    def calculateOutline(self):
-        return Node.calculateOutline(self)
+    def calculateBoundingBox(self):
+        return Node.calculateBoundingBox(self)
 
 
     def _getRenderTreeText(self):

@@ -170,7 +170,7 @@ class Node(object):
         return self._parent.getRealPosition(coordinate, rotation)
 
 
-    def calculateOutline(self, outline=None):
+    def calculateBoundingBox(self, outline=None):
         min_x, min_y = 0, 0
         max_x, max_y = 0, 0
 
@@ -181,7 +181,7 @@ class Node(object):
             max_y = outline['max']['y']
 
         for child in self.getAllChilds():
-            child_outline = child.calculateOutline()
+            child_outline = child.calculateBoundingBox()
 
             min_x = min([min_x, child_outline['min']['x']])
             min_y = min([min_y, child_outline['min']['y']])

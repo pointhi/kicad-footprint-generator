@@ -31,13 +31,13 @@ class Circle(Node):
         self.width = kwargs.get('width')
 
 
-    def calculateOutline(self):
+    def calculateBoundingBox(self):
         min_x = self.center_pos.x-self.radius
         min_y = self.center_pos.y-self.radius
         max_x = self.center_pos.x+self.radius
         max_y = self.center_pos.y+self.radius
 
-        return Node.calculateOutline({'min':ParseXY(min_x, min_y), 'max':ParseXY(max_x, max_y)})
+        return Node.calculateBoundingBox({'min':ParseXY(min_x, min_y), 'max':ParseXY(max_x, max_y)})
 
 
     def _getRenderTreeText(self):
