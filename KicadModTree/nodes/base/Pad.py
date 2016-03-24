@@ -33,7 +33,6 @@ class Pad(Node):
     SHAPE_TRAPEZE = 'trapezoid'
     _SHAPES = [SHAPE_CIRCLE, SHAPE_OVAL, SHAPE_RECT, SHAPE_TRAPEZE]
 
-
     def __init__(self, **kwargs):
         Node.__init__(self)
 
@@ -43,14 +42,12 @@ class Pad(Node):
         self._initPosition(**kwargs)
         self._initSize(**kwargs)
         self._initOffset(**kwargs)
-        self._initDrill(**kwargs) # requires pad type and offset
+        self._initDrill(**kwargs)  # requires pad type and offset
         self._initSolderPasteMargin(**kwargs)
         self._initLayers(**kwargs)
 
-
     def _initNumber(self, **kwargs):
         self.number = kwargs.get('number')
-
 
     def _initType(self, **kwargs):
         if not kwargs.get('type'):
@@ -59,7 +56,6 @@ class Pad(Node):
         if self.type not in Pad._TYPES:
             raise ValueError('{type} is an invalid type for pads'.format(type=self.type))
 
-
     def _initShape(self, **kwargs):
         if not kwargs.get('shape'):
             raise KeyError('shape not declared (like "shape=Pad.SHAPE_CIRCLE")')
@@ -67,14 +63,12 @@ class Pad(Node):
         if self.shape not in Pad._SHAPES:
             raise ValueError('{shape} is an invalid shape for pads'.format(shape=self.shape))
 
-
     def _initPosition(self, **kwargs):
         if not kwargs.get('at'):
             raise KeyError('center position not declared (like "at=[0,0]")')
         self.at = Point(kwargs.get('at'))
 
         self.rotation = kwargs.get('rotation', 0)
-
 
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
@@ -85,10 +79,8 @@ class Pad(Node):
         else:
             self.size = Point(kwargs.get('size'))
 
-
     def _initOffset(self, **kwargs):
-        self.offset = Point(kwargs.get('offset', [0,0]))
-
+        self.offset = Point(kwargs.get('offset', [0, 0]))
 
     def _initDrill(self, **kwargs):
         if self.type in [Pad.TYPE_THT, Pad.TYPE_NPTH]:
@@ -106,20 +98,16 @@ class Pad(Node):
             if kwargs.get('drill'):
                 pass  # TODO: throw warning because drill is not supported
 
-
     def _initSolderPasteMargin(self, **kwargs):
         self.solder_paste_margin_ratio = kwargs.get('solder_paste_margin_ratio', 0)
-
 
     def _initLayers(self, **kwargs):
         if not kwargs.get('layers'):
             raise KeyError('layers not declared (like "layers=[\'*.Cu\', \'*.Mask\', \'F.SilkS\']")')
-        self.layers=kwargs.get('layers')
-
+        self.layers = kwargs.get('layers')
 
     def calculateBoundingBox(self):
         return Node.calculateBoundingBox(self)
-
 
     def _getRenderTreeText(self):
         render_strings = ['pad']

@@ -30,13 +30,12 @@ class Translation(Node):
         self.offset_x = x
         self.offset_y = y
 
-
     def getRealPosition(self, coordinate, rotation=None):
         parsed_coordinate = Point(coordinate)
 
         # calculate translation
-        translation_coordinate = {'x': parsed_coordinate.x + self.offset_x
-                                 ,'y': parsed_coordinate.y + self.offset_y}
+        translation_coordinate = {'x': parsed_coordinate.x + self.offset_x,
+                                  'y': parsed_coordinate.y + self.offset_y}
 
         if not self._parent:
             if rotation is None:
@@ -46,10 +45,9 @@ class Translation(Node):
         else:
             return self._parent.getRealPosition(translation_coordinate, rotation)
 
-
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [x: {x}, y: {y}]".format(x=self.offset_x
-                                                 ,y=self.offset_y)
+        render_text += " [x: {x}, y: {y}]".format(x=self.offset_x,
+                                                  y=self.offset_y)
 
         return render_text

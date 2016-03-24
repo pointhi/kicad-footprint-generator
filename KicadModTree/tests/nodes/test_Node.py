@@ -33,7 +33,6 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(len(node.getVirtualChilds()), 0)
         self.assertEqual(len(node.getAllChilds()), 0)
 
-
     def testAppend(self):
         node = Node()
         self.assertEqual(len(node.getNormalChilds()), 0)
@@ -43,7 +42,6 @@ class NodeTests(unittest.TestCase):
         self.assertIn(childNode1, node.getNormalChilds())
         self.assertEqual(childNode1.getParent(), node)
         self.assertEqual(len(node.getNormalChilds()), 1)
-
 
         childNode2 = Node()
         node.append(childNode2)
@@ -94,7 +92,6 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(childNode2.getParent(), node)
         self.assertEqual(childNode3.getParent(), node)
         self.assertEqual(len(node.getNormalChilds()), 3)
-
 
     def testExtend(self):
         node = Node()
@@ -181,7 +178,6 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(childNode4.getParent(), None)
         self.assertEqual(childNode5.getParent(), None)
         self.assertEqual(len(node.getNormalChilds()), 3)
-
 
     def testRemove(self):
         node = Node()

@@ -25,11 +25,10 @@ class Circle(Node):
         self.center_pos = Point(kwargs['center'])
         self.radius = kwargs['radius']
 
-        self.end_pos = {'x':self.center_pos.x+self.radius, 'y':self.center_pos.y}
+        self.end_pos = {'x': self.center_pos.x+self.radius, 'y': self.center_pos.y}
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
-
 
     def calculateBoundingBox(self):
         min_x = self.center_pos.x-self.radius
@@ -37,8 +36,7 @@ class Circle(Node):
         max_x = self.center_pos.x+self.radius
         max_y = self.center_pos.y+self.radius
 
-        return Node.calculateBoundingBox({'min':ParseXY(min_x, min_y), 'max':ParseXY(max_x, max_y)})
-
+        return Node.calculateBoundingBox({'min': ParseXY(min_x, min_y), 'max': ParseXY(max_x, max_y)})
 
     def _getRenderTreeText(self):
         render_strings = ['fp_circle']

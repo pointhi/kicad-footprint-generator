@@ -17,9 +17,10 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 import sys
 import os
+
 sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
 
-from KicadModTree import *
+from KicadModTree import *  # NOQA
 
 
 if __name__ == '__main__':
@@ -41,14 +42,14 @@ if __name__ == '__main__':
     kicad_mod.append(RectLine(start=[-2.25, -2.25], end=[5.25, 2.25], layer='F.CrtYd'))
 
     # create pads
-    kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[0, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
-    kicad_mod.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, at=[3, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
+    kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+                         at=[0, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
+    kicad_mod.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
+                         at=[3, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
 
     # add model
-    kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl"
-                          ,at=[0, 0, 0]
-                          ,scale=[1, 1, 1]
-                          ,rotate=[0, 0, 0]))
+    kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl",
+                           at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
     # print render tree
     # print(kicad_mod.getRenderTree())

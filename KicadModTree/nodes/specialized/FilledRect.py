@@ -28,7 +28,7 @@ class FilledRect(Node):
         self.end_pos = Point(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.width = kwargs.get('width', 0.15) # TODO: better variation to get line width
+        self.width = kwargs.get('width', 0.15)  # TODO: better variation to get line width
 
         rect_line = RectLine(**kwargs)
         rect_line._parent = self
@@ -38,16 +38,15 @@ class FilledRect(Node):
 
         self.virtual_childs = [rect_line, rect_fill]
 
-
     def getVirtualChilds(self):
         return self.virtual_childs
 
-
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [start: [x: {sx}, y: {sy}] end: [x: {ex}, y: {ey}]]".format(sx=self.start_pos.x
-                                                                                    ,sy=self.start_pos.y
-                                                                                    ,ex=self.end_pos.x
-                                                                                    ,ey=self.end_pos.y)
+
+        render_string = ['start: [x: {sx}, y: {sy}]'.format(sx=self.start_pos.x, sy=self.start_pos.y),
+                         'end: [x: {ex}, y: {ey}]'.format(ex=self.end_pos.x, ey=self.end_pos.y)]
+
+        render_text += " [{}]".format(", ".join(render_string))
 
         return render_text

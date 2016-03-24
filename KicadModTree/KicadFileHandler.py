@@ -17,7 +17,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 from KicadModTree.FileHandler import FileHandler
 from KicadModTree.util.kicad_util import *
-from KicadModTree.nodes.base.Pad import Pad # TODO: why .KicadModTree is not enough?
+from KicadModTree.nodes.base.Pad import Pad  # TODO: why .KicadModTree is not enough?
 
 
 DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.15,
@@ -39,9 +39,9 @@ class KicadFileHandler(FileHandler):
     def __init__(self, kicad_mod):
         FileHandler.__init__(self, kicad_mod)
 
-
     def serialize(self):
-        serial_string = "(module {name} (layer F.Cu) (tedit {timestamp})\n".format(name=self.kicad_mod.name, timestamp=formatTimestamp())
+        serial_string = "(module {name} (layer F.Cu) (tedit {timestamp})\n".format(name=self.kicad_mod.name,
+                                                                                   timestamp=formatTimestamp())
 
         if self.kicad_mod.description:
             serial_string += '  (descr "{description}")\n'.format(description=self.kicad_mod.description)
@@ -57,7 +57,6 @@ class KicadFileHandler(FileHandler):
         serial_string += ")"
 
         return serial_string
-
 
     def serializeTree(self):
         nodes = self.kicad_mod.serialize()
@@ -92,7 +91,6 @@ class KicadFileHandler(FileHandler):
                     serial_tree += "  " + value_serialized
                 grouped_nodes['Text'].remove(node)
 
-
         for key, value in sorted(grouped_nodes.items()):
             # check if key is a base node, except Model
             if key not in {'Arc', 'Circle', 'Line', 'Pad', 'Text'}:
@@ -113,7 +111,6 @@ class KicadFileHandler(FileHandler):
 
         return serial_tree
 
-
     def _callSerialize(self, node):
         '''
         call the corresponding method to serialize the node
@@ -123,8 +120,8 @@ class KicadFileHandler(FileHandler):
         if hasattr(self, method_name):
             return getattr(self, method_name)(node)
         else:
-            raise NotImplementedError("{name}(node) not found, cannot serialized the node of type {type}".format(name=method_name, type=method_type))
-
+            exception_string = "{name} (node) not found, cannot serialized the node of type {type}"
+            raise NotImplementedError(exception_string.format(name=method_name, type=method_type))
 
     def serialize_Arc(self, node):
         render_strings = ['fp_arc']
@@ -136,7 +133,6 @@ class KicadFileHandler(FileHandler):
 
         return '({})'.format(' '.join(render_strings))
 
-
     def serialize_Circle(self, node):
         render_strings = ['fp_circle']
         render_strings.append(node.getRealPosition(node.center_pos).render('(center {x} {y})'))
@@ -146,7 +142,6 @@ class KicadFileHandler(FileHandler):
 
         return '({})'.format(' '.join(render_strings))
 
-
     def serialize_Line(self, node):
         render_strings = ['fp_line']
         render_strings.append(node.getRealPosition(node.start_pos).render('(start {x} {y})'))
@@ -155,7 +150,6 @@ class KicadFileHandler(FileHandler):
         render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
 
         return '({})'.format(' '.join(render_strings))
-
 
     def serialize_Text(self, node):
         render_strings1 = ['fp_text']
@@ -177,19 +171,20 @@ class KicadFileHandler(FileHandler):
         render_strings2 = ['effects']
         render_strings2.append('({})'.format(' '.join(render_strings_font)))
 
-        return "({str1}\n  {str2}\n)".format(str1=' '.join(render_strings1)
-                                            ,str2='({})'.format(' '.join(render_strings2)))
-
+        return "({str1}\n  {str2}\n)".format(str1=' '.join(render_strings1),
+                                             str2='({})'.format(' '.join(render_strings2)))
 
     def serialize_Model(self, node):
         render_string = "(model {filename}\n".format(filename=node.filename)
-        render_string += "  (at {at})\n".format(at=node.at.render('(xyz {x} {y} {z})')) # TODO: apply position from parent nodes (missing z)
-        render_string += "  (scale {scale})\n".format(scale=node.scale.render('(xyz {x} {y} {z})')) # TODO: apply scale from parent nodes
-        render_string += "  (rotate {rotate})\n".format(rotate=node.rotate.render('(xyz {x} {y} {z})')) # TODO: apply rotation from parent nodes
+        # TODO: apply position from parent nodes (missing z)
+        render_string += "  (at {at})\n".format(at=node.at.render('(xyz {x} {y} {z})'))
+        # TODO: apply scale from parent nodes
+        render_string += "  (scale {scale})\n".format(scale=node.scale.render('(xyz {x} {y} {z})'))
+        # TODO: apply rotation from parent nodes
+        render_string += "  (rotate {rotate})\n".format(rotate=node.rotate.render('(xyz {x} {y} {z})'))
         render_string += ")"
 
         return render_string
-
 
     def serialize_Pad(self, node):
         render_strings = ['pad']
@@ -198,7 +193,7 @@ class KicadFileHandler(FileHandler):
         render_strings.append(lispString(node.shape))
 
         position, rotation = node.getRealPosition(node.at, node.rotation)
-        if not rotation%360 == 0:
+        if not rotation % 360 == 0:
             render_strings.append(node.getRealPosition(node.at).render('(at {{x}} {{y}} {r})'.format(r=rotation)))
         else:
             render_strings.append(node.getRealPosition(node.at).render('(at {x} {y})'))
@@ -213,7 +208,6 @@ class KicadFileHandler(FileHandler):
 
         return '({})'.format(' '.join(render_strings))
 
-
     def _callUnserialize(self, lisp_obj):
         '''
         call the corresponding method to serialize the node
@@ -223,33 +217,28 @@ class KicadFileHandler(FileHandler):
         if hasattr(self, method_name):
             return getattr(self, method_name)(node)
         else:
-            raise NotImplementedError("{name}(node) not found, cannot unserialized the node of type {type}".format(name=method_name, type=method_type))
-
+            exception_string = "{name}(node) not found, cannot unserialized the node of type {type}"
+            raise NotImplementedError(exception_string.format(name=method_name, type=method_type))
 
     def unserialize_fp_arc(self, node):
         raise NotImplementedError()
         return Arc()
 
-
     def unserialize_fp_circle(self, node):
         raise NotImplementedError()
         return Circle()
-
 
     def unserialize_fp_line(self, node):
         raise NotImplementedError()
         return Line()
 
-
     def unserialize_fp_text(self, node):
         raise NotImplementedError()
         return Text()
 
-
     def unserialize_model(self, node):
         raise NotImplementedError()
         return Model()
-
 
     def unserialize_pad(self, node):
         raise NotImplementedError()

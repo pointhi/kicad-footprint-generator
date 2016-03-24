@@ -19,10 +19,11 @@ import os
 import sys
 import unittest
 
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)),"../../"))
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../"))
 
-from nodes import *
-from datatypes import *
+from nodes import *  # NOQA
+from datatypes import *  # NOQA
+
 
 def run_tests():
     unittest.main()

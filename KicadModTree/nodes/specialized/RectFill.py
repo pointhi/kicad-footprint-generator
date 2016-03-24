@@ -27,10 +27,9 @@ class RectFill(Node):
         self.end_pos = Point(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.width = kwargs.get('width', 0.15) # TODO: better variation to get line width
+        self.width = kwargs.get('width', 0.15)  # TODO: better variation to get line width
 
         self.virtual_childs = self._createChildNodes(self.start_pos, self.end_pos, self.layer, self.width)
-
 
     def _createChildNodes(self, start_pos, end_pos, layer, width):
         nodes = []
@@ -40,22 +39,24 @@ class RectFill(Node):
 
         while (cur_y_pos + width) < max_y_pos:
             cur_y_pos += width
-            new_node = Line(start=Point(start_pos.x, cur_y_pos), end=Point(end_pos.x, cur_y_pos), layer=layer, width=width)
+            new_node = Line(start=Point(start_pos.x, cur_y_pos),
+                            end=Point(end_pos.x, cur_y_pos),
+                            layer=layer,
+                            width=width)
             new_node._parent = self
             nodes.append(new_node)
 
         return nodes
 
-
     def getVirtualChilds(self):
         return self.virtual_childs
 
-
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [start: [x: {sx}, y: {sy}] end: [x: {ex}, y: {ey}]]".format(sx=self.start_pos.x
-                                                                                    ,sy=self.start_pos.y
-                                                                                    ,ex=self.end_pos.x
-                                                                                    ,ey=self.end_pos.y)
+
+        render_string = ['start: [x: {sx}, y: {sy}]'.format(sx=self.start_pos.x, sy=self.start_pos.y),
+                         'end: [x: {ex}, y: {ey}]'.format(ex=self.end_pos.x, ey=self.end_pos.y)]
+
+        render_text += " [{}]".format(", ".join(render_string))
 
         return render_text

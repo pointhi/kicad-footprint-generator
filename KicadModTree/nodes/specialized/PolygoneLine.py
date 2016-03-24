@@ -30,7 +30,6 @@ class PolygoneLine(Node):
 
         self.virtual_childs = self._createChildNodes(self.polygone_line)
 
-
     def _createChildNodes(self, polygone_line):
         nodes = []
 
@@ -41,10 +40,8 @@ class PolygoneLine(Node):
 
         return nodes
 
-
     def getVirtualChilds(self):
         return self.virtual_childs
-
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
@@ -53,8 +50,8 @@ class PolygoneLine(Node):
         node_strings = []
         for node in self.polygone_line:
             node_position = Point(node)
-            node_strings.append("[x: {x}, y: {y}]".format(x=node_position.x
-                                                         ,y=node_position.y))
+            node_strings.append("[x: {x}, y: {y}]".format(x=node_position.x,
+                                                          y=node_position.y))
 
         if len(node_strings) <= 6:
             render_text += " ,".join(node_strings)

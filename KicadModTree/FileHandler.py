@@ -24,18 +24,16 @@ class FileHandler(object):
     def __init__(self, kicad_mod):
         self.kicad_mod = kicad_mod
 
-
     def writeFile(self, filename):
         '''
         Write the output of serialize to a file
         '''
-        f = open(filename,"w")
+        f = open(filename, "w")
 
         output = self.serialize()
         f.write(output)
 
         f.close()
-
 
     def serialize(self):
         '''
@@ -45,17 +43,15 @@ class FileHandler(object):
 
         return None
 
-
     def readFile(filename):
         '''
         Read a footprint file and parse it
         '''
-        f = open(filename,"r")
+        f = open(filename, "r")
 
         input = f.read()
 
         return self.unserialize(input)
-
 
     def unserialize(self, input):
         '''

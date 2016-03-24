@@ -28,9 +28,8 @@ class Text(Node):
         self.rotation = kwargs.get('rotation', 0)
 
         self.layer = kwargs['layer']
-        self.size = Point(kwargs.get('size', [1,1]))
+        self.size = Point(kwargs.get('size', [1, 1]))
         self.thickness = kwargs.get('thickness', 0.15)
-
 
     def calculateBoundingBox(self):
         width = len(self.text)*self.size['x']
@@ -41,18 +40,18 @@ class Text(Node):
         max_x = self.at[x]+width/2.
         max_y = self.at[y]+height/2.
 
-        return Node.calculateBoundingBox({'min':Point(min_x, min_y), 'max':Point(max_x, max_y)})
-
+        return Node.calculateBoundingBox({'min': Point(min_x, min_y), 'max': Point(max_x, max_y)})
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
 
-        render_string = ['type: "{}"'.format(self.type)]
-        render_string.append('text: "{}"'.format(self.text))
-        render_string.append('at: {}'.format(self.at.render('(at {x} {y})')))
-        render_string.append('layer: {}'.format(self.layer))
-        render_string.append('size: {}'.format(self.size.render('(size {x} {y})')))
-        render_string.append('thickness: {}'.format(self.thickness))
+        render_string = ['type: "{}"'.format(self.type),
+                         'text: "{}"'.format(self.text),
+                         'at: {}'.format(self.at.render('(at {x} {y})')),
+                         'layer: {}'.format(self.layer),
+                         'size: {}'.format(self.size.render('(size {x} {y})')),
+                         'thickness: {}'.format(self.thickness)]
+
         render_text += " [{}]".format(", ".join(render_string))
 
         return render_text

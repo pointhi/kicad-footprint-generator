@@ -39,7 +39,6 @@ class Node(object):
         self._parent = None
         self._childs = []
 
-
     def append(self, node):
         '''
         add node to child
@@ -53,7 +52,6 @@ class Node(object):
         self._childs.append(node)
 
         node._parent = self
-
 
     def extend(self, nodes):
         '''
@@ -75,7 +73,6 @@ class Node(object):
 
         self._childs.extend(new_nodes)
 
-
     def remove(self, node):
         '''
         remove child from node
@@ -87,7 +84,6 @@ class Node(object):
             self._childs.remove(node)
 
         node._parent = None
-
 
     def insert(self, node):
         '''
@@ -102,12 +98,10 @@ class Node(object):
 
         self.append(node)
 
-
     def copy(self):
         copy = deepcopy(self)
         copy._parent = None
         return copy
-
 
     def serialize(self):
         nodes = [self]
@@ -115,13 +109,11 @@ class Node(object):
             nodes += child.serialize()
         return nodes
 
-
     def getNormalChilds(self):
         '''
         Get all normal childs of this node
         '''
         return self._childs
-
 
     def getVirtualChilds(self):
         '''
@@ -129,13 +121,11 @@ class Node(object):
         '''
         return []
 
-
     def getAllChilds(self):
         '''
         Get virtual and normal childs of this node
         '''
         return self.getNormalChilds() + self.getVirtualChilds()
-
 
     def getParent(self):
         '''
@@ -143,19 +133,16 @@ class Node(object):
         '''
         return self._parent
 
-
     def getRootNode(self):
         '''
         get Root Node of this Node
         '''
 
         # TODO: recursion detection
-
         if not self.getParent():
             return self
 
         return self.getParent().getRootNode()
-
 
     def getRealPosition(self, coordinate, rotation=None):
         '''
@@ -168,7 +155,6 @@ class Node(object):
                 return Point(coordinate), rotation
 
         return self._parent.getRealPosition(coordinate, rotation)
-
 
     def calculateBoundingBox(self, outline=None):
         min_x, min_y = 0, 0
@@ -188,15 +174,13 @@ class Node(object):
             max_x = max([max_x, child_outline['max']['x']])
             max_y = max([max_y, child_outline['max']['y']])
 
-        return {'min':Point(min_x, min_y), 'max':Point(max_x, max_y)}
-
+        return {'min': Point(min_x, min_y), 'max': Point(max_x, max_y)}
 
     def _getRenderTreeText(self):
         '''
         Text which is displayed when generating a render tree
         '''
         return type(self).__name__
-
 
     def _getRenderTreeSymbol(self):
         '''
@@ -206,7 +190,6 @@ class Node(object):
             return "+"
 
         return "*"
-
 
     def getRenderTree(self, rendered_nodes=None):
         '''
@@ -226,7 +209,6 @@ class Node(object):
             tree_str += '  '.join(child.getRenderTree(rendered_nodes).splitlines(True))
 
         return tree_str
-
 
     def getCompleteRenderTree(self, rendered_nodes=None):
         '''
