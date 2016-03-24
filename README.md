@@ -23,9 +23,9 @@ This is my second approach (the first one is visible below). This solution shoul
 ## Overview
 
 This framework is mainly based on the idea of scripted CAD systems (for example OpenSCAD). This means, everything is a node, and can be structured like a tree.
-That means, you can group parts of the footprint, and translate them in any way you want. Also cloning & co. is no Problem anymore because of this concept.
+In other words, you can group parts of the footprint, and translate them in any way you want. Also cloning & co. is no Problem anymore because of this concept.
 
-To be able to create custom Nodes, I separated the system in two parts. base nodes, which represents simple structures which are also used by KiCAD itself,
+To be able to create custom Nodes, I separated the system in two parts. base nodes, which represents simple structures and also used by KiCAD itself,
 and specialized Nodes which are alter the behaviour of base Nodes (for example positioning), or represent a specialized usage of Base Nodes (for example RectLine).
 
 When you serialize your footprints, the serialize command only has to handle base Nodes, because all other nodes are based upon the basic nodes.
