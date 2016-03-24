@@ -1,5 +1,6 @@
 BASE_DIR=$(dirname `readlink -f $0`)
 PYTHONPATH=$BASE_DIR
+KICADMODTREE_DIR="$BASE_DIR/KicadModTree"
 ACTION=$1
 
 update_dev_packages() {
@@ -9,13 +10,13 @@ update_dev_packages() {
 pep8_check() {
     echo ''
     echo '[!] Running pep8 check'
-    pep8 --max-line-length=120 "$BASE_DIR/"
+    pep8 --max-line-length=120 "$KICADMODTREE_DIR/"
 }
 
 unit_tests() {
     echo ''
     echo '[!] Running unit tests'
-    python "$BASE_DIR/tests/test.py"
+    python "$KICADMODTREE_DIR/tests/test.py"
 }
 
 tests() {
