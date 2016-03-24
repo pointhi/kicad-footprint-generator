@@ -1,6 +1,5 @@
-# kicad-footprint-generator
 
-This repository contains a script to generate kicad footprints using python
+This repository contains scripts to generate custom KiCAD footprints using python, and a Framework which allows us to create custom KiCAD footprint
 
 # KicadModTree
 
@@ -12,6 +11,7 @@ This repository contains a script to generate kicad footprints using python
 
 **WARNING:** currently under development, but already usable for some footprints. But note API changes are possible due to refactoring.
 
+
 ## About
 
 I started drawing a bunch of similar footprints for KiCAD, like connectors which are mainly one base shape, and different amount of pins.
@@ -19,13 +19,45 @@ To be able to update/improve those footprints quickly I decided to write my own 
 
 This is my second approach (the first one is visible below). This solution should be able to be easy to use, to read and also be easy expand with custom nodes.
 
+
 ## Overview
 
 This framework is mainly based on the idea of scripted CAD systems (for example OpenSCAD). This means, everything is a node, and can be structured like a tree.
 That means, you can group parts of the footprint, and translate them in any way you want. Also cloning & co. is no Problem anymore because of this concept.
 
-To be able to create custom Nodes, I separated the system in two parts. base nodes, which represents simple structures which are also used by KiCAD,
+To be able to create custom Nodes, I separated the system in two parts. base nodes, which represents simple structures which are also used by KiCAD itself,
 and specialized Nodes which are alter the behaviour of base Nodes (for example positioning), or represent a specialized usage of Base Nodes (for example RectLine).
+
+When you serialize your footprints, the serialize command only has to handle base Nodes, because all other nodes are based upon the basic nodes.
+This allows us to write custom nodes without worrying about the FileHandlers or other core systems.
+You simply create you special node, and the Framework knows how to handle it seamlessly.
+
+
+### Base Nodes
+
+| Function          | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| **Arc**           | Draws an arc                                     |
+| **Circle**        | Draws a circle                                   |
+| **Line**          | Draws a line                                     |
+| **Model**         | A 3D model representing the footprint            |
+| **Pad**           | Add a pad to the footprint                       |
+| **Text**          | Draws text                                       |
+
+
+### Currently available special Nodes
+
+This nodes alter base nodes, or are based on base Nodes to create special functionality
+
+| Function          | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| **Rotation**      | Rotate all child nodes                           |
+| **Translation**   | Translate all child nodes                        |
+| **PolygoneLine**  | Draws a polygone line                            |
+| **RectLine**      | Draws a rect                                     |
+| **RectFill**      | Draws the filling of a rect (not the outline)    |
+| **FilledRect**    | Draws a filled rect                              |
+
 
 ### Development
 
@@ -40,6 +72,7 @@ manage.sh update_dev_packages
 ```sh
 manage.sh tests
 ```
+
 
 ## Example Script
 
@@ -78,11 +111,12 @@ file_handler = KicadFileHandler(kicad_mod)
 file_handler.writeFile('example_footprint.kicad_mod')
 ```
 
---
 
+--
 # kicad_mod (old generator script)
 
 **WARNING:** usable, but will be replaced by KicadModTree. Only for documentation reason
+
 
 ### example
 
