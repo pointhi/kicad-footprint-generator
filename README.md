@@ -1,5 +1,5 @@
 
-This repository contains scripts to generate custom KiCAD footprints using python, and a Framework which allows us to create custom KiCAD footprint
+This repository contains scripts to generate custom KiCAD footprints using python, and a framework which allows us to create custom KiCAD footprint
 
 # KicadModTree
 
@@ -9,7 +9,7 @@ This repository contains scripts to generate custom KiCAD footprints using pytho
 
 [![Build Status](https://travis-ci.org/pointhi/kicad-footprint-generator.svg?branch=master)](https://travis-ci.org/pointhi/kicad-footprint-generator)
 
-**WARNING:** currently under development, but already usable for some footprints. But note API changes are possible due to refactoring.
+**WARNING:** currently under development, but already usable for some footprints. But note that API changes are possible due to refactoring.
 
 
 ## About
@@ -25,12 +25,12 @@ This is my second approach (the first one is visible below). This solution shoul
 This framework is mainly based on the idea of scripted CAD systems (for example OpenSCAD). This means, everything is a node, and can be structured like a tree.
 In other words, you can group parts of the footprint, and translate them in any way you want. Also cloning & co. is no Problem anymore because of this concept.
 
-To be able to create custom Nodes, I separated the system in two parts. base nodes, which represents simple structures and also used by KiCAD itself,
-and specialized Nodes which are alter the behaviour of base Nodes (for example positioning), or represent a specialized usage of Base Nodes (for example RectLine).
+To be able to create custom Nodes, I separated the system in two parts. Base nodes, which represents simple structures and also be used by KiCAD itself,
+and specialized nodes which alter the behaviour of base nodes (for example positioning), or represent a specialized usage of base nodes (for example RectLine).
 
-When you serialize your footprints, the serialize command only has to handle base Nodes, because all other nodes are based upon the basic nodes.
-This allows us to write custom nodes without worrying about the FileHandlers or other core systems.
-You simply create you special node, and the Framework knows how to handle it seamlessly.
+When you serialize your footprint, the serialize command only has to handle base nodes, because all other nodes are based upon the base nodes.
+This allows us to write specialized nodes without worrying about the FileHandlers or other core systems.
+You simply create you special node, and the framework knows how to handle it seamlessly.
 
 
 ### Base Nodes
