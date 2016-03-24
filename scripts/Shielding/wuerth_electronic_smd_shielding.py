@@ -95,8 +95,6 @@ def create_shielding(name, outer_size, size,
     kicad_mod.append(Pad(at=[-outer_pointing_pos, -inner_edge_pos],
                          size=[attachment_width, inner_edge_length], **general_kwargs))
 
-    print(kicad_mod.getCompleteRenderTree())
-
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile('{name}.kicad_mod'.format(name=name))
