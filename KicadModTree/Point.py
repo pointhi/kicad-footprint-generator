@@ -38,21 +38,21 @@ class Point(object):
             return
 
         if type(coordinates) is dict:
-            self.x = float(coordinates.get('x', 0))
-            self.y = float(coordinates.get('y', 0))
-            self.z = float(coordinates.get('z', 0))
+            self.x = float(coordinates.get('x', 0.))
+            self.y = float(coordinates.get('y', 0.))
+            self.z = float(coordinates.get('z', 0.))
 
         elif type(coordinates) is list or type(coordinates) is tuple:
             if len(coordinates) >= 2:
-                self.x = coordinates[0]
-                self.y = coordinates[1]
+                self.x = float(coordinates[0])
+                self.y = float(coordinates[1])
             else:
                 raise TypeError('invalid list size (to small)')
 
             if len(coordinates) == 3:
-                self.z = coordinates[2]
+                self.z = float(coordinates[2])
             else:
-                self.z = 0
+                self.z = 0.
 
             if len(coordinates) > 3:
                 raise TypeError('invalid list size (to big)')

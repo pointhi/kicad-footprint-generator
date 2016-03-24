@@ -92,7 +92,8 @@ class Node(object):
         if not isinstance(node, Node):
             raise TypeError('invalid object, has to be based on Node')
 
-        for child in self._childs.copy():
+        tmp_childs = self._childs
+        for child in tmp_childs:
             self.remove(child)
             node.append(child)
 

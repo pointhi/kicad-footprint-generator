@@ -73,6 +73,7 @@ class PointTests(unittest.TestCase):
 
         # TODO: test float datatype
         # TODO: invalid type tests
+        # TODO: tests if int is always converted to float
 
     def testAdd(self):
         p1 = Point([1, 2, 3])
