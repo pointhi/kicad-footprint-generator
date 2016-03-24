@@ -1,0 +1,15 @@
+sudo: false
+cache:
+  - pip
+  - directories:
+    - $HOME/.cache/pip
+language: python
+python:
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+script:
+  - (cd KicadModTree; ./manage.sh pep8_check)
+  - (cd KicadModTree; ./manage.sh unit_tests)
