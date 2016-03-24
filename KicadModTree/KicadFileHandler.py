@@ -104,10 +104,11 @@ class KicadFileHandler(FileHandler):
                     serial_tree += "  " + value_serialized
 
         # serialize 3D Models at the end
-        for node in grouped_nodes.get('Model'):
-            value_serialized = self.serialize_Model(node)
-            if value_serialized:
-                serial_tree += "  " + value_serialized.replace('\n', '\n  ') + "\n"
+        if grouped_nodes.get('Model'):
+            for node in grouped_nodes.get('Model'):
+                value_serialized = self.serialize_Model(node)
+                if value_serialized:
+                    serial_tree += "  " + value_serialized.replace('\n', '\n  ') + "\n"
 
         return serial_tree
 
