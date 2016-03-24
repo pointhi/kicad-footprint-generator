@@ -10,6 +10,8 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+install:
+  - KicadModTree/manage.sh update_dev_packages
 script:
-  - (cd KicadModTree; ./manage.sh pep8_check)
-  - (cd KicadModTree; ./manage.sh unit_tests)
+  - KicadModTree/manage.sh pep8_check
+  - KicadModTree/manage.sh unit_tests

@@ -2,16 +2,20 @@ BASE_DIR=$(dirname `readlink -f $0`)
 PYTHONPATH=$BASE_DIR
 ACTION=$1
 
+update_dev_packages() {
+    pip install --upgrade -r "$BASE_DIR/requirements-dev.txt"
+}
+
 pep8_check() {
     echo ''
     echo '[!] Running pep8 check'
-    pep8 --max-line-length=120 ./
+    pep8 --max-line-length=120 "$BASE_DIR/"
 }
 
 unit_tests() {
     echo ''
     echo '[!] Running unit tests'
-    python tests/test.py
+    python "$BASE_DIR/tests/test.py"
 }
 
 tests() {
@@ -32,6 +36,7 @@ Commands
     pep8_check           - Pep8 validation
     unit_tests           - Run unit tests
     tests                - Run all tests
+    update_dev_packages  - Check & update development and production dependency changes
 "
 }
 
