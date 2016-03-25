@@ -103,16 +103,16 @@ def create_shielding(name, outer_size, size,
 
 if __name__ == '__main__':
     # http://katalog.we-online.de/pbs/datasheet/36503205.pdf
-    create_shielding('Shield_Würth_36503205_20x20mm', 20.5, 20.5, 1.1, 1.7, [5.08, 15.24])
+    create_shielding('Würth_36503205_20x20mm', 20.5, 20.5, 1.1, 1.7, [5.08, 15.24])
 
     # http://katalog.we-online.de/pbs/datasheet/36503255.pdf
-    create_shielding('Shield_Würth_36503255_25x25mm', 25.5, 25.5, 1.1, 1.7, [0, 10.16, 20.32])
+    create_shielding('Würth_36503255_25x25mm', 25.5, 25.5, 1.1, 1.7, [0, 10.16, 20.32])
 
     # http://katalog.we-online.de/pbs/datasheet/36503305.pdf
-    create_shielding('Shield_Würth_36503305_30x30mm', 30.5, 30.5, 1.1, 1.7, [5.08, 15.24, 25.40])
+    create_shielding('Würth_36503305_30x30mm', 30.5, 30.5, 1.1, 1.7, [5.08, 15.24, 25.40])
 
     # http://katalog.we-online.de/pbs/datasheet/36503505.pdf
-    create_shielding('Shield_Würth_36503505_50x50mm', 50.5, 50.5, 1.1, 1.7, [5.08, 15.24, 25.40, 35.56, 45.72])
+    create_shielding('Würth_36503505_50x50mm', 50.5, 50.5, 1.1, 1.7, [5.08, 15.24, 25.40, 35.56, 45.72])
 
     # http://katalog.we-online.de/pbs/datasheet/36503605.pdf
-    create_shielding('Shield_Würth_36503605_60x60mm', 60.5, 60.5, 1.1, 1.7, [5.08, 15.24, 25.40, 35.56, 45.72, 55.88])
+    create_shielding('Würth_36503605_60x60mm', 60.5, 60.5, 1.1, 1.7, [5.08, 15.24, 25.40, 35.56, 45.72, 55.88])
