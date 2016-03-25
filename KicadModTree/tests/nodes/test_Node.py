@@ -250,3 +250,17 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(len(node.getNormalChilds()), 1)
         self.assertEqual(len(childNode1.getNormalChilds()), 0)
         self.assertEqual(len(childNode2.getNormalChilds()), 1)
+
+    def testInsertWithManyChilds(self):
+        node = Node()
+        self.assertEqual(len(node.getNormalChilds()), 0)
+
+        for i in range(0, 200):
+            node.append(Node())
+
+        insertNode = Node()
+        self.assertEqual(len(node.getNormalChilds()), 200)
+        self.assertEqual(len(insertNode.getNormalChilds()), 0)
+        node.insert(insertNode)
+        self.assertEqual(len(node.getNormalChilds()), 1)
+        self.assertEqual(len(insertNode.getNormalChilds()), 200)

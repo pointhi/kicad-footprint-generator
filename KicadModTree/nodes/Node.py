@@ -15,7 +15,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
-from copy import deepcopy
+from copy import copy, deepcopy
 
 from KicadModTree.Point import *
 
@@ -80,7 +80,7 @@ class Node(object):
         if not isinstance(node, Node):
             raise TypeError('invalid object, has to be based on Node')
 
-        while self._childs.count(node):
+        while node in self._childs:
             self._childs.remove(node)
 
         node._parent = None
@@ -92,8 +92,7 @@ class Node(object):
         if not isinstance(node, Node):
             raise TypeError('invalid object, has to be based on Node')
 
-        tmp_childs = self._childs
-        for child in tmp_childs:
+        for child in copy(self._childs):
             self.remove(child)
             node.append(child)
 
