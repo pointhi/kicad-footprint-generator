@@ -19,12 +19,19 @@ unit_tests() {
     python "$KICADMODTREE_DIR/tests/test.py"
 }
 
+py_test_coverage() {
+    echo '[!] Running python test coverage'
+    PYTHONPATH=`pwd` python -m nose2 -C --coverage "$KICADMODTREE_DIR" --coverage-report term-missing -s "$KICADMODTREE_DIR/tests"
+}
+
 tests() {
     set -e
     unit_tests
     pep8_check
     set +e
 }
+
+
 
 help() {
     [ -z "$1" ] || printf "Error: $1\n"
@@ -36,6 +43,7 @@ Commands
     help                 - This text
     pep8_check           - Pep8 validation
     unit_tests           - Run unit tests
+    py_test_coverage     - Unit test coverage
     tests                - Run all tests
     update_dev_packages  - Check & update development and production dependency changes
 "
