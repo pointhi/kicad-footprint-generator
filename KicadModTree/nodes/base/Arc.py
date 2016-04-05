@@ -22,7 +22,7 @@ from KicadModTree.nodes.Node import Node
 class Arc(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Point(kwargs['start'])
+        self.start_pos = Point(kwargs['center'])
         self.end_pos = Point(kwargs['end'])
         self.angle = kwargs['angle']
 
