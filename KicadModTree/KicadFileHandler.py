@@ -162,8 +162,9 @@ class KicadFileHandler(FileHandler):
             render_strings1.append(at_real_position.render('(at {{x}} {{y}} {r})'.format(r=real_rotation)))
         else:
             render_strings1.append(at_real_position.render('(at {x} {y})'))
-
-        render_strings1.append('(layer {layer})'.format(layer=node.layer))
+            
+        render_strings1.append('(layer {layer}){hidden}'.format(layer=node.layer, hidden = " hide" if node.hide else ''))
+            
 
         render_strings_font = ['font']
         render_strings_font.append(node.size.render('(size {x} {y})'))
