@@ -30,7 +30,7 @@ class Text(Node):
         self.layer = kwargs['layer']
         self.size = Point(kwargs.get('size', [1, 1]))
         self.thickness = kwargs.get('thickness', 0.15)
-        
+
         self.hide = kwargs.get('hide', False)
 
     def calculateBoundingBox(self):
