@@ -39,7 +39,7 @@ class Arc(Node):
 
     def _getRenderTreeText(self):
         render_strings = ['fp_arc']
-        render_strings.append(self.start_pos.render('(center {x} {y})'))
+        render_strings.append(self.start_pos.render('(start {x} {y})'))
         render_strings.append(self.end_pos.render('(end {x} {y})'))
         render_strings.append('(angle {angle})'.format(angle=self.angle))
         render_strings.append('(layer {layer})'.format(layer=self.layer))
