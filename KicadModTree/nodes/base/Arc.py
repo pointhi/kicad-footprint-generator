@@ -17,30 +17,67 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
+import math
 
 
 class Arc(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Point(kwargs['center'])
-        self.end_pos = Point(kwargs['end'])
+        self.center_pos = Point(kwargs['center'])
+        self.start_pos = Point(kwargs['start'])
         self.angle = kwargs['angle']
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
     def calculateBoundingBox(self):
-        min_x = min(self.start_pos.x, self.end_pos.x)
-        min_y = min(self.start_pos.y, self.end_pos.y)
-        max_x = max(self.start_pos.x, self.end_pos.x)
-        max_y = max(self.start_pos.y, self.end_pos.y)
+        # TODO: finish implementation
+        min_x = min(self.start_pos.x, self._calulateEndPos().x)
+        min_y = min(self.start_pos.x, self._calulateEndPos().y)
+        max_x = max(self.start_pos.x, self._calulateEndPos().x)
+        max_y = max(self.start_pos.x, self._calulateEndPos().y)
+
+        '''
+        for angle in range(4):
+            float_angle = angle * math.pi/2.
+
+            start_angle = _calculateStartAngle(self)
+            end_angle = start_angle + math.radians(self.angle)
+
+            # TODO: +- pi border
+            if float_angle < start_angle:
+                continue
+            if float_angle > end_angle:
+                continue
+
+            print("TODO: add angle side: {1}".format(float_angle))
+        '''
 
         return Node.calculateBoundingBox({'min': Point((min_x, min_y)), 'max': Point((max_x, max_y))})
 
+    def _calulateEndPos(self):
+        radius = self._calculateRadius()
+
+        angle = self._calculateStartAngle() + math.radians(self.angle)
+
+        return Point(math.sin(angle)*radius, math.cos(angle)*radius)
+
+    def _calculateRadius(self):
+        x_size = self.start_pos.x - self.center_pos.x
+        y_size = self.start_pos.y - self.center_pos.y
+
+        return math.sqrt(math.pow(x_size, 2) + math.pow(y_size, 2))
+
+    def _calculateStartAngle(self):
+        x_size = self.start_pos.x - self.center_pos.x
+        y_size = self.start_pos.y - self.center_pos.y
+
+        return math.atan2(y_size, x_size)
+
     def _getRenderTreeText(self):
         render_strings = ['fp_arc']
+        render_strings.append(self.center_pos.render('(center {x} {y})'))
         render_strings.append(self.start_pos.render('(start {x} {y})'))
-        render_strings.append(self.end_pos.render('(end {x} {y})'))
         render_strings.append('(angle {angle})'.format(angle=self.angle))
         render_strings.append('(layer {layer})'.format(layer=self.layer))
         render_strings.append('(width {width})'.format(width=self.width))

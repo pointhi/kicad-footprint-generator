@@ -126,8 +126,9 @@ class KicadFileHandler(FileHandler):
 
     def serialize_Arc(self, node):
         render_strings = ['fp_arc']
-        render_strings.append(node.getRealPosition(node.start_pos).render('(start {x} {y})'))
-        render_strings.append(node.getRealPosition(node.end_pos).render('(end {x} {y})'))
+        # in KiCAD, some file attributes of Arc are named not in the way of their real meaning
+        render_strings.append(node.getRealPosition(node.center_pos).render('(start {x} {y})'))
+        render_strings.append(node.getRealPosition(node.start_pos).render('(end {x} {y})'))
         render_strings.append('(angle {angle})'.format(angle=node.angle))
         render_strings.append('(layer {layer})'.format(layer=node.layer))
         render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
