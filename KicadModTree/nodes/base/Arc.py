@@ -22,7 +22,7 @@ from KicadModTree.nodes.Node import Node
 class Arc(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Point(kwargs['start'])
+        self.start_pos = Point(kwargs['center'])
         self.end_pos = Point(kwargs['end'])
         self.angle = kwargs['angle']
 
@@ -39,7 +39,7 @@ class Arc(Node):
 
     def _getRenderTreeText(self):
         render_strings = ['fp_arc']
-        render_strings.append(self.start_pos.render('(center {x} {y})'))
+        render_strings.append(self.start_pos.render('(start {x} {y})'))
         render_strings.append(self.end_pos.render('(end {x} {y})'))
         render_strings.append('(angle {angle})'.format(angle=self.angle))
         render_strings.append('(layer {layer})'.format(layer=self.layer))
