@@ -8,6 +8,7 @@ This repository contains scripts to generate custom KiCAD footprints using pytho
 **Maintainer:** Thomas Pointhuber
 
 [![Build Status](https://travis-ci.org/pointhi/kicad-footprint-generator.svg?branch=master)](https://travis-ci.org/pointhi/kicad-footprint-generator)
+[![Code Climate](https://codeclimate.com/github/pointhi/kicad-footprint-generator/badges/gpa.svg)](https://codeclimate.com/github/pointhi/kicad-footprint-generator)
 
 **WARNING:** currently under development, but already usable for some footprints. But note that API changes are possible due to refactoring.
 
