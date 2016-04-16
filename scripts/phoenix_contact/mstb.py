@@ -235,7 +235,7 @@ def dimensions(num_pins, pitch, angled, flanged):
     lenght = (num_pins-1)*pitch + (3*pitch if flanged else pitch+2)
     width = 12 if angled else 8.6
     upper_to_pin = -2 if angled else -8.6+3.8
-    left_to_pin = -7.5 if flanged else -3.5
+    left_to_pin = -(3*pitch if flanged else pitch+2)/2.0
     mount_hole_y = 2.5 if angled else 0.0
     mount_hole_left = [-pitch,mount_hole_y]
     mount_hole_right = [num_pins*pitch,mount_hole_y]
@@ -250,9 +250,11 @@ def generate_description(params):
         d += " || order number: " + order_num + " " + info
     return d
 
-m = 'MSTB_01x02_5.00mm_MH'
-to_generate = {m:all_params[m]}
-
+m = 'MSTBV_01x02_5.00mm_MH'
+m2='MSTBV_01x03_5.00mm_MH'
+m3='MSTBV_01x03_5.08mm_MH'
+#to_generate = {m:all_params[m],m2:all_params[m2],m3:all_params[m3]}
+to_generate=all_params
 if not os.path.exists(out_dir):
     os.makedirs(out_dir)
 
@@ -310,6 +312,60 @@ for model, params in to_generate.iteritems():
             lock_translation = Translation(i*params.pin_pitch, p2[1])
             lock_translation.append(PolygoneLine(polygone=lock_poly))
             kicad_mod.append(lock_translation)
+    else:
+        inner_len = params.num_pins*params.pin_pitch + 2 - 2*0.8 # sidethickness (0.8mm) measured
+        inner_width = 5.03 #measured
+        top_thickness = 1.7 #measured
+        pi1 = [p1[0]+(length-inner_len)/2.0, p1[1]+top_thickness]
+        pi2 = [p2[0]-(length-inner_len)/2.0, pi1[1]+inner_width]
+        #kicad_mod.append(RectLine(start=pi1, end=pi2, layer='F.SilkS'))
+
+        first_center = params.pin_pitch/2.0
+        line_len = params.pin_pitch-2
+        outher_line_len = (-left_to_pin-1 - params.pin_pitch) if params.flanged else (-left_to_pin-1)
+        kicad_mod.append(Line(start=[p1[0], pi1[1]-1], end=[p1[0]+outher_line_len, pi1[1]-1]))
+        kicad_mod.append(Line(start=[p2[0], pi1[1]-1], end=[p2[0]-outher_line_len, pi1[1]-1]))
+        for i in range(-1 if params.flanged else 0, params.num_pins + (0 if params.flanged else -1)):
+            chamfer_edge = Translation(i*params.pin_pitch, pi1[1]-1)
+            chamfer_edge.append(Line(start=[first_center-line_len/2.0, 0], end=[first_center+line_len/2.0, 0]))
+            kicad_mod.append(chamfer_edge)
+
+
+        for i in range(-1 if params.flanged else 0, params.num_pins + (1 if params.flanged else 0)):
+            lock_translation = Translation(i*params.pin_pitch, pi1[1])
+            lock_translation.append(RectLine(start=[-1,0], end=[1,-top_thickness], layer='F.SilkS'))
+            kicad_mod.append(lock_translation)
+
+        if params.flanged:
+            kicad_mod.append(Circle(center=mount_hole_left, radius=1.9, layer='F.SilkS'))
+            kicad_mod.append(Circle(center=mount_hole_right, radius=1.9, layer='F.SilkS'))
+            kicad_mod.append(Circle(center=mount_hole_left, radius=1, layer='F.SilkS'))
+            kicad_mod.append(Circle(center=mount_hole_right, radius=1, layer='F.SilkS'))
+
+        angle = -110.8
+        arc_width = 4.0
+        for i in range(params.num_pins):
+            plug_arc = Translation(i*params.pin_pitch,0)
+            plug_arc.append(Arc(start=[-arc_width/2.0,pi2[1]], center=[0,0.55], angle=angle))
+            kicad_mod.append(plug_arc)
+
+
+
+        for i in range(params.num_pins-1):
+            lower_line = Translation(i*params.pin_pitch,pi2[1])
+            lower_line.append(Line(start=[arc_width/2.0, 0], end=[params.pin_pitch-arc_width/2.0, 0], layer='F.SilkS'))
+            kicad_mod.append(lower_line)
+
+        arc_to_side = pi1[0]+arc_width/2.0
+        poly=[
+            {'x':pi1[0]-arc_to_side, 'y':pi2[1]},
+            {'x':pi1[0], 'y':pi2[1]},
+            {'x':pi1[0], 'y':pi1[1]},
+            {'x':pi2[0], 'y':pi1[1]},
+            {'x':pi2[0], 'y':pi2[1]},
+            {'x':pi2[0]+arc_to_side, 'y':pi2[1]}
+        ]
+        kicad_mod.append(PolygoneLine(polygone=poly))
     # create courtyard
     if params.angled:
         p1=[p1[0],-pin_Sy/2]
