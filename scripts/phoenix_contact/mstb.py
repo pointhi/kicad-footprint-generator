@@ -4,9 +4,7 @@ import sys
 import os
 from collections import namedtuple
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load KicadModTree path
-
 from KicadModTree import *
-
 # http://www.jst-mfg.com/product/pdf/eng/ePH.pdf
 
 
@@ -179,6 +177,8 @@ mount_drill = 2.4
 pin_Sx = 2.1
 pin_Sy = 4.2
 
+#lock_cutout=
+
 def dimensions(num_pins, pitch, angled, flanged):
     lenght = (num_pins-1)*pitch + (3*pitch if flanged else pitch+2)
     width = 12 if angled else 8.6
@@ -204,6 +204,9 @@ for model, params in to_generate.iteritems():
     length, width, upper_to_pin, left_to_pin, mount_hole_left, mount_hole_right\
         = dimensions(params.num_pins, params.pin_pitch, params.angled, params.flanged)
 
+    p1=[left_to_pin,upper_to_pin]
+    p2=v_add(p1,[length,width])
+    center_x = (params.num_pins-1)/2.0*params.pin_pitch
     kicad_mod = Footprint(footprint_name)
 
 
@@ -212,8 +215,8 @@ for model, params in to_generate.iteritems():
 
     # set general values
     # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', at=[0, -3], layer='F.SilkS'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[1.5, 3], layer='F.Fab'))
+    kicad_mod.append(Text(type='reference', text='REF**', at=[center_x, p1[1]-1], layer='F.SilkS'))
+    kicad_mod.append(Text(type='value', text=footprint_name, at=[center_x,p2[1]+1.5], layer='F.Fab'))
 
     #add the pads
     for p in range(params.num_pins):
@@ -231,11 +234,25 @@ for model, params in to_generate.iteritems():
     #add an outline around the pins
 
     # create silscreen
-    p1=[left_to_pin,upper_to_pin]
-    p2=v_add(p1,[length,width])
+
     kicad_mod.append(RectLine(start=p1, end=p2, layer='F.SilkS'))
 
+    if params.angled:
+        lock_poly=[
+            {'x':-1, 'y':0},
+            {'x':1, 'y':0},
+            {'x':1.5/2, 'y':-1.5},
+            {'x':-1.5/2, 'y':-1.5},
+            {'x':-1, 'y':0}
+        ]
+        kicad_mod.append(RectLine(start=[p1[0],p2[1]-1.5], end=[p2[0], p2[1]-1.5-1.8], layer='F.SilkS'))
+        for i in range(-1 if params.flanged else 0, params.num_pins + (1 if params.flanged else 0)):
+            lock_translation = Translation(i*params.pin_pitch, p2[1])
+            lock_translation.append(PolygoneLine(polygone=lock_poly))
+            kicad_mod.append(lock_translation)
     # create courtyard
+    if params.angled:
+        p1=[p1[0],-pin_Sy/2]
     p1=v_add(p1,[-0.25,-0.25])
     p2=v_add(p2,[0.25,0.25])
     kicad_mod.append(RectLine(start=p1, end=p2, layer='F.CrtYd'))
