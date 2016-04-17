@@ -60,9 +60,11 @@ for model, params in to_generate.iteritems():
                             at=[X, Y], size=[globalParams.pin_Sx, globalParams.pin_Sy], drill=globalParams.drill, layers=['*.Cu', '*.Mask', '*.Paste']))
     if params.mount_hole:
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=mount_hole_left, size=[globalParams.drill, globalParams.drill], drill=globalParams.drill, layers=['*.Cu', '*.Mask']))
+                            at=mount_hole_left, size=[globalParams.mount_drill, globalParams.mount_drill], \
+                            drill=globalParams.mount_drill, layers=['*.Cu', '*.Mask']))
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=mount_hole_right, size=[globalParams.drill, globalParams.drill], drill=globalParams.drill, layers=['*.Cu', '*.Mask']))
+                            at=mount_hole_right, size=[globalParams.mount_drill, globalParams.mount_drill], \
+                            drill=globalParams.mount_drill, layers=['*.Cu', '*.Mask']))
     #add an outline around the pins
 
     # create silscreen
@@ -91,7 +93,7 @@ for model, params in to_generate.iteritems():
             lock_translation.append(PolygoneLine(polygone=lock_poly))
             kicad_mod.append(lock_translation)
     else:
-        inner_width = 5.03 #measured
+        inner_width = 5.3 #measured
         top_thickness = 1.7 #measured
         pi1 = [p1[0]+(length-inner_len)/2.0, p1[1]+top_thickness]
         pi2 = [p2[0]-(length-inner_len)/2.0, pi1[1]+inner_width]
@@ -135,7 +137,7 @@ for model, params in to_generate.iteritems():
             kicad_mod.append(Circle(center=mount_hole_left, radius=1, layer='F.SilkS'))
             kicad_mod.append(Circle(center=mount_hole_right, radius=1, layer='F.SilkS'))
 
-        angle = -110.8
+        angle = -100.5
         arc_width = 4.0
         for i in range(params.num_pins):
             plug_arc = Translation(i*params.pin_pitch,0)
