@@ -33,7 +33,7 @@ for model, params in to_generate.iteritems():
 
     calc_dim = dimensions(params)
 
-    p1=[calc_dim.left_to_pin,calc_dim.upper_to_pin]
+    p1=[calc_dim.left_to_pin,params.back_to_pin]
     p2=v_add(p1,[calc_dim.length,calc_dim.width])
     center_x = (params.num_pins-1)/2.0*params.pin_pitch
     kicad_mod = Footprint(footprint_name)
@@ -70,7 +70,7 @@ for model, params in to_generate.iteritems():
         kicad_mod.append(RectLine(start=p1, end=p2, layer='F.SilkS'))
         left = p1[0] + (globalParams.flange_lenght if params.flanged else 0)
         right = p2[0] - (globalParams.flange_lenght if params.flanged else 0)
-        scoreline_y = globalParams.scoreline_from_back+calc_dim.upper_to_pin
+        scoreline_y = globalParams.scoreline_from_back+params.back_to_pin
         kicad_mod.append(Line(start=[left, scoreline_y], end=[right, scoreline_y], layer='F.SilkS'))
         if params.flanged:
             kicad_mod.append(Line(start=[left, p1[1]], end=[left, p2[1]], layer='F.SilkS'))
@@ -96,6 +96,9 @@ for model, params in to_generate.iteritems():
         if params.flanged:
             kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=1.9, layer='F.SilkS'))
             kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=1.9, layer='F.SilkS'))
+            if not params.mount_hole:
+                kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=1, layer='F.SilkS'))
+                kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=1, layer='F.SilkS'))
 
         for i in range(params.num_pins):
             lock_translation = Translation(i*params.pin_pitch, 0)

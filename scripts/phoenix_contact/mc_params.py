@@ -10,10 +10,11 @@ Params = namedtuple("Params",[
     'mount_hole',
     'order_info',
     'mount_hole_to_pin',
-    'side_to_pin'
+    'side_to_pin',
+    'back_to_pin'
 ])
 
-def generate_params(num_pins, series_name, pin_pitch, angled, flanged, order_info, mount_hole=False, mount_hole_to_pin=None, side_to_pin=None):
+def generate_params(num_pins, series_name, pin_pitch, angled, flanged, order_info, mount_hole=False, mount_hole_to_pin=None, side_to_pin=None, back_to_pin=None):
 
     return Params(
         series_name=series_name,
@@ -27,7 +28,8 @@ def generate_params(num_pins, series_name, pin_pitch, angled, flanged, order_inf
         mount_hole=mount_hole,
         order_info=order_info,
         mount_hole_to_pin=pin_pitch if mount_hole_to_pin is None else mount_hole_to_pin,
-        side_to_pin=(3*pin_pitch if flanged else pin_pitch+2)/2.0 if side_to_pin is None else side_to_pin
+        side_to_pin=(3*pin_pitch if flanged else pin_pitch+2)/2.0 if side_to_pin is None else side_to_pin,
+        back_to_pin= (8-9.2 if angled else 3-7.25) if back_to_pin is None else back_to_pin
     )
 
 
@@ -231,17 +233,17 @@ all_params = {
     ##################################################################################################################
     # Pin Pitch 5.08mm
     ##################################################################################################################
-    'MC_01x02_G_5.08mm' : generate_params( 2, "MC-G", 5.08, True, False, {'1836189':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x03_G_5.08mm' : generate_params( 3, "MC-G", 5.08, True, False, {'1836192':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x04_G_5.08mm' : generate_params( 4, "MC-G", 5.08, True, False, {'1836202':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x05_G_5.08mm' : generate_params( 5, "MC-G", 5.08, True, False, {'1836215':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x06_G_5.08mm' : generate_params( 6, "MC-G", 5.08, True, False, {'1836228':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x07_G_5.08mm' : generate_params( 7, "MC-G", 5.08, True, False, {'1836231':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x08_G_5.08mm' : generate_params( 8, "MC-G", 5.08, True, False, {'1836244':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x09_G_5.08mm' : generate_params( 9, "MC-G", 5.08, True, False, {'1836257':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x10_G_5.08mm' : generate_params(10, "MC-G", 5.08, True, False, {'1836260':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x11_G_5.08mm' : generate_params(11, "MC-G", 5.08, True, False, {'1836273':'8A 320V'}, side_to_pin=2.6),
-    'MC_01x12_G_5.08mm' : generate_params(12, "MC-G", 5.08, True, False, {'1836286':'8A 320V'}, side_to_pin=2.6),
+    'MC_01x02_G_5.08mm' : generate_params( 2, "MC-G", 5.08, True, False, {'1836189':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x03_G_5.08mm' : generate_params( 3, "MC-G", 5.08, True, False, {'1836192':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x04_G_5.08mm' : generate_params( 4, "MC-G", 5.08, True, False, {'1836202':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x05_G_5.08mm' : generate_params( 5, "MC-G", 5.08, True, False, {'1836215':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x06_G_5.08mm' : generate_params( 6, "MC-G", 5.08, True, False, {'1836228':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x07_G_5.08mm' : generate_params( 7, "MC-G", 5.08, True, False, {'1836231':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x08_G_5.08mm' : generate_params( 8, "MC-G", 5.08, True, False, {'1836244':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x09_G_5.08mm' : generate_params( 9, "MC-G", 5.08, True, False, {'1836257':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x10_G_5.08mm' : generate_params(10, "MC-G", 5.08, True, False, {'1836260':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x11_G_5.08mm' : generate_params(11, "MC-G", 5.08, True, False, {'1836273':'8A 320V'}, side_to_pin=2.54),
+    'MC_01x12_G_5.08mm' : generate_params(12, "MC-G", 5.08, True, False, {'1836286':'8A 320V'}, side_to_pin=2.54),
     ###################################################################################################################
     'MC_01x02_GF_5.08mm' : generate_params( 2, "MC-GF", 5.08, True, True, {'1847466':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
     'MC_01x03_GF_5.08mm' : generate_params( 3, "MC-GF", 5.08, True, True, {'1847479':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
@@ -267,41 +269,41 @@ all_params = {
     'MC_01x11_GF_5.08mm_MH' : generate_params(11, "MC-GF", 5.08, True, True, {'1847550':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
     'MC_01x12_GF_5.08mm_MH' : generate_params(12, "MC-GF", 5.08, True, True, {'1847563':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
     ###################################################################################################################
-    'MCV_01x02_G_5.08mm' : generate_params( 2, "MCV-G", 5.08, False, False, {'1836299':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x03_G_5.08mm' : generate_params( 3, "MCV-G", 5.08, False, False, {'1836309':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x04_G_5.08mm' : generate_params( 4, "MCV-G", 5.08, False, False, {'1836312':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x05_G_5.08mm' : generate_params( 5, "MCV-G", 5.08, False, False, {'1836325':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x06_G_5.08mm' : generate_params( 6, "MCV-G", 5.08, False, False, {'1836338':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x07_G_5.08mm' : generate_params( 7, "MCV-G", 5.08, False, False, {'1836341':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x08_G_5.08mm' : generate_params( 8, "MCV-G", 5.08, False, False, {'1836354':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x09_G_5.08mm' : generate_params( 9, "MCV-G", 5.08, False, False, {'1836367':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x10_G_5.08mm' : generate_params(10, "MCV-G", 5.08, False, False, {'1836370':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x11_G_5.08mm' : generate_params(11, "MCV-G", 5.08, False, False, {'1836383':'8A 320V'}, side_to_pin=2.6),
-    'MCV_01x12_G_5.08mm' : generate_params(12, "MCV-G", 5.08, False, False, {'1836396':'8A 320V'}, side_to_pin=2.6),
+    'MCV_01x02_G_5.08mm' : generate_params( 2, "MCV-G", 5.08, False, False, {'1836299':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x03_G_5.08mm' : generate_params( 3, "MCV-G", 5.08, False, False, {'1836309':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x04_G_5.08mm' : generate_params( 4, "MCV-G", 5.08, False, False, {'1836312':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x05_G_5.08mm' : generate_params( 5, "MCV-G", 5.08, False, False, {'1836325':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x06_G_5.08mm' : generate_params( 6, "MCV-G", 5.08, False, False, {'1836338':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x07_G_5.08mm' : generate_params( 7, "MCV-G", 5.08, False, False, {'1836341':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x08_G_5.08mm' : generate_params( 8, "MCV-G", 5.08, False, False, {'1836354':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x09_G_5.08mm' : generate_params( 9, "MCV-G", 5.08, False, False, {'1836367':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x10_G_5.08mm' : generate_params(10, "MCV-G", 5.08, False, False, {'1836370':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x11_G_5.08mm' : generate_params(11, "MCV-G", 5.08, False, False, {'1836383':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
+    'MCV_01x12_G_5.08mm' : generate_params(12, "MCV-G", 5.08, False, False, {'1836396':'8A 320V'}, side_to_pin=2.54, back_to_pin=2.9-7.25),
     ###################################################################################################################
-    'MCV_01x02_GF_5.08mm' : generate_params( 2, "MCV-GF", 5.08, False, True, {'1847615':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x03_GF_5.08mm' : generate_params( 3, "MCV-GF", 5.08, False, True, {'1847628':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x04_GF_5.08mm' : generate_params( 4, "MCV-GF", 5.08, False, True, {'1847631':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x05_GF_5.08mm' : generate_params( 5, "MCV-GF", 5.08, False, True, {'1847644':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x06_GF_5.08mm' : generate_params( 6, "MCV-GF", 5.08, False, True, {'1847657':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x07_GF_5.08mm' : generate_params( 7, "MCV-GF", 5.08, False, True, {'1847660':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x08_GF_5.08mm' : generate_params( 8, "MCV-GF", 5.08, False, True, {'1847673':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x09_GF_5.08mm' : generate_params( 9, "MCV-GF", 5.08, False, True, {'1847686':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x10_GF_5.08mm' : generate_params(10, "MCV-GF", 5.08, False, True, {'1847699':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x11_GF_5.08mm' : generate_params(11, "MCV-GF", 5.08, False, True, {'1847709':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
-    'MCV_01x12_GF_5.08mm' : generate_params(12, "MCV-GF", 5.08, False, True, {'1847712':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5),
+    'MCV_01x02_GF_5.08mm' : generate_params( 2, "MCV-GF", 5.08, False, True, {'1847615':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x03_GF_5.08mm' : generate_params( 3, "MCV-GF", 5.08, False, True, {'1847628':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x04_GF_5.08mm' : generate_params( 4, "MCV-GF", 5.08, False, True, {'1847631':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x05_GF_5.08mm' : generate_params( 5, "MCV-GF", 5.08, False, True, {'1847644':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x06_GF_5.08mm' : generate_params( 6, "MCV-GF", 5.08, False, True, {'1847657':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x07_GF_5.08mm' : generate_params( 7, "MCV-GF", 5.08, False, True, {'1847660':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x08_GF_5.08mm' : generate_params( 8, "MCV-GF", 5.08, False, True, {'1847673':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x09_GF_5.08mm' : generate_params( 9, "MCV-GF", 5.08, False, True, {'1847686':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x10_GF_5.08mm' : generate_params(10, "MCV-GF", 5.08, False, True, {'1847699':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x11_GF_5.08mm' : generate_params(11, "MCV-GF", 5.08, False, True, {'1847709':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
+    'MCV_01x12_GF_5.08mm' : generate_params(12, "MCV-GF", 5.08, False, True, {'1847712':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, back_to_pin=2.9-7.25),
     ###################################################################################################################
-    'MCV_01x02_GF_5.08mm_MH' : generate_params( 2, "MCV-GF", 5.08, False, True, {'1847615':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x03_GF_5.08mm_MH' : generate_params( 3, "MCV-GF", 5.08, False, True, {'1847628':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x04_GF_5.08mm_MH' : generate_params( 4, "MCV-GF", 5.08, False, True, {'1847631':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x05_GF_5.08mm_MH' : generate_params( 5, "MCV-GF", 5.08, False, True, {'1847644':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x06_GF_5.08mm_MH' : generate_params( 6, "MCV-GF", 5.08, False, True, {'1847657':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x07_GF_5.08mm_MH' : generate_params( 7, "MCV-GF", 5.08, False, True, {'1847660':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x08_GF_5.08mm_MH' : generate_params( 8, "MCV-GF", 5.08, False, True, {'1847673':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x09_GF_5.08mm_MH' : generate_params( 9, "MCV-GF", 5.08, False, True, {'1847686':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x10_GF_5.08mm_MH' : generate_params(10, "MCV-GF", 5.08, False, True, {'1847699':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x11_GF_5.08mm_MH' : generate_params(11, "MCV-GF", 5.08, False, True, {'1847709':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True),
-    'MCV_01x12_GF_5.08mm_MH' : generate_params(12, "MCV-GF", 5.08, False, True, {'1847712':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True)
+    'MCV_01x02_GF_5.08mm_MH' : generate_params( 2, "MCV-GF", 5.08, False, True, {'1847615':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x03_GF_5.08mm_MH' : generate_params( 3, "MCV-GF", 5.08, False, True, {'1847628':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x04_GF_5.08mm_MH' : generate_params( 4, "MCV-GF", 5.08, False, True, {'1847631':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x05_GF_5.08mm_MH' : generate_params( 5, "MCV-GF", 5.08, False, True, {'1847644':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x06_GF_5.08mm_MH' : generate_params( 6, "MCV-GF", 5.08, False, True, {'1847657':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x07_GF_5.08mm_MH' : generate_params( 7, "MCV-GF", 5.08, False, True, {'1847660':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x08_GF_5.08mm_MH' : generate_params( 8, "MCV-GF", 5.08, False, True, {'1847673':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x09_GF_5.08mm_MH' : generate_params( 9, "MCV-GF", 5.08, False, True, {'1847686':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x10_GF_5.08mm_MH' : generate_params(10, "MCV-GF", 5.08, False, True, {'1847699':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x11_GF_5.08mm_MH' : generate_params(11, "MCV-GF", 5.08, False, True, {'1847709':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25),
+    'MCV_01x12_GF_5.08mm_MH' : generate_params(12, "MCV-GF", 5.08, False, True, {'1847712':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25)
 }
 
 class globalParams():
@@ -324,24 +326,22 @@ class globalParams():
 
 #lock_cutout=
 CalcDim=namedtuple("CalcDim",[
-    "length", "width", "upper_to_pin", "left_to_pin",
+    "length", "width", "left_to_pin",
     "mount_hole_left", "mount_hole_right", "flange_width",
     "plug_front", "plug_back"
 ])
 def dimensions(params):
     mount_hole_y = 0.9 if params.angled else 0.0
-    upper_to_pin = 8-9.2 if params.angled else 3-7.25
     width = 9.2 if params.angled else 7.25
     return CalcDim(
         length = (params.num_pins-1)*params.pin_pitch + 2*params.side_to_pin
         ,width = width
-        ,upper_to_pin = upper_to_pin
         ,left_to_pin = -params.side_to_pin
         ,mount_hole_left = [-params.mount_hole_to_pin,mount_hole_y]
         ,mount_hole_right = [(params.num_pins-1)*params.pin_pitch+params.mount_hole_to_pin,mount_hole_y]
         ,flange_width = 9.2 if params.angled else 6.0
-        ,plug_front = width + upper_to_pin -0.8
-        ,plug_back = upper_to_pin+0.6+0.25
+        ,plug_front = width + params.back_to_pin -0.8
+        ,plug_back = params.back_to_pin+0.6+0.25
     )
 
 def generate_description(params):
