@@ -1,0 +1,22 @@
+Würth_36103205_20x20mm:
+    description: "WE-SHC Shielding Cabinet SMD 20x20mm"
+    datasheet: "http://katalog.we-online.com/pbs/datasheet/36103205.pdf"
+    courtjard: 0.25
+    pads_width: 1
+    x_part_size: 20
+    y_part_size: 20
+    x_pad_spacer: [2.45, 5.05, 7.45, 10.75]
+    y_pad_spacer: [2.45, 5.05, 7.45, 10.75]
+    x_pad_mirror: True
+    y_pad_mirror: True
+Würth_36103255_25x25mm:
+    description: "WE-SHC Shielding Cabinet SMD 25x25mm"
+    datasheet: "http://katalog.we-online.com/pbs/datasheet/36103255.pdf"
+    courtjard: 0.25
+    pads_width: 1
+    x_part_size: 25
+    y_part_size: 25
+    x_pad_spacer: [2.55, 4.95, 7.55, 9.95, 13.25]
+    y_pad_spacer: [2.55, 4.95, 7.55, 9.95, 13.25]
+    x_pad_mirror: True
+    y_pad_mirror: True
