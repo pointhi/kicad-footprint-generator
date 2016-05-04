@@ -109,6 +109,7 @@ def parse_and_execute_yml_file(filepath):
         try:
             yaml_parsed = yaml.load(stream)
             for footprint in yaml_parsed:
+                print("generate {name}.kicad_mod".format(name=footprint))
                 create_smd_shielding(footprint, **yaml_parsed.get(footprint))
         except yaml.YAMLError as exc:
             print(exc)
