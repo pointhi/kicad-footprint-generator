@@ -11,6 +11,12 @@ from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 
 
+# https://stackoverflow.com/questions/4265546/python-round-to-nearest-05
+def round_to(n, precision):
+    correction = 0.5 if n >= 0 else -0.5
+    return int(n/precision+correction) * precision
+
+
 def calculate_pad_spacer(pad_spacer, mirror_spacer):
     pad_spacer_pos = []
 
@@ -51,8 +57,13 @@ def create_smd_shielding(name, **kwargs):
     kicad_mod.append(Text(type='value', text=name, at=[0, y_pad_max + kwargs['courtjard'] + 0.75], layer='F.Fab'))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[x_pad_min - kwargs['courtjard'], y_pad_min - kwargs['courtjard']],
-                              end=[x_pad_max + kwargs['courtjard'], y_pad_max + kwargs['courtjard']],
+    x_courtjard_min = round_to(x_pad_min - kwargs['courtjard'], 0.05)
+    x_courtjard_max = round_to(x_pad_max + kwargs['courtjard'], 0.05)
+    y_courtjard_min = round_to(y_pad_min - kwargs['courtjard'], 0.05)
+    y_courtjard_max = round_to(y_pad_max + kwargs['courtjard'], 0.05)
+
+    kicad_mod.append(RectLine(start=[x_courtjard_min, y_courtjard_min],
+                              end=[x_courtjard_max, y_courtjard_max],
                               layer='F.CrtYd'))
 
     # create Fabriaction Layer
