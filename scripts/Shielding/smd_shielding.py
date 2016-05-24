@@ -51,6 +51,11 @@ def create_smd_shielding(name, **kwargs):
     x_pad_max_center = x_pad_max - kwargs['pads_width']/2.
     y_pad_min_center = y_pad_min + kwargs['pads_width']/2.
     y_pad_max_center = y_pad_max - kwargs['pads_width']/2.
+    
+    x_part_min = -kwargs['x_part_size'] / 2.
+    x_part_max = kwargs['x_part_size'] / 2.
+    y_part_min = -kwargs['y_part_size'] / 2.
+    y_part_max = kwargs['y_part_size'] / 2.
 
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', at=[0, y_pad_min - kwargs['courtjard'] - 0.75], layer='F.SilkS'))
@@ -67,8 +72,8 @@ def create_smd_shielding(name, **kwargs):
                               layer='F.CrtYd'))
 
     # create Fabriaction Layer
-    kicad_mod.append(RectLine(start=[-kwargs['x_part_size'] / 2., -kwargs['y_part_size'] / 2.],
-                              end=[kwargs['x_part_size'] / 2., kwargs['y_part_size'] / 2.],
+    kicad_mod.append(RectLine(start=[x_part_min, y_part_min],
+                              end=[x_part_max, y_part_max],
                               layer='F.Fab'))
 
     # all pads have this kwargs, so we only write them one
@@ -109,6 +114,29 @@ def create_smd_shielding(name, **kwargs):
                          size=[kwargs['pads_width'], abs(pad_start-pad_end)], **general_kwargs))
         kicad_mod.append(Pad(at=[x_pad_max_center, (pad_start+pad_end)/2.],
                          size=[kwargs['pads_width'], abs(pad_start-pad_end)], **general_kwargs))
+
+    # iterate pairwise over pads for silk screen
+    for pad_start, pad_end in zip(x_pad_positions[1::2], x_pad_positions[2::2]):
+        pad_start += 0.3
+        pad_end -= 0.3
+
+        kicad_mod.append(Line(start=[pad_start, y_part_min - 0.15],
+                                  end=[pad_end, y_part_min - 0.15], layer='F.SilkS'))
+        kicad_mod.append(Line(start=[pad_start, y_part_max + 0.15],
+                                  end=[pad_end, y_part_max + 0.15], layer='F.SilkS'))
+
+    for pad_start, pad_end in zip(y_pad_positions[1::2], y_pad_positions[2::2]):
+        pad_start += 0.3
+        pad_end -= 0.3
+
+        # check if line has relevant length
+        if pad_end - pad_start < 0.5:
+            continue
+
+        kicad_mod.append(Line(start=[x_part_min - 0.15, pad_start],
+                                  end=[x_part_min - 0.15, pad_end], layer='F.SilkS'))
+        kicad_mod.append(Line(start=[x_part_max + 0.15, pad_start],
+                                  end=[x_part_max + 0.15, pad_end], layer='F.SilkS'))
 
     # write file
     file_handler = KicadFileHandler(kicad_mod)
