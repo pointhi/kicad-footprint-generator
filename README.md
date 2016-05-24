@@ -92,7 +92,7 @@ kicad_mod.append(Text(type='reference', text='REF**', at=[0, -3], layer='F.SilkS
 kicad_mod.append(Text(type='value', text=footprint_name, at=[1.5, 3], layer='F.Fab'))
 
 # create silscreen
-kicad_mod.append(RectLine(start=[-2, -2], end=[5, 2], layer='F.SilkS))
+kicad_mod.append(RectLine(start=[-2, -2], end=[5, 2], layer='F.SilkS'))
 
 # create courtyard
 kicad_mod.append(RectLine(start=[-2.25, -2.25], end=[5.25, 2.25], layer='F.CrtYd'))
