@@ -20,3 +20,36 @@ Würth_36103255_25x25mm:
     y_pad_spacer: [2.55, 4.95, 7.55, 9.95, 13.25]
     x_pad_mirror: True
     y_pad_mirror: True
+Würth_36103305_30x30mm:
+    description: "WE-SHC Shielding Cabinet SMD 30x30mm"
+    datasheet: "http://katalog.we-online.com/pbs/datasheet/36103305.pdf"
+    courtjard: 0.25
+    pads_width: 1
+    x_part_size: 30
+    y_part_size: 30
+    x_pad_spacer: [2.45, 5.05, 7.45, 10.05, 12.45, 15.75]
+    y_pad_spacer: [2.45, 5.05, 7.45, 10.05, 12.45, 15.75]
+    x_pad_mirror: True
+    y_pad_mirror: True
+Würth_36103505_50x50mm:
+    description: "WE-SHC Shielding Cabinet SMD 50x50mm"
+    datasheet: "http://katalog.we-online.com/pbs/datasheet/36103505.pdf"
+    courtjard: 0.25
+    pads_width: 1
+    x_part_size: 50
+    y_part_size: 50
+    x_pad_spacer: [2.45, 5.05, 7.45, 10.05, 12.45, 15.05, 17.45, 20.05, 22.45, 25.75]
+    y_pad_spacer: [2.45, 5.05, 7.45, 10.05, 12.45, 15.05, 17.45, 20.05, 22.45, 25.75]
+    x_pad_mirror: True
+    y_pad_mirror: True
+Würth_36103605_60x60mm:
+    description: "WE-SHC Shielding Cabinet SMD 60x60mm"
+    datasheet: "http://katalog.we-online.com/pbs/datasheet/36103605.pdf"
+    courtjard: 0.25
+    pads_width: 1
+    x_part_size: 60
+    y_part_size: 60
+    x_pad_spacer: [2.45, 5.05, 7.45, 10.05, 12.45, 15.05, 17.45, 20.05, 22.45, 25.05, 27.25, 30.75]
+    y_pad_spacer: [2.45, 5.05, 7.45, 10.05, 12.45, 15.05, 17.45, 20.05, 22.45, 25.05, 27.25, 30.75]
+    x_pad_mirror: True
+    y_pad_mirror: True
