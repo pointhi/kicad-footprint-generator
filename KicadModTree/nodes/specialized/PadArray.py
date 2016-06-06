@@ -123,14 +123,21 @@ class PadArray(Node):
         
     def _createPads(self, **kwargs):
         
-        pads = []
         
         x_start, y_start = self.startingPosition
         x_spacing, y_spacing = self.spacing
         
         padShape = kwargs.get('shape')
         
-        for i,number in enumerate(range(self.initialPin, self.initialPin + (self.pincount * self.increment), self.increment)):
+        #special case, increment = 0
+        #this can be used for creating an array with all the same pad number
+        if self.increment == 0:
+            pads = [self.initialPin] * self.pinCount
+            
+        else:
+            pads = range(self.initialPin, self.initialPin + (self.pincount * self.increment), self.increment)
+        
+        for i,number in enumerate(pads):
             x_pad = x_start + i * x_spacing
             y_pad = y_start + i * y_spacing
             
