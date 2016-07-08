@@ -323,6 +323,12 @@ class globalParams():
     plug_trapezoid_width = 1
     plug_seperator_distance = 1.5
 
+    courtyard_distance = 0.5
+    pin_layers = ['*.Cu', '*.Mask', 'F.SilkS'] #, '*.Paste' through hole: no paste!
+    mount_hole_layers = ['*.Cu', '*.Mask', 'F.SilkS']
+
+    silkGab = pin_Sx/2.0+0.05
+
 
 #lock_cutout=
 CalcDim=namedtuple("CalcDim",[

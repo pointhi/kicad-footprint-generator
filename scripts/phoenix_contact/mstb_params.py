@@ -335,7 +335,11 @@ class globalParams():
     mount_drill = 2.4
     mount_screw_head_r = 2
     pin_Sx = 2.1
-    pin_Sy = 4.2
+    pin_Sy = 3.6
+
+    pin_layers = ['*.Cu', '*.Mask', 'F.SilkS'] #, '*.Paste' through hole: no paste!
+    mount_hole_layers = ['*.Cu', '*.Mask', 'F.SilkS']
+    courtyard_distance = 0.5
 
 #lock_cutout=
 

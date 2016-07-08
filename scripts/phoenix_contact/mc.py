@@ -53,21 +53,35 @@ for model, params in to_generate.iteritems():
 
         num = p+1
         kicad_mod.append(Pad(number=num, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-                            at=[X, Y], size=[globalParams.pin_Sx, globalParams.pin_Sy], drill=globalParams.drill, layers=['*.Cu', '*.Mask', '*.Paste']))
+                            at=[X, Y], size=[globalParams.pin_Sx, globalParams.pin_Sy], \
+                            drill=globalParams.drill, layers=globalParams.pin_layers))
     if params.mount_hole:
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
                             at=calc_dim.mount_hole_left, size=[globalParams.mount_drill, globalParams.mount_drill], \
-                            drill=globalParams.mount_drill, layers=['*.Cu', '*.Mask']))
+                            drill=globalParams.mount_drill, layers=globalParams.mount_hole_layers))
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
                             at=calc_dim.mount_hole_right, size=[globalParams.mount_drill, globalParams.mount_drill], \
-                            drill=globalParams.mount_drill, layers=['*.Cu', '*.Mask']))
+                            drill=globalParams.mount_drill, layers=globalParams.mount_hole_layers))
     #add an outline around the pins
 
     # create silscreen
 
 
     if params.angled:
-        kicad_mod.append(RectLine(start=p1, end=p2, layer='F.SilkS'))
+        #kicad_mod.append(RectLine(start=p1, end=p2, layer='F.SilkS'))
+
+        kicad_mod.append(Line(start=p1, end=[p1[0], p2[1]], layer='F.SilkS'))
+        kicad_mod.append(Line(start=[p1[0], p2[1]], end=p2, layer='F.SilkS'))
+        kicad_mod.append(Line(start=p2, end=[p2[0], p1[1]], layer='F.SilkS'))
+
+        kicad_mod.append(Line(start=p1, end=[-globalParams.silkGab, p1[1]], layer='F.SilkS'))
+        kicad_mod.append(Line(start=[p2[0], p1[1]], end=[(params.num_pins-1)*params.pin_pitch+globalParams.silkGab, p1[1]],\
+                        layer='F.SilkS'))
+
+        for p in range(params.num_pins-1):
+            kicad_mod.append(Line(start=[p*params.pin_pitch+globalParams.silkGab, p1[1]], \
+                            end=[(p+1)*params.pin_pitch-globalParams.silkGab, p1[1]], layer='F.SilkS'))
+
         left = p1[0] + (globalParams.flange_lenght if params.flanged else 0)
         right = p2[0] - (globalParams.flange_lenght if params.flanged else 0)
         scoreline_y = globalParams.scoreline_from_back+params.back_to_pin
@@ -124,8 +138,8 @@ for model, params in to_generate.iteritems():
             kicad_mod.append(lock_translation)
     if params.angled:
         p1=[p1[0],-globalParams.pin_Sy/2]
-    p1=v_add(p1,[-0.25,-0.25])
-    p2=v_add(p2,[0.25,0.25])
+    p1=v_add(p1,[-globalParams.courtyard_distance, -globalParams.courtyard_distance])
+    p2=v_add(p2,[globalParams.courtyard_distance, globalParams.courtyard_distance])
     kicad_mod.append(RectLine(start=p1, end=p2, layer='F.CrtYd'))
     if params.mount_hole:
         kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
