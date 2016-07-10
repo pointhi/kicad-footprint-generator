@@ -43,7 +43,7 @@ for model, params in to_generate.iteritems():
 
 
     kicad_mod.setDescription(generate_description(params))
-    kicad_mod.setTags("phonix contact " + model)
+    kicad_mod.setTags("phoenix contact " + model)
 
     # set general values
     # set general values

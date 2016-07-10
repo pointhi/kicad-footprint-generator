@@ -18,7 +18,7 @@ def generate_params(num_pins, series_name, pin_pitch, angled, flanged, order_inf
 
     return Params(
         series_name=series_name,
-        file_name="PhonixContact_" + series_name + "_01x" + ('%02d' % num_pins) + "_"\
+        file_name="PhoenixContact_" + series_name + "_01x" + ('%02d' % num_pins) + "_"\
         + ('%.2f' % pin_pitch) + "mm_" + ('Angled' if angled else 'Vertical')\
         + ('_ThreadedFlange' + ('_MountHole' if mount_hole else '') if flanged else ''),
         angled=angled,
