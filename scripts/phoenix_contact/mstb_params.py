@@ -337,8 +337,8 @@ class globalParams():
     pin_Sx = 2.1
     pin_Sy = 3.6
 
-    pin_layers = ['*.Cu', '*.Mask', 'F.SilkS'] #, '*.Paste' through hole: no paste!
-    mount_hole_layers = ['*.Cu', '*.Mask', 'F.SilkS']
+    pin_layers = ['*.Cu', '*.Mask'] #, '*.Paste' through hole: no paste!
+    mount_hole_layers = ['*.Cu', '*.Mask']
     courtyard_distance = 0.5
 
 #lock_cutout=
