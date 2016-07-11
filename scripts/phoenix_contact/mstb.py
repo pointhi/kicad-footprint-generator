@@ -6,9 +6,15 @@ import os
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load KicadModTree path
 from KicadModTree import *
 
+def round_to(n, precision):
+    correction = 0.5 if n >= 0 else -0.5
+    return int( n/precision+correction ) * precision
 
 def v_add(p1,p2):
     return [p1[0]+p2[0],p1[1]+p2[1]]
+
+def round_crty_point(point):
+    return [round_to(point[0],0.05),round_to(point[1],0.05)]
 
 lib_name="Connectors_Phoenix"
 out_dir=lib_name+".pretty"+os.sep
@@ -165,7 +171,7 @@ for model, params in to_generate.iteritems():
         #p1=[p1[0],-globalParams.pin_Sy/2]
     p1=v_add(p1,[-globalParams.courtyard_distance, -globalParams.courtyard_distance])
     p2=v_add(p2,[globalParams.courtyard_distance, globalParams.courtyard_distance])
-    kicad_mod.append(RectLine(start=p1, end=p2, layer='F.CrtYd'))
+    kicad_mod.append(RectLine(start=round_crty_point(p1), end=round_crty_point(p2), layer='F.CrtYd'))
     if params.mount_hole:
         kicad_mod.append(Circle(center=mount_hole_left, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
         kicad_mod.append(Circle(center=mount_hole_right, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
