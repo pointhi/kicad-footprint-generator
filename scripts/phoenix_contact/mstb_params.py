@@ -1,4 +1,5 @@
 from collections import namedtuple
+from global_params import generate_footprint_name
 
 Params = namedtuple("Params",[
     'series_name',
@@ -17,9 +18,7 @@ def generate_params(num_pins, series_name, pin_pitch, angled, flanged, order_inf
 
     return Params(
         series_name=series_name,
-        file_name="PhoenixContact_" + series_name + "_01x" + ('%02d' % num_pins) + "_"\
-        + ('%.2f' % pin_pitch) + "mm_" + ('Angled' if angled else 'Vertical')\
-        + ('_ThreadedFlange' + ('_MountHole' if mount_hole else '') if flanged else ''),
+        file_name=generate_footprint_name(series_name, num_pins, pin_pitch, angled, mount_hole, flanged),
         angled=angled,
         flanged=flanged,
         num_pins=num_pins,
@@ -330,17 +329,12 @@ all_params = {
     'GMSTBV_01x12_GF_7.62mm_MH' : generate_params(12, "GMSTBV-GF", 7.62, False, True, {'1829251':'12A 630V'}, mount_hole=True, mount_hole_to_pin=6.1, side_to_pin=9.1)
 }
 
-class globalParams():
+class seriesParams():
     drill = 1.4
     mount_drill = 2.4
     mount_screw_head_r = 2
     pin_Sx = 2.1
     pin_Sy = 3.6
-
-    pin_layers = ['*.Cu', '*.Mask'] #, '*.Paste' through hole: no paste!
-    mount_hole_layers = ['*.Cu', '*.Mask']
-    courtyard_distance = 0.5
-    silk_body_offset = 0.08
 
 #lock_cutout=
 

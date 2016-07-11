@@ -1,4 +1,5 @@
 from collections import namedtuple
+from global_params import generate_footprint_name
 
 Params = namedtuple("Params",[
     'series_name',
@@ -18,9 +19,7 @@ def generate_params(num_pins, series_name, pin_pitch, angled, flanged, order_inf
 
     return Params(
         series_name=series_name,
-        file_name="PhoenixContact_" + series_name + "_01x" + ('%02d' % num_pins) + "_"\
-        + ('%.2f' % pin_pitch) + "mm_" + ('Angled' if angled else 'Vertical')\
-        + ('_ThreadedFlange' + ('_MountHole' if mount_hole else '') if flanged else ''),
+        file_name=generate_footprint_name(series_name, num_pins, pin_pitch, angled, mount_hole, flanged),
         angled=angled,
         flanged=flanged,
         num_pins=num_pins,
@@ -306,7 +305,7 @@ all_params = {
     'MCV_01x12_GF_5.08mm_MH' : generate_params(12, "MCV-GF", 5.08, False, True, {'1847712':'8A 320V'}, side_to_pin=7.1, mount_hole_to_pin=4.5, mount_hole=True, back_to_pin=2.9-7.25)
 }
 
-class globalParams():
+class seriesParams():
     drill = 1.2
     mount_drill = 2.4
     mount_screw_head_r = 2.0
@@ -323,12 +322,8 @@ class globalParams():
     plug_trapezoid_width = 1
     plug_seperator_distance = 1.5
 
-    courtyard_distance = 0.5
-    pin_layers = ['*.Cu', '*.Mask'] #, '*.Paste' through hole: no paste!
-    mount_hole_layers = ['*.Cu', '*.Mask']
+    silkGab = pin_Sx/2.0+0.1
 
-    silkGab = pin_Sx/2.0+0.05
-    silk_body_offset = 0.08
 
 
 #lock_cutout=

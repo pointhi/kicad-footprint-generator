@@ -3,19 +3,14 @@
 import sys
 import os
 from helpers import *
+from global_params import *
 
 
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load KicadModTree path
 from KicadModTree import *
 
 
-lib_name="Connectors_Phoenix"
-out_dir=lib_name+".pretty"+os.sep
-packages_3d=lib_name+".3dshapes"+os.sep
-
-
-from mstb_params import globalParams, dimensions, generate_description, all_params
-
+from mstb_params import seriesParams, dimensions, generate_description, all_params
 
 m ='GMSTBV_01x03_7.62mm_MH'
 m1='GMSTBV_01x03_7.62mm'
@@ -46,7 +41,7 @@ for model, params in to_generate.iteritems():
 
 
     kicad_mod.setDescription(generate_description(params))
-    kicad_mod.setTags("phoenix contact " + model)
+    kicad_mod.setTags(manufacturer_tag + model)
 
 
     #add the pads
@@ -56,15 +51,15 @@ for model, params in to_generate.iteritems():
 
         num = p+1
         kicad_mod.append(Pad(number=num, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-                            at=[X, Y], size=[globalParams.pin_Sx, globalParams.pin_Sy], \
-                            drill=globalParams.drill, layers=globalParams.pin_layers))
+                            at=[X, Y], size=[seriesParams.pin_Sx, seriesParams.pin_Sy], \
+                            drill=seriesParams.drill, layers=globalParams.pin_layers))
     if params.mount_hole:
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=mount_hole_left, size=[globalParams.mount_drill, globalParams.mount_drill], \
-                            drill=globalParams.mount_drill, layers=globalParams.mount_hole_layers))
+                            at=mount_hole_left, size=[seriesParams.mount_drill, seriesParams.mount_drill], \
+                            drill=seriesParams.mount_drill, layers=globalParams.mount_hole_layers))
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=mount_hole_right, size=[globalParams.mount_drill, globalParams.mount_drill], \
-                            drill=globalParams.mount_drill, layers=globalParams.mount_hole_layers))
+                            at=mount_hole_right, size=[seriesParams.mount_drill, seriesParams.mount_drill], \
+                            drill=seriesParams.mount_drill, layers=globalParams.mount_hole_layers))
     #add an outline around the pins
 
     # create silscreen
@@ -162,13 +157,13 @@ for model, params in to_generate.iteritems():
         kicad_mod.append(PolygoneLine(polygone=poly))
     # create courtyard
     #if params.angled:
-        #p1=[p1[0],-globalParams.pin_Sy/2]
-    crtyd_top_left=v_offset(body_top_left,globalParams.courtyard_distance)
-    crtyd_bottom_right=v_offset(body_bottom_right,globalParams.courtyard_distance)
+        #p1=[p1[0],-seriesParams.pin_Sy/2]
+    crtyd_top_left=v_offset(body_top_left, globalParams.courtyard_distance)
+    crtyd_bottom_right=v_offset(body_bottom_right, globalParams.courtyard_distance)
     kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left), end=round_crty_point(crtyd_bottom_right), layer='F.CrtYd'))
     if params.mount_hole:
-        kicad_mod.append(Circle(center=mount_hole_left, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
-        kicad_mod.append(Circle(center=mount_hole_right, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
+        kicad_mod.append(Circle(center=mount_hole_left, radius=seriesParams.mount_screw_head_r, layer='B.SilkS'))
+        kicad_mod.append(Circle(center=mount_hole_right, radius=seriesParams.mount_screw_head_r, layer='B.SilkS'))
         # kicad_mod.append(Circle(center=mount_hole_left, radius=mount_screw_head_r+0.25, layer='B.CrtYd'))
         # kicad_mod.append(Circle(center=mount_hole_right, radius=mount_screw_head_r+0.25, layer='B.CrtYd'))
 

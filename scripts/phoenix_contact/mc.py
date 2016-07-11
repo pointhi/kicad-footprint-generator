@@ -3,16 +3,12 @@
 import sys
 import os
 from helpers import *
+from global_params import *
 
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load KicadModTree path
 from KicadModTree import *
 
-lib_name="Connectors_Phoenix"
-out_dir=lib_name+".pretty"+os.sep
-packages_3d=lib_name+".3dshapes"+os.sep
-
-
-from mc_params import globalParams, dimensions, generate_description, all_params
+from mc_params import seriesParams, dimensions, generate_description, all_params
 
 
 m ='MCV_01x02_GF_5.08mm_MH'
@@ -39,11 +35,7 @@ for model, params in to_generate.iteritems():
 
 
     kicad_mod.setDescription(generate_description(params))
-    kicad_mod.setTags("phoenix contact " + model)
-    # set general values
-    # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', at=[center_x, silk_top_left[1]-2], layer='F.SilkS'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[center_x,silk_bottom_right[1]+1.5], layer='F.Fab'))
+    kicad_mod.setTags(manufacturer_tag + model)
 
     #add the pads
     for p in range(params.num_pins):
@@ -52,15 +44,15 @@ for model, params in to_generate.iteritems():
 
         num = p+1
         kicad_mod.append(Pad(number=num, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-                            at=[X, Y], size=[globalParams.pin_Sx, globalParams.pin_Sy], \
-                            drill=globalParams.drill, layers=globalParams.pin_layers))
+                            at=[X, Y], size=[seriesParams.pin_Sx, seriesParams.pin_Sy], \
+                            drill=seriesParams.drill, layers=globalParams.pin_layers))
     if params.mount_hole:
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=calc_dim.mount_hole_left, size=[globalParams.mount_drill, globalParams.mount_drill], \
-                            drill=globalParams.mount_drill, layers=globalParams.mount_hole_layers))
+                            at=calc_dim.mount_hole_left, size=[seriesParams.mount_drill, seriesParams.mount_drill], \
+                            drill=seriesParams.mount_drill, layers=globalParams.mount_hole_layers))
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                            at=calc_dim.mount_hole_right, size=[globalParams.mount_drill, globalParams.mount_drill], \
-                            drill=globalParams.mount_drill, layers=globalParams.mount_hole_layers))
+                            at=calc_dim.mount_hole_right, size=[seriesParams.mount_drill, seriesParams.mount_drill], \
+                            drill=seriesParams.mount_drill, layers=globalParams.mount_hole_layers))
     #add an outline around the pins
 
     # create silscreen
@@ -73,17 +65,17 @@ for model, params in to_generate.iteritems():
         kicad_mod.append(Line(start=[silk_top_left[0], silk_bottom_right[1]], end=silk_bottom_right, layer='F.SilkS'))
         kicad_mod.append(Line(start=silk_bottom_right, end=[silk_bottom_right[0], silk_top_left[1]], layer='F.SilkS'))
 
-        kicad_mod.append(Line(start=silk_top_left, end=[-globalParams.silkGab, silk_top_left[1]], layer='F.SilkS'))
-        kicad_mod.append(Line(start=[silk_bottom_right[0], silk_top_left[1]], end=[(params.num_pins-1)*params.pin_pitch+globalParams.silkGab, silk_top_left[1]],\
+        kicad_mod.append(Line(start=silk_top_left, end=[-seriesParams.silkGab, silk_top_left[1]], layer='F.SilkS'))
+        kicad_mod.append(Line(start=[silk_bottom_right[0], silk_top_left[1]], end=[(params.num_pins-1)*params.pin_pitch+seriesParams.silkGab, silk_top_left[1]],\
                         layer='F.SilkS'))
 
         for p in range(params.num_pins-1):
-            kicad_mod.append(Line(start=[p*params.pin_pitch+globalParams.silkGab, silk_top_left[1]], \
-                            end=[(p+1)*params.pin_pitch-globalParams.silkGab, silk_top_left[1]], layer='F.SilkS'))
+            kicad_mod.append(Line(start=[p*params.pin_pitch+seriesParams.silkGab, silk_top_left[1]], \
+                            end=[(p+1)*params.pin_pitch-seriesParams.silkGab, silk_top_left[1]], layer='F.SilkS'))
 
-        left = silk_top_left[0] + (globalParams.flange_lenght if params.flanged else 0)
-        right = silk_bottom_right[0] - (globalParams.flange_lenght if params.flanged else 0)
-        scoreline_y = globalParams.scoreline_from_back+params.back_to_pin
+        left = silk_top_left[0] + (seriesParams.flange_lenght if params.flanged else 0)
+        right = silk_bottom_right[0] - (seriesParams.flange_lenght if params.flanged else 0)
+        scoreline_y = seriesParams.scoreline_from_back+params.back_to_pin
         kicad_mod.append(Line(start=[left, scoreline_y], end=[right, scoreline_y], layer='F.SilkS'))
         if params.flanged:
             kicad_mod.append(Line(start=[left, silk_top_left[1]], end=[left, silk_bottom_right[1]], layer='F.SilkS'))
@@ -97,10 +89,10 @@ for model, params in to_generate.iteritems():
                     {'x':silk_top_left[0], 'y':silk_bottom_right[1]},
                     {'x':silk_bottom_right[0], 'y':silk_bottom_right[1]},
                     {'x':silk_bottom_right[0], 'y':silk_top_left[1]+flange_cutout},
-                    {'x':silk_bottom_right[0]-globalParams.flange_lenght, 'y':silk_top_left[1]+flange_cutout},
-                    {'x':silk_bottom_right[0]-globalParams.flange_lenght, 'y':silk_top_left[1]},
-                    {'x':silk_top_left[0]+globalParams.flange_lenght, 'y':silk_top_left[1]},
-                    {'x':silk_top_left[0]+globalParams.flange_lenght, 'y':silk_top_left[1]+flange_cutout},
+                    {'x':silk_bottom_right[0]-seriesParams.flange_lenght, 'y':silk_top_left[1]+flange_cutout},
+                    {'x':silk_bottom_right[0]-seriesParams.flange_lenght, 'y':silk_top_left[1]},
+                    {'x':silk_top_left[0]+seriesParams.flange_lenght, 'y':silk_top_left[1]},
+                    {'x':silk_top_left[0]+seriesParams.flange_lenght, 'y':silk_top_left[1]+flange_cutout},
                     {'x':silk_top_left[0], 'y':silk_top_left[1]+flange_cutout},
                     {'x':silk_top_left[0], 'y':silk_bottom_right[1]}
                 ]
@@ -116,34 +108,34 @@ for model, params in to_generate.iteritems():
         for i in range(params.num_pins):
             lock_translation = Translation(i*params.pin_pitch, 0)
             plug_poly=[
-                {'x':-globalParams.plug_arc_len/2.0, 'y':calc_dim.plug_front},
-                {'x':-globalParams.plug_cut_len/2.0, 'y':calc_dim.plug_front},
-                {'x':-globalParams.plug_cut_len/2.0, 'y':calc_dim.plug_front-globalParams.plug_cut_width},
-                {'x':-globalParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_front-globalParams.plug_cut_width},
-                {'x':-globalParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_back+globalParams.plug_trapezoid_width},
-                {'x':-globalParams.plug_trapezoid_short/2.0, 'y':calc_dim.plug_back+globalParams.plug_trapezoid_width},
-                {'x':-globalParams.plug_trapezoid_long/2.0, 'y':calc_dim.plug_back},
-                {'x':globalParams.plug_trapezoid_long/2.0, 'y':calc_dim.plug_back},
-                {'x':globalParams.plug_trapezoid_short/2.0, 'y':calc_dim.plug_back+globalParams.plug_trapezoid_width},
-                {'x':globalParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_back+globalParams.plug_trapezoid_width},
-                {'x':globalParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_front-globalParams.plug_cut_width},
-                {'x':globalParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_front-globalParams.plug_cut_width},
-                {'x':globalParams.plug_cut_len/2.0, 'y':calc_dim.plug_front-globalParams.plug_cut_width},
-                {'x':globalParams.plug_cut_len/2.0, 'y':calc_dim.plug_front},
-                {'x':globalParams.plug_arc_len/2.0, 'y':calc_dim.plug_front}
+                {'x':-seriesParams.plug_arc_len/2.0, 'y':calc_dim.plug_front},
+                {'x':-seriesParams.plug_cut_len/2.0, 'y':calc_dim.plug_front},
+                {'x':-seriesParams.plug_cut_len/2.0, 'y':calc_dim.plug_front-seriesParams.plug_cut_width},
+                {'x':-seriesParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_front-seriesParams.plug_cut_width},
+                {'x':-seriesParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_back+seriesParams.plug_trapezoid_width},
+                {'x':-seriesParams.plug_trapezoid_short/2.0, 'y':calc_dim.plug_back+seriesParams.plug_trapezoid_width},
+                {'x':-seriesParams.plug_trapezoid_long/2.0, 'y':calc_dim.plug_back},
+                {'x':seriesParams.plug_trapezoid_long/2.0, 'y':calc_dim.plug_back},
+                {'x':seriesParams.plug_trapezoid_short/2.0, 'y':calc_dim.plug_back+seriesParams.plug_trapezoid_width},
+                {'x':seriesParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_back+seriesParams.plug_trapezoid_width},
+                {'x':seriesParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_front-seriesParams.plug_cut_width},
+                {'x':seriesParams.plug_seperator_distance/2.0, 'y':calc_dim.plug_front-seriesParams.plug_cut_width},
+                {'x':seriesParams.plug_cut_len/2.0, 'y':calc_dim.plug_front-seriesParams.plug_cut_width},
+                {'x':seriesParams.plug_cut_len/2.0, 'y':calc_dim.plug_front},
+                {'x':seriesParams.plug_arc_len/2.0, 'y':calc_dim.plug_front}
             ]
             lock_translation.append(PolygoneLine(polygone=plug_poly))
-            lock_translation.append(Arc(start=[-globalParams.plug_arc_len/2.0,calc_dim.plug_front], center=[0,calc_dim.plug_front+1.7], angle=47.6))
+            lock_translation.append(Arc(start=[-seriesParams.plug_arc_len/2.0,calc_dim.plug_front], center=[0,calc_dim.plug_front+1.7], angle=47.6))
             kicad_mod.append(lock_translation)
     if params.angled:
-        crtyd_top_left=v_offset([silk_top_left[0],-globalParams.pin_Sy/2], globalParams.courtyard_distance)
+        crtyd_top_left=v_offset([silk_top_left[0],-seriesParams.pin_Sy/2], globalParams.courtyard_distance)
     else:
-        crtyd_top_left=v_offset(body_top_left,globalParams.courtyard_distance)
-    crtyd_bottom_right=v_offset(body_bottom_right,globalParams.courtyard_distance)
+        crtyd_top_left=v_offset(body_top_left, globalParams.courtyard_distance)
+    crtyd_bottom_right=v_offset(body_bottom_right, globalParams.courtyard_distance)
     kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left), end=round_crty_point(crtyd_bottom_right), layer='F.CrtYd'))
     if params.mount_hole:
-        kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
-        kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r, layer='B.SilkS'))
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r, layer='B.SilkS'))
         # kicad_mod.append(Circle(center=mount_hole_left, radius=mount_screw_head_r+0.25, layer='B.CrtYd'))
         # kicad_mod.append(Circle(center=mount_hole_right, radius=mount_screw_head_r+0.25, layer='B.CrtYd'))
 
