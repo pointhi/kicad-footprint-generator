@@ -37,8 +37,10 @@ for model, params in to_generate.iteritems():
 
     body_top_left=[left_to_pin,upper_to_pin]
     body_bottom_right=v_add(body_top_left,[length,width])
-    p1=v_offset(body_top_left, globalParams.silk_body_offset)
-    p2=v_offset(body_bottom_right, globalParams.silk_body_offset)
+
+    silk_top_left=v_offset(body_top_left, globalParams.silk_body_offset)
+    silk_bottom_right=v_offset(body_bottom_right, globalParams.silk_body_offset)
+
     center_x = (params.num_pins-1)/2.0*params.pin_pitch
     kicad_mod = Footprint(footprint_name)
 
@@ -46,10 +48,6 @@ for model, params in to_generate.iteritems():
     kicad_mod.setDescription(generate_description(params))
     kicad_mod.setTags("phoenix contact " + model)
 
-    # set general values
-    # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', at=[center_x, p1[1]-1], layer='F.SilkS'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[center_x,p2[1]+1.5], layer='F.Fab'))
 
     #add the pads
     for p in range(params.num_pins):
@@ -71,7 +69,7 @@ for model, params in to_generate.iteritems():
 
     # create silscreen
 
-    kicad_mod.append(RectLine(start=p1, end=p2, layer='F.SilkS'))
+    kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS'))
 
     if params.angled:
         lock_poly=[
@@ -81,31 +79,32 @@ for model, params in to_generate.iteritems():
             {'x':-1.5/2, 'y':-1.5},
             {'x':-1, 'y':0}
         ]
-        kicad_mod.append(RectLine(start=[p1[0],p2[1]-1.5], end=[p2[0], p2[1]-1.5-1.8], layer='F.SilkS'))
+        kicad_mod.append(RectLine(start=[silk_top_left[0],silk_bottom_right[1]-1.5], end=[silk_bottom_right[0], silk_bottom_right[1]-1.5-1.8], layer='F.SilkS'))
         if params.flanged:
-            lock_translation = Translation(mount_hole_left[0], p2[1])
+            lock_translation = Translation(mount_hole_left[0], silk_bottom_right[1])
             lock_translation.append(PolygoneLine(polygone=lock_poly))
             kicad_mod.append(lock_translation)
-            lock_translation = Translation(mount_hole_right[0], p2[1])
+            lock_translation = Translation(mount_hole_right[0], silk_bottom_right[1])
             lock_translation.append(PolygoneLine(polygone=lock_poly))
             kicad_mod.append(lock_translation)
 
         for i in range(params.num_pins):
-            lock_translation = Translation(i*params.pin_pitch, p2[1])
+            lock_translation = Translation(i*params.pin_pitch, silk_bottom_right[1])
             lock_translation.append(PolygoneLine(polygone=lock_poly))
             kicad_mod.append(lock_translation)
     else:
         inner_width = 5.3 #measured
-        top_thickness = 1.7 #measured
-        pi1 = [p1[0]+(length-inner_len)/2.0, p1[1]+top_thickness]
-        pi2 = [p2[0]-(length-inner_len)/2.0, pi1[1]+inner_width]
+
+        pi1 = [body_top_left[0]+(length-inner_len)/2.0, body_top_left[1]+1.7] # 1.7mm measured
+        top_thickness = pi1[1]-silk_top_left[1]
+        pi2 = [body_bottom_right[0]-(length-inner_len)/2.0, pi1[1]+inner_width]
         #kicad_mod.append(RectLine(start=pi1, end=pi2, layer='F.SilkS'))
 
         first_center = params.pin_pitch/2.0
         line_len = params.pin_pitch-2
         outher_line_len = (-left_to_pin-1 + mount_hole_left[0]) if params.flanged else (-left_to_pin-1)
-        kicad_mod.append(Line(start=[p1[0], pi1[1]-1], end=[p1[0]+outher_line_len, pi1[1]-1]))
-        kicad_mod.append(Line(start=[p2[0], pi1[1]-1], end=[p2[0]-outher_line_len, pi1[1]-1]))
+        kicad_mod.append(Line(start=[silk_top_left[0], pi1[1]-1], end=[silk_top_left[0]+outher_line_len, pi1[1]-1]))
+        kicad_mod.append(Line(start=[silk_bottom_right[0], pi1[1]-1], end=[silk_bottom_right[0]-outher_line_len, pi1[1]-1]))
         for i in range(params.num_pins -1):
             chamfer_edge = Translation(i*params.pin_pitch, pi1[1]-1)
             chamfer_edge.append(Line(start=[first_center-line_len/2.0, 0], end=[first_center+line_len/2.0, 0]))
@@ -164,15 +163,18 @@ for model, params in to_generate.iteritems():
     # create courtyard
     #if params.angled:
         #p1=[p1[0],-globalParams.pin_Sy/2]
-    p1=v_offset(body_top_left,globalParams.courtyard_distance)
-    p2=v_offset(body_bottom_right,globalParams.courtyard_distance)
-    kicad_mod.append(RectLine(start=round_crty_point(p1), end=round_crty_point(p2), layer='F.CrtYd'))
+    crtyd_top_left=v_offset(body_top_left,globalParams.courtyard_distance)
+    crtyd_bottom_right=v_offset(body_bottom_right,globalParams.courtyard_distance)
+    kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left), end=round_crty_point(crtyd_bottom_right), layer='F.CrtYd'))
     if params.mount_hole:
         kicad_mod.append(Circle(center=mount_hole_left, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
         kicad_mod.append(Circle(center=mount_hole_right, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))
         # kicad_mod.append(Circle(center=mount_hole_left, radius=mount_screw_head_r+0.25, layer='B.CrtYd'))
         # kicad_mod.append(Circle(center=mount_hole_right, radius=mount_screw_head_r+0.25, layer='B.CrtYd'))
 
+
+    kicad_mod.append(Text(type='reference', text='REF**', at=[center_x + (0 if params.num_pins > 2 else 1), crtyd_top_left[1]-0.7], layer='F.SilkS'))
+    kicad_mod.append(Text(type='value', text=footprint_name, at=[center_x, crtyd_bottom_right[1]+1], layer='F.Fab'))
 
     p3dname = packages_3d + footprint_name + ".wrl"
     kicad_mod.append(Model(filename=p3dname,
