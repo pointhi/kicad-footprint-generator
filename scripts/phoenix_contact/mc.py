@@ -142,6 +142,8 @@ for model, params in to_generate.iteritems():
     kicad_mod.append(Text(type='reference', text='REF**', at=[center_x + (0 if params.num_pins > 2 else 1), crtyd_top_left[1]-0.7], layer='F.SilkS'))
     kicad_mod.append(Text(type='value', text=footprint_name, at=[center_x, crtyd_bottom_right[1]+1], layer='F.Fab'))
 
+    kicad_mod.append(create_marker(crtyd_top_left[1]))
+
     p3dname = packages_3d + footprint_name + ".wrl"
     kicad_mod.append(Model(filename=p3dname,
                            at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
