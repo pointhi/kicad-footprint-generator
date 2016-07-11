@@ -2,19 +2,12 @@
 
 import sys
 import os
+from helpers import *
+
 
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load KicadModTree path
 from KicadModTree import *
 
-def round_to(n, precision):
-    correction = 0.5 if n >= 0 else -0.5
-    return int( n/precision+correction ) * precision
-
-def v_add(p1,p2):
-    return [p1[0]+p2[0],p1[1]+p2[1]]
-
-def round_crty_point(point):
-    return [round_to(point[0],0.05),round_to(point[1],0.05)]
 
 lib_name="Connectors_Phoenix"
 out_dir=lib_name+".pretty"+os.sep
@@ -42,8 +35,10 @@ for model, params in to_generate.iteritems():
 
     length, width, upper_to_pin, left_to_pin, mount_hole_left, mount_hole_right, inner_len = dimensions(params)
 
-    p1=[left_to_pin,upper_to_pin]
-    p2=v_add(p1,[length,width])
+    body_top_left=[left_to_pin,upper_to_pin]
+    body_bottom_right=v_add(body_top_left,[length,width])
+    p1=v_offset(body_top_left, globalParams.silk_body_offset)
+    p2=v_offset(body_bottom_right, globalParams.silk_body_offset)
     center_x = (params.num_pins-1)/2.0*params.pin_pitch
     kicad_mod = Footprint(footprint_name)
 
@@ -169,8 +164,8 @@ for model, params in to_generate.iteritems():
     # create courtyard
     #if params.angled:
         #p1=[p1[0],-globalParams.pin_Sy/2]
-    p1=v_add(p1,[-globalParams.courtyard_distance, -globalParams.courtyard_distance])
-    p2=v_add(p2,[globalParams.courtyard_distance, globalParams.courtyard_distance])
+    p1=v_offset(body_top_left,globalParams.courtyard_distance)
+    p2=v_offset(body_bottom_right,globalParams.courtyard_distance)
     kicad_mod.append(RectLine(start=round_crty_point(p1), end=round_crty_point(p2), layer='F.CrtYd'))
     if params.mount_hole:
         kicad_mod.append(Circle(center=mount_hole_left, radius=globalParams.mount_screw_head_r, layer='B.SilkS'))

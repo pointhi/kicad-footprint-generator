@@ -340,6 +340,7 @@ class globalParams():
     pin_layers = ['*.Cu', '*.Mask'] #, '*.Paste' through hole: no paste!
     mount_hole_layers = ['*.Cu', '*.Mask']
     courtyard_distance = 0.5
+    silk_body_offset = 0.08
 
 #lock_cutout=
 
