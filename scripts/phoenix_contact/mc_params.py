@@ -322,7 +322,7 @@ class seriesParams():
     plug_trapezoid_width = 1
     plug_seperator_distance = 1.5
 
-    silkGab = pin_Sx/2.0+0.1
+    silkGab = pin_Sx/2.0+0.15
 
 
 
@@ -342,7 +342,7 @@ def dimensions(params):
         ,mount_hole_left = [-params.mount_hole_to_pin,mount_hole_y]
         ,mount_hole_right = [(params.num_pins-1)*params.pin_pitch+params.mount_hole_to_pin,mount_hole_y]
         ,flange_width = 9.2 if params.angled else 6.0
-        ,plug_front = width + params.back_to_pin -0.7
+        ,plug_front = width + params.back_to_pin -0.75
         ,plug_back = params.back_to_pin+0.6+0.25
     )
 

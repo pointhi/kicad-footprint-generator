@@ -38,7 +38,10 @@ for model, params in to_generate.iteritems():
     kicad_mod.setTags(manufacturer_tag + model)
 
     #add the pads
-    for p in range(params.num_pins):
+    kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+                        at=[0, 0], size=[seriesParams.pin_Sx, seriesParams.pin_Sy], \
+                        drill=seriesParams.drill, layers=globalParams.pin_layers))
+    for p in range(1,params.num_pins):
         Y = 0
         X = p * params.pin_pitch
 
