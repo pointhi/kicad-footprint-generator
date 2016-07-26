@@ -41,7 +41,7 @@ for model, params in to_generate.iteritems():
 
 
     kicad_mod.setDescription(generate_description(params))
-    kicad_mod.setTags(manufacturer_tag + model)
+    kicad_mod.setTags(generate_keyword_str(model))
 
 
     #add the pads
@@ -133,8 +133,9 @@ for model, params in to_generate.iteritems():
         if params.flanged:
             kicad_mod.append(Circle(center=mount_hole_left, radius=1.9, layer='F.SilkS'))
             kicad_mod.append(Circle(center=mount_hole_right, radius=1.9, layer='F.SilkS'))
-            kicad_mod.append(Circle(center=mount_hole_left, radius=1, layer='F.SilkS'))
-            kicad_mod.append(Circle(center=mount_hole_right, radius=1, layer='F.SilkS'))
+            if not params.mount_hole:
+                kicad_mod.append(Circle(center=mount_hole_left, radius=1, layer='F.SilkS'))
+                kicad_mod.append(Circle(center=mount_hole_right, radius=1, layer='F.SilkS'))
 
         angle = -100.5
         arc_width = 4.0

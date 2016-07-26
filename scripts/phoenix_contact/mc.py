@@ -35,7 +35,7 @@ for model, params in to_generate.iteritems():
 
 
     kicad_mod.setDescription(generate_description(params))
-    kicad_mod.setTags(manufacturer_tag + model)
+    kicad_mod.setTags(generate_keyword_str(model))
 
     #add the pads
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
