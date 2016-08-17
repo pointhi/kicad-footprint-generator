@@ -32,6 +32,10 @@ class Pad(Node):
     SHAPE_RECT = 'rect'
     SHAPE_TRAPEZE = 'trapezoid'
     _SHAPES = [SHAPE_CIRCLE, SHAPE_OVAL, SHAPE_RECT, SHAPE_TRAPEZE]
+    
+    LAYERS_SMT = ['F.Cu','F.Mask','F.Paste']
+    LAYERS_THT = ['*.Cu','*.Mask']
+    LAYERS_NPTH = ['*.Cu']
 
     def __init__(self, **kwargs):
         Node.__init__(self)
@@ -47,7 +51,7 @@ class Pad(Node):
         self._initLayers(**kwargs)
 
     def _initNumber(self, **kwargs):
-        self.number = kwargs.get('number')
+        self.number = kwargs.get('number','""') #default to an un-numbered pad
 
     def _initType(self, **kwargs):
         if not kwargs.get('type'):
@@ -106,8 +110,16 @@ class Pad(Node):
             raise KeyError('layers not declared (like "layers=[\'*.Cu\', \'*.Mask\', \'F.SilkS\']")')
         self.layers = kwargs.get('layers')
 
+    #calculate the outline of a pad
     def calculateBoundingBox(self):
-        return Node.calculateBoundingBox(self)
+        x_min = self.at.x - self.size.x / 2
+        x_max = self.at.x + self.size.x / 2
+        
+        y_min = self.at.y - self.size.y / 2
+        y_max = self.at.y + self.size.y / 2
+        
+        outline = {'min':Point(coordinates=[x_min,y_min]), 'max':Point(coordinates=[x_max,y_max])}
+        return Node.calculateBoundingBox(self, outline=outline)
 
     def _getRenderTreeText(self):
         render_strings = ['pad']
