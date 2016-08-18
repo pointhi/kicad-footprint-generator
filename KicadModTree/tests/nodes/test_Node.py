@@ -33,7 +33,6 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(len(node.getVirtualChilds()), 0)
         self.assertEqual(len(node.getAllChilds()), 0)
 
-
     def testAppend(self):
         node = Node()
         self.assertEqual(len(node.getNormalChilds()), 0)
@@ -43,7 +42,6 @@ class NodeTests(unittest.TestCase):
         self.assertIn(childNode1, node.getNormalChilds())
         self.assertEqual(childNode1.getParent(), node)
         self.assertEqual(len(node.getNormalChilds()), 1)
-
 
         childNode2 = Node()
         node.append(childNode2)
@@ -94,7 +92,6 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(childNode2.getParent(), node)
         self.assertEqual(childNode3.getParent(), node)
         self.assertEqual(len(node.getNormalChilds()), 3)
-
 
     def testExtend(self):
         node = Node()
@@ -182,7 +179,6 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(childNode5.getParent(), None)
         self.assertEqual(len(node.getNormalChilds()), 3)
 
-
     def testRemove(self):
         node = Node()
         self.assertEqual(len(node.getNormalChilds()), 0)
@@ -233,3 +229,38 @@ class NodeTests(unittest.TestCase):
         self.assertEqual(childNode1.getParent(), None)
         self.assertEqual(childNode2.getParent(), node)
         self.assertEqual(len(node.getNormalChilds()), 1)
+
+    def testInsert(self):
+        node = Node()
+        self.assertEqual(len(node.getNormalChilds()), 0)
+
+        childNode1 = Node()
+        node.insert(childNode1)
+        self.assertIn(childNode1, node.getNormalChilds())
+        self.assertEqual(childNode1.getParent(), node)
+        self.assertEqual(len(node.getNormalChilds()), 1)
+
+        childNode2 = Node()
+        node.insert(childNode2)
+        self.assertIn(childNode1, childNode2.getNormalChilds())
+        self.assertNotIn(childNode1, node.getNormalChilds())
+        self.assertIn(childNode2, node.getNormalChilds())
+        self.assertEqual(childNode1.getParent(), childNode2)
+        self.assertEqual(childNode2.getParent(), node)
+        self.assertEqual(len(node.getNormalChilds()), 1)
+        self.assertEqual(len(childNode1.getNormalChilds()), 0)
+        self.assertEqual(len(childNode2.getNormalChilds()), 1)
+
+    def testInsertWithManyChilds(self):
+        node = Node()
+        self.assertEqual(len(node.getNormalChilds()), 0)
+
+        for i in range(0, 200):
+            node.append(Node())
+
+        insertNode = Node()
+        self.assertEqual(len(node.getNormalChilds()), 200)
+        self.assertEqual(len(insertNode.getNormalChilds()), 0)
+        node.insert(insertNode)
+        self.assertEqual(len(node.getNormalChilds()), 1)
+        self.assertEqual(len(insertNode.getNormalChilds()), 200)

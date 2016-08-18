@@ -60,7 +60,7 @@ def lispTokenizer(input):
         if len(token) == 0:
             continue
 
-        if token[0]=='"':
+        if token[0] == '"':
             if in_string:
                 tokens[-1] += token[1:]
                 in_string = False
@@ -68,7 +68,7 @@ def lispTokenizer(input):
                 tokens.append(token[1:])
                 in_string = True
 
-        elif token[-1]=='"':
+        elif token[-1] == '"':
             if in_string:
                 tokens[-1] += token[:-1]
                 in_string = False
@@ -122,7 +122,7 @@ def parseLispString(input):
 
 def parseTimestamp(timestamp):
     raise NotImplemented()
-    return time.time() # TOOD
+    return time.time()  # TOOD
 
 
 def formatTimestamp(timestamp=None):

@@ -41,12 +41,24 @@ from KicadModTree.nodes.specialized.PadArray import PadArray
 
 """
 footprint specific details to go here
+
+Datasheet: http://www.jst-mfg.com/product/pdf/eng/eXH.pdf
+
 """
 pitch = 2.50
-pincount = [i for i in range(2,17)] + [20]
+boss = True
+if boss:
+    pincount = range(2,13)
+else:
+    pincount = [i for i in range(2,17)] + [20]
+
 
 #FP name strings
 part = "B{n:02}B-XH-A" #JST part number format string
+
+if boss:
+    part += "M"
+
 prefix = "JST_XH_"
 suffix = "_{n:02}x{p:.2f}mm_Straight"
 
@@ -76,13 +88,21 @@ if __name__ == '__main__':
         fp_name = prefix + part.format(n=pins) + suffix.format(n=pins, p=pitch)
 
         footprint = Footprint(fp_name)
+        
+        description = "JST XH series connector, " + part.format(n=pins) + ", top entry type, through hole"
 
+        if boss:
+            description += ", with boss"
+        
         #set the FP description
-        footprint.setDescription("JST XH series connector, " +
-                                 part.format(n=pins) +
-                                 ", top entry type, through hole")
+        footprint.setDescription(description)
+        
+        tags = "connector jst xh tht top vertical 2.50mm"
+        
+        if boss:
+            tags += " boss"
         #set the FP tags
-        footprint.setTags("connector jst xh tht top vertical 2.50mm")
+        footprint.setTags(tags)
 
         # set general values
         footprint.append(Text(type='reference', text='REF**', at=[x_mid,-5], layer='F.SilkS'))
@@ -94,7 +114,7 @@ if __name__ == '__main__':
             drill = 0.9
             
         #generate the pads
-        pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=1.5, drill=drill, layers=['*.Cu','*.Mask','F.SilkS'])
+        pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=1.5, drill=drill, layers=['*.Cu','*.Mask'])
         
         footprint.append(pa)
         
@@ -103,7 +123,7 @@ if __name__ == '__main__':
         footprint.append(cy)
         
         #offset the outline around the connector
-        off = 0.2
+        off = 0.15
         
         xo1 = x1 - off
         yo1 = y1 - off
@@ -122,20 +142,45 @@ if __name__ == '__main__':
         footprint.append(RectLine(start=[xo1,yo1],end=[xo2,yo2]))
         
         outline = [
-        {'x': -0.5,'y': yo2},
-        {'x': -0.5,'y': yo2 - wall},
-        {'x': xo1 + wall,'y': yo2-wall},
+        {'x': xo1,'y': yo2-wall - 1},
+        {'x': xo1 + wall,'y': yo2-wall - 1},
         {'x': xo1 + wall,'y': yo1+wall},
         {'x': x_mid,'y': yo1+wall},
         ]
         
-        footprint.append(PolygoneLine(polygone=outline,width="0.15",layer="F.SilkS"))
-        footprint.append(PolygoneLine(polygone=outline,width="0.15",layer="F.SilkS",x_mirror=x_mid))
+        if not boss:
+            
+            footprint.append(PolygoneLine(polygone=outline))
+            
+            footprint.append(PolygoneLine(polygone=outline,x_mirror=x_mid))
+        else:
+            
+            outline.append({'x': xo2-wall,'y': yo1+wall})
+            footprint.append(PolygoneLine(polygone=outline))
+        
+            outline = [
+            {'x': xo2,'y': yo2-wall-1},
+            {'x': xo2-wall,'y': yo2-wall-1},
+            {'x': xo2-wall,'y': -1},
+            ]
+
+            footprint.append(PolygoneLine(polygone=outline))
+        
+        footprint.append(RectLine(start=[xo1,yo2-wall],end=[xo1+notch,yo2]))
+        footprint.append(RectLine(start=[xo2,yo2-wall],end=[xo2-notch,yo2]))
         
         #draw the middle tab
         nx1 = -0.5 + notch
         nx2 = A + 0.5 - notch
         footprint.append(RectLine(start=[nx1, yo2 - wall],end=[nx2,yo2]))
+        
+        #add a boss (maybe)
+        if boss:
+            footprint.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, at=[A+1.6,-2], size=1.1, drill=1.1, layers=["*.Cu"]))
+        
+        #Add a model
+        footprint.append(Model(filename="Connectors_JST.3dshapes/" + fp_name + ".wrl"))
+        
         
         #filename
         filename = output_dir + fp_name + ".kicad_mod"

@@ -1,0 +1,18 @@
+sudo: false
+cache:
+  - pip
+  - directories:
+    - $HOME/.cache/pip
+language: python
+python:
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+install:
+  - ./manage.sh update_dev_packages
+script:
+  - ./manage.sh pep8_check
+  - ./manage.sh unit_tests
+  - ./manage.sh py_test_coverage

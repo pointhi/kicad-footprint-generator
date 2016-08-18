@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import sys
-sys.path.append("../../kicad_mod") # load kicad_mod path
+import os
+sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
 
 import argparse
 from kicad_mod import KicadMod, createNumberedPadsTHT

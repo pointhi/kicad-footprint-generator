@@ -47,18 +47,14 @@ class Footprint(Node):
         self.tags = None
         self.attribute = None
 
-
     def setName(self, name):
         self.name = name
-
 
     def setDescription(self, description):
         self.description = description
 
-
     def setTags(self, tags):
         self.tags = tags
-
 
     def setAttribute(self, value):
         self.attribute = value

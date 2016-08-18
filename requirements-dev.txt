@@ -1,0 +1,4 @@
+pep8
+unittest2
+nose2
+nose2-cov

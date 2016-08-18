@@ -27,12 +27,14 @@ class Model(Node):
         self.scale = Point(kwargs['scale'])
         self.rotate = Point(kwargs['rotate'])
 
-
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
-        render_text += " [filename: {filename}, at: {at}, scale: {scale}, rotate: {rotate}]".format(filename=self.filename
-                                                                                                   ,at=self.at.render('(xyz {x} {y} {z})')
-                                                                                                   ,scale=self.scale.render('(xyz {x} {y} {z})')
-                                                                                                   ,rotate=self.rotate.render('(xyz {x} {y} {z})'))
+
+        render_string = ['filename: {filename}'.format(filename=self.filename),
+                         'at: {at}'.format(at=self.at.render('(xyz {x} {y} {z})')),
+                         'scale: {scale}'.format(scale=self.scale.render('(xyz {x} {y} {z})')),
+                         'rotate: {rotate}'.format(rotate=self.rotate.render('(xyz {x} {y} {z})'))]
+
+        render_text += " [{}]".format(", ".join(render_string))
 
         return render_text
