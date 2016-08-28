@@ -13,6 +13,12 @@ pep8_check() {
     pep8 --max-line-length=120 "$KICADMODTREE_DIR/"
 }
 
+flake8_check() {
+    echo ''
+    echo '[!] Running flake8 check'
+    flake8 "$KICADMODTREE_DIR/"
+}
+
 unit_tests() {
     echo ''
     echo '[!] Running unit tests'
@@ -41,7 +47,8 @@ help() {
 Commands
 ========
     help                 - This text
-    pep8_check           - Pep8 validation
+    pep8_check           - pep8 validation
+    flake8_check         - flake8 validation
     unit_tests           - Run unit tests
     py_test_coverage     - Unit test coverage
     tests                - Run all tests

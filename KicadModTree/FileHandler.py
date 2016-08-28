@@ -43,7 +43,7 @@ class FileHandler(object):
 
         return None
 
-    def readFile(filename):
+    def readFile(self, filename):
         '''
         Read a footprint file and parse it
         '''
