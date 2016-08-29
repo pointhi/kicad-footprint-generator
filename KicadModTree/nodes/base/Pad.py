@@ -32,10 +32,10 @@ class Pad(Node):
     SHAPE_RECT = 'rect'
     SHAPE_TRAPEZE = 'trapezoid'
     _SHAPES = [SHAPE_CIRCLE, SHAPE_OVAL, SHAPE_RECT, SHAPE_TRAPEZE]
-    
-    LAYERS_SMT = ['F.Cu','F.Mask','F.Paste']
-    LAYERS_THT = ['*.Cu','*.Mask']
-    LAYERS_NPTH = ['*.Cu','*.Mask']
+
+    LAYERS_SMT = ['F.Cu', 'F.Mask', 'F.Paste']
+    LAYERS_THT = ['*.Cu', '*.Mask']
+    LAYERS_NPTH = ['*.Cu', '*.Mask']
 
     def __init__(self, **kwargs):
         Node.__init__(self)
@@ -51,7 +51,7 @@ class Pad(Node):
         self._initLayers(**kwargs)
 
     def _initNumber(self, **kwargs):
-        self.number = kwargs.get('number','""') #default to an un-numbered pad
+        self.number = kwargs.get('number', '""')  # default to an un-numbered pad
 
     def _initType(self, **kwargs):
         if not kwargs.get('type'):
@@ -110,7 +110,7 @@ class Pad(Node):
             raise KeyError('layers not declared (like "layers=[\'*.Cu\', \'*.Mask\', \'F.SilkS\']")')
         self.layers = kwargs.get('layers')
 
-    #calculate the outline of a pad
+    # calculate the outline of a pad
     def calculateBoundingBox(self):
         return Node.calculateBoundingBox(self)
 
