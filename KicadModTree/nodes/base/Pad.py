@@ -35,7 +35,7 @@ class Pad(Node):
     
     LAYERS_SMT = ['F.Cu','F.Mask','F.Paste']
     LAYERS_THT = ['*.Cu','*.Mask']
-    LAYERS_NPTH = ['*.Cu']
+    LAYERS_NPTH = ['*.Cu','*.Mask']
 
     def __init__(self, **kwargs):
         Node.__init__(self)
