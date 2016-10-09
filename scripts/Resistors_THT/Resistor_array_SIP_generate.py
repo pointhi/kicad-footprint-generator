@@ -24,11 +24,11 @@ def roundCrt(x):
 
 def makeSIP(pins, footprint_name, description):
         rm=2.54
-        h=0.5
+        h=2.5
         leftw=1.29
         ddrill=0.8
-        padx=1.2
-        pady=1.4
+        padx=1.6
+        pady=1.6
         crt_offset=0.25
         slk_offset=0.15
         lw_fab=0.1
@@ -93,7 +93,7 @@ def makeSIP(pins, footprint_name, description):
 
 
 if __name__ == '__main__':
-    for R in range(4, 14):
+    for R in range(3, 14):
         pins=R+1
         makeSIP(pins, "Resistor_Array_SIP%d" % (pins), "{0}-pin Resistor SIP pack".format(pins, R))
     #for R in range(3,6):
