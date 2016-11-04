@@ -224,6 +224,7 @@ class pack:
     def __init__(self):
         self.plastic = [0, 0, 0]  # width,heigth,depth of plastic package, starting at bottom-left
         self.metal = [0, 0, 0]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+        self.metal_offset_x=0 # offset of metal from left
         self.pins = 0  # number of pins
         self.rm = 0  # pin distance
         self.pad = [0, 0]  # width/height of pads
@@ -239,10 +240,15 @@ class pack:
         self.pin_offset_z = 0
         self.largepads=False
         self.fpnametags=[]
+        self.additional_pin_pad=[] # Position des Zusatz-SMD-Pads
+        self.additional_pin_pad_size = [] # Größe des Zusatz-SMD-Pads
 
     def __init__(self,name,pins=3,rm=0,largepads=False):
+        self.additional_pin_pad=[] # Position des Zusatz-SMD-Pads
+        self.additional_pin_pad_size = [] # Größe des Zusatz-SMD-Pads
         self.largepads =largepads
         self.fpnametags = []
+        self.metal_offset_x = 0  # offset of metal from left
         if (name=="SOT93"):
             self.plastic = [15.2, 12.7, 4.6]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [15.2, 21, 2]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
@@ -257,7 +263,7 @@ class pack:
             self.pin_minlength = 5.08  # min. elongation of pins before 90° bend
             self.pinw = [1.15, 0.4];  # width,height of pins
             self.tags = []  # description/keywords
-            self.pin_offset_z = 4.6-1.6
+            self.pin_offset_z = 4.6-1.6+0.2
             if largepads:
                 self.pad = [3.5, 5.5]
                 self.largepads =True
@@ -266,7 +272,7 @@ class pack:
             self.metal = [self.plastic[0], 20.72,1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
             self.rm = 5.47  # pin distance
-            self.pad = [2.5, 4.5]  # width/height of pads
+            self.pad = [2.5, 3.5]  # width/height of pads
             self.drill = 1.5  # diameter of pad drills
             self.name = name  # name of package
             self.mounting_hole_pos = [15.2 / 2, 16.2]  # position of mounting hole from bottom-left
@@ -275,32 +281,78 @@ class pack:
             self.pin_minlength = 5.08  # min. elongation of pins before 90° bend
             self.pinw = [1.15, 0.4];  # width,height of pins
             self.tags = []  # description/keywords
-            self.pin_offset_z = 2.79
+            self.pin_offset_z = 3
             if largepads:
-                self.pad = [3.5, 5.5]
+                self.pad = [3.5, 4.5]
                 self.largepads = True
         elif (name == "TO-220"):
             self.plastic = [10, 9.25, 4.4]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [self.plastic[0], 15.65,1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.metal = [self.plastic[0], 15.65,
+                          1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
             self.rm = 2.54  # pin distance
-            self.pad = [1.5, 2.5]  # width/height of pads
+            self.pad = [1.8, 1.8]  # width/height of pads
             self.drill = 1  # diameter of pad drills
             self.name = name  # name of package
-            self.mounting_hole_pos = [self.plastic[0] / 2, self.metal[1]-2.8]  # position of mounting hole from bottom-left
+            self.mounting_hole_pos = [self.plastic[0] / 2,
+                                      self.metal[1] - 2.8]  # position of mounting hole from bottom-left
             self.mounting_hole_diameter = 3.7  # diameter of mounting hole in package
             self.mounting_hole_drill = 3.5  # diameter of mounting hole drill
             self.pin_minlength = 3.81  # min. elongation of pins before 90° bend
             self.pinw = [0.75, 0.5];  # width,height of pins
             self.tags = []  # description/keywords
-            self.pin_offset_z = 2.4
+            self.pin_offset_z = 2.5
             if largepads:
                 self.tags.append("large pads")
-                self.pad = [1.7, 3.5]
-                self.largepads=True
+                self.pad = [2, 3.5]
+                self.largepads = True
+        elif (name == "TO-126"):
+            self.plastic = [8, 11, 3.25]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [0,0,0]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.pins = 3  # number of pins
+            self.rm = 2.54  # pin distance
+            self.pad = [1.8, 1.8]  # width/height of pads
+            self.drill = 1  # diameter of pad drills
+            self.name = name  # name of package
+            self.mounting_hole_pos = [self.plastic[0] / 2,
+                                      self.plastic[1] - 3.9]  # position of mounting hole from bottom-left
+            self.mounting_hole_diameter = 3.2  # diameter of mounting hole in package
+            self.mounting_hole_drill = 3.2  # diameter of mounting hole drill
+            self.pin_minlength = 4  # min. elongation of pins before 90° bend
+            self.pinw = [0.75, 0.5];  # width,height of pins
+            self.tags = []  # description/keywords
+            self.pin_offset_z = 2
+            if largepads:
+                self.tags.append("large pads")
+                self.pad = [2.0, 2.3]
+                self.largepads = True
+
+        elif (name == "TO-251"):
+            self.plastic = [6.5, 5.5, 2.3]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [5,7,0.5]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.pins = 3  # number of pins
+            self.rm = 2.3  # pin distance
+            self.pad = [1.4, 1.4]  # width/height of pads
+            self.drill = 0.8  # diameter of pad drills
+            self.name = name  # name of package
+            self.mounting_hole_pos = [self.plastic[0] / 2,
+                                      self.plastic[1] - 3.9]  # position of mounting hole from bottom-left
+            self.mounting_hole_diameter = 0  # diameter of mounting hole in package
+            self.mounting_hole_drill = 0  # diameter of mounting hole drill
+            self.pin_minlength = 2  # min. elongation of pins before 90° bend
+            self.pinw = [0.5, 0.5];  # width,height of pins
+            self.tags = []  # description/keywords
+            self.pin_offset_z = 1
+            self.additional_pin_pad_size = [5.7, 6.2]  # Größe des Zusatz-SMD-Pads
+            self.metal_offset_x = (self.plastic[0]-self.metal[0])/2  # offset of metal from left
+            if largepads:
+                self.tags.append("large pads")
+                self.pad = [1.8, 1.8]
+                self.additional_pin_pad_size = [6.3, 6.5]  # Größe des Zusatz-SMD-Pads
+                self.largepads = True
+            self.additional_pin_pad = [self.plastic[0] / 2, self.metal[1] - self.additional_pin_pad_size[1] / 3]  # Position des Zusatz-SMD-Pads
         else:
             __init__()
-
 
         if rm > 0:
             self.rm = rm
@@ -319,7 +371,7 @@ class pack:
 
 crt_offset = 0.25
 slk_offset = 0.2
-slk_dist = 0.3
+slk_dist = 0.25
 lw_fab = 0.1
 lw_crt = 0.05
 lw_slk = 0.15
@@ -384,13 +436,15 @@ def makeVERT(lib_name,  pck, has3d=False, x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.
 
     # create FAB-layer
     kicad_mod.append(RectLine(start=[l_fabp, t_fabp], end=[l_fabp+w_fabp, t_fabp+h_fabp], layer='F.Fab', width=lw_fab))
-    if (h_fabm>0):
+    if (pck.metal[2]>0):
         kicad_mod.append(Line(start=[l_fabp, t_fabp+h_fabm], end=[l_fabp+w_fabp, t_fabp+h_fabm], layer='F.Fab', width=lw_fab))
-        kicad_mod.append(Line(start=[l_mounth-pck.mounting_hole_diameter/2, t_fabp], end=[l_mounth-pck.mounting_hole_diameter/2, t_fabp+h_fabm], layer='F.Fab', width=lw_fab))
-        kicad_mod.append(Line(start=[l_mounth+pck.mounting_hole_diameter/2, t_fabp], end=[l_mounth+pck.mounting_hole_diameter/2, t_fabp+h_fabm], layer='F.Fab', width=lw_fab))
+        if pck.mounting_hole_diameter>0:
+            kicad_mod.append(Line(start=[l_mounth-pck.mounting_hole_diameter/2, t_fabp], end=[l_mounth-pck.mounting_hole_diameter/2, t_fabp+h_fabm], layer='F.Fab', width=lw_fab))
+            kicad_mod.append(Line(start=[l_mounth+pck.mounting_hole_diameter/2, t_fabp], end=[l_mounth+pck.mounting_hole_diameter/2, t_fabp+h_fabm], layer='F.Fab', width=lw_fab))
     else:
-        kicad_mod.append(Line(start=[l_mounth - pck.mounting_hole_diameter / 2, t_fabp],end=[l_mounth - pck.mounting_hole_diameter / 2, t_fabp + h_fabp], layer='F.Fab',width=lw_fab))
-        kicad_mod.append(Line(start=[l_mounth + pck.mounting_hole_diameter / 2, t_fabp],end=[l_mounth + pck.mounting_hole_diameter / 2, t_fabp + h_fabp], layer='F.Fab',width=lw_fab))
+        if pck.mounting_hole_diameter > 0:
+            kicad_mod.append(Line(start=[l_mounth - pck.mounting_hole_diameter / 2, t_fabp],end=[l_mounth - pck.mounting_hole_diameter / 2, t_fabp + h_fabp], layer='F.Fab',width=lw_fab))
+            kicad_mod.append(Line(start=[l_mounth + pck.mounting_hole_diameter / 2, t_fabp],end=[l_mounth + pck.mounting_hole_diameter / 2, t_fabp + h_fabp], layer='F.Fab',width=lw_fab))
 
     # create SILKSCREEN-layer
     keepouts=[]
@@ -403,13 +457,15 @@ def makeVERT(lib_name,  pck, has3d=False, x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.
     addHLineWithKeepout(kicad_mod, l_slkp, l_slkp+w_slkp, t_slkp+h_slkp, 'F.SilkS', lw_slk, keepouts)
     addVLineWithKeepout(kicad_mod, l_slkp, t_slkp, t_slkp+h_slkp, 'F.SilkS', lw_slk, keepouts)
     addVLineWithKeepout(kicad_mod, l_slkp+w_slkp, t_slkp, t_slkp+h_slkp, 'F.SilkS', lw_slk, keepouts)
-    if (h_slkm>0):
+    if (pck.metal[2]>0):
         addHLineWithKeepout(kicad_mod, l_slkp, l_slkp+w_slkp, t_slkp+h_slkm, 'F.SilkS', lw_slk, keepouts)
-        addVLineWithKeepout(kicad_mod, l_mounth - pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
-        addVLineWithKeepout(kicad_mod, l_mounth + pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
+        if pck.mounting_hole_diameter>0:
+            addVLineWithKeepout(kicad_mod, l_mounth - pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
+            addVLineWithKeepout(kicad_mod, l_mounth + pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
     else:
-        addVLineWithKeepout(kicad_mod, l_mounth - pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
-        addVLineWithKeepout(kicad_mod, l_mounth + pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
+        if pck.mounting_hole_diameter > 0:
+            addVLineWithKeepout(kicad_mod, l_mounth - pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
+            addVLineWithKeepout(kicad_mod, l_mounth + pck.mounting_hole_diameter / 2, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
 
     # create courtyard
     kicad_mod.append(RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt+w_crt), roundCrt(t_crt+h_crt)], layer='F.CrtYd', width=lw_crt))
@@ -418,7 +474,10 @@ def makeVERT(lib_name,  pck, has3d=False, x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.
     # create pads
     x=0
     for p in range(1,pck.pins+1):
-        kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill, layers=['*.Cu', '*.Mask']))
+        if (p==1):
+            kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[x, 0], size=pck.pad, drill=pck.drill, layers=['*.Cu', '*.Mask']))
+        else:
+            kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,layers=['*.Cu', '*.Mask']))
         x=x+pck.rm
 
     # add model
@@ -453,19 +512,29 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     
     l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
     t_crt = t_slkp - max(h_slkp, h_slkm) - crt_offset
-    w_crt = max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + pck.pad[0]) + 2 * crt_offset
     h_crt = (-t_crt + pck.pad[1] / 2) + 2 * crt_offset
-    
+    addpad=0
+    if len(pck.additional_pin_pad_size) > 0:
+        h_crt=h_crt+(pck.additional_pin_pad[1]+pck.additional_pin_pad_size[1]/2-h_fabm)
+        t_crt=t_crt-(pck.additional_pin_pad[1]+pck.additional_pin_pad_size[1]/2-h_fabm)
+        addpad=pck.additional_pin_pad_size[0]
+        addpadx=l_fabp+pck.additional_pin_pad[0]
+        addpady = t_fabp - pck.additional_pin_pad[1]
+    w_crt = max(max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + pck.pad[0]),addpad) + 2 * crt_offset
+
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp - pck.mounting_hole_pos[1]
     
     txt_x = l_slkp + max(w_slkp, w_slkm) / 2
     txt_t = (t_slkp - max(h_slkm, h_slkp)) - txt_offset
     txt_b = pck.pad[1] / 2 + txt_offset
-    
+    if len(pck.additional_pin_pad_size) > 0:
+        txt_t=txt_t-(pck.additional_pin_pad[1]+pck.additional_pin_pad_size[1]/2-h_fabm)
     tag_items = ["Horizontal", "RM {0}mm".format(pck.rm)]
     
     footprint_name = pck.name
+    if len(pck.additional_pin_pad_size)>0:
+        footprint_name = footprint_name + "-1EP"
     footprint_name = footprint_name + "_Horizontal"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
@@ -494,14 +563,11 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     
     # create FAB-layer
     if (h_fabm > 0):
-        kicad_mod.append(
-            RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabm, t_fabp - h_fabm], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(
-        RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp - h_fabp], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(
-        RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp - h_fabp], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(
-        Circle(center=[l_mounth, t_mounth], radius=pck.mounting_hole_diameter / 2, layer='F.Fab', width=lw_fab))
+        kicad_mod.append(RectLine(start=[l_fabp+pck.metal_offset_x, t_fabp - h_fabp], end=[l_fabp+pck.metal_offset_x + w_fabm, t_fabp - h_fabm], layer='F.Fab', width=lw_fab))
+    kicad_mod.append(RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp - h_fabp], layer='F.Fab', width=lw_fab))
+    kicad_mod.append(RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp - h_fabp], layer='F.Fab', width=lw_fab))
+    if pck.mounting_hole_diameter > 0:
+        kicad_mod.append(Circle(center=[l_mounth, t_mounth], radius=pck.mounting_hole_diameter / 2, layer='F.Fab', width=lw_fab))
     x = 0
     for p in range(1, pck.pins + 1):
         kicad_mod.append(Line(start=[x, t_fabp], end=[x, 0], layer='F.Fab', width=lw_fab))
@@ -514,28 +580,43 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
         keepouts.append([x - pck.pad[0] / 2 - slk_dist, x + pck.pad[0] / 2 + slk_dist, -pck.pad[1] / 2 - slk_dist,
                          pck.pad[1] / 2 + slk_dist])
         x = x + pck.rm
-    
+        
+    if len(pck.additional_pin_pad_size)>0:
+        keepouts.append([addpadx-pck.additional_pin_pad_size[0]/2- slk_dist,addpadx+pck.additional_pin_pad_size[0]/2+ slk_dist,
+                         addpady- pck.additional_pin_pad_size[1] / 2- slk_dist,addpady + pck.additional_pin_pad_size[1] / 2+ slk_dist])
+        
+    print(keepouts)
     addHLineWithKeepout(kicad_mod, l_slkp, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
-    addHLineWithKeepout(kicad_mod, l_slkp, l_slkp + w_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
-    addVLineWithKeepout(kicad_mod, l_slkp, t_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
-    addVLineWithKeepout(kicad_mod, l_slkp + w_slkp, t_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
-    
+    if h_fabm > 0:
+        addHLineWithKeepout(kicad_mod, l_slkp, l_slkp + w_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
+        addVLineWithKeepout(kicad_mod, l_slkp, t_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
+        addVLineWithKeepout(kicad_mod, l_slkp + w_slkp, t_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
+    else:
+        addHLineWithKeepout(kicad_mod, l_slkp, l_slkp + w_slkp, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
+        addVLineWithKeepout(kicad_mod, l_slkp, t_slkp, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
+        addVLineWithKeepout(kicad_mod, l_slkp + w_slkp, t_slkp, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
+
     # create courtyard
     kicad_mod.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
                  layer='F.CrtYd', width=lw_crt))
     
     # create mounting hole
-    kicad_mod.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_OVAL, at=[l_mounth, t_mounth],
+    if pck.mounting_hole_drill > 0:
+        kicad_mod.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_OVAL, at=[l_mounth, t_mounth],
                          size=[pck.mounting_hole_drill, pck.mounting_hole_drill], drill=pck.mounting_hole_drill,
                          layers=['*.Cu', '*.Mask']))
-    
+
+    if len(pck.additional_pin_pad_size) > 0:
+        kicad_mod.append(Pad(number=pck.pins+1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[addpadx, addpady], size=pck.additional_pin_pad_size, drill=0, layers=['F.Cu', 'F.Mask']))
+        
     # create pads
     x = 0
     for p in range(1, pck.pins + 1):
-        kicad_mod.append(
-            Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,
-                layers=['*.Cu', '*.Mask']))
+        if (p==1):
+            kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[x, 0], size=pck.pad, drill=pck.drill, layers=['*.Cu', '*.Mask']))
+        else:
+            kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,layers=['*.Cu', '*.Mask']))
         x = x + pck.rm
     
     # add model
@@ -568,11 +649,11 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     h_slkp = h_fabp + 2 * slk_offset
     w_slkm = w_fabm + 2 * slk_offset
     h_slkm = h_fabm + 2 * slk_offset
-    
+
     l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
-    t_crt = t_slkp + max(h_slkp, h_slkm) + crt_offset
+    t_crt = -pck.pad[1]/2- crt_offset
     w_crt = max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + pck.pad[0]) + 2 * crt_offset
-    h_crt = (-t_crt + pck.pad[1] / 2) + 2 * crt_offset
+    h_crt = -t_crt + t_slkp+max(h_slkp, h_slkm) + 2 * crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp + pck.mounting_hole_pos[1]
@@ -614,12 +695,10 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     if (h_fabm > 0):
         kicad_mod.append(
             RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabm, t_fabp + h_fabm], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(
-        RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp + h_fabp], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(
-        RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp + h_fabp], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(
-        Circle(center=[l_mounth, t_mounth], radius=pck.mounting_hole_diameter / 2, layer='F.Fab', width=lw_fab))
+    kicad_mod.append(RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp + h_fabp], layer='F.Fab', width=lw_fab))
+    kicad_mod.append(RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp + h_fabp], layer='F.Fab', width=lw_fab))
+    if pck.mounting_hole_diameter > 0:
+        kicad_mod.append(Circle(center=[l_mounth, t_mounth], radius=pck.mounting_hole_diameter / 2, layer='F.Fab', width=lw_fab))
     x = 0
     for p in range(1, pck.pins + 1):
         kicad_mod.append(Line(start=[x, t_fabp], end=[x, 0], layer='F.Fab', width=lw_fab))
@@ -648,16 +727,18 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
                  layer='F.CrtYd', width=lw_crt))
     
     # create mounting hole
-    kicad_mod.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_OVAL, at=[l_mounth, t_mounth],
+    if pck.mounting_hole_drill > 0:
+        kicad_mod.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_OVAL, at=[l_mounth, t_mounth],
                          size=[pck.mounting_hole_drill, pck.mounting_hole_drill], drill=pck.mounting_hole_drill,
                          layers=['*.Cu', '*.Mask']))
     
     # create pads
     x = 0
     for p in range(1, pck.pins + 1):
-        kicad_mod.append(
-            Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,
-                layers=['*.Cu', '*.Mask']))
+        if (p==1):
+            kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[x, 0], size=pck.pad, drill=pck.drill, layers=['*.Cu', '*.Mask']))
+        else:
+            kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,layers=['*.Cu', '*.Mask']))
         x = x + pck.rm
     
     # add model
@@ -675,13 +756,13 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 if __name__ == '__main__':
-    packs=  ["SOT93",        "TO-218",       "TO-220"                          ]
-    pins=   [[2,     3 ],    [2,     3    ],  [2,       3,         4,     5]   ]
-    rms=    [[0,     0 ],    [0,     0    ],  [0,       0,      2.54,   1.7]   ]
-    has3dv= [[False, False], [False, False], [True,  True,     False, False]   ]
-    has3dh= [[False, False], [False, False], [True,  True,     False, False]   ]
-    off3d=  [[[],    []],    [[],    []   ], [[0.1,0,0],[0.1,0,0],[],    []]   ]
-    scale3d=[[[],    []],    [[],    []   ], [[],      [],        [],    []]   ]
+    packs=  ["SOT93",        "TO-218",       "TO-251",       "TO-126" ,        "TO-220",                         ]
+    pins=   [[2,     3 ],    [2,     3    ], [2,     3    ], [2,     3    ],  [2,       3,         4,     5]   ]
+    rms=    [[0,     0 ],    [0,     0    ], [0,     0    ], [0,     0    ],  [0,       0,      2.54,   1.7]   ]
+    has3dv= [[False, False], [False, False], [False, False], [False, False], [True,  True,     False, False]   ]
+    has3dh= [[False, False], [False, False], [False, False], [False, False], [True,  True,     False, False]   ]
+    off3d=  [[[],    []],    [[],    []   ], [[],    []   ], [[],    []   ], [[0.1,0,0],[0.1,0,0],[],    []]   ]
+    scale3d=[[[],    []],    [[],    []   ], [[],    []   ], [[],    []   ], [[],      [],        [],    []]   ]
     for p in range(0,len(packs)):
         for pidx in range(0,len(pins[p])):
             o3d=[0,0,0]
@@ -690,10 +771,15 @@ if __name__ == '__main__':
                 o3d=off3d[p][pidx]
             if len(scale3d[p][pidx])>0:
                 s3d=scale3d[p][pidx]
-            makeVERT("TO_SOT_Packages_THT", pack(packs[p], pins[p][pidx], rms[p][pidx], False), has3dv[p][pidx], o3d, s3d)
-            makeVERT("TO_SOT_Packages_THT", pack(packs[p], pins[p][pidx], rms[p][pidx], True), has3dv[p][pidx], o3d, s3d)
-            makeHOR("TO_SOT_Packages_THT", pack(packs[p], pins[p][pidx], rms[p][pidx], False), has3dh[p][pidx], o3d, s3d)
-            makeHOR("TO_SOT_Packages_THT", pack(packs[p], pins[p][pidx], rms[p][pidx], True), has3dh[p][pidx], o3d, s3d)
-            makeHORREV("TO_SOT_Packages_THT", pack(packs[p], pins[p][pidx], rms[p][pidx], False), has3dh[p][pidx], o3d, s3d)
-            makeHORREV("TO_SOT_Packages_THT", pack(packs[p], pins[p][pidx], rms[p][pidx], True), has3dh[p][pidx], o3d, s3d)
+                
+            pack_norm=pack(packs[p], pins[p][pidx], rms[p][pidx], False)
+            pack_largepins=pack(packs[p], pins[p][pidx], rms[p][pidx], True)
+            makeVERT("TO_SOT_Packages_THT", pack_norm, has3dv[p][pidx], o3d, s3d)
+            makeVERT("TO_SOT_Packages_THT", pack_largepins, has3dv[p][pidx], o3d, s3d)
+            makeHOR("TO_SOT_Packages_THT", pack_norm, has3dh[p][pidx], o3d, s3d)
+            makeHOR("TO_SOT_Packages_THT", pack_largepins, has3dh[p][pidx], o3d, s3d)
+            if (len(pack_norm.additional_pin_pad)<=0):
+                makeHORREV("TO_SOT_Packages_THT", pack_norm, has3dh[p][pidx], o3d, s3d)
+            if (len(pack_largepins.additional_pin_pad) <= 0):
+                makeHORREV("TO_SOT_Packages_THT", pack_largepins, has3dh[p][pidx], o3d, s3d)
 
