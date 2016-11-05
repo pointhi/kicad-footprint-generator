@@ -230,10 +230,16 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
         kicad_mod.append(RectLine(start=[l_fabp + pck.metal_offset_x, t_fabp - h_fabp],
                                   end=[l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], layer='F.Fab',
                                   width=lw_fab))
-    kicad_mod.append(
-        RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp - h_fabp], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(
-        RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp - h_fabp], layer='F.Fab', width=lw_fab))
+    if len(pck.plastic_angled)>0:
+        kicad_mod.append(
+            PolygoneLine(polygone=[[l_fabp, t_fabp], [l_fabp + w_fabp, t_fabp], [l_fabp + w_fabp, t_fabp - (h_fabp-pck.plastic_angled[1])],
+                                   [l_fabp + w_fabp - pck.plastic_angled[0], t_fabp - (h_fabp)],
+                                   [l_fabp + pck.plastic_angled[0], t_fabp - (h_fabp)],
+                                   [l_fabp , t_fabp - (h_fabp-pck.plastic_angled[1])],
+                                   [l_fabp, t_fabp]], layer='F.Fab', width=lw_fab))
+    else:
+        kicad_mod.append(
+            RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp - h_fabp], layer='F.Fab', width=lw_fab))
     if pck.mounting_hole_diameter > 0:
         kicad_mod.append(
             Circle(center=[l_mounth, t_mounth], radius=pck.mounting_hole_diameter / 2, layer='F.Fab', width=lw_fab))
@@ -495,7 +501,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     txt_b = pck.pad[1] / 2 + txt_offset
     if len(pck.additional_pin_pad_size) > 0:
         txt_t = txt_t - (pck.additional_pin_pad[1] + pck.additional_pin_pad_size[1] / 2 - h_fabm)
-    tag_items = ["Horizontal", "RM {0}mm".format(pck.rm), "mount on lower-side of PCB"]
+    tag_items = ["Horizontal", "RM {0}mm".format(pck.rm), "mount on lower-side of PCB", "mount with cooling pad pointing away from PCB", "Reversed"]
     
     footprint_name = pck.name
     if len(pck.additional_pin_pad_size) > 0:
@@ -503,7 +509,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     footprint_name = footprint_name + "_Horizontal"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
-    footprint_name = footprint_name + "_MountFromLS"
+    footprint_name = footprint_name + "_Reversed_MountFromLS"
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
@@ -740,13 +746,13 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 if __name__ == '__main__':
-    packs=  ["SOT93",        "TO-218",       "TO-251",       "TO-126" ,      "TO-220",                         ]
-    pins=   [[2,     3 ],    [2,     3    ], [2,     3    ], [2,     3    ], [2,        3,            4,     5]   ]
-    rms=    [[0,     0 ],    [0,     0    ], [0,     0    ], [0,     0    ], [0,        0,         2.54,   1.7]   ]
-    has3dv= [[False, False], [False, False], [False, False], [False, False], [True,     True,     False, False]   ]
-    has3dh= [[False, False], [False, False], [False, False], [False, False], [True,     True,     False, False]   ]
-    off3d=  [[[],    []],    [[],    []   ], [[],    []   ], [[],    []   ], [[0.1,0,0],[0.1,0,0],   [],    []]   ]
-    scale3d=[[[],    []],    [[],    []   ], [[],    []   ], [[],    []   ], [[],       [],          [],    []]   ]
+    packs=  ["SOT93",        "TO-264",       "TO-247",       "TO-218",       "TO-251",       "TO-126",       "TO-220",                            "TO-280",    "TO-262",    "SIPAC",    ]
+    pins=   [[2,     3 ],    [2,     3 ],    [2,     3 ],    [2,     3    ], [2,     3    ], [2,     3    ], [2,        3,            4,     5],  [3     ],    [3     ],    [3     ],    ]
+    rms=    [[0,     0 ],    [0,     0 ],    [0,     0 ],    [0,     0    ], [0,     0    ], [0,     0    ], [0,        0,         2.54,   1.7],  [0     ],    [0     ],    [0     ],    ]
+    has3dv= [[False, False], [False, False], [False, False], [False, False], [False, False], [False, False], [True,     True,     False, False],  [False ],    [False ],    [False ],    ]
+    has3dh= [[False, False], [False, False], [False, False], [False, False], [False, False], [False, False], [True,     True,     False, False],  [False ],    [False ],    [False ],    ]
+    off3d=  [[[],    []],    [[],    []],    [[],    []],    [[],    []   ], [[],    []   ], [[],    []   ], [[0.1,0,0],[0.1,0,0],   [],    []],  [[]],        [[]],        [[]],        ]
+    scale3d=[[[],    []],    [[],    []],    [[],    []],    [[],    []   ], [[],    []   ], [[],    []   ], [[],       [],          [],    []],  [[]],        [[]],        [[]],        ]
     for p in range(0,len(packs)):
         for pidx in range(0,len(pins[p])):
             o3d=[0,0,0]
