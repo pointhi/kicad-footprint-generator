@@ -273,7 +273,13 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
         addHLineWithKeepout(kicad_mod, l_slkp, l_slkp + w_slkp, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
         addVLineWithKeepout(kicad_mod, l_slkp, t_slkp, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
         addVLineWithKeepout(kicad_mod, l_slkp + w_slkp, t_slkp, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
-    
+
+
+    x = 0
+    for p in range(1, pck.pins + 1):
+        addVLineWithKeepout(kicad_mod, x, t_slkp, -(pck.pad[1]/2+slk_dist), 'F.SilkS', lw_slk, keepouts)
+        x = x + pck.rm
+
     # create courtyard
     kicad_mod.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
@@ -578,7 +584,12 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
         addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
         addVDLineWithKeepout(kicad_modt, l_slkp, t_slkp, 3 * lw_slk, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
         addVDLineWithKeepout(kicad_modt, l_slkp + w_slkp, t_slkp, 3 * lw_slk, t_slkp - h_slkp, 'F.SilkS', lw_slk, keepouts)
-    
+
+    x = 0
+    for p in range(1, pck.pins + 1):
+        addVDLineWithKeepout(kicad_modt, x, t_slkp, 3 * lw_slk, -(pck.pad[1]/2+slk_dist), 'F.SilkS', lw_slk, keepouts)
+        x = x + pck.rm
+
     # create courtyard
     kicad_modt.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
@@ -710,6 +721,10 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
         addHDLineWithKeepout(kicad_mod, l_slkp, 4*lw_slk, l_slkp + w_slkm, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
         addVDLineWithKeepout(kicad_mod, l_slkp, t_slkp + h_slkp+lw_slk*2, 4 * lw_slk, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
         addVDLineWithKeepout(kicad_mod, l_slkp + w_slkp, t_slkp + h_slkp+lw_slk*2, 4 * lw_slk, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
+    x = 0
+    for p in range(1, pck.pins + 1):
+        addVLineWithKeepout(kicad_mod, x, t_slkp, pck.pad[1]/2+slk_dist, 'F.SilkS', lw_slk, keepouts)
+        x = x + pck.rm
 
     # create courtyard
     kicad_mod.append(
