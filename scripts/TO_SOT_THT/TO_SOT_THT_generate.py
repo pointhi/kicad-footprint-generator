@@ -869,6 +869,113 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     file_handler.writeFile(footprint_name + '.kicad_mod')
 
 
+# horizontal symbols for rectangular transistors
+def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+    padsize = pck.pad
+    d_slk=pck.diameter_outer+2*slk_offset
+    
+    # calculate pad positions
+    pads = []
+    yshift = 0
+    xshift = 0
+    a=pck.pin1_angle
+    for p in range(1, pck.pins + 1):
+        x=pck.pin_circle_diameter/2*math.cos(a/180*math.pi)
+        y=pck.pin_circle_diameter/2*math.sin(a/180*math.pi)
+        pads.append([x, y])
+        a = a + pck.pin_dangle
+        if p==1:
+            xshift=-x
+            yshift=-y
+    
+    
+    txt_t = -d_slk/2 - txt_offset
+    txt_b = d_slk/2 + txt_offset
+    tag_items = []
+    
+    footprint_name = pck.name
+    for t in pck.fpnametags:
+        footprint_name = footprint_name + "_" + t
+    if pck.largepads:
+        tag_items.append("large Pads")
+        footprint_name = footprint_name + lptext
+    print(footprint_name)
+    
+    description = pck.name
+    tags = pck.name
+    for t in tag_items:
+        description = description + ", " + t
+        tags = tags + " " + t
+    for t in pck.tags:
+        description = description + ", " + t
+        tags = tags + " " + t
+    
+    # init kicad footprint
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription(description)
+    kicad_mod.setTags(tags)
+    
+    kicad_modt = Translation(xshift, yshift)
+    kicad_mod.append(kicad_modt)
+    
+    # set general values
+    kicad_modt.append(Text(type='reference', text='REF**', at=[0, txt_t], layer='F.SilkS'))
+    kicad_modt.append(Text(type='value', text=footprint_name, at=[0, txt_b], layer='F.Fab'))
+    
+    # create FAB-layer
+    kicad_modt.append(Circle(center=[0,0], radius=pck.diameter_inner / 2, layer='F.Fab', width=lw_fab))
+    kicad_modt.append(Circle(center=[0, 0], radius=pck.diameter_outer / 2, layer='F.Fab', width=lw_fab))
+
+    
+    # create SILKSCREEN-layer
+    a=pck.mark_angle
+    da=math.asin(pck.mark_width/d_slk)/math.pi*180
+    a1=a+da
+    a2=a-da
+    x1 = [(d_slk / 2) * math.cos(a1 / 180 * math.pi), (d_slk / 2) * math.sin(a1 / 180 * math.pi)]
+    x3 = [(d_slk / 2) * math.cos(a2 / 180 * math.pi), (d_slk / 2) * math.sin(a2 / 180 * math.pi)]
+    dx1=  pck.mark_len / math.sqrt(2)
+    dx2 = pck.mark_width / math.sqrt(2)
+    x2 = [x1[0] - dx2, x1[1] - dx1]
+    x4 = [x3[0] - dx2, x3[1] - dx1]
+    minx=min(x2[0],x4[0])
+    miny=min(x2[1],x4[1])
+    kicad_modt.append(Arc(center=[0, 0], start=x1, angle=(360-2*da), layer='F.SilkS', width=lw_slk))
+    kicad_modt.append(Line(start=x1, end=x2, angle=0, layer='F.SilkS', width=lw_slk))
+    kicad_modt.append(Line(start=x2, end=x4, angle=0, layer='F.SilkS', width=lw_slk))
+    kicad_modt.append(Line(start=x4, end=x3, angle=0, layer='F.SilkS', width=lw_slk))
+
+    
+    # create courtyard
+    kicad_modt.append(
+        RectLine(start=[roundCrt(min(minx-crt_offset,-d_slk/2-crt_offset)), roundCrt(min(miny-crt_offset,-d_slk/2-crt_offset))], end=[roundCrt(d_slk/2+crt_offset), roundCrt(d_slk/2+crt_offset)],
+                 layer='F.CrtYd', width=lw_crt))
+        
+    # create pads
+    for p in range(0, len(pads)):
+        if p == 0:
+            kicad_modt.append(
+                Pad(number=p + 1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=pads[p], size=padsize, drill=pck.drill,
+                    layers=['*.Cu', '*.Mask']))
+        else:
+            kicad_modt.append(
+                Pad(number=p + 1, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=pads[p], size=padsize, drill=pck.drill,
+                    layers=['*.Cu', '*.Mask']))
+    
+    # add model
+    if (has3d):
+        kicad_modt.append(
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+    
+    # print render tree
+    # print(kicad_mod.getRenderTree())
+    # print(kicad_mod.getCompleteRenderTree())
+    
+    # write file
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile(footprint_name + '.kicad_mod')
+
+
 if __name__ == '__main__':
     # make standard packages
     packs = ["SOT93", "TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAC", ]
@@ -932,3 +1039,25 @@ if __name__ == '__main__':
             #if (len(pack_largepins.additional_pin_pad) <= 0):
             #    makeHORREV("TO_SOT_Packages_THT", pack_largepins, has3dh[p][pidx], o3d, s3d)
 
+    # make round packages
+    
+    packs     =  ["TO-18"                                   ]
+    modifiers =  ["",           "Window",     "Lens"        ]
+    pins =       [[   2,    3], [   2,    3], [   2,    3], ]
+    has3d =      [[True, True], [True, True], [True, True], ]
+    off3d =      [[[],   []  ], [[],   [], ], [[],   [], ], ]
+    scale3d =    [[[],   []  ], [[],   [], ], [[],   [], ], ]
+    for p in range(0, len(packs)):
+        for m in modifiers:
+            for pidx in range(0, len(pins[p])):
+                o3d = [0, 0, 0]
+                s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
+                if len(off3d[p][pidx]) > 0:
+                    o3d = off3d[p][pidx]
+                if len(scale3d[p][pidx]) > 0:
+                    s3d = scale3d[p][pidx]
+                
+                pack = pack_round(packs[p], pins[p][pidx], m, False)
+                libn = "TO_SOT_Packages_THT"
+                makeTORound(libn, pack, has3d[p][pidx], o3d, s3d)
+        

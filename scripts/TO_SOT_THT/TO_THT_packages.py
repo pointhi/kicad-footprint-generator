@@ -15,6 +15,75 @@ from KicadModTree import *  # NOQA
 from tools import *
 
 
+class pack_round:
+    #
+    #
+    #
+    #
+    #  |\    ~~~~~~~
+    #  \ \/          \
+    #   \               \
+    #  /                 \
+    #  |  PP1        PP   |
+    #  \                 /
+    #   \               /
+    #     \    PP    /
+    #        ~~~~~~~
+    def __init__(self):
+        self.diameter_inner = 0  # diameter of top can
+        self.diameter_outer = 0  # diameter of bottom can
+        self.mark_width=0 # width of marking
+        self.mark_len=0 # length of marking
+        self.pins = 0  # number of pins
+        self.pin_circle_diameter = 0  # pin circle diameterdistance
+        self.pin1_angle=0 # starting angle of first pin
+        self.pin_dangle=90 # angle between two pins (in degrees)
+        self.mark_angle=-45 # angular position of marking
+        self.pad = [0, 0]  # width/height of pads
+        self.drill = 0  # diameter of pad drills
+        self.name = ""  # name of package
+        self.tags = []  # description/keywords
+        self.largepads =False
+        self.fpnametags =[]
+
+    def __init__(self, name, pins=3, modifier="", largepads=False):
+        self.diameter_inner = 0  # diameter of top can
+        self.diameter_outer = 0  # diameter of bottom can
+        self.mark_width = 0  # width of marking
+        self.mark_len = 0  # length of marking
+        self.pins = pins  # number of pins
+        self.pin_circle_diameter = 0  # pin circle diameterdistance
+        self.pin1_angle = 0  # starting angle of first pin
+        self.pin_dangle = -90  # angle between two pins (in degrees)
+        self.mark_angle = -45  # angular position of marking
+        self.pad = [0, 0]  # width/height of pads
+        self.drill = 0  # diameter of pad drills
+        self.name = ""  # name of package
+        self.tags = []  # description/keywords
+        self.largepads = largepads
+        self.fpnametags = []
+        if (name == "TO-18"):
+            self.diameter_inner = 4.8  # diameter of top can
+            self.diameter_outer = 5.8  # diameter of bottom can
+            self.mark_width = 1.16  # width of marking
+            self.mark_len = 1.17  # length of marking
+            self.pin_circle_diameter = 2.54  # pin circle diameterdistance
+            self.pin1_angle = -180  # starting angle of first pin
+            self.pin_dangle = -90  # angle between two pins (in degrees)
+            if pins==2:
+                self.pin_dangle = -180
+            self.mark_angle = self.pin1_angle+45  # angular position of marking
+            self.pad = [1.2,1.2]  # width/height of pads
+            self.drill = 0.8  # diameter of pad drills
+            self.name = name
+            if len(modifier)>0:
+                self.name = self.name +"_"+modifier
+                self.tags.append(modifier)
+            self.name=self.name+"_{0}Pin".format(pins)  # name of package
+            if largepads:
+                self.pad = [1.8, 1.8]  # width/height of pads
+
+
 class pack:
     #      metal_/plastic_                                        ^
     #  <--------width------>                                      |
