@@ -947,6 +947,9 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
     
     # create courtyard
+    #r_slk=max(d_slk/2+crt_offset, math.sqrt(minx*minx+miny*miny))
+    #kicad_modt.append(
+    #    Circle(center=[0,0], radius=r_slk, layer='F.CrtYd', width=lw_crt))
     kicad_modt.append(
         RectLine(start=[roundCrt(min(minx-crt_offset,-d_slk/2-crt_offset)), roundCrt(min(miny-crt_offset,-d_slk/2-crt_offset))], end=[roundCrt(d_slk/2+crt_offset), roundCrt(d_slk/2+crt_offset)],
                  layer='F.CrtYd', width=lw_crt))
