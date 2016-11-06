@@ -268,3 +268,25 @@ def addRectAngledBottom(kicad_mod, x1, x2, angled_delta, layer, width, roun=0.00
                                [roundG(xma, roun),roundG(ya, roun)],
                                [roundG(xma, roun),roundG(ymi, roun)],
                                [roundG(xmi, roun),roundG(ymi, roun)]], layer=layer, width=width))
+
+# add a circle which is filled with 45° lines
+def addCircleLF(kicad_mod, center, radius, layer, width, linedist=0.3, roun=0.001):
+    trans=Translation(center[0], center[1])
+    kicad_mod.append(trans)
+    rend=roundG(radius, linedist)+linedist
+    M11=math.cos(45/180*math.pi)
+    M12 = -math.sin(45 / 180 * math.pi)
+    M21 = math.sin(45 / 180 * math.pi)
+    M22=math.cos(45/180*math.pi)
+    for y in frangei(-rend,rend, linedist):
+        if y*y <= radius*radius:
+            x1 = -math.sqrt(radius*radius-y*y)
+            x2 = -x1
+            if x1!=x2:
+                #print([roundG(x1, roun),roundG(y, roun)], [roundG(x2, roun),roundG(y, roun)])
+                trans.append(Line(start=[roundG(M11*x1+M12*y, roun),roundG(M21*x1+M22*y, roun)], end=[roundG(M11*x2+M12*y, roun),roundG(M21*x2+M22*y, roun)], layer=layer, width=width))
+
+
+    kicad_mod.append(Circle(center=[roundG(center[0], roun), roundG(center[1], roun)], radius=roundG(radius, roun), layer=layer,  width=width))
+
+    

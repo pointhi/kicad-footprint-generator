@@ -45,6 +45,7 @@ class pack_round:
         self.tags = []  # description/keywords
         self.largepads =False
         self.fpnametags =[]
+        self.window_diameter=0 # diameter of an on-top glass window
 
     def __init__(self, name, pins=3, modifier="", largepads=False):
         self.diameter_inner = 0  # diameter of top can
@@ -62,6 +63,7 @@ class pack_round:
         self.tags = []  # description/keywords
         self.largepads = largepads
         self.fpnametags = []
+        self.window_diameter=0 # diameter of an on-top glass window
         if (name == "TO-18"):
             self.diameter_inner = 4.8  # diameter of top can
             self.diameter_outer = 5.8  # diameter of bottom can
@@ -82,6 +84,9 @@ class pack_round:
             self.name=self.name+"_{0}Pin".format(pins)  # name of package
             if largepads:
                 self.pad = [1.8, 1.8]  # width/height of pads
+
+            if (modifier=="Window") or (modifier=="Lens"):
+                self.window_diameter = 4  # diameter of an on-top glass window
 
 
 class pack:

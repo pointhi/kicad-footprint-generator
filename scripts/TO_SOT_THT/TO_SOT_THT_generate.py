@@ -923,19 +923,36 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
     kicad_modt.append(Text(type='value', text=footprint_name, at=[0, txt_b], layer='F.Fab'))
     
     # create FAB-layer
-    kicad_modt.append(Circle(center=[0,0], radius=pck.diameter_inner / 2, layer='F.Fab', width=lw_fab))
-    kicad_modt.append(Circle(center=[0, 0], radius=pck.diameter_outer / 2, layer='F.Fab', width=lw_fab))
-
-    
-    # create SILKSCREEN-layer
     a=pck.mark_angle
     da=math.asin(pck.mark_width/d_slk)/math.pi*180
     a1=a+da
     a2=a-da
-    x1 = [(d_slk / 2) * math.cos(a1 / 180 * math.pi), (d_slk / 2) * math.sin(a1 / 180 * math.pi)]
-    x3 = [(d_slk / 2) * math.cos(a2 / 180 * math.pi), (d_slk / 2) * math.sin(a2 / 180 * math.pi)]
+    x1 = [(pck.diameter_outer / 2) * math.cos(a1 / 180 * math.pi), (pck.diameter_outer / 2) * math.sin(a1 / 180 * math.pi)]
+    x3 = [(pck.diameter_outer / 2) * math.cos(a2 / 180 * math.pi), (pck.diameter_outer / 2) * math.sin(a2 / 180 * math.pi)]
     dx1=  pck.mark_len / math.sqrt(2)
     dx2 = pck.mark_width / math.sqrt(2)
+    x2 = [x1[0] - dx2, x1[1] - dx1]
+    x4 = [x3[0] - dx2, x3[1] - dx1]
+    minx=min(x2[0],x4[0])
+    miny=min(x2[1],x4[1])
+    kicad_modt.append(Circle(center=[0,0], radius=pck.diameter_inner / 2, layer='F.Fab', width=lw_fab))
+    kicad_modt.append(Arc(center=[0, 0], start=x1, angle=(360-2*da), layer='F.Fab', width=lw_fab))
+    kicad_modt.append(Line(start=x1, end=x2, angle=0, layer='F.Fab', width=lw_fab))
+    kicad_modt.append(Line(start=x2, end=x4, angle=0, layer='F.Fab', width=lw_fab))
+    kicad_modt.append(Line(start=x4, end=x3, angle=0, layer='F.Fab', width=lw_fab))
+    if pck.window_diameter>0:
+        addCircleLF(kicad_modt, [0,0], pck.window_diameter/2, 'F.Fab', lw_fab, 4*lw_fab)
+
+    
+    # create SILKSCREEN-layer
+    a=pck.mark_angle
+    da=math.asin((pck.mark_width+2*slk_offset)/d_slk)/math.pi*180
+    a1=a+da
+    a2=a-da
+    x1 = [(d_slk / 2) * math.cos(a1 / 180 * math.pi), (d_slk / 2) * math.sin(a1 / 180 * math.pi)]
+    x3 = [(d_slk / 2) * math.cos(a2 / 180 * math.pi), (d_slk / 2) * math.sin(a2 / 180 * math.pi)]
+    dx1=  (pck.mark_len+slk_offset) / math.sqrt(2)
+    dx2 = (pck.mark_width+slk_offset) / math.sqrt(2)
     x2 = [x1[0] - dx2, x1[1] - dx1]
     x4 = [x3[0] - dx2, x3[1] - dx1]
     minx=min(x2[0],x4[0])
