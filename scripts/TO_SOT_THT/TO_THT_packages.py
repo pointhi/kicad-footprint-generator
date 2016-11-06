@@ -54,8 +54,7 @@ class pack_round:
         self.mark_len = 0  # length of marking
         self.pins = pins  # number of pins
         self.pin_circle_diameter = 0  # pin circle diameterdistance
-        self.pin1_angle = 0  # starting angle of first pin
-        self.pin_dangle = -90  # angle between two pins (in degrees)
+        self.pin1_angle = 180  # starting angle of first pin
         self.mark_angle = -45  # angular position of marking
         self.pad = [0, 0]  # width/height of pads
         self.drill = 0  # diameter of pad drills
@@ -64,30 +63,106 @@ class pack_round:
         self.largepads = largepads
         self.fpnametags = []
         self.window_diameter=0 # diameter of an on-top glass window
-        if (name == "TO-18"):
+        self.pin_dangle = -90  # angle between two pins (in degrees)
+        if pins == 2:
+            self.pin_dangle = -180
+        elif pins == 4:
+            self.pin_dangle = -90
+        elif pins >4:
+            self.pin_dangle = -360/pins
+        self.mark_angle = self.pin1_angle + 45  # angular position of marking
+        self.name = name
+
+        if (name == "TO-18") or (name=="TO-46") or (name=="TO-52") or (name=="TO-72"):
             self.diameter_inner = 4.8  # diameter of top can
             self.diameter_outer = 5.8  # diameter of bottom can
             self.mark_width = 1.16  # width of marking
             self.mark_len = 1.17  # length of marking
             self.pin_circle_diameter = 2.54  # pin circle diameterdistance
-            self.pin1_angle = -180  # starting angle of first pin
-            self.pin_dangle = -90  # angle between two pins (in degrees)
-            if pins==2:
-                self.pin_dangle = -180
-            self.mark_angle = self.pin1_angle+45  # angular position of marking
             self.pad = [1.2,1.2]  # width/height of pads
-            self.drill = 0.8  # diameter of pad drills
-            self.name = name
+            self.drill = 0.7  # diameter of pad drills
             if len(modifier)>0:
                 self.name = self.name +"_"+modifier
                 self.tags.append(modifier)
             self.name=self.name+"_{0}Pin".format(pins)  # name of package
             if largepads:
-                self.pad = [1.8, 1.8]  # width/height of pads
+                self.pad = [1.5, 1.5]  # width/height of pads
 
             if (modifier=="Window") or (modifier=="Lens"):
                 self.window_diameter = 4  # diameter of an on-top glass window
 
+
+        if (name == "TO-5") or (name == "TO-11") or (name == "TO-12") or (name == "TO-33") or (name == "TO-39") or (name == "TO-99"):
+            self.diameter_inner = 8.5  # diameter of top can
+            self.diameter_outer = 9.4  # diameter of bottom can
+            self.mark_width = 0.86  # width of marking
+            self.mark_len = 1  # length of marking
+            self.pin_circle_diameter = 5.08  # pin circle diameterdistance
+            self.pad = [1.2, 1.2]  # width/height of pads
+            self.drill = 0.7  # diameter of pad drills
+            if len(modifier) > 0:
+                self.name = self.name + "_" + modifier
+                self.tags.append(modifier)
+            self.name = self.name + "_{0}Pin".format(pins)  # name of package
+            if largepads:
+                self.pad = [1.5, 1.5]  # width/height of pads
+            if (modifier == "Window") or (modifier == "Lens"):
+                self.window_diameter = 5.9  # diameter of an on-top glass window
+
+
+        if (name == "TO-8"):
+            self.diameter_inner = 13.2  # diameter of top can
+            self.diameter_outer = 14.4  # diameter of bottom can
+            self.mark_width = 0.0  # width of marking
+            self.mark_len = 0  # length of marking
+            self.pin_circle_diameter = 7.1  # pin circle diameterdistance
+            self.pad = [1.6, 1.6]  # width/height of pads
+            self.drill = 1.1  # diameter of pad drills
+            if len(modifier) > 0:
+                self.name = self.name + "_" + modifier
+                self.tags.append(modifier)
+            self.name = self.name + "_{0}Pin".format(pins)  # name of package
+            if largepads:
+                self.pad = [2, 2]  # width/height of pads
+            if (modifier == "Window") or (modifier == "Lens"):
+                self.window_diameter = 0.43*25.4  # diameter of an on-top glass window
+
+
+        if (name == "TO-17"):
+            self.diameter_inner = 4.2  # diameter of top can
+            self.diameter_outer = 5.2  # diameter of bottom can
+            self.mark_width = 0.76  # width of marking
+            self.mark_len = 0.75  # length of marking
+            self.pin_circle_diameter = 1.8  # pin circle diameterdistance
+            self.pad = [1, 1]  # width/height of pads
+            self.drill = 0.6  # diameter of pad drills
+            if len(modifier) > 0:
+                self.name = self.name + "_" + modifier
+                self.tags.append(modifier)
+            self.name = self.name + "_{0}Pin".format(pins)  # name of package
+            if largepads:
+                self.pad = [1.3, 1.3]  # width/height of pads
+            if (modifier == "Window") or (modifier == "Lens"):
+                self.window_diameter = 3.5  # diameter of an on-top glass window
+
+        
+        if (name == "TO-17"):
+            self.diameter_inner = 4.2  # diameter of top can
+            self.diameter_outer = 5.2  # diameter of bottom can
+            self.mark_width = 0.76  # width of marking
+            self.mark_len = 0.75  # length of marking
+            self.pin_circle_diameter = 1.8  # pin circle diameterdistance
+            self.pad = [1, 1]  # width/height of pads
+            self.drill = 0.6  # diameter of pad drills
+            if len(modifier) > 0:
+                self.name = self.name + "_" + modifier
+                self.tags.append(modifier)
+            self.name = self.name + "_{0}Pin".format(pins)  # name of package
+            if largepads:
+                self.pad = [1.3, 1.3]  # width/height of pads
+            if (modifier == "Window") or (modifier == "Lens"):
+                self.window_diameter = 3.5  # diameter of an on-top glass window
+        
 
 class pack:
     #      metal_/plastic_                                        ^

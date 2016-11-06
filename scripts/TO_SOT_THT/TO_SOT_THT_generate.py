@@ -923,59 +923,69 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
     kicad_modt.append(Text(type='value', text=footprint_name, at=[0, txt_b], layer='F.Fab'))
     
     # create FAB-layer
-    a=pck.mark_angle
-    da=math.asin(pck.mark_width/d_slk)/math.pi*180
-    a1=a+da
-    a2=a-da
-    x1 = [(pck.diameter_outer / 2) * math.cos(a1 / 180 * math.pi), (pck.diameter_outer / 2) * math.sin(a1 / 180 * math.pi)]
-    x3 = [(pck.diameter_outer / 2) * math.cos(a2 / 180 * math.pi), (pck.diameter_outer / 2) * math.sin(a2 / 180 * math.pi)]
-    dx1=  pck.mark_len / math.sqrt(2)
-    dx2 = pck.mark_width / math.sqrt(2)
-    x2 = [x1[0] - dx2, x1[1] - dx1]
-    x4 = [x3[0] - dx2, x3[1] - dx1]
-    minx=min(x2[0],x4[0])
-    miny=min(x2[1],x4[1])
-    kicad_modt.append(Circle(center=[0,0], radius=pck.diameter_inner / 2, layer='F.Fab', width=lw_fab))
-    kicad_modt.append(Arc(center=[0, 0], start=x1, angle=(360-2*da), layer='F.Fab', width=lw_fab))
-    kicad_modt.append(Line(start=x1, end=x2, angle=0, layer='F.Fab', width=lw_fab))
-    kicad_modt.append(Line(start=x2, end=x4, angle=0, layer='F.Fab', width=lw_fab))
-    kicad_modt.append(Line(start=x4, end=x3, angle=0, layer='F.Fab', width=lw_fab))
+    kicad_modt.append(Circle(center=[0, 0], radius=pck.diameter_inner / 2, layer='F.Fab', width=lw_fab))
+    if pck.mark_width > 0 and pck.mark_len > 0:
+        a=pck.mark_angle
+        da=math.asin(pck.mark_width/d_slk)/math.pi*180
+        a1=a+da
+        a2=a-da
+        x1 = [(pck.diameter_outer / 2) * math.cos(a1 / 180 * math.pi), (pck.diameter_outer / 2) * math.sin(a1 / 180 * math.pi)]
+        x3 = [(pck.diameter_outer / 2) * math.cos(a2 / 180 * math.pi), (pck.diameter_outer / 2) * math.sin(a2 / 180 * math.pi)]
+        dx1=  pck.mark_len / math.sqrt(2)
+        dx2 = pck.mark_width / math.sqrt(2)
+        x2 = [x1[0] - dx2, x1[1] - dx1]
+        x4 = [x3[0] - dx2, x3[1] - dx1]
+        minx=min(x2[0],x4[0])
+        miny=min(x2[1],x4[1])
+        kicad_modt.append(Arc(center=[0, 0], start=x1, angle=(360-2*da), layer='F.Fab', width=lw_fab))
+        kicad_modt.append(Line(start=x1, end=x2, angle=0, layer='F.Fab', width=lw_fab))
+        kicad_modt.append(Line(start=x2, end=x4, angle=0, layer='F.Fab', width=lw_fab))
+        kicad_modt.append(Line(start=x4, end=x3, angle=0, layer='F.Fab', width=lw_fab))
+    else:
+        kicad_modt.append(Circle(center=[0, 0], radius=pck.diameter_outer / 2, layer='F.Fab', width=lw_fab))
     if pck.window_diameter>0:
         addCircleLF(kicad_modt, [0,0], pck.window_diameter/2, 'F.Fab', lw_fab, 4*lw_fab)
 
     
     # create SILKSCREEN-layer
-    a=pck.mark_angle
-    da=math.asin((pck.mark_width+2*slk_offset)/d_slk)/math.pi*180
-    a1=a+da
-    a2=a-da
-    x1 = [(d_slk / 2) * math.cos(a1 / 180 * math.pi), (d_slk / 2) * math.sin(a1 / 180 * math.pi)]
-    x3 = [(d_slk / 2) * math.cos(a2 / 180 * math.pi), (d_slk / 2) * math.sin(a2 / 180 * math.pi)]
-    dx1=  (pck.mark_len+slk_offset) / math.sqrt(2)
-    dx2 = (pck.mark_width+slk_offset) / math.sqrt(2)
-    x2 = [x1[0] - dx2, x1[1] - dx1]
-    x4 = [x3[0] - dx2, x3[1] - dx1]
-    minx=min(x2[0],x4[0])
-    miny=min(x2[1],x4[1])
-    kicad_modt.append(Arc(center=[0, 0], start=x1, angle=(360-2*da), layer='F.SilkS', width=lw_slk))
-    kicad_modt.append(Line(start=x1, end=x2, angle=0, layer='F.SilkS', width=lw_slk))
-    kicad_modt.append(Line(start=x2, end=x4, angle=0, layer='F.SilkS', width=lw_slk))
-    kicad_modt.append(Line(start=x4, end=x3, angle=0, layer='F.SilkS', width=lw_slk))
+    if pck.mark_width>0 and pck.mark_len>0:
+        a=pck.mark_angle
+        da=math.asin((pck.mark_width+2*slk_offset)/d_slk)/math.pi*180
+        a1=a+da
+        a2=a-da
+        x1 = [(d_slk / 2) * math.cos(a1 / 180 * math.pi), (d_slk / 2) * math.sin(a1 / 180 * math.pi)]
+        x3 = [(d_slk / 2) * math.cos(a2 / 180 * math.pi), (d_slk / 2) * math.sin(a2 / 180 * math.pi)]
+        dx1=  (pck.mark_len+slk_offset) / math.sqrt(2)
+        dx2 = (pck.mark_width+slk_offset) / math.sqrt(2)
+        x2 = [x1[0] - dx2, x1[1] - dx1]
+        x4 = [x3[0] - dx2, x3[1] - dx1]
+        minx=min(x2[0],x4[0])
+        miny=min(x2[1],x4[1])
+        kicad_modt.append(Arc(center=[0, 0], start=x1, angle=(360-2*da), layer='F.SilkS', width=lw_slk))
+        kicad_modt.append(Line(start=x1, end=x2, angle=0, layer='F.SilkS', width=lw_slk))
+        kicad_modt.append(Line(start=x2, end=x4, angle=0, layer='F.SilkS', width=lw_slk))
+        kicad_modt.append(Line(start=x4, end=x3, angle=0, layer='F.SilkS', width=lw_slk))
+    else:
+        kicad_modt.append(Circle(center=[0, 0], radius=d_slk/2, layer='F.SilkS', width=lw_slk))
 
     
     # create courtyard
     #r_slk=max(d_slk/2+crt_offset, math.sqrt(minx*minx+miny*miny))
     #kicad_modt.append(
     #    Circle(center=[0,0], radius=r_slk, layer='F.CrtYd', width=lw_crt))
-    kicad_modt.append(
-        RectLine(start=[roundCrt(min(minx-crt_offset,-d_slk/2-crt_offset)), roundCrt(min(miny-crt_offset,-d_slk/2-crt_offset))], end=[roundCrt(d_slk/2+crt_offset), roundCrt(d_slk/2+crt_offset)],
-                 layer='F.CrtYd', width=lw_crt))
+    if pck.mark_width > 0 and pck.mark_len > 0:
+        kicad_modt.append(
+            RectLine(start=[roundCrt(min(minx-crt_offset,-d_slk/2-crt_offset)), roundCrt(min(miny-crt_offset,-d_slk/2-crt_offset))], end=[roundCrt(d_slk/2+crt_offset), roundCrt(d_slk/2+crt_offset)],
+                     layer='F.CrtYd', width=lw_crt))
+    else:
+        kicad_modt.append(Circle(center=[0, 0], radius=d_slk / 2+crt_offset, layer='F.CrtYd', width=lw_crt))
+
         
     # create pads
     for p in range(0, len(pads)):
         if p == 0:
             kicad_modt.append(
-                Pad(number=p + 1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=pads[p], size=padsize, drill=pck.drill,
+                Pad(number=p + 1, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=pads[p], size=padsize, drill=pck.drill,
                     layers=['*.Cu', '*.Mask']))
         else:
             kicad_modt.append(
@@ -1061,23 +1071,24 @@ if __name__ == '__main__':
 
     # make round packages
     
-    packs     =  ["TO-18"                                   ]
-    modifiers =  ["",           "Window",     "Lens"        ]
-    pins =       [[   2,    3], [   2,    3], [   2,    3], ]
-    has3d =      [[True, True], [True, True], [True, True], ]
-    off3d =      [[[],   []  ], [[],   [], ], [[],   [], ], ]
-    scale3d =    [[[],   []  ], [[],   [], ], [[],   [], ], ]
+    packs     =  [  "TO-18",                                    "TO-5",                                        "TO-8",                           "TO-11",                           "TO-12",    "TO-17",   "TO-99",   "TO-72",    "TO-39",          "TO-46",          "TO-52",           "TO-33",  ]
+    modifiers =  [ ["",           "Window",     "Lens"    ],   ["",                   "Window",           ],   ["",             "Window",   ],   ["",             "Window",   ],   [""   ],    [""   ],    [""   ],    [""   ],    [""         ],    [""         ],    [""         ],    [""   ],  ]
+    pins =       [[[   2,    3], [   2,    3], [   2,    3]], [[    2,     3,     8], [    2,     3,     8]], [[    2,     3], [    2,     3]], [[    2,     3], [    2,     3]], [[    4]],  [[    4]],  [[    8]],  [[    4]],  [[    2,    3]],  [[    2,    3]],  [[    2,    3]],  [[    4]], ]
+    has3d =      [[[True, True], [True, True], [True, True]], [[False, False, False], [False, False, False]], [[False, False], [False, False]], [[False, False], [False, False]], [[False]],  [[False]],  [[False]],  [[False]],  [[False,False]],  [[False,False]],  [[False,False]],  [[False]], ]
+    off3d =      [[[[],   []  ], [[],   [], ], [[],   [], ]], [[[],    [],    []   ], [[],    [],    []   ]], [[[],    []   ], [[],    [],  ]], [[[],    []   ], [[],    [],  ]], [[[]]   ],  [[[]]   ],  [[[]]   ],  [[[]]   ],  [[[],   []   ]],  [[[],   []   ]],  [[[],   []   ]],  [[[]]   ], ]
+    scale3d =    [[[[],   []  ], [[],   [], ], [[],   [], ]], [[[],    [],    []   ], [[],    [],    []   ]], [[[],    []   ], [[],    [],  ]], [[[],    []   ], [[],    [],  ]], [[[]]   ],  [[[]]   ],  [[[]]   ],  [[[]]   ],  [[[],   []   ]],  [[[],   []   ]],  [[[],   []   ]],  [[[]]   ], ]
     for p in range(0, len(packs)):
-        for m in modifiers:
-            for pidx in range(0, len(pins[p])):
+        mi=0
+        for m in modifiers[p]:
+            for pidx in range(0, len(pins[p][mi])):
                 o3d = [0, 0, 0]
                 s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
-                if len(off3d[p][pidx]) > 0:
-                    o3d = off3d[p][pidx]
-                if len(scale3d[p][pidx]) > 0:
-                    s3d = scale3d[p][pidx]
+                if len(off3d[p][mi][pidx]) > 0:
+                    o3d = off3d[p][mi][pidx]
+                if len(scale3d[p][mi][pidx]) > 0:
+                    s3d = scale3d[p][mi][pidx]
                 
-                pack = pack_round(packs[p], pins[p][pidx], m, False)
+                pack = pack_round(packs[p], pins[p][mi][pidx], m, False)
                 libn = "TO_SOT_Packages_THT"
-                makeTORound(libn, pack, has3d[p][pidx], o3d, s3d)
-        
+                makeTORound(libn, pack, has3d[p][mi][pidx], o3d, s3d)
+            mi=mi+1
