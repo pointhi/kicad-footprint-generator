@@ -65,19 +65,32 @@ class pack:
         self.tags = []  # description/keywords
         self.pin_offset_x = 0
         self.pin_offset_z = 0
-        self. largepads =False
-        self. fpnametags =[]
-        self. additional_pin_pad =[] # Position des Zusatz-SMD-Pads
+        self.largepads =False
+        self.fpnametags =[]
+        self.additional_pin_pad =[] # Position des Zusatz-SMD-Pads
         self.additional_pin_pad_size = [] # Größe des Zusatz-SMD-Pads
         self.plastic_angled=[]
-    
-    def __init__(self ,name ,pins=3 ,rm=0 ,largepads=False):
+        self.metal_angled = []
+        self.staggered_type=0 # 0=no staggering, 1=type1-staggering (pin1=fron), 2=type2-staggering (pin1=back)
+        self.staggered_rm=[5.08,5.08] # y-distance between pins [vertical, horizontal]
+        self.staggered_pin_offset_z = 0 # z-offset of back-pins in staggered mode [vertical, horizontal]
+        self.staggered_pin_minlength = 0  # y-offset of back-pins in staggered mode
+        self.staggered_pad=[] # pad size in staggered mode
+
+    def __init__(self ,name ,pins=3 ,rm=0, staggered_type=0,largepads=False):
         self. additional_pin_pad =[] # Position des Zusatz-SMD-Pads
         self.additional_pin_pad_size = [] # Größe des Zusatz-SMD-Pads
         self.largepads =largepads
         self.fpnametags = []
         self.metal_offset_x = 0  # offset of metal from left
         self.plastic_angled = []
+        self.metal_angled = []
+        self.staggered_type=staggered_type
+        self.staggering_rm=[5.08,2.54] # y-distance between pins
+        self.staggered_pin_offset_z=0
+        self.staggered_pin_minlength = 0 # y-offset of back-pins in staggered mode
+        self.staggered_pad = []  # pad size in staggered mode
+
         if (name == "SOT93"):
             self.plastic = [15.2, 12.7, 4.6]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [15.2, 21,
@@ -183,8 +196,7 @@ class pack:
                 self.largepads = True
         elif (name == "TO-220"):
             self.plastic = [10, 9.25, 4.4]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [self.plastic[0], 15.65,
-                          1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.metal = [self.plastic[0], 15.65, 1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
             self.rm = 2.54  # pin distance
             self.pad = [1.8, 1.8]  # width/height of pads
@@ -198,17 +210,52 @@ class pack:
             self.pinw = [0.75, 0.5];  # width,height of pins
             self.tags = []  # description/keywords
             self.pin_offset_z = 2.5
+            self.staggered_rm = [3.7,3.8]# y-distance between pins
+            self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
+            self.staggered_pin_minlength = 2.05  # y-offset of back-pins in staggered mode
+            self.staggered_pad = [1.8, 1.8]  # width/height of pads
             if pins == 5:
                 self.tags.append("Pentawatt")
                 self.fpnametags.append("Pentawatt")
                 self.fpnametags.append("Multiwatt-5")
             if pins >5:
                 self.tags.append("Multiwatt")
-                self.fpnametags.append("Multiwatt-"+pins.str())
+                self.fpnametags.append("Multiwatt-{0}".format(pins))
             if largepads:
                 self.tags.append("large pads")
                 self.pad = [2, 3.5]
                 self.largepads = True
+
+        elif (name == "Multiwatt"):
+            self.plastic = [20.2, 10.7, 5]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [self.plastic[0], 17.5,1.6]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.metal_angled = [2.25,2.25]
+            self.pins = 15  # number of pins
+            self.rm = 1.3  # pin distance
+            self.pad = [1.8, 1.8]  # width/height of pads
+            self.drill = 1  # diameter of pad drills
+            self.name = name+"-{0}".format(pins)  # name of package
+            self.mounting_hole_pos = [self.plastic[0] / 2, 17.5-2.8]  # position of mounting hole from bottom-left
+            self.mounting_hole_diameter = 3.7  # diameter of mounting hole in package
+            self.mounting_hole_drill = 3.5  # diameter of mounting hole drill
+            self.pin_minlength = 3.81  # min. elongation of pins before 90° bend
+            self.pinw = [0.7, 0.5];  # width,height of pins
+            self.tags = []  # description/keywords
+            self.pin_offset_z = 4.55
+            self.staggered_rm = [5.08,2.54]  # y-distance between pins
+            self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
+            self.staggered_pin_minlength= 3.3  # y-offset of back-pins in staggered mode
+            self.staggered_pad = [1.8, 1.8]  # width/height of pads
+            if pins == 5:
+                self.tags.append("Pentawatt")
+                self.fpnametags.append("Pentawatt")
+            if pins != 5:
+                self.tags.append("Multiwatt")
+            if largepads:
+                self.tags.append("large pads")
+                self.pad = [2, 3.5]
+                self.largepads = True
+    
         elif (name == "TO-126"):
             self.plastic = [8, 11, 3.25]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [0, 0, 0]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
@@ -326,6 +373,12 @@ class pack:
         self.pad[0] = min(self.pad[0], 0.75 * self.rm)
         if self.largepads:
             self.tags.append("large pads")
+        if self.staggered_type==1:
+            self.tags.append("staggered type-1")
+            self.fpnametags=["StaggeredType1"]+self.fpnametags
+        if self.staggered_type==2:
+            self.tags.append("staggered type-2")
+            self.fpnametags=["StaggeredType2"] + self.fpnametags
 
 
 crt_offset = 0.25

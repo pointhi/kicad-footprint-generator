@@ -49,16 +49,16 @@ def addKeepoutRound(x,y, w,h):
         return addKeepoutRect(x,y,w,h)
     else:
         res=[]
-        Nrects=8
+        Nrects=4
         r=max(h,w)/2
         yysum=0
-        for ya in frangei(0,r,r/Nrects):
+        for ya in frange(0,r,r/Nrects):
             a=math.fabs(math.asin(ya/r)/math.pi*180)
             yy=math.fabs(r*math.sin(a/180.0*math.pi))
             xx=math.fabs(r*math.cos(a/180.0*math.pi))
             if (xx>0):
-                res.append([x - xx, x + xx, y-yy-r/Nrects, y-yy])
-                res.append([x - xx, x + xx, y+yy, y+yy+r/Nrects])
+                res.append([x - xx-0.015, x + xx+0.015, y-yy-r/Nrects-0.015, y-yy+.015])
+                res.append([x - xx-0.015, x + xx+0.015, y+yy-0.015, y+yy+r/Nrects+0.015])
             yysum=yysum+yy
         return res
 
@@ -74,7 +74,7 @@ def addHLineWithKeepout(kicad_mod, x0, x1, y,layer, width, keepouts=[], roun=0.0
                 for li in reversed(range(0,len(lines))):
                     l=lines[li]
                     #print("H: ko=",ko,"  li=",li,"   l=",l,"   ls=",lines)
-                    if (ko[0]<l[0]) & (l[1]<ko[1]) & (l[1]>ko[0]): # Line completely inside -> remove
+                    if (ko[0]<=l[0]) & (ko[1]>=l[0]) & (l[1]<=ko[1]) & (l[1]>=ko[0]): # Line completely inside -> remove
                         lines.pop(li)
                         changes=True
                         break
@@ -94,6 +94,7 @@ def addHLineWithKeepout(kicad_mod, x0, x1, y,layer, width, keepouts=[], roun=0.0
                         lines.append([ko[1], l[1]])
                         changes = True
                         break
+                    
                     if changes:
                         break
     for l in lines:
@@ -122,24 +123,21 @@ def addHDLineWithKeepout(kicad_mod, x0, dx, x1, y, layer, width, keepouts=[], ro
                 for li in reversed(range(0, len(lines))):
                     l = lines[li]
                     # print("H: ko=",ko,"  li=",li,"   l=",l,"   ls=",lines)
-                    if (ko[0] < l[0]) & (l[1] < ko[1]) & (l[1] > ko[0]):  # Line completely inside -> remove
+                    if (ko[0] <= l[0]) & (l[1] <= ko[1]) & (l[1] >= ko[0]):  # Line completely inside -> remove
                         lines.pop(li)
                         changes = True
                         break
-                    elif (l[0] > ko[0]) & (l[1] < ko[1]) & (
-                        l[1] > ko[1]):  # Line starts inside, but ends outside -> remove and add shortened
+                    elif (l[0] > ko[0]) & (l[0] <=ko[1]) & (l[1] < ko[1]) & ( l[1] > ko[1]):  # Line starts inside, but ends outside -> remove and add shortened
                         lines.pop(li)
                         lines.append([ko[1], l[1]])
                         changes = True
                         break
-                    elif (l[0] < ko[0]) & (l[1] < ko[1]) & (
-                        l[1] > ko[0]):  # Line starts outside, but ends inside -> remove and add shortened
+                    elif (l[0] < ko[0]) & (l[1] <= ko[1]) & (l[1] > ko[0]):  # Line starts outside, but ends inside -> remove and add shortened
                         lines.pop(li)
                         lines.append([l[0], ko[0]])
                         changes = True
                         break
-                    elif (l[0] < ko[0]) & (
-                        l[1] > ko[1]):  # Line starts outside, and ends outside -> remove and add 2 shortened
+                    elif (l[0] < ko[0]) & (l[1] > ko[1]):  # Line starts outside, and ends outside -> remove and add 2 shortened
                         lines.pop(li)
                         lines.append([l[0], ko[0]])
                         lines.append([ko[1], l[1]])
@@ -236,3 +234,37 @@ def addVDLineWithKeepout(kicad_mod, x, y0, dy, y1, layer, width, keepouts=[], ro
     for l in lines:
         kicad_mod.append(Line(start=[roundG(x, roun), roundG(l[0], roun)], end=[roundG(x, roun), roundG(l[1], roun)], layer=layer, width=width))
 
+
+# add a rectangle that has two angled corners at the top
+def addRectAngledTop(kicad_mod, x1, x2, angled_delta, layer, width, roun=0.001):
+    xmi=min(x1[0], x2[0])
+    xma = max(x1[0], x2[0])
+    xa=xma-angled_delta[0]
+    xl = xmi + angled_delta[0]
+    ymi=max(x1[1], x2[1])
+    yma = min(x1[1], x2[1])
+    ya = yma + angled_delta[1]
+    kicad_mod.append(
+        PolygoneLine(polygone=[[roundG(xmi, roun),roundG(ymi, roun)], [roundG(xmi, roun),roundG(ya, roun)],
+                               [roundG(xl, roun), roundG(yma, roun)],
+                               [roundG(xa, roun), roundG(yma, roun)],
+                               [roundG(xma, roun),roundG(ya, roun)],
+                               [roundG(xma, roun),roundG(ymi, roun)],
+                               [roundG(xmi, roun),roundG(ymi, roun)]], layer=layer, width=width))
+
+# add a rectangle that has two angled corners at the bottom
+def addRectAngledBottom(kicad_mod, x1, x2, angled_delta, layer, width, roun=0.001):
+    xmi=min(x1[0], x2[0])
+    xma = max(x1[0], x2[0])
+    xa=xma-angled_delta[0]
+    xl = xmi + angled_delta[0]
+    ymi=min(x1[1], x2[1])
+    yma = max(x1[1], x2[1])
+    ya = yma - angled_delta[1]
+    kicad_mod.append(
+        PolygoneLine(polygone=[[roundG(xmi, roun),roundG(ymi, roun)], [roundG(xmi, roun),roundG(ya, roun)],
+                               [roundG(xl, roun), roundG(yma, roun)],
+                               [roundG(xa, roun), roundG(yma, roun)],
+                               [roundG(xma, roun),roundG(ya, roun)],
+                               [roundG(xma, roun),roundG(ymi, roun)],
+                               [roundG(xmi, roun),roundG(ymi, roun)]], layer=layer, width=width))
