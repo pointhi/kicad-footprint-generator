@@ -92,12 +92,16 @@ class pack_round:
                 self.window_diameter = 4  # diameter of an on-top glass window
 
 
-        if (name == "TO-5") or (name == "TO-11") or (name == "TO-12") or (name == "TO-33") or (name == "TO-39") or (name == "TO-99"):
+        if (name == "TO-5") or (name == "TO-5_PD5.08") or (name == "TO-11") or (name == "TO-12") or (name == "TO-33") or (name == "TO-39") or (name == "TO-99"):
             self.diameter_inner = 8.5  # diameter of top can
             self.diameter_outer = 9.4  # diameter of bottom can
             self.mark_width = 0.86  # width of marking
-            self.mark_len = 1  # length of marking
+            self.mark_len = 1.14  # length of marking
             self.pin_circle_diameter = 5.08  # pin circle diameterdistance
+            if (pins>6) and (name != "TO-5_PD5.08"):
+                self.pin_circle_diameter = 5.84  # pin circle diameterdistance
+            if pins>8:
+                self.mark_angle = self.pin1_angle + 36  # angular position of marking
             self.pad = [1.2, 1.2]  # width/height of pads
             self.drill = 0.7  # diameter of pad drills
             if len(modifier) > 0:
@@ -108,6 +112,7 @@ class pack_round:
                 self.pad = [1.5, 1.5]  # width/height of pads
             if (modifier == "Window") or (modifier == "Lens"):
                 self.window_diameter = 5.9  # diameter of an on-top glass window
+
 
 
         if (name == "TO-8"):
@@ -144,24 +149,24 @@ class pack_round:
                 self.pad = [1.3, 1.3]  # width/height of pads
             if (modifier == "Window") or (modifier == "Lens"):
                 self.window_diameter = 3.5  # diameter of an on-top glass window
-
         
-        if (name == "TO-17"):
-            self.diameter_inner = 4.2  # diameter of top can
-            self.diameter_outer = 5.2  # diameter of bottom can
-            self.mark_width = 0.76  # width of marking
-            self.mark_len = 0.75  # length of marking
-            self.pin_circle_diameter = 1.8  # pin circle diameterdistance
-            self.pad = [1, 1]  # width/height of pads
-            self.drill = 0.6  # diameter of pad drills
+        
+        if (name == "TO-38"):
+            self.diameter_inner = 12.3  # diameter of top can
+            self.diameter_outer = 17.3  # diameter of bottom can
+            self.mark_width = 0.0  # width of marking
+            self.mark_len = 0.0  # length of marking
+            self.pin_circle_diameter = 5.08  # pin circle diameterdistance
+            self.pad = [1.3, 1.3]  # width/height of pads
+            self.drill = 0.8  # diameter of pad drills
             if len(modifier) > 0:
                 self.name = self.name + "_" + modifier
                 self.tags.append(modifier)
             self.name = self.name + "_{0}Pin".format(pins)  # name of package
             if largepads:
-                self.pad = [1.3, 1.3]  # width/height of pads
+                self.pad = [1.6, 1.6]  # width/height of pads
             if (modifier == "Window") or (modifier == "Lens"):
-                self.window_diameter = 3.5  # diameter of an on-top glass window
+                self.window_diameter = 8  # diameter of an on-top glass window
         
 
 class pack:
