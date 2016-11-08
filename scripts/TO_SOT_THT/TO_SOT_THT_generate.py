@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#usr/bin/env python
 
 import sys
 import os
@@ -879,16 +879,18 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
     yshift = 0
     xshift = 0
     a=pck.pin1_angle
+    firstPin=True
     for p in range(1, pck.pins + 1):
         x=pck.pin_circle_diameter/2*math.cos(a/180*math.pi)
         y=pck.pin_circle_diameter/2*math.sin(a/180*math.pi)
-        pads.append([x, y])
         a = a + pck.pin_dangle
-        if p==1:
-            xshift=-x
-            yshift=-y
-    
-    
+        if (len(pck.used_pins)<=0) or ((p-1) in pck.used_pins):
+            pads.append([x, y])
+            if firstPin:
+                xshift=-x
+                yshift=-y
+                firstPin=False
+
     txt_t = -d_slk/2 - txt_offset
     txt_b = d_slk/2 + txt_offset
     tag_items = []
@@ -1076,8 +1078,8 @@ if __name__ == '__main__':
 
     packs.append("TO-5")
     modifiers.append(["", "Window"])
-    pins.append([2, 3, 4, 8, 10])
-    has3d.append([False, False, False, False, False])
+    pins.append([2, 3, 4, 6, 8, 10])
+    has3d.append([False, False, False, False, False, False])
     off3d.append([])
     scale3d.append([])
 
@@ -1139,10 +1141,10 @@ if __name__ == '__main__':
 
     packs.append("TO-39")
     modifiers.append(["", "Window"])
-    pins.append([2, 3, 4, 8, 10])
-    has3d.append([False, False, False, False, False])
-    off3d.append([[], [], [], [], []])
-    scale3d.append([[], [], [], [], []])
+    pins.append([2, 3, 4, 6, 8, 10])
+    has3d.append([False, False, False, False, False, False])
+    off3d.append([])
+    scale3d.append([])
 
     packs.append("TO-46")
     modifiers.append(["", "Window"])
@@ -1167,10 +1169,10 @@ if __name__ == '__main__':
 
     packs.append("TO-99")
     modifiers.append(["", "Window"])
-    pins.append([8])
-    has3d.append([False])
-    off3d.append([[]])
-    scale3d.append([[]])
+    pins.append([6,8])
+    has3d.append([False,False])
+    off3d.append([])
+    scale3d.append([])
 
 
 

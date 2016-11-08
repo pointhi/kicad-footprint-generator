@@ -46,6 +46,7 @@ class pack_round:
         self.largepads =False
         self.fpnametags =[]
         self.window_diameter=0 # diameter of an on-top glass window
+        self.used_pins=[] # if filled: the device may have up to self.pins pins, but only the given pin positions (0-based count) are actualy used
 
     def __init__(self, name, pins=3, modifier="", largepads=False):
         self.diameter_inner = 0  # diameter of top can
@@ -64,6 +65,7 @@ class pack_round:
         self.fpnametags = []
         self.window_diameter=0 # diameter of an on-top glass window
         self.pin_dangle = -90  # angle between two pins (in degrees)
+        self.used_pins = []  # if filled: the device may have up to self.pins pins, but only the given pin positions (0-based count) are actualy used
         if pins == 2:
             self.pin_dangle = -180
         elif pins == 4:
@@ -98,9 +100,13 @@ class pack_round:
             self.mark_width = 0.86  # width of marking
             self.mark_len = 1.14  # length of marking
             self.pin_circle_diameter = 5.08  # pin circle diameterdistance
-            if (pins>6) and (name != "TO-5_PD5.08"):
+            if (pins==6):
+                self.pins=8
+                self.pin_dangle = -360 / self.pins
+                self.used_pins=[0,1,2,4,5,6]
+            elif (pins>6) and (name != "TO-5_PD5.08"):
                 self.pin_circle_diameter = 5.84  # pin circle diameterdistance
-            if pins>8:
+            elif pins>8:
                 self.mark_angle = self.pin1_angle + 36  # angular position of marking
             self.pad = [1.2, 1.2]  # width/height of pads
             self.drill = 0.7  # diameter of pad drills
