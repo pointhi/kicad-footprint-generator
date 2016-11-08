@@ -175,7 +175,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
             addVLineWithKeepout(kicad_modt,pads[p][0], yl1, yl2, 'F.SilkS', lw_slk, keepouts)
 
     # create courtyard
-    kicad_modt.append(
+    kicad_mod.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt+yshift)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt+yshift)],
                  layer='F.CrtYd', width=lw_crt))
     
@@ -974,7 +974,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
     if pck.mark_width > 0 and pck.mark_len > 0:
         kicad_mod.append(
-            RectLine(start=[roundCrt(xshift+min(minx-crt_offset,-d_slk/2-crt_offset)), roundCrt(yshift+min(miny-crt_offset,-d_slk/2-crt_offset))], end=[roundCrt(d_slk/2+crt_offset), roundCrt(d_slk/2+crt_offset)],
+            RectLine(start=[roundCrt(xshift+min(minx-crt_offset,-d_slk/2-crt_offset)), roundCrt(yshift+min(miny-crt_offset,-d_slk/2-crt_offset))], end=[roundCrt(xshift+d_slk/2+crt_offset), roundCrt(yshift+d_slk/2+crt_offset)],
                      layer='F.CrtYd', width=lw_crt))
     else:
         kicad_mod.append(Circle(center=[roundCrt(xshift), roundCrt(yshift)], radius=roundCrt(d_slk / 2+crt_offset), layer='F.CrtYd', width=lw_crt))
@@ -1042,7 +1042,7 @@ if __name__ == '__main__':
     has3dv =  [ [True   ], [False,  True,    ]]
     has3dh =  [ [True   ], [False,  True,    ]]
     off3d =   [ [[]     ], [[],       [],    ]]
-    scale3d = [ [[]     ], [[],       [],    ]]
+    scale3d = [ [[]     ], [[],       [1,1,1],]]
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
@@ -1057,8 +1057,8 @@ if __name__ == '__main__':
             libn = "TO_SOT_Packages_THT"
             makeVERT(libn, pack_norm1, has3dv[p][pidx], o3d, s3d)
             makeVERT(libn, pack_norm2, has3dv[p][pidx], o3d, s3d)
-            makeHOR(libn, pack_norm1, has3dv[p][pidx], o3d, s3d)
-            makeHOR(libn, pack_norm2, has3dv[p][pidx], o3d, s3d)
+            makeHOR(libn, pack_norm1, has3dh[p][pidx], o3d, s3d)
+            makeHOR(libn, pack_norm2, has3dh[p][pidx], o3d, s3d)
 
             
             
