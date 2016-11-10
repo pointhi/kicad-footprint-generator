@@ -496,6 +496,12 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
             keepouts = keepouts + addKeepoutRound(x, 0, pck.pad[0] + 2 * slk_dist, pck.pad[1] + 2 * slk_dist)
         x = x - pck.rm
     
+    #for ko in keepouts:
+    #    kicad_modt.append(
+    #        RectLine(start=[ko[0], ko[2]],
+    #                 end=[ko[1], ko[3]],
+    #                 layer='F.CrtYd', width=0.01))
+    
     addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
     addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
     addVDLineWithKeepout(kicad_modt, l_slkp, t_slkp, 3 * lw_slk, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
@@ -1007,16 +1013,18 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
 if __name__ == '__main__':
     # make standard packages
-    packs = ["SOT93", "TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAC", ]
-    pins = [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3, 4, 5], [3], [3], [3], ]
-    rms = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0, 2.54, 1.7], [0], [0], [0], ]
-    has3dv = [[False, False], [False, False], [False, False], [False, False], [False, False], [False, False],
-              [True, True, False, False], [False], [False], [False], ]
-    has3dh = [[False, False], [False, False], [False, False], [False, False], [False, False], [False, False],
-              [True, True, False, False], [False], [False], [False], ]
-    off3d = [[[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], []], [[]], [[]],
-             [[]], ]
-    scale3d = [[[], []], [[], []], [[], []], [[], []], [[], []], [[], []], [[], [], [], []], [[]], [[]], [[]], ]
+    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", ]
+    pins = [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3, 4, 5], [3], [3],  ]
+    rms = [ [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0, 2.54, 1.7], [0], [0],  ]
+    has3dv = [[False, False], [False, False], [False, False], [False, False], [False, False],
+              [True, True, False, False], [False], [False], ]
+    has3dh = [ [False, False], [False, False], [False, False], [False, False], [False, False],
+              [True, True, False, False], [False], [False], ]
+    off3d = [ [[], []], [[], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], []], [[]], [[]], ]
+    scale3d = [ [[], []], [[], []], [[], []], [[], []], [[], []], [[], [], [], []], [[]], [[]],  ]
+    
+    #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
+    #exit()
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
@@ -1034,6 +1042,7 @@ if __name__ == '__main__':
             if (len(pack_norm.additional_pin_pad) <= 0):
                 makeHORLS(libn, pack_norm, has3dh[p][pidx], o3d, s3d)
                 makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d)
+            
 
     # make staggered packages
     packs =   [ "TO-220",  "Multiwatt"]
@@ -1079,7 +1088,7 @@ if __name__ == '__main__':
     packs.append("TO-5")
     modifiers.append(["", "Window"])
     pins.append([2, 3, 4, 6, 8, 10])
-    has3d.append([False, False, False, False, False, False])
+    has3d.append([True, True, False, False, False, False])
     off3d.append([])
     scale3d.append([])
 

@@ -251,25 +251,27 @@ class pack:
         self.staggered_pin_minlength = 0 # y-offset of back-pins in staggered mode
         self.staggered_pad = []  # pad size in staggered mode
 
-        if (name == "SOT93"):
-            self.plastic = [15.2, 12.7, 4.6]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [15.2, 21,
-                          2]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+        if (name == "TO-218"):
+            self.plastic = [15.92, 12.7, 5.08]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [self.plastic[0], 20.72,
+                          1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
-            self.rm = 5.5  # pin distance
-            self.pad = [2.5, 4.5]  # width/height of pads
+            self.rm = 5.47  # pin distance
+            self.pad = [2.5, 3.5]  # width/height of pads
             self.drill = 1.5  # diameter of pad drills
             self.name = name  # name of package
-            self.mounting_hole_pos = [15.2 / 2, 21 - 4.4]  # position of mounting hole from bottom-left
-            self.mounting_hole_diameter = 4.25  # diameter of mounting hole in package
+            self.mounting_hole_pos = [15.2 / 2, 16.2]  # position of mounting hole from bottom-left
+            self.mounting_hole_diameter = 4.23  # diameter of mounting hole in package
             self.mounting_hole_drill = 4  # diameter of mounting hole drill
             self.pin_minlength = 5.08  # min. elongation of pins before 90° bend
             self.pinw = [1.15, 0.4];  # width,height of pins
-            self.tags = []  # description/keywords
-            self.pin_offset_z = 4.6 - 1.6 + 0.2
+            self.tags = ["SOT93"]  # description/keywords
+            self.fpnametags.append("SOT93")
+            self.pin_offset_z = 3
             if largepads:
-                self.pad = [3.5, 5.5]
+                self.pad = [3.5, 4.5]
                 self.largepads = True
+                
         elif (name == "TO-264"):
             self.plastic = [20, 26, 5]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [self.plastic[0], 0,
@@ -335,25 +337,7 @@ class pack:
             if largepads:
                 self.pad = [3.7, 5.5]
                 self.largepads = True
-        elif (name == "TO-218"):
-            self.plastic = [15.92, 12.7, 5.08]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [self.plastic[0], 20.72,
-                          1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
-            self.pins = 3  # number of pins
-            self.rm = 5.47  # pin distance
-            self.pad = [2.5, 3.5]  # width/height of pads
-            self.drill = 1.5  # diameter of pad drills
-            self.name = name  # name of package
-            self.mounting_hole_pos = [15.2 / 2, 16.2]  # position of mounting hole from bottom-left
-            self.mounting_hole_diameter = 4.23  # diameter of mounting hole in package
-            self.mounting_hole_drill = 4  # diameter of mounting hole drill
-            self.pin_minlength = 5.08  # min. elongation of pins before 90° bend
-            self.pinw = [1.15, 0.4];  # width,height of pins
-            self.tags = []  # description/keywords
-            self.pin_offset_z = 3
-            if largepads:
-                self.pad = [3.5, 4.5]
-                self.largepads = True
+
         elif (name == "TO-220"):
             self.plastic = [10, 9.25, 4.4]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [self.plastic[0], 15.65, 1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
@@ -464,32 +448,6 @@ class pack:
             self.additional_pin_pad = [self.plastic[0] / 2, self.metal[1] - self.additional_pin_pad_size[
                 1] / 3]  # Position des Zusatz-SMD-Pads
 
-        elif (name == "SIPAC"):
-            self.plastic = [6.6, 6.1, 2.3]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [5.33, 7.12, 0.53]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
-            self.pins = 3  # number of pins
-            self.rm = 2.286  # pin distance
-            self.pad = [1.6, 1.6]  # width/height of pads
-            self.drill = 1  # diameter of pad drills
-            self.name = name  # name of package
-            self.mounting_hole_pos = [self.plastic[0] / 2,
-                                      self.plastic[1] - 3.9]  # position of mounting hole from bottom-left
-            self.mounting_hole_diameter = 0  # diameter of mounting hole in package
-            self.mounting_hole_drill = 0  # diameter of mounting hole drill
-            self.pin_minlength = 1.5  # min. elongation of pins before 90° bend
-            self.pinw = [0.78, 0.5];  # width,height of pins
-            self.tags = ["IIAK"]  # description/keywords
-            self.fpnametags.append("IPAK")
-            self.pin_offset_z = 1.07+0.23
-            self.additional_pin_pad_size = [6, 6]  # Größe des Zusatz-SMD-Pads
-            self.metal_offset_x = (self.plastic[0] - self.metal[0]) / 2  # offset of metal from left
-            if largepads:
-                self.tags.append("large pads")
-                self.pad = [1.8, 1.8]
-                self.additional_pin_pad_size = [6.3, 6.6]  # Größe des Zusatz-SMD-Pads
-                self.largepads = True
-            self.additional_pin_pad = [self.plastic[0] / 2, self.metal[1] - self.additional_pin_pad_size[
-                1] / 3]  # Position des Zusatz-SMD-Pads
 
         elif (name == "TO-262"):
             self.plastic = [10, 9.25, 4.4]  # width,heigth,depth of plastic package, starting at bottom-left
