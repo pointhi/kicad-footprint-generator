@@ -1102,7 +1102,7 @@ if __name__ == '__main__':
     packs.append("TO-8")
     modifiers.append(["", "Window"])
     pins.append([2, 3])
-    has3d.append([False, False])
+    has3d.append([True, True])
     off3d.append([])
     scale3d.append([])
 
