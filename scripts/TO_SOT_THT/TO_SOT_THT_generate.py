@@ -1051,7 +1051,7 @@ if __name__ == '__main__':
     has3dv =  [ [True   ], [False,  True,    ]]
     has3dh =  [ [True   ], [False,  True,    ]]
     off3d =   [ [[]     ], [[],       [],    ]]
-    scale3d = [ [[]     ], [[],       [1,1,1],]]
+    scale3d = [ [[]     ], [[],  [1,1,1],    ]]
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
@@ -1109,7 +1109,7 @@ if __name__ == '__main__':
     packs.append("TO-11")
     modifiers.append(["", "Window"])
     pins.append([2, 3])
-    has3d.append([False, False])
+    has3d.append([True, True])
     off3d.append([])
     scale3d.append([])
 

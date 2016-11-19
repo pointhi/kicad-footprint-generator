@@ -250,6 +250,7 @@ class pack:
         self.staggered_pin_offset_z=0
         self.staggered_pin_minlength = 0 # y-offset of back-pins in staggered mode
         self.staggered_pad = []  # pad size in staggered mode
+        self.addpinstext=True
 
         if (name == "TO-218"):
             self.plastic = [15.92, 12.7, 5.08]  # width,heigth,depth of plastic package, starting at bottom-left
@@ -379,6 +380,7 @@ class pack:
             self.pad = [1.8, 1.8]  # width/height of pads
             self.drill = 1  # diameter of pad drills
             self.name = name+"-{0}".format(pins)  # name of package
+            self.addpinstext=False
             self.mounting_hole_pos = [self.plastic[0] / 2, 17.5-2.8]  # position of mounting hole from bottom-left
             self.mounting_hole_diameter = 3.7  # diameter of mounting hole in package
             self.mounting_hole_drill = 3.5  # diameter of mounting hole drill
@@ -481,7 +483,8 @@ class pack:
         if rm > 0:
             self.rm = rm
         if pins != 3:
-            self.name = "{0}-{1}pin".format(self.name, pins)
+            if self.addpinstext:
+                self.name = "{0}-{1}pin".format(self.name, pins)
             self.pins = pins
             if rm <= 0:
                 self.rm = 2 * self.rm / (pins - 1)
