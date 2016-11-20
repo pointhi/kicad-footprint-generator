@@ -1014,13 +1014,13 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 if __name__ == '__main__':
     # make standard packages
     packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", ]
-    pins = [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3, 4, 5], [3], [3],  ]
-    rms = [ [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0, 2.54, 1.7], [0], [0],  ]
+    pins = [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3, 4], [3], [3],  ]
+    rms = [ [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0, 2.54], [0], [0],  ]
     has3dv = [[False, False], [False, False], [False, False], [False, False], [False, False],
               [True, True, False, False], [False], [False], ]
     has3dh = [ [False, False], [False, False], [False, False], [False, False], [False, False],
               [True, True, False, False], [False], [False], ]
-    off3d = [ [[], []], [[], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], []], [[]], [[]], ]
+    off3d = [ [[], []], [[], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], ]
     scale3d = [ [[], []], [[], []], [[], []], [[], []], [[], []], [[], [], [], []], [[]], [[]],  ]
     
     #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
@@ -1144,28 +1144,28 @@ if __name__ == '__main__':
     packs.append("TO-38")
     modifiers.append(["", "Window"])
     pins.append([2, 3])
-    has3d.append([False, False])
+    has3d.append([True, True])
     off3d.append([])
     scale3d.append([])
 
     packs.append("TO-39")
     modifiers.append(["", "Window"])
     pins.append([2, 3, 4, 6, 8, 10])
-    has3d.append([False, False, False, False, False, False])
+    has3d.append([True, True, False, False, False, False])
     off3d.append([])
     scale3d.append([])
 
     packs.append("TO-46")
     modifiers.append(["", "Window"])
     pins.append([2, 3, 4])
-    has3d.append([False, False, False])
+    has3d.append([True, True, False])
     off3d.append([])
     scale3d.append([])
 
     packs.append("TO-52")
     modifiers.append(["", "Window"])
     pins.append([2, 3])
-    has3d.append([False, False])
+    has3d.append([True, True])
     off3d.append([])
     scale3d.append([])
 
@@ -1175,6 +1175,13 @@ if __name__ == '__main__':
     has3d.append([False])
     off3d.append([[]])
     scale3d.append([[]])
+
+    packs.append("TO-78")
+    modifiers.append(["", "Window"])
+    pins.append([6, 8, 10])
+    has3d.append([False, False, False])
+    off3d.append([])
+    scale3d.append([])
 
     packs.append("TO-99")
     modifiers.append(["", "Window"])

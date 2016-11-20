@@ -94,7 +94,7 @@ class pack_round:
                 self.window_diameter = 4  # diameter of an on-top glass window
 
 
-        if (name == "TO-5") or (name == "TO-5_PD5.08") or (name == "TO-11") or (name == "TO-12") or (name == "TO-33") or (name == "TO-39") or (name == "TO-99"):
+        if (name == "TO-5") or (name == "TO-5_PD5.08") or (name == "TO-11") or (name == "TO-12") or (name == "TO-33") or (name == "TO-39") or (name == "TO-99") or (name == "TO-78"):
             self.diameter_inner = 8.5  # diameter of top can
             self.diameter_outer = 9.4  # diameter of bottom can
             self.mark_width = 0.86  # width of marking
@@ -363,6 +363,7 @@ class pack:
                 self.tags.append("Pentawatt")
                 self.fpnametags.append("Pentawatt")
                 self.fpnametags.append("Multiwatt-5")
+                self.staggered_pin_minlength = 2.05+1.28  # y-offset of back-pins in staggered mode
             if pins >5:
                 self.tags.append("Multiwatt")
                 self.fpnametags.append("Multiwatt-{0}".format(pins))
