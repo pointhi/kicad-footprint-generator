@@ -145,7 +145,7 @@ class pack_round:
             self.mark_width = 0.76  # width of marking
             self.mark_len = 0.75  # length of marking
             self.pin_circle_diameter = 1.8  # pin circle diameterdistance
-            self.pad = [1, 1]  # width/height of pads
+            self.pad = [0.9,0.9]  # width/height of pads
             self.drill = 0.6  # diameter of pad drills
             if len(modifier) > 0:
                 self.name = self.name + "_" + modifier
@@ -457,7 +457,7 @@ class pack:
             self.metal = [9.8, 9.75, 1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
             self.rm = 2.54  # pin distance
-            self.pad = [1.8, 1.8]  # width/height of pads
+            self.pad = [2.2, 2.2]  # width/height of pads
             self.drill = 1.2  # diameter of pad drills
             self.name = name  # name of package
             self.mounting_hole_pos = [self.plastic[0] / 2,
