@@ -62,9 +62,15 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
         if len(pck.staggered_pad) > 0:
             padsize = pck.staggered_pad
 
+    pinwid = (pck.pins - 1) * pck.rm
+    if len(pck.rm_list) > 0:
+        pinwid = 0
+        for rm in pck.rm_list:
+            pinwid = pinwid + rm
+
     l_crt = min(-padsize[0] / 2, l_slkp) - crt_offset
     t_crt = min(-padsize[1] / 2, t_slkp) - crt_offset
-    w_crt = max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + padsize[0]) + 2 * crt_offset
+    w_crt = max(max(w_slkp, w_slkm), pinwid + padsize[0]) + 2 * crt_offset
     h_crt = max(h_slkp, h_slkm, -t_crt + maxpiny + padsize[1] / 2) + 2 * crt_offset
 
     y=y1
@@ -75,7 +81,10 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
         else:
             y = y2
         pads.append([x, y])
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
             
 
     tag_items = ["Vertical", "RM {0}mm".format(pck.rm)]
@@ -251,7 +260,16 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
         else:
             y = y2
         pads.append([x, y])
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
+
+    pinwid = (pck.pins - 1) * pck.rm
+    if len(pck.rm_list) > 0:
+        pinwid = 0
+        for rm in pck.rm_list:
+            pinwid = pinwid + rm
 
     l_slkp = l_fabp - slk_offset
     t_slkp = t_fabp + slk_offset
@@ -269,7 +287,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
         addpad = pck.additional_pin_pad_size[0]
         addpadx = l_fabp + pck.additional_pin_pad[0]
         addpady = t_fabp - pck.additional_pin_pad[1]
-    w_crt = max(max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + padsize[0]), addpad) + 2 * crt_offset
+    w_crt = max(max(max(w_slkp, w_slkm), pinwid + padsize[0]), addpad) + 2 * crt_offset
 
 
     txt_x = l_slkp + max(w_slkp, w_slkm) / 2
@@ -413,6 +431,12 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     w_fabm = pck.metal[0]
     h_fabm = pck.metal[2]
     
+    pinwid=(pck.pins - 1) * pck.rm
+    if len(pck.rm_list)>0:
+        pinwid=0
+        for rm in pck.rm_list:
+            pinwid=pinwid+rm
+    
     l_slkp = l_fabp - slk_offset
     t_slkp = t_fabp - slk_offset
     w_slkp = w_fabp + 2 * slk_offset
@@ -422,7 +446,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     
     l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
     t_crt = min(-pck.pad[1] / 2, t_slkp) - crt_offset
-    w_crt = max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + pck.pad[0]) + 2 * crt_offset
+    w_crt = max(max(w_slkp, w_slkm), pinwid + pck.pad[0]) + 2 * crt_offset
     h_crt = max(max(h_slkp, h_slkm), -t_crt + pck.pad[1] / 2) + 2 * crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
@@ -456,7 +480,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     kicad_mod.setDescription(description)
     kicad_mod.setTags(tags)
     
-    kicad_modt = Translation(-(pck.pins - 1) * pck.rm, 0)
+    kicad_modt = Translation(-pinwid, 0)
     kicad_mod.append(kicad_modt)
     
     # set general values
@@ -488,13 +512,18 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     
     # create SILKSCREEN-layer
     keepouts = []
-    x = (pck.pins - 1) * pck.rm
+    x = pinwid
+    
     for p in range(1, pck.pins + 1):
         if p == 1:
             keepouts = keepouts + addKeepoutRect(x, 0, pck.pad[0] + 2 * slk_dist, pck.pad[1] + 2 * slk_dist)
         else:
             keepouts = keepouts + addKeepoutRound(x, 0, pck.pad[0] + 2 * slk_dist, pck.pad[1] + 2 * slk_dist)
-        x = x - pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x - pck.rm_list[p-1]
+        else:
+            x = x - pck.rm
+
     
     #for ko in keepouts:
     #    kicad_modt.append(
@@ -527,11 +556,11 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     
     # create courtyard
     kicad_mod.append(
-        RectLine(start=[roundCrt(l_crt-(pck.pins - 1) * pck.rm), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt-(pck.pins - 1) * pck.rm), roundCrt(t_crt + h_crt)],
+        RectLine(start=[roundCrt(l_crt-pinwid), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt-pinwid), roundCrt(t_crt + h_crt)],
                  layer='B.CrtYd', width=lw_crt))
     
     # create pads
-    x = (pck.pins - 1) * pck.rm
+    x = pinwid
     for p in range(1, pck.pins + 1):
         if (p == 1):
             kicad_modt.append(
@@ -541,7 +570,11 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
             kicad_modt.append(
                 Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,
                     layers=['*.Cu', '*.Mask']))
-        x = x - pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x - pck.rm_list[p-1]
+        else:
+            x = x - pck.rm
+
     
     # add model
     if (has3d):
@@ -573,6 +606,12 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     h_slkp = h_fabp + 2 * slk_offset
     w_slkm = w_fabm + 2 * slk_offset
     h_slkm = h_fabm + 2 * slk_offset
+
+    pinwid = (pck.pins - 1) * pck.rm
+    if len(pck.rm_list) > 0:
+        pinwid = 0
+        for rm in pck.rm_list:
+            pinwid = pinwid + rm
     
     l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
     t_crt = t_slkp - max(h_slkp, h_slkm) - crt_offset
@@ -584,7 +623,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
         addpad = pck.additional_pin_pad_size[0]
         addpadx = l_fabp + pck.additional_pin_pad[0]
         addpady = t_fabp - pck.additional_pin_pad[1]
-    w_crt = max(max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + pck.pad[0]), addpad) + 2 * crt_offset
+    w_crt = max(max(max(w_slkp, w_slkm), pinwid + pck.pad[0]), addpad) + 2 * crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp - pck.mounting_hole_pos[1]
@@ -661,7 +700,11 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     x = 0
     for p in range(1, pck.pins + 1):
         kicad_modt.append(Line(start=[x, t_fabp], end=[x, 0], layer='B.Fab', width=lw_fab))
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
+
     
     # create SILKSCREEN-layer
     keepouts = []
@@ -671,7 +714,11 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
             keepouts = keepouts + addKeepoutRect(x, 0, pck.pad[0] + 2 * slk_dist, pck.pad[1] + 2 * slk_dist)
         else:
             keepouts = keepouts + addKeepoutRound(x, 0, pck.pad[0] + 2 * slk_dist, pck.pad[1] + 2 * slk_dist)
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
+
     
     if len(pck.additional_pin_pad_size) > 0:
         keepouts.append([addpadx - pck.additional_pin_pad_size[0] / 2 - slk_dist,
@@ -692,7 +739,11 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     x = 0
     for p in range(1, pck.pins + 1):
         addVDLineWithKeepout(kicad_modt, x, t_slkp, 3 * lw_slk, -(pck.pad[1]/2+slk_dist), 'F.SilkS', lw_slk, keepouts)
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
+
 
     # create courtyard
     kicad_modt.append(
@@ -720,7 +771,10 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
             kicad_modt.append(
                 Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,
                     layers=['*.Cu', '*.Mask']))
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
     
     # add model
     if (has3d):
@@ -753,9 +807,15 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     w_slkm = w_fabm + 2 * slk_offset
     h_slkm = h_fabm + 2 * slk_offset
 
+    pinwid = (pck.pins - 1) * pck.rm
+    if len(pck.rm_list) > 0:
+        pinwid = 0
+        for rm in pck.rm_list:
+            pinwid = pinwid + rm
+
     l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
     t_crt = -pck.pad[1]/2- crt_offset
-    w_crt = max(max(w_slkp, w_slkm), (pck.pins - 1) * pck.rm + pck.pad[0]) + 2 * crt_offset
+    w_crt = max(max(w_slkp, w_slkm), pinwid + pck.pad[0]) + 2 * crt_offset
     h_crt = -t_crt + t_slkp+max(h_slkp, h_slkm) + 2 * crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
@@ -816,7 +876,11 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     x = 0
     for p in range(1, pck.pins + 1):
         kicad_mod.append(Line(start=[x, t_fabp], end=[x, 0], layer='F.Fab', width=lw_fab))
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
+
     
     # create SILKSCREEN-layer
     keepouts = []
@@ -839,7 +903,10 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     x = 0
     for p in range(1, pck.pins + 1):
         addVLineWithKeepout(kicad_mod, x, t_slkp, pck.pad[1]/2+slk_dist, 'F.SilkS', lw_slk, keepouts)
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
 
     # create courtyard
     kicad_mod.append(
@@ -859,7 +926,11 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
             kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[x, 0], size=pck.pad, drill=pck.drill, layers=['*.Cu', '*.Mask']))
         else:
             kicad_mod.append(Pad(number=p, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[x, 0], size=pck.pad, drill=pck.drill,layers=['*.Cu', '*.Mask']))
-        x = x + pck.rm
+        if len(pck.rm_list)>0 and p<=len(pck.rm_list):
+            x = x + pck.rm_list[p-1]
+        else:
+            x = x + pck.rm
+
     
     # add model
     if (has3d):
@@ -896,6 +967,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
                 xshift=-x
                 yshift=-y
                 firstPin=False
+                
 
     txt_t = -d_slk/2 - txt_offset
     txt_b = d_slk/2 + txt_offset
@@ -1013,15 +1085,15 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
 if __name__ == '__main__':
     # make standard packages
-    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", ]
-    pins = [[2, 3], [2, 3], [2, 3], [2, 3], [2, 3], [2, 3, 4], [3], [3],  ]
-    rms = [ [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0, 2.54], [0], [0],  ]
-    has3dv = [[False, False], [False, False], [False, False], [False, False], [False, False],
-              [True, True, False, False], [False], [False], ]
-    has3dh = [ [False, False], [False, False], [False, False], [False, False], [False, False],
-              [True, True, False, False], [False], [False], ]
-    off3d = [ [[], []], [[], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], ]
-    scale3d = [ [[], []], [[], []], [[], []], [[], []], [[], []], [[], [], [], []], [[]], [[]],  ]
+    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK"]
+    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4], [3], [3], [3],  ]
+    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54], [0], [0], [0],  ]
+    has3dv = [[False, False, False], [False, False, False, False], [False, False], [False, False], [False, False],
+              [True, True, False, False], [False], [False], [False], ]
+    has3dh = [ [False, False, False], [False, False, False, False], [False, False], [False, False], [False, False],
+              [True, True, False, False], [False], [False], [False], ]
+    off3d = [ [[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], ]
+    scale3d = [ [[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[], [], [], []], [[]], [[]], [[]],  ]
     
     #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
     #exit()
@@ -1045,13 +1117,13 @@ if __name__ == '__main__':
             
 
     # make staggered packages
-    packs =   [ "TO-220",  "Multiwatt"]
-    pins =    [ [5,     ], [11,       15,    ]]
-    rms =     [ [1.7,   ], [1.7,    1.27,    ]]
-    has3dv =  [ [True   ], [False,  True,    ]]
-    has3dh =  [ [True   ], [False,  True,    ]]
-    off3d =   [ [[]     ], [[],       [],    ]]
-    scale3d = [ [[]     ], [[],  [1,1,1],    ]]
+    packs =   [ "TO-220",                 "Multiwatt"]
+    pins =    [ [5      ,     7,     9 ], [11,       15,    ]]
+    rms =     [ [1.7    ,  1.27,  0.97 ], [1.7,    1.27,    ]]
+    has3dv =  [ [True   , False, False ], [False,  True,    ]]
+    has3dh =  [ [True   , False, False ], [False,  True,    ]]
+    off3d =   [ [[]     , []   , []    ], [[],       [],    ]]
+    scale3d = [ [[]     , []   , []    ], [[],  [1,1,1],    ]]
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
