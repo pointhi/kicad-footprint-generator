@@ -1,0 +1,10 @@
+c_elec_6.6x5.8:
+    description: "SMT capacitor, aluminium electrolytic, 6.6x5.8"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 5.8
+    diameter: 6.3
+    pad_width: 1.9
+    pad_length: 3.5
+    pad_spacing: 1.6

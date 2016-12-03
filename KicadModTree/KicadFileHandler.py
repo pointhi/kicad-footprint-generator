@@ -20,8 +20,10 @@ from KicadModTree.util.kicad_util import *
 from KicadModTree.nodes.base.Pad import Pad  # TODO: why .KicadModTree is not enough?
 
 
-DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.15,
-                       'B.SilkS': 0.15,
+DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.12,
+                       'B.SilkS': 0.12,
+                       'F.Fab': 0.10,
+                       'B.Fab': 0.10,
                        'F.CrtYd': 0.05,
                        'B.CrtYd': 0.05}
 
