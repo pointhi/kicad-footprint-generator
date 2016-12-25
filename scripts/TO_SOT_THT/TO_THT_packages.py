@@ -550,5 +550,5 @@ slk_offset = 0.2
 slk_dist = 0.25
 lw_fab = 0.1
 lw_crt = 0.05
-lw_slk = 0.15
+lw_slk = 0.12
 txt_offset = 1
