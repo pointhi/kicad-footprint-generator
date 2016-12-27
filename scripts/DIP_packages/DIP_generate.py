@@ -22,6 +22,8 @@ slk_offset=0.12
 txt_offset = 1
 
 
+
+
 #    overlen_top                           overlen_bottom
 #  <--->                                 <------>
 #       O          O          O          O                             ^
@@ -93,6 +95,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
         kicad_mod.setDescription(description)
         kicad_mod.setTags(tags)
 
+        # anchor for SMD-symbols is in the center, for THT-sybols at pin1
         offset=[0,0]
         if (smd_pads):
             offset=[-pinrow_distance/2,-(pins/2-1)*rm/2]
@@ -166,6 +169,161 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
         # write file
         file_handler = KicadFileHandler(kicad_mod)
         file_handler.writeFile(footprint_name+'.kicad_mod')
+
+
+#    overlen_top                           overlen_bottom
+#  <--->                                 <------>
+#       O          O          O          O                             ^
+#       |          |          |          |                             |
+#  +--------------------------------------------+    ^                 |
+#  |  +---+  ^                                  |    |                 |
+#  |  |   |  |                                  |    |                 |
+#  |  +---+  switch_width                       | package_width        |
+#  |  |   |  |                                  |    |           pinrow_distance
+#  |  +---+  v                                  |    |                 |
+#  +--------------------------------------------+    v                 |
+#       |          |          |          |                             |
+#       O          O          O          O                             v
+#     <--->switch_height
+#       <----RM---->
+#
+#  mode=Piano/Slide
+#
+def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width, switch_height, mode='Piano', smd_pads=False, tags_additional=[], lib_name="Buttons_Switches_ThroughHole", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0]):
+    switches=int(pins/2)
+    
+    h_fab = (pins / 2 - 1) * rm + overlen_top + overlen_bottom
+    w_fab = package_width
+    l_fab = (pinrow_distance - w_fab) / 2
+    t_fab = -overlen_top
+
+       
+    h_slk = h_fab + 2 * slk_offset
+    if (package_width>pinrow_distance):
+        w_slk = max(w_fab + 2 * slk_offset, pinrow_distance + pad[0] + 2 * slk_offset)
+    else:
+        w_slk = min(w_fab + 2 * slk_offset, pinrow_distance - pad[0] - 4 * slk_offset)
+    l_slk = (pinrow_distance - w_slk) / 2
+    t_slk = -overlen_top - slk_offset
+    
+    w_crt = max(package_width, pinrow_distance + pad[0]) + 2 * crt_offset
+    h_crt = max(h_fab, (pins / 2 - 1) * rm + pad[1]) + 2 * crt_offset
+    l_crt = pinrow_distance / 2 - w_crt / 2
+    t_crt = (pins / 2 - 1) * rm / 2 - h_crt / 2
+
+    if (mode == 'Piano'):
+        l_crt=l_crt-switch_width
+        w_crt=w_crt+switch_width
+
+    footprint_name = "SW_DIP_x{0}_W{1}mm_{2}".format(switches, round(pinrow_distance, 2),mode)
+    description = "{0}x-dip-switch, {3}, row spacing {1} mm ({2} mils)".format(switches, round(pinrow_distance, 2),
+                                                                               int(pinrow_distance / 2.54 * 100), mode)
+    tags = "DIP Switch {0} {1}mm {2}mil".format(mode, pinrow_distance, int(pinrow_distance / 2.54 * 100))
+    if (len(tags_additional) > 0):
+        for t in tags_additional:
+            footprint_name = footprint_name + "_" + t
+            description = description + ", " + t
+            tags = tags + " " + t
+    
+    print(footprint_name)
+    
+    # init kicad footprint
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription(description)
+    kicad_mod.setTags(tags)
+    
+    # anchor for SMD-symbols is in the center, for THT-sybols at pin1
+    offset = [0, 0]
+    if (smd_pads):
+        offset = [-pinrow_distance / 2, -(pins / 2 - 1) * rm / 2]
+        kicad_modg = Translation(offset[0], offset[1])
+        kicad_mod.append(kicad_modg)
+        kicad_mod.setAttribute('smd')
+    else:
+        kicad_modg = kicad_mod
+    
+    # set general values
+    kicad_modg.append(
+        Text(type='reference', text='REF**', at=[pinrow_distance / 2, t_slk - txt_offset], layer='F.SilkS'))
+    kicad_modg.append(
+        Text(type='value', text=footprint_name, at=[pinrow_distance / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
+    
+    # create FAB-layer
+    bevelRect(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], 'F.Fab', lw_fab)
+    for sw in range(0,switches):
+        x=pinrow_distance/2
+        y=sw*rm
+        if (mode=='Piano'):
+            kicad_modg.append(RectLine(start=[l_fab, y - switch_height / 2],end=[l_fab- switch_width, y + switch_height / 2], layer='F.Fab', width=lw_fab))
+        else:
+            kicad_modg.append(RectLine(start=[x-switch_width/2, y-switch_height/2], end=[x+switch_width/2, y+switch_height/2], layer='F.Fab', width=lw_fab))
+            kicad_modg.append(Line(start=[x, y - switch_height / 2], end=[x , y + switch_height / 2], layer='F.Fab', width=lw_fab))
+        
+    
+    # create SILKSCREEN-layer
+    if (mode == 'Piano'):
+        kicad_modg.append(PolygoneLine(polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk+h_slk], [l_slk, t_slk+h_slk], [l_slk, t_slk]], layer='F.SilkS', width=lw_slk))
+    else:
+        kicad_modg.append(PolygoneLine(polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk + h_slk], [l_slk, t_slk + h_slk],[l_slk, rm / 2]], layer='F.SilkS', width=lw_slk))
+    for sw in range(0, switches):
+        x = pinrow_distance / 2
+        y = sw * rm
+        if (mode=='Piano'):
+            kicad_modg.append(RectLine(start=[l_slk-switch_height-2*slk_offset, y - switch_height / 2-slk_offset],end=[l_slk, y + switch_height / 2+slk_offset], layer='F.SilkS',width=lw_slk))
+        else:
+            kicad_modg.append(RectLine(start=[x - switch_width / 2, y - switch_height / 2],end=[x + switch_width / 2, y + switch_height / 2], layer='F.SilkS', width=lw_slk))
+            kicad_modg.append(Line(start=[x, y - switch_height / 2], end=[x, y + switch_height / 2], layer='F.SilkS', width=lw_slk))
+
+    
+    # create courtyard
+    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],end=[roundCrt(l_crt + offset[0] + w_crt), roundCrt(t_crt + offset[1] + h_crt)],layer='F.CrtYd', width=lw_crt))
+    
+    # create pads
+    p1 = int(1)
+    x1 = 0
+    y1 = 0
+    p2 = int(pins / 2 + 1)
+    x2 = pinrow_distance
+    y2 = (pins / 2 - 1) * rm
+    
+    if smd_pads:
+        pad_type = Pad.TYPE_SMT
+        pad_shape1 = Pad.SHAPE_RECT
+        pad_shapeother = Pad.SHAPE_RECT
+        pad_layers = 'F'
+    else:
+        pad_type = Pad.TYPE_THT
+        pad_shape1 = Pad.SHAPE_RECT
+        pad_shapeother = Pad.SHAPE_OVAL
+        pad_layers = '*'
+    
+    for p in range(1, int(pins / 2 + 1)):
+        if p == 1:
+            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
+                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        else:
+            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
+                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        
+        kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
+                              layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        
+        p1 = p1 + 1
+        p2 = p2 + 1
+        y1 = y1 + rm
+        y2 = y2 - rm
+    
+    # add model
+    kicad_modg.append(
+        Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
+    
+    # print render tree
+    # print(kicad_mod.getRenderTree())
+    # print(kicad_mod.getCompleteRenderTree())
+    
+    # write file
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile(footprint_name + '.kicad_mod')
 
 
 if __name__ == '__main__':
@@ -266,3 +424,30 @@ if __name__ == '__main__':
         for prd in smd_pinrow_distances:
             makeDIP(p, rm, prd, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, True,  0,0,0, ["SMD"])
 
+
+    # DIP-switches:
+    pins=[2,4,6,8,10,12,14,16,18,20,22,24]
+    pinrow_distance = 7.62
+    package_width = 9.78
+    switch_width=4.06
+    switch_height=1.27
+    overlen_top = 2.36
+    overlen_bottom = 2.36
+    package_width_narrow = 6.68
+    switch_width_narrow = 3.62
+    switch_height_narrow = 1.27
+    overlen_top_narrow = 2.05
+    overlen_bottom_narrow = 2.05
+    pad_smd=[2.44,1.12]
+    pinrow_distance_smd=8.61
+    switch_width_piano=1.8
+    switch_height_piano=1.5
+    package_width_piano=10.8
+    overlen_top_piano = 2.05
+    overlen_bottom_piano = 2.05
+
+    for p in pins:
+        makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width, switch_height, 'Slide', False, [])
+        makeDIPSwitch(p, rm, pinrow_distance, package_width_narrow, overlen_top_narrow, overlen_bottom_narrow, ddrill, pad, switch_width_narrow, switch_height_narrow, 'Slide', False, ["LowProfile"])
+        makeDIPSwitch(p, rm, pinrow_distance_smd, package_width_narrow, overlen_top_narrow, overlen_bottom_narrow, ddrill, pad_smd, switch_width_narrow, switch_height_narrow, 'Slide', True,["SMD","LowProfile"])
+        makeDIPSwitch(p, rm, pinrow_distance, package_width_piano, overlen_top_piano, overlen_bottom_piano, ddrill, pad, switch_width_piano, switch_height_piano, 'Piano', False, [])
