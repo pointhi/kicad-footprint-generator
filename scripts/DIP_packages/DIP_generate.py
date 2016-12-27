@@ -189,7 +189,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
 #
 #  mode=Piano/Slide
 #
-def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width, switch_height, mode='Piano', smd_pads=False, tags_additional=[], lib_name="Buttons_Switches_ThroughHole", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0]):
+def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width, switch_height, mode='Piano', smd_pads=False, tags_additional=[], lib_name="Buttons_Switches_ThroughHole", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 90]):
     switches=int(pins/2)
     
     h_fab = (pins / 2 - 1) * rm + overlen_top + overlen_bottom
