@@ -360,8 +360,8 @@ if __name__ == '__main__':
     rm = 1.27
     ddrill = 0.65
     pad = [1, 1]
-    package_width=[2.5,3.41]
-    singlecol_packoffset = 0
+    package_width=[2.54,3.41]
+    singlecol_packwidth = 1.27
     angled_pack_width=1
     angled_pack_offset=3.81-1
     angled_pin_length=3.81
