@@ -1,0 +1,461 @@
+#c_elec_6.3x5.8:
+#    description: "SMT capacitor, aluminium electrolytic, 6.6x5.8"
+#    courtjard: 0.25
+#    length: 6.6
+#    width: 6.6
+#    height: 5.8
+#    diameter: 6.3
+#    pad_width: 1.9
+#    pad_length: 3.5
+#    pad_spacing: 1.6
+
+# https://industrial.panasonic.com/cdbs/www-data/pdf/AAB8000/AAB8000COL60.pdf
+# https://industrial.panasonic.com/cdbs/www-data/pdf/AAB8000/AAB8000COL10.pdf
+
+# http://www.vishay.com/docs/28395/150crz.pdf
+
+# https://media.digikey.com/pdf/Data%20Sheets/Nichicon%20PDFs/ZD_Series.pdf
+# http://www.nichicon.co.jp/english/products/pdfs/e-ch_ref.pdf
+# http://nichicon-us.com/english/products/pdfs/e-uzr.pdf
+# http://nichicon-us.com/english/products/pdfs/e-uzs.pdf
+# http://nichicon-us.com/english/products/pdfs/e-uwx.pdf
+
+# 3x5.3
+
+c_elec_3x5.4:
+    description: "SMT capacitor, aluminium electrolytic, 3x5.4, Nichicon"
+    courtjard: 0.25
+    length: 3.3
+    width: 3.3
+    height: 5.3
+    diameter: 3
+    pad_width: 1.6
+    pad_length: 2.2
+    pad_spacing: 0.8
+
+c_elec_4x3:
+    description: "SMT capacitor, aluminium electrolytic, 4x3, Nichicon"
+    courtjard: 0.25
+    length: 4.3
+    width: 4.3
+    height: 3
+    diameter: 4
+    pad_width: 1.6
+    pad_length: 2.6
+    pad_spacing: 1
+
+c_elec_4x3.9:
+    description: "SMT capacitor, aluminium electrolytic, 4x3.9, Nichicon"
+    courtjard: 0.25
+    length: 4.3
+    width: 4.3
+    height: 3.9
+    diameter: 4
+    pad_width: 1.6
+    pad_length: 2.6
+    pad_spacing: 1
+
+c_elec_4x4.5:
+    description: "SMT capacitor, aluminium electrolytic, 4x4.5, Nichicon"
+    courtjard: 0.25
+    length: 4.3
+    width: 4.3
+    height: 4.5
+    diameter: 4
+    pad_width: 1.6
+    pad_length: 2.6
+    pad_spacing: 1
+
+# 4x5.3
+
+c_elec_4x5.4:
+    description: "SMT capacitor, aluminium electrolytic, 4x5.4, Panasonic A5, Nichicon"
+    courtjard: 0.25
+    length: 4.3
+    width: 4.3
+    height: 5.4
+    diameter: 4
+    pad_width: 1.6
+    pad_length: 2.6
+    pad_spacing: 1
+
+# 4x5.7
+# 4x5.8
+
+c_elec_5x3:
+    description: "SMT capacitor, aluminium electrolytic, 5x3, Nichicon"
+    courtjard: 0.25
+    length: 5.3
+    width: 5.3
+    height: 3
+    diameter: 5
+    pad_width: 1.6
+    pad_length: 3
+    pad_spacing: 1.4
+
+c_elec_5x3.9:
+    description: "SMT capacitor, aluminium electrolytic, 5x3.9, Nichicon"
+    courtjard: 0.25
+    length: 5.3
+    width: 5.3
+    height: 3.9
+    diameter: 5
+    pad_width: 1.6
+    pad_length: 3
+    pad_spacing: 1.4
+
+c_elec_5x4.5:
+    description: "SMT capacitor, aluminium electrolytic, 5x4.5, Nichicon"
+    courtjard: 0.25
+    length: 5.3
+    width: 5.3
+    height: 4.5
+    diameter: 5
+    pad_width: 1.6
+    pad_length: 3
+    pad_spacing: 1.4
+
+c_elec_5x4.4:
+    description: "SMT capacitor, aluminium electrolytic, 5x4.4, Panasonic B45"
+    courtjard: 0.25
+    length: 5.3
+    width: 5.3
+    height: 4.4
+    diameter: 5
+    pad_width: 1.6
+    pad_length: 3
+    pad_spacing: 1.4
+
+# 5x5.3
+
+c_elec_5x5.4:
+    description: "SMT capacitor, aluminium electrolytic, 5x5.4, Nichicon"
+    courtjard: 0.25
+    length: 5.3
+    width: 5.3
+    height: 5.4
+    diameter: 5
+    pad_width: 1.6
+    pad_length: 3
+    pad_spacing: 1.4
+
+# 5x5.7
+# 5x5.8
+
+c_elec_5x5.9:
+    description: "SMT capacitor, aluminium electrolytic, 5x5.9, Panasonic B6"
+    courtjard: 0.25
+    length: 5.3
+    width: 5.3
+    height: 5.9
+    diameter: 5
+    pad_width: 1.6
+    pad_length: 3
+    pad_spacing: 1.4
+
+c_elec_6.3x3:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x3, Nichicon"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 3
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 1.9
+
+c_elec_6.3x3.9:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x3.9, Nichicon"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 3.9
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 1.9
+
+c_elec_6.3x4.5:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x4.5, Nichicon"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 4.5
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 1.9
+
+# 6.3x4.5
+
+c_elec_6.3x4.9:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x4.9, Panasonic C5"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 4.9
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 2.1
+
+# 6.3x5.3
+
+c_elec_6.3x5.4:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x5.4, Panasonic C55"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 5.4
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 2.1
+
+c_elec_6.3x5.4_Nichicon:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x5.4, Nichicon"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 5.4
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 1.9
+
+# 6.3x5.7
+
+c_elec_6.3x5.8:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x5.8, Nichicon"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 5.8
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 1.9
+
+c_elec_6.3x5.9:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x5.9, Panasonic C6"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 5.9
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 2.1
+
+c_elec_6.3x7.7:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x7.7, Nichicon"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 7.7
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 1.9
+
+c_elec_6.3x9.9:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x9.9, Panasonic C10"
+    courtjard: 0.25
+    length: 6.6
+    width: 6.6
+    height: 9.9
+    diameter: 6.3
+    pad_width: 1.6
+    pad_length: 3.5
+    pad_spacing: 2.1
+
+c_elec_8x5.4:
+    description: "SMT capacitor, aluminium electrolytic, 8x5.4, Nichicon"
+    courtjard: 0.25
+    length: 8.3
+    width: 8.3
+    height: 5.4
+    diameter: 8
+    pad_width: 2.5
+    pad_length: 4
+    pad_spacing: 2.1
+
+c_elec_8x6.2:
+    description: "SMT capacitor, aluminium electrolytic, 8x6.2, Nichicon"
+    courtjard: 0.25
+    length: 8.3
+    width: 8.3
+    height: 6.2
+    diameter: 8
+    pad_width: 2.5
+    pad_length: 4
+    pad_spacing: 2.1
+
+# 8x6.5
+# 8x6.7
+
+c_elec_8x6.9:
+    description: "SMT capacitor, aluminium electrolytic, 8x6.9, Panasonic E7"
+    courtjard: 0.25
+    length: 8.3
+    width: 8.3
+    height: 6.9
+    diameter: 8
+    pad_width: 1.9
+    pad_length: 4.15
+    pad_spacing: 2.8
+
+c_elec_8x10:
+    description: "SMT capacitor, aluminium electrolytic, 8x10, Nichicon"
+    courtjard: 0.25
+    length: 8.3
+    width: 8.3
+    height: 10
+    diameter: 8
+    pad_width: 2.5
+    pad_length: 3.5
+    pad_spacing: 3
+
+c_elec_8x10.5:
+    description: "SMT capacitor, aluminium electrolytic, 8x10.5, Vishay 0810"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 8.5
+    width: 8.5
+    height: 10.5
+    diameter: 8
+    pad_width: 2.5
+    pad_length: 4.4
+    pad_spacing: 3.0
+
+c_elec_8x11.9:
+    description: "SMT capacitor, aluminium electrolytic, 8x11.9, Panasonic E12"
+    courtjard: 0.25
+    length: 8.3
+    width: 8.3
+    height: 11.9
+    diameter: 8
+    pad_width: 1.9
+    pad_length: 4.15
+    pad_spacing: 2.8
+
+c_elec_10x7.9:
+    description: "SMT capacitor, aluminium electrolytic, 10x7.9, Panasonic F8"
+    courtjard: 0.25
+    length: 10.3
+    width: 10.3
+    height: 7.9
+    diameter: 10
+    pad_width: 1.9
+    pad_length: 4.4
+    pad_spacing: 4.3
+
+c_elec_10x10:
+    description: "SMT capacitor, aluminium electrolytic, 10x10, Nichicon"
+    courtjard: 0.25
+    length: 10.3
+    width: 10.3
+    height: 10
+    diameter: 10
+    pad_width: 2.5
+    pad_length: 4
+    pad_spacing: 4
+
+c_elec_10x10.5:
+    description: "SMT capacitor, aluminium electrolytic, 10x10, Vishay 1010"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 10.5
+    width: 10.5
+    height: 10.5
+    diameter: 10
+    pad_width: 2.5
+    pad_length: 4.4
+    pad_spacing: 4.0
+
+c_elec_10x12.5:
+    description: "SMT capacitor, aluminium electrolytic, 10x12.5, Vishay 1012"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 10.5
+    width: 10.5
+    height: 12.5
+    diameter: 10
+    pad_width: 2.5
+    pad_length: 4.4
+    pad_spacing: 4.0
+
+c_elec_10x12.6:
+    description: "SMT capacitor, aluminium electrolytic, 10x12.6, Panasonic F12"
+
+    courtjard: 0.25
+    length: 10.3
+    width: 10.3
+    height: 12.6
+    diameter: 10
+    pad_width: 1.9
+    pad_length: 4.4
+    pad_spacing: 4.3
+
+c_elec_10x14.3:
+    description: "SMT capacitor, aluminium electrolytic, 10x14.3, Vishay 1014"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 10.5
+    width: 10.5
+    height: 14.3
+    diameter: 10
+    pad_width: 2.5
+    pad_length: 4.4
+    pad_spacing: 4.0
+
+# TODO: Vishay 12.5x14
+# TODO: Vishay 12.5x16.5
+
+c_elec_16x17.5:
+    description: "SMT capacitor, aluminium electrolytic, 16x17.5, Vishay 1616"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 16.6
+    width: 16.6
+    height: 17.5
+    diameter: 16
+    pad_width: 9.6
+    pad_length: 7.8
+    pad_spacing: 4.7
+
+c_elec_16x22:
+    description: "SMT capacitor, aluminium electrolytic, 16x22, Vishay 1621"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 16.6
+    width: 16.6
+    height: 22
+    diameter: 16
+    pad_width: 9.6
+    pad_length: 7.8
+    pad_spacing: 4.7
+
+c_elec_18x17.5:
+    description: "SMT capacitor, aluminium electrolytic, 18x17.5, Vishay 1816"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 19
+    width: 19
+    height: 17.5
+    diameter: 18
+    pad_width: 9.6
+    pad_length: 8.8
+    pad_spacing: 4.7
+
+c_elec_18x22:
+    description: "SMT capacitor, aluminium electrolytic, 18x22, Vishay 1821"
+    datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
+    courtjard: 0.25
+    length: 19
+    width: 19
+    height: 22
+    diameter: 18
+    pad_width: 9.6
+    pad_length: 8.8
+    pad_spacing: 4.7

@@ -20,8 +20,10 @@ from KicadModTree.util.kicad_util import *
 from KicadModTree.nodes.base.Pad import Pad  # TODO: why .KicadModTree is not enough?
 
 
-DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.15,
-                       'B.SilkS': 0.15,
+DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.12,
+                       'B.SilkS': 0.12,
+                       'F.Fab': 0.10,
+                       'B.Fab': 0.10,
                        'F.CrtYd': 0.05,
                        'B.CrtYd': 0.05}
 
@@ -129,7 +131,7 @@ class KicadFileHandler(FileHandler):
         # in KiCAD, some file attributes of Arc are named not in the way of their real meaning
         render_strings.append(node.getRealPosition(node.center_pos).render('(start {x} {y})'))
         render_strings.append(node.getRealPosition(node.start_pos).render('(end {x} {y})'))
-        render_strings.append('(angle {angle})'.format(angle=node.angle))
+        render_strings.append('(angle {angle:.1f})'.format(angle=node.angle))
         render_strings.append('(layer {layer})'.format(layer=node.layer))
         render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
 
