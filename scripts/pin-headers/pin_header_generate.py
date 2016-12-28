@@ -49,13 +49,13 @@ def makePinHeadStraight(rows, cols, rm, coldist, package_width, overlen_top, ove
     l_crt = coldist * (cols - 1) / 2 - w_crt / 2
     t_crt = (rows - 1) * rm / 2 - h_crt / 2
     
-    if rm == 2.54:
-        footprint_name = "Pin_Header_Straight_{0}x{1:02}".format(cols, rows)
-    else:
-        footprint_name = "Pin_Header_Straight_{0}x{1:02}_Pitch{2:02}mm".format(cols, rows, rm)
+    #if rm == 2.54:
+    #    footprint_name = "Pin_Header_Straight_{0}x{1:02}".format(cols, rows)
+    #else:
+    footprint_name = "Pin_Header_Straight_{0}x{1:02}_Pitch{2:03.2f}mm".format(cols, rows, rm)
     
-    description = "Through hole straight pin header, {0}x{1:02}, {2:02}mm pitch".format(cols, rows, rm)
-    tags = "Through hole pin header THT {0}x{1:02} {2:02}mm".format(cols, rows, rm)
+    description = "Through hole straight pin header, {0}x{1:02}, {2:03.2f}mm pitch".format(cols, rows, rm)
+    tags = "Through hole pin header THT {0}x{1:02} {2:03.2f}mm".format(cols, rows, rm)
     if (cols == 1):
         description = description + ", single row"
         tags = tags + " single row"
@@ -187,13 +187,13 @@ def makePinHeadAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_leng
     l_crt = -rm/2-crt_offset
     t_crt = -rm/2-crt_offset
     
-    if rm == 2.54:
-        footprint_name = "Pin_Header_Angled_{0}x{1:02}".format(cols, rows)
-    else:
-        footprint_name = "Pin_Header_Angled_{0}x{1:02}_Pitch{2:02}mm".format(cols, rows, rm)
+    #if rm == 2.54:
+    #    footprint_name = "Pin_Header_Angled_{0}x{1:02}".format(cols, rows)
+    #else:
+    footprint_name = "Pin_Header_Angled_{0}x{1:02}_Pitch{2:03.2f}mm".format(cols, rows, rm)
     
-    description = "Through hole angled pin header, {0}x{1:02}, {2:02}mm pitch, {3}mm pin length".format(cols, rows, rm, pin_length)
-    tags = "Through hole angled pin header THT {0}x{1:02} {2:02}mm".format(cols, rows, rm)
+    description = "Through hole angled pin header, {0}x{1:02}, {2:03.2f}mm pitch, {3}mm pin length".format(cols, rows, rm, pin_length)
+    tags = "Through hole angled pin header THT {0}x{1:02} {2:03.2f}mm".format(cols, rows, rm)
     if (cols == 1):
         description = description + ", single row"
         tags = tags + " single row"
