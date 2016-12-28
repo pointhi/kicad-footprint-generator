@@ -78,7 +78,10 @@ def makeCrystal(footprint_name,rm,pad_size, ddrill,pack_width,pack_height,pack_o
         w_slk=w_fab+2*slk_offset
         l_slk=l_fab-slk_offset
         t_slk=t_fab-slk_offset
-        
+
+        bev = 0
+        if style == "hc49":
+            bev = min(0.35, max(2 * lw_slk, w_slk / 7))
 
         if package_pad:
             l_slk=min(l_slk,rm/2-package_pad_size[1]/2-slk_offset)
@@ -88,13 +91,13 @@ def makeCrystal(footprint_name,rm,pad_size, ddrill,pack_width,pack_height,pack_o
                 l_crt=pad3pos[0]-pad3dril_xoffset-package_pad_drill_size[0]/2-crt_offset
 
         t_crt = -pad[0] / 2 - crt_offset
-        w_crt = max(pack_height,pad[0]+rm,w_slk) + 2 * crt_offset
+        w_crt = max(pack_height+2*bev+4*crt_offset,pad[0]+rm,w_slk) + 2 * crt_offset
         h_crt = max(t_slk+h_slk-t_crt,pack_width+pack_offset+pad[0]/2) + 2 * crt_offset
         l_crt = rm/2-w_crt/2
 
         if package_pad and package_pad_add_holes:
-                l_crt=pad3pos[0]-pad3dril_xoffset-package_pad_drill_size[0]/2-crt_offset
-                w_crt=pad3pos[0]+pad3dril_xoffset+package_pad_drill_size[0]/2+crt_offset-l_crt
+                l_crt=min(l_crt,pad3pos[0]-pad3dril_xoffset-package_pad_drill_size[0]/2-crt_offset)
+                w_crt=max(w_crt,pad3pos[0]+pad3dril_xoffset+package_pad_drill_size[0]/2+crt_offset-l_crt)
 
         print(fpname)
         
@@ -109,8 +112,8 @@ def makeCrystal(footprint_name,rm,pad_size, ddrill,pack_width,pack_height,pack_o
         kicad_modg=kicad_mod
 
         # set general values
-        kicad_modg.append(Text(type='reference', text='REF**', at=[l_slk-txt_offset, t_crt+h_crt/4], layer='F.SilkS', rotation=90))
-        kicad_modg.append(Text(type='value', text=fpname, at=[l_slk+w_slk+txt_offset,t_crt+h_crt/4], layer='F.Fab', rotation=90))
+        kicad_modg.append(Text(type='reference', text='REF**', at=[l_slk-txt_offset-bev/2, t_crt+h_crt/4], layer='F.SilkS', rotation=90))
+        kicad_modg.append(Text(type='value', text=fpname, at=[l_slk+w_slk+txt_offset+bev/2,t_crt+h_crt/4], layer='F.Fab', rotation=90))
 
         # create FAB-layer
         kicad_modg.append(RectLine(start=[l_fab, t_fab],
@@ -120,7 +123,8 @@ def makeCrystal(footprint_name,rm,pad_size, ddrill,pack_width,pack_height,pack_o
         if package_pad and package_pad_add_holes:
             kicad_modg.append(
                 Line(start=[pad3pos[0]-pad3dril_xoffset,pad3pos[1]], end=[pad3pos[0]+pad3dril_xoffset,pad3pos[1]], layer='F.Fab', width=lw_fab))
-
+        if style=="hc49":
+            kicad_modg.append(RectLine(start=[l_fab - bev, t_fab], end=[l_fab + w_fab + bev, t_fab - lw_fab], layer='F.Fab',width=lw_fab))
         # create SILKSCREEN-layer
         if package_pad and package_pad_add_holes:
             kicad_modg.append(PolygoneLine(polygone=[[l_slk, pad3pos[1]-package_pad_drill_size[1]/2-slk_offset],
@@ -131,6 +135,8 @@ def makeCrystal(footprint_name,rm,pad_size, ddrill,pack_width,pack_height,pack_o
             kicad_modg.append(RectLine(start=[l_slk, t_slk],end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS', width=lw_slk))
         kicad_modg.append(Line(start=[l_slk+w_slk/2-pack_rm/2, t_slk],end=[0,pad[1]/2+slk_offset], layer='F.SilkS', width=lw_slk))
         kicad_modg.append(Line(start=[l_slk+w_slk/2+pack_rm/2, t_slk],end=[rm,pad[1]/2+slk_offset], layer='F.SilkS', width=lw_slk))
+        if style=="hc49":
+            kicad_modg.append(RectLine(start=[l_slk-bev, t_slk], end=[l_slk + w_slk+bev, t_slk - lw_slk], layer='F.SilkS', width=lw_slk))
 
 
         # create courtyard
@@ -166,27 +172,33 @@ if __name__ == '__main__':
     standardtags="SMD SMT crystal"
     standardtagsres="SMD SMT ceramic resonator"
     # common settings
-    makeCrystalAll(footprint_name="Crystal_Watch_C26-LF_l6.5mm_d2.1mm_",
+    makeCrystalAll(footprint_name="Crystal_l10.0mm_d3.0mm_Horizontal",
+                rm=2.54, pad_size=1, ddrill=0.5, pack_width=10, pack_height=3, pack_rm=1.2, pack_offset=3,
+                package_pad=True, package_pad_offset=3.5, package_pad_size=[10,3.2],
+                package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                style="flat", description="Crystal THT 10.0mm length 3.0mm diameter", lib_name="Crystals",
+                offset3d=[1.27/25.4, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystalAll(footprint_name="Crystal_C26-LF_l6.5mm_d2.1mm_Horizontal",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_width=6.5, pack_height=2.06, pack_rm=0.7, pack_offset=2,
                 package_pad=True, package_pad_offset=2.5, package_pad_size=[6.5,2.2],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
                 style="flat", description="Crystal THT C26-LF 6.5mm length 2.06mm diameter", tags=["C26-LF"], lib_name="Crystals",
                 offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeCrystalAll(footprint_name="Crystal_Watch_C38-LF_l8.0mm_d3.0mm",
+    makeCrystalAll(footprint_name="Crystal_C38-LF_l8.0mm_d3.0mm_Horizontal",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_width=8, pack_height=3, pack_rm=1.09, pack_offset=2.5,
                 package_pad=True, package_pad_offset=3, package_pad_size=[8,3],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
                 style="flat", description="Crystal THT C38-LF 8.0mm length 3.0mm diameter", tags=["C38-LF"],
                 lib_name="Crystals",
                 offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeCrystalAll(footprint_name="Crystal_Watch_DS26_l6.0mm_d2.0mm",
+    makeCrystalAll(footprint_name="Crystal_DS26_l6.0mm_d2.0mm_Horizontal",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_width=6, pack_height=2, pack_rm=0.7, pack_offset=2,
                 package_pad=True, package_pad_offset=2.5, package_pad_size=[6,2.5],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
                 style="flat", description="Crystal THT DS26 6.0mm length 2.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS26"],lib_name="Crystals",
                 offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeCrystalAll(footprint_name="Crystal_Watch_DS15_l5.0mm_d1.5mm",
+    makeCrystalAll(footprint_name="Crystal_DS15_l5.0mm_d1.5mm_Horizontal",
                 rm=1.7, pad_size=1, ddrill=0.5, pack_width=5, pack_height=1.5, pack_rm=0.5, pack_offset=1.5,
                 package_pad=True, package_pad_offset=2, package_pad_size=[5,2],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
@@ -194,7 +206,7 @@ if __name__ == '__main__':
                 description="Crystal THT DS15 5.0mm length 1.5mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS15"], lib_name="Crystals",
                 offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeCrystalAll(footprint_name="Crystal_Watch_DS10_l4.3mm_d1.0mm",
+    makeCrystalAll(footprint_name="Crystal_DS10_l4.3mm_d1.0mm_Horizontal",
                 rm=1.5, pad_size=1, ddrill=0.5, pack_width=4.3, pack_height=1, pack_rm=0.3, pack_offset=1.5,
                 package_pad=True, package_pad_offset=2, package_pad_size=[4.3, 1.5],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
@@ -202,27 +214,67 @@ if __name__ == '__main__':
                 description="Crystal THT DS10 4.3mm length 1.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS10"], lib_name="Crystals",
                 offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeCrystalAll(footprint_name="Crystal_HC49-U_Horicontal",
+    makeCrystalAll(footprint_name="Crystal_HC49-U_Horizontal",
                 rm=4.9, pad_size=1.2, ddrill=0.8, pack_width=13.0, pack_height=10.9, pack_rm=4.9, pack_offset=2,
                 package_pad=True, package_pad_offset=2.5, package_pad_size=[13.5, 11],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
-                style="flat",
+                style="hc49",
                 description="Crystal THT HC-49/U http://5hertz.com/pdfs/04404_D.pdf",
                 lib_name="Crystals",
                 offset3d=[2.4/25.4, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeCrystalAll(footprint_name="Crystal_HC18-U_Horicontal",
+    makeCrystalAll(footprint_name="Crystal_HC18-U_Horizontal",
                 rm=4.9, pad_size=1.2, ddrill=0.8, pack_width=13.0, pack_height=10.9, pack_rm=4.9, pack_offset=2,
                 package_pad=True, package_pad_offset=2.5, package_pad_size=[13.5, 11],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
-                style="flat",
+                style="hc49",
                 description="Crystal THT HC-18/U http://5hertz.com/pdfs/04404_D.pdf",
                 lib_name="Crystals",
                 offset3d=[2.4/25.4, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeCrystalAll(footprint_name="Crystal_HC33-U_Horicontal",
+    makeCrystalAll(footprint_name="Crystal_HC33-U_Horizontal",
                 rm=12.34, pad_size=2.3, ddrill=1.7, pack_width=19.7, pack_height=19.23, pack_rm=12.34, pack_offset=2.5,
-                package_pad=True, package_pad_offset=2.5, package_pad_size=[19.5, 13],
+                package_pad=True, package_pad_offset=2.5, package_pad_size=[20.5, 20],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
-                style="flat",
+                style="hc49",
                 description="Crystal THT HC-33/U http://pdi.bentech-taiwan.com/PDI/GEN20SPEV20HC3320U.pdf",
                 lib_name="Crystals",
                 offset3d=[6.35 / 25.4, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystalAll(footprint_name="Crystal_HC50_Horizontal",
+                   rm=4.9, pad_size=2.3, ddrill=1.5, pack_width=13.36, pack_height=11.05, pack_rm=4.9, pack_offset=2.5,
+                   package_pad=True, package_pad_offset=2.5, package_pad_size=[14, 11.5],
+                   package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                   style="hc49",
+                   description="Crystal THT HC-50 http://www.crovencrystals.com/croven_pdf/HC-50_Crystal_Holder_Rev_00.pdf",
+                   lib_name="Crystals",
+                   offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystalAll(footprint_name="Crystal_HC51_Horizontal",
+                   rm=12.35, pad_size=2.3, ddrill=1.2, pack_width=19.7, pack_height=19.3, pack_rm=12.35, pack_offset=2.5,
+                   package_pad=True, package_pad_offset=2.5, package_pad_size=[20.5, 20],
+                   package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                   style="hc49",
+                   description="Crystal THT HC-51 http://www.crovencrystals.com/croven_pdf/HC-51_Crystal_Holder_Rev_00.pdf",
+                   lib_name="Crystals",
+                   offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystalAll(footprint_name="Crystal_HC52-U_Horizontal",
+                   rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8.8, pack_height=8, pack_rm=3.8, pack_offset=1.5,
+                   package_pad=True, package_pad_offset=1.5, package_pad_size=[9.5, 8.5],
+                   package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                   style="hc49",
+                   description="Crystal THT HC-51/U http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
+                   lib_name="Crystals",
+                   offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystalAll(footprint_name="Crystal_HC52-8mm_Horizontal",
+                   rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8, pack_height=8, pack_rm=3.8, pack_offset=1.5,
+                   package_pad=True, package_pad_offset=1.5, package_pad_size=[8.5, 8.5],
+                   package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                   style="hc49",
+                   description="Crystal THT HC-51/8mm http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
+                   lib_name="Crystals",
+                   offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystalAll(footprint_name="Crystal_HC52-6mm_Horizontal",
+                   rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=6, pack_height=8, pack_rm=3.8, pack_offset=1.5,
+                   package_pad=True, package_pad_offset=1.5, package_pad_size=[6.5, 8.5],
+                   package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                   style="hc49",
+                   description="Crystal THT HC-51/6mm http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
+                   lib_name="Crystals",
+                   offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
