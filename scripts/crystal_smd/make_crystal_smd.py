@@ -160,7 +160,7 @@ def makeSMDCrystal(footprint_name,addSizeFootprintName,pins,pad_sep_x,pad_sep_y,
                 kicad_modg.append(Line(start=[-betweenpads_x_slk/2, t_slk], end=[betweenpads_x_slk/2, t_slk], layer='F.SilkS', width=lw_slk))
                 kicad_modg.append(Line(start=[-betweenpads_x_slk / 2, t_slk+h_slk], end=[betweenpads_x_slk / 2, t_slk+h_slk], layer='F.SilkS',width=lw_slk))
                 # pin1 mark
-                kicad_modg.append(Line(start=[-overpads_x_slk / 2, -pad[1]/2], end=[-overpads_x_slk / 2, pad[1]/2], layer='F.SilkS', width=lw_slk))
+                kicad_modg.append(Line(start=[min(l_slk,-overpads_x_slk / 2), -pad[1]/2], end=[min(l_slk,-overpads_x_slk / 2), pad[1]/2], layer='F.SilkS', width=lw_slk))
             else:
                 kicad_modg.append(PolygoneLine(polygone=[[l_slk+w_slk,t_slk],
                                                          [-overpads_x_slk/2, t_slk],
@@ -299,7 +299,7 @@ if __name__ == '__main__':
                    pack_height=2.5, pack_bevel=0.1,
                    description="crystal Epson Toyocom FA-238 series http://www.mouser.com/ds/2/137/1721499-465440.pdf",
                    tags=standardtags + "",
-                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[0.24,0.24,0.24], rotate3d=[0, 0, 0])
     makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_FA238V", addSizeFootprintName=True, pins=4, pad_sep_x=2.4, pad_sep_y=1.9, pad=[1.4, 1.2], pack_width=3.2,
                    pack_height=2.5, pack_bevel=0.1,
                    description="crystal Epson Toyocom FA-238 series http://www.mouser.com/ds/2/137/1721499-465440.pdf",
@@ -309,7 +309,7 @@ if __name__ == '__main__':
                    pack_height=2.5, pack_bevel=0.1,
                    description="crystal Epson Toyocom TSX-3225 series http://www.mouser.com/ds/2/137/1721499-465440.pdf",
                    tags=standardtags + "",
-                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[0.24,0.24,0.24], rotate3d=[0, 0, 0])
     makeSMDCrystalAndHand(footprint_name="Crystal_SMD_FOX_FE", addSizeFootprintName=True, pins=2, pad_sep_x=6.3, pad_sep_y=0, pad=[2.2, 2.4], pack_width=7.5,
                    pack_height=5, pack_bevel=0,hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=0.8,
                    description="crystal Ceramic Resin Sealed SMD http://www.foxonline.com/pdfs/fe.pdf",
@@ -360,13 +360,13 @@ if __name__ == '__main__':
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD2520/4 http://www.icbase.com/File/PDF/HKC/HKC00061008.pdf",
                    tags=standardtags + "",
-                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeSMDCrystalAndHand(footprint_name="Crystal_SMD_5032-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=3.7, pad_sep_y=0,
                    pad=[2, 2.4], pack_width=5, pack_height=3.2, pack_bevel=0.2, hasAdhesive=True, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD2520/2 http://www.icbase.com/File/PDF/HKC/HKC00061008.pdf",
                    tags=standardtags + "",
-                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeSMDCrystal(footprint_name="Crystal_SMD_7050-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=5.9, pad_sep_y=2.7,
                    pad=[2.1,1.7], pack_width=7, pack_height=5, pack_bevel=0.2, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
