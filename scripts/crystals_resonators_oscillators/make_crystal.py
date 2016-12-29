@@ -199,14 +199,14 @@ if __name__ == '__main__':
                    offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeCrystalHC49Vert(footprint_name="Crystal_HC52-U_Vertical", pins=2,
                         rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8, pack_height=3.3,
-                        innerpack_width=10, innerpack_height=2.3,
+                        innerpack_width=7, innerpack_height=2.3,
                         tags=standardtags+"HC-52/U",
                         description="Crystal THT HC-52/U, http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
                         lib_name="Crystals",
                         offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeCrystalHC49Vert(footprint_name="Crystal_HC52-U-3pin_Vertical", pins=3,
                         rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8, pack_height=3.3,
-                        innerpack_width=10, innerpack_height=2.3,
+                        innerpack_width=7, innerpack_height=2.3,
                         tags=standardtags+"HC-52/U",
                         description="Crystal THT HC-52/U, http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
                         lib_name="Crystals",
@@ -221,7 +221,7 @@ if __name__ == '__main__':
                    offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeCrystalHC49Vert(footprint_name="Crystal_HC52-8mm_Vertical", pins=2,
                         rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8, pack_height=3.3,
-                        innerpack_width=10, innerpack_height=2.3,
+                        innerpack_width=7, innerpack_height=2.3,
                         tags=standardtags+"HC-49/U",
                         description="Crystal THT HC-52/8mm, http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
                         lib_name="Crystals",
@@ -236,7 +236,7 @@ if __name__ == '__main__':
                    offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeCrystalHC49Vert(footprint_name="Crystal_HC52-6mm_Vertical", pins=2,
                         rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8, pack_height=3.3,
-                        innerpack_width=10, innerpack_height=2.3,
+                        innerpack_width=7, innerpack_height=2.3,
                         tags=standardtags+"HC-49/U",
                         description="Crystal THT HC-52/6mm, http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
                         lib_name="Crystals",

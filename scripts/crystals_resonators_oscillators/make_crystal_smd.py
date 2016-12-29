@@ -29,6 +29,14 @@ if __name__ == '__main__':
                    hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=1,
                    description="Abracon Miniature Ceramic Smd Crystal ABM3B http://www.abracon.com/Resonators/abm3b.pdf", tags=standardtags+"",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM3C-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=3.8, pad_sep_y=2.3, pad=[1.6,1.3], pack_width=5, pack_height=3.2, pack_bevel=0.2,
+                   hasAdhesive=False, adhesivePos=[0, 0], adhesiveSize=1,
+                   description="Abracon Miniature Ceramic Smd Crystal ABM3C http://www.abracon.com/Resonators/abm3c.pdf", tags=standardtags+"",
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM8G-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.7, pad=[1.4,1.2], pack_width=3.2, pack_height=2.5, pack_bevel=0.2,
+                   hasAdhesive=False, adhesivePos=[0, 0], adhesiveSize=1,
+                   description="Abracon Miniature Ceramic Smd Crystal ABM8G http://www.abracon.com/Resonators/ABM8G.pdf", tags=standardtags+"",
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_FA238", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.6, pad=[1.4, 1.2], pack_width=3.2,
                    pack_height=2.5, pack_bevel=0.1,
                    description="crystal Epson Toyocom FA-238 series http://www.mouser.com/ds/2/137/1721499-465440.pdf",
@@ -60,6 +68,13 @@ if __name__ == '__main__':
                    description="SMD Crystal SERIES SMD0603/4 http://www.petermann-technik.de/fileadmin/petermann/pdf/SMD0603-4.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_3225-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.7,
+                   pad=[1.4,1.2], pack_width=3.2, pack_height=2.5, pack_bevel=0, hasAdhesive=False, adhesivePos=[0, 0],
+                   adhesiveSize=0.4,
+                  description="SMD Crystal SERIES SMD3225/4 http://www.txccrystal.com/images/pdf/7m-accuracy.pdf",
+                   tags=standardtags + "",
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    
     makeSMDCrystalAndHand(footprint_name="Crystal_SMD_2012-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=1.4, pad_sep_y=0,
                    pad=[0.6,1.1], pack_width=2, pack_height=1.2, pack_bevel=0, hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=0.4,
                    description="SMD Crystal 2012/2 http://txccrystal.com/images/pdf/9ht11.pdf",
@@ -69,6 +84,12 @@ if __name__ == '__main__':
                    pad=[0.6, 1.1], pack_width=2, pack_height=1.2, pack_bevel=0, hasAdhesive=True, adhesivePos=[0, 0],
                    adhesiveSize=0.4,
                    description="SMD Crystal TXC 9HT11 http://txccrystal.com/images/pdf/9ht11.pdf",
+                   tags=standardtags + "",
+                   lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_TXC_7M", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.7,
+                   pad=[1.4,1.2], pack_width=3.2, pack_height=2.5, pack_bevel=0, hasAdhesive=False, adhesivePos=[0, 0],
+                   adhesiveSize=0.4,
+                   description="SMD Crystal TXC 7M http://www.txccrystal.com/images/pdf/7m-accuracy.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeSMDCrystal(footprint_name="Crystal_SMD_2016-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=1.4, pad_sep_y=1.1,
