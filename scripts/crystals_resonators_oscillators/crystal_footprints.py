@@ -491,8 +491,8 @@ def makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, p
         else:
             kicad_modg.append(
                 RectLine(start=[l_slk, t_slk], end=[l_slk + w_slk, t_slk + h_slk], layer='F.SilkS', width=lw_slk))
-    kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk / 2 - pack_rm / 2, t_slk], [0, t_slk/2], [0, pad[1] / 2 + slk_offset]], layer='F.SilkS',width=lw_slk))
-    kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk / 2 + pack_rm / 2, t_slk], [rm, t_slk/2], [rm, pad[1] / 2 + slk_offset]], layer='F.SilkS',width=lw_slk))
+    kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk / 2 - pack_rm / 2, t_slk], [0, max(t_slk/2,pad[1] / 2 + slk_offset)], [0, pad[1] / 2 + slk_offset]], layer='F.SilkS',width=lw_slk))
+    kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk / 2 + pack_rm / 2, t_slk], [rm, max(t_slk/2,pad[1] / 2 + slk_offset)], [rm, pad[1] / 2 + slk_offset]], layer='F.SilkS',width=lw_slk))
     if style == "hc49":
         kicad_modg.append(
             RectLine(start=[l_slk - bev, t_slk], end=[l_slk + w_slk + bev, t_slk - lw_slk], layer='F.SilkS',

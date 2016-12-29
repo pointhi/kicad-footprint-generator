@@ -204,6 +204,13 @@ if __name__ == '__main__':
                         description="Crystal THT HC-52/U, http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
                         lib_name="Crystals",
                         offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystalHC49Vert(footprint_name="Crystal_HC52-U-3pin_Vertical", pins=3,
+                        rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8, pack_height=3.3,
+                        innerpack_width=10, innerpack_height=2.3,
+                        tags=standardtags+"HC-52/U",
+                        description="Crystal THT HC-52/U, http://www.kvg-gmbh.de/assets/uploads/files/product_pdfs/XS71xx.pdf",
+                        lib_name="Crystals",
+                        offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeCrystalAll(footprint_name="Crystal_HC52-8mm_Horizontal",
                    rm=3.8, pad_size=1.5, ddrill=0.8, pack_width=8, pack_height=8, pack_rm=3.8, pack_offset=1.5,
                    package_pad=True, package_pad_offset=1.5, package_pad_size=[8.5, 8.5],
