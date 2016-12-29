@@ -12,280 +12,14 @@ sys.path.append(os.path.join(sys.path[0],"..","..")) # load kicad_mod path
 
 from KicadModTree import *  # NOQA
 from crystal_tools import *
+from crystal_footprints import *
 
 
-lw_fab=0.1
-lw_slk=0.12
-lw_crt=0.05
-crt_offset=0.25
-slk_offset=0.2
-txt_offset = 1
-
-
-def makeSMDCrystalAndHand(footprint_name,addSizeFootprintName,pins,pad_sep_x,pad_sep_y,pad, pack_width,pack_height,pack_bevel,hasAdhesive=False,adhesivePos=[0,0],adhesiveSize=1, style="rect", description="Crystal SMD SMT", tags=[], lib_name="Crystals",offset3d=[0,0,0],scale3d=[1,1,1],rotate3d=[0,0,0]):
-    makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_sep_y, pad, pack_width,
-                   pack_height, pack_bevel, hasAdhesive, adhesivePos, adhesiveSize, style,
-                   description, tags, lib_name, offset3d,  scale3d, rotate3d)
-    hsfactorx = 1.75
-    hsfactory = 1
-    if (pins==2 and pack_width>pad_sep_x+pad[0]):
-        hsfactorx = 1
-        hsfactory = 1.75
-    elif (pins==4 and pack_width<pad_sep_x+pad[0] and pack_height<pad_sep_y+pad[1]):
-        hsfactorx = 1.5
-        hsfactory = 1.5
-    elif (pins == 4 and pack_width > pad_sep_x + pad[0] and pack_height < pad_sep_y + pad[1]):
-        hsfactorx = 1.1
-        hsfactory = 1.5
-    elif (pins==4 and pack_width<pad_sep_x+pad[0] and pack_height>pad_sep_y+pad[1]):
-        hsfactorx = 1.5
-        hsfactory = 1.1
-
-    makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x+pad[0]*(hsfactorx-1), pad_sep_y+pad[1]*(hsfactory-1), [pad[0]*hsfactorx,pad[1]*hsfactory], pack_width,
-                   pack_height, pack_bevel, hasAdhesive, adhesivePos, adhesiveSize, style,
-                   description+", hand-soldering", tags+" hand-soldering", lib_name, offset3d,  scale3d, rotate3d,name_addition="_HandSoldering")
-
-
-#
-#          <----------pad_sep_x------------->
-#        <----------pack_width-------------->
-#  #=============#                   #=============#
-#  |   4         |                   |         3   |
-#  |     +----------------------------------+      |    ^            ^
-#  |     |       |                   |      |      |    |            |
-#  #=============#                   #=============#    |            |
-#        |                                  |           |            |
-#        |                                  |           pack_height  |
-#        |                                  |           |            pad_sep_y
-#        |                                  |           |            |
-#  #=============#                   #=============#    |  ^         |
-#  |     |       |                   |      |      |    |  |         |
-#  |     +----------------------------------+      |    v  |         v
-#  |   1         |                   |         2   |       pad[1]
-#  #=============#                   #=============#       v
-#                                    <---pad[0]---->
-#
-#
-# pins=2,4
-# style="rect"/"hc49"/"dip"
-def makeSMDCrystal(footprint_name,addSizeFootprintName,pins,pad_sep_x,pad_sep_y,pad, pack_width,pack_height,pack_bevel,hasAdhesive=False,adhesivePos=[0,0],adhesiveSize=1, style="rect",description="Crystal SMD SMT", tags=[], lib_name="Crystals",offset3d=[0,0,0],scale3d=[1,1,1],rotate3d=[0,0,0], name_addition=""):
-        fpname=footprint_name
-        if addSizeFootprintName:
-            fpname+="_package{0:2.1f}x{1:2.1f}mm".format(pack_width,pack_height)
-        fpname=fpname+name_addition
-        
-        overpad_height=pad_sep_y+pad[1]
-        overpad_width = pad_sep_x + pad[0]
-        if pins==3:
-            overpad_height=pad_sep_y*2+pad[1]
-            overpad_width = pad_sep_x*2 + pad[0]
-
-        betweenpads_x_slk=pad_sep_x-pad[0]-2*slk_offset
-        betweenpads_y_slk = pad_sep_y - pad[1] - 2 * slk_offset
-        overpads_x_slk=pad_sep_x+pad[0]+2*slk_offset
-        overpads_y_slk = pad_sep_y +pad[1] + 2 * slk_offset
-        if pins==3:
-            overpads_x_slk = pad_sep_x*2 + pad[0] + 2 * slk_offset
-            overpads_y_slk = pad_sep_y*2 + pad[1] + 2 * slk_offset
-
-        dip_size=1
-
-        mark_size=1
-        upright_mark=False
-        while pack_height<2*mark_size or pack_width<2*mark_size:
-            mark_size=mark_size/2
-
-        if pack_bevel>0 and math.fabs(mark_size/pack_bevel)>0.7 and math.fabs(mark_size/pack_bevel)<1.3:
-            upright_mark = True
-
-        h_fab=pack_height
-        w_fab=pack_width
-        l_fab=-w_fab/2
-        t_fab=-h_fab/2
-        r_fab = pack_width / 10
-        
-        h_slk=h_fab+2*slk_offset
-        w_slk=w_fab+2*slk_offset
-        l_slk=l_fab-slk_offset
-        t_slk=t_fab-slk_offset
-        dip_size_slk=dip_size
-        
-        mark_l_slk=-overpads_x_slk / 2
-        if math.fabs(l_slk-mark_l_slk)<2*lw_slk:
-            mark_l_slk=l_slk-2*lw_slk
-        mark_b_slk = overpads_y_slk / 2
-        if math.fabs(t_slk+h_slk-mark_b_slk)<2*lw_slk:
-            mark_b_slk=t_slk+h_slk+2*lw_slk
-
-        w_crt=max(overpad_width,pack_width)+2*crt_offset
-        h_crt = max(overpad_height,pack_height) + 2 * crt_offset
-        l_crt = -w_crt/2
-        t_crt=-h_crt/2
-        
-        print(fpname)
-        
-        desc=description+", {0:2.1f}x{1:2.1f}mm^2 package".format(pack_width,pack_height)
-        tag_s=tags+" {0:2.1f}x{1:2.1f}mm^2 package".format(pack_width,pack_height)
-
-        # init kicad footprint
-        kicad_mod = Footprint(fpname)
-        kicad_mod.setDescription(desc)
-        kicad_mod.setTags(tags)
-
-        # anchor for SMD-symbols is in the center, for THT-sybols at pin1
-        kicad_mod.setAttribute('smd')
-        offset=[0,0]
-        kicad_modg=kicad_mod
-
-        # set general values
-        kicad_modg.append(Text(type='reference', text='REF**', at=[0, min(t_slk,-overpad_height/2,-pack_height/2)-txt_offset], layer='F.SilkS'))
-        #kicad_modg.append(Text(type='user', text='%R', at=[0, min(t_slk,-overpad_height/2,-pack_height/2)-txt_offset], layer='F.Fab'))
-        kicad_modg.append(Text(type='value', text=fpname, at=[0, max(t_slk+h_slk,overpad_height/2,pack_height/2)+txt_offset], layer='F.Fab'))
-
-        # create FAB-layer
-        if style=='hc49':
-            THTQuartz(kicad_modg, [l_fab,t_fab], [w_fab,h_fab], [w_fab*0.9,h_fab*0.9], 'F.Fab', lw_fab)
-        elif style=='dip':
-            DIPRectL(kicad_modg, [l_fab,t_fab], [w_fab,h_fab], 'F.Fab', lw_fab, dip_size)
-        else:
-            allBevelRect(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], 'F.Fab', lw_fab, pack_bevel)
-            if upright_mark:
-                kicad_modg.append(Line(start=[l_fab+max(mark_size,pack_bevel), t_fab], end=[l_fab+max(mark_size,pack_bevel), t_fab + h_fab],layer='F.Fab', width=lw_fab))
-            else:
-                kicad_modg.append(Line(start=[l_fab, t_fab + h_fab - mark_size], end=[l_fab + mark_size, t_fab + h_fab], layer='F.Fab',width=lw_fab))
-
-        # create SILKSCREEN-layer
-        if pins==2:
-            if pack_height<pad[1]:
-                kicad_modg.append(Line(start=[-betweenpads_x_slk/2, t_slk], end=[betweenpads_x_slk/2, t_slk], layer='F.SilkS', width=lw_slk))
-                kicad_modg.append(Line(start=[-betweenpads_x_slk / 2, t_slk+h_slk], end=[betweenpads_x_slk / 2, t_slk+h_slk], layer='F.SilkS',width=lw_slk))
-                # pin1 mark
-                kicad_modg.append(Line(start=[min(l_slk,-overpads_x_slk / 2), -pad[1]/2], end=[min(l_slk,-overpads_x_slk / 2), pad[1]/2], layer='F.SilkS', width=lw_slk))
-            else:
-                kicad_modg.append(PolygoneLine(polygone=[[l_slk+w_slk,t_slk],
-                                                         [-overpads_x_slk/2, t_slk],
-                                                         [-overpads_x_slk / 2, t_slk+h_slk],
-                                                         [l_slk + w_slk, t_slk+h_slk],], layer='F.SilkS',width=lw_slk))
-        elif pins == 3:
-            if (pack_height < overpad_height and pack_width > overpad_width):
-                kicad_modg.append(PolygoneLine(polygone=[[overpads_x_slk / 2, t_slk],
-                                                         [l_slk + w_slk, t_slk],
-                                                         [l_slk + w_slk, t_slk + h_slk],
-                                                         [overpads_x_slk / 2, t_slk + h_slk]], layer='F.SilkS',
-                                               width=lw_slk))
-                kicad_modg.append(Line(start=[l_slk -2*lw_slk, t_slk],
-                                       end=[l_slk -2*lw_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
-
-                kicad_modg.append(PolygoneLine(polygone=[[-overpads_x_slk / 2, mark_b_slk],
-                                                         [-overpads_x_slk / 2, t_slk + h_slk],
-                                                         [l_slk, t_slk + h_slk],
-                                                         [l_slk, t_slk],
-                                                         [-overpads_x_slk / 2, t_slk]], layer='F.SilkS',
-                                               width=lw_slk))
-    
-            else:
-                kicad_modg.append(PolygoneLine(polygone=[[-overpads_x_slk / 2, -overpads_y_slk / 2],
-                                                         [-overpads_x_slk / 2, overpads_y_slk / 2],
-                                                         [overpads_x_slk / 2, overpads_y_slk / 2]], layer='F.SilkS',
-                                               width=lw_slk))
-        elif pins == 4:
-            if (betweenpads_y_slk<5*lw_slk or betweenpads_x_slk<5*lw_slk):
-                kicad_modg.append(PolygoneLine(polygone=[[-overpads_x_slk/2,-overpads_y_slk/2],
-                                                         [-overpads_x_slk / 2, overpads_y_slk / 2],
-                                                         [overpads_x_slk / 2, overpads_y_slk / 2]], layer='F.SilkS', width=lw_slk))
-            else:
-                if (pack_height<overpad_height and pack_width<overpad_width):
-                    kicad_modg.append(PolygoneLine(polygone=[[mark_l_slk, betweenpads_y_slk/2],
-                                                             [l_slk, betweenpads_y_slk/2],
-                                                             [l_slk, -betweenpads_y_slk/2]], layer='F.SilkS',width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[l_slk+w_slk, -betweenpads_y_slk / 2],
-                                                             [l_slk+w_slk, betweenpads_y_slk / 2]], layer='F.SilkS', width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[-betweenpads_x_slk/2, t_slk],
-                                                             [betweenpads_x_slk/2, t_slk]], layer='F.SilkS',width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[betweenpads_x_slk / 2, t_slk+h_slk],
-                                                             [-betweenpads_x_slk / 2, t_slk+h_slk],
-                                                             [-betweenpads_x_slk / 2, mark_b_slk]], layer='F.SilkS', width=lw_slk))
-                elif (pack_height < overpad_height and pack_width > overpad_width):
-                    kicad_modg.append(PolygoneLine(polygone=[[overpads_x_slk / 2, t_slk],
-                                                             [l_slk + w_slk, t_slk],
-                                                             [l_slk + w_slk, t_slk + h_slk],
-                                                             [overpads_x_slk / 2, t_slk + h_slk]], layer='F.SilkS',
-                                                   width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[-betweenpads_x_slk / 2, t_slk],
-                                                             [betweenpads_x_slk / 2, t_slk]], layer='F.SilkS',
-                                                   width=lw_slk))
-                    if style == 'dip':
-                        DIPRectL_LeftOnly(kicad_modg, [l_slk, t_slk], [(w_slk-overpads_x_slk) / 2, h_slk], 'F.SilkS', lw_slk, dip_size_slk)
-                        kicad_modg.append(Line(start=[betweenpads_x_slk / 2, t_slk + h_slk], end=[-betweenpads_x_slk / 2, t_slk + h_slk], layer='F.SilkS',
-                                                       width=lw_slk))
-                    else:
-                        kicad_modg.append(PolygoneLine(polygone=[[-overpads_x_slk / 2, mark_b_slk],
-                                                                 [-overpads_x_slk / 2, t_slk + h_slk],
-                                                                 [l_slk, t_slk + h_slk],
-                                                                 [l_slk, t_slk],
-                                                                 [-overpads_x_slk / 2, t_slk]], layer='F.SilkS',
-                                                       width=lw_slk))
-                        kicad_modg.append(PolygoneLine(polygone=[[betweenpads_x_slk / 2, t_slk + h_slk],
-                                                                 [-betweenpads_x_slk / 2, t_slk + h_slk],
-                                                                 [-betweenpads_x_slk / 2, mark_b_slk]], layer='F.SilkS',
-                                                       width=lw_slk))
-    
-                elif (pack_height>overpad_height and pack_width<overpad_width):
-                    kicad_modg.append(PolygoneLine(polygone=[[l_slk, -overpads_y_slk / 2],
-                                                             [l_slk, t_slk],
-                                                             [l_slk + w_slk, t_slk],
-                                                             [l_slk + w_slk, -overpads_y_slk / 2]], layer='F.SilkS',width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[mark_l_slk, overpads_y_slk / 2],
-                                                             [l_slk, overpads_y_slk / 2],
-                                                             [l_slk, t_slk + h_slk],
-                                                             [l_slk + w_slk, t_slk + h_slk],
-                                                             [l_slk + w_slk, overpads_y_slk / 2]], layer='F.SilkS',width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[mark_l_slk, betweenpads_y_slk/2],
-                                                             [l_slk, betweenpads_y_slk/2],
-                                                             [l_slk, -betweenpads_y_slk/2]], layer='F.SilkS',width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk, -betweenpads_y_slk / 2],
-                                                             [l_slk + w_slk, betweenpads_y_slk / 2]], layer='F.SilkS',width=lw_slk))
-
-        # create courtyard
-        kicad_mod.append(RectLine(start=[roundCrt(l_crt+offset[0]), roundCrt(t_crt+offset[1])], end=[roundCrt(l_crt+offset[0]+w_crt), roundCrt(t_crt+offset[1]+h_crt)], layer='F.CrtYd', width=lw_crt))
-
-        # create pads
-        pad_type = Pad.TYPE_SMT
-        pad_shape1=Pad.SHAPE_RECT
-        pad_layers = 'F'
-        ddrill=0
- 
-        if (pins==2):
-            kicad_modg.append(Pad(number=1, type=pad_type, shape=pad_shape1, at=[-pad_sep_x/2, 0], size=pad, drill=ddrill, layers=[pad_layers+'.Cu', pad_layers+'.Mask']))
-            kicad_modg.append(Pad(number=2, type=pad_type, shape=pad_shape1, at=[pad_sep_x / 2, 0], size=pad, drill=ddrill,layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-        elif (pins==3):
-            kicad_modg.append(Pad(number=1, type=pad_type, shape=pad_shape1, at=[-pad_sep_x, 0], size=pad, drill=ddrill, layers=[pad_layers+'.Cu', pad_layers+'.Mask']))
-            kicad_modg.append(Pad(number=2, type=pad_type, shape=pad_shape1, at=[0, 0], size=pad, drill=ddrill,layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-            kicad_modg.append(Pad(number=3, type=pad_type, shape=pad_shape1, at=[pad_sep_x, 0], size=pad, drill=ddrill,layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-        elif (pins==4):
-            kicad_modg.append(Pad(number=1, type=pad_type, shape=pad_shape1, at=[-pad_sep_x/2, pad_sep_y/2], size=pad, drill=ddrill, layers=[pad_layers+'.Cu', pad_layers+'.Mask']))
-            kicad_modg.append(Pad(number=2, type=pad_type, shape=pad_shape1, at=[pad_sep_x / 2, pad_sep_y/2], size=pad, drill=ddrill,layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-            kicad_modg.append(Pad(number=3, type=pad_type, shape=pad_shape1, at=[pad_sep_x / 2, -pad_sep_y / 2], size=pad, drill=ddrill,layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-            kicad_modg.append(Pad(number=4, type=pad_type, shape=pad_shape1, at=[-pad_sep_x / 2, -pad_sep_y / 2], size=pad, drill=ddrill,layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-
-        if hasAdhesive:
-            fillCircle(kicad_modg, center=adhesivePos, radius=adhesiveSize/2, width=0.1, layer='F.Adhes')
-
-        # add model
-        kicad_modg.append(Model(filename=lib_name + ".3dshapes/"+fpname+".wrl",at=offset3d, scale=scale3d, rotate=rotate3d))
-
-        # print render tree
-        # print(kicad_mod.getRenderTree())
-        # print(kicad_mod.getCompleteRenderTree())
-
-        # write file
-        file_handler = KicadFileHandler(kicad_mod)
-        file_handler.writeFile(fpname+'.kicad_mod')
 
 
 if __name__ == '__main__':
     standardtags="SMD SMT crystal"
-    standardtagsres="SMD SMT ceramic resonator"
+    standardtagsres="SMD SMT ceramic resonator filter"
     # common settings
     makeSMDCrystalAndHand(footprint_name="Crystal_SMD_Abracon_ABM3-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=2.2+1.9, pad_sep_y=0, pad=[1.9,2.4], pack_width=5, pack_height=3.2, pack_bevel=0.2,
                    hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=1,
@@ -533,6 +267,15 @@ if __name__ == '__main__':
                           description="SMD Crystal EuroQuartz EQ161 series http://cdn-reichelt.de/documents/datenblatt/B400/PG32768C.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC1V-T1A-2pin", addSizeFootprintName=True, pins=2,
+                          style="rect",
+                          pad_sep_x=6.3, pad_sep_y=0,
+                          pad=[2.3, 4.2], pack_width=8, pack_height=3.7, pack_bevel=0, hasAdhesive=False,
+                          adhesivePos=[0, 0],
+                          adhesiveSize=0.5,
+                          description="SMD Crystal MicroCrystal CC1V-T1A series http://www.microcrystal.com/images/_Product-Documentation/01_TF_ceramic_Packages/01_Datasheet/CC1V-T1A.pdf",
+                          tags=standardtags + "",
+                          lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC4V-T1A-2pin", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=4.2, pad_sep_y=0,
@@ -551,6 +294,57 @@ if __name__ == '__main__':
                           description="SMD Crystal MicroCrystal CC5V-T1A series http://cdn-reichelt.de/documents/datenblatt/B400/CC5V-T1A.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC7V-T1A-2pin", addSizeFootprintName=True, pins=2,
+                          style="rect",
+                          pad_sep_x=2.5, pad_sep_y=0,
+                          pad=[1,1.8], pack_width=3.2, pack_height=1.5, pack_bevel=0, hasAdhesive=False,
+                          adhesivePos=[0, 0],
+                          adhesiveSize=0.5,
+                          description="SMD Crystal MicroCrystal CC7V-T1A/CM7V-T1A series http://www.microcrystal.com/images/_Product-Documentation/01_TF_ceramic_Packages/01_Datasheet/CC1V-T1A.pdf",
+                          tags=standardtags + "",
+                          lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC8V-T1A-2pin", addSizeFootprintName=True, pins=2,
+                          style="rect",
+                          pad_sep_x=1.5, pad_sep_y=0,
+                          pad=[0.8,1.5], pack_width=2, pack_height=1.2, pack_bevel=0, hasAdhesive=False,
+                          adhesivePos=[0, 0],
+                          adhesiveSize=0.5,
+                          description="SMD Crystal MicroCrystal CC8V-T1A/CM8V-T1A series http://www.microcrystal.com/images/_Product-Documentation/01_TF_ceramic_Packages/01_Datasheet/CC8V-T1A.pdf",
+                          tags=standardtags + "",
+                          lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CM9V-T1A-2pin", addSizeFootprintName=True, pins=2,
+                          style="rect",
+                          pad_sep_x=1.2, pad_sep_y=0,
+                          pad=[0.6,1.2], pack_width=1.6, pack_height=1.0, pack_bevel=0, hasAdhesive=False,
+                          adhesivePos=[0, 0],
+                          adhesiveSize=0.5,
+                          description="SMD Crystal MicroCrystal CM9V-T1A series http://www.microcrystal.com/images/_Product-Documentation/01_TF_ceramic_Packages/01_Datasheet/CM9V-T1A.pdf",
+                          tags=standardtags + "",
+                          lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystal(footprint_name="Crystal_SMD_MicroCrystal_MS3V-T1R",
+                rm=1, pad_size=[1.1,0.6], ddrill=1, pack_width=5.2, pack_height=1.4, pack_rm=0.7, pack_offset=1.2,
+                package_pad=True, package_pad_offset=4.4, package_pad_size=[2.4,1.5],
+                package_pad_add_holes=False, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                style="flat", pad_style="smd",
+                description="SMD Watch Crystal MicroCrystal MS3V-T1R 5.2mm length 1.4mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/MS3V-T1R.pdf",
+                tags=["MS3V-T1R"], lib_name="Crystals",
+                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystal(footprint_name="Crystal_SMD_MicroCrystal_MS1V-T1K",
+                rm=2.54, pad_size=[1.6,1], ddrill=1, pack_width=6.1, pack_height=2, pack_rm=1, pack_offset=1.6,
+                package_pad=True, package_pad_offset=5.3, package_pad_size=[2.5, 3],
+                package_pad_add_holes=False, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                style="flat", pad_style="smd",
+                description="SMD Watch Crystal MicroCrystal MS1V-T1K 6.1mm length 2.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/MS1V-T1K.pdf",
+                tags=["MS1V-T1K"], lib_name="Crystals",
+                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+    makeCrystal(footprint_name="Crystal_SMD_FrontierElectronics_FM206",
+                rm=2.54, pad_size=[1.6,1], ddrill=1, pack_width=6.0, pack_height=1.9, pack_rm=1, pack_offset=1.6,
+                package_pad=True, package_pad_offset=5.3, package_pad_size=[2.5, 3],
+                package_pad_add_holes=False, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
+                style="flat", pad_style="smd",
+                description="SMD Watch Crystal FrontierElectronics FM206 6.0mm length 1.9mm diameter http://www.chinafronter.com/wp-content/uploads/2013/12/FM206.pdf",
+                tags=["FM206"], lib_name="Crystals",
+                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     makeSMDCrystalAndHand(footprint_name="Resonator_SMD_3pin", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,

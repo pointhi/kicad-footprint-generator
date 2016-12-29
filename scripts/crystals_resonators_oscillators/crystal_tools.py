@@ -77,12 +77,31 @@ def DIPRectL_LeftOnly(model, x, size, layer, width, marker_size=2):
 
     model.append(Arc(center=[x[0],x[1]+size[1]/2], start=[x[0],x[1]+size[1]/2-marker_size/2], angle=180, layer=layer, width=width))
 
-def THTQuartz(model, x, size, inner_size, layer, width):
+def THTQuartzRect(model, x, size, inner_size, layer, width):
     model.append(RectLine(start=x, end=[x[0] + size[0], x[1] + size[1]], layer=layer, width=width))
+    THTQuartz(model, [x[0]+(size[0]-inner_size[0])/2, x[1]+(size[1]-inner_size[1])/2], inner_size, layer, width)
+
+def THTQuartz(model, x, size, layer, width):
+    THTQuartzIncomplete(model, x, size, 180, layer, width)
+
+
+def THTQuartzIncomplete(model, x, size, angle, layer, width):
+    inner_size=size
     r=inner_size[1]/2
-    model.append(Line(start=[x[0] + size[0] / 2 - (inner_size[0] / 2 - r), x[1] + size[1] / 2 - inner_size[1] / 2], end=[x[0] + size[0] / 2 + (inner_size[0] / 2 - r), x[1] + size[1] / 2 - inner_size[1] / 2], layer=layer, width=width))
-    model.append(Line(start=[x[0] + size[0] / 2 - (inner_size[0] / 2 - r), x[1] + size[1] / 2 + inner_size[1] / 2], end=[x[0] + size[0] / 2 + (inner_size[0] / 2 - r), x[1] + size[1] / 2 + inner_size[1] / 2], layer=layer, width=width))
-    model.append(Arc(center=[x[0] + size[0] / 2 - (inner_size[0] / 2 - r), x[1] + size[1] / 2],start=[x[0] + size[0] / 2 - (inner_size[0] / 2 - r), x[1] + size[1] / 2 - inner_size[1] / 2],angle=-180, layer=layer, width=width))
-    model.append(Arc(center=[x[0] + size[0] / 2 + (inner_size[0] / 2 - r), x[1] + size[1] / 2],start=[x[0] + size[0] / 2 + (inner_size[0] / 2 - r), x[1] + size[1] / 2 - inner_size[1] / 2],angle=180, layer=layer, width=width))
-    
+    xtl=[x[0] + size[0] / 2 - (inner_size[0] / 2 - r), x[1] + size[1] / 2 - inner_size[1] / 2]
+    xtr=[x[0] + size[0] / 2 + (inner_size[0] / 2 - r), x[1] + size[1] / 2 - inner_size[1] / 2]
+    xbl=[x[0] + size[0] / 2 - (inner_size[0] / 2 - r), x[1] + size[1] / 2 + inner_size[1] / 2]
+    xbr=[x[0] + size[0] / 2 + (inner_size[0] / 2 - r), x[1] + size[1] / 2 + inner_size[1] / 2]
+    cl=[x[0] + size[0] / 2 - (inner_size[0] / 2 - r), x[1] + size[1] / 2]
+    cr=[x[0] + size[0] / 2 + (inner_size[0] / 2 - r), x[1] + size[1] / 2]
+    model.append(Line(start=xtl, end=xtr, layer=layer, width=width))
+    model.append(Line(start=xbl, end=xbr, layer=layer, width=width))
+    if angle>=180:
+        model.append(Arc(center=cl,start=xtl,angle=-angle, layer=layer, width=width))
+        model.append(Arc(center=cr,start=xtr,angle=angle, layer=layer, width=width))
+    else:
+        model.append(Arc(center=cl, start=xtl, angle=-angle, layer=layer, width=width))
+        model.append(Arc(center=cr, start=xtr, angle=angle, layer=layer, width=width))
+        model.append(Arc(center=cl, start=xbl, angle=angle, layer=layer, width=width))
+        model.append(Arc(center=cr, start=xbr, angle=-angle, layer=layer, width=width))
 
