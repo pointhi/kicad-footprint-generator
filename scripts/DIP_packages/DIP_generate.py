@@ -471,7 +471,7 @@ if __name__ == '__main__':
     for p in pins:
         makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width, switch_height, 'Slide', False, [])
         makeDIPSwitch(p, rm, pinrow_distance, package_width_narrow, overlen_top_narrow, overlen_bottom_narrow, ddrill, pad, switch_width_narrow, switch_height_narrow, 'Slide', False, ["LowProfile"])
-        makeDIPSwitch(p, rm, pinrow_distance_smd, package_width_narrow, overlen_top_narrow, overlen_bottom_narrow, ddrill, pad_smd, switch_width_narrow, switch_height_narrow, 'Slide', True,["SMD","LowProfile"])
+        makeDIPSwitch(p, rm, pinrow_distance_smd, package_width_narrow, overlen_top_narrow, overlen_bottom_narrow, ddrill, pad_smd, switch_width_narrow, switch_height_narrow, 'Slide', True,["SMD","LowProfile"], 'Buttons_Switches_SMD')
         makeDIPSwitch(p, rm, pinrow_distance, package_width_piano, overlen_top_piano, overlen_bottom_piano, ddrill, pad, switch_width_piano, switch_height_piano, 'Piano', False, [])
 
     # Copal CVS DIP-switches (http://www.nidec-copal-electronics.com/e/catalog/switch/cvs.pdf):
@@ -488,7 +488,7 @@ if __name__ == '__main__':
 
     for p in pins:
         makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
-                      switch_height, 'Slide', True, ["Copal_CVS"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      switch_height, 'Slide', True, ["Copal_CVS"], "Buttons_Switches_SMD", [0, 0, 0], [1, 1, 1],
                       [0, 0, 0], "", True, [0.7, 0.7], 0.2, 0)
 
 
@@ -507,7 +507,7 @@ if __name__ == '__main__':
     
     for p in pins:
         makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
-                      switch_height, 'Slide', True, ["Omron_A6H"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      switch_height, 'Slide', True, ["Omron_A6H"], "Buttons_Switches_SMD", [0, 0, 0], [1, 1, 1],
                       [0, 0, 0], "", True)
 
     # Copal CHS DIP-switches (http://www.nidec-copal-electronics.com/e/catalog/switch/chs.pdf):
@@ -525,9 +525,9 @@ if __name__ == '__main__':
     
     for p in pins:
         makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
-                      switch_height, 'Slide', True, ["Copal_CHS-A"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      switch_height, 'Slide', True, ["Copal_CHS-A"], "Buttons_Switches_SMD", [0, 0, 0], [1, 1, 1],
                       [0, 0, 0], "", True)
         makeDIPSwitch(p, rm, pinrow_distanceB, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
-                      switch_height, 'Slide', True, ["Copal_CHS-B"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      switch_height, 'Slide', True, ["Copal_CHS-B"], "Buttons_Switches_SMD", [0, 0, 0], [1, 1, 1],
                       [0, 0, 0], "", True)
     
