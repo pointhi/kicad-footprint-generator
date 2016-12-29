@@ -189,7 +189,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
 #
 #  mode=Piano/Slide
 #
-def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width, switch_height, mode='Piano', smd_pads=False, tags_additional=[], lib_name="Buttons_Switches_ThroughHole", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 90]):
+def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width, switch_height, mode='Piano', smd_pads=False, tags_additional=[], lib_name="Buttons_Switches_ThroughHole", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 90], specialFPName="", SOICStyleSilk=False, cornerPads=[], cornerPadOffsetX=0, cornerPadOffsetY=0):
     switches=int(pins/2)
     
     h_fab = (pins / 2 - 1) * rm + overlen_top + overlen_bottom
@@ -205,11 +205,16 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
         w_slk = min(w_fab + 2 * slk_offset, pinrow_distance - pad[0] - 4 * slk_offset)
     l_slk = (pinrow_distance - w_slk) / 2
     t_slk = -overlen_top - slk_offset
+
+    if len(cornerPads)==2:
+        t_slk=t_fab + cornerPadOffsetY-cornerPads[1]/2-slk_offset
+        h_slk=t_fab + h_fab-cornerPadOffsetY+cornerPads[1]/2+slk_offset-t_slk
+
     
     w_crt = max(package_width, pinrow_distance + pad[0]) + 2 * crt_offset
-    h_crt = max(h_fab, (pins / 2 - 1) * rm + pad[1]) + 2 * crt_offset
+    h_crt = max(h_fab, (pins / 2 - 1) * rm + pad[1], h_slk) + 2 * crt_offset
     l_crt = pinrow_distance / 2 - w_crt / 2
-    t_crt = (pins / 2 - 1) * rm / 2 - h_crt / 2
+    t_crt = min(t_slk-crt_offset, (pins / 2 - 1) * rm / 2 - h_crt / 2)
 
     if (mode == 'Piano'):
         l_crt=l_crt-switch_width
@@ -225,6 +230,9 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
             description = description + ", " + t
             tags = tags + " " + t
     
+    if len(specialFPName)>0:
+        footprint_name=specialFPName
+        
     print(footprint_name)
     
     # init kicad footprint
@@ -261,18 +269,26 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
         
     
     # create SILKSCREEN-layer
-    if (mode == 'Piano'):
-        kicad_modg.append(PolygoneLine(polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk+h_slk], [l_slk, t_slk+h_slk], [l_slk, t_slk]], layer='F.SilkS', width=lw_slk))
+    if SOICStyleSilk and smd_pads:
+        kicad_modg.append(Line(start=[-pad[0]/2, t_slk], end=[l_fab+w_fab, t_slk], layer='F.SilkS', width=lw_slk))
+        kicad_modg.append(Line(start=[l_fab, t_slk+h_slk], end=[l_fab + w_fab, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
     else:
-        kicad_modg.append(PolygoneLine(polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk + h_slk], [l_slk, t_slk + h_slk],[l_slk, rm / 2]], layer='F.SilkS', width=lw_slk))
-    for sw in range(0, switches):
-        x = pinrow_distance / 2
-        y = sw * rm
-        if (mode=='Piano'):
-            kicad_modg.append(RectLine(start=[l_slk-switch_height-2*slk_offset, y - switch_height / 2-slk_offset],end=[l_slk, y + switch_height / 2+slk_offset], layer='F.SilkS',width=lw_slk))
+        if (mode == 'Piano'):
+            kicad_modg.append(PolygoneLine(
+                polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk + h_slk], [l_slk, t_slk + h_slk],
+                          [l_slk, t_slk]], layer='F.SilkS', width=lw_slk))
         else:
-            kicad_modg.append(RectLine(start=[x - switch_width / 2, y - switch_height / 2],end=[x + switch_width / 2, y + switch_height / 2], layer='F.SilkS', width=lw_slk))
-            kicad_modg.append(Line(start=[x, y - switch_height / 2], end=[x, y + switch_height / 2], layer='F.SilkS', width=lw_slk))
+            kicad_modg.append(PolygoneLine(
+                polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk + h_slk], [l_slk, t_slk + h_slk],
+                          [l_slk, rm / 2]], layer='F.SilkS', width=lw_slk))
+        for sw in range(0, switches):
+            x = pinrow_distance / 2
+            y = sw * rm
+            if (mode=='Piano'):
+                kicad_modg.append(RectLine(start=[l_slk-switch_height-2*slk_offset, y - switch_height / 2-slk_offset],end=[l_slk, y + switch_height / 2+slk_offset], layer='F.SilkS',width=lw_slk))
+            else:
+                kicad_modg.append(RectLine(start=[x - switch_width / 2, y - switch_height / 2],end=[x + switch_width / 2, y + switch_height / 2], layer='F.SilkS', width=lw_slk))
+                kicad_modg.append(Line(start=[x, y - switch_height / 2], end=[x, y + switch_height / 2], layer='F.SilkS', width=lw_slk))
 
     
     # create courtyard
@@ -312,7 +328,13 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
         p2 = p2 + 1
         y1 = y1 + rm
         y2 = y2 - rm
-    
+
+    if len(cornerPads)==2:
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,at=[l_fab + cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,layers=['F.Cu', 'F.Mask']))
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,at=[l_fab+w_fab - cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,layers=['F.Cu', 'F.Mask']))
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,at=[l_fab + cornerPadOffsetX, t_fab+h_fab- cornerPadOffsetY], size=cornerPads, drill=0,layers=['F.Cu', 'F.Mask']))
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,at=[l_fab+w_fab - cornerPadOffsetX, t_fab+h_fab- cornerPadOffsetY], size=cornerPads, drill=0,layers=['F.Cu', 'F.Mask']))
+
     # add model
     kicad_modg.append(
         Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
@@ -451,3 +473,61 @@ if __name__ == '__main__':
         makeDIPSwitch(p, rm, pinrow_distance, package_width_narrow, overlen_top_narrow, overlen_bottom_narrow, ddrill, pad, switch_width_narrow, switch_height_narrow, 'Slide', False, ["LowProfile"])
         makeDIPSwitch(p, rm, pinrow_distance_smd, package_width_narrow, overlen_top_narrow, overlen_bottom_narrow, ddrill, pad_smd, switch_width_narrow, switch_height_narrow, 'Slide', True,["SMD","LowProfile"])
         makeDIPSwitch(p, rm, pinrow_distance, package_width_piano, overlen_top_piano, overlen_bottom_piano, ddrill, pad, switch_width_piano, switch_height_piano, 'Piano', False, [])
+
+    # Copal CVS DIP-switches (http://www.nidec-copal-electronics.com/e/catalog/switch/cvs.pdf):
+    pins = [2, 4, 6, 8, 16]
+    rm = 1
+    pinrow_distance = 5.9
+    package_width = 4.7
+    switch_width = 2
+    switch_height = 0.5
+    overlen_top = 1
+    overlen_bottom = 1
+    ddrill = 0
+    pad_smd = [1.2, 0.5]
+
+    for p in pins:
+        makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
+                      switch_height, 'Slide', True, ["Copal_CVS"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      [0, 0, 0], "", True, [0.7, 0.7], 0.2, 0)
+
+
+
+    # Omron A6H DIP-switches (https://www.omron.com/ecb/products/pdf/en-a6h.pdf):
+    pins = [4,8,12,16,20]
+    rm = 1.27
+    pinrow_distance = 6.15
+    package_width = 4.5
+    switch_width = 3.2
+    switch_height = 0.5
+    overlen_top = 1.27
+    overlen_bottom = 1.27
+    ddrill = 0
+    pad_smd = [1.25, 0.76]
+    
+    for p in pins:
+        makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
+                      switch_height, 'Slide', True, ["Omron_A6H"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      [0, 0, 0], "", True)
+
+    # Copal CHS DIP-switches (http://www.nidec-copal-electronics.com/e/catalog/switch/chs.pdf):
+    pins = [2, 4, 8, 12, 16, 20]
+    rm = 1.27
+    pinrow_distance = 5.08
+    pinrow_distanceB = 7.62
+    package_width = 5.4
+    switch_width = 3
+    switch_height = 0.5
+    overlen_top = 1.27
+    overlen_bottom = 1.27
+    ddrill = 0
+    pad_smd = [1.6, 0.76]
+    
+    for p in pins:
+        makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
+                      switch_height, 'Slide', True, ["Copal_CHS-A"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      [0, 0, 0], "", True)
+        makeDIPSwitch(p, rm, pinrow_distanceB, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
+                      switch_height, 'Slide', True, ["Copal_CHS-B"], "Buttons_Switches_ThroughHole", [0, 0, 0], [1, 1, 1],
+                      [0, 0, 0], "", True)
+    
