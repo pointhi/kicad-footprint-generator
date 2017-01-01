@@ -121,6 +121,8 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
             myfile.write("import FreeCAD\n")
             myfile.write("import os\n")
             myfile.write("import os.path\n\n")
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
+            myfile.write("App.ActiveDocument.recompute()\n")
             myfile.write("# L\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(w) )
             myfile.write("# d\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(d))
             myfile.write("# d2\nApp.ActiveDocument.Spreadsheet.set('C2', '{0}')\n".format(d2))
@@ -219,7 +221,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
 # simple axial round (type="cyl")/ box (type="box") resistor, vertically mounted
 # deco="none"/"deco"
-def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[],deco="none"):
+def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[],deco="none",script3d=""):
     padx = 2 * ddrill
     pady = padx
     if (largepadsx):
@@ -286,6 +288,33 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
             footprint_name=footprint_name+"_"+n
 
     print(footprint_name)
+
+
+
+    if script3d!="":
+        with open(script3d, "a") as myfile:
+            myfile.write("\n\n # {0}\n".format(footprint_name))
+            myfile.write("import FreeCAD\n")
+            myfile.write("import os\n")
+            myfile.write("import os.path\n\n")
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("# L\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(l) )
+            myfile.write("# d\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(d))
+            myfile.write("# d2\nApp.ActiveDocument.Spreadsheet.set('C2', '{0}')\n".format(d2))
+            myfile.write("# RM\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(rm))
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(ddrill-0.3))
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("doc = FreeCAD.activeDocument()\n")
+            myfile.write("__objs__=[]\n")
+            myfile.write("for obj in doc.Objects:	\n")
+            myfile.write("    if obj.ViewObject.Visibility:\n")
+            myfile.write("        __objs__.append(obj)\n")
+            myfile.write("\nFreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+\"{0}.wrl\")\n".format(footprint_name))
+            myfile.write("doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+\"{0}.FCStd\")\n".format(footprint_name))
+            myfile.write("print(\"created {0}\")\n".format(footprint_name))
+
+
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
