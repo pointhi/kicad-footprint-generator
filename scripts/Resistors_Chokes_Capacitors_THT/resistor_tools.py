@@ -138,3 +138,8 @@ def addRectWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun=0.
     addHLineWithKeepout(kicad_mod, x, x + w, y+h, layer, width, keepouts, roun)
     addVLineWithKeepout(kicad_mod, x, y, y+h, layer, width, keepouts, roun)
     addVLineWithKeepout(kicad_mod, x+w, y, y + h, layer, width, keepouts, roun)
+
+# split a plus sign so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addPlusWithKeepout(km, x, y, w, h, layer, width, keepouts=[], roun=0.001):
+    addHLineWithKeepout(km, x, x+w, y+h/2, layer,width,keepouts,roun)
+    addVLineWithKeepout(km, x+w/2, y, y+h, layer, width, keepouts, roun)

@@ -144,5 +144,9 @@ if __name__ == '__main__':
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname="Choke", lib_name="Choke_Radial_ThroughHole")
     w = 21; w2=w; h = w; ddrill = 1; rm=19.0; rm2=0; R_POW=0; add_description = "http://www.abracon.com/Magnetics/radial/AIRD02.pdf"; name_additions=[]
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname="Choke", lib_name="Choke_Radial_ThroughHole")
+    w = 24; w2=w; h = w; ddrill = 1.5; rm=24.0; rm2=0; R_POW=0; add_description = ""; name_additions=[]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname="Choke", lib_name="Choke_Radial_ThroughHole")
+    w = 28; w2=w; h = w; ddrill = 1.5; rm=29.2; rm2=0; R_POW=0; add_description = ""; name_additions=[]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname="Choke", lib_name="Choke_Radial_ThroughHole")
 
 
