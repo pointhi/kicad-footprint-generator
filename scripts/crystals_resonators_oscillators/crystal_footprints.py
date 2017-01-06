@@ -94,10 +94,12 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
     if pins == 3:
         overpads_x_slk = pad_sep_x * 2 + pad[0] + 2 * slk_offset
         overpads_y_slk = pad_sep_y * 2 + pad[1] + 2 * slk_offset
-    
+    elif pins == 6:
+        overpads_x_slk = pad_sep_x * 2 + pad[0] + 2 * slk_offset
+
     dip_size = 1
     
-    mark_size = 1
+    mark_size = max(1.5*pack_bevel,1)
     upright_mark = False
     while pack_height < 2 * mark_size or pack_width < 2 * mark_size:
         mark_size = mark_size / 2
@@ -158,6 +160,8 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
         THTQuartzRect(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], [w_fab * 0.9, h_fab * 0.9], 'F.Fab', lw_fab)
     elif style == 'dip':
         DIPRectL(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], 'F.Fab', lw_fab, dip_size)
+    elif style == 'rect1bevel':
+        bevelRectBL(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], 'F.Fab', lw_fab, dip_size)
     else:
         allBevelRect(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], 'F.Fab', lw_fab, pack_bevel)
         if upright_mark:
@@ -208,7 +212,7 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                                                      [-overpads_x_slk / 2, overpads_y_slk / 2],
                                                      [overpads_x_slk / 2, overpads_y_slk / 2]], layer='F.SilkS',
                                            width=lw_slk))
-    elif pins == 4:
+    elif pins >= 4:
         if (betweenpads_y_slk < 5 * lw_slk or betweenpads_x_slk < 5 * lw_slk):
             kicad_modg.append(PolygoneLine(polygone=[[-overpads_x_slk / 2, -overpads_y_slk / 2],
                                                      [-overpads_x_slk / 2, overpads_y_slk / 2],
@@ -216,6 +220,7 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                                            width=lw_slk))
         else:
             if (pack_height < overpad_height and pack_width < overpad_width):
+                
                 kicad_modg.append(PolygoneLine(polygone=[[mark_l_slk, betweenpads_y_slk / 2],
                                                          [l_slk, betweenpads_y_slk / 2],
                                                          [l_slk, -betweenpads_y_slk / 2]], layer='F.SilkS',
@@ -223,10 +228,11 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                 kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk, -betweenpads_y_slk / 2],
                                                          [l_slk + w_slk, betweenpads_y_slk / 2]], layer='F.SilkS',
                                                width=lw_slk))
-                kicad_modg.append(PolygoneLine(polygone=[[-betweenpads_x_slk / 2, t_slk],
+                if pins == 4:
+                    kicad_modg.append(PolygoneLine(polygone=[[-betweenpads_x_slk / 2, t_slk],
                                                          [betweenpads_x_slk / 2, t_slk]], layer='F.SilkS',
                                                width=lw_slk))
-                kicad_modg.append(PolygoneLine(polygone=[[betweenpads_x_slk / 2, t_slk + h_slk],
+                    kicad_modg.append(PolygoneLine(polygone=[[betweenpads_x_slk / 2, t_slk + h_slk],
                                                          [-betweenpads_x_slk / 2, t_slk + h_slk],
                                                          [-betweenpads_x_slk / 2, mark_b_slk]], layer='F.SilkS',
                                                width=lw_slk))
@@ -236,7 +242,8 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                                                          [l_slk + w_slk, t_slk + h_slk],
                                                          [overpads_x_slk / 2, t_slk + h_slk]], layer='F.SilkS',
                                                width=lw_slk))
-                kicad_modg.append(PolygoneLine(polygone=[[-betweenpads_x_slk / 2, t_slk],
+                if pins == 4:
+                    kicad_modg.append(PolygoneLine(polygone=[[-betweenpads_x_slk / 2, t_slk],
                                                          [betweenpads_x_slk / 2, t_slk]], layer='F.SilkS',
                                                width=lw_slk))
                 if style == 'dip':
@@ -253,7 +260,8 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                                                              [l_slk, t_slk],
                                                              [-overpads_x_slk / 2, t_slk]], layer='F.SilkS',
                                                    width=lw_slk))
-                    kicad_modg.append(PolygoneLine(polygone=[[betweenpads_x_slk / 2, t_slk + h_slk],
+                    if pins==4:
+                        kicad_modg.append(PolygoneLine(polygone=[[betweenpads_x_slk / 2, t_slk + h_slk],
                                                              [-betweenpads_x_slk / 2, t_slk + h_slk],
                                                              [-betweenpads_x_slk / 2, mark_b_slk]], layer='F.SilkS',
                                                    width=lw_slk))
@@ -270,13 +278,14 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                                                          [l_slk + w_slk, t_slk + h_slk],
                                                          [l_slk + w_slk, overpads_y_slk / 2]], layer='F.SilkS',
                                                width=lw_slk))
-                kicad_modg.append(PolygoneLine(polygone=[[mark_l_slk, betweenpads_y_slk / 2],
-                                                         [l_slk, betweenpads_y_slk / 2],
-                                                         [l_slk, -betweenpads_y_slk / 2]], layer='F.SilkS',
-                                               width=lw_slk))
-                kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk, -betweenpads_y_slk / 2],
-                                                         [l_slk + w_slk, betweenpads_y_slk / 2]], layer='F.SilkS',
-                                               width=lw_slk))
+                if pins == 4:
+                    kicad_modg.append(PolygoneLine(polygone=[[mark_l_slk, betweenpads_y_slk / 2],
+                                                             [l_slk, betweenpads_y_slk / 2],
+                                                             [l_slk, -betweenpads_y_slk / 2]], layer='F.SilkS',
+                                                   width=lw_slk))
+                    kicad_modg.append(PolygoneLine(polygone=[[l_slk + w_slk, -betweenpads_y_slk / 2],
+                                                             [l_slk + w_slk, betweenpads_y_slk / 2]], layer='F.SilkS',
+                                                   width=lw_slk))
     
     # create courtyard
     kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
@@ -314,7 +323,27 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
         kicad_modg.append(
             Pad(number=4, type=pad_type, shape=pad_shape1, at=[-pad_sep_x / 2, -pad_sep_y / 2], size=pad, drill=ddrill,
                 layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-    
+
+    elif (pins == 6):
+        kicad_modg.append(
+            Pad(number=1, type=pad_type, shape=pad_shape1, at=[-pad_sep_x , pad_sep_y / 2], size=pad, drill=ddrill,
+                layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        kicad_modg.append(
+            Pad(number=2, type=pad_type, shape=pad_shape1, at=[0, pad_sep_y / 2], size=pad, drill=ddrill,
+                layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        kicad_modg.append(
+            Pad(number=3, type=pad_type, shape=pad_shape1, at=[pad_sep_x , pad_sep_y / 2], size=pad, drill=ddrill,
+                layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        kicad_modg.append(
+            Pad(number=4, type=pad_type, shape=pad_shape1, at=[pad_sep_x , -pad_sep_y / 2], size=pad, drill=ddrill,
+                layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        kicad_modg.append(
+            Pad(number=5, type=pad_type, shape=pad_shape1, at=[0, -pad_sep_y / 2], size=pad, drill=ddrill,
+                layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+        kicad_modg.append(
+            Pad(number=6, type=pad_type, shape=pad_shape1, at=[-pad_sep_x, -pad_sep_y / 2], size=pad, drill=ddrill,
+                layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+
     if hasAdhesive:
         fillCircle(kicad_modg, center=adhesivePos, radius=adhesiveSize / 2, width=0.1, layer='F.Adhes')
     
@@ -678,8 +707,8 @@ def makeCrystalHC49Vert(footprint_name, pins, rm, pad_size, ddrill, pack_width, 
 #
 # pins=2,3
 def makeCrystalRoundVert(footprint_name, rm, pad_size, ddrill, pack_diameter,
-                        description="Crystal THT", lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
-                        rotate3d=[0, 0, 0]):
+                         description="Crystal THT", lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
+                         rotate3d=[0, 0, 0]):
     fpname = footprint_name
     
     if type(pad_size) is list:
@@ -692,29 +721,29 @@ def makeCrystalRoundVert(footprint_name, rm, pad_size, ddrill, pack_diameter,
     pin2pos = [rm, 0]
     
     d_fab = pack_diameter
-    cl_fab = rm/2
+    cl_fab = rm / 2
     ct_fab = 0
-
+    
     d_slk = d_fab + 2 * slk_offset
     cl_slk = cl_fab
     ct_slk = ct_fab
     sl_slk = 0
     if d_fab >= rm + pad[0]:
         st_slk = 0
-        sl_slk = min(-(d_fab-rm) / 2, - pad[0] / 2) - slk_offset
-        alpha_slk=180
-    elif d_slk*d_slk/4>=rm*rm/4:
-        st_slk = -max(math.sqrt(d_slk*d_slk/4 - rm*rm/4),pad[1]/2+slk_offset)
-        alpha_slk = 2 * (90 - math.fabs(180 / 3.1415 * math.atan(math.fabs(st_slk - centerpos[1]) / math.fabs(sl_slk - centerpos[0]))))
+        sl_slk = min(-(d_fab - rm) / 2, - pad[0] / 2) - slk_offset
+        alpha_slk = 180
+    elif d_slk * d_slk / 4 >= rm * rm / 4:
+        st_slk = -max(math.sqrt(d_slk * d_slk / 4 - rm * rm / 4), pad[1] / 2 + slk_offset)
+        alpha_slk = 2 * (
+        90 - math.fabs(180 / 3.1415 * math.atan(math.fabs(st_slk - centerpos[1]) / math.fabs(sl_slk - centerpos[0]))))
     else:
-        st_slk = -pad[1]/2-slk_offset
-        alpha_slk = 2 * (90 - math.fabs(180 / 3.1415 * math.atan(math.fabs(st_slk - centerpos[1]) / math.fabs(sl_slk - centerpos[0]))))
+        st_slk = -pad[1] / 2 - slk_offset
+        alpha_slk = 2 * (
+        90 - math.fabs(180 / 3.1415 * math.atan(math.fabs(st_slk - centerpos[1]) / math.fabs(sl_slk - centerpos[0]))))
     
-
-    d_crt = max(rm+pad[0],d_slk) + 2 * crt_offset
+    d_crt = max(rm + pad[0], d_slk) + 2 * crt_offset
     cl_crt = cl_fab
     ct_crt = ct_fab
-
     
     print(fpname)
     
@@ -730,18 +759,22 @@ def makeCrystalRoundVert(footprint_name, rm, pad_size, ddrill, pack_diameter,
     kicad_modg = kicad_mod
     
     # set general values
-    kicad_modg.append(Text(type='reference', text='REF**', at=[centerpos[0], ct_slk-d_slk/2 - txt_offset], layer='F.SilkS'))
-    kicad_modg.append(Text(type='value', text=fpname, at=[centerpos[0], ct_slk+d_slk/2 + txt_offset], layer='F.Fab'))
+    kicad_modg.append(
+        Text(type='reference', text='REF**', at=[centerpos[0], ct_slk - d_slk / 2 - txt_offset], layer='F.SilkS'))
+    kicad_modg.append(
+        Text(type='value', text=fpname, at=[centerpos[0], ct_slk + d_slk / 2 + txt_offset], layer='F.Fab'))
     
     # create FAB-layer
-    kicad_mod.append(Circle(center=[cl_fab,ct_fab],radius=d_fab/2, layer='F.Fab', width=lw_fab))
+    kicad_mod.append(Circle(center=[cl_fab, ct_fab], radius=d_fab / 2, layer='F.Fab', width=lw_fab))
     
     # create SILKSCREEN-layer
-    kicad_mod.append(Arc(center=[cl_slk, ct_slk], start=[sl_slk, st_slk], angle=alpha_slk, layer='F.SilkS', width=lw_slk))
-    kicad_mod.append(Arc(center=[cl_slk, ct_slk], start=[sl_slk, -st_slk], angle=-alpha_slk, layer='F.SilkS', width=lw_slk))
+    kicad_mod.append(
+        Arc(center=[cl_slk, ct_slk], start=[sl_slk, st_slk], angle=alpha_slk, layer='F.SilkS', width=lw_slk))
+    kicad_mod.append(
+        Arc(center=[cl_slk, ct_slk], start=[sl_slk, -st_slk], angle=-alpha_slk, layer='F.SilkS', width=lw_slk))
     
     # create courtyard
-    kicad_mod.append(Circle(center=[cl_crt, ct_crt], radius=d_crt / 2, layer = 'F.CrtYd', width = lw_crt))
+    kicad_mod.append(Circle(center=[cl_crt, ct_crt], radius=d_crt / 2, layer='F.CrtYd', width=lw_crt))
     
     # create pads
     pad_type = Pad.TYPE_THT
@@ -752,7 +785,6 @@ def makeCrystalRoundVert(footprint_name, rm, pad_size, ddrill, pack_diameter,
                           layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
     kicad_modg.append(Pad(number=2, type=pad_type, shape=pad_shape1, at=pin2pos, size=pad, drill=ddrill,
                           layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
-    
     
     # add model
     kicad_modg.append(
@@ -765,3 +797,5 @@ def makeCrystalRoundVert(footprint_name, rm, pad_size, ddrill, pack_diameter,
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(fpname + '.kicad_mod')
+
+
