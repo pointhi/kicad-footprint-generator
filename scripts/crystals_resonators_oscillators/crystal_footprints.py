@@ -78,7 +78,7 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                    rotate3d=[0, 0, 0], name_addition=""):
     fpname = footprint_name
     if addSizeFootprintName:
-        fpname += "_package{0:2.1f}x{1:2.1f}mm".format(pack_width, pack_height)
+        fpname += "-{2}pin_{0:2.1f}x{1:2.1f}mm".format(pack_width, pack_height, pins)
     fpname = fpname + name_addition
     
     overpad_height = pad_sep_y + pad[1]
@@ -586,8 +586,15 @@ def makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, p
 #
 # pins=2,3
 def makeCrystalHC49Vert(footprint_name, pins, rm, pad_size, ddrill, pack_width, pack_height, innerpack_width, innerpack_height,
-                description="Crystal THT", lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0]):
+                description="Crystal THT", lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], addSizeFootprintName=False):
     fpname = footprint_name
+    desc = description
+    tag_s = tags
+
+    if addSizeFootprintName:
+        fpname += "-{2}pin_w{0:2.1f}mm_h{1:2.1f}mm".format(pack_width, pack_height, pins)
+        desc = description + ", length*width={0:2.1f}x{1:2.1f}mm^2 package, package length={0:2.1f}mm, package width={1:2.1f}mm, {2} pins".format(pack_width, pack_height,pins)
+        tag_s = tags + " {0:2.1f}x{1:2.1f}mm^2 package length {0:2.1f}mm width {1:2.1f}mm {2} pins".format(pack_width, pack_height,pins)
     
     if type(pad_size) is list:
         pad = [pad_size[1], pad_size[0]]
@@ -633,8 +640,6 @@ def makeCrystalHC49Vert(footprint_name, pins, rm, pad_size, ddrill, pack_width, 
     
     print(fpname)
     
-    desc = description
-    tag_s = tags
     
     # init kicad footprint
     kicad_mod = Footprint(fpname)

@@ -21,19 +21,19 @@ if __name__ == '__main__':
     standardtags="SMD SMT crystal"
     standardtagsres="SMD SMT ceramic resonator filter"
     # common settings
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_Abracon_ABM3-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=2.2+1.9, pad_sep_y=0, pad=[1.9,2.4], pack_width=5, pack_height=3.2, pack_bevel=0.2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_Abracon_ABM3", addSizeFootprintName=True, pins=2, pad_sep_x=2.2+1.9, pad_sep_y=0, pad=[1.9,2.4], pack_width=5, pack_height=3.2, pack_bevel=0.2,
                    hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=1,
                    description="Abracon Miniature Ceramic Smd Crystal ABM3 http://www.abracon.com/Resonators/abm3.pdf", tags=standardtags+"",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM3B-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=4, pad_sep_y=2.4, pad=[1.8,1.2], pack_width=5, pack_height=3.2, pack_bevel=0.2,
+    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM3B", addSizeFootprintName=True, pins=4, pad_sep_x=4, pad_sep_y=2.4, pad=[1.8,1.2], pack_width=5, pack_height=3.2, pack_bevel=0.2,
                    hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=1,
                    description="Abracon Miniature Ceramic Smd Crystal ABM3B http://www.abracon.com/Resonators/abm3b.pdf", tags=standardtags+"",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM3C-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=3.8, pad_sep_y=2.3, pad=[1.6,1.3], pack_width=5, pack_height=3.2, pack_bevel=0.2,
+    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM3C", addSizeFootprintName=True, pins=4, pad_sep_x=3.8, pad_sep_y=2.3, pad=[1.6,1.3], pack_width=5, pack_height=3.2, pack_bevel=0.2,
                    hasAdhesive=False, adhesivePos=[0, 0], adhesiveSize=1,
                    description="Abracon Miniature Ceramic Smd Crystal ABM3C http://www.abracon.com/Resonators/abm3c.pdf", tags=standardtags+"",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM8G-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.7, pad=[1.4,1.2], pack_width=3.2, pack_height=2.5, pack_bevel=0.2,
+    makeSMDCrystal(footprint_name="Crystal_SMD_Abracon_ABM8G", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.7, pad=[1.4,1.2], pack_width=3.2, pack_height=2.5, pack_bevel=0.2,
                    hasAdhesive=False, adhesivePos=[0, 0], adhesiveSize=1,
                    description="Abracon Miniature Ceramic Smd Crystal ABM8G http://www.abracon.com/Resonators/ABM8G.pdf", tags=standardtags+"",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
@@ -57,25 +57,25 @@ if __name__ == '__main__':
                    description="crystal Ceramic Resin Sealed SMD http://www.foxonline.com/pdfs/fe.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_0603-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=4.4, pad_sep_y=0,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_0603", addSizeFootprintName=True, pins=2, pad_sep_x=4.4, pad_sep_y=0,
                    pad=[1.9,2.5], pack_width=6,
                    pack_height=3.5, pack_bevel=0.1, hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD0603/2 http://www.petermann-technik.de/fileadmin/petermann/pdf/SMD0603-2.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_0603-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=4.4, pad_sep_y=2.4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_0603", addSizeFootprintName=True, pins=4, pad_sep_x=4.4, pad_sep_y=2.4,
                    pad=[1.8, 1.4], pack_width=6, pack_height=3.5, pack_bevel=0.1, hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD0603/4 http://www.petermann-technik.de/fileadmin/petermann/pdf/SMD0603-4.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_3225-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.7,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_3225", addSizeFootprintName=True, pins=4, pad_sep_x=2.2, pad_sep_y=1.7,
                    pad=[1.4,1.2], pack_width=3.2, pack_height=2.5, pack_bevel=0, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.4,
                   description="SMD Crystal SERIES SMD3225/4 http://www.txccrystal.com/images/pdf/7m-accuracy.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
     
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_2012-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=1.4, pad_sep_y=0,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_2012", addSizeFootprintName=True, pins=2, pad_sep_x=1.4, pad_sep_y=0,
                    pad=[0.6,1.1], pack_width=2, pack_height=1.2, pack_bevel=0, hasAdhesive=True, adhesivePos=[0, 0], adhesiveSize=0.4,
                    description="SMD Crystal 2012/2 http://txccrystal.com/images/pdf/9ht11.pdf",
                    tags=standardtags + "",
@@ -92,78 +92,78 @@ if __name__ == '__main__':
                    description="SMD Crystal TXC 7M http://www.txccrystal.com/images/pdf/7m-accuracy.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_2016-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=1.4, pad_sep_y=1.1,
+    makeSMDCrystal(footprint_name="Crystal_SMD_2016", addSizeFootprintName=True, pins=4, pad_sep_x=1.4, pad_sep_y=1.1,
                    pad=[0.9,0.8], pack_width=2, pack_height=1.6, pack_bevel=0.1, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD2016/4 http://www.q-crystal.com/upload/5/2015552223166229.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_2520-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=1.75, pad_sep_y=1.4,
+    makeSMDCrystal(footprint_name="Crystal_SMD_2520", addSizeFootprintName=True, pins=4, pad_sep_x=1.75, pad_sep_y=1.4,
                    pad=[1.15,1], pack_width=2.5, pack_height=2, pack_bevel=0.1, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD2520/4 http://www.newxtal.com/UploadFiles/Images/2012-11-12-09-29-09-776.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_2520-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=1.75, pad_sep_y=1.4,
+    makeSMDCrystal(footprint_name="Crystal_SMD_2520", addSizeFootprintName=True, pins=4, pad_sep_x=1.75, pad_sep_y=1.4,
                    pad=[1.15, 1], pack_width=2.5, pack_height=2, pack_bevel=0.1, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD2520/4 http://www.newxtal.com/UploadFiles/Images/2012-11-12-09-29-09-776.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_5032-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=3.3, pad_sep_y=2.0,
+    makeSMDCrystal(footprint_name="Crystal_SMD_5032", addSizeFootprintName=True, pins=4, pad_sep_x=3.3, pad_sep_y=2.0,
                    pad=[1.6, 1.3], pack_width=5, pack_height=3.2, pack_bevel=0.2, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD2520/4 http://www.icbase.com/File/PDF/HKC/HKC00061008.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_5032-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=3.7, pad_sep_y=0,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_5032", addSizeFootprintName=True, pins=2, pad_sep_x=3.7, pad_sep_y=0,
                    pad=[2, 2.4], pack_width=5, pack_height=3.2, pack_bevel=0.2, hasAdhesive=True, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD2520/2 http://www.icbase.com/File/PDF/HKC/HKC00061008.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_7050-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=5.9, pad_sep_y=2.7,
+    makeSMDCrystal(footprint_name="Crystal_SMD_7050", addSizeFootprintName=True, pins=4, pad_sep_x=5.9, pad_sep_y=2.7,
                    pad=[2.1,1.7], pack_width=7, pack_height=5, pack_bevel=0.2, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD7050/4 https://www.foxonline.com/pdfs/FQ7050.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_7050-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=5.2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_7050", addSizeFootprintName=True, pins=2, pad_sep_x=5.2,
                    pad_sep_y=0,
                    pad=[2.8, 3], pack_width=7, pack_height=5, pack_bevel=0.2, hasAdhesive=True, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="SMD Crystal SERIES SMD7050/4 https://www.foxonline.com/pdfs/FQ7050.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystal(footprint_name="Crystal_SMD_FOX_FQ7050-4pin", addSizeFootprintName=True, pins=4, pad_sep_x=5.9,
+    makeSMDCrystal(footprint_name="Crystal_SMD_FOX_FQ7050", addSizeFootprintName=True, pins=4, pad_sep_x=5.9,
                    pad_sep_y=2.7,
                    pad=[2.1, 1.7], pack_width=7, pack_height=5, pack_bevel=0.2, hasAdhesive=False, adhesivePos=[0, 0],
                    adhesiveSize=0.8,
                    description="FOX SMD Crystal SERIES SMD7050/4 https://www.foxonline.com/pdfs/FQ7050.pdf",
                    tags=standardtags + "",
                    lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_FOX_FQ7050-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=5.2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_FOX_FQ7050", addSizeFootprintName=True, pins=2, pad_sep_x=5.2,
                           pad_sep_y=0,
                           pad=[2.8, 3], pack_width=7, pack_height=5, pack_bevel=0.2, hasAdhesive=True, adhesivePos=[0, 0],
                           adhesiveSize=0.8,
                           description="FOX SMD Crystal SERIES SMD7050/4 https://www.foxonline.com/pdfs/FQ7050.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_G8-2pin", addSizeFootprintName=True, pins=2, pad_sep_x=2.5,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_G8", addSizeFootprintName=True, pins=2, pad_sep_x=2.5,
                       pad_sep_y=0,
                       pad=[1,1.8], pack_width=3.2, pack_height=1.5, pack_bevel=0, hasAdhesive=True, adhesivePos=[0, 0],
                       adhesiveSize=0.5,
                       description="SMD Crystal G8",
                       tags=standardtags + "",
                       lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_HC49-SD-2pin", addSizeFootprintName=False, pins=2, style="hc49",
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_HC49-SD", addSizeFootprintName=False, pins=2, style="hc49",
                           pad_sep_x=8.5, pad_sep_y=0,
                           pad=[4.5,2], pack_width=11.4, pack_height=4.7, pack_bevel=0, hasAdhesive=False, adhesivePos=[0, 0],
                           adhesiveSize=0.5,
                           description="SMD Crystal HC-49-SD http://cdn-reichelt.de/documents/datenblatt/B400/xxx-HC49-SMD.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC156-4pin", addSizeFootprintName=False, pins=4, style="dip",
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC156", addSizeFootprintName=True, pins=4, style="dip",
                           pad_sep_x=5.08, pad_sep_y=2.5,
                           pad=[1.2,1.5], pack_width=7.1, pack_height=2.5, pack_bevel=0, hasAdhesive=False,
                           adhesivePos=[0, 0],
@@ -171,7 +171,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-156 https://support.epson.biz/td/api/doc_check.php?dl=brief_MC-156_en.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC146-4pin", addSizeFootprintName=False, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC146", addSizeFootprintName=True, pins=4,
                           style="rect",
                           pad_sep_x=6.3, pad_sep_y=0.9,
                           pad=[1.2,0.6], pack_width=6.7, pack_height=1.5, pack_bevel=0.4, hasAdhesive=False,
@@ -180,7 +180,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-146 https://support.epson.biz/td/api/doc_check.php?dl=brief_MC-156_en.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC306-4pin", addSizeFootprintName=False, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC306", addSizeFootprintName=True, pins=4,
                           style="dip",
                           pad_sep_x=5.5, pad_sep_y=3.2,
                           pad=[1.3,1.9], pack_width=8, pack_height=3.2, pack_bevel=0, hasAdhesive=False,
@@ -189,7 +189,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-306 https://support.epson.biz/td/api/doc_check.php?dl=brief_MC-306_en.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC405-2pin", addSizeFootprintName=False, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC405", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=8, pad_sep_y=0,
                           pad=[4.1,4.1], pack_width=9.6, pack_height=4.06, pack_bevel=0, hasAdhesive=False,
@@ -198,7 +198,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-405 https://support.epson.biz/td/api/doc_check.php?dl=brief_MC-306_en.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC406-4pin", addSizeFootprintName=False, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MC406", addSizeFootprintName=True, pins=4,
                           style="rect",
                           pad_sep_x=8, pad_sep_y=2.32,
                           pad=[4.1, 1.52], pack_width=9.6, pack_height=4.06, pack_bevel=0, hasAdhesive=False,
@@ -207,7 +207,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-406 https://support.epson.biz/td/api/doc_check.php?dl=brief_MC-306_en.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MA505-2pin", addSizeFootprintName=False, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MA505", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=11.1, pad_sep_y=0,
                           pad=[4.1, 5.6], pack_width=12.7, pack_height=5.08, pack_bevel=0, hasAdhesive=False,
@@ -216,7 +216,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-505 http://media.digikey.com/pdf/Data%20Sheets/Epson%20PDFs/MA-505,506.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MA506-4pin", addSizeFootprintName=False, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MA506", addSizeFootprintName=True, pins=4,
                           style="rect",
                           pad_sep_x=11.1, pad_sep_y=3.55,
                           pad=[4.1, 2.05], pack_width=12.7, pack_height=5.08, pack_bevel=0, hasAdhesive=False,
@@ -225,7 +225,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-506 http://media.digikey.com/pdf/Data%20Sheets/Epson%20PDFs/MA-505,506.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MA406-4pin", addSizeFootprintName=False, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_SeikoEpson_MA406", addSizeFootprintName=True, pins=4,
                           style="dip",
                           pad_sep_x=9.6, pad_sep_y=3.6,
                           pad=[1.8,1.9], pack_width=11.7, pack_height=4, pack_bevel=0, hasAdhesive=False,
@@ -234,7 +234,7 @@ if __name__ == '__main__':
                           description="SMD Crystal Seiko Epson MC-506 http://media.digikey.com/pdf/Data%20Sheets/Epson%20PDFs/MA-505,506.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MT-4pin", addSizeFootprintName=True, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MT", addSizeFootprintName=True, pins=4,
                           style="rect",
                           pad_sep_x=2.2, pad_sep_y=1.8,
                           pad=[1.3,1], pack_width=3.2, pack_height=2.5, pack_bevel=0.1, hasAdhesive=False,
@@ -243,7 +243,7 @@ if __name__ == '__main__':
                           description="SMD Crystal EuroQuartz MT series http://cdn-reichelt.de/documents/datenblatt/B400/MT.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_X22-4pin", addSizeFootprintName=True, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_X22", addSizeFootprintName=True, pins=4,
                       style="rect",
                       pad_sep_x=1.6, pad_sep_y=1.2,
                       pad=[1.2,1], pack_width=2.5, pack_height=2, pack_bevel=0.1, hasAdhesive=False,
@@ -252,7 +252,7 @@ if __name__ == '__main__':
                       description="SMD Crystal EuroQuartz X22 series http://cdn-reichelt.de/documents/datenblatt/B400/DS_X22.pdf",
                       tags=standardtags + "",
                       lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MJ-4pin", addSizeFootprintName=True, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MJ", addSizeFootprintName=True, pins=4,
                           style="rect",
                           pad_sep_x=3.7, pad_sep_y=2.3,
                           pad=[1.9, 1.1], pack_width=5, pack_height=3.2, pack_bevel=0.1, hasAdhesive=False,
@@ -261,7 +261,7 @@ if __name__ == '__main__':
                           description="SMD Crystal EuroQuartz MJ series http://cdn-reichelt.de/documents/datenblatt/B400/MJ.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MQ-4pin", addSizeFootprintName=True, pins=4,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MQ", addSizeFootprintName=True, pins=4,
                           style="rect",
                           pad_sep_x=6.3, pad_sep_y=2.5,
                           pad=[2.2,1.4], pack_width=7, pack_height=5, pack_bevel=0.1, hasAdhesive=False,
@@ -270,7 +270,7 @@ if __name__ == '__main__':
                           description="SMD Crystal EuroQuartz MQ series http://cdn-reichelt.de/documents/datenblatt/B400/MQ.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MQ2-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_MQ2", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=6.3, pad_sep_y=0,
                           pad=[2.2,2.4], pack_width=7, pack_height=5, pack_bevel=0.1, hasAdhesive=False,
@@ -279,7 +279,7 @@ if __name__ == '__main__':
                           description="SMD Crystal EuroQuartz MQ2 series http://cdn-reichelt.de/documents/datenblatt/B400/MQ.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_EQ161-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_EuroQuartz_EQ161", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,
                           pad=[1,1.8], pack_width=3.2, pack_height=1.5, pack_bevel=0.1, hasAdhesive=False,
@@ -288,7 +288,7 @@ if __name__ == '__main__':
                           description="SMD Crystal EuroQuartz EQ161 series http://cdn-reichelt.de/documents/datenblatt/B400/PG32768C.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC1V-T1A-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC1V-T1A", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=6.3, pad_sep_y=0,
                           pad=[2.3, 4.2], pack_width=8, pack_height=3.7, pack_bevel=0, hasAdhesive=False,
@@ -297,7 +297,7 @@ if __name__ == '__main__':
                           description="SMD Crystal MicroCrystal CC1V-T1A series http://www.microcrystal.com/images/_Product-Documentation/01_TF_ceramic_Packages/01_Datasheet/CC1V-T1A.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC4V-T1A-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC4V-T1A", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=4.2, pad_sep_y=0,
                           pad=[1.3, 2.2], pack_width=5, pack_height=1.9, pack_bevel=0, hasAdhesive=False,
@@ -306,7 +306,7 @@ if __name__ == '__main__':
                           description="SMD Crystal MicroCrystal CC4V-T1A series http://cdn-reichelt.de/documents/datenblatt/B400/CC4V-T1A.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC5V-T1A-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC5V-T1A", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=3.4, pad_sep_y=0,
                           pad=[1.1, 1.9], pack_width=4.1, pack_height=1.5, pack_bevel=0, hasAdhesive=False,
@@ -315,7 +315,7 @@ if __name__ == '__main__':
                           description="SMD Crystal MicroCrystal CC5V-T1A series http://cdn-reichelt.de/documents/datenblatt/B400/CC5V-T1A.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC7V-T1A-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC7V-T1A", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,
                           pad=[1,1.8], pack_width=3.2, pack_height=1.5, pack_bevel=0, hasAdhesive=False,
@@ -324,7 +324,7 @@ if __name__ == '__main__':
                           description="SMD Crystal MicroCrystal CC7V-T1A/CM7V-T1A series http://www.microcrystal.com/images/_Product-Documentation/01_TF_ceramic_Packages/01_Datasheet/CC1V-T1A.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC8V-T1A-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CC8V-T1A", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=1.5, pad_sep_y=0,
                           pad=[0.8,1.5], pack_width=2, pack_height=1.2, pack_bevel=0, hasAdhesive=False,
@@ -333,7 +333,7 @@ if __name__ == '__main__':
                           description="SMD Crystal MicroCrystal CC8V-T1A/CM8V-T1A series http://www.microcrystal.com/images/_Product-Documentation/01_TF_ceramic_Packages/01_Datasheet/CC8V-T1A.pdf",
                           tags=standardtags + "",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CM9V-T1A-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Crystal_SMD_MicroCrystal_CM9V-T1A", addSizeFootprintName=True, pins=2,
                           style="rect",
                           pad_sep_x=1.2, pad_sep_y=0,
                           pad=[0.6,1.2], pack_width=1.6, pack_height=1.0, pack_bevel=0, hasAdhesive=False,
@@ -366,7 +366,7 @@ if __name__ == '__main__':
                 description="SMD Watch Crystal FrontierElectronics FM206 6.0mm length 1.9mm diameter http://www.chinafronter.com/wp-content/uploads/2013/12/FM206.pdf",
                 tags=["FM206"], lib_name="Crystals",
                 offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_3pin", addSizeFootprintName=True, pins=3,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,
                           pad=[1.4, 3.8], pack_width=7.2, pack_height=3, pack_bevel=0, hasAdhesive=False,
@@ -375,7 +375,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter 7.2x3.0mm, Murata CSTCC8M00G53-R0; 8MHz resonator, SMD, Farnell (Element 14) #1170435, http://www.farnell.com/datasheets/19296.pdf?_ga=1.247244932.122297557.1475167906",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_SFECV-3pin", addSizeFootprintName=True, pins=3,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_SFECV", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.85, pad_sep_y=0,
                           pad=[1.2, 4], pack_width=6.9, pack_height=2.9, pack_bevel=0, hasAdhesive=False,
@@ -384,7 +384,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter Murata SFECV, http://cdn-reichelt.de/documents/datenblatt/B400/SFECV-107.pdf",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_SFSKA-3pin", addSizeFootprintName=True, pins=3,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_SFSKA", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,
                           pad=[1, 4.8], pack_width=7.9, pack_height=3.8, pack_bevel=0, hasAdhesive=False,
@@ -393,7 +393,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter Murata SFSKA, http://cdn-reichelt.de/documents/datenblatt/B400/SFECV-107.pdf",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_TPSKA-3pin", addSizeFootprintName=True, pins=3,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_TPSKA", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,
                           pad=[1, 4.8], pack_width=7.9, pack_height=3.8, pack_bevel=0, hasAdhesive=False,
@@ -402,7 +402,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter Murata TPSKA, http://cdn-reichelt.de/documents/datenblatt/B400/SFECV-107.pdf",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_CDSCB-2pin", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_CDSCB", addSizeFootprintName=True, pins=2,
                               style="rect",
                               pad_sep_x=3, pad_sep_y=0,
                               pad=[1, 2.6], pack_width=4.5, pack_height=2, pack_bevel=0, hasAdhesive=False,
