@@ -213,7 +213,7 @@ def makeSMDCrystal(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_se
                                                      [overpads_x_slk / 2, overpads_y_slk / 2]], layer='F.SilkS',
                                            width=lw_slk))
     elif pins >= 4:
-        if (betweenpads_y_slk < 5 * lw_slk or betweenpads_x_slk < 5 * lw_slk):
+        if (betweenpads_y_slk < 5 * lw_slk or betweenpads_x_slk < 5 * lw_slk) and (pack_height < overpad_height and pack_width < overpad_width):
             kicad_modg.append(PolygoneLine(polygone=[[-overpads_x_slk / 2, -overpads_y_slk / 2],
                                                      [-overpads_x_slk / 2, overpads_y_slk / 2],
                                                      [overpads_x_slk / 2, overpads_y_slk / 2]], layer='F.SilkS',
