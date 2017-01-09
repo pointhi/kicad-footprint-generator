@@ -28,51 +28,51 @@ if __name__ == '__main__':
     makeCrystalRoundVert(footprint_name="Crystal_AT310_d3.0mm_l10.0mm_Vertical",
                 rm=2.54, pad_size=1, ddrill=0.5, pack_diameter=3,
                 description="Crystal THT AT310 10.0mm-10.5mm length 3.0mm diameter", lib_name="Crystals", tags=["AT310"],
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalAll(footprint_name="Crystal_C26-LF_d2.1mm_l6.5mm_Horizontal",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_width=6.5, pack_height=2.06, pack_rm=0.7, pack_offset=2,
                 package_pad=True, package_pad_offset=2.5, package_pad_size=[6.5,2.2],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
                 style="flat", description="Crystal THT C26-LF 6.5mm length 2.06mm diameter", tags=["C26-LF"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_C26-LF_d2.1mm_l6.5mm_Vertical",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_diameter=2.06,
                 description="Crystal THT C26-LF 6.5mm length 2.06mm diameter", tags=["C26-LF"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalAll(footprint_name="Crystal_C38-LF_d3.0mm_l8.0mm_Horizontal",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_width=8, pack_height=3, pack_rm=1.09, pack_offset=2.5,
                 package_pad=True, package_pad_offset=3, package_pad_size=[8,3],
                 package_pad_add_holes=True, package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8,
                 style="flat", description="Crystal THT C38-LF 8.0mm length 3.0mm diameter", tags=["C38-LF"],
                 lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_C38-LF_d3.0mm_l8.0mm_Vertical",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_diameter=3,
                 description="Crystal THT C38-LF 8.0mm length 3.0mm diameter", tags=["C38-LF"],
                 lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_Round_d3.0mm_Vertical",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_diameter=3,
                 description="Crystal THT C38-LF 8.0mm length 3.0mm diameter", tags=["C38-LF"],
                 lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalAll(footprint_name="Crystal_DS26_d2.0mm_l6.0mm_Horizontal",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_width=6, pack_height=2, pack_rm=0.7, pack_offset=2,
                 package_pad=True, package_pad_offset=2.5, package_pad_size=[6,2.5],
                 package_pad_add_holes=True, package_pad_drill_size=[1, 1], package_pad_ddrill=0.5,
                 style="flat", description="Crystal THT DS26 6.0mm length 2.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS26"],lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_DS26_d2.0mm_l6.0mm_Vertical",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_diameter=2,
                 description="Crystal THT DS26 6.0mm length 2.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS26"],lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_Round_d2.0mm_Vertical",
                 rm=1.9, pad_size=1, ddrill=0.5, pack_diameter=2,
                 description="Crystal THT DS26 6.0mm length 2.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS26"],lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalAll(footprint_name="Crystal_DS15_d1.5mm_l5.0mm_Horizontal",
                 rm=1.7, pad_size=1, ddrill=0.5, pack_width=5, pack_height=1.5, pack_rm=0.5, pack_offset=1.5,
                 package_pad=True, package_pad_offset=2, package_pad_size=[5,2],
@@ -80,17 +80,17 @@ if __name__ == '__main__':
                 style="flat",
                 description="Crystal THT DS15 5.0mm length 1.5mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS15"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_DS15_d1.5mm_l5.0mm_Vertical",
                 rm=1.7, pad_size=1, ddrill=0.5, pack_diameter=1.5,
                 description="Crystal THT DS15 5.0mm length 1.5mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS15"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_Round_d1.5mm_Vertical",
                 rm=1.7, pad_size=1, ddrill=0.5, pack_diameter=1.5,
                 description="Crystal THT DS15 5.0mm length 1.5mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS15"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalAll(footprint_name="Crystal_DS10_d1.0mm_l4.3mm_Horizontal",
                 rm=1.5, pad_size=1, ddrill=0.5, pack_width=4.3, pack_height=1, pack_rm=0.3, pack_offset=1.5,
                 package_pad=True, package_pad_offset=2, package_pad_size=[4.3, 1.5],
@@ -98,17 +98,17 @@ if __name__ == '__main__':
                 style="flat",
                 description="Crystal THT DS10 4.3mm length 1.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS10"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_DS10_d1.0mm_l4.3mm_Vertical",
                 rm=1.5, pad_size=1, ddrill=0.5, pack_diameter=1,
                 description="Crystal THT DS10 4.3mm length 1.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS10"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalRoundVert(footprint_name="Crystal_Round_d1.0mm_Vertical",
                 rm=1.5, pad_size=1, ddrill=0.5, pack_diameter=1,
                 description="Crystal THT DS10 1.0mm diameter http://www.microcrystal.com/images/_Product-Documentation/03_TF_metal_Packages/01_Datasheet/DS-Series.pdf",
                 tags=["DS10"], lib_name="Crystals",
-                offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
+                offset3d=[0, 0, 0], scale3d=[1/2.54,1/2.54,1/2.54], rotate3d=[0, 0, 0])
     makeCrystalAll(footprint_name="Crystal_HC49-U_Horizontal",
                 rm=4.9, pad_size=1.5, ddrill=0.8, pack_width=13.0, pack_height=10.9, pack_rm=4.9, pack_offset=2,
                 package_pad=True, package_pad_offset=2.5, package_pad_size=[13.5, 11],
