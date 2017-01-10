@@ -83,10 +83,10 @@ class pack_round:
             self.pin_circle_diameter = 2.54  # pin circle diameterdistance
             self.pad = [1.2,1.2]  # width/height of pads
             self.drill = 0.7  # diameter of pad drills
+            self.name = self.name + "-{0}".format(pins)  # name of package
             if len(modifier)>0:
                 self.name = self.name +"_"+modifier
                 self.tags.append(modifier)
-            self.name=self.name+"_{0}Pin".format(pins)  # name of package
             if largepads:
                 self.pad = [1.5, 1.5]  # width/height of pads
 
@@ -110,10 +110,13 @@ class pack_round:
                 self.mark_angle = self.pin1_angle + 36  # angular position of marking
             self.pad = [1.2, 1.2]  # width/height of pads
             self.drill = 0.7  # diameter of pad drills
+            if (name == "TO-5_PD5.08"):
+                self.name = "TO-5" + "-{0}_PD5.08".format(pins)  # name of package
+            else:
+                self.name = self.name + "-{0}".format(pins)  # name of package
             if len(modifier) > 0:
                 self.name = self.name + "_" + modifier
                 self.tags.append(modifier)
-            self.name = self.name + "_{0}Pin".format(pins)  # name of package
             if largepads:
                 self.pad = [1.5, 1.5]  # width/height of pads
             if (modifier == "Window") or (modifier == "Lens"):
@@ -129,10 +132,10 @@ class pack_round:
             self.pin_circle_diameter = 7.1  # pin circle diameterdistance
             self.pad = [1.6, 1.6]  # width/height of pads
             self.drill = 1.1  # diameter of pad drills
+            self.name = self.name + "-{0}".format(pins)  # name of package
             if len(modifier) > 0:
                 self.name = self.name + "_" + modifier
                 self.tags.append(modifier)
-            self.name = self.name + "_{0}Pin".format(pins)  # name of package
             if largepads:
                 self.pad = [2, 2]  # width/height of pads
             if (modifier == "Window") or (modifier == "Lens"):
@@ -147,10 +150,10 @@ class pack_round:
             self.pin_circle_diameter = 1.8  # pin circle diameterdistance
             self.pad = [0.9,0.9]  # width/height of pads
             self.drill = 0.6  # diameter of pad drills
+            self.name = self.name + "-{0}".format(pins)  # name of package
             if len(modifier) > 0:
                 self.name = self.name + "_" + modifier
                 self.tags.append(modifier)
-            self.name = self.name + "_{0}Pin".format(pins)  # name of package
             if largepads:
                 self.pad = [1.3, 1.3]  # width/height of pads
             if (modifier == "Window") or (modifier == "Lens"):
@@ -165,10 +168,10 @@ class pack_round:
             self.pin_circle_diameter = 5.08  # pin circle diameterdistance
             self.pad = [1.3, 1.3]  # width/height of pads
             self.drill = 0.8  # diameter of pad drills
+            self.name = self.name + "-{0}".format(pins)  # name of package
             if len(modifier) > 0:
                 self.name = self.name + "_" + modifier
                 self.tags.append(modifier)
-            self.name = self.name + "_{0}Pin".format(pins)  # name of package
             if largepads:
                 self.pad = [1.6, 1.6]  # width/height of pads
             if (modifier == "Window") or (modifier == "Lens"):
@@ -522,7 +525,7 @@ class pack:
             self.rm = rm
         if pins != 3:
             if self.addpinstext:
-                self.name = "{0}-{1}pin".format(self.name, pins)
+                self.name = "{0}-{1}".format(self.name, pins)
             self.pins = pins
             if rm <= 0:
                 self.rm = 2 * self.rm / (pins - 1)
