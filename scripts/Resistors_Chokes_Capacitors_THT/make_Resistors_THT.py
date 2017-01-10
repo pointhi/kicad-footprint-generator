@@ -151,18 +151,21 @@ if __name__ == '__main__':
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
 
     # shunt resistor with additional pins
+    script3dv = "res_axial_shunt_ver.py"
+    with open(script3dv, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
     type = "box"
     seriesname = "Axial_Shunt";  ddrill=1.5; add_description="http://www.vishay.com/docs/30217/cpsl.pdf"; name_additions=[]
     rm = 25.4; shuntPinsRM=14.3; w=22.2; d=8; d2=d; R_POW=3
-    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[])
+    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
     rm = 25.4; shuntPinsRM=14.3; w=22.2; d=9.5; d2=d; R_POW=5
-    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[])
+    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
     rm = 38.1; shuntPinsRM=25.4; w=35.3; d=9.5; d2=d; R_POW=7
-    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[])
+    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
     rm = 50.8; shuntPinsRM=34.93; w=47.6; d=9.5; d2=d; R_POW=10
-    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[])
+    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
     rm = 50.8; shuntPinsRM=34.93; w=47.6; d=12.7; d2=d; R_POW=15
-    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[])
+    makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2, hasShuntPins=True, shuntPinsRM=shuntPinsRM,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
 
     # wire bridge/bare metal resistor elements
     type = "bridge"
@@ -175,35 +178,38 @@ if __name__ == '__main__':
     makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[])
     
     # radial resistors, 45° wires
+    script3dv = "res_radial_power_ver.py"
+    with open(script3dv, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
     rm2=0; w2=0
     type = "simple45"; seriesname = "Radial_Power"; add_description = "http://www.vitrohm.com/content/files/vitrohm_series_kv_-_201601.pdf"; name_additions=[]
     w = 7; h = 8; ddrill = 1.2; rm=2.4; rm2=2.3; R_POW=7
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=38)
     w = 9; h = 10; ddrill = 1.2; rm=2.7; rm2=2.3; R_POW=17
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=75)
 
     # radial resistors, simple box
     rm2=0; w2=0
     type = "simple"; seriesname = "Box"; add_description = "http://www.vishay.com/docs/60051/cns020.pdf"; name_additions=[]
     w = 8.38; h = 2.54; ddrill = 0.8; rm=5.08; rm2=0; R_POW=0.5
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=6.62)
 
     add_description = "http://www.produktinfo.conrad.com/datenblaetter/425000-449999/443860-da-01-de-METALLBAND_WIDERSTAND_0_1_OHM_5W_5Pr.pdf"; name_additions=[]
     w = 13; h = 4; ddrill = 1; rm=9; rm2=0; R_POW=2
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=8)
     w = 14; h = 5; ddrill = 1; rm=9; rm2=0; R_POW=5
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=18)
     w = 26; h = 5; ddrill = 1.4; rm=20; rm2=0; R_POW=10
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=18)
 
     # radial resistors, simple
     rm2=0; w2=0
     type = "simple"; seriesname = "Radial_Power"; add_description = "http://www.vishay.com/docs/30218/cpcx.pdf"; name_additions=[]
     w = 11; w2=w-2; h = 7; ddrill = 1.2; rm=5; rm2=0; R_POW=2
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=20.5)
     w = 12; w2=w-2; h = 8; ddrill = 1.2; rm=5; rm2=0; R_POW=3
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=24.99)
     w = 13; w2=w-2; h = 9; ddrill = 1.2; rm=5; rm2=0; R_POW=7
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=39)
     w = 16.1; w2=w-3; h = 9; ddrill = 1.4; rm=7.37; rm2=0; R_POW=10
-    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description)
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=34.85)
