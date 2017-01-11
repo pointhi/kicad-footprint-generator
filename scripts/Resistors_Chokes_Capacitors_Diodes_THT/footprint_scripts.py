@@ -34,7 +34,7 @@ txt_offset = 1
 
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
 # optionally with additional shunt leads: hasShuntPins=True, shuntPinsRM=DISTANCE
-# deco="none"/"elco"
+# deco="none"/"elco"/"diode"
 def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, type="cyl", d2=0, hasShuntPins=False, shuntPinsRM=0, x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[], deco="none", script3d=""):
     padx=2*ddrill
     pady=padx
@@ -42,16 +42,18 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
     pad1style=Pad.SHAPE_CIRCLE
     polsign_slk=[]
 
-    if deco=="elco" or deco=="cp" or deco=="tantal":
+    if deco=="elco" or deco=="cp" or deco=="tantal" or deco=="diode":
         pad1style=Pad.SHAPE_RECT
 
     l_fab=(rm-w)/2
+    l_dbar_fab=l_fab
     t_fab=-d/2
     h_fab=d
     w_fab=w
     h_slk=d+2*slk_offset
     w_slk=w+2*slk_offset
     l_slk=l_fab-slk_offset
+    l_dbar_slk=l_dbar_fab
     r_slk=l_slk+w_slk
     t_slk=-h_slk/2
     w_crt=rm+padx+2*crt_offset
@@ -61,6 +63,10 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
     if deco=="elco" or deco=="cp" or deco=="tantal":
         polsign_slk=[l_slk+padx*0.75,-pady*0.75/2,padx*0.75,pady*0.75]
+
+    if deco=="diode":
+        l_dbar_fab=l_fab+w_fab*0.15
+        l_dbar_slk=l_dbar_fab
 
     snfp=""
     sn=""
@@ -81,7 +87,10 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         fnpins = "_PS{0:0.2f}mm_P{1:0.2f}mm".format(shuntPinsRM,rmdisp)
     dimdesc="length*diameter={0}*{1}mm^2".format(w, d)
     dimdesct = "length {0}mm diameter {1}mm".format(w, d)
-    footprint_name=classname+"{3}_L{1:0.1f}mm_D{2:0.1f}mm{0}_Horizontal".format(fnpins,w,d,snfp)
+    if deco=="diode":
+        footprint_name=classname+snfp+fnpins+"_Horizontal"
+    else:
+        footprint_name=classname+"{3}_L{1:0.1f}mm_D{2:0.1f}mm{0}_Horizontal".format(fnpins,w,d,snfp)
     description=classname+"{3}, Axial, Horizontal, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc,sn)
     tags=classname+"{3} Axial Horizontal pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
     if type=="box":
@@ -94,6 +103,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         dimdesct = "length {0}mm width {1}mm ".format(w, d)
         description=classname+"{3}, Bare Metal Strip/Wire, Horizontal, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc,sn)
         tags=classname+"{3} Bare Metal Strip Wire Horizontal pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
+
 
     if hasShuntPins:
         description = description + ", shunt pin pitch = {0:0.2f}mm".format(shuntPinsRM)
@@ -163,6 +173,8 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         kicad_mod.append(Line(start=[rm, 0], end=[l_fab+w, 0], layer='F.Fab', width=lw_fab))
     if len(polsign_slk)==4:
         addPlusWithKeepout(kicad_mod, polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3], 'F.Fab', lw_fab, [], 0.05)
+    if deco=="diode":
+        kicad_mod.append(Line(start=[l_dbar_fab, t_fab], end=[l_dbar_fab, t_fab+h_fab], layer='F.Fab', width=lw_fab))
 
     # create SILKSCREEN-layer
     if len(polsign_slk)==4:
@@ -193,7 +205,10 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
     if padx/2+lw_slk+slk_offset<l_slk:
         kicad_mod.append(Line(start=[padx/2+lw_slk+slk_offset, 0], end=[l_slk, 0], layer='F.SilkS', width=lw_slk))
         kicad_mod.append(Line(start=[rm-padx/2-lw_slk-slk_offset, 0], end=[l_slk+w_slk, 0], layer='F.SilkS', width=lw_slk))
-    
+
+    if deco=="diode":
+        kicad_mod.append(Line(start=[l_dbar_slk, t_slk], end=[l_dbar_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
+
     # create courtyard
     kicad_mod.append(RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt+w_crt), roundCrt(t_crt+h_crt)], layer='F.CrtYd', width=lw_crt))
 
@@ -221,7 +236,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
 
 # simple axial round (type="cyl")/ box (type="box") resistor, vertically mounted
-# deco="none"/"deco"
+# deco="none"/"elco"/"cp"/"tantal"/"diode"
 def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[],deco="none",script3d=""):
     padx = 2 * ddrill
     pady = padx
@@ -233,12 +248,14 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     pad1style=Pad.SHAPE_CIRCLE
     polsign_slk=[]
 
-    if deco=="elco" or deco=="cp" or deco=="tantal":
+    if deco=="elco" or deco=="cp" or deco=="tantal" or deco=="diode":
         pad1style=Pad.SHAPE_RECT
 
     l_fab = -d / 2
     t_fab = -d / 2
     d_slk = max(max(padx, pady) + 0.15, d + 2 * slk_offset)
+    if pad1style==Pad.SHAPE_RECT:
+        d_slk = max(max(padx, pady)*math.sqrt(2) + 0.15, d )+ 2 * slk_offset
     d2_slk = max(max(padx, pady) + 0.15, d2 + 2 * slk_offset)
     w_slk = rm + d / 2 + padx / 2 + 2 * slk_offset
     l_slk = l_fab - slk_offset
@@ -249,6 +266,19 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     h_crt = d_slk + 2 * crt_offset
     l_crt = l_slk - crt_offset
     t_crt = t_slk - crt_offset
+
+    valoffset=0
+    if deco=="diode":
+        d_size=min(0.35*rm, padx)
+        d_y=0
+        d_x=rm/2
+        if d_size>rm-padx-slk_offset*2-lw_slk*2:
+            d_y=pady/2+slk_offset+lw_slk+d_size/2
+            valoffset=d_size
+            d_x=rm*2/3
+            if d_size+padx/2+2*slk_offset<d_slk/2:
+                d_x=d_size*2/3
+
 
 
     snfp = ""
@@ -266,7 +296,12 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
             pow_rat = pow_rat + " = 1/{0}W".format(int(1 / R_POW))
     dimdesc = "length*diameter={0}*{1}mm^2".format(l, d)
     dimdesct = "length {0}mm diameter {1}mm".format(l, d)
-    footprint_name = classname+"{3}_L{1:0.1f}mm_D{2:0.1f}mm_P{0:0.2f}mm_Vertical".format(rmdisp, l, d, snfp)
+
+    if deco=="diode":
+        footprint_name = classname+"{1}_P{0:0.2f}mm_Vertical".format(rmdisp, snfp)
+    else:
+        footprint_name = classname+"{3}_L{1:0.1f}mm_D{2:0.1f}mm_P{0:0.2f}mm_Vertical".format(rmdisp, l, d, snfp)
+
     if type == "box":
         footprint_name = classname+"{4}_L{3:0.1f}mm_W{1:0.1f}mm_P{0:0.2f}mm_Vertical".format(rmdisp, d, d2,
                                                                                                          l, snfp)
@@ -324,7 +359,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', at=[rm / 2, t_slk - txt_offset], layer='F.SilkS'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[rm / 2, d_slk / 2 + txt_offset], layer='F.Fab'))
+    kicad_mod.append(Text(type='value', text=footprint_name, at=[rm / 2, d_slk / 2 + txt_offset+valoffset], layer='F.Fab'))
 
     # create FAB-layer
     if type=="cyl":
@@ -332,7 +367,8 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     else:
         kicad_mod.append(RectLine(start=[-d/2, -d2/2], end=[d/2,d2/2], layer='F.Fab', width=lw_fab))
     kicad_mod.append(Line(start=[0, 0], end=[rm,0], layer='F.Fab', width=lw_fab))
-
+    if deco=="diode":
+        kicad_mod.append(Text(type='user', text="K", at=[-max(padx/2,d_slk*0.5)-0.7 ,0], layer='F.Fab'))
 
     # create SILKSCREEN-layer
     xs1 = d_slk / 2
@@ -345,7 +381,9 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
             kicad_mod.append(RectLine(start=[-d_slk/2, -d2_slk/2], end=[d_slk/2,d2_slk/2], layer='F.SilkS', width=lw_slk))
         kicad_mod.append(Line(start=[xs1, 0], end=[xs2, 0], layer='F.SilkS', width=lw_slk))
     else:
-        xx=math.sqrt(d_slk*d_slk/4-pady*pady/4)
+        xx=math.sqrt(d_slk*d_slk/4-(pady+slk_offset+lw_slk)*(pady+slk_offset+lw_slk)/4)
+        if pad1style==Pad.SHAPE_RECT:
+            xx=math.sqrt(d_slk*d_slk/4-(pady+slk_offset)*(pady+slk_offset)/4)
         alpha=360-2*math.acos(xx/(d_slk/2))/3.1415*180
         if type == "cyl":
             kicad_mod.append(Arc(center=[0, 0], start=[xx, -pady/2], angle=-alpha, layer='F.SilkS', width=lw_slk))
@@ -355,6 +393,13 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
                                                     [-d_slk / 2, -d2_slk / 2],
                                                     [d_slk / 2, -d2_slk / 2],
                                                     [d_slk / 2, +pady / 2 + slk_offset]], layer='F.SilkS', width=lw_slk))
+    if deco=="diode":
+        kicad_mod.append(Line(start=[d_x-d_size/3, d_y-0.5*d_size], end=[d_x-d_size/3, d_y+0.5*d_size], layer='F.SilkS', width=lw_slk))
+        kicad_mod.append(PolygoneLine(polygone=[[d_x-d_size/3, d_y],
+                                                [d_x+d_size/3, d_y-0.5*d_size],
+                                                [d_x+d_size/3, d_y+0.5*d_size],
+                                                [d_x-d_size/3, d_y]], layer='F.SilkS', width=lw_slk))
+
 
     # create courtyard
     kicad_mod.append(
