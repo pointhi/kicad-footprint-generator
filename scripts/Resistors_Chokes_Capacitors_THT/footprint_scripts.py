@@ -437,7 +437,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 #
 #
 # deco="none","elco" (round),"tantal" (simple)
-def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10):
+def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
     padx = 2 * ddrill
     pady = padx
 
@@ -488,6 +488,12 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
         rmm2=0
         padpos.append([1,-rm2/2, 0, ddrill,padx,pady])
         padpos.append([2,rm2/2,0, ddrill,padx,pady])
+        offset=[max(rm2/2,rm/2),0]
+
+
+    for ep in additionalPins:
+        padpos.append([ep[0],ep[1]-offset[0], ep[2]-offset[1], ep[3],ep[3]*2,ep[3]*2])
+
 
     #print(polsign_slk)
 
@@ -591,6 +597,11 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
             myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(height3d) )
             myfile.write("# offsetx\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(-(l_fab+offset[0])) )
             myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(ddrill-0.3))
+            if len(additionalPins)>0:
+                ep=additionalPins[0]
+                myfile.write("# d_wire_pin3\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(ep[3]-0.3))
+                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ep[1]))
+                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(ep[2]))
             myfile.write("App.ActiveDocument.recompute()\n")
             myfile.write("doc = FreeCAD.activeDocument()\n")
             myfile.write("__objs__=[]\n")
@@ -654,7 +665,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
             kicad_modg.append(Arc(center=[0,0], start=[-dxs,-dys], angle=alpha, layer='F.SilkS', width=lw_slk))
             kicad_modg.append(Arc(center=[0, 0], start=[-dxs, dys], angle=-alpha, layer='F.SilkS', width=lw_slk))
             #print(dxs,dys,d_slk)
-            if len(polsign_slk)==4:
+            if len(polsign_slk)==4 and d_slk>rm+padx+slk_offset*2+lw_slk:
                 kicad_modg.append(Arc(center=[0, 0], start=[dxs, -dys], angle=2*alphain, layer='F.SilkS', width=lw_slk))
         else:
             kicad_modg.append(Circle(center=[l_slk + w_slk / 2, t_slk + h_slk / 2], radius=d_slk/2, layer='F.SilkS', width=lw_slk))
@@ -686,6 +697,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
         if p[0]==1:
             ps=pad1style
         kicad_modg.append(Pad(number=p[0], type=Pad.TYPE_THT, shape=ps, at=[p[1], p[2]], size=[p[4],p[5]], drill=p[3], layers=['*.Cu', '*.Mask']))
+
+
 
 
     # add model
