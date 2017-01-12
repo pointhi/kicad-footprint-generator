@@ -364,24 +364,24 @@ def makeCrystalAll(footprint_name, rm, pad_size, ddrill, pack_width, pack_height
                    package_pad=False, package_pad_add_holes=False, package_pad_offset=0, package_pad_size=[0, 0],
                    package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8, description="Crystal THT",
                    lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0],
-                   name_addition=""):
+                   name_addition="", pad_style="tht", script3d="", height3d=4.65, iheight3d=4):
     makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, pack_offset, pack_rm, style,
                 False, False, package_pad_offset, package_pad_size,
                 package_pad_drill_size, package_pad_ddrill, description,
                 lib_name, tags, offset3d, scale3d, rotate3d,
-                name_addition)
+                name_addition, pad_style, script3d, height3d, iheight3d)
     if package_pad:
         makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, pack_offset, pack_rm, style,
                     True, False, package_pad_offset, package_pad_size,
                     package_pad_drill_size, package_pad_ddrill, description,
                     lib_name, tags, offset3d, scale3d, rotate3d,
-                    name_addition + "_1EP_style1")
+                    name_addition + "_1EP_style1", pad_style, script3d, height3d, iheight3d)
     if package_pad_add_holes and package_pad:
         makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, pack_offset, pack_rm, style,
                     True, True, package_pad_offset, package_pad_size,
                     package_pad_drill_size, package_pad_ddrill, description,
                     lib_name, tags, offset3d, scale3d, rotate3d,
-                    name_addition + "_1EP_style2")
+                    name_addition + "_1EP_style2", pad_style, script3d, height3d, iheight3d)
 
 
 #                    +---------------------------------------------------------------+   ^
@@ -406,7 +406,7 @@ def makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, p
                 package_pad=False, package_pad_add_holes=False, package_pad_offset=0, package_pad_size=[0, 0],
                 package_pad_drill_size=[1.2, 1.2], package_pad_ddrill=0.8, description="Crystal THT",
                 lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0],
-                name_addition="", pad_style="tht"):
+                name_addition="", pad_style="tht", script3d="", height3d=4.65, iheight3d=4):
     fpname = footprint_name
     fpname = fpname + name_addition
     
@@ -461,6 +461,36 @@ def makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, p
         w_crt = max(w_crt, pad3pos[0] + pad3dril_xoffset + package_pad_drill_size[0] / 2 + crt_offset - l_crt)
     
     print(fpname)
+    
+    
+
+    if script3d!="":
+        with open(script3d, "a") as myfile:
+            myfile.write("\n\n # {0}\n".format(footprint_name))
+            myfile.write("import FreeCAD\n")
+            myfile.write("import os\n")
+            myfile.write("import os.path\n\n")
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B5', '0.02')\n")
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("# W\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(pack_width) )
+            myfile.write("# Wi\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(int(pack_width*0.96)) )
+            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(pack_height))
+            myfile.write("# Hi\nApp.ActiveDocument.Spreadsheet.set('C2', '{0}')\n".format(int(pack_height*0.96)))
+            myfile.write("# height3d\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(height3d))
+            myfile.write("# iheight3d\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(iheight3d))
+            myfile.write("# RM\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(rm))
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ddrill-0.3))
+            myfile.write("# pack_offset\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(pack_offset))
+            myfile.write("# pack_rm\nApp.ActiveDocument.Spreadsheet.set('B7', '{0}')\n".format(pack_rm))
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("doc = FreeCAD.activeDocument()\n")
+            myfile.write("__objs__=[]\n")
+            myfile.write("for obj in doc.Objects:	\n")
+            myfile.write("    if obj.ViewObject.Visibility:\n")
+            myfile.write("        __objs__.append(obj)\n")
+            myfile.write("\nFreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+\"{0}.wrl\")\n".format(fpname))
+            myfile.write("doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+\"{0}.FCStd\")\n".format(fpname))
+            myfile.write("print(\"created {0}\")\n".format(fpname))
     
     desc = description
     tag_s = tags
@@ -586,7 +616,8 @@ def makeCrystal(footprint_name, rm, pad_size, ddrill, pack_width, pack_height, p
 #
 # pins=2,3
 def makeCrystalHC49Vert(footprint_name, pins, rm, pad_size, ddrill, pack_width, pack_height, innerpack_width, innerpack_height,
-                description="Crystal THT", lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], addSizeFootprintName=False):
+                description="Crystal THT", lib_name="Crystals", tags="", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], addSizeFootprintName=False,
+                        script3d="", height3d=10):
     fpname = footprint_name
     desc = description
     tag_s = tags
@@ -640,6 +671,32 @@ def makeCrystalHC49Vert(footprint_name, pins, rm, pad_size, ddrill, pack_width, 
     
     print(fpname)
     
+
+    if script3d!="":
+        with open(script3d, "a") as myfile:
+            myfile.write("\n\n # {0}\n".format(footprint_name))
+            myfile.write("import FreeCAD\n")
+            myfile.write("import os\n")
+            myfile.write("import os.path\n\n")
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B5', '0.02')\n")
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("# W\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(pack_width) )
+            myfile.write("# Wi\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(innerpack_width) )
+            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(pack_height))
+            myfile.write("# Hi\nApp.ActiveDocument.Spreadsheet.set('C2', '{0}')\n".format(innerpack_height))
+            myfile.write("# height3d\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(height3d))
+            myfile.write("# RM\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(rm))
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ddrill-0.3))
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("doc = FreeCAD.activeDocument()\n")
+            myfile.write("__objs__=[]\n")
+            myfile.write("for obj in doc.Objects:	\n")
+            myfile.write("    if obj.ViewObject.Visibility:\n")
+            myfile.write("        __objs__.append(obj)\n")
+            myfile.write("\nFreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+\"{0}.wrl\")\n".format(fpname))
+            myfile.write("doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+\"{0}.FCStd\")\n".format(fpname))
+            myfile.write("print(\"created {0}\")\n".format(fpname))
+
     
     # init kicad footprint
     kicad_mod = Footprint(fpname)
