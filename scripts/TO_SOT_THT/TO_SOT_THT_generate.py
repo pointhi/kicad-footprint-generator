@@ -17,7 +17,7 @@ from TO_THT_packages import *
 
 
 # vertical symbols for rectangular transistors
-def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
     padsize=pck.pad
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_offset_z
@@ -203,7 +203,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
     # add model
     if (has3d):
         kicad_modt.append(
-            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -216,7 +216,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
 
 
 # horizontal symbols for rectangular transistors
-def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
     padsize = pck.pad
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_minlength
@@ -410,7 +410,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     # add model
     if (has3d):
         kicad_modt.append(
-            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -422,7 +422,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
 
 
 # vertical, mounted-from-Lowerside symbols for rectangular transistors
-def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_offset_z
     w_fabp = pck.plastic[0]
@@ -579,7 +579,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     # add model
     if (has3d):
         kicad_modt.append(
-            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -591,7 +591,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal, mounted-from-Lowerside symbols for rectangular transistors
-def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_minlength
     w_fabp = pck.plastic[0]
@@ -779,7 +779,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     # add model
     if (has3d):
         kicad_modt.append(
-            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -791,7 +791,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
 
 
 # horizontal reversedsymbols for rectangular transistors
-def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = pck.pin_minlength
     w_fabp = pck.plastic[0]
@@ -935,7 +935,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     # add model
     if (has3d):
         kicad_mod.append(
-            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -1101,6 +1101,7 @@ if __name__ == '__main__':
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
             s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
+            r3d=[0,0,0]
             if len(off3d[p][pidx]) > 0:
                 o3d = off3d[p][pidx]
             if len(scale3d[p][pidx]) > 0:
@@ -1108,12 +1109,12 @@ if __name__ == '__main__':
             
             pack_norm = pack(packs[p], pins[p][pidx], rms[p][pidx], 0, False)
             libn = "TO_SOT_Packages_THT"
-            makeVERT(libn, pack_norm, has3dv[p][pidx], o3d, s3d)
-            makeVERTLS(libn, pack_norm, has3dv[p][pidx], o3d, s3d)
-            makeHOR(libn, pack_norm, has3dh[p][pidx], o3d, s3d)
+            makeVERT(libn, pack_norm, has3dv[p][pidx], o3d, s3d, "_LargePads", r3d)
+            makeVERTLS(libn, pack_norm, has3dv[p][pidx], o3d, s3d, "_LargePads", r3d)
+            makeHOR(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3d)
             if (len(pack_norm.additional_pin_pad) <= 0):
-                makeHORLS(libn, pack_norm, has3dh[p][pidx], o3d, s3d)
-                makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d)
+                makeHORLS(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3d)
+                makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3d)
             
 
     # make staggered packages
