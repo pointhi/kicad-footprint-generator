@@ -35,7 +35,7 @@ txt_offset = 1
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
 # optionally with additional shunt leads: hasShuntPins=True, shuntPinsRM=DISTANCE
 # deco="none"/"elco"/"diode"
-def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, type="cyl", d2=0, hasShuntPins=False, shuntPinsRM=0, x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[], deco="none", script3d=""):
+def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, type="cyl", d2=0, hasShuntPins=False, shuntPinsRM=0, x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistors_ThroughHole", name_additions=[], deco="none", script3d=""):
     padx=2*ddrill
     pady=padx
 
@@ -237,7 +237,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
 # simple axial round (type="cyl")/ box (type="box") resistor, vertically mounted
 # deco="none"/"elco"/"cp"/"tantal"/"diode"
-def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[],deco="none",script3d=""):
+def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="R", lib_name="Resistors_ThroughHole", name_additions=[],deco="none",script3d=""):
     padx = 2 * ddrill
     pady = padx
     if (largepadsx):
@@ -482,7 +482,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 #
 #
 # deco="none","elco" (round),"tantal" (simple)
-def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="Resistor", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
+def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
     padx = 2 * ddrill
     pady = padx
 
