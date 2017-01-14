@@ -9,10 +9,11 @@ import math
 #sys.path.append("D:\hardware\KiCAD\kicad-footprint-generator")  # enable package import from parent directory
 sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load kicad_mod path
+sys.path.append(os.path.join(sys.path[0],"..","tools")) # load kicad_mod path
 
 from KicadModTree import *  # NOQA
-from crystal_tools import *
-from crystal_footprints import *
+from drawing_tools import *
+from footprint_scripts_crystals import *
 
 
 

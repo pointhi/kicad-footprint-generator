@@ -11,14 +11,7 @@ sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mo
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load kicad_mod path
 
 from KicadModTree import *  # NOQA
-from crystal_tools import *
-
-lw_fab = 0.1
-lw_slk = 0.12
-lw_crt = 0.05
-crt_offset = 0.25
-slk_offset = 0.2
-txt_offset = 1
+from drawing_tools import *
 
 
 def makeSMDCrystalAndHand(footprint_name, addSizeFootprintName, pins, pad_sep_x, pad_sep_y, pad, pack_width,
