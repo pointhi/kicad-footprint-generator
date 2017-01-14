@@ -66,7 +66,7 @@ def addKeepoutRound(x, y, w, h):
             yysum = yysum + yy
         return res
 
-
+# internal method for keepout-processing
 def applyKeepouts(lines_in, y, xi, yi, keepouts):
     # print("  applyKeepouts(\n  lines_in=", lines_in, "  \n  y=", y, "   \n  xi=", xi, "   yi=", yi, "   \n  keepouts=", keepouts, ")")
     lines = lines_in
@@ -144,7 +144,17 @@ def addPlusWithKeepout(km, x, y, w, h, layer, width, keepouts=[], roun=0.001):
     addHLineWithKeepout(km, x, x+w, y+h/2, layer,width,keepouts,roun)
     addVLineWithKeepout(km, x+w/2, y, y+h, layer, width, keepouts, roun)
 
-
+# draw a rectangle with bevel on all sides (e.g. for crystals), or a simple rectangle if bevel_size0=0)
+#
+#   /----\
+#  /      \
+# |        |
+# |        |
+# |        |
+# |        |
+# |        |
+#  \      /
+#   \----/
 def allBevelRect(model, x, size, layer, width, bevel_size=0.2):
     if bevel_size <= 0:
         model.append(RectLine(start=x, end=[x[0] + size[0], x[1] + size[1]], layer=layer, width=width))
@@ -159,7 +169,7 @@ def allBevelRect(model, x, size, layer, width, bevel_size=0.2):
                                             [x[0], x[1] + bevel_size],
                                             [x[0] + bevel_size, x[1]]], layer=layer, width=width))
 
-
+# draws a filled circle consisting of concentric circles of varying widths (e.g. for glue dots!)
 def fillCircle(model, center, radius, layer, width):
     model.append(Circle(center=center, radius=radius, layer=layer, width=width))
     r = radius
@@ -173,6 +183,17 @@ def fillCircle(model, center, radius, layer, width):
         r = r - 0.9 * w
 
 
+
+#     +------+
+#    /       |
+#   /        |
+#   |        |
+#   |        |
+#   |        |
+#   |        |
+#   +--------+
+#
+#
 def bevelRectTL(model, x, size, layer, width, bevel_size=1):
     model.append(PolygoneLine(
         polygone=[[x[0] + bevel_size, x[1]], [x[0] + size[0], x[1]], [x[0] + size[0], x[1] + size[1]],
@@ -180,12 +201,31 @@ def bevelRectTL(model, x, size, layer, width, bevel_size=1):
         width=width))
 
 
+#   +--------+
+#   |        |
+#   |        |
+#   |        |
+#   |        |
+#   \        |
+#    \       |
+#     +------+
+#
+#
 def bevelRectBL(model, x, size, layer, width, bevel_size=1):
     model.append(PolygoneLine(polygone=[[x[0], x[1]], [x[0] + size[0], x[1]], [x[0] + size[0], x[1] + size[1]],
                                         [x[0] + bevel_size, x[1] + size[1]], [x[0], x[1] + size[1] - bevel_size],
                                         [x[0], x[1]]], layer=layer, width=width))
 
-
+# draws a DIP-package with half-circle at the top
+#
+# +----------+
+# |   \  /   |
+# |    ~~    |
+# |          |
+# |          |
+# |          |
+# |          |
+# +----------+
 def DIPRectT(model, x, size, layer, width, marker_size=2):
     model.append(PolygoneLine(
         polygone=[[x[0] + size[0] / 2 - marker_size / 2, x[1]], [x[0], x[1]], [x[0], x[1] + size[1]],
@@ -195,6 +235,13 @@ def DIPRectT(model, x, size, layer, width, marker_size=2):
                      layer=layer, width=width))
 
 
+# draws a DIP-package with half-circle at the left
+#
+# +---------------+
+# |-\             |
+# |  |            |
+# |-/             |
+# +---------------+
 def DIPRectL(model, x, size, layer, width, marker_size=2):
     model.append(PolygoneLine(polygone=[[x[0], x[1] + size[1] / 2 - marker_size / 2],
                                         [x[0], x[1]],
@@ -206,6 +253,13 @@ def DIPRectL(model, x, size, layer, width, marker_size=2):
                      layer=layer, width=width))
 
 
+# draws the left part of a DIP-package with half-circle at the left
+#
+# +--------
+# |-\
+# |  |
+# |-/
+# +--------
 def DIPRectL_LeftOnly(model, x, size, layer, width, marker_size=2):
     model.append(Line(start=[x[0], x[1] + size[1] / 2 - marker_size / 2], end=[x[0], x[1]], layer=layer, width=width))
     model.append(
@@ -218,16 +272,35 @@ def DIPRectL_LeftOnly(model, x, size, layer, width, marker_size=2):
                      layer=layer, width=width))
 
 
+# draws a THT quartz footprint (HC49) with a rect around it
+#  +-------------------------+
+#  |                         |
+#  |   +----------------+    |
+#  |  /                  \   |
+#  |  \                  /   |
+#  |   +----------------+    |
+#  |                         |
+#  +-------------------------+
 def THTQuartzRect(model, x, size, inner_size, layer, width):
     model.append(RectLine(start=x, end=[x[0] + size[0], x[1] + size[1]], layer=layer, width=width))
     THTQuartz(model, [x[0] + (size[0] - inner_size[0]) / 2, x[1] + (size[1] - inner_size[1]) / 2], inner_size, layer,
               width)
 
 
+# draws a THT quartz footprint (HC49)
+#     +----------------+
+#    /                  \
+#    \                  /
+#     +----------------+
 def THTQuartz(model, x, size, layer, width):
     THTQuartzIncomplete(model, x, size, 180, layer, width)
 
 
+# draws a THT quartz footprint (HC49)
+#     +----------------+
+#    /                  \
+#    \                  /
+#     +----------------+
 def THTQuartzIncomplete(model, x, size, angle, layer, width):
     inner_size = size
     r = inner_size[1] / 2
