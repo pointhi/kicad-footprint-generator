@@ -12,7 +12,7 @@ sys.path.append(os.path.join(sys.path[0], "..", "..", "kicad_mod"))  # load kica
 sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load kicad_mod path
 
 from KicadModTree import *  # NOQA
-
+from footprint_global_properties import *
 
 # round for grid g
 def roundG(x, g):
@@ -24,7 +24,7 @@ def roundG(x, g):
 
 # round for courtyard grid
 def roundCrt(x):
-    return roundG(x, 0.05)
+    return roundG(x, grid_crt)
 
 
 # float-variant of range()

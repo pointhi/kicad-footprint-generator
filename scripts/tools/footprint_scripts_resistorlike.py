@@ -11,25 +11,8 @@ sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mo
 sys.path.append(os.path.join(sys.path[0],"..","..")) # load kicad_mod path
 
 from KicadModTree import *  # NOQA
-from resistor_tools import *
-
-def roundG(x, g):
-    if (x>0):
-        return math.ceil(x/g)*g
-    else:
-        return math.floor(x/g)*g
-
-
-def roundCrt(x):
-    return roundG(x, 0.05)
-
-
-crt_offset = 0.25
-slk_offset = 0.06
-lw_fab = 0.1
-lw_crt = 0.05
-lw_slk = 0.12
-txt_offset = 1
+from drawing_tools import *
+from footprint_global_properties import *
 
 
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
@@ -494,12 +477,29 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 #           +----------------+ v
 #                   <-rm->
 #           <-------w-------->
+#     8. type="simplesymm45"
+#           +----------------+ ^
+#           |            OO  | |  ^
+#           |                | h  rm2
+#           |  OO            | |  v
+#           +----------------+ v
+#               <---rm--->
+#           <-------w-------->
+#     9. type="concentric": ellipse, diameter w + ellipse, diameter w2 h
+#     10. type="simple90"
+#           +----------------+ ^
+#           |       OO       | |  ^
+#           |                | h  rm
+#           |       OO       | |  v
+#           +----------------+ v
+#           <-------w-------->
 #
 #
-# deco="none","elco" (round),"tantal" (simple)
-def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
+# deco="none","elco" (round),"tantal" (simple),"chokewire" (concentric)
+def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
     padx = 2 * ddrill
     pady = padx
+    txtoffset=txt_offset
 
     pad1style=Pad.SHAPE_CIRCLE
     polsign_slk=[]
@@ -510,7 +510,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
 
     padpos=[]
     offset=[0,0]
-    if type=="simple" or type=="disc" or type=="round":
+    if type=="simple" or type=="disc" or type=="round" or type=="concentric":
         padpos.append([1,- rm / 2, 0, ddrill,padx,pady])
         padpos.append([2,rm / 2, 0, ddrill,padx,pady])
         offset=[rm/2,0]
@@ -518,10 +518,27 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
         padpos.append([1,0, 0, ddrill,padx,pady])
         padpos.append([2,rm,-rm2, ddrill,padx,pady])
         offset = [0, 0]
+    elif type == "simplesymm45":
+        padpos.append([1,-rm/2, -rm2/2, ddrill,padx,pady])
+        padpos.append([2, rm/2,  rm2/2, ddrill,padx,pady])
+        offset = [rm/2, rm2/2]
+    elif type == "simple90":
+        if pins==4 and rm2>0:
+            padpos.append([1, -rm2/2, rm/2, ddrill,padx,pady])
+            padpos.append([2, rm2/2, rm/2, ddrill,padx,pady])
+            padpos.append([3, rm2/2,  -rm/2, ddrill,padx,pady])
+            padpos.append([4, -rm2/2,  -rm/2, ddrill,padx,pady])
+            offset = [rm2/2, -rm/2]
+            pad1style=Pad.SHAPE_RECT
+        else:
+            padpos.append([1, 0, -rm/2, ddrill,padx,pady])
+            padpos.append([2, 0,  rm/2, ddrill,padx,pady])
+            offset = [0, rm/2]
+        txtoffset=max(txt_offset,pady*2/3)
     elif type == "disc45":
         padpos.append([1,-rm/2, -rm2/2, ddrill,padx,pady])
-        padpos.append([2,rm/2,rm2, ddrill,padx,pady])
-        offset = [0, 0]
+        padpos.append([2,rm/2,rm2/2, ddrill,padx,pady])
+        offset = [rm/2, rm2/2]
 
     if deco=="elco" or deco=="cp" or deco=="tantal":
         x=0
@@ -535,7 +552,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
 
     rmm2=rm2
     secondPitch=False
-    if rm2>rm and type=="round":
+    if rm2>rm and ( type=="concentric" or type=="round"):
         secondPitch=True
         rmm2=0
         yy=pady
@@ -564,6 +581,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
     w_fab = w
     h_fab = h
     d_fab = max(w, h)
+    d2_fab=w2
     h_slk = h_fab + 2 * slk_offset
     w_slk = w_fab + 2 * slk_offset
     l_slk = l_fab - slk_offset
@@ -571,6 +589,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
     lvl1_slk=lvl1_fab
     lvl2_slk = lvl2_fab
     d_slk=d_fab+lw_slk+slk_offset
+    d2_slk=d2_fab-lw_slk-slk_offset
     w_crt = max(w_slk, rm+padx) + 2 * crt_offset
     h_crt = max(h_slk, rmm2+pady) + 2 * crt_offset
     l_crt = -w_crt/2
@@ -596,7 +615,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
         fnpins = fnpins+"_P{0:0.2f}mm".format(rm2)
         pind=pind+" {0:0.2f}mm".format(rm2)
 
-    if type == "simple45" or type=="disc45":
+    if type == "simple45" or type=="disc45" or type=="simplesymm45":
         fnpins = "_Px{0:0.2f}mm_Py{1:0.2f}mm".format(rm,rm2)
         pind = "{0:0.2f}*{1:0.2f}mm^2".format(rm,rm2)
 
@@ -607,7 +626,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
         dimdesc = "diameter*width={0}*{1}mm^2".format(w, h)
         dimdesct = "diameter {0}mm width {1}mm".format(w, h)
 
-    if type=="round":
+    if type=="round" or type == "concentric":
         if w==h:
             dimdesc = "diameter={0}mm".format(w)
             dimdesct = "diameter {0}mm".format(w)
@@ -651,6 +670,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
             myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
             myfile.write("App.ActiveDocument.recompute()\n")
             myfile.write("# Wx\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(w) )
+            myfile.write("# W2\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(w2) )
             myfile.write("# Wy\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(h) )
             myfile.write("# RMx\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(rm) )
             myfile.write("# RMy\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(rm2) )
@@ -685,17 +705,33 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
 
 
     # set general values
-    kicad_modg.append(Text(type='reference', text='REF**', at=[0, t_slk - txt_offset], layer='F.SilkS'))
-    kicad_modg.append(Text(type='value', text=footprint_name, at=[0, t_slk+h_slk + txt_offset], layer='F.Fab'))
+    kicad_modg.append(Text(type='reference', text='REF**', at=[0, t_slk - txtoffset], layer='F.SilkS'))
+    kicad_modg.append(Text(type='value', text=footprint_name, at=[0, t_slk+h_slk + txtoffset], layer='F.Fab'))
 
     # create FAB-layer
-    if type=="round":
+    if type=="round" or type=="concentric":
         kicad_modg.append(Circle(center=[l_fab+w_fab/2, t_fab+h_fab/2], radius=d_fab/2, layer='F.Fab', width=lw_fab))
+        if w2>0 and type=="concentric":
+            kicad_modg.append(Circle(center=[l_fab+w_fab/2, t_fab+h_fab/2], radius=d2_fab/2, layer='F.Fab', width=lw_fab))
+            if deco=="chokewire":
+                alpha1=0
+                alpha2=15
+                while alpha1<=360:
+                    kicad_modg.append(Line(start=[d_slk*0.49*math.cos(alpha1/180*3.1415),d_slk*0.49*math.sin(alpha1/180*3.1415)], end=[d2_slk*0.51*math.cos(alpha2/180*3.1415),d2_slk*0.51*math.sin(alpha2/180*3.1415)], layer='F.Fab', width=lw_fab))
+                    alpha1=alpha1+30
+                    alpha2=alpha2+30
     else:
         kicad_modg.append(RectLine(start=[l_fab, t_fab], end=[l_fab + w_fab, t_fab + h_fab], layer='F.Fab', width=lw_fab))
         if vlines:
             kicad_modg.append(Line(start=[lvl1_fab, t_fab], end=[lvl1_fab,t_fab+h_fab], layer='F.Fab', width=lw_fab))
             kicad_modg.append(Line(start=[lvl2_fab, t_fab], end=[lvl2_fab, t_fab + h_fab], layer='F.Fab', width=lw_fab))
+        if deco=="chokewire":
+            x1=l_fab
+            x2=l_fab+0.05*w_fab
+            while x2<l_fab+w_fab:
+                kicad_modg.append(Line(start=[x1,t_fab], end=[x2,t_fab+h_fab], layer='F.Fab', width=lw_fab))
+                x1=x1+0.1*w_fab
+                x2=x2+0.1*w_fab
     if len(polsign_slk)==4:
         addPlusWithKeepout(kicad_modg, polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3], 'F.Fab', lw_fab, [], 0.05)
 
@@ -711,7 +747,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
         keepouts=keepouts+addKeepoutRect(polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3])
 
     # create SILKSCREEN-layer
-    if type=="round":
+    if type=="round" or type=="concentric":
         maxd=rm+padx+2*(lw_slk+slk_offset)
         dxs=d_slk/2
         dys=pady/2+lw_slk+slk_offset
@@ -736,6 +772,10 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, vlines=False,
                 hc=math.sqrt(d_slk*d_slk/4-x*x)-lw_slk/3
                 addVLineWithKeepout(kicad_modg, x, -hc,hc, 'F.SilkS', lw_slk, keepouts, 0.001)
                 x=x+lw_slk/3
+        if type=="concentric":
+            kicad_modg.append(Circle(center=[l_slk + w_slk / 2, t_slk + h_slk / 2], radius=d2_slk/2, layer='F.SilkS', width=lw_slk))
+
+
     else:
         addRectWithKeepout(kicad_modg, l_slk, t_slk, w_slk, h_slk, 'F.SilkS', lw_slk, keepouts, 0.001)
         if vlines:
