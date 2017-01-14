@@ -80,24 +80,27 @@ def applyKeepouts(lines_in, y, xi, yi, keepouts):
                 for li in reversed(range(0, len(lines))):
                     l = lines[li]
                     if (l[0] >= ko[xi + 0]) and (l[0] <= ko[xi + 1]) and (l[1] >= ko[xi + 0]) and (
-                        l[1] <= ko[xi + 1]):  # Line completely inside -> remove
+                                l[1] <= ko[xi + 1]):  # Line completely inside -> remove
                         lines.pop(li)
                         # print("      H1: ko=", [ko[xi+0],ko[xi+1]], "  li=", li, "   l=", l, ")")
                         changes = True
                     elif (l[0] >= ko[xi + 0]) and (l[0] <= ko[xi + 1]) and (
-                        l[1] > ko[xi + 1]):  # Line starts inside, but ends outside -> remove and add shortened
+                                l[1] > ko[
+                                    xi + 1]):  # Line starts inside, but ends outside -> remove and add shortened
                         lines.pop(li)
                         lines.append([ko[xi + 1], l[1]])
                         # print("      H2: ko=", [ko[xi+0],ko[xi+1]], "  li=", li, "   l=", l, "): ", [ko[xi+1], l[1]])
                         changes = True
                     elif (l[0] < ko[xi + 0]) and (l[1] <= ko[xi + 1]) and (
-                        l[1] >= ko[xi + 0]):  # Line starts outside, but ends inside -> remove and add shortened
+                                l[1] >= ko[
+                                    xi + 0]):  # Line starts outside, but ends inside -> remove and add shortened
                         lines.pop(li)
                         lines.append([l[0], ko[xi + 0]])
                         # print("      H3: ko=", [ko[xi+0],ko[xi+1]], "  li=", li, "   l=", l, "): ", [l[0], ko[xi+0]])
                         changes = True
                     elif (l[0] < ko[xi + 0]) and (
-                        l[1] > ko[xi + 1]):  # Line starts outside, and ends outside -> remove and add 2 shortened
+                                l[1] > ko[
+                                    xi + 1]):  # Line starts outside, and ends outside -> remove and add 2 shortened
                         lines.pop(li)
                         lines.append([l[0], ko[xi + 0]])
                         lines.append([ko[xi + 1], l[1]])
@@ -107,18 +110,33 @@ def applyKeepouts(lines_in, y, xi, yi, keepouts):
                         # print("      USE: ko=", [ko[xi+0],ko[xi+1]], "  li=", li, "   l=", l, "): ")
         if changes:
             break
-    
+
     return lines
 
+# gives True if the given point (x,y) is contained in any keepout
+def containedInAnyKeepout(x,y, keepouts):
+    for ko in keepouts:
+        ko = [min(ko[0], ko[1]), max(ko[0], ko[1]), min(ko[2], ko[3]), max(ko[2], ko[3])]
+        if x>=ko[0] and x<=ko[1] and y>=ko[2] and y<=ko[3]:
+            #print("HIT!")
+            return True
+    #print("NO HIT ",x,y)
+    return False
 
+# draws the keepouts
+def debug_draw_keepouts(kicad_modg, keepouts):
+    for ko in keepouts:
+        kicad_modg.append(RectLine(start=[ko[0],ko[2]],
+                                  end=[ko[1],ko[3]],
+                                  layer='F.Mask', width=0.01))
+        
 # split a vertical line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
 def addHLineWithKeepout(kicad_mod, x0, x1, y, layer, width, keepouts=[], roun=0.001):
     # print("addHLineWithKeepout",y)
     linesout = applyKeepouts([[min(x0, x1), max(x0, x1)]], y, 0, 2, keepouts)
     for l in linesout:
         kicad_mod.append(
-            Line(start=[roundG(l[0], roun), roundG(y, roun)], end=[roundG(l[1], roun), roundG(y, roun)], layer=layer,
-                 width=width))
+            Line(start=[roundG(l[0], roun), roundG(y, roun)], end=[roundG(l[1], roun), roundG(y, roun)], layer=layer,width=width))
 
 
 

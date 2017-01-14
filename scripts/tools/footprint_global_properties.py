@@ -20,3 +20,4 @@ lw_slk = 0.12
 slk_offset = lw_slk/2
 txt_offset = 1
 grid_crt=0.05
+min_pad_distance=0.2
