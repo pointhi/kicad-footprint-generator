@@ -22,6 +22,9 @@ if __name__ == '__main__':
     script3d_rv="leds_round_ver.py"
     with open(script3d_rv, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    script3d_rh="leds_round_hor.py"
+    with open(script3d_rh, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
     d2=0
     R_POW = 0
@@ -74,4 +77,13 @@ if __name__ == '__main__':
     makeLEDRadial(pins=pins, rm=rm, w=w, h=h, ddrill=ddrill, rin=rin, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=specialtags, add_description=add_description, classname=clname+"_Rectangular", lib_name=lbname,name_additions=name_additions, script3d=script3d_rv, height3d=height3d, height3d_bottom=height3d_bottom)
     type="box"; pins=2; rm=2.54; rin=0; w=5; h=5;  height3d=9.7; height3d_bottom=0; name_additions=[]; specialtags=["Rectangular"]; add_description="http://www.kingbright.com/attachments/file/psearch/000/00/00/L-169XCGDK(Ver.9B).pdf"
     makeLEDRadial(pins=pins, rm=rm, w=w, h=h, ddrill=ddrill, rin=rin, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=specialtags, add_description=add_description, classname=clname+"_Rectangular", lib_name=lbname,name_additions=name_additions, script3d=script3d_rv, height3d=height3d, height3d_bottom=height3d_bottom)
+    type="box"; pins=2; rm=2.54; rin=0; w=4.5; h=1.6;  height3d=5.7; height3d_bottom=0; name_additions=[]; specialtags=["Rectangular","SideEmitter"]; add_description="http://cdn-reichelt.de/documents/datenblatt/A500/LED15MMGE_LED15MMGN%23KIN.pdf"
+    makeLEDRadial(pins=pins, rm=rm, w=w, h=h, ddrill=ddrill, rin=rin, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=specialtags, add_description=add_description, classname=clname+"_SideEmitter_Rectangular", lib_name=lbname,name_additions=name_additions, script3d=script3d_rv, height3d=height3d, height3d_bottom=height3d_bottom)
+    type="round"; pins=2; rm=2.54; dled=3; dledout=3.8; offset=2.54;wled=5.3; height3d=3; name_additions=[]; specialtags=[]; add_description=""
+    for offset in [1.27,2.54,5.08]:
+        makeLEDHorizontal(pins=pins, rm=rm, ddrill=ddrill,dled=dled, dledout=dledout, offsetled=offset, wled=wled, type=type, x_3d=[0, 0, 0],s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=specialtags,add_description=add_description,classname=clname, lib_name=lbname, name_additions=name_additions, script3d=script3d_rh, height3d=height3d)
+    type="round"; pins=2; rm=2.54; dled=5; dledout=5.8; offset=2.54;wled=8.6; height3d=5; name_additions=[]; specialtags=[]; add_description=""
+    for offset in [1.27, 2.54, 5.08]:
+        makeLEDHorizontal(pins=pins, rm=rm, ddrill=ddrill,dled=dled, dledout=dledout, offsetled=offset, wled=wled, type=type, x_3d=[0, 0, 0],s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=specialtags,add_description=add_description,classname=clname, lib_name=lbname, name_additions=name_additions, script3d=script3d_rh, height3d=height3d)
+    
     

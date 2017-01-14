@@ -336,3 +336,211 @@ def makeLEDRadial(rm, w, h, ddrill, win=0, rin=0, pins=2, type="round", x_3d=[0,
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
 
+
+# LED footprints for horizontally mounted LEDs
+#   style options:
+#     1. type="simple"
+#                    +------\    ^
+#     ^       OO     |       \   |
+#     rm             |        |  dled
+#     v       OO     |       /   |
+#                    +------/    v
+#             <------>offsetled
+#                    <--wled->
+#
+#  type="round"/"rect"
+def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6, ddrill=0.8, type="round", x_3d=[0, 0, 0],
+                  s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="",
+                  classname="LED", lib_name="LEDs", name_additions=[], script3d="", height3d=5):
+    padx = 2 * ddrill
+    pady = padx
+    if padx + min_pad_distance > rm:
+        padx = (rm - min_pad_distance)
+    txtoffset = txt_offset
+    
+    pad1style = Pad.SHAPE_RECT
+    
+    padpos = []
+    offset = [0, 0]
+    overpad_width = (pins - 1) * rm
+    xpad = -overpad_width / 2
+    offset = [-xpad, 0]
+    for p in range(1, pins + 1):
+        padpos.append([p, xpad, 0, ddrill, padx, pady])
+        xpad = xpad + rm
+    
+    l_fab = -max(dledout ,overpad_width+padx)/2
+    t_fab = -pady / 2
+    w_fab = max(dledout,overpad_width+padx)
+    h_fab = pady/2+offsetled+wled
+    h_slk = h_fab + 2 * slk_offset
+    w_slk = w_fab + 2 * slk_offset
+    l_slk = l_fab - slk_offset
+    t_slk = t_fab - slk_offset
+    w_crt = max(w_slk, overpad_width + padx) + 2 * crt_offset
+    h_crt = h_slk + 2 * crt_offset
+    l_crt = l_slk-crt_offset
+    t_crt = t_slk-crt_offset
+    
+    snfp = ""
+    sn = ""
+    snt = ""
+    
+    fnsize = ""
+    sizetag = ""
+    if type == "round":
+        fnsize = "_D{0:0.1f}mm".format(dled)
+        sizetag = "diameter {0:0.1f}mm".format(dled)
+    else:
+        sizetag = " Rectangular"
+        wsize = dled
+        fnsize = fnsize + "_W{0:0.1f}mm_H{1:0.1f}mm".format(dled, wled)
+        sizetag = sizetag + " size {0:0.1f}x{1:0.1f}mm^2".format(dled, wled)
+    
+    fnpincnt = ""
+    pincnttag = "{0:d} pins".format(pins)
+    if pins > 2:
+        fnpincnt = "-{0:d}pins".format(pins)
+    
+    footprint_name = classname + fnsize + fnpincnt
+    
+    description = classname
+    tags = classname
+    
+    addedtags = specialtags
+    if len(sizetag) > 0:
+        addedtags.append(sizetag)
+    if len(pincnttag) > 0:
+        addedtags.append(pincnttag)
+    
+    for t in addedtags:
+        description = description + ", " + t
+        tags = tags + " " + t
+    if (specialfpname != ""):
+        footprint_name = specialfpname;
+    
+    if len(add_description) > 0:
+        description = description + ", " + add_description
+    
+    for n in name_additions:
+        if len(n) > 0:
+            footprint_name = footprint_name + "_" + n
+
+    footprint_name=footprint_name+"_Horicontal_O{0:1.2f}mm".format(offsetled)
+    
+    print(footprint_name)
+    
+    if script3d != "":
+        with open(script3d, "a") as myfile:
+            myfile.write("\n\n # {0}\n".format(footprint_name))
+            myfile.write("import FreeCAD\n")
+            myfile.write("import os\n")
+            myfile.write("import os.path\n\n")
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("# dled\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(dled))
+            myfile.write("# dledout\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(dledout))
+            myfile.write("# offsetled\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(offsetled))
+            myfile.write("# RM\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(rm))
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ddrill - 0.3))
+            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(height3d))
+            myfile.write("# wled\nApp.ActiveDocument.Spreadsheet.set('B7', '{0}')\n".format(wled))
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("doc = FreeCAD.activeDocument()\n")
+            myfile.write("__objs__=[]\n")
+            myfile.write("for obj in doc.Objects:	\n")
+            myfile.write("    if obj.ViewObject.Visibility:\n")
+            myfile.write("        __objs__.append(obj)\n")
+            myfile.write("\nFreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+\"{0}.wrl\")\n".format(
+                footprint_name))
+            myfile.write("doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+\"{0}.FCStd\")\n".format(footprint_name))
+            myfile.write("print(\"created {0}\")\n".format(footprint_name))
+    
+    # init kicad footprint
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription(description)
+    kicad_mod.setTags(tags)
+    
+    kicad_modg = Translation(offset[0], offset[1])
+    kicad_mod.append(kicad_modg)
+    
+    # set general values
+    kicad_modg.append(Text(type='reference', text='REF**', at=[0, t_slk - txtoffset], layer='F.SilkS'))
+    kicad_modg.append(Text(type='value', text=footprint_name, at=[0, t_slk + h_slk + txtoffset], layer='F.Fab'))
+    
+    # create FAB-layer
+    if type == "round":
+        
+        kicad_modg.append(Arc(center=[0,offsetled+wled-dled/2], start=[-dled/2,offsetled+wled-dled/2], angle=-180 , layer='F.Fab', width=lw_fab))
+        kicad_modg.append(Line(start=[ -dled/2,offsetled], end=[-dled / 2,offsetled+wled-dled/2], layer='F.Fab', width=lw_fab))
+        kicad_modg.append(Line(start=[dled / 2, offsetled], end=[dled / 2, offsetled + wled - dled / 2], layer='F.Fab', width=lw_fab))
+        kicad_modg.append(Line(start=[ -dled/2,offsetled], end=[dled / 2,offsetled], layer='F.Fab',width=lw_fab))
+        kicad_modg.append(RectLine(start=[ dledout/2,offsetled], end=[dled / 2,offsetled+1], layer='F.Fab',width=lw_fab))
+    elif type == "box":
+        kicad_modg.append(RectLine(start=[-dled / 2,offsetled], end=[dled / 2,offsetled], layer='F.Fab',width=lw_fab))
+
+    for p in padpos:
+        kicad_modg.append(
+            RectLine(start=[p[1],p[2]], end=[p[1],offsetled], layer='F.Fab', width=lw_fab))
+    
+    # build keepeout for SilkScreen
+    keepouts = []
+    for p in padpos:
+        if p[0] == 1:
+            keepouts = keepouts + addKeepoutRect(p[1], p[2], p[4] + 2 * lw_slk + 2 * slk_offset,
+                                                 p[5] + 2 * lw_slk + 2 * slk_offset)
+        else:
+            keepouts = keepouts + addKeepoutRound(p[1], p[2], p[4] + 2 * lw_slk + 2 * slk_offset,
+                                                  p[5] + 2 * lw_slk + 2 * slk_offset)
+    
+    # create SILKSCREEN-layer
+    if type == "round":
+        kicad_modg.append(Arc(center=[0, offsetled + wled - dled/2], start=[-dled / 2-slk_offset, offsetled + wled - dled/2], angle=-180,layer='F.SilkS', width=lw_slk))
+        kicad_modg.append(Line(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[-dled / 2-slk_offset, offsetled + wled - dled / 2],  layer='F.SilkS',width=lw_slk))
+        kicad_modg.append(Line(start=[dled / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + wled - dled / 2],  layer='F.SilkS',width=lw_slk))
+        kicad_modg.append(Line(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled-slk_offset],  layer='F.SilkS', width=lw_slk))
+        kicad_modg.append(RectLine(start=[dledout / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + 1+slk_offset],  layer='F.SilkS',width=lw_slk))
+    elif type == "box":
+        kicad_modg.append(RectLine(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled+slk_offset],  layer='F.SilkS', width=lw_slk))
+
+    for p in padpos:
+        if pady/2+slk_offset+lw_slk<offsetled-slk_offset:
+            kicad_modg.append(RectLine(start=[p[1], pady/2+slk_offset+lw_slk], end=[p[1], offsetled-slk_offset],  layer='F.SilkS', width=lw_slk))
+    
+    
+    
+    # create courtyard
+    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
+                              end=[roundCrt(l_crt + w_crt + offset[0]), roundCrt(t_crt + h_crt + offset[1])],
+                              layer='F.CrtYd', width=lw_crt))
+
+    # debug_draw_keepouts(kicad_modg, keepouts)
+    
+    # create pads
+    pn = 1
+    for p in padpos:
+        ps = Pad.SHAPE_CIRCLE
+        if (p[4] != p[5]):
+            ps = Pad.SHAPE_OVAL
+        if p[0] == 1:
+            ps = pad1style
+        kicad_modg.append(Pad(number=p[0], type=Pad.TYPE_THT, shape=ps, at=[p[1], p[2]], size=[p[4], p[5]], drill=p[3],
+                              layers=['*.Cu', '*.Mask']))
+    
+    # add model
+    if (has3d != 0):
+        kicad_modg.append(
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+    
+    # print render tree
+    # print(kicad_mod.getRenderTree())
+    # print(kicad_mod.getCompleteRenderTree())
+    
+    # write file
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile(footprint_name + '.kicad_mod')
+
+
+
+
+
