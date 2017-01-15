@@ -519,9 +519,9 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
         padpos.append([2,rm,-rm2, ddrill,padx,pady])
         offset = [0, 0]
     elif type == "simplesymm45":
-        padpos.append([1,-rm/2, -rm2/2, ddrill,padx,pady])
-        padpos.append([2, rm/2,  rm2/2, ddrill,padx,pady])
-        offset = [rm/2, rm2/2]
+        padpos.append([1,-rm/2, rm2/2, ddrill,padx,pady])
+        padpos.append([2, rm/2, -rm2/2, ddrill,padx,pady])
+        offset = [rm/2, -rm2/2]
     elif type == "simple90":
         if pins==4 and rm2>0:
             padpos.append([1, -rm2/2, rm/2, ddrill,padx,pady])
