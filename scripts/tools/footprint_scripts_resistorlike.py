@@ -496,7 +496,12 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 #
 #
 # deco="none","elco" (round),"tantal" (simple),"chokewire" (concentric)
-def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
+def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm2=0, pins=2, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistors_ThroughHole", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
+    if innerw<=0:
+        innerw=w
+    if innerh<=0:
+        innerh=h
+
     padx = 2 * ddrill
     pady = padx
     txtoffset=txt_offset
@@ -511,9 +516,17 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
     padpos=[]
     offset=[0,0]
     if type=="simple" or type=="disc" or type=="round" or type=="concentric":
-        padpos.append([1,- rm / 2, 0, ddrill,padx,pady])
-        padpos.append([2,rm / 2, 0, ddrill,padx,pady])
-        offset=[rm/2,0]
+        if pins == 4 and rm2 > 0:
+            padpos.append([1, -rm2 / 2, -rm / 2, ddrill, padx, pady])
+            padpos.append([4, rm2 / 2, -rm / 2, ddrill, padx, pady])
+            padpos.append([3, rm2 / 2, rm / 2, ddrill, padx, pady])
+            padpos.append([2, -rm2 / 2, rm / 2, ddrill, padx, pady])
+            offset = [rm2 / 2, rm / 2]
+            pad1style = Pad.SHAPE_RECT
+        else:
+            padpos.append([1,- rm / 2, 0, ddrill,padx,pady])
+            padpos.append([2,rm / 2, 0, ddrill,padx,pady])
+            offset=[rm/2,0]
     elif type == "simple45":
         padpos.append([1,0, 0, ddrill,padx,pady])
         padpos.append([2,rm,-rm2, ddrill,padx,pady])
@@ -525,9 +538,9 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
     elif type == "simple90":
         if pins==4 and rm2>0:
             padpos.append([1, -rm2/2, rm/2, ddrill,padx,pady])
-            padpos.append([2, rm2/2, rm/2, ddrill,padx,pady])
+            padpos.append([4, rm2/2, rm/2, ddrill,padx,pady])
             padpos.append([3, rm2/2,  -rm/2, ddrill,padx,pady])
-            padpos.append([4, -rm2/2,  -rm/2, ddrill,padx,pady])
+            padpos.append([2, -rm2/2,  -rm/2, ddrill,padx,pady])
             offset = [rm2/2, -rm/2]
             pad1style=Pad.SHAPE_RECT
         else:
@@ -560,12 +573,14 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
         padpos.append([1,-xx, -yy, ddrill,padx,pady])
         padpos.append([2,xx,yy, ddrill,padx,pady])
 
-    if rm2>rm and type=="simple":
+    if rm2>rm and type=="simple" and pins == 2:
         secondPitch=True
         rmm2=0
         padpos.append([1,-rm2/2, 0, ddrill,padx,pady])
         padpos.append([2,rm2/2,0, ddrill,padx,pady])
         offset=[max(rm2/2,rm/2),0]
+    elif rm2>rm and type=="simple" and pins == 4:
+        rmm2=0
 
 
     for ep in additionalPins:
@@ -576,10 +591,14 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
 
     l_fab = -w / 2
     t_fab = -h / 2
+    il_fab = -innerw / 2
+    it_fab = -innerh / 2
     lvl1_fab = -w2 / 2
     lvl2_fab = w2 / 2
     w_fab = w
     h_fab = h
+    iw_fab = innerw
+    ih_fab = innerh
     d_fab = max(w, h)
     d2_fab=w2
     h_slk = h_fab + 2 * slk_offset
@@ -615,7 +634,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
         fnpins = fnpins+"_P{0:0.2f}mm".format(rm2)
         pind=pind+" {0:0.2f}mm".format(rm2)
 
-    if type == "simple45" or type=="disc45" or type=="simplesymm45":
+    if type == "simple45" or type=="disc45" or type=="simplesymm45" or pins==4:
         fnpins = "_Px{0:0.2f}mm_Py{1:0.2f}mm".format(rm,rm2)
         pind = "{0:0.2f}*{1:0.2f}mm^2".format(rm,rm2)
 
@@ -669,9 +688,11 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
             myfile.write("import os.path\n\n")
             myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
             myfile.write("App.ActiveDocument.recompute()\n")
-            myfile.write("# Wx\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(w) )
+            myfile.write("# Wx\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(innerw) )
+            myfile.write("# iWx\nApp.ActiveDocument.Spreadsheet.set('D1', '{0}')\n".format(w) )
             myfile.write("# W2\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(w2) )
-            myfile.write("# Wy\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(h) )
+            myfile.write("# Wy\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(innerh) )
+            myfile.write("# iWy\nApp.ActiveDocument.Spreadsheet.set('D2', '{0}')\n".format(h) )
             myfile.write("# RMx\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(rm) )
             myfile.write("# RMy\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(rm2) )
             myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(height3d) )
@@ -722,16 +743,27 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, rm2=0, pins=2, vline
                     alpha2=alpha2+30
     else:
         kicad_modg.append(RectLine(start=[l_fab, t_fab], end=[l_fab + w_fab, t_fab + h_fab], layer='F.Fab', width=lw_fab))
+        if innerw!=w or innerh!=h:
+            kicad_modg.append(RectLine(start=[il_fab, it_fab], end=[il_fab + iw_fab, it_fab + ih_fab], layer='F.Fab', width=lw_fab))
         if vlines:
             kicad_modg.append(Line(start=[lvl1_fab, t_fab], end=[lvl1_fab,t_fab+h_fab], layer='F.Fab', width=lw_fab))
             kicad_modg.append(Line(start=[lvl2_fab, t_fab], end=[lvl2_fab, t_fab + h_fab], layer='F.Fab', width=lw_fab))
         if deco=="chokewire":
-            x1=l_fab
-            x2=l_fab+0.05*w_fab
-            while x2<l_fab+w_fab:
-                kicad_modg.append(Line(start=[x1,t_fab], end=[x2,t_fab+h_fab], layer='F.Fab', width=lw_fab))
-                x1=x1+0.1*w_fab
-                x2=x2+0.1*w_fab
+            ww=w_fab
+            tt=t_fab
+            hh=h_fab
+            ll=l_fab
+            if innerw != w or innerh != h:
+                ww=iw_fab
+                tt=it_fab
+                hh=ih_fab
+                ll=il_fab
+            x1=ll
+            x2=ll+0.05*ww
+            while x2<ll+ww:
+                kicad_modg.append(Line(start=[x1,tt], end=[x2,tt+hh], layer='F.Fab', width=lw_fab))
+                x1=x1+0.1*ww
+                x2=x2+0.1*ww
     if len(polsign_slk)==4:
         addPlusWithKeepout(kicad_modg, polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3], 'F.Fab', lw_fab, [], 0.05)
 
