@@ -30,8 +30,8 @@ if __name__ == '__main__':
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
     # axial Chokes
-    classname="L_Choke"
-    libname = "Choke_Axial_ThroughHole"
+    classname="L"
+    libname = "Inductors_THT"
     seriesname = "Axial"; w = 9.5; d = 4; ddrill = 1; R_POW = 0; add_description="http://cdn-reichelt.de/documents/datenblatt/B400/DS_SMCC_NEU.pdf, http://cdn-reichelt.de/documents/datenblatt/B400/LEADEDINDUCTORS.pdf"; name_additions=["Fastron","SMCC"]
     for rm in [12.7,15.24]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3d)
@@ -176,8 +176,8 @@ if __name__ == '__main__':
     # radial Chokes
     rm2=0; w2=0
     type = "round"; seriesname = "Radial";
-    classname = "L_Choke"
-    libname = "Choke_Radial_ThroughHole"
+    classname = "L"
+    libname = "Inductors_THT"
     script3drbox="L_Choke_radial_box.py"
     with open(script3drbox, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
@@ -307,13 +307,31 @@ if __name__ == '__main__':
 
     rm2=0; w2=0
     type = "round";
-    classname = "L_Choke_Toroid"
-    libname = "Choke_Toroid_ThroughHole"
+    classname = "L_Toroid"
+    libname = "Inductors_THT"
     deco="chokewire"
     type = "concentric" ;seriesname = "Horizontal";
     script3dtoroidhor="L_Choke_toroid_hor.py"
     with open(script3dtoroidhor, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    w = 40; w2=w/3; h = w; ddrill = 1.5; rm=48.26; rm2=0; R_POW=0; add_description = ""; name_additions=[]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=4, script3d=script3dtoroidhor)
+    w = 0.125*25.4; w2=0.062*25.4; h = w; ddrill = 1; rm=6.4; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter3-5mm","Amidon-T12"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=4, script3d=script3dtoroidhor)
+    w = 0.160*25.4; w2=0.078*25.4; h = w; ddrill = 1; rm=8; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter4-5mm","Amidon-T16"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=4, script3d=script3dtoroidhor)
+    w = 0.200*25.4; w2=0.088*25.4; h = w; ddrill = 1; rm=9; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter6-5mm","Amidon-T20"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=4.5, script3d=script3dtoroidhor)
+    w = 0.255*25.4; w2=0.120*25.4; h = w; ddrill = 1; rm=10; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter7-5mm","Amidon-T25"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=5, script3d=script3dtoroidhor)
+    w = 0.307*25.4; w2=0.151*25.4; h = w; ddrill = 1.2; rm=13; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter9-5mm","Amidon-T30"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=5.5, script3d=script3dtoroidhor)
+    w = 0.375*25.4; w2=0.205*25.4; h = w; ddrill = 1.2; rm=15; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter10-5mm","Amidon-T37"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=6, script3d=script3dtoroidhor)
+    w = 0.440*25.4; w2=0.229*25.4; h = w; ddrill = 1.2; rm=17; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter12-5mm","Amidon-T44"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=6.5, script3d=script3dtoroidhor)
+    w = 0.500*25.4; w2=0.303*25.4; h = w; ddrill = 1.2; rm=20; rm2=0; R_POW=0; add_description = ""; name_additions=["Diameter14-5mm","Amidon-T50"]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=7, script3d=script3dtoroidhor)
     w = 16.8; w2=w/3; h = w; ddrill = 1.5; rm=14.7; rm2=0; R_POW=0; add_description = "http://www.vishay.com/docs/34079/tj.pdf"; name_additions=["Vishay", "TJ3", "BigPads"]
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=8.2, script3d=script3dtoroidhor)
     w = 16.8; w2=w/3; h = w; ddrill = 1.2; rm=14.7; rm2=0; R_POW=0; add_description = "http://www.vishay.com/docs/34079/tj.pdf"; name_additions=["Vishay", "TJ3"]
@@ -359,6 +377,12 @@ if __name__ == '__main__':
     with open(script3dtoroidverbox, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
+    w = 10; w2=w/3; h = 5; ddrill = 1.0; rm=5.08; rm2=0; iw=w*0.8; ih=rm; R_POW=0; add_description = ""; name_additions=[]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, innerw=iw, innerh=ih, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=w, script3d=script3dtoroidverbox)
+    w = 13; w2=w/3; h = 6.5; ddrill = 1.3; rm=5.6; rm2=0; iw=w*0.8; ih=rm; R_POW=0; add_description = ""; name_additions=[]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, innerw=iw, innerh=ih, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=w, script3d=script3dtoroidverbox)
+    w = 16; w2=w/3; h = 8; ddrill = 1.5; rm=7.62; rm2=0; iw=w*0.8; ih=rm; R_POW=0; add_description = ""; name_additions=[]
+    makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, innerw=iw, innerh=ih, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=w, script3d=script3dtoroidverbox)
     w = 14.73; w2=w/3; h = 8.64; ddrill = 1.8; rm=2.79*2; rm2=0; iw=w*0.8; ih=rm; R_POW=0; add_description = "http://datasheet.octopart.com/PE-92112KNL-Pulse-datasheet-17853305.pdf"; name_additions=["Pulse", "KM-1"]
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, innerw=iw, innerh=ih, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, deco=deco, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=w, script3d=script3dtoroidverbox)
     w = 16.51; w2=w/3; h = 11.43; ddrill = 1.8; rm=3.81*2; rm2=0; iw=w*0.8; ih=rm; R_POW=0; add_description = "http://datasheet.octopart.com/PE-92112KNL-Pulse-datasheet-17853305.pdf"; name_additions=["Pulse", "KM-2"]
@@ -455,8 +479,8 @@ if __name__ == '__main__':
     rm2=0; w2=0
     type = "round"; seriesname = "Radial";
     deco=""
-    classname = "L_Choke"
-    libname = "Inductors_NEOSID"
+    classname = "L"
+    libname = "Inductors_THT"
     w = 12.0; w2=w; h = w; ddrill = 1.2; rm=10.0; rm2=0; R_POW=0; add_description = "http://www.neosid.de/produktblaetter/neosid_Festinduktivitaet_Sd12k.pdf"; name_additions=["Neosid", "SD12k", "style1"]
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", name_additions=name_additions, specialtags=name_additions, add_description=add_description, classname=classname, lib_name=libname, height3d=13, script3d=script3drrs)
     w = 12.0; w2=w; h = w; ddrill = 1.2; rm=5.0; rm2=0; R_POW=0; add_description = "http://www.neosid.de/produktblaetter/neosid_Festinduktivitaet_Sd12k.pdf"; name_additions=["Neosid", "SD12k", "style2"]
