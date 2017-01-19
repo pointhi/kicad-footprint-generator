@@ -547,7 +547,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
             padpos.append([1, 0, -rm/2, ddrill,padx,pady])
             padpos.append([2, 0,  rm/2, ddrill,padx,pady])
             offset = [0, rm/2]
-        txtoffset=max(txt_offset,pady*2/3)
+        #txtoffset=max(txt_offset,pady*2/3)
     elif type == "disc45":
         padpos.append([1,-rm/2, -rm2/2, ddrill,padx,pady])
         padpos.append([2,rm/2,rm2/2, ddrill,padx,pady])
@@ -575,12 +575,14 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
 
     if rm2>rm and type=="simple" and pins == 2:
         secondPitch=True
-        rmm2=0
+        rmm2=rm2
         padpos.append([1,-rm2/2, 0, ddrill,padx,pady])
         padpos.append([2,rm2/2,0, ddrill,padx,pady])
         offset=[max(rm2/2,rm/2),0]
     elif rm2>rm and type=="simple" and pins == 4:
         rmm2=0
+    elif type=="simple90":
+        rmm2=rm
 
 
     for ep in additionalPins:
@@ -726,8 +728,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
 
 
     # set general values
-    kicad_modg.append(Text(type='reference', text='REF**', at=[0, t_slk - txtoffset], layer='F.SilkS'))
-    kicad_modg.append(Text(type='value', text=footprint_name, at=[0, t_slk+h_slk + txtoffset], layer='F.Fab'))
+    kicad_modg.append(Text(type='reference', text='REF**', at=[0, t_crt - txtoffset], layer='F.SilkS'))
+    kicad_modg.append(Text(type='value', text=footprint_name, at=[0, t_crt+h_crt + txtoffset], layer='F.Fab'))
 
     # create FAB-layer
     if type=="round" or type=="concentric":
@@ -787,7 +789,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
             maxd=max(maxd,2*math.fabs(polsign_slk[0]))
             dys=pady/2+lw_slk+slk_offset
             dxs=math.sqrt(d_slk*d_slk/4-dys*dys)
-        if d_slk<maxd:
+        if d_slk<maxd and d_slk>rm+padx+slk_offset+2*lw_slk:
             alphain=math.fabs(180 / 3.1415 * math.atan(math.fabs(dys) / math.fabs(dxs)))
             alpha = 2 * (90 - alphain)
             kicad_modg.append(Arc(center=[0,0], start=[-dxs,-dys], angle=alpha, layer='F.SilkS', width=lw_slk))
