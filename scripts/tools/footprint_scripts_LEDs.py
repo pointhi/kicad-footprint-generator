@@ -349,9 +349,9 @@ def makeLEDRadial(rm, w, h, ddrill, win=0, rin=0, pins=2, type="round", x_3d=[0,
 #                    <--wled->
 #
 #  type="round"/"rect"
-def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6, ddrill=0.8, type="round", x_3d=[0, 0, 0],
+def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6, ddrill=0.8, wledback=1, type="round", x_3d=[0, 0, 0],
                   s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="",
-                  classname="LED", lib_name="LEDs", name_additions=[], script3d="", height3d=5):
+                  classname="LED", lib_name="LEDs", name_additions=[], script3d="", height3d=5, ledypos=0):
     padx = 2 * ddrill
     pady = padx
     if padx + min_pad_distance > rm:
@@ -392,10 +392,20 @@ def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6
         fnsize = "_D{0:0.1f}mm".format(dled)
         sizetag = "diameter {0:0.1f}mm".format(dled)
     else:
-        sizetag = " Rectangular"
-        wsize = dled
-        fnsize = fnsize + "_W{0:0.1f}mm_H{1:0.1f}mm".format(dled, wled)
-        sizetag = sizetag + " size {0:0.1f}x{1:0.1f}mm^2".format(dled, wled)
+        if dled!=dledout:
+            fnsize = fnsize + "_D{0:0.1f}mm".format(dled)
+            sizetag = sizetag + " diameter {0:0.1f}mm".format(dled)
+        else:
+            sizetag = " Rectangular"
+        fnsize = fnsize + "_W{0:0.1f}mm_H{1:0.1f}mm".format(dled, height3d)
+        sizetag = sizetag + " size {0:0.1f}x{1:0.1f}mm^2".format(dled, height3d)
+    
+    fnypos=""
+    if ledypos>0:
+        fnypos = "_Z{0:0.1f}mm".format(ledypos)
+        sizetag = sizetag+ " z-position of LED center {0:0.1f}mm".format(ledypos)
+    else:
+        ledypos=math.ceil(dled/2+0.5)
     
     fnpincnt = ""
     pincnttag = "{0:d} pins".format(pins)
@@ -426,7 +436,7 @@ def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6
         if len(n) > 0:
             footprint_name = footprint_name + "_" + n
 
-    footprint_name=footprint_name+"_Horicontal_O{0:1.2f}mm".format(offsetled)
+    footprint_name=footprint_name+"_Horizontal_O{0:1.2f}mm{1}".format(offsetled,fnypos)
     
     print(footprint_name)
     
@@ -445,6 +455,8 @@ def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6
             myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ddrill - 0.3))
             myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(height3d))
             myfile.write("# wled\nApp.ActiveDocument.Spreadsheet.set('B7', '{0}')\n".format(wled))
+            myfile.write("# ledypos\nApp.ActiveDocument.Spreadsheet.set('B8', '{0}')\n".format(ledypos))
+            myfile.write("# wledback\nApp.ActiveDocument.Spreadsheet.set('B9', '{0}')\n".format(wledback))
             myfile.write("App.ActiveDocument.recompute()\n")
             myfile.write("doc = FreeCAD.activeDocument()\n")
             myfile.write("__objs__=[]\n")
@@ -475,9 +487,16 @@ def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6
         kicad_modg.append(Line(start=[ -dled/2,offsetled], end=[-dled / 2,offsetled+wled-dled/2], layer='F.Fab', width=lw_fab))
         kicad_modg.append(Line(start=[dled / 2, offsetled], end=[dled / 2, offsetled + wled - dled / 2], layer='F.Fab', width=lw_fab))
         kicad_modg.append(Line(start=[ -dled/2,offsetled], end=[dled / 2,offsetled], layer='F.Fab',width=lw_fab))
-        kicad_modg.append(RectLine(start=[ dledout/2,offsetled], end=[dled / 2,offsetled+1], layer='F.Fab',width=lw_fab))
+        kicad_modg.append(RectLine(start=[ dledout/2,offsetled], end=[dled / 2,offsetled+wledback], layer='F.Fab',width=lw_fab))
     elif type == "box":
-        kicad_modg.append(RectLine(start=[-dled / 2,offsetled], end=[dled / 2,offsetled], layer='F.Fab',width=lw_fab))
+        if wledback<=0:
+            kicad_modg.append(
+                RectLine(start=[-dledout / 2, offsetled], end=[dledout / 2, offsetled + wled], layer='F.Fab',width=lw_fab))
+        else:
+            kicad_modg.append(RectLine(start=[-dledout / 2,offsetled], end=[dledout / 2,offsetled+wledback], layer='F.Fab',width=lw_fab))
+        if dled != dledout:
+            kicad_modg.append(
+                RectLine(start=[-dled / 2, offsetled+wledback], end=[dled / 2, offsetled + wled], layer='F.Fab',width=lw_fab))
 
     for p in padpos:
         kicad_modg.append(
@@ -499,9 +518,22 @@ def makeLEDHorizontal(pins=2,rm=2.544,dled=5,dledout=5.8,offsetled=2.54,wled=8.6
         kicad_modg.append(Line(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[-dled / 2-slk_offset, offsetled + wled - dled / 2],  layer='F.SilkS',width=lw_slk))
         kicad_modg.append(Line(start=[dled / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + wled - dled / 2],  layer='F.SilkS',width=lw_slk))
         kicad_modg.append(Line(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled-slk_offset],  layer='F.SilkS', width=lw_slk))
-        kicad_modg.append(RectLine(start=[dledout / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + 1+slk_offset],  layer='F.SilkS',width=lw_slk))
+        kicad_modg.append(RectLine(start=[dledout / 2+slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled + wledback+slk_offset],  layer='F.SilkS',width=lw_slk))
     elif type == "box":
-        kicad_modg.append(RectLine(start=[-dled / 2-slk_offset, offsetled-slk_offset], end=[dled / 2+slk_offset, offsetled+slk_offset],  layer='F.SilkS', width=lw_slk))
+        if wledback<=0:
+            kicad_modg.append(RectLine(start=[-dledout / 2-slk_offset, offsetled-slk_offset], end=[dledout / 2+slk_offset, offsetled + wled+slk_offset], layer='F.SilkS',width=lw_slk))
+            kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk, offsetled - slk_offset],end=[-dledout / 2+lw_slk -slk_offset, offsetled + wled + slk_offset], layer='F.SilkS',width=lw_slk))
+            kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk*2, offsetled - slk_offset],end=[-dledout / 2+lw_slk*2 -slk_offset, offsetled + wled + slk_offset], layer='F.SilkS',width=lw_slk))
+        else:
+            kicad_modg.append(RectLine(start=[-dledout / 2-slk_offset,offsetled-slk_offset], end=[dledout / 2+slk_offset,offsetled+wledback+slk_offset], layer='F.SilkS',width=lw_slk))
+            kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk, offsetled - slk_offset],end=[-dledout / 2 + lw_slk - slk_offset, offsetled + wledback + slk_offset],layer='F.SilkS', width=lw_slk))
+            kicad_modg.append(Line(start=[-dledout / 2 - slk_offset+lw_slk*2, offsetled - slk_offset],end=[-dledout / 2 + lw_slk*2 - slk_offset, offsetled + wledback + slk_offset],layer='F.SilkS', width=lw_slk))
+        if dled != dledout:
+            kicad_modg.append(
+                RectLine(start=[-dled / 2-slk_offset, offsetled+wledback+slk_offset], end=[dled / 2+slk_offset, offsetled + wled+slk_offset], layer='F.SilkS',width=lw_slk))
+        
+        
+        
 
     for p in padpos:
         if pady/2+slk_offset+lw_slk<offsetled-slk_offset:
