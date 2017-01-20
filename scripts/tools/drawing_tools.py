@@ -130,24 +130,215 @@ def debug_draw_keepouts(kicad_modg, keepouts):
                                   end=[ko[1],ko[3]],
                                   layer='F.Mask', width=0.01))
         
-# split a vertical line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
-def addHLineWithKeepout(kicad_mod, x0, x1, y, layer, width, keepouts=[], roun=0.001):
-    # print("addHLineWithKeepout",y)
-    linesout = applyKeepouts([[min(x0, x1), max(x0, x1)]], y, 0, 2, keepouts)
-    for l in linesout:
+# split a horizontal line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addHLineWithKeepout(kicad_mod, x0, x1, y, layer, width, keepouts=[], roun=0.001, dashed=False):
+    if dashed:
+        addHDLineWithKeepout(kicad_mod, x0, x1, y, layer, width, keepouts, roun)
+    else:
+        # print("addHLineWithKeepout",y)
+        linesout = applyKeepouts([[min(x0, x1), max(x0, x1)]], y, 0, 2, keepouts)
+        for l in linesout:
+            kicad_mod.append(
+                Line(start=[roundG(l[0], roun), roundG(y, roun)], end=[roundG(l[1], roun), roundG(y, roun)], layer=layer,width=width))
+
+# draw a circle minding the keepouts
+def addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
+    dalpha = 2 * 3.1415 / (360)
+    a = 0
+    start=0
+    startx=x + radius * math.sin(0)
+    starty=y + radius * math.cos(0)
+    hasToDraw=False
+    noneUsed=True
+    while a < 2 * 3.1415:
+        x1 = x + radius * math.sin(a)
+        y1 = y + radius * math.cos(a)
+        
+        if containedInAnyKeepout(x1,y1, keepouts):
+            if hasToDraw and math.fabs(a-start)>0:
+                kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(startx, roun), roundG(starty, roun)], angle=-1*(a - start)/3.1415*180, layer=layer, width=width))
+            hasToDraw = False
+            startx=x1; starty=y1; start=a
+            noneUsed = False
+        else:
+            hasToDraw = True
+        
+        a = a + dalpha
+    if noneUsed:
         kicad_mod.append(
-            Line(start=[roundG(l[0], roun), roundG(y, roun)], end=[roundG(l[1], roun), roundG(y, roun)], layer=layer,width=width))
+            Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
+    elif hasToDraw and math.fabs(a - start) > 0:
+        kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(startx, roun), roundG(starty, roun)], angle=-1*(a - start)/3.1415*180, layer=layer, width=width))
 
+# split a circle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addDCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
+    dalpha = 2 * 3.1415 / (2 * 3.1415 * radius / (6 * width))
+    a = 0
+    while a < 2 * 3.1415:
+        x1 = x + radius * math.sin(a)
+        y1 = y + radius * math.cos(a)
+        x2 = x + radius * math.sin(a + dalpha / 2)
+        y2 = y + radius * math.cos(a + dalpha / 2)
+        ok=True
+        aa=a
+        while aa<a+dalpha and ok:
+            xx = x + radius * math.sin(aa)
+            yy = y + radius * math.cos(aa)
+            if containedInAnyKeepout(xx, yy, keepouts):
+                ok=False
+            aa=aa+dalpha/20
+        if ok: kicad_mod.append(Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(x1, roun), roundG(y1, roun)],
+                             angle=-1*dalpha / 2 / 3.1415 * 180, layer=layer, width=width))
+        a = a + dalpha
+
+# split an arbitrary line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addLineWithKeepout(kicad_mod, x1, y1, x2,y2, layer, width, keepouts=[], roun=0.001):
+    dx=(x2-x1)/200
+    dy=(y2-y1)/200
+    x=x1; y=y1
+    xs=x1; ys=y1;
+    hasToDraw=not containedInAnyKeepout(x, y, keepouts)
+    for n in range(0,200):
+        if containedInAnyKeepout(x+dx, y+dy, keepouts):
+            if hasToDraw: kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x, roun), roundG(y, roun)], layer=layer, width=width))
+            xs=x+2*dx; ys=y+2*dy; hasToDraw=False
+        else:
+            hasToDraw = True
+        
+        x=x+dx; y=y+dy
+    if hasToDraw and xs!=x2 and ys!=y2: kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x2, roun), roundG(y2, roun)], layer=layer, width=width))
+
+
+# split an arbitrary line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addPolyLineWithKeepout(kicad_mod, poly, layer, width, keepouts=[], roun=0.001):
+    if len(poly)>1:
+        for p in range(0, len(poly)-1):
+            addLineWithKeepout(kicad_mod, poly[p][0], poly[p][1], poly[p+1][0], poly[p+1][1], layer, width, keepouts, roun)
 
 
 # split a vertical line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
-def addVLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts=[], roun=0.001):
-    # print("addVLineWithKeepout",x)
-    linesout = applyKeepouts([[min(y0, y1), max(y0, y1)]], x, 2, 0, keepouts)
-    for l in linesout:
-        kicad_mod.append(
-            Line(start=[roundG(x, roun), roundG(l[0], roun)], end=[roundG(x, roun), roundG(l[1], roun)], layer=layer,
-                 width=width))
+def addDCircle(kicad_mod, x, y, radius, layer, width, roun=0.001):
+    dalpha = 2 * 3.1415 / (2 * 3.1415 * radius / (6 * width))
+    a = 0
+    while a < 2 * 3.1415:
+        x1 = x + radius * math.sin(a)
+        y1 = y + radius * math.cos(a)
+        x2 = x + radius * math.sin(a + dalpha / 2)
+        y2 = y + radius * math.cos(a + dalpha / 2)
+        kicad_mod.append(Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(x1, roun), roundG(y1, roun)],
+                             angle=dalpha / 2 / 3.1415 + 180, layer=layer, width=width))
+        a = a + dalpha
+
+# draw a circle wit a screw slit under 45°
+def addSlitScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
+    kicad_mod.append(Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
+    da = 5
+    dx1 = 0.99 * radius * math.sin((135 - da) / 180 * 3.1415)
+    dy1 = 0.99 * radius * math.cos((135 - da) / 180 * 3.1415)
+    dx2 = 0.99 * radius * math.sin((135 + da) / 180 * 3.1415)
+    dy2 = 0.99 * radius * math.cos((135 + da) / 180 * 3.1415)
+    dx3 = 0.99 * radius * math.sin((315 - da) / 180 * 3.1415)
+    dy3 = 0.99 * radius * math.cos((315 - da) / 180 * 3.1415)
+    dx4 = 0.99 * radius * math.sin((315 + da) / 180 * 3.1415)
+    dy4 = 0.99 * radius * math.cos((315 + da) / 180 * 3.1415)
+    # print(x,y,dx1,dy1,dx4,dy4)
+    kicad_mod.append(Line(start=[roundG(x + dx1, roun), roundG(y + dy1, roun)],
+                          end=[roundG(x + dx4, roun), roundG(y + dy4, roun)], layer=layer, width=width))
+    kicad_mod.append(Line(start=[roundG(x + dx2, roun), roundG(y + dy2, roun)],
+                          end=[roundG(x + dx3, roun), roundG(y + dy3, roun)], layer=layer, width=width))
+
+# draw a circle wit a screw slit under 45°
+def addSlitScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts, roun=0.001):
+    addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts, roun)
+    da = 5
+    dx1 = 0.99 * radius * math.sin((135 - da) / 180 * 3.1415)
+    dy1 = 0.99 * radius * math.cos((135 - da) / 180 * 3.1415)
+    dx2 = 0.99 * radius * math.sin((135 + da) / 180 * 3.1415)
+    dy2 = 0.99 * radius * math.cos((135 + da) / 180 * 3.1415)
+    dx3 = 0.99 * radius * math.sin((315 - da) / 180 * 3.1415)
+    dy3 = 0.99 * radius * math.cos((315 - da) / 180 * 3.1415)
+    dx4 = 0.99 * radius * math.sin((315 + da) / 180 * 3.1415)
+    dy4 = 0.99 * radius * math.cos((315 + da) / 180 * 3.1415)
+    # print(x,y,dx1,dy1,dx4,dy4)
+    addLineWithKeepout(kicad_mod,x + dx1, y + dy1, x + dx4, y + dy4, layer, width, keepouts)
+    addLineWithKeepout(kicad_mod, x + dx2, y + dy2, x + dx3, y + dy3, layer, width, keepouts)
+
+
+# draw a circle wit a screw slit under 45°
+def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
+    kicad_mod.append(Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
+    
+    kkt = Translation(x, y)
+    kicad_mod.append(kkt)
+    dd = radius * 0.1 / 2
+    dw = 0.8 * radius
+    kkt.append(PolygoneLine(polygone=[[roundG(-dw, roun), roundG(-dd, roun)],
+                                      [roundG(-dd, roun), roundG(-dd, roun)],
+                                      [roundG(-dd, roun), roundG(-dw, roun)],
+                                      [roundG(+dd, roun), roundG(-dw, roun)],
+                                      [roundG(+dd, roun), roundG(-dd, roun)],
+                                      [roundG(+dw, roun), roundG(-dd, roun)],
+                                      [roundG(+dw, roun), roundG(+dd, roun)],
+                                      [roundG(+dd, roun), roundG(+dd, roun)],
+                                      [roundG(+dd, roun), roundG(+dw, roun)],
+                                      [roundG(-dd, roun), roundG(+dw, roun)],
+                                      [roundG(-dd, roun), roundG(+dd, roun)],
+                                      [roundG(-dw, roun), roundG(+dd, roun)],
+                                      [roundG(-dw, roun), roundG(-dd, roun)]], layer=layer, width=width))
+
+
+# draw a circle wit a screw slit under 45°
+def addCrossScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
+    addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts, roun)
+    
+    kkt = Translation(x, y)
+    kicad_mod.append(kkt)
+    dd = radius * 0.1 / 2
+    dw = 0.8 * radius
+    polygone = [[roundG(-dw, roun), roundG(-dd, roun)],
+                [roundG(-dd, roun), roundG(-dd, roun)],
+                [roundG(-dd, roun), roundG(-dw, roun)],
+                [roundG(+dd, roun), roundG(-dw, roun)],
+                [roundG(+dd, roun), roundG(-dd, roun)],
+                [roundG(+dw, roun), roundG(-dd, roun)],
+                [roundG(+dw, roun), roundG(+dd, roun)],
+                [roundG(+dd, roun), roundG(+dd, roun)],
+                [roundG(+dd, roun), roundG(+dw, roun)],
+                [roundG(-dd, roun), roundG(+dw, roun)],
+                [roundG(-dd, roun), roundG(+dd, roun)],
+                [roundG(-dw, roun), roundG(+dd, roun)],
+                [roundG(-dw, roun), roundG(-dd, roun)]];
+    addPolyLineWithKeepout(kicad_mod, polygone, layer, width, keepouts)
+
+
+# split a vertical line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addVLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts=[], roun=0.001, dashed=False):
+    if dashed:
+        addVDLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts, roun)
+    else:
+        # print("addVLineWithKeepout",x)
+        linesout = applyKeepouts([[min(y0, y1), max(y0, y1)]], x, 2, 0, keepouts)
+        for l in linesout:
+            kicad_mod.append(
+                Line(start=[roundG(x, roun), roundG(l[0], roun)], end=[roundG(x, roun), roundG(l[1], roun)], layer=layer,
+                     width=width))
+
+# split a dashed horizontal line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addHDLineWithKeepout(kicad_mod, x0, x1, y, layer, width, keepouts=[], roun=0.001):
+    dx=3*width
+    x=min(x0,x1)
+    while x<max(x0,x1):
+        addHLineWithKeepout(kicad_mod, x,min(x+dx,x1), y, layer, width, keepouts, roun)
+        x=x+dx*2
+
+# split a dashed vertical line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addVDLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts=[], roun=0.001):
+    dy = 3 * width
+    y = min(y0, y1)
+    while y < max(y0, y1):
+        addVLineWithKeepout(kicad_mod, x, y, min(y1,y+dy), layer, width, keepouts, roun)
+        y = y + dy * 2
+
 
 
 # split a rectangle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
@@ -156,6 +347,14 @@ def addRectWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun=0.
     addHLineWithKeepout(kicad_mod, x, x + w, y+h, layer, width, keepouts, roun)
     addVLineWithKeepout(kicad_mod, x, y, y+h, layer, width, keepouts, roun)
     addVLineWithKeepout(kicad_mod, x+w, y, y + h, layer, width, keepouts, roun)
+
+
+# split a dashed rectangle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addDRectWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun=0.001):
+    addHDLineWithKeepout(kicad_mod, x, x+w, y, layer,width,keepouts,roun)
+    addHDLineWithKeepout(kicad_mod, x, x + w, y+h, layer, width, keepouts, roun)
+    addVDLineWithKeepout(kicad_mod, x, y, y+h, layer, width, keepouts, roun)
+    addVDLineWithKeepout(kicad_mod, x+w, y, y + h, layer, width, keepouts, roun)
 
 # split a plus sign so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
 def addPlusWithKeepout(km, x, y, w, h, layer, width, keepouts=[], roun=0.001):
