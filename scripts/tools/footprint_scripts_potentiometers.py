@@ -181,22 +181,47 @@ def makePotentiometerVertical(footprint_name, class_name, wbody, hbody, wscrew, 
             myfile.write("import FreeCAD\n")
             myfile.write("import os\n")
             myfile.write("import os.path\n\n")
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
-            myfile.write("App.ActiveDocument.recompute()\n")
-            myfile.write("# wbody\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(wbody))
-            myfile.write("# hbody\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(hbody))
-            myfile.write("# wscrew\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(wscrew))
-            myfile.write("# dscrew\nApp.ActiveDocument.Spreadsheet.set('C2', '{0}')\n".format(dscrew))
-            myfile.write("# wshaft\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(wshaft))
-            myfile.write("# dshaft\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(dshaft))
-            myfile.write("# pinxoffset\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(pinxoffset))
-            myfile.write("# pinyoffset\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(pinyoffset))
-            myfile.write("# rmx\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(rmx))
-            myfile.write("# rmy\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(rmy))
-            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(height3d))
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B7', '{0}')\n".format(ddrill - 0.3))
-            myfile.write("# screwzpos\nApp.ActiveDocument.Spreadsheet.set('B8', '{0}')\n".format(screwzpos))
-            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("App.ActiveDocument.clearAll()\n")
+
+            line=0
+            line += 1; script3d_writevariable(myfile, line, 'lbody_fab', min(lbody_fab+wbody_fab,lbody_fab)+offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'tbody_fab', min(tbody_fab+hbody_fab,tbody_fab)+offset[1])
+            line += 1; script3d_writevariable(myfile, line, 'wbody_fab', math.fabs(wbody_fab))
+            line += 1; script3d_writevariable(myfile, line, 'hbody_fab', math.fabs(hbody_fab))
+            line += 1; script3d_writevariable(myfile, line, 'lscrew_fab', min(lscrew_fab+wscrew_fab,lscrew_fab)+offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'tscrew_fab', min(tscrew_fab+hscrew_fab,tscrew_fab)+offset[1])
+            line += 1; script3d_writevariable(myfile, line, 'wscrew_fab', math.fabs(wscrew_fab))
+            line += 1; script3d_writevariable(myfile, line, 'hscrew_fab', math.fabs(hscrew_fab))
+            line += 1; script3d_writevariable(myfile, line, 'lshaft_fab', min(lshaft_fab+wshaft_fab,lshaft_fab)+offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'tshaft_fab', min(tshaft_fab+hshaft_fab,tshaft_fab)+offset[1])
+            line += 1; script3d_writevariable(myfile, line, 'wshaft_fab', math.fabs(wshaft_fab))
+            line += 1; script3d_writevariable(myfile, line, 'hshaft_fab', math.fabs(hshaft_fab))
+            line += 1; script3d_writevariable(myfile, line, 'rmx', rmx)
+            line += 1; script3d_writevariable(myfile, line, 'rmy', rmy)
+            for p in padpos:
+                if p[0]==1:
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'padx', p[1])
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'pady', p[2])
+            line += 1; script3d_writevariable(myfile, line, 'd_wire', ddrill-0.3)
+            line += 1; script3d_writevariable(myfile, line, 'height', height3d)
+            line += 1; script3d_writevariable(myfile, line, 'screwzpos', screwzpos)
+            written=False
+            for p in padpos:
+                if p[0] == 0 and not written:
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'mhpadx', p[1])
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'mhpady', p[2])
+                    written=True
+            line += 1; script3d_writevariable(myfile, line, 'mh_rmx', mh_rmx)
+            line += 1; script3d_writevariable(myfile, line, 'mh_rmy', mh_rmy)
+            line += 1; script3d_writevariable(myfile, line, 'offsetx', offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'offsety', offset[1])
+
+
+            myfile.write("App.ActiveDocument.recompute()\n\n")
             myfile.write("doc = FreeCAD.activeDocument()\n")
             myfile.write("__objs__=[]\n")
             myfile.write("for obj in doc.Objects:	\n")
@@ -474,21 +499,43 @@ def makePotentiometerHorizontal(footprint_name, class_name, wbody, hbody, deco="
             myfile.write("import FreeCAD\n")
             myfile.write("import os\n")
             myfile.write("import os.path\n\n")
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
-            myfile.write("App.ActiveDocument.recompute()\n")
-            myfile.write("# wbody\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(wbody))
-            myfile.write("# hbody\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(hbody))
-            myfile.write("# d_body\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(d_body))
-            myfile.write("# c_ddrill\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(c_ddrill))
-            myfile.write("# dshaft\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(dshaft))
-            myfile.write("# dscrew\nApp.ActiveDocument.Spreadsheet.set('D3', '{0}')\n".format(dscrew))
-            myfile.write("# c_offsetx\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(c_offsetx))
-            myfile.write("# c_offsety\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(c_offsety))
-            myfile.write("# rmx\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(rmx))
-            myfile.write("# rmy\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(rmy))
-            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(height3d))
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B7', '{0}')\n".format(ddrill - 0.3))
-            myfile.write("App.ActiveDocument.recompute()\n")
+
+            myfile.write("App.ActiveDocument.clearAll()\n")
+            
+            line = 0
+            line += 1; script3d_writevariable(myfile, line, 'lbody_fab', min(lbody_fab+wbody_fab,lbody_fab)+offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'tbody_fab', min(tbody_fab+hbody_fab,tbody_fab)+offset[1])
+            line += 1; script3d_writevariable(myfile, line, 'wbody_fab', math.fabs(wbody_fab))
+            line += 1; script3d_writevariable(myfile, line, 'hbody_fab', math.fabs(hbody_fab))
+            line += 1; script3d_writevariable(myfile, line, 'clbody_fab', clbody_fab+offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'ctbody_fab', ctbody_fab+offset[1])
+            line += 1; script3d_writevariable(myfile, line, 'cdbody_fab', cdbody_fab)
+            line += 1; script3d_writevariable(myfile, line, 'dscrew', dscrew)
+            line += 1; script3d_writevariable(myfile, line, 'dshaft', dshaft)
+            line += 1; script3d_writevariable(myfile, line, 'rmx', rmx)
+            line += 1; script3d_writevariable(myfile, line, 'rmy', rmy)
+            for p in padpos:
+                if p[0] == 1:
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'padx', p[1])
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'pady', p[2])
+            line += 1; script3d_writevariable(myfile, line, 'd_wire', ddrill-0.3)
+            line += 1; script3d_writevariable(myfile, line, 'height', height3d)
+            written=False
+            for p in padpos:
+                if p[0] == 0 and not written:
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'mhpadx', p[1])
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'mhpady', p[2])
+                    written=True
+            line += 1; script3d_writevariable(myfile, line, 'mh_rmx', mh_rmx)
+            line += 1; script3d_writevariable(myfile, line, 'mh_rmy', mh_rmy)
+            line += 1; script3d_writevariable(myfile, line, 'offsetx', offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'offsety', offset[1])
+
+            myfile.write("App.ActiveDocument.recompute()\n\n")
             myfile.write("doc = FreeCAD.activeDocument()\n")
             myfile.write("__objs__=[]\n")
             myfile.write("for obj in doc.Objects:	\n")
@@ -791,23 +838,34 @@ def makeSpindleTrimmer(footprint_name, class_name, wbody, hbody,pinxoffset,pinyo
             myfile.write("import FreeCAD\n")
             myfile.write("import os\n")
             myfile.write("import os.path\n\n")
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
-            myfile.write("App.ActiveDocument.recompute()\n")
-            myfile.write("# wbody\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(wbody))
-            myfile.write("# hbody\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(hbody))
-            myfile.write("# dscrew\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(dscrew))
-            myfile.write("# wscrew\nApp.ActiveDocument.Spreadsheet.set('C2', '{0}')\n".format(wscrew))
-            myfile.write("# screwxoffset\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(screwxoffset))
-            myfile.write("# screwyoffset\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(screwyoffset))
-            myfile.write("# pinxoffset\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(pinxoffset))
-            myfile.write("# pinyoffset\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(pinyoffset))
-            myfile.write("# rmx2\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(rmx2))
-            myfile.write("# rmy2\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(rmy2))
-            myfile.write("# rmx3\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(rmx3))
-            myfile.write("# rmy3\nApp.ActiveDocument.Spreadsheet.set('C6', '{0}')\n".format(rmy3))
-            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B7', '{0}')\n".format(height3d))
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B8', '{0}')\n".format(ddrill - 0.3))
-            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("App.ActiveDocument.clearAll()\n")
+            line = 0
+            line += 1; script3d_writevariable(myfile, line, 'lbody_fab', min(lbody_fab+wbody_fab,lbody_fab)+offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'tbody_fab', min(tbody_fab+hbody_fab,tbody_fab)+offset[1])
+            line += 1; script3d_writevariable(myfile, line, 'wbody_fab', math.fabs(wbody_fab))
+            line += 1; script3d_writevariable(myfile, line, 'hbody_fab', math.fabs(hbody_fab))
+            line += 1; script3d_writevariable(myfile, line, 'lscrew_fab', min(lscrew_fab+wscrew_fab,lscrew_fab)+offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'tscrew_fab', min(tscrew_fab+hscrew_fab,tscrew_fab)+offset[1])
+            line += 1; script3d_writevariable(myfile, line, 'wscrew_fab', math.fabs(wscrew_fab))
+            line += 1; script3d_writevariable(myfile, line, 'hscrew_fab', math.fabs(hscrew_fab))
+            line += 1; script3d_writevariable(myfile, line, 'dscrew', dscrew)
+            line += 1; script3d_writevariable(myfile, line, 'wscrew', wscrew)
+            line += 1; script3d_writevariable(myfile, line, 'rmxtwo', rmx2)
+            line += 1; script3d_writevariable(myfile, line, 'rmytwo', rmy2)
+            line += 1; script3d_writevariable(myfile, line, 'rmxthree', rmx3)
+            line += 1; script3d_writevariable(myfile, line, 'rmythree', rmy3)
+            for p in padpos:
+                if p[0] == 1:
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'padx', p[1])
+                    line += 1;
+                    script3d_writevariable(myfile, line, 'pady', p[2])
+            line += 1; script3d_writevariable(myfile, line, 'd_wire', ddrill-0.3)
+            line += 1; script3d_writevariable(myfile, line, 'height', height3d)
+            line += 1; script3d_writevariable(myfile, line, 'offsetx', offset[0])
+            line += 1; script3d_writevariable(myfile, line, 'offsety', offset[1])
+
+            myfile.write("App.ActiveDocument.recompute()\n\n")
             myfile.write("doc = FreeCAD.activeDocument()\n")
             myfile.write("__objs__=[]\n")
             myfile.write("for obj in doc.Objects:	\n")

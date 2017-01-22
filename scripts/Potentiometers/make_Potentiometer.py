@@ -23,11 +23,31 @@ if __name__ == '__main__':
     script3d_tst="trimmer_screwtop.py"
     with open(script3d_tst, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+
+    script3d_tsl_smd="trimmer_screwleft_smd.py"
+    with open(script3d_tsl_smd, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    script3d_tst_smd="trimmer_screwtop_smd.py"
+    with open(script3d_tst_smd, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+
     script3d_pv="pots_ver.py"
     with open(script3d_pv, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
     script3d_trv="trim_round_ver.py"
     with open(script3d_trv, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    script3d_trh="trim_round_hor.py"
+    with open(script3d_trh, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    script3d_trh_bel="trim_round_hor_below.py"
+    with open(script3d_trh_bel, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    script3d_trh_smd="trim_round_smd_hor.py"
+    with open(script3d_trh_smd, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    script3d_trh_smd_bel="trim_round_smd_hor_below.py"
+    with open(script3d_trh_smd_bel, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
     script3d_ph_bel="pots_hor_below.py"
     with open(script3d_ph_bel, "w") as myfile:
@@ -319,10 +339,10 @@ if __name__ == '__main__':
     footprint_name = "Potentiometer_Trimmer_Piher_PT-6h".format(rmx, 2 * rmy)
     makePotentiometerVertical(style="trimmer", footprint_name=footprint_name, class_name=class_name, wbody=wbody, hbody=hbody, wscrew=wscrew, dscrew=dscrew, wshaft=wshaft, dshaft=dshaft, pinxoffset=pinxoffset,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, R_POW=R_POW, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trv,height3d=height3d, screwzpos=screwzpos)
     class_name="Piher PT-6v Single"
-    rmx=5; dbody=6.3; voffsetx=0; vwbody=0; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=2.5; c_offsety=hbody/2; c_ddrill=2
+    rmx=5; dbody=6.3; voffsetx=0; vwbody=0; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=2.5; c_offsety=hbody/2; c_ddrill=2; height3d=4
     footprint_name = "Potentiometer_Trimmer_Piher_PT-6v".format(rmx, 2 * rmy)
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
 
     class_name="Piher PT-10h2.5 Single"
     pins = 3; rmx=2.5; rmy=2.5; ddrill=1.3
@@ -344,16 +364,16 @@ if __name__ == '__main__':
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
     makePotentiometerVertical(style="trimmer", footprint_name=footprint_name, class_name=class_name, wbody=wbody, hbody=hbody, wscrew=wscrew, dscrew=dscrew, wshaft=wshaft, dshaft=dshaft, pinxoffset=pinxoffset,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, R_POW=R_POW, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trv,height3d=height3d, screwzpos=screwzpos)
     class_name="Piher PT-10v10 Single"
-    hbody=10; rmx=10; dbody=10.3; voffsetx=0; vwbody=0; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=5; c_offsety=hbody/2; c_ddrill=4
+    hbody=10; rmx=10; dbody=10.3; voffsetx=0; vwbody=0; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=5; c_offsety=hbody/2; c_ddrill=4; height3d=5.3
     footprint_name = "Potentiometer_Trimmer_Piher_PT-10v10".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
     class_name="Piher PT-10v5 Single"
     voffsetx = -5.3/2; hbody=10; rmx=5; dbody=10.3; vwbody=0; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=10.3/2; c_offsety=dbody/2; c_ddrill=3
     footprint_name = "Potentiometer_Trimmer_Piher_PT-10v5".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
     name_additions = []
 
     
@@ -382,23 +402,23 @@ if __name__ == '__main__':
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
     makePotentiometerVertical(style="trimmer", footprint_name=footprint_name, class_name=class_name, wbody=wbody, hbody=hbody, wscrew=wscrew, dscrew=dscrew, wshaft=wshaft, dshaft=dshaft, pinxoffset=pinxoffset,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, R_POW=R_POW, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trv,height3d=height3d, screwzpos=screwzpos)
     class_name="Piher PT-15v12.5 Single"
-    hbody=10; rmx=12.5; dbody=15; voffsetx=0; vwbody=0; vpinyoffset=(dbody-2*rmy)/2; c_offsetx=7.5; c_offsety=dbody/2; c_ddrill=7
+    hbody=10; rmx=12.5; dbody=15; voffsetx=0; vwbody=0; vpinyoffset=(dbody-2*rmy)/2; c_offsetx=7.5; c_offsety=dbody/2; c_ddrill=7; height3d=5.5
     footprint_name = "Potentiometer_Trimmer_Piher_PT-15v12.5".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
     class_name="Piher PT-15v15 Single"
     voffsetx =0; hbody=15; rmx=15; dbody=15; vwbody=0; vpinyoffset=(dbody-2*rmy)/2; c_offsetx=7.5; c_offsety=dbody/2; c_ddrill=7
     footprint_name = "Potentiometer_Trimmer_Piher_PT-15v15".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
     name_additions = []
 
 
     class_name="ACP CA6h Single"
     pins = 3; rmx=2.5; rmy=2.5; ddrill=0.9
-    wbody=-3.5; hbody=6.3; dbody=0; height3d = 4.5+dbody/2; screwzpos = 4.5;
+    wbody=-3.5; hbody=6.3; dbody=0; height3d = 4.5+hbody/2; screwzpos = 4.5;
     wscrew=-wbody; dscrew=2
     wshaft=0; dshaft=1.8; pinxoffset=0; pinyoffset=(hbody-2*rmy)/2
     add_description="http://www.acptechnologies.com/wp-content/uploads/2016/12/ACP-CAT%C3%81LOGO-ENTERO-2016.pdf"
@@ -407,13 +427,13 @@ if __name__ == '__main__':
     class_name="ACP CA6v Single"
     rmx=5; dbody=0; voffsetx=-1.3/2; vwbody=6.3; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=6.3/2; c_offsety=hbody/2; c_ddrill=2.5; height3d=4.6
     footprint_name = "Potentiometer_Trimmer_ACP_CA6v".format(rmx, 2 * rmy)
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
     class_name="ACP CA6VSMD Single"
     rmx=8.65; rmy=4.3/2; dbody=0; vwbody=6.3; voffsetx=(rmx-vwbody)/2; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=6.3/2; c_offsety=hbody/2; c_ddrill=2.5
     footprint_name = "Potentiometer_Trimmer_ACP_CA6VSMD".format(rmx, 2 * rmy)
-    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2], style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2], style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2], style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_smd,height3d=height3d)
+    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2], style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_smd_bel,height3d=height3d)
     name_additions = []
 
     class_name="ACP CA9h2.5 Single"
@@ -427,11 +447,13 @@ if __name__ == '__main__':
     makePotentiometerVertical(style="trimmer", footprint_name=footprint_name, class_name=class_name, wbody=wbody, hbody=hbody, wscrew=wscrew, dscrew=dscrew, wshaft=wshaft, dshaft=dshaft, pinxoffset=pinxoffset,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, R_POW=R_POW, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trv,height3d=height3d, screwzpos=screwzpos)
     rmx=3.8
     class_name="ACP CA9h3.8 Single"
+    height3d = 12;
     footprint_name = "Potentiometer_Trimmer_ACP_CA9h3.8".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
     makePotentiometerVertical(style="trimmer", footprint_name=footprint_name, class_name=class_name, wbody=wbody, hbody=hbody, wscrew=wscrew, dscrew=dscrew, wshaft=wshaft, dshaft=dshaft, pinxoffset=pinxoffset,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, R_POW=R_POW, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trv,height3d=height3d, screwzpos=screwzpos)
     rmx=5
     class_name="ACP CA9h5 Single"
+    height3d = 12;
     footprint_name = "Potentiometer_Trimmer_ACP_CA9h5".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
     makePotentiometerVertical(style="trimmer", footprint_name=footprint_name, class_name=class_name, wbody=wbody, hbody=hbody, wscrew=wscrew, dscrew=dscrew, wshaft=wshaft, dshaft=dshaft, pinxoffset=pinxoffset,pinyoffset=pinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, R_POW=R_POW, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trv,height3d=height3d, screwzpos=screwzpos)
@@ -439,14 +461,14 @@ if __name__ == '__main__':
     rmx=10; dbody=0; voffsetx=0; vwbody=10; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=vwbody/2; c_offsety=hbody/2; c_ddrill=4; height3d=7.2
     footprint_name = "Potentiometer_Trimmer_ACP_CA9v".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
     class_name="ACP CA9VSMD Single"
     rmx=9.25; rmy=2.5; dbody=0; voffsetx=-0.25; vwbody=10; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=4.75; c_offsety=hbody/2; c_ddrill=4; height3d=5.5
     footprint_name = "Potentiometer_Trimmer_ACP_CA9VSMD".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_smd,height3d=height3d)
+    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_smd_bel,height3d=height3d)
     name_additions = []
 
 
@@ -473,14 +495,14 @@ if __name__ == '__main__':
     rmx=15; dbody=0; voffsetx=0.5; vwbody=14; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=vwbody/2; c_offsety=hbody/2; c_ddrill=7; height3d=7.2
     footprint_name = "Potentiometer_Trimmer_ACP_CA14v".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh,height3d=height3d)
+    makePotentiometerHorizontal(style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_bel,height3d=height3d)
     class_name="ACP CA14VSMD Single"
     rmx=13; rmy=5; dbody=0; voffsetx=-0.7; vwbody=14; vpinyoffset=(hbody-2*rmy)/2; c_offsetx=7; c_offsety=hbody/2; c_ddrill=7; height3d=5.8
     footprint_name = "Potentiometer_Trimmer_ACP_CA14VSMD".format(rmx, 2 * rmy)
     name_additions = ["Px{0:1.1f}mm_Py{1:1.1f}mm".format(rmx, 2 * rmy)]
-    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
-    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_ph_bel,height3d=height3d)
+    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=False, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_smd,height3d=height3d)
+    makePotentiometerHorizontal(SMD_pads=True, SMD_padsize=[2.5,2.5], style="trimmer", mount_below=True, footprint_name=footprint_name, class_name=class_name, wbody=vwbody, hbody=hbody, d_body=dbody, dshaft=dshaft, dscrew=dscrew, c_ddrill=c_ddrill,c_offsetx=c_offsetx, c_offsety=c_offsety, pinxoffset=voffsetx,pinyoffset=vpinyoffset, pins=pins, rmx=rmx, rmy=rmy, ddrill=ddrill, specialtags=specialtags, add_description=add_description,classname=classname, lib_name=lib_name, name_additions=name_additions, script3d=script3d_trh_smd_bel,height3d=height3d)
     name_additions = []
 
     footprint_name="Potentiometer_Trimmer_Bourns_3005"
@@ -549,7 +571,7 @@ if __name__ == '__main__':
     dscrew=2.19; wscrew = dscrew; screwxoffset = wbody-1.27; screwyoffset = hbody-1.27;
     style = "screwtop"; SMD_pads = False; SMD_padsize = []; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3296.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3296X"
     class_name="Bourns 3296X"
     wbody=9.53; hbody=4.83; pinxoffset=(wbody-5.08)/2+5.08; pinyoffset=2.41; height3d = 10.03
@@ -564,7 +586,7 @@ if __name__ == '__main__':
     dscrew=2.19; wscrew = dscrew; screwxoffset = wbody-1.27; screwyoffset = hbody-1.27;
     style = "screwtop"; SMD_pads = False; SMD_padsize = []; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3296.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3296Z"
     class_name="Bourns 3296Z"
     wbody=9.53; hbody=4.83; pinxoffset=(wbody-5.08)/2+5.08; pinyoffset=hbody-1.14-2.54; height3d = 10.03
@@ -590,7 +612,7 @@ if __name__ == '__main__':
     dscrew=2.19; wscrew = dscrew; screwxoffset = wbody-1.27; screwyoffset = hbody-1.27;
     style = "screwtop"; SMD_pads = False; SMD_padsize = []; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3299.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3299X"
     class_name="Bourns 3299X"
     wbody=9.53; hbody=6.10; pinxoffset=(wbody-5.08)/2+5.08; pinyoffset=1.91; height3d = 10.03
@@ -605,7 +627,7 @@ if __name__ == '__main__':
     dscrew=2.19; wscrew = dscrew; screwxoffset = wbody-1.27; screwyoffset = hbody-1.27;
     style = "screwtop"; SMD_pads = False; SMD_padsize = []; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3299.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3299Z"
     class_name="Bourns 3299Z"
     wbody=9.53; hbody=6.10; pinxoffset=(wbody-5.08)/2+5.08; pinyoffset=1.91; height3d = 10.03
@@ -631,7 +653,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = dscrew; screwxoffset = wbody-1.22; screwyoffset = hbody-1.27;
     style = "screwtop"; SMD_pads = False; SMD_padsize = []; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3266.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3266Z"
     class_name="Bourns 3266Z"
     wbody=6.71; hbody=4.5; pinxoffset=(wbody-5.08)/2+5.08; pinyoffset=2.16; height3d = 6.71
@@ -646,7 +668,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = dscrew; screwxoffset = wbody-1.27; screwyoffset = hbody-1.27;
     style = "screwtop"; SMD_pads = False; SMD_padsize = []; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3266.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3266X"
     class_name="Bourns 3266X"
     wbody=6.71; hbody=4.5; pinxoffset=(wbody-5.08)/2+5.08; pinyoffset=1.02; height3d = 6.71
@@ -673,7 +695,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = dscrew; screwxoffset = wbody-1.002; screwyoffset = hbody-1.52;
     style = "screwtop"; SMD_pads = True; SMD_padsize = [1.19,2.79]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3269.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3269X"
     class_name="Bourns 3269X"
     wbody=6.35; hbody=4.32; pinxoffset=(wbody-5.08)/2+5.08; pinyoffset=-0.25; height3d = 7.44
@@ -681,7 +703,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = 1.52; screwxoffset = 0; screwyoffset = hbody-1.52;
     style = "screwleft"; SMD_pads = True; SMD_padsize = [1.19,2.79]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3269.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3269P"
     class_name="Bourns 3269P"
     wbody=6.35; hbody=6.35; pinxoffset=-(wbody-6.4)/2+6.4; pinyoffset=(hbody-5.08)/2; height3d = 5.21
@@ -689,7 +711,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = 1.52; screwxoffset = 0; screwyoffset = 1.27;
     style = "screwleft"; SMD_pads = True; SMD_padsize = [3.3,1.19]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3269.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl_smd, height3d=height3d)
 
 
     footprint_name="Potentiometer_Trimmer_Bourns_3214W"
@@ -699,7 +721,7 @@ if __name__ == '__main__':
     dscrew=1.5; wscrew = dscrew; screwxoffset = 1.2; screwyoffset = hbody-1.1;
     style = "screwtop"; SMD_pads = True; SMD_padsize = [1.3,1.6,2,1.6,1.3,1.6]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3214.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3214X"
     class_name="Bourns 3214X"
     wbody=4.8; hbody=3.5; pinxoffset=(wbody-2.5)/2+2.5; pinyoffset=-(5.1-3.5)/2; height3d = 5.3
@@ -707,7 +729,7 @@ if __name__ == '__main__':
     dscrew=1.5; wscrew = dscrew; screwxoffset = 1.2; screwyoffset = hbody-1.1;
     style = "screwtop"; SMD_pads = True; SMD_padsize = [1.3,1.9,2,1.9,1.3,1.9]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3214.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3214G"
     class_name="Bourns 3214G"
     wbody=4.6; hbody=4.8; pinxoffset=(wbody-5.2)/2+5.2; pinyoffset=(hbody-2.3)/2; height3d = 3.71
@@ -715,7 +737,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = 0; screwxoffset = 0; screwyoffset = 1.27;
     style = "screwleft"; SMD_pads = True; SMD_padsize = [1.3,1.3,1.3,2,1.3,1.3]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3214.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3214J"
     class_name="Bourns 3214J"
     wbody=4.6; hbody=4.8; pinxoffset=(wbody-4)/2+4; pinyoffset=(hbody-2.3)/2; height3d = 3.71
@@ -723,7 +745,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = 0; screwxoffset = 0; screwyoffset = 1.27;
     style = "screwleft"; SMD_pads = True; SMD_padsize = [2,1.3,2,2,2,1.3]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3214.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl_smd, height3d=height3d)
 
     footprint_name="Potentiometer_Trimmer_Vishay_TS53YJ"
     class_name="Vishay TS53YJ"
@@ -732,7 +754,7 @@ if __name__ == '__main__':
     dscrew=2.3; wscrew = dscrew; screwxoffset = wbody/2; screwyoffset = hbody/2;
     style = "screwtop"; screwstyle="cross"; SMD_pads = True; SMD_padsize = [2,1.3,2,2,2,1.3]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3224.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, screwstyle=screwstyle, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, screwstyle=screwstyle, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Vishay_TS53YL"
     class_name="Vishay TS53YL"
     wbody=5; hbody=5; pinxoffset=-0.25+5.5; pinyoffset=(5-2.3)/2; height3d = 2.7
@@ -740,7 +762,7 @@ if __name__ == '__main__':
     dscrew=2.3; wscrew = dscrew; screwxoffset = wbody/2; screwyoffset = hbody/2;
     style = "screwtop"; screwstyle="cross"; SMD_pads = True; SMD_padsize = [1.3,1.3,2,1.3,1.3,1.3]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3224.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, screwstyle=screwstyle, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, screwstyle=screwstyle, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst_smd, height3d=height3d)
 
     footprint_name="Potentiometer_Trimmer_Bourns_3224W"
     class_name="Bourns 3224W"
@@ -749,7 +771,7 @@ if __name__ == '__main__':
     dscrew=1.5; wscrew = dscrew; screwxoffset = 1.2; screwyoffset = hbody-1.1;
     style = "screwtop"; SMD_pads = True; SMD_padsize = [1.3,1.6,2,1.6,1.3,1.6]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3224.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3224X"
     class_name="Bourns 3224X"
     wbody=4.8; hbody=3.5; pinxoffset=(wbody-2.5)/2+2.5; pinyoffset=-(5.1-3.5)/2; height3d = 5.3
@@ -757,7 +779,7 @@ if __name__ == '__main__':
     dscrew=1.5; wscrew = dscrew; screwxoffset = 1.2; screwyoffset = hbody-1.1;
     style = "screwtop"; SMD_pads = True; SMD_padsize = [1.3,1.9,2,1.9,1.3,1.9]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3224.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tst_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3224G"
     class_name="Bourns 3224G"
     wbody=4.6; hbody=4.8; pinxoffset=(wbody-5.2)/2+5.2; pinyoffset=(hbody-2.3)/2; height3d = 3.71
@@ -765,7 +787,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = 0; screwxoffset = 0; screwyoffset = 1.27;
     style = "screwleft"; SMD_pads = True; SMD_padsize = [1.3,1.3,1.3,2,1.3,1.3]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3224.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl_smd, height3d=height3d)
     footprint_name="Potentiometer_Trimmer_Bourns_3224J"
     class_name="Bourns 3224J"
     wbody=4.6; hbody=4.8; pinxoffset=(wbody-4)/2+4; pinyoffset=(hbody-2.3)/2; height3d = 3.71
@@ -773,7 +795,7 @@ if __name__ == '__main__':
     dscrew=1.78; wscrew = 0; screwxoffset = 0; screwyoffset = 1.27;
     style = "screwleft"; SMD_pads = True; SMD_padsize = [2,1.3,2,2,2,1.3]; specialtags = []; name_additions = []
     add_description = "https://www.bourns.com/pdfs/3224.pdf";
-    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl, height3d=height3d)
+    makeSpindleTrimmer(footprint_name=footprint_name, class_name=class_name, ddrill=ddrill, wbody=wbody, hbody=hbody, pinxoffset=pinxoffset, pinyoffset=pinyoffset, rmx2=rmx2, rmy2=rmy2, rmx3=rmx3, rmy3=rmy3, dscrew=dscrew, wscrew=wscrew, screwxoffset=screwxoffset, screwyoffset=screwyoffset, style=style, SMD_pads=SMD_pads, SMD_padsize=SMD_padsize, specialtags=specialtags, add_description=add_description, classname="Potentiometer", lib_name="Potentiometers", name_additions=name_additions, script3d=script3d_tsl_smd, height3d=height3d)
     
     
     

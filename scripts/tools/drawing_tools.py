@@ -14,6 +14,11 @@ sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load kicad_mod path
 from KicadModTree import *  # NOQA
 from footprint_global_properties import *
 
+# tool function for generating 3D-scripts
+def script3d_writevariable(file, line, varname, value):
+    file.write("# {0}\nApp.ActiveDocument.Spreadsheet.set('A{1}', 'var {0} = '); App.ActiveDocument.Spreadsheet.set('B{1}', '{2}'); App.ActiveDocument.Spreadsheet.setAlias('B{1}', '{0}')\n".format(varname, line, value))
+
+
 # round for grid g
 def roundG(x, g):
     if (x > 0):
