@@ -226,8 +226,9 @@ def createNumberedPadsTHT(kicad_mod, pincount, pad_spacing, pad_diameter, pad_si
             kicad_mod.addPad(pad_number, 'thru_hole', 'oval', {'x':pad_pos_x, 'y':0}, pad_size, pad_diameter, ['*.Cu', '*.Mask', 'F.SilkS'])
 
 
-def createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, pad_size, pad_pos_y):
+def createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, pad_size, pad_pos_y, pad_number_offset=0, pad_number_multiplier=1):
     start_pos_x = -(pincount-1)*pad_spacing/2.
     for pad_number in range(1, pincount+1):
         pad_pos_x = start_pos_x+(pad_number-1)*pad_spacing
-        kicad_mod.addPad(pad_number, 'smd', 'rect', {'x':pad_pos_x, 'y':pad_pos_y}, pad_size, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
+        real_pad_number = pad_number * pad_number_multiplier + pad_number_offset - 1
+        kicad_mod.addPad(real_pad_number, 'smd', 'rect', {'x':pad_pos_x, 'y':pad_pos_y}, pad_size, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
