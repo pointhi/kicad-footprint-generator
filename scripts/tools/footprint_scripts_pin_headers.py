@@ -343,11 +343,11 @@ def makePinHeadStraightSMD(rows, cols, rm, coldist, rmx_pad_offset,rmx_pin_lengt
         if start_left:
             description = description + ", style 1 (pin 1 left)"
             tags = tags + " style1 pin1 left"
-            footprint_name = footprint_name + "_style1"
+            footprint_name = footprint_name + "_Pin1Left"
         else:
             description = description + ", style 2 (pin 1 right)"
             tags = tags + " style2 pin1 right"
-            footprint_name = footprint_name + "_style2"
+            footprint_name = footprint_name + "_Pin1Right"
     elif (cols == 2):
         description = description + ", double rows"
         tags = tags + " double row"
