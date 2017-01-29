@@ -37,11 +37,11 @@ if __name__ == '__main__':
         for rows in range(1,41):
             makePinHeadStraight(rows, cols, rm, rm, cols * singlecol_packwidth + singlecol_packoffset,
                                 singlecol_packwidth / 2 + singlecol_packoffset,
-                                singlecol_packwidth / 2 + singlecol_packoffset, ddrill, pad, [], "Pin_Headers",
+                                singlecol_packwidth / 2 + singlecol_packoffset, ddrill, pad, [], "Pin_Headers", "Pin_Header", "pin header",
                                 [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0], [1, 1, 1],
                                 [0, 0, 90])
             makePinHeadAngled(rows, cols, rm, rm, angled_pack_width, angled_pack_offset, angled_pin_length, angled_pin_width, ddrill, pad,
-                              [], "Pin_Headers", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0], [1, 1, 1],
+                              [], "Pin_Headers", "Pin_Header", "pin header", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0], [1, 1, 1],
                                 [0, 0, 90])
             makePinHeadStraightSMD(rows, cols, rm, rm, rmx_pad_offset, rmx_pin_length, pin_width, cols * singlecol_packwidth + singlecol_packoffset,
                                 singlecol_packwidth / 2 + singlecol_packoffset,
@@ -71,12 +71,12 @@ if __name__ == '__main__':
         for rows in range(1, 41):
             makePinHeadStraight(rows, cols, rm, rm, cols * singlecol_packwidth + singlecol_packoffset,
                                 singlecol_packwidth / 2 + singlecol_packoffset,
-                                singlecol_packwidth / 2 + singlecol_packoffset, ddrill, pad, [], "Pin_Headers",
+                                singlecol_packwidth / 2 + singlecol_packoffset, ddrill, pad, [], "Pin_Headers", "Pin_Header", "pin header",
                                 offset3d=[0,0, 0], scale3d=[1, 1, 1],
                                 rotate3d=[0, 0, 0])
             makePinHeadAngled(rows, cols, rm, rm, angled_pack_width, angled_pack_offset, angled_pin_length,
                               angled_pin_width, ddrill, pad,
-                              [], "Pin_Headers", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0],
+                              [], "Pin_Headers", "Pin_Header", "pin header", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0],
                               [1, 1, 1],
                               [0, 0, 90])
             makePinHeadStraightSMD(rows, cols, rm, rm, rmx_pad_offset, rmx_pin_length, pin_width,
@@ -108,17 +108,17 @@ if __name__ == '__main__':
         for rows in range(1, 41):
             makePinHeadStraight(rows, cols, rm, rm, package_width[cols-1],
                                 singlecol_packwidth / 2 ,
-                                singlecol_packwidth / 2 , ddrill, pad, [], "Pin_Headers",
+                                singlecol_packwidth / 2 , ddrill, pad, [], "Pin_Headers", "Pin_Header", "pin header",
                                 offset3d=[0, 0, 0], scale3d=[1, 1, 1],
                                 rotate3d=[0, 0, 0])
             makePinHeadAngled(rows, cols, rm, rm, angled_pack_width, angled_pack_offset, angled_pin_length,
                               angled_pin_width, ddrill, pad,
-                              [], "Pin_Headers", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0],
+                              [], "Pin_Headers", "Pin_Header", "pin header", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0],
                               [1, 1, 1],
                               [0, 0, 90])
             makePinHeadAngled(rows, cols, rm, rm, angled_pack_width, angled_pack_offset, angled_pin_length,
                               angled_pin_width, ddrill, pad,
-                              [], "Pin_Headers", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0],
+                              [], "Pin_Headers", "Pin_Header", "pin header", [(cols - 1) * rm / 2 / 25.4, -(rows - 1) * rm / 2 / 25.4, 0],
                               [1, 1, 1],
                               [0, 0, 90])
             makePinHeadStraightSMD(rows, cols, rm, rm, rmx_pad_offset, rmx_pin_length, pin_width,
