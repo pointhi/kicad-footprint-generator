@@ -71,7 +71,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
     l_crt = min(-padsize[0] / 2, l_fabp) - crt_offset
     t_crt = min(-padsize[1] / 2, t_fabp) - crt_offset
     w_crt = max(max(w_fabp, w_fabm), pinwid + padsize[0]) + 2 * crt_offset
-    h_crt = max(h_fabp, h_fabm, -t_crt + maxpiny + padsize[1] / 2) + 2 * crt_offset
+    h_crt = max(t_fabp+max(h_fabp, h_fabm)+ crt_offset-t_crt, -t_crt + maxpiny + padsize[1] / 2 + crt_offset)
 
     y=y1
     x = 0
@@ -281,7 +281,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     addpad = 0
     l_crt = min(-padsize[0] / 2, l_fabp) - crt_offset
     t_crt = t_fabp - max(h_fabp, h_fabm) - crt_offset
-    h_crt = (-t_crt + maxpiny+padsize[1] / 2) + 2 * crt_offset
+    h_crt = (-t_crt + maxpiny+padsize[1] / 2) + crt_offset
     if len(pck.additional_pin_pad_size) > 0:
         h_crt = h_crt + (pck.additional_pin_pad[1] + pck.additional_pin_pad_size[1] / 2 - h_fabm)
         t_crt = t_crt - (pck.additional_pin_pad[1] + pck.additional_pin_pad_size[1] / 2 - h_fabm)
@@ -449,7 +449,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
     t_crt = min(-pck.pad[1] / 2, t_fabp) - crt_offset
     w_crt = max(max(w_fabp, w_fabm), pinwid + pck.pad[0]) + 2 * crt_offset
-    h_crt = max(max(h_fabp, h_fabm), -t_crt + pck.pad[1] / 2) + 2 * crt_offset
+    h_crt = max(t_fabp+max(h_fabp, h_fabm) +  crt_offset-t_crt, -t_crt + pck.pad[1] / 2+crt_offset)
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     
@@ -617,8 +617,8 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2
             pinwid = pinwid + rm
     
     l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
-    t_crt = t_slkp - max(h_fabp, h_fabm) - crt_offset
-    h_crt = (-t_crt + pck.pad[1] / 2) + 2 * crt_offset
+    t_crt = t_fabp - max(h_fabp, h_fabm) - crt_offset
+    h_crt = (-t_crt + pck.pad[1] / 2) + crt_offset
     addpad = 0
     if len(pck.additional_pin_pad_size) > 0:
         h_crt = h_crt + (pck.additional_pin_pad[1] + pck.additional_pin_pad_size[1] / 2 - h_fabm)
@@ -821,7 +821,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
     t_crt = -pck.pad[1]/2- crt_offset
     w_crt = max(max(w_fabp, w_fabm), pinwid + pck.pad[0]) + 2 * crt_offset
-    h_crt = -t_crt + t_fabp+max(h_fabp, h_fabm) + 2 * crt_offset
+    h_crt = -t_crt + t_fabp+max(h_fabp, h_fabm) +  crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp + pck.mounting_hole_pos[1]
