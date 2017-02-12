@@ -23,7 +23,7 @@ def roundG(x, g):
 
 # round for courtyard grid
 def roundCrt(x):
-    return roundG(x, 0.05)
+    return roundG(x, 0.01)
 
 # float-variant of range()
 def frange(x, y, jump):

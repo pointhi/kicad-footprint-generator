@@ -68,10 +68,10 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
         for rm in pck.rm_list:
             pinwid = pinwid + rm
 
-    l_crt = min(-padsize[0] / 2, l_slkp) - crt_offset
-    t_crt = min(-padsize[1] / 2, t_slkp) - crt_offset
-    w_crt = max(max(w_slkp, w_slkm), pinwid + padsize[0]) + 2 * crt_offset
-    h_crt = max(h_slkp, h_slkm, -t_crt + maxpiny + padsize[1] / 2) + 2 * crt_offset
+    l_crt = min(-padsize[0] / 2, l_fabp) - crt_offset
+    t_crt = min(-padsize[1] / 2, t_fabp) - crt_offset
+    w_crt = max(max(w_fabp, w_fabm), pinwid + padsize[0]) + 2 * crt_offset
+    h_crt = max(h_fabp, h_fabm, -t_crt + maxpiny + padsize[1] / 2) + 2 * crt_offset
 
     y=y1
     x = 0
@@ -278,8 +278,8 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     w_slkm = w_fabm + 2 * slk_offset
     h_slkm = h_fabm + 2 * slk_offset
     addpad = 0
-    l_crt = min(-padsize[0] / 2, l_slkp) - crt_offset
-    t_crt = t_slkp - max(h_slkp, h_slkm) - crt_offset
+    l_crt = min(-padsize[0] / 2, l_fabp) - crt_offset
+    t_crt = t_fabp - max(h_fabp, h_fabm) - crt_offset
     h_crt = (-t_crt + maxpiny+padsize[1] / 2) + 2 * crt_offset
     if len(pck.additional_pin_pad_size) > 0:
         h_crt = h_crt + (pck.additional_pin_pad[1] + pck.additional_pin_pad_size[1] / 2 - h_fabm)
@@ -287,7 +287,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
         addpad = pck.additional_pin_pad_size[0]
         addpadx = l_fabp + pck.additional_pin_pad[0]
         addpady = t_fabp - pck.additional_pin_pad[1]
-    w_crt = max(max(max(w_slkp, w_slkm), pinwid + padsize[0]), addpad) + 2 * crt_offset
+    w_crt = max(max(max(w_fabp, w_fabm), pinwid + padsize[0]), addpad) + 2 * crt_offset
 
 
     txt_x = l_slkp + max(w_slkp, w_slkm) / 2
@@ -444,10 +444,10 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     w_slkm = w_fabm + 2 * slk_offset
     h_slkm = h_fabm + 2 * slk_offset
     
-    l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
-    t_crt = min(-pck.pad[1] / 2, t_slkp) - crt_offset
-    w_crt = max(max(w_slkp, w_slkm), pinwid + pck.pad[0]) + 2 * crt_offset
-    h_crt = max(max(h_slkp, h_slkm), -t_crt + pck.pad[1] / 2) + 2 * crt_offset
+    l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
+    t_crt = min(-pck.pad[1] / 2, t_fabp) - crt_offset
+    w_crt = max(max(w_fabp, w_fabm), pinwid + pck.pad[0]) + 2 * crt_offset
+    h_crt = max(max(h_fabp, h_fabm), -t_crt + pck.pad[1] / 2) + 2 * crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     
@@ -591,7 +591,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal, mounted-from-Lowerside symbols for rectangular transistors
-def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_minlength
     w_fabp = pck.plastic[0]
@@ -613,8 +613,8 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
         for rm in pck.rm_list:
             pinwid = pinwid + rm
     
-    l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
-    t_crt = t_slkp - max(h_slkp, h_slkm) - crt_offset
+    l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
+    t_crt = t_slkp - max(h_fabp, h_fabm) - crt_offset
     h_crt = (-t_crt + pck.pad[1] / 2) + 2 * crt_offset
     addpad = 0
     if len(pck.additional_pin_pad_size) > 0:
@@ -623,7 +623,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
         addpad = pck.additional_pin_pad_size[0]
         addpadx = l_fabp + pck.additional_pin_pad[0]
         addpady = t_fabp - pck.additional_pin_pad[1]
-    w_crt = max(max(max(w_slkp, w_slkm), pinwid + pck.pad[0]), addpad) + 2 * crt_offset
+    w_crt = max(max(max(w_fabp, w_fabm), pinwid + pck.pad[0]), addpad) + 2 * crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp - pck.mounting_hole_pos[1]
@@ -729,6 +729,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
     if h_fabm > 0:
         addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
+        addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_fabp - h_fabp, 'F.SilkS', lw_slk, keepouts)
         addVDLineWithKeepout(kicad_modt, l_slkp, t_slkp, 3 * lw_slk, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
         addVDLineWithKeepout(kicad_modt, l_slkp + w_slkp, t_slkp, 3 * lw_slk, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
     else:
@@ -790,7 +791,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.
     file_handler.writeFile(footprint_name + '.kicad_mod')
 
 
-# horizontal reversedsymbols for rectangular transistors
+# horizontal reversed symbols for rectangular transistors
 def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = pck.pin_minlength
@@ -813,10 +814,10 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
         for rm in pck.rm_list:
             pinwid = pinwid + rm
 
-    l_crt = min(-pck.pad[0] / 2, l_slkp) - crt_offset
+    l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
     t_crt = -pck.pad[1]/2- crt_offset
-    w_crt = max(max(w_slkp, w_slkm), pinwid + pck.pad[0]) + 2 * crt_offset
-    h_crt = -t_crt + t_slkp+max(h_slkp, h_slkm) + 2 * crt_offset
+    w_crt = max(max(w_fabp, w_fabm), pinwid + pck.pad[0]) + 2 * crt_offset
+    h_crt = -t_crt + t_fabp+max(h_fabp, h_fabm) + 2 * crt_offset
     
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp + pck.mounting_hole_pos[1]
@@ -897,9 +898,9 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     addVLineWithKeepout(kicad_mod, l_slkp, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
     addVLineWithKeepout(kicad_mod, l_slkp + w_slkp, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
     if (h_fabm > 0):
-        addHDLineWithKeepout(kicad_mod, l_slkp + pck.metal_offset_x, 4*lw_slk, l_slkp + pck.metal_offset_x + w_slkm, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
-        addVDLineWithKeepout(kicad_mod, l_slkp + pck.metal_offset_x, t_slkp + h_slkp+lw_slk*2, 4 * lw_slk, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
-        addVDLineWithKeepout(kicad_mod, l_slkp + pck.metal_offset_x + w_slkm, t_slkp + h_slkp+lw_slk*2, 4 * lw_slk, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
+        addHDLineWithKeepout(kicad_mod, l_slkp + pck.metal_offset_x, 10*lw_slk, l_slkp + pck.metal_offset_x + w_slkm, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
+        addVDLineWithKeepout(kicad_mod, l_slkp + pck.metal_offset_x, t_slkp + h_slkp+lw_slk*2, 10 * lw_slk, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
+        addVDLineWithKeepout(kicad_mod, l_slkp + pck.metal_offset_x + w_slkm, t_slkp + h_slkp+lw_slk*2, 10 * lw_slk, t_slkp + h_slkm, 'F.SilkS', lw_slk, keepouts)
     x = 0
     for p in range(1, pck.pins + 1):
         addVLineWithKeepout(kicad_mod, x, t_slkp, pck.pad[1]/2+slk_dist, 'F.SilkS', lw_slk, keepouts)
@@ -949,8 +950,9 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 # horizontal symbols for rectangular transistors
 def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
     padsize = pck.pad
+    d_fab=pck.diameter_outer
     d_slk=pck.diameter_outer+2*slk_offset
-    
+
     # calculate pad positions
     pads = []
     yshift = 0
@@ -1006,7 +1008,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
     kicad_modt.append(Circle(center=[0, 0], radius=pck.diameter_inner / 2, layer='F.Fab', width=lw_fab))
     if pck.mark_width > 0 and pck.mark_len > 0:
         a=pck.mark_angle
-        da=math.asin(pck.mark_width/d_slk)/math.pi*180
+        da=math.asin(pck.mark_width/d_fab)/math.pi*180
         a1=a+da
         a2=a-da
         x1 = [(pck.diameter_outer / 2) * math.cos(a1 / 180 * math.pi), (pck.diameter_outer / 2) * math.sin(a1 / 180 * math.pi)]
@@ -1039,8 +1041,8 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
         dx2 = (pck.mark_len+slk_offset) * math.sin(a / 180 * math.pi)
         x2 = [x1[0] + dx1, x1[1] + dx2]
         x4 = [x3[0] + dx1, x3[1] + dx2]
-        minx=min(x2[0],x4[0])
-        miny=min(x2[1],x4[1])
+        #minx=min(x2[0],x4[0])
+        #miny=min(x2[1],x4[1])
         kicad_modt.append(Arc(center=[0, 0], start=x1, angle=(360-2*da), layer='F.SilkS', width=lw_slk))
         kicad_modt.append(Line(start=x1, end=x2, angle=0, layer='F.SilkS', width=lw_slk))
         kicad_modt.append(Line(start=x2, end=x4, angle=0, layer='F.SilkS', width=lw_slk))
@@ -1052,10 +1054,10 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
     if pck.mark_width > 0 and pck.mark_len > 0:
         kicad_mod.append(
-            RectLine(start=[roundCrt(xshift+min(minx-crt_offset,-d_slk/2-crt_offset)), roundCrt(yshift+min(miny-crt_offset,-d_slk/2-crt_offset))], end=[roundCrt(xshift+d_slk/2+crt_offset), roundCrt(yshift+d_slk/2+crt_offset)],
+            RectLine(start=[roundCrt(xshift+min(minx-crt_offset,-d_fab/2-crt_offset)), roundCrt(yshift+min(miny-crt_offset,-d_fab/2-crt_offset))], end=[roundCrt(xshift+d_fab/2+crt_offset), roundCrt(yshift+d_fab/2+crt_offset)],
                      layer='F.CrtYd', width=lw_crt))
     else:
-        kicad_mod.append(Circle(center=[roundCrt(xshift), roundCrt(yshift)], radius=roundCrt(d_slk / 2+crt_offset), layer='F.CrtYd', width=lw_crt))
+        kicad_mod.append(Circle(center=[roundCrt(xshift), roundCrt(yshift)], radius=roundCrt(d_fab / 2+crt_offset), layer='F.CrtYd', width=lw_crt))
 
         
     # create pads
@@ -1093,6 +1095,11 @@ if __name__ == '__main__':
     has3dh = [ [False, False, False], [False, False, False, False], [False, False], [False, False], [False, False],
               [True, True, False, False], [False], [False], [False], ]
     off3d = [ [[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], ]
+    off3dls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, -4 / 25.4], [0.1, 0, -4 / 25.4], [], [0, 0, -4 / 25.4]],
+             [[]], [[]], [[]], ]
+    off3dvls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[-0.1, 0, -2 / 25.4], [-0.1, 0, -2 / 25.4], [], [-0, 0, -2 / 25.4]],
+             [[]], [[]], [[]], ]
+
     scale3d = [ [[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[], [], [], []], [[]], [[]], [[]],  ]
     
     #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
@@ -1100,21 +1107,30 @@ if __name__ == '__main__':
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
+            o3dls = [0, 0, 0]
+            o3dvls = [0, 0, 0]
             s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
             r3d=[0,0,0]
             if len(off3d[p][pidx]) > 0:
                 o3d = off3d[p][pidx]
+            if len(off3dls[p][pidx]) > 0:
+                o3dls = off3dls[p][pidx]
+            if len(off3dvls[p][pidx]) > 0:
+                o3dvls = off3dvls[p][pidx]
             if len(scale3d[p][pidx]) > 0:
                 s3d = scale3d[p][pidx]
+            r3dr=r3d
+            if packs[p]=="TO-220":
+                r3dr = [0, 0, 180]
             
             pack_norm = pack(packs[p], pins[p][pidx], rms[p][pidx], 0, False)
             libn = "TO_SOT_Packages_THT"
             makeVERT(libn, pack_norm, has3dv[p][pidx], o3d, s3d, "_LargePads", r3d)
-            makeVERTLS(libn, pack_norm, has3dv[p][pidx], o3d, s3d, "_LargePads", r3d)
+            makeVERTLS(libn, pack_norm, has3dv[p][pidx], o3dvls, s3d, "_LargePads", r3d)
             makeHOR(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3d)
             if (len(pack_norm.additional_pin_pad) <= 0):
-                makeHORLS(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3d)
-                makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3d)
+                makeHORLS(libn, pack_norm, has3dh[p][pidx], o3dls, s3d, "_LargePads", r3d)
+                makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3dr)
             
 
     # make staggered packages

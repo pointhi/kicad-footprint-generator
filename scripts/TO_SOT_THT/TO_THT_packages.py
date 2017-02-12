@@ -470,7 +470,7 @@ class pack:
             self.metal = [5.33, 7.12, 0.4]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
             self.rm = 2.286  # pin distance
-            self.pad = [1.4, 1.4]  # width/height of pads
+            self.pad = [1.8, 1.8]  # width/height of pads
             self.drill = 1.1  # diameter of pad drills
             self.name = name  # name of package
             self.mounting_hole_pos = [self.plastic[0] / 2,
@@ -549,8 +549,8 @@ class pack:
 
 
 crt_offset = 0.25
-slk_offset = 0.2
-slk_dist = 0.25
+slk_offset = 0.12
+slk_dist = 0.15
 lw_fab = 0.1
 lw_crt = 0.05
 lw_slk = 0.12
