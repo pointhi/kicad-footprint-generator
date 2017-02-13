@@ -51,6 +51,7 @@ for pincount in range(2,17):
     
     # set general values
     footprint.append(Text(type='reference', text='REF**', at=[0,-5], layer='F.SilkS'))
+    footprint.append(Text(type='user', text='%R', at=[0,2], layer='F.Fab'))
     footprint.append(Text(type='value', text=fp_name, at=[0,7], layer='F.Fab'))
 
     #dimensions

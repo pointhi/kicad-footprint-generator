@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
         # set general values
         footprint.append(Text(type='reference', text='REF**', at=[A/2,-2], layer='F.SilkS'))
-        #footprint.append(Text(type='user', text='%R', at=[A/2,-2], layer='F.Fab'))
+        footprint.append(Text(type='user', text='%R', at=[A/2,6], layer='F.Fab'))
         footprint.append(Text(type='value', text=fp_name, at=[A/2,13.5], layer='F.Fab'))
             
         #generate the pads (row 1)
@@ -123,8 +123,8 @@ if __name__ == '__main__':
         {'x': A/2,'y': y2},
         ]
         
-        footprint.append(PolygoneLine(polygone=side))
-        footprint.append(PolygoneLine(polygone=side,x_mirror=A/2))
+        footprint.append(PolygoneLine(polygone=side,width=0.12))
+        footprint.append(PolygoneLine(polygone=side,x_mirror=A/2,width=0.12))
         
         #courtyard
         cy = RectLine(start=[x1,y1],end=[x2,y2],offset=0.5,layer='F.CrtYd',width=0.05,grid=0.05)
@@ -148,8 +148,8 @@ if __name__ == '__main__':
             {'x': x1-D,'y': y1-D+L},
         ]
         
-        footprint.append(PolygoneLine(polygone=marker))
-        footprint.append(PolygoneLine(polygone=marker,layer='F.Fab'))
+        footprint.append(PolygoneLine(polygone=marker,width=0.12))
+        footprint.append(PolygoneLine(polygone=marker,layer='F.Fab',width=0.1))
         
         #Add a model
         footprint.append(Model(filename="Connectors_JST.3dshapes/" + fp_name + ".wrl"))

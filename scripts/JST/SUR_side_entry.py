@@ -67,6 +67,7 @@ for pincount in [2,3,4,5,6,8,10,12,14,15,16,17,20,22]:
     
     # set general values
     fp.append(Text(type='reference', text='REF**', at=[0,-2.75], layer='F.SilkS'))
+    fp.append(Text(type='user', text='%R', at=[0,0.75], layer='F.Fab'))
     fp.append(Text(type='value', text=fp_name, at=[0,3], layer='F.Fab'))
 
     #create outline
@@ -109,8 +110,8 @@ for pincount in [2,3,4,5,6,8,10,12,14,15,16,17,20,22]:
     {'x': B/2 + 0.15,'y': YP - mh/2 - o},
     ]
     
-    fp.append(PolygoneLine(polygone=right))
-    fp.append(PolygoneLine(polygone=right,x_mirror=0))
+    fp.append(PolygoneLine(polygone=right,width=0.12))
+    fp.append(PolygoneLine(polygone=right,x_mirror=0,width=0.12))
     
     W = 2.7
     yA = y1 + 0.2
@@ -127,16 +128,16 @@ for pincount in [2,3,4,5,6,8,10,12,14,15,16,17,20,22]:
     {'x': 0,'y': yC},
     ]
     
-    fp.append(PolygoneLine(polygone=out,layer='F.Fab'))
-    fp.append(PolygoneLine(polygone=out,layer='F.Fab',x_mirror=0))
+    fp.append(PolygoneLine(polygone=out,layer='F.Fab',width=0.1))
+    fp.append(PolygoneLine(polygone=out,layer='F.Fab',x_mirror=0,width=0.1))
     
     #add pin-1 mark
     mx = -MX
     my = -1.5
     r = 0.2
     
-    fp.append(Circle(center=[mx,my],radius=r,width=0.15))
-    fp.append(Circle(center=[mx,my],radius=r,width=0.15,layer='F.Fab'))
+    fp.append(Circle(center=[mx,my],radius=r,width=0.12))
+    fp.append(Circle(center=[mx,my],radius=r,width=0.1,layer='F.Fab'))
     
     #fp.append(PolygoneLine(polygone=arrow))
     

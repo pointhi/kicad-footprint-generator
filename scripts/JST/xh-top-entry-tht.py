@@ -111,6 +111,7 @@ if __name__ == '__main__':
 
         # set general values
         footprint.append(Text(type='reference', text='REF**', at=[x_mid,-3.5], layer='F.SilkS'))
+        footprint.append(Text(type='user', text='%R', at=[x_mid,2.5], layer='F.Fab'))
         footprint.append(Text(type='value', text=fp_name, at=[x_mid,4.5], layer='F.Fab'))
 
         if pins == 2:

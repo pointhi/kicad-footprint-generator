@@ -59,7 +59,7 @@ for pincount in range(17):
         kicad_mod.addRectLine(
             {'x': x1, 'y': y1},
             {'x': x2, 'y': y2},
-            'F.Fab', 0.15
+            'F.Fab', 0.1
             )
 
         #expand the outline a little bit
@@ -71,6 +71,7 @@ for pincount in range(17):
 
         # set general values
         kicad_mod.addText('reference', 'REF**', {'x':xMid, 'y':2}, 'F.SilkS')
+        kicad_mod.addText('user', '%R', {'x':xMid, 'y':-4.25}, 'F.Fab')
         kicad_mod.addText('value', footprint_name, {'x':xMid, 'y':-6.5}, 'F.Fab')
 
         dia = 1.3
@@ -100,7 +101,7 @@ for pincount in range(17):
             "F.CrtYd", 0.05)
 
         kicad_mod.addRectLine({'x':x1,'y':y1},
-                              {'x':x2,'y':y2})
+                              {'x':x2,'y':y2},width=0.12)
 
         #draw the line at the top
 
@@ -115,13 +116,15 @@ for pincount in range(17):
         #outer rect
         kicad_mod.addRectLine(
             {'x': xa,'y': y1},
-            {'x': xb,'y': y3}
+            {'x': xb,'y': y3},
+            width=0.12
             )
             
         #inner rect
         kicad_mod.addRectLine(
             {'x': xa+q,'y': y1+q},
-            {'x': xb-q,'y': y3-q}
+            {'x': xb-q,'y': y3-q},
+            width=0.12
             )
         
         #left side
@@ -131,18 +134,19 @@ for pincount in range(17):
                 {'x': x1+t,'y':y3},
                 {'x': x1+t,'y':y2-t},
                 {'x': -1,'y':y2-t},
-            ])
+            ], width=0.12)
         else: #boss were declared
             kicad_mod.addLine(
                 {'x': xa,'y': y3},
-                {'x': -0.9,'y': y3}
+                {'x': -0.9,'y': y3},
+                width=0.12
                 )
                 
             kicad_mod.addPolygoneLine([
                 {'x': x1+t,'y': -3},
                 {'x': x1+t,'y': y2-t},
                 {'x': -1,'y': y2-t},
-            ])
+            ], width=0.12)
         #right side
         
         if pincount %2 == 0: #even number of pins
@@ -155,7 +159,7 @@ for pincount in range(17):
             {'x': x2-t,'y': y3},
             {'x': x2-t,'y': y2-t},
             {'x': xEnd,'y': y2-t},
-        ])
+        ], width=0.12)
         
         #draw lines between pads
         for i in range(0, ceil(pincount/2) - 1):
@@ -165,7 +169,7 @@ for pincount in range(17):
             kicad_mod.addLine(
                 {'x': X1,'y': y2-t},
                 {'x': X2,'y': y2-t},
-                )
+                width=0.1, layer='F.Fab')
                 
         #draw the 'vertical' lines where the actual pinny bits go
         
@@ -190,7 +194,7 @@ for pincount in range(17):
                 {'x': x-w,'y': Y1},
                 {'x': x+w,'y': Y1},
                 {'x': x+w,'y': Y2}
-                ])
+                ], width=0.1, layer='F.Fab')
                 
                 #draw the bottom section
                 Y1 = Y2 + 2 * d + dia
@@ -201,7 +205,7 @@ for pincount in range(17):
                 {'x': x-w,'y': Y2},
                 {'x': x+w,'y': Y2},
                 {'x': x+w,'y': Y1}
-                ])
+                ], width=0.1, layer='F.Fab')
             else:
                 
                 kicad_mod.addPolygoneLine([
@@ -209,7 +213,7 @@ for pincount in range(17):
                 {'x':x-w, 'y': Y1},
                 {'x':x+w, 'y': Y1},
                 {'x':x+w, 'y': Y2},
-                ])
+                ], width=0.1, layer='F.Fab')
 
         # add pin-1 marking above the pin1
         
@@ -227,12 +231,11 @@ for pincount in range(17):
             {'x': xp2,'y': yp2},
         ]
         
-        kicad_mod.addPolygoneLine(pin1)
-        kicad_mod.addPolygoneLine(pin1,layer='F.Fab')
+        kicad_mod.addPolygoneLine(pin1,width=0.12)
+        kicad_mod.addPolygoneLine(pin1,layer='F.Fab', width=0.1)
 
         # output kicad model
         f = open(footprint_name + ".kicad_mod","w")
-
 
         f.write(kicad_mod.__str__())
 

@@ -111,10 +111,11 @@ if __name__ == '__main__':
 
             # set general values
             footprint.append(Text(type='reference', text='REF**', at=[x_mid,-3.5], layer='F.SilkS'))
+            footprint.append(Text(type='user', text='%R', at=[x_mid,2.25], layer='F.Fab'))
             footprint.append(Text(type='value', text=fp_name, at=[x_mid,y2 + 1.1], layer='F.Fab'))
 
             #draw simple outline on F.Fab layer
-            footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+            footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=0.1))
             
             drill = 0.9
                 
@@ -153,15 +154,15 @@ if __name__ == '__main__':
             #{'x': -1.1,'y': y3 + off}
             ]
             
-            footprint.append(PolygoneLine(polygone = outline))
-            footprint.append(PolygoneLine(polygone = outline,x_mirror=x_mid))
+            footprint.append(PolygoneLine(polygone = outline, width=0.12))
+            footprint.append(PolygoneLine(polygone = outline,x_mirror=x_mid,width=0.12))
             
             #draw the pinsss
             for i in range(pins):
             
                 x = i * pitch
                 w = 0.25
-                footprint.append(RectLine(start=[x-w,y3+0.5],end=[x+w,y2-0.5]))
+                footprint.append(RectLine(start=[x-w,y3+1.25],end=[x+w,y2-0.5],layer='F.Fab', width=0.1))
             
             #add pin-1 designator
             px = 0
@@ -175,8 +176,8 @@ if __name__ == '__main__':
             {'x': px,'y': py},
             ]
             
-            footprint.append(PolygoneLine(polygone=pin1))
-            footprint.append(PolygoneLine(polygone=pin1,layer='F.Fab'))
+            footprint.append(PolygoneLine(polygone=pin1,width=0.12))
+            footprint.append(PolygoneLine(polygone=pin1,layer='F.Fab',width=0.1))
             
             #Add a model
             footprint.append(Model(filename="Connectors_JST.3dshapes/" + fp_name + ".wrl"))

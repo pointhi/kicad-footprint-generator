@@ -85,6 +85,7 @@ if __name__ == '__main__':
 
         # set general values
         footprint.append(Text(type='reference', text='REF**', at=[A/2,-9.7], layer='F.SilkS'))
+        footprint.append(Text(type='user', text='%R', at=[A/2,-6.5], layer='F.Fab'))
         footprint.append(Text(type='value', text=fp_name, at=[A/2,7.2], layer='F.Fab'))
             
         #generate the pads (row 1)
@@ -101,7 +102,7 @@ if __name__ == '__main__':
         y2 = y1 + 14.4
         
         #draw the main outline around the footprint
-        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=0.12))
         
         #offset off
         off = 0.15
@@ -137,8 +138,8 @@ if __name__ == '__main__':
         {'x': px,'y': 0},
         ]
         
-        footprint.append(PolygoneLine(polygone=marker))
-        footprint.append(PolygoneLine(polygone=marker,layer='F.Fab'))
+        footprint.append(PolygoneLine(polygone=marker,width=0.12))
+        footprint.append(PolygoneLine(polygone=marker,layer='F.Fab',width=0.10))
         
         #line offset o
         o = 1
@@ -147,7 +148,7 @@ if __name__ == '__main__':
         #draw lines between pin pairs
         for i in range(pins-1):
             x = (i + 0.5) * pitch
-            footprint.append(Line(start=[x,ya],end=[x,yb]))
+            footprint.append(Line(start=[x,ya],end=[x,yb],width=0.1,layer='F.Fab'))
             
         #draw the inside of the connector
         #connector thickness t
@@ -164,8 +165,8 @@ if __name__ == '__main__':
         {'x': A/2,'y': y2 - 2 * t},
         ]
         
-        footprint.append(PolygoneLine(polygone = inside))
-        footprint.append(PolygoneLine(polygone = inside, x_mirror=A/2))
+        footprint.append(PolygoneLine(polygone = inside,width=0.12))
+        footprint.append(PolygoneLine(polygone = inside, x_mirror=A/2,width=0.12))
         
         #Add a model
         footprint.append(Model(filename="Connectors_JST.3dshapes/" + fp_name + ".wrl"))

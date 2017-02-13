@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
         # set general values
         footprint.append(Text(type='reference', text='REF**', at=[A/2,-5.2], layer='F.SilkS'))
-        #footprint.append(Text(type='user', text='%R', at=[A/2,-5.2], layer='F.Fab'))
+        footprint.append(Text(type='user', text='%R', at=[A/2,-1.5], layer='F.Fab'))
         footprint.append(Text(type='value', text=fp_name, at=[A/2,5.8], layer='F.Fab'))
         
         #draw the component outline
@@ -95,14 +95,14 @@ if __name__ == '__main__':
         y1 = y2 - 8.3
         
         #draw simple outline on F.Fab layer
-        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=0.1))
         
         #wall thickness t
         t = 0.75
         
         #draw inside tab
         T = A/2 + 0.5
-        footprint.append(RectLine(start=[A/2-T/2,y1+t],end=[A/2+T/2,y1+2*t])) #,layer='F.Fab'))
+        footprint.append(RectLine(start=[A/2-T/2,y1+t],end=[A/2+T/2,y1+2*t],width=0.12)) #,layer='F.Fab'))
         
         #offset off
         off = 0.15
@@ -118,8 +118,8 @@ if __name__ == '__main__':
         {'x': A/2,'y': y2 - t},
         ]
         
-        footprint.append(PolygoneLine(polygone=side)) #,  layer='F.Fab'))
-        footprint.append(PolygoneLine(polygone=side,x_mirror=A/2))# ,layer='F.Fab'))
+        footprint.append(PolygoneLine(polygone=side,width=0.12)) #,  layer='F.Fab'))
+        footprint.append(PolygoneLine(polygone=side,x_mirror=A/2,width=0.12))# ,layer='F.Fab'))
         
         
         x1 -= off
@@ -145,8 +145,8 @@ if __name__ == '__main__':
         {'x': px,'y': 0},
         ]
         
-        footprint.append(PolygoneLine(polygone=marker))
-        footprint.append(PolygoneLine(polygone=marker,layer='F.Fab'))
+        footprint.append(PolygoneLine(polygone=marker,width=0.12))
+        footprint.append(PolygoneLine(polygone=marker,layer='F.Fab',width=0.10))
         
         #generate the pads (row 1)
         

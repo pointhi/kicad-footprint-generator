@@ -42,7 +42,7 @@ for pincount in range(2,17):
     kicad_mod.addRectLine(
         {'x': x1, 'y': y1},
         {'x': x2, 'y': y2},
-        'F.Fab', 0.15
+        'F.Fab', 0.1
         )
 
     #expand the outline a little bit
@@ -54,6 +54,7 @@ for pincount in range(2,17):
 
     # set general values
     kicad_mod.addText('reference', 'REF**', {'x':xMid, 'y':-2}, 'F.SilkS')
+    kicad_mod.addText('user', '%R', {'x':xMid, 'y':6}, 'F.Fab')
     kicad_mod.addText('value', footprint_name, {'x':xMid, 'y':9}, 'F.Fab')
 
     dia = 1.35
@@ -86,7 +87,7 @@ for pincount in range(2,17):
         "F.CrtYd", 0.05)
 
     kicad_mod.addRectLine({'x':x1,'y':y1},
-                          {'x':x2,'y':y2})
+                          {'x':x2,'y':y2}, width=0.12)
 
     #draw the line at the bottom
 
@@ -98,7 +99,7 @@ for pincount in range(2,17):
         {'x':xa,'y':y3},
         {'x':xb,'y':y3},
         {'x':xb,'y':y2}
-    ])
+    ], width=0.12)
 
     # add pin-1 marker
     D = 0.3
@@ -109,12 +110,11 @@ for pincount in range(2,17):
         {'x': x1-D + L,'y':  y1-D},
     ]
     
-    kicad_mod.addPolygoneLine(pin_1)
-    kicad_mod.addPolygoneLine(pin_1,layer='F.Fab')
+    kicad_mod.addPolygoneLine(pin_1, width=0.12)
+    kicad_mod.addPolygoneLine(pin_1,layer='F.Fab',width=0.1)
     
     # output kicad model
     f = open(footprint_name + ".kicad_mod","w")
-
 
     f.write(kicad_mod.__str__())
 

@@ -51,6 +51,7 @@ for pincount in range(2,17):
     
     # set general values
     kicad_mod.addText('reference', 'REF**', {'x':0, 'y':-8.5 - 0.675}, 'F.SilkS')
+    kicad_mod.addText('user', '%R', {'x':0, 'y':-1.25}, 'F.Fab')
     kicad_mod.addText('value', footprint_name, {'x':0, 'y':2}, 'F.Fab')
     
     #outline
@@ -64,7 +65,7 @@ for pincount in range(2,17):
     kicad_mod.addRectLine(
         {'x': x1, 'y': y1},
         {'x': x2, 'y': y2},
-        'F.Fab', 0.15
+        'F.Fab', 0.1
         )
 
     #expand the outline a little bit
@@ -105,8 +106,8 @@ for pincount in range(2,17):
         {'x': xm + 2*m,'y': ym + m},
         {'x': xm,'y': ym}
     ]
-    kicad_mod.addPolygoneLine(poly)
-    kicad_mod.addPolygoneLine(poly,layer='F.Fab')
+    kicad_mod.addPolygoneLine(poly, width=0.12)
+    kicad_mod.addPolygoneLine(poly,layer='F.Fab',width=0.1)
     
     #wall thickness t
     t = 0.8
@@ -123,7 +124,7 @@ for pincount in range(2,17):
     {'x': x1+t,'y': y1+t},
     {'x': -xo,'y': y1+t},
     {'x': -xo,'y': y1},
-    ])
+    ], width=0.12)
     #draw right-hand line
     kicad_mod.addPolygoneLine([
     {'x': xo,'y': y1},
@@ -133,7 +134,7 @@ for pincount in range(2,17):
     {'x': x2-t,'y': y1+t},
     {'x': xo,'y': y1+t},
     {'x': xo,'y': y1},
-    ])
+    ], width=0.12)
     
     #draw bottom line
     xa = -A/2 + o
@@ -146,26 +147,28 @@ for pincount in range(2,17):
     
     kicad_mod.addRectLine(
     {'x': -xo, 'y': y2 - b},
-    {'x':  xo, 'y': y2}
-    )
+    {'x':  xo, 'y': y2},
+    width=0.12)
     
     #inner rect
     #rect thickness r
     r = 0.4
     kicad_mod.addRectLine(
     {'x': xa+r,'y': y2-b+r},
-    {'x': xb-r,'y': y2-r})
+    {'x': xb-r,'y': y2-r},
+    width=0.12)
     
     #left hand wall
     kicad_mod.addLine(
     {'x':  xa,'y': y2-b},
-    {'x':  xa,'y': y2}
-    )
+    {'x':  xa,'y': y2},
+    width=0.12)
     
     #right hand wall
     kicad_mod.addLine(
     {'x':  xb,'y': y2-b},
-    {'x':  xb,'y': y2}
+    {'x':  xb,'y': y2},
+    width=0.12
     )
     
     #add a "slot" for each of the pins
@@ -176,12 +179,12 @@ for pincount in range(2,17):
         w = 0.15
         
         ya = py + ph/2 + 0.6
-        yb = y2 - b - 0.5
+        yb = y2 - b - 0.75
         
         kicad_mod.addRectLine(
         {'x': x-w,'y': ya},
-        {'x': x+w,'y': yb}
-        )
+        {'x': x+w,'y': yb},
+        width=0.1, layer='F.Fab')
     
     
     #draw the courtyard
