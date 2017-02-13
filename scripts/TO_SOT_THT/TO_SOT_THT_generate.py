@@ -90,6 +90,8 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
     tag_items = ["Vertical", "RM {0}mm".format(pck.rm)]
     
     footprint_name = pck.name
+    for t in pck.more_packnames:
+        footprint_name = footprint_name + "_" + t
     footprint_name = footprint_name + "_Vertical"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
@@ -301,6 +303,8 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     footprint_name = pck.name
     if len(pck.additional_pin_pad_size) > 0:
         footprint_name = footprint_name + "-1EP"
+    for t in pck.more_packnames:
+        footprint_name = footprint_name + "_" + t
     footprint_name = footprint_name + "_Horizontal"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
@@ -458,6 +462,8 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     tag_items = ["Vertical", "RM {0}mm".format(pck.rm), "mount on lower-side of PCB"]
     
     footprint_name = pck.name
+    for t in pck.more_packnames:
+        footprint_name = footprint_name + "_" + t
     footprint_name = footprint_name + "_Vertical"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
@@ -641,6 +647,8 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2
     footprint_name = pck.name
     if len(pck.additional_pin_pad_size) > 0:
         footprint_name = footprint_name + "-1EP"
+    for t in pck.more_packnames:
+        footprint_name = footprint_name + "_" + t
     footprint_name = footprint_name + "_Horizontal"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
@@ -833,6 +841,8 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     tag_items = ["Horizontal", "RM {0}mm".format(pck.rm)]
     
     footprint_name = pck.name
+    for t in pck.more_packnames:
+        footprint_name = footprint_name + "_" + t
     footprint_name = footprint_name + "_Horizontal" + "_Reversed"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
@@ -981,6 +991,8 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
     tag_items = []
     
     footprint_name = pck.name
+    for t in pck.more_packnames:
+        footprint_name = footprint_name + "_" + t
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
     if pck.largepads:
@@ -1096,29 +1108,33 @@ if __name__ == '__main__':
     packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK"]
     pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4], [3], [3], [3],  ]
     rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54], [0], [0], [0],  ]
-    has3dv = [[False, False, False], [False, False, False, False], [False, False], [False, False], [False, False],
-              [True, True, False, False], [False], [False], [False], ]
-    has3dh = [ [False, False, False], [False, False, False, False], [False, False], [False, False], [False, False],
-              [True, True, False, False], [False], [False], [False], ]
-    off3d = [ [[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], ]
+    has3dv = [[True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
+              [True, True, True, True], [True], [True], [True], ]
+    has3dh = [ [True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
+              [True, True, True, True], [True], [True], [True], ]
+    off3d = [ [[], [], []], [[], [5.4/25.4,0,0], [], []], [[], [5.2/25.4,0,0]], [[], []], [[], [0.1,0,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], ]
+    off3dh = [ [[], [], []], [[], [5.4/25.4,0,0], [], []], [[], []], [[], []], [[], [0.1,0.2,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], ]
     off3dls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, -4 / 25.4], [0.1, 0, -4 / 25.4], [], [0, 0, -4 / 25.4]],
              [[]], [[]], [[]], ]
     off3dvls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[-0.1, 0, -2 / 25.4], [-0.1, 0, -2 / 25.4], [], [-0, 0, -2 / 25.4]],
              [[]], [[]], [[]], ]
 
-    scale3d = [ [[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[], [], [], []], [[]], [[]], [[]],  ]
+    scale3d = [ [[], [], []], [[], [1,1,1], [], []], [[], [1,1,1]], [[], []], [[], [1,1,1]], [[], [], [], []], [[]], [[]], [[]],  ]
     
     #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
     #exit()
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
+            o3dh = [0, 0, 0]
             o3dls = [0, 0, 0]
             o3dvls = [0, 0, 0]
             s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
             r3d=[0,0,0]
             if len(off3d[p][pidx]) > 0:
                 o3d = off3d[p][pidx]
+            if len(off3dh[p][pidx]) > 0:
+                o3dh = off3d[p][pidx]
             if len(off3dls[p][pidx]) > 0:
                 o3dls = off3dls[p][pidx]
             if len(off3dvls[p][pidx]) > 0:
@@ -1133,7 +1149,7 @@ if __name__ == '__main__':
             libn = "TO_SOT_Packages_THT"
             makeVERT(libn, pack_norm, has3dv[p][pidx], o3d, s3d, "_LargePads", r3d)
             makeVERTLS(libn, pack_norm, has3dv[p][pidx], o3dvls, s3d, "_LargePads", r3d)
-            makeHOR(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3d)
+            makeHOR(libn, pack_norm, has3dh[p][pidx], o3dh, s3d, "_LargePads", r3d)
             if (len(pack_norm.additional_pin_pad) <= 0):
                 makeHORLS(libn, pack_norm, has3dh[p][pidx], o3dls, s3d, "_LargePads", r3d)
                 makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3dr)
@@ -1143,8 +1159,8 @@ if __name__ == '__main__':
     packs =   [ "TO-220",                 "Multiwatt"]
     pins =    [ [5      ,     7,     9 ], [11,       15,    ]]
     rms =     [ [1.7    ,  1.27,  0.97 ], [1.7,    1.27,    ]]
-    has3dv =  [ [True   , False, False ], [False,  True,    ]]
-    has3dh =  [ [True   , False, False ], [False,  True,    ]]
+    has3dv =  [ [True   , True, True ], [False,  True,    ]]
+    has3dh =  [ [True   , True, True ], [False,  True,    ]]
     off3d =   [ [[]     , []   , []    ], [[],       [],    ]]
     scale3d = [ [[]     , []   , []    ], [[],  [1,1,1],    ]]
     for p in range(0, len(packs)):
@@ -1183,14 +1199,14 @@ if __name__ == '__main__':
     packs.append("TO-5")
     modifiers.append(["", "Window"])
     pins.append([2, 3, 4, 6, 8, 10])
-    has3d.append([True, True, False, False, False, False])
+    has3d.append([True, True, True, True, True, True])
     off3d.append([])
     scale3d.append([])
 
     packs.append("TO-5_PD5.08")
     modifiers.append(["", "Window"])
     pins.append([8])
-    has3d.append([False])
+    has3d.append([True])
     off3d.append([])
     scale3d.append([])
 
@@ -1211,28 +1227,28 @@ if __name__ == '__main__':
     packs.append("TO-12")
     modifiers.append(["", "Window"])
     pins.append([4])
-    has3d.append([False])
+    has3d.append([True])
     off3d.append([[]])
     scale3d.append([[]])
 
     packs.append("TO-17")
     modifiers.append(["", "Window"])
     pins.append([4])
-    has3d.append([False])
+    has3d.append([True])
     off3d.append([[]])
     scale3d.append([[]])
 
     packs.append("TO-18")
     modifiers.append(["", "Window", "Lens"])
     pins.append([2, 3, 4])
-    has3d.append([True, True, False])
+    has3d.append([True, True, True])
     off3d.append([])
     scale3d.append([])
 
     packs.append("TO-33")
     modifiers.append(["", "Window"])
     pins.append([4])
-    has3d.append([False])
+    has3d.append([True])
     off3d.append([[]])
     scale3d.append([[]])
 
@@ -1246,14 +1262,14 @@ if __name__ == '__main__':
     packs.append("TO-39")
     modifiers.append(["", "Window"])
     pins.append([2, 3, 4, 6, 8, 10])
-    has3d.append([True, True, False, False, False, False])
+    has3d.append([True, True, True, True, True, True])
     off3d.append([])
     scale3d.append([])
 
     packs.append("TO-46")
     modifiers.append(["", "Window"])
     pins.append([2, 3, 4])
-    has3d.append([True, True, False])
+    has3d.append([True, True, True])
     off3d.append([])
     scale3d.append([])
 
@@ -1267,21 +1283,21 @@ if __name__ == '__main__':
     packs.append("TO-72")
     modifiers.append(["", "Window"])
     pins.append([4])
-    has3d.append([False])
+    has3d.append([True])
     off3d.append([[]])
     scale3d.append([[]])
 
     packs.append("TO-78")
     modifiers.append(["", "Window"])
     pins.append([6, 8, 10])
-    has3d.append([False, False, False])
+    has3d.append([True, True, True])
     off3d.append([])
     scale3d.append([])
 
     packs.append("TO-99")
     modifiers.append(["", "Window"])
     pins.append([6,8])
-    has3d.append([False,False])
+    has3d.append([True,True])
     off3d.append([])
     scale3d.append([])
 

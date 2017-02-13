@@ -47,6 +47,7 @@ class pack_round:
         self.fpnametags =[]
         self.window_diameter=0 # diameter of an on-top glass window
         self.used_pins=[] # if filled: the device may have up to self.pins pins, but only the given pin positions (0-based count) are actualy used
+        self.more_packnames=[] # additional package names, e.g. "I2PAK" for TO-262
 
     def __init__(self, name, pins=3, modifier="", largepads=False):
         self.diameter_inner = 0  # diameter of top can
@@ -66,6 +67,7 @@ class pack_round:
         self.window_diameter=0 # diameter of an on-top glass window
         self.pin_dangle = -90  # angle between two pins (in degrees)
         self.used_pins = []  # if filled: the device may have up to self.pins pins, but only the given pin positions (0-based count) are actualy used
+        self.more_packnames = []  # additional package names, e.g. "I2PAK" for TO-262
         if pins == 2:
             self.pin_dangle = -180
         elif pins == 4:
@@ -240,6 +242,7 @@ class pack:
         self.staggered_pin_minlength = 0  # y-offset of back-pins in staggered mode
         self.staggered_pad=[] # pad size in staggered mode
         self.rm_list = []
+        self.more_packnames = []  # additional package names, e.g. "I2PAK" for TO-262
 
     def __init__(self ,name ,pins=3 ,rm=0, staggered_type=0,largepads=False):
         self. additional_pin_pad =[] # Position des Zusatz-SMD-Pads
@@ -256,6 +259,7 @@ class pack:
         self.staggered_pad = []  # pad size in staggered mode
         self.addpinstext=True
         self.rm_list = []
+        self.more_packnames = []  # additional package names, e.g. "I2PAK" for TO-262
 
         if (name == "TO-218"):
             self.plastic = [15.92, 12.7, 5.08]  # width,heigth,depth of plastic package, starting at bottom-left
@@ -272,7 +276,7 @@ class pack:
             self.pin_minlength = 5.08  # min. elongation of pins before 90° bend
             self.pinw = [1.15, 0.4];  # width,height of pins
             self.tags = ["SOT93"]  # description/keywords
-            self.fpnametags.append("SOT93")
+            self.more_packnames.append("SOT93")
             self.pin_offset_z = 3
             if largepads:
                 self.pad = [3.5, 4.5]
@@ -317,7 +321,7 @@ class pack:
             self.tags = []
             if (pins==3):
                 self.tags = ["TO-3P"]  # description/keywords
-                self.fpnametags.append("TO-3P")
+                self.more_packnames.append("TO-3P")
             if (pins==4):
                 self.rm_list = [5.08,2.54,2.54]
             self.pin_offset_z = self.plastic[2] - (2.4 + 0.3)
@@ -370,8 +374,9 @@ class pack:
             self.staggered_pad = [1.8, 1.8]  # width/height of pads
             if pins == 5:
                 self.tags.append("Pentawatt")
-                self.fpnametags.append("Pentawatt")
-                self.fpnametags.append("Multiwatt-5")
+                self.tags.append("Multiwatt-5")
+                self.more_packnames.append("Pentawatt")
+                self.more_packnames.append("Multiwatt-5")
                 self.staggered_pin_minlength = 2.05+1.28  # y-offset of back-pins in staggered mode
             if pins == 9:
                 self.pinw = [0.5, 0.38];
@@ -379,8 +384,8 @@ class pack:
                 self.pad = [1.3, 1.3]
                 self.staggered_pad = [1.5, 1.5]  # width/height of pads
             if pins >5:
-                self.tags.append("Multiwatt")
-                self.fpnametags.append("Multiwatt-{0}".format(pins))
+                self.tags.append("Multiwatt-{0}".format(pins))
+                self.more_packnames.append("Multiwatt-{0}".format(pins))
             if largepads:
                 self.tags.append("large pads")
                 self.pad = [2, 3.5]
@@ -409,9 +414,9 @@ class pack:
             self.staggered_pad = [1.8, 1.8]  # width/height of pads
             if pins == 5:
                 self.tags.append("Pentawatt")
-                self.fpnametags.append("Pentawatt")
+                self.more_packnames.append("Pentawatt")
             if pins != 5:
-                self.tags.append("Multiwatt")
+                self.tags.append("Multiwatt-{0}".format(pins))
             if largepads:
                 self.tags.append("large pads")
                 self.pad = [2, 3.5]
@@ -452,8 +457,8 @@ class pack:
             self.mounting_hole_drill = 0  # diameter of mounting hole drill
             self.pin_minlength = 2  # min. elongation of pins before 90° bend
             self.pinw = [0.5, 0.5];  # width,height of pins
-            self.tags = ["IIAK"]  # description/keywords
-            self.fpnametags.append("IPAK")
+            self.tags = ["IPAK"]  # description/keywords
+            self.more_packnames.append("IPAK")
             self.pin_offset_z = 1
             self.additional_pin_pad_size = [5.7, 6.2]  # Größe des Zusatz-SMD-Pads
             self.metal_offset_x = (self.plastic[0] - self.metal[0]) / 2  # offset of metal from left
@@ -507,7 +512,7 @@ class pack:
             self.pin_minlength = 13.5-4.55  # min. elongation of pins before 90° bend
             self.pinw = [1.05, 0.5];  # width,height of pins
             self.tags = ["IIPAK", "I2PAK", "I²PAK"]  # description/keywords
-            self.fpnametags.append("I2PAK")
+            self.more_packnames.append("I2PAK")
             self.pin_offset_z = 2.4+0.25
             self.additional_pin_pad_size = [10, 8]  # Größe des Zusatz-SMD-Pads
             self.metal_offset_x = (self.plastic[0] - self.metal[0]) / 2  # offset of metal from left
