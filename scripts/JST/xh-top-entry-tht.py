@@ -46,7 +46,7 @@ Datasheet: http://www.jst-mfg.com/product/pdf/eng/eXH.pdf
 
 """
 pitch = 2.50
-boss = True
+boss = False
 if boss:
     pincount = range(2,13)
 else:
@@ -81,13 +81,15 @@ if __name__ == '__main__':
         
         x_mid = (x1 + x2) / 2
         
-        y1 = -3.4
+        y1 = -2.35
         y2 = y1 + T
-    
+
         #generate the name
         fp_name = prefix + part.format(n=pins) + suffix.format(n=pins, p=pitch)
 
         footprint = Footprint(fp_name)
+        
+        print(fp_name)
         
         description = "JST XH series connector, " + part.format(n=pins) + ", top entry type, through hole"
 
@@ -103,10 +105,13 @@ if __name__ == '__main__':
             tags += " boss"
         #set the FP tags
         footprint.setTags(tags)
+        
+        #draw simple outline on F.Fab layer
+        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
 
         # set general values
-        footprint.append(Text(type='reference', text='REF**', at=[x_mid,-5], layer='F.SilkS'))
-        footprint.append(Text(type='value', text=fp_name, at=[x_mid,4], layer='F.Fab'))
+        footprint.append(Text(type='reference', text='REF**', at=[x_mid,-3.5], layer='F.SilkS'))
+        footprint.append(Text(type='value', text=fp_name, at=[x_mid,4.5], layer='F.Fab'))
 
         if pins == 2:
             drill = 1.0
@@ -114,69 +119,62 @@ if __name__ == '__main__':
             drill = 0.9
             
         #generate the pads
-        pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=1.5, drill=drill, layers=['*.Cu','*.Mask'])
+        pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=1.75, drill=drill, layers=['*.Cu','*.Mask'])
         
         footprint.append(pa)
         
         #draw the courtyard
-        cy = RectLine(start=[x1,y1],end=[x2,y2],layer='F.CrtYd',width=0.05,offset = 0.5)
+        cy = RectLine(start=[x1,y1],end=[x2,y2],layer='F.CrtYd',width=0.05,offset = 0.5,grid=0.05)
         footprint.append(cy)
         
-        #offset the outline around the connector
-        off = 0.15
+        #draw the connector outline
+        out = RectLine(start=[x1,y1],end=[x2,y2],offset=0.1)
+        footprint.append(out)
         
-        xo1 = x1 - off
-        yo1 = y1 - off
+        #wall thickness w 
+        w = 0.75
         
-        xo2 = x2 + off
-        yo2 = y2 + off
+        #gap size g
+        g = 1.5
         
-        #thickness of the notches
-        notch = 1.5
+        off = 0.1
         
-        #wall thickness of the outline
-        wall = 0.6
+        x1 -= off
+        y1 -= off
         
-        #draw the outline of the connector
+        x2 += off
+        y2 += off
         
-        footprint.append(RectLine(start=[xo1,yo1],end=[xo2,yo2]))
+        #draw the center tab
+        footprint.append(RectLine(start=[g/2,y1],end=[A-g/2,y1+w]))
         
-        outline = [
-        {'x': xo1,'y': yo2-wall - 1},
-        {'x': xo1 + wall,'y': yo2-wall - 1},
-        {'x': xo1 + wall,'y': yo1+wall},
-        {'x': x_mid,'y': yo1+wall},
+        #add left tab
+        footprint.append(RectLine(start=[x1,y1],end=[-g/2,y1+w]))
+        #right tab
+        footprint.append(RectLine(start=[A+g/2,y1],end=[x2,y1+w]))
+        
+        #add other line
+        line = [
+        {'x': x1,'y': y1+w+g},
+        {'x': x1+w,'y': y1+w+g},
+        {'x': x1+w,'y': y2-w},
+        {'x': A/2,'y': y2-w},
         ]
         
-        if not boss:
-            
-            footprint.append(PolygoneLine(polygone=outline))
-            
-            footprint.append(PolygoneLine(polygone=outline,x_mirror=x_mid))
-        else:
-            
-            outline.append({'x': xo2-wall,'y': yo1+wall})
-            footprint.append(PolygoneLine(polygone=outline))
+        footprint.append(PolygoneLine(polygone=line))
+        footprint.append(PolygoneLine(polygone=line,x_mirror=A/2))
         
-            outline = [
-            {'x': xo2,'y': yo2-wall-1},
-            {'x': xo2-wall,'y': yo2-wall-1},
-            {'x': xo2-wall,'y': -1},
-            ]
-
-            footprint.append(PolygoneLine(polygone=outline))
+        #pin-1 marker
+        D = 0.3
+        L = 2.5
         
-        footprint.append(RectLine(start=[xo1,yo2-wall],end=[xo1+notch,yo2]))
-        footprint.append(RectLine(start=[xo2,yo2-wall],end=[xo2-notch,yo2]))
-        
-        #draw the middle tab
-        nx1 = -0.5 + notch
-        nx2 = A + 0.5 - notch
-        footprint.append(RectLine(start=[nx1, yo2 - wall],end=[nx2,yo2]))
-        
-        #add a boss (maybe)
-        if boss:
-            footprint.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, at=[A+1.6,-2], size=1.1, drill=1.1, layers=["*.Cu"]))
+        pin = [
+            {'x': x1-D+L,'y': y1-D},
+            {'x': x1-D,'y': y1-D},
+            {'x': x1-D,'y': y1-D+L},
+        ]
+        footprint.append(PolygoneLine(polygone=pin))
+        footprint.append(PolygoneLine(polygone=pin,layer='F.Fab'))
         
         #Add a model
         footprint.append(Model(filename="Connectors_JST.3dshapes/" + fp_name + ".wrl"))

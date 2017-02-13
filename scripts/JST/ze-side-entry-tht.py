@@ -19,6 +19,8 @@ for pincount in range(2,17):
     # Through-hole type shrouded header, side entry type
     footprint_name = "JST_ZE_" + jst + "_{pincount:02}x{pitch:02}mm_Angled".format(pincount=pincount, pitch=pitch)
 
+    print(footprint_name)
+    
     kicad_mod = KicadMod(footprint_name)
     kicad_mod.setDescription("JST ZE series connector, " + jst + ", 1.50mm pitch, side entry through hole")
     kicad_mod.setTags('connector jst ze side horizontal angled tht through thru hole')
@@ -35,19 +37,26 @@ for pincount in range(2,17):
 
     y2 = 3.7 + 3.65
     y1 = y2 - 7.8 - 0.2
+    
+    #add outline to F.Fab
+    kicad_mod.addRectLine(
+        {'x': x1, 'y': y1},
+        {'x': x2, 'y': y2},
+        'F.Fab', 0.15
+        )
 
     #expand the outline a little bit
-    out = 0.2
+    out = 0.15
     x1 -= out
     x2 += out
     y1 -= out
     y2 += out
 
     # set general values
-    kicad_mod.addText('reference', 'REF**', {'x':xMid, 'y':-3}, 'F.SilkS')
+    kicad_mod.addText('reference', 'REF**', {'x':xMid, 'y':-2}, 'F.SilkS')
     kicad_mod.addText('value', footprint_name, {'x':xMid, 'y':9}, 'F.Fab')
 
-    dia = 1.25
+    dia = 1.35
     drill = 0.7
 
     y_spacing = 3.70
@@ -91,19 +100,18 @@ for pincount in range(2,17):
         {'x':xb,'y':y2}
     ])
 
-    #add pin-1 marking above the pin1
-    xm = 0
-    ym = -1.5
-
-    m = 0.3
-
-    kicad_mod.addPolygoneLine([
-        {'x':xm, 'y':ym},
-        {'x':xm-m, 'y':ym-2*m},
-        {'x':xm+m, 'y':ym-2*m},
-        {'x':xm, 'y':ym},
-    ])
-
+    # add pin-1 marker
+    D = 0.3
+    L = 1.5
+    pin_1 = [
+        {'x': x1-D,'y': y1-D+L},
+        {'x': x1-D,'y':  y1-D},
+        {'x': x1-D + L,'y':  y1-D},
+    ]
+    
+    kicad_mod.addPolygoneLine(pin_1)
+    kicad_mod.addPolygoneLine(pin_1,layer='F.Fab')
+    
     # output kicad model
     f = open(footprint_name + ".kicad_mod","w")
 

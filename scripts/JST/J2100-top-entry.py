@@ -38,7 +38,6 @@ if output_dir and not output_dir.endswith(os.sep):
 sys.path.append("..\\..")
 from KicadModTree import *
 from KicadModTree.nodes.specialized.PadArray import PadArray
-
 """
 footprint specific details to go here
 
@@ -72,19 +71,21 @@ if __name__ == '__main__':
 
         footprint = Footprint(fp_name)
         
+        print(fp_name)
+        
         description = "JST J2100 series connector, dual row, center locking, " + part.format(n=2*pins) + ", top entry type, through hole"
         
         #set the FP description
         footprint.setDescription(description)
         
-        tags = "connector jst j2100 tht top vertical {p:.2f}mm".format(p=pitch)
+        tags = "connector jst j2100 vertical"
         
         #set the FP tags
         footprint.setTags(tags)
 
         # set general values
-        footprint.append(Text(type='reference', text='REF**', at=[A/2,-9.5], layer='F.SilkS'))
-        footprint.append(Text(type='value', text=fp_name, at=[A/2,7], layer='F.Fab'))
+        footprint.append(Text(type='reference', text='REF**', at=[A/2,-9.7], layer='F.SilkS'))
+        footprint.append(Text(type='value', text=fp_name, at=[A/2,7.2], layer='F.Fab'))
             
         #generate the pads (row 1)
         pa1 = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, increment=2, size=1.6, drill=0.9, layers=['*.Cu','*.Mask'])
@@ -99,8 +100,11 @@ if __name__ == '__main__':
         y1 = -4-4.48
         y2 = y1 + 14.4
         
+        #draw the main outline around the footprint
+        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+        
         #offset off
-        off = 0.1
+        off = 0.15
         
         x1 -= off
         y1 -= off
@@ -116,8 +120,8 @@ if __name__ == '__main__':
         footprint.append(cy)
         
         #add mounting holes 
-        m1 = Pad(at=[0,3.3],layers=["*.Cu"],shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_NPTH,size=3, drill=2)
-        m2 = Pad(at=[A,3.3],layers=["*.Cu"],shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_NPTH,size=3, drill=2)
+        m1 = Pad(at=[0,3.3],layers=["*.Cu",'*.Mask'],shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=3, drill=2)
+        m2 = Pad(at=[A,3.3],layers=["*.Cu",'*.Mask'],shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=3, drill=2)
         
         footprint.append(m1)
         footprint.append(m2)
@@ -134,6 +138,7 @@ if __name__ == '__main__':
         ]
         
         footprint.append(PolygoneLine(polygone=marker))
+        footprint.append(PolygoneLine(polygone=marker,layer='F.Fab'))
         
         #line offset o
         o = 1

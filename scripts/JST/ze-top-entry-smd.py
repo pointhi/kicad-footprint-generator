@@ -20,7 +20,8 @@ for pincount in range(2,17):
 
     # Through-hole type shrouded header, side entry type
     footprint_name = "JST_ZE_" + jst + "_{pincount:02}x{pitch:02}mm_Straight".format(pincount=pincount, pitch=pitch)
-
+    
+    print(footprint_name)
     kicad_mod = KicadMod(footprint_name)
     kicad_mod.setAttribute('smd') #this is an SMD part111one
     desc = "JST ZE series connector, " + jst + ", 1.50mm pitch, top entry surface mount"
@@ -58,6 +59,13 @@ for pincount in range(2,17):
     
     y2 = -0.4
     y1 = y2 - 5.8
+    
+    #add outline to F.Fab
+    kicad_mod.addRectLine(
+        {'x': x1, 'y': y1},
+        {'x': x2, 'y': y2},
+        'F.Fab', 0.15
+        )
 
     #expand the outline a little bit
     out = 0.2
@@ -85,17 +93,20 @@ for pincount in range(2,17):
     )
     
     #add pin-1 designation
-    xm = A/2
-    ym = py - ph/2 - 0.5
+    
+    xm = A/2 + pw/2 + 0.5
+    ym = py - 0.5
     
     m = 0.3
     
-    kicad_mod.addPolygoneLine([
-    {'x': xm,'y': ym},
-    {'x': xm + m,'y': ym - 2*m},
-    {'x': xm - m,'y': ym - 2*m},
-    {'x': xm,'y': ym},
-    ])
+    poly = [
+        {'x': xm,'y': ym},
+        {'x': xm + 2*m,'y': ym - m},
+        {'x': xm + 2*m,'y': ym + m},
+        {'x': xm,'y': ym}
+    ]
+    kicad_mod.addPolygoneLine(poly)
+    kicad_mod.addPolygoneLine(poly,layer='F.Fab')
     
     #wall thickness t
     t = 0.8
