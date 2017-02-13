@@ -27,7 +27,8 @@ for pincount in range(2,16):
     kicad_mod.setTags('connector jst eh top vertical straight')
 
     # set general values
-    kicad_mod.addText('reference', 'REF**', {'x':0, 'y':-3}, 'F.SilkS')
+    kicad_mod.addText('reference', 'REF**', {'x':A/2, 'y':-3}, 'F.SilkS')
+    kicad_mod.addText('user', '%R', {'x': A/2, 'y': -3}, 'F.Fab' )
     kicad_mod.addText('value', footprint_name, {'x':A/2, 'y':3.5}, 'F.Fab')
     
     drill = 0.9
@@ -37,15 +38,13 @@ for pincount in range(2,16):
     # create pads
     createNumberedPadsTHT(kicad_mod, pincount, pitch, drill, {'x':dia, 'y':dia})
     
-   
-    
     x1 = -2.5
     y1 = -1.6
     x2 = x1 + B
     y2 = y1 + 3.8
     
     #draw the main outline on F.Fab layer
-    kicad_mod.addRectLine({'x':x1,'y':y1},{'x':x2,'y':y2},'F.Fab',0.15)
+    kicad_mod.addRectLine({'x':x1,'y':y1},{'x':x2,'y':y2},'F.Fab',0.1)
     
     #line offset 
     off = 0.15
@@ -57,7 +56,7 @@ for pincount in range(2,16):
     y2 += off
     
     #draw the main outline around the footprint
-    kicad_mod.addRectLine({'x':x1,'y':y1},{'x':x2,'y':y2})
+    kicad_mod.addRectLine({'x':x1,'y':y1},{'x':x2,'y':y2}, width=0.12)
     
     T = 0.5
     
@@ -67,17 +66,19 @@ for pincount in range(2,16):
                                {'x': x1 + T,'y': y1 + T},
                                {'x': x2 - T,'y': y1 + T},
                                {'x': x2 - T,'y': 0},
-                               {'x': x2,'y':0}])
+                               {'x': x2,'y':0}],'F.SilkS',0.12)
 
     #add bottom line (left)
     kicad_mod.addPolygoneLine([{'x':x1,'y':y2-3*T},
                                {'x':x1+2*T,'y':y2-3*T},
-                               {'x':x1+2*T,'y':y2}])
+                               {'x':x1+2*T,'y':y2}],'F.SilkS', 0.12)
 
     #add bottom line (right)
     kicad_mod.addPolygoneLine([{'x':x2,'y':y2-3*T},
                                {'x':x2-2*T,'y':y2-3*T},
-                               {'x':x2-2*T,'y':y2}])                               
+                               {'x':x2-2*T,'y':y2}],'F.SilkS', 0.12)   
+
+    O = 0.5
                                
     #add pin-1 marker
     D = 0.3
@@ -88,8 +89,8 @@ for pincount in range(2,16):
         {'x': x1-D+L,'y': y2+D},
     ]
     
-    kicad_mod.addPolygoneLine(pin)
-    kicad_mod.addPolygoneLine(pin,layer='F.Fab')
+    kicad_mod.addPolygoneLine(pin, width=0.12)
+    kicad_mod.addPolygoneLine(pin,layer='F.Fab', width=0.1)
                                
     #add a courtyard
     cy = 0.5
