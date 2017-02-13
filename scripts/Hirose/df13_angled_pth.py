@@ -19,17 +19,15 @@ tags = "connector hirose df13 side angled horizontal through thru hole"
 
 for pincount in range(2,16):
 
-    part = "DF13-{pincount:02}P-125DS".format(pincount=pincount)
+    part = "DF13-{pincount:02}P-1.25DS".format(pincount=pincount)
     
     footprint_name = "{0}_{1}_{2:02}x{3:.2f}mm_{4}".format(manu,part,pincount,pitch,suffix)
+    
+    print(footprint_name)
 
     kicad_mod = KicadMod(footprint_name)
     kicad_mod.setDescription(desc)
     kicad_mod.setTags(tags)
-
-    # set general values
-    kicad_mod.addText('reference', 'REF**', {'x':0, 'y':3.5}, 'F.SilkS')
-    kicad_mod.addText('value', footprint_name, {'x':0, 'y':5}, 'F.Fab')
     
     drill = 0.6
 
@@ -42,13 +40,25 @@ for pincount in range(2,16):
     A = (pincount - 1) * pitch
     B = A + 2.9
     
+    
+    # set general values
+    kicad_mod.addText('reference', 'REF**', {'x':A/2, 'y':3}, 'F.SilkS')
+    kicad_mod.addText('value', footprint_name, {'x':A/2, 'y':-6}, 'F.Fab')
+    
     x1 = -(B-A) / 2
     y1 = -4.5
     x2 = x1 + B
     y2 = y1 + 5.4
     
+    #draw the connector outline on the F.Fab layer
+    kicad_mod.addRectLine(
+        {'x': x1,'y': y1},
+        {'x': x2,'y': y2},
+        'F.Fab', 0.15
+    )
+    
     #line offset 
-    off = 0.1
+    off = 0.15
     
     x1 -= off
     y1 -= off
@@ -128,17 +138,6 @@ for pincount in range(2,16):
     kicad_mod.addRectLine({'x':x1-cy,'y':y1-cy},{'x':x2+cy,'y':y2+cy},"F.CrtYd",0.05)
     
     kicad_mod.model = "Connectors_Hirose.3dshapes/" + footprint_name + ".wrl"
-    
-    #shift the model along
-    
-    if pincount % 2 == 0: #even
-        xOff = (pincount / 2 - 0.5) * pitch
-    else:
-        xOff = (pincount / 2) * pitch
-        
-    kicad_mod.model_pos['x'] = xOff / 25.4
-    kicad_mod.model_pos['y'] = 1.8 / 25.4
-    kicad_mod.model_rot['z'] = 180
     
     # output kicad model
     f = open(footprint_name + ".kicad_mod","w")
