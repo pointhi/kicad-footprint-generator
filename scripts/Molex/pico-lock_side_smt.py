@@ -8,19 +8,19 @@ from kicad_mod import KicadMod, createNumberedPadsSMD, grid
 
 pitch = 1.50
 
-manu = "Molex_Pico-Lock"
+manu = "Molex_PicoLock"
 
 suffix = "Angled"
 
 
 for pincount in [4,6,7,8,10,12]:
 
-    part = "504051-{0:02}01".format(pincount)
+    part = "504050{0:02}91".format(pincount)
     
-    desc = "Molex Pico-Lock series connector, {0:.2f}mm pitch, side entry SMT, P/N: {1:}".format(pitch,part)
-    tags = "connector molex pico lock side angled horizontal surface mount SMD SMT"
+    desc = "Molex PicoLock series connector, {0:.2f}mm pitch, side entry SMT, P/N: {1:}".format(pitch,part)
+    tags = "conn molex pico lock"
 
-    footprint_name = "{0}_{1:02}x{2:.2f}mm_{3}".format(manu,pincount,pitch,suffix)
+    footprint_name = "{0}-{1}_{2:02}x{3:.2f}mm_{4}".format(manu,part,pincount,pitch,suffix)
 
     kicad_mod = KicadMod(footprint_name)
     kicad_mod.setDescription(desc)
@@ -33,8 +33,8 @@ for pincount in [4,6,7,8,10,12]:
     kicad_mod.addText('value', footprint_name, {'x':0, 'y':5}, 'F.Fab')
     
     #pin pad size
-    pad_w = 0.8
-    pad_h = 1.2 
+    pad_w = 0.6
+    pad_h = 1.0 
     
     #component values
     A = (pincount - 1) * pitch
@@ -46,8 +46,8 @@ for pincount in [4,6,7,8,10,12]:
     createNumberedPadsSMD(kicad_mod, pincount, pitch, {'x':pad_w,'y':pad_h},-2.6)
     
     #add mounting pads (no number)
-    mpad_w = 1.6
-    mpad_h = 1.9
+    mpad_w = 1.25
+    mpad_h = 1.8
     mpad_x = A/2 + 1.7 + 1.25 / 2 + 0.1
     mpad_y = 3
 
@@ -120,15 +120,6 @@ for pincount in [4,6,7,8,10,12]:
     kicad_mod.addRectLine({'x':cx1,'y':cy1},{'x':cx2,'y':cy2},"F.CrtYd",0.05) 
     
     kicad_mod.model = "Connectors_Molex.3dshapes/" + footprint_name + ".wrl"
-    
-    #shift the model along
-    
-    xOff = 0
-    yOff = 2.4
-        
-    kicad_mod.model_pos['x'] = xOff / 25.4
-    kicad_mod.model_pos['y'] = yOff / 25.4
-    kicad_mod.model_rot['z'] = 180
     
     # output kicad model
     f = open(footprint_name + ".kicad_mod","w")
