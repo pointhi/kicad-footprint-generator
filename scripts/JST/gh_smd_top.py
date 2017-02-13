@@ -52,11 +52,12 @@ for pincount in range(2,16):
     kicad_mod.addRectLine(
         {'x': -B/2,'y': y1},
         {'x':  B/2,'y': y2},
-        'F.Fab', 0.15
+        'F.Fab', 0.10
     )
     
     # set general values
     kicad_mod.addText('reference', 'REF**', {'x':0, 'y':-6.75}, 'F.SilkS')
+    kicad_mod.addText('user', '%R', {'x':0, 'y':-1.25}, 'F.Fab')
     kicad_mod.addText('value', footprint_name, {'x':0, 'y':1.5}, 'F.Fab')
 
     #create outline
@@ -83,7 +84,7 @@ for pincount in range(2,16):
                             {'x':B/2-mpad_w-0.6,'y':0.05},
                             {'x':B/2-mpad_w-0.6,'y':0.05 - T},
                             {'x':-B/2+mpad_w+0.6,'y':0.05 - T},
-                            {'x':-B/2+mpad_w+0.6,'y':0.05}])
+                            {'x':-B/2+mpad_w+0.6,'y':0.05}], width=0.12)
                              
     #add left line
     kicad_mod.addPolygoneLine([{'x':-B/2-0.1,'y':-3.3},
@@ -92,7 +93,7 @@ for pincount in range(2,16):
                                 {'x':-A/2-pad_w/2-0.4,'y':-4.5+T},
                                 {'x':-B/2-0.1+T,'y':-4.5+T},
                                 {'x':-B/2-0.1+T,'y':-3.3},
-                                {'x':-B/2-0.1,'y':-3.3}])
+                                {'x':-B/2-0.1,'y':-3.3}], width=0.12)
 
     #add right line
     kicad_mod.addPolygoneLine([{'x':B/2+0.1,'y':-3.3},
@@ -101,7 +102,7 @@ for pincount in range(2,16):
                                 {'x':A/2+pad_w/2+0.4,'y':-4.5+T},
                                 {'x':B/2+0.1-T, 'y':-4.5+T},
                                 {'x':B/2+0.1-T, 'y':-3.3},
-                                {'x':B/2+0.1,'y':-3.3}])                                  
+                                {'x':B/2+0.1,'y':-3.3}], width=0.12)                                  
                                 
                                 
     #add designator for pin #1
@@ -122,8 +123,8 @@ for pincount in range(2,16):
                {'x':xp-m,'y':y1+m/2},
                {'x':xp,'y':y1}]
 
-    kicad_mod.addPolygoneLine(marker)
-    kicad_mod.addPolygoneLine(marker,layer='F.Fab')
+    kicad_mod.addPolygoneLine(marker, width=0.12)
+    kicad_mod.addPolygoneLine(marker,layer='F.Fab', width=0.1)
                                
                                
     #add picture of each pin
@@ -138,7 +139,7 @@ for pincount in range(2,16):
                                    {'x': x-p,'y': y+p},
                                    {'x': x+p,'y': y+p},
                                    {'x': x+p,'y': y-p},
-                                   {'x': x-p,'y': y-p}])
+                                   {'x': x-p,'y': y-p}], layer='F.Fab', width=0.10)
                               
     #add courtyard
     kicad_mod.addRectLine({'x':-B/2-0.5,'y':-6.125},{'x':B/2+0.5,'y':0.525},'F.CrtYd',0.05)
