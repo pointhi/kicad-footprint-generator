@@ -41,7 +41,7 @@ for pincount in range(2,8):
 
     # set general values
     kicad_mod.addText('reference', 'REF**', {'x':0, 'y':-3.75}, 'F.SilkS')
-    #kicad_mod.addText('user', '%R', {'x':0, 'y':-4.5}, 'F.Fab')
+    kicad_mod.addText('user', '%R', {'x':0, 'y':0.5}, 'F.Fab')
     kicad_mod.addText('value', footprint_name, {'x':0, 'y':3.5}, 'F.Fab')
     
     #pin pad size
@@ -88,7 +88,7 @@ for pincount in range(2,8):
         {'x': A/2 - ao, 'y': y2 - ao},
         {'x': A/2, 'y': y2},
         {'x': x2, 'y': y2},
-        ], 'F.Fab', 0.15
+        ], 'F.Fab', 0.1
     )
     
     A -= 0.1
@@ -102,24 +102,22 @@ for pincount in range(2,8):
     x2 += off
     y2 += off
     
-    
-    
     #left-hand SilkS
     kicad_mod.addPolygoneLine([{'x':-A/2 - pad_w/2 - xo,'y':y1},
                                {'x':x1,'y':y1},
-                               {'x':x1,'y':mpad_y - mpad_h/2 - xo}])
+                               {'x':x1,'y':mpad_y - mpad_h/2 - xo}], width=0.12)
                                
     kicad_mod.addPolygoneLine([
         {'x': -A/2 - pad_w/2 - xo ,'y': y1},
         {'x': -A/2 - pad_w/2 - xo ,'y': y1 - 0.5},
         {'x': -A/2,'y': y1 - 0.5},
-    ])
+    ], width=0.12)
                                
                     
     #right hand SilkS
     kicad_mod.addPolygoneLine([{'x':A/2 + pad_w/2 + xo,'y':y1},
                                {'x':x2,'y':y1},
-                               {'x':x2,'y':mpad_y - mpad_h/2 - xo}])                               
+                               {'x':x2,'y':mpad_y - mpad_h/2 - xo}], width=0.12)                               
     
     
     #bottom SilkS
@@ -128,22 +126,23 @@ for pincount in range(2,8):
                                {'x':-A/2 + ao,'y':y2 - ao},
                                {'x':A/2 - ao,'y':y2-ao},
                                {'x':A/2,'y':y2},
-                               {'x':mpad_x - mpad_w/2 - xo,'y':y2}])
-                               
-                               
+                               {'x':mpad_x - mpad_w/2 - xo,'y':y2}], width=0.12)
+                                          
     #add pin-1 marker
     
-    xm = -A/2 - pad_w/2 - 0.9
-    ym = y1 - 0.4
-    rm = 0.2
+    xm = -A/2
+    m = 0.3
+    ym = y1 + 1.25
     
-    kicad_mod.addCircle({'x': xm, 'y': ym},{'x': rm, 'y': 0})
-    """
-    kicad_mod.addPolygoneLine([{'x':xm,'y':ym},
-                               {'x':xm - m,'y':ym + 2 * m},
-                               {'x':xm + m,'y':ym + 2 * m},
-                               {'x':xm,'y':ym}])
-    """                           
+    pin = [
+        {'x': xm,'y': ym},
+        {'x': xm - m,'y': ym + 2 * m},
+        {'x': xm + m,'y': ym + 2 * m},
+        {'x': xm,'y': ym},
+    ]
+    
+    kicad_mod.addPolygoneLine(pin, width=0.1, layer='F.Fab')
+                              
     #add a courtyard
     cy = 0.5
     
@@ -156,55 +155,6 @@ for pincount in range(2,8):
     
     kicad_mod.addRectLine({'x':cx1,'y':cy1},{'x':cx2,'y':cy2},"F.CrtYd",0.05) 
     
-    """
-    #draw the top line
-    kicad_mod.addLine({'x':x1,'y':y1},{'x':-A/2-q,'y':y1})
-    kicad_mod.addLine({'x':x2,'y':y1},{'x':A/2+q,'y':y1})
-    
-    #draw the side lines
-    kicad_mod.addLine({'x':x1,'y':y1},{'x':x1,'y':0.3})
-    kicad_mod.addLine({'x':x2,'y':y1},{'x':x2,'y':0.3})
-    
-    #draw the bottom line
-    kicad_mod.addLine({'x':x1,'y':y2},{'x':x2,'y':y2})
-    
-    a = 0.4
-    
-    kicad_mod.addLine({'x':x1,'y':y2},{'x':x1,'y':y2-a})
-    kicad_mod.addLine({'x':x2,'y':y2},{'x':x2,'y':y2-a})
-    
-    xm = -A/2- 1
-    ym = -1
-    
-    m = 0.3
-    
-    kicad_mod.addPolygoneLine([{'x':xm,'y':ym},
-                               {'x':xm - 2 * m,'y':ym - m},
-                               {'x':xm - 2 * m,'y':ym + m},
-                               {'x':xm,'y':ym}])
-                               
-    
-    #add pictures of pins
-    #pin-width w
-    #pin-length l
-    w = 0.25
-    
-    py = 2.3
-    
-    for p in range(pincount):
-        
-        px = -A/2 + p * pitch
-        
-        kicad_mod.addPolygoneLine([{'x': px-w,'y': py-w},
-                                   {'x': px-w,'y': py+w},
-                                   {'x': px+w,'y': py+w},
-                                   {'x': px+w,'y': py-w},
-                                   {'x': px-w,'y': py-w}])
-    
-              
-   
-    
-    """
     kicad_mod.model = "Connectors_Molex.3dshapes/" + footprint_name + ".wrl"
     
     #shift the model along

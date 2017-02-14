@@ -13,7 +13,6 @@ series = "Panelmate"
 
 suffix = "Angled"
 
-
 for pincount in [2,3,4,5,6,7,8,9,10,12,14,15,18,20,30]:
 
     part = "53780-{0:02}70".format(pincount)
@@ -34,7 +33,7 @@ for pincount in [2,3,4,5,6,7,8,9,10,12,14,15,18,20,30]:
 
     # set general values
     kicad_mod.addText('reference', 'REF**', {'x':0, 'y':-3}, 'F.SilkS')
-    #kicad_mod.addText('user', '%R', {'x':0, 'y':-3}, 'F.Fab')
+    kicad_mod.addText('user', '%R', {'x':0, 'y':2}, 'F.Fab')
     kicad_mod.addText('value', footprint_name, {'x':0, 'y':7}, 'F.Fab')
     
     #pin pad size
@@ -84,7 +83,7 @@ for pincount in [2,3,4,5,6,7,8,9,10,12,14,15,18,20,30]:
         {'x': x2 - t, 'y': y2},
         {'x': x2, 'y': y2},
         {'x': x2, 'y': y1},
-        ], 'F.Fab', 0.15
+        ], 'F.Fab', 0.1
     )
     
     #line offset 
@@ -105,13 +104,13 @@ for pincount in [2,3,4,5,6,7,8,9,10,12,14,15,18,20,30]:
     #left SilkS
     kicad_mod.addPolygoneLine([{'x':-A/2 - pad_w/2 - xo,'y':y1},
                                {'x':x1,'y':y1},
-                               {'x':x1,'y':mpad_y - mpad_h/2 - xo}])
+                               {'x':x1,'y':mpad_y - mpad_h/2 - xo}], width=0.12)
                                
               
     #right SilkS
     kicad_mod.addPolygoneLine([{'x':A/2 + pad_w/2 + xo,'y':y1},
                                {'x':x2,'y':y1},
-                               {'x':x2,'y':mpad_y - mpad_h/2 - xo}])                               
+                               {'x':x2,'y':mpad_y - mpad_h/2 - xo}], width=0.12)                               
     
     
     #bottom SilkS
@@ -120,7 +119,7 @@ for pincount in [2,3,4,5,6,7,8,9,10,12,14,15,18,20,30]:
                                {'x':x1+t+a,'y':y2-d},
                                {'x':x2-t-a,'y':y2-d},
                                {'x':x2-t,'y':y2},
-                               {'x':mpad_x - mpad_w/2 - xo,'y':y2}])
+                               {'x':mpad_x - mpad_w/2 - xo,'y':y2}], width=0.12)
                                
                                
     #add pin-1 marker
@@ -136,9 +135,8 @@ for pincount in [2,3,4,5,6,7,8,9,10,12,14,15,18,20,30]:
             {'x':xm - m,'y':ym + m / 2},
             {'x':xm,'y':ym}]
             
-    kicad_mod.addPolygoneLine(pin1)
-    kicad_mod.addPolygoneLine(pin1,'F.Fab')
-    
+    kicad_mod.addPolygoneLine(pin1, width=0.12)
+    kicad_mod.addPolygoneLine(pin1, width=0.10, layer='F.Fab')
                                
     #add a courtyard
     cy = 0.5

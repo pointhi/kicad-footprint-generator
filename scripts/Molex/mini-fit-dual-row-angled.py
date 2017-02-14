@@ -38,6 +38,7 @@ if output_dir and not output_dir.endswith(os.sep):
 sys.path.append("..\\..")
 from KicadModTree import *
 from KicadModTree.nodes.specialized.PadArray import PadArray
+from KicadModTree.klc import *
 
 """
 footprint specific details to go here
@@ -124,28 +125,28 @@ if __name__ == '__main__':
             
             # set general values
             footprint.append(Text(type='reference', text='REF**', at=[B/2,8.5], layer='F.SilkS'))
-            #footprint.append(Text(type='user', text='%R', at=[B/2,-4.5], layer='F.Fab'))
+            footprint.append(Text(type='user', text='%R', at=[B/2,-4.5], layer='F.Fab'))
             footprint.append(Text(type='value', text=fp_name, at=[B/2,10], layer='F.Fab'))
                 
             #generate the pads
-            footprint.append(PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=['*.Cu','*.Mask']))
-            footprint.append(PadArray(pincount=pins, initial=pins+1, start=[0, row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=['*.Cu','*.Mask']))
+            footprint.append(PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
+            footprint.append(PadArray(pincount=pins, initial=pins+1, start=[0, row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
             
             #draw the 'peg' version
             #http://www.molex.com/pdm_docs/sd/026013127_sd.pdf
             if peg:
                 loc = 3.00
                 if pins > 2: # two mounting holes
-                    footprint.append(Pad(at=[0,-7.3],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=["*.Cu"]))
+                    footprint.append(Pad(at=[0,-7.3],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=Pad.LAYERS_NPTH))
                     #footprint.append(Circle(center=[0,-7.3],radius=loc/2+0.1))
-                    footprint.append(Pad(at=[B,-7.3],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=["*.Cu"]))                    
+                    footprint.append(Pad(at=[B,-7.3],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=Pad.LAYERS_NPTH))                    
                     #footprint.append(Circle(center=[B,-7.3],radius=loc/2+0.1))
                 else: #single hole
-                    footprint.append(Pad(at=[B/2,-7.3],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=["*.Cu"]))                    
+                    footprint.append(Pad(at=[B/2,-7.3],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=Pad.LAYERS_NPTH))                    
                     #footprint.append(Circle(center=[B/2,-7.3],radius=loc/2+0.1))
                 
                 #draw courtyard
-                footprint.append(RectLine(start=[x1,y1],end=[x2,row+size/2],layer='F.CrtYd',width=0.05,offset=0.5,grid=0.05))
+                footprint.append(RectLine(start=[x1,y1],end=[x2,row+size/2],layer='F.CrtYd',width=KLC_CRTYD_WIDTH,offset=0.5,grid=KLC_CRTYD_GRID))
                 
                 #draw the outline of the connector on the silkscreen
                 o = 0.15
@@ -166,8 +167,8 @@ if __name__ == '__main__':
             #http://www.molex.com/pdm_docs/sd/039291027_sd.pdf
             else:
                 loc = 3.2
-                footprint.append(Pad(at=[-4.5,  -4.2],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc, drill=loc, layers=["*.Cu"]))
-                footprint.append(Pad(at=[B+4.5, -4.2],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc, drill=loc, layers=["*.Cu"]))
+                footprint.append(Pad(at=[-4.5,  -4.2],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc, drill=loc, layers=Pad.LAYERS_NPTH))
+                footprint.append(Pad(at=[B+4.5, -4.2],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc, drill=loc, layers=Pad.LAYERS_NPTH))
             
                 #draw the connector outline on silkscreen layer
                 o = 0.15
@@ -200,7 +201,7 @@ if __name__ == '__main__':
                 footprint.append(RectLine(
                     start=[-15.4/2,y1],
                     end=[B+15.4/2,row+size/2],
-                    layer='F.CrtYd',width=0.05,offset=0.5,grid=0.05))
+                    layer='F.CrtYd',width=KLC_CRTYD_WIDTH,offset=0.5,grid=KLC_CRTYD_GRID))
             
             
             
@@ -211,8 +212,8 @@ if __name__ == '__main__':
                 x = i * pitch
                 ya = o
                 yb = row - o
-                footprint.append(Line(start=[x-w,ya],end=[x-w,yb]))
-                footprint.append(Line(start=[x+w,ya],end=[x+w,yb]))
+                footprint.append(Line(start=[x-w,ya],end=[x-w,yb], width=KLC_SILK_WIDTH))
+                footprint.append(Line(start=[x+w,ya],end=[x+w,yb], width=KLC_SILK_WIDTH))
             
             #draw lines between each pin
             off = 0.1
@@ -220,29 +221,22 @@ if __name__ == '__main__':
                 xa = i * pitch + size / 2 + 0.3
                 xb = (i+1) * pitch - size / 2 - 0.3
             
-                footprint.append(Line(start=[xa,y2+off],end=[xb,y2+off]))
+                footprint.append(Line(start=[xa,y2+off],end=[xb,y2+off], width=KLC_SILK_WIDTH))
                 
             #pin-1 marker
             x =  -2
             m = 0.3
             
-            pin = [
+            arrow = [
             {'x': x,'y': 0},
             {'x': x-2*m,'y': +m},
             {'x': x-2*m,'y': -m},
             {'x': x,'y': 0},
             ]
             
-            footprint.append(PolygoneLine(polygone=pin))
-            """
-            #draw the courtyard
-            if boss:
-                W = C + 3
-            else:
-                W = A
-                
-            footprint.append(RectLine(start=[B/2-W/2,y1],end=[B/2+W/2,y2 + tab_w], width=0.05, layer='F.CrtYd', offset=0.5, grid=0.05))
-            """
+            footprint.append(PolygoneLine(polygone=arrow, width=KLC_SILK_WIDTH))
+            footprint.append(PolygoneLine(polygone=arrow, width=KLC_FAB_WIDTH, layer='F.Fab'))
+            
             #Add a model
             footprint.append(Model(filename="Connectors_Molex.3dshapes/" + fp_name + ".wrl"))
             

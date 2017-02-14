@@ -37,6 +37,7 @@ if output_dir and not output_dir.endswith(os.sep):
 #import KicadModTree files
 sys.path.append("..\\..")
 from KicadModTree import *
+from KicadModTree.klc import *
 from KicadModTree.nodes.specialized.PadArray import PadArray
 
 """
@@ -133,15 +134,15 @@ if __name__ == '__main__':
 
             # set general values
             footprint.append(Text(type='reference', text='REF**', at=[B/2,-3-(rows-1)*pitch], layer='F.SilkS'))
-            #footprint.append(Text(type='user', text='%R', at=[B/2,-3-(rows-1)*pitch], layer='F.Fab'))
+            footprint.append(Text(type='user', text='%R', at=[B/2,-3-(rows-1)*pitch], layer='F.Fab'))
             footprint.append(Text(type='value', text=fp_name, at=[B/2,-4.5-(rows-1)*pitch], layer='F.Fab'))
                 
             #generate the pads
             for r in range(rows):
-                footprint.append(PadArray(pincount=pins, initial=r*pins+1, start=[0,-r*row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=['*.Cu','*.Mask']))
+                footprint.append(PadArray(pincount=pins, initial=r*pins+1, start=[0,-r*row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
             
             #add the locating pin
-            footprint.append(Pad(at=[C,1.34],size=1.3,drill=1.3,type=Pad.TYPE_NPTH,shape=Pad.SHAPE_CIRCLE, layers=["*.Cu"]))
+            footprint.append(Pad(at=[C,1.34],size=1.3,drill=1.3,type=Pad.TYPE_NPTH,shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_NPTH))
             
             #add outline to F.Fab
             #footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
@@ -164,16 +165,17 @@ if __name__ == '__main__':
                 
                 return out
             
-            footprint.append(PolygoneLine(polygone=outline(), layer='F.Fab'))
-            footprint.append(PolygoneLine(polygone=outline(), layer='F.Fab', x_mirror=B/2))
+            footprint.append(PolygoneLine(polygone=outline(), layer='F.Fab', width=KLC_FAB_WIDTH))
+            footprint.append(PolygoneLine(polygone=outline(), layer='F.Fab', width=KLC_FAB_WIDTH, x_mirror=B/2))
             
-            footprint.append(PolygoneLine(polygone=outline(off = 0.15)))
-            footprint.append(PolygoneLine(polygone=outline(off = 0.16), x_mirror=B/2))
+            footprint.append(PolygoneLine(polygone=outline(off = 0.15), width=KLC_SILK_WIDTH))
+            footprint.append(PolygoneLine(polygone=outline(off = 0.15), width=KLC_SILK_WIDTH, x_mirror=B/2))
             
-            footprint.append(RectLine(start=[B/2-TL/2,y2+2*off],end=[B/2+TL/2,y2+TW],offset=-0.5))
+            # draw the tab
+            footprint.append(RectLine(start=[B/2-TL/2,y2+2*off],end=[B/2+TL/2,y2+TW],offset=-0.5, width=KLC_FAB_WIDTH, layer='F.Fab'))
             
             #add the courtyard
-            footprint.append(PolygoneLine(layer='F.CrtYd',width=0.05,grid=0.05,polygone=[
+            footprint.append(PolygoneLine(layer='F.CrtYd',width=KLC_CRTYD_WIDTH,grid=KLC_CRTYD_GRID,polygone=[
             {'x': x1-0.5,'y': y1-0.5},
             {'x': x1-0.5,'y': y2+0.5},
             {'x': B/2-TL/2-0.5,'y': y2+0.5},
@@ -192,7 +194,7 @@ if __name__ == '__main__':
                     x = i * pitch
                     y = -j * pitch
                     
-                    footprint.append(RectLine(start=[x-o,y-o],end=[x+o,y+o], layer='F.Fab'))
+                    footprint.append(RectLine(start=[x-o,y-o],end=[x+o,y+o], layer='F.Fab', width=KLC_FAB_WIDTH))
             
             #pin-1 marker
             x = x1 - 0.5
@@ -205,7 +207,8 @@ if __name__ == '__main__':
             {'x': x,'y': 0},
             ]
             
-            footprint.append(PolygoneLine(polygone=pin))
+            footprint.append(PolygoneLine(polygone=pin, width=KLC_SILK_WIDTH))
+            footprint.append(PolygoneLine(polygone=pin, width=KLC_FAB_WIDTH, layer='F.Fab'))
 
             #Add a model
             footprint.append(Model(filename="Connectors_Molex.3dshapes/" + fp_name + ".wrl"))

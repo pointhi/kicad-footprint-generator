@@ -117,11 +117,12 @@ if __name__ == '__main__':
 
         # set general values
         footprint.append(Text(type='reference', text='REF**', at=[P/2,9], layer='F.SilkS'))
+        footprint.append(Text(type='user', text='%R', at=[P/2,-11], layer='F.Fab'))
         footprint.append(Text(type='value', text=fp_name, at=[P/2,10.5], layer='F.Fab'))
             
         #generate the pads
-        footprint.append(PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=['*.Cu','*.Mask']))
-        footprint.append(PadArray(pincount=pins, initial=pins+1, start=[0, row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=['*.Cu','*.Mask']))
+        footprint.append(PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
+        footprint.append(PadArray(pincount=pins, initial=pins+1, start=[0, row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
         
         #add PCB locators
         r_loc = 3.00
@@ -132,19 +133,19 @@ if __name__ == '__main__':
             lx1 = P/2 - B/2
             lx2 = P/2 + B/2
             
-            footprint.append(Pad(at=[lx1, y_loc],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=r_loc,drill=r_loc, layers=["*.Cu"]))
-            footprint.append(Pad(at=[lx2, y_loc],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=r_loc,drill=r_loc, layers=["*.Cu"]))
+            footprint.append(Pad(at=[lx1, y_loc],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=r_loc,drill=r_loc, layers=Pad.LAYERS_NPTH))
+            footprint.append(Pad(at=[lx2, y_loc],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=r_loc,drill=r_loc, layers=Pad.LAYERS_NPTH))
             
-            footprint.append(Circle(center=[lx1, y_loc],radius=r_loc/2+0.1))
-            footprint.append(Circle(center=[lx2, y_loc],radius=r_loc/2+0.1))
+            footprint.append(Circle(center=[lx1, y_loc],radius=r_loc/2+0.1, width=0.12))
+            footprint.append(Circle(center=[lx2, y_loc],radius=r_loc/2+0.1, width=0.12))
         else:
             #one locator
-            footprint.append(Pad(at=[P/2,y_loc],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=r_loc, drill=r_loc, layers=["*.Cu"]))
+            footprint.append(Pad(at=[P/2,y_loc],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=r_loc, drill=r_loc, layers=Pad.LAYERS_NPTH))
             
-            footprint.append(Circle(center=[P/2,y_loc], radius=r_loc/2+0.1))
+            footprint.append(Circle(center=[P/2,y_loc], radius=r_loc/2+0.1, width=0.12))
             
         #draw the outline of the shape
-        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=0.1))
         
         off = 0.15
         outline = [
@@ -154,15 +155,15 @@ if __name__ == '__main__':
         {'x': -2.5,'y': y2+off},
         ]
         
-        footprint.append(PolygoneLine(polygone=outline))
-        footprint.append(PolygoneLine(polygone=outline,x_mirror=P/2))
+        footprint.append(PolygoneLine(polygone=outline, width=0.12))
+        footprint.append(PolygoneLine(polygone=outline,x_mirror=P/2, width=0.12))
         
         #draw lines between each pin
         for i in range(pins-1):
             xa = i * pitch + size / 2 + 0.3
             xb = (i+1) * pitch - size / 2 - 0.3
             
-            footprint.append(Line(start=[xa,y2+off],end=[xb,y2+off]))
+            footprint.append(Line(start=[xa,y2+off],end=[xb,y2+off], width=0.12))
         
         #draw the pins!
         o = size/2 + 0.3
@@ -171,8 +172,8 @@ if __name__ == '__main__':
             x = i * pitch
             ya = o
             yb = row - o
-            footprint.append(Line(start=[x-w,ya],end=[x-w,yb]))
-            footprint.append(Line(start=[x+w,ya],end=[x+w,yb]))
+            footprint.append(Line(start=[x-w,ya],end=[x-w,yb], width=0.12))
+            footprint.append(Line(start=[x+w,ya],end=[x+w,yb], width=0.12))
          
         #pin-1 marker
         x =  -2.5
@@ -185,7 +186,8 @@ if __name__ == '__main__':
         {'x': x,'y': 0},
         ]
         
-        footprint.append(PolygoneLine(polygone=pin))
+        footprint.append(PolygoneLine(polygone=pin, width=0.12))
+        footprint.append(PolygoneLine(polygone=pin, width=0.1, layer='F.Fab'))
             
         #draw the courtyard
         footprint.append(RectLine(start=[x1,y1],end=[x2,row+size/2], width=0.05, layer='F.CrtYd', offset=0.5, grid=0.05))

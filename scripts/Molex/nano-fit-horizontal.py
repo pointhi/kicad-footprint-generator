@@ -37,6 +37,7 @@ if output_dir and not output_dir.endswith(os.sep):
 #import KicadModTree files
 sys.path.append("..\\..")
 from KicadModTree import *
+from KicadModTree.klc import *
 from KicadModTree.nodes.specialized.PadArray import PadArray
 
 """
@@ -130,35 +131,39 @@ if __name__ == '__main__':
 
             # set general values
             footprint.append(Text(type='reference', text='REF**', at=[B/2,2.2], layer='F.SilkS'))
-            #footprint.append(Text(type='user', text='%R', at=[B/2,-8], layer='F.Fab'))
+            if rows == 1:
+                ry = -4.5
+            else:
+                ry = -7
+            footprint.append(Text(type='user', text='%R', at=[B/2,ry], layer='F.Fab'))
             footprint.append(Text(type='value', text=fp_name, at=[B/2,3.5], layer='F.Fab'))
                 
             #generate the pads
             for r in range(rows):
-                footprint.append(PadArray(pincount=pins, initial=r*pins+1, start=[0,-r*row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=['*.Cu','*.Mask']))
+                footprint.append(PadArray(pincount=pins, initial=r*pins+1, start=[0,-r*row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
             
             #add the locating pins
             x_loc_a = B/2 - C/2
             x_loc_b = B/2 + C/2
             y_loc = -(rows-1)*row-7.18
             r_loc = 1.6
-            footprint.append(Pad(at=[x_loc_a,y_loc],size=r_loc,drill=r_loc,type=Pad.TYPE_NPTH,shape=Pad.SHAPE_CIRCLE, layers=["*.Cu"]))
-            footprint.append(Pad(at=[x_loc_b,y_loc],size=r_loc,drill=r_loc,type=Pad.TYPE_NPTH,shape=Pad.SHAPE_CIRCLE, layers=["*.Cu"]))
+            footprint.append(Pad(at=[x_loc_a,y_loc],size=r_loc,drill=r_loc,type=Pad.TYPE_NPTH,shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_NPTH))
+            footprint.append(Pad(at=[x_loc_b,y_loc],size=r_loc,drill=r_loc,type=Pad.TYPE_NPTH,shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_NPTH))
             
             #add outline to F.Fab
-            footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+            footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab', width=KLC_FAB_WIDTH))
             
-            footprint.append(RectLine(start=[x1,y1],end=[x2,y2],offset=0.15))
+            footprint.append(RectLine(start=[x1,y1],end=[x2,y2],offset=0.15, width=KLC_SILK_WIDTH))
             
             #draw the pins
             for i in range(pins):
                 x = i * pitch
                 y = -1 * (rows - 1) * row - size/2 - 0.25
                 w = 0.15
-                footprint.append(RectLine(start=[x-w,y2+0.15],end=[x+w,y-0.1]))
+                footprint.append(RectLine(start=[x-w,y2+0.15],end=[x+w,y-0.1], width=KLC_SILK_WIDTH))
             
             #add the courtyard
-            footprint.append(RectLine(start=[x1,y1],end=[x2,size/2],layer='F.CrtYd',width=0.05,grid=0.05,offset=0.5))
+            footprint.append(RectLine(start=[x1,y1],end=[x2,size/2],layer='F.CrtYd',width=KLC_CRTYD_WIDTH,grid=KLC_CRTYD_GRID,offset=0.5))
             
             #pin-1 marker
             x = -1.4
@@ -171,7 +176,8 @@ if __name__ == '__main__':
             {'x': x,'y': 0},
             ]
             
-            footprint.append(PolygoneLine(polygone=pin))
+            footprint.append(PolygoneLine(polygone=pin, width=KLC_SILK_WIDTH))
+            footprint.append(PolygoneLine(polygone=pin, width=KLC_FAB_WIDTH, layer='F.Fab'))
 
             #Add a model
             footprint.append(Model(filename="Connectors_Molex.3dshapes/" + fp_name + ".wrl"))

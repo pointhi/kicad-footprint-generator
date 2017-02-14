@@ -90,9 +90,8 @@ if __name__ == '__main__':
         
         # set general values
         footprint.append(Text(type='reference', text='REF**', at=[A/2,3.6], layer='F.SilkS'))
-        #footprint.append(Text(type='user', text='%R', at=[A/2,-3], layer='F.Fab'))
+        footprint.append(Text(type='user', text='%R', at=[A/2,-3], layer='F.Fab'))
         footprint.append(Text(type='value', text=fp_name, at=[A/2,-7.2], layer='F.Fab'))
-        
         
         #connector thickness
         T = 5.75
@@ -105,7 +104,7 @@ if __name__ == '__main__':
         y2 = y1 + 7.3
         
         #add simple outline to F.Fab layer
-        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
+        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=0.1))
         
         #wall-thickness W
         w = 0.45
@@ -117,11 +116,8 @@ if __name__ == '__main__':
         x2 += o
         y2 += o
         
-        
-            
         #generate the pads
         footprint.append(PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=['*.Cu','*.Mask']))
-        
         
         #draw the courtyard
         cy = RectLine(start=[x1,y1],end=[x2,y2],layer='F.CrtYd',width=0.05,offset = 0.5,grid=0.05)
@@ -139,8 +135,8 @@ if __name__ == '__main__':
         {'x': A/2,'y': y1},
         ]
         
-        footprint.append(PolygoneLine(polygone=out))
-        footprint.append(PolygoneLine(polygone=out,x_mirror=A/2))
+        footprint.append(PolygoneLine(polygone=out, width=0.12))
+        footprint.append(PolygoneLine(polygone=out,x_mirror=A/2, width=0.12))
         
         #draw the pin tab bits
         for i in range(pins-1):
@@ -153,7 +149,7 @@ if __name__ == '__main__':
             {'x': x+pitch-0.3,'y': 1},
             ]
             
-            footprint.append(PolygoneLine(polygone=tab))
+            footprint.append(PolygoneLine(polygone=tab,width=0.12))
             
         #add the final tab line
         x = (pins-1) * pitch
@@ -163,14 +159,17 @@ if __name__ == '__main__':
         y =  y2 + 0.5
         m = 0.3
         
+        L = 2.5
+        O = 0.25
+        
         pin = [
-        {'x': 0,'y': y},
-        {'x': -m,'y': y+2*m},
-        {'x': m,'y': y+2*m},
-        {'x': 0,'y': y},
+        {'x': x1 + L, 'y': y2 + O},
+        {'x': x1 - O, 'y': y2 + O},
+        {'x': x1 - O, 'y': y2 - L},
         ]
         
-        footprint.append(PolygoneLine(polygone=pin))
+        footprint.append(PolygoneLine(polygone=pin,width=0.12))
+        footprint.append(PolygoneLine(polygone=pin,width=0.1,layer='F.Fab'))
         
         #wall
         wall = [
@@ -180,7 +179,7 @@ if __name__ == '__main__':
         {'x': x2-w,'y': y1},
         ]
         
-        footprint.append(PolygoneLine(polygone=wall))
+        footprint.append(PolygoneLine(polygone=wall,width=0.12))
         
         #draw each pin
         for i in range(pins):
@@ -196,17 +195,13 @@ if __name__ == '__main__':
             {'x': x+0.25,'y': ya},
             ]
             
-            footprint.append(PolygoneLine(polygone=pin))
+            footprint.append(PolygoneLine(polygone=pin,width=0.12))
             
-            
-        
-        
         #Add a model
         footprint.append(Model(filename="Connectors_Molex.3dshapes/" + fp_name + ".wrl"))
         
         #filename
         filename = output_dir + fp_name + ".kicad_mod"
         
-
         file_handler = KicadFileHandler(footprint)
         file_handler.writeFile(filename)
