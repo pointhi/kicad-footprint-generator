@@ -135,7 +135,7 @@ body_back_protrusion_width = 0.8
 y_min_big_cutout = y_max-1.2
 dx_big_cutout_to_side = 3.45
 
-for pincount in range (2,16):
+for pincount in range (2,17):
     x_mid = 0
     x_max = (pincount-1)*pitch/2.0 + 2.975
     silk_x_max = x_max + silk_to_part_offset

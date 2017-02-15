@@ -119,7 +119,7 @@ silk_x_min = x_min - silk_to_part_offset
 silk_y_min = y_min - silk_to_part_offset
 silk_y_max = y_max + silk_to_part_offset
 
-for pincount in range (2,16):
+for pincount in range (2,17):
     x_mid = (pincount-1)*pitch/2.0
     x_max = (pincount-1)*pitch + 1.95
     silk_x_max = x_max + silk_to_part_offset
