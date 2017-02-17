@@ -3,8 +3,11 @@
 * Thomas Pointhuber <thomas.pointhuber@gmx.at> @pointhi
 
 
-**Other Contributors:**
+**Contributors:**
 
-People who have submitted patches/translates, reported bugs, consulted features or generally made KicadModTree better
+People who have submitted patches, reported bugs, consulted features or generally made KicadModTree better
 
-* @SchrodingersGat
+* Oliver, @SchrodingersGat
+* Jan W. Krieger, @jkriege2
+* Rene Pöschl, @poeschlr
+* Frank, @Frankkkkk
