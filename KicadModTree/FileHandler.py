@@ -28,7 +28,7 @@ class FileHandler(object):
         '''
         Write the output of serialize to a file
         '''
-        f = open(filename, "w")
+        f = open(filename, "w", newline='')
 
         output = self.serialize()
         f.write(output)
