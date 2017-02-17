@@ -2,90 +2,267 @@
 
 import sys
 import os
-sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
+#sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
 
-import argparse
-from kicad_mod import KicadMod, createNumberedPadsSMD
 
-parser = argparse.ArgumentParser()
-parser.add_argument('pincount', help='number of pins of the jst connector', type=int, nargs=1)
-parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true') #TODO
-args = parser.parse_args()
+# export PYTHONPATH="${PYTHONPATH}<path to kicad-footprint-generator directory>"
+from KicadModTree import *
+
+LAYERS_SMT = ['F.Cu','F.Mask','F.Paste']
+LAYERS_THT = ['*.Cu','*.Mask']
+LAYERS_NPTH = ['*.Cu', '*.Mask']
+
+output_dir = os.getcwd()
+_3dshapes = "Connectors_JST.3dshapes"+os.sep
+ref_on_ffab = False
+main_ref_on_silk = True
+fab_line_width = 0.1
+silk_line_width = 0.12
+value_fontsize = [1,1]
+value_fontwidth=0.15
+value_inside = False
+silk_reference_fontsize=[1,1]
+silk_reference_fontwidth=0.15
+fab_reference_fontsize=[0.6,0.6]
+fab_reference_fontwidth=0.1
+
+CrtYd_offset = 0.5
+CrtYd_linewidth = 0.05
+CrtYd_grid = 0.01
+
+pin1_marker_offset = 0.3
+pin1_marker_linelen = 1.25
+fab_pin1_marker_type = 1
+
+pad_to_silk = 0.275
+
+def round_to(n, precision):
+    correction = 0.5 if n >= 0 else -0.5
+    return int( n/precision+correction ) * precision
+
+def round_crty_point(point):
+    return [round_to(point[0],CrtYd_grid),round_to(point[1],CrtYd_grid)]
+
+if len(sys.argv) > 1:
+    if sys.argv[1] == "TERA":
+        ref_on_ffab = True
+        main_ref_on_silk = False
+        fab_line_width = 0.05
+        silk_line_width = 0.15
+        _3dshapes = "tera_Connectors_JST.3dshapes"+os.sep
+        value_fontsize = [0.6,0.6]
+        value_fontwidth = 0.1
+        fab_pin1_marker_type = 2
+        value_inside = True
+    elif sys.argv[1] == "KLCv1.1":
+        _3dshapes = "Connectors_JST.3dshapes"+os.sep
+        ref_on_ffab = False
+        main_ref_on_silk = True
+        fab_line_width = 0.1
+        silk_line_width = 0.15
+        value_fontsize = [1,1]
+        value_fontwidth=0.15
+        value_inside = False
+    elif sys.argv[1] == "KLCv1.2":
+        _3dshapes = "Connectors_JST.3dshapes"+os.sep
+        ref_on_ffab = True
+        main_ref_on_silk = True
+        fab_line_width = 0.1
+        silk_line_width = 0.12
+        value_fontsize = [1,1]
+        value_fontwidth = 0.15
+        value_inside = False
+        silk_reference_fontsize=[1,1]
+        silk_reference_fontwidth=0.15
+        fab_reference_fontsize=[1,1]
+        fab_reference_fontwidth=0.15
+
+out_dir="Connectors_JST.pretty"+os.sep
+if len(sys.argv) > 2:
+    out_dir = sys.argv[1]
+    if out_dir.endswith(".pretty"):
+        out_dir += os.sep
+    if not out_dir.endswith(".pretty"+os.sep):
+        out_dir += ".pretty"+os.sep
+
+if os.path.isabs(out_dir) and os.path.isdir(out_dir):
+    output_dir = out_dir
+else:
+    output_dir = os.path.join(os.getcwd(),out_dir)
+
+if len(sys.argv) > 3:
+    _3dshapes = sys.argv[2]
+    if _3dshapes.endswith(".3dshapes"):
+        _3dshapes += os.sep
+    if not _3dshapes.endswith(".3dshapes"+os.sep):
+        _3dshapes += ".3dshapes"+os.sep
+
+if output_dir and not output_dir.endswith(os.sep):
+    output_dir += os.sep
+
+if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+    os.makedirs(output_dir)
 
 # http://www.jst-mfg.com/product/pdf/eng/ePH.pdf
+#JST_PH_B10B-PH-SM4-TB_10x2.00mm_Straight
+part = "B{n}B-PH-SM4-TB" #JST part number format string
 
-pincount = int(args.pincount[0])
+prefix = "JST_PH_"
+suffix = "_{n:02}x{p:.2f}mm_Straight"
 
-pad_spacing = 2
-start_pos_x = -(pincount-1)*pad_spacing/2
-end_pos_x = (pincount-1)*pad_spacing/2
+pitch = 2.00
 
-# SMT type shrouded header, Top entry type
-footprint_name = 'JST_PH_B{pincount}B-PH-SM4-TB_{pincount:02}x2.00mm_Straight'.format(pincount=pincount)
+pad_size = [1, 7.5-2]
+mount_pad_size = [1.6, 3] #Datasheet: width = 1.5+/-0.1
+pad_y_outside_distance = 7.5-1 #current footprints are wrong. see freecad sketch and Datasheet. (Currently the 0.2 have been forgotten)
+pad_y_center_distance = pad_y_outside_distance-pad_size[1]/2.0-mount_pad_size[1]/2.0
+pad_pos_y = pad_y_center_distance/2.0
+mount_pad_y_pos = -pad_pos_y
+mount_pad_center_x_to_pin = 1.6+mount_pad_size[0]/2.0
 
-kicad_mod = KicadMod(footprint_name)
-kicad_mod.setDescription("http://www.jst-mfg.com/product/pdf/eng/ePH.pdf")
-kicad_mod.setAttribute('smd')
-kicad_mod.setTags('connector jst ph')
-kicad_mod.setCenterPos({'x':0, 'y':(4.75-1.9+0.6)/2})
 
-# set general values
-kicad_mod.addText('reference', 'REF**', {'x':start_pos_x-0.5, 'y':-3-0.275}, 'F.SilkS')
-kicad_mod.addText('value', footprint_name, {'x':0, 'y':7-0.025}, 'F.Fab')
+# Connector Parameters
+silk_to_part_offset = 0.1
 
-# create Silkscreen
+y_min = mount_pad_y_pos - mount_pad_size[1]/2.0 - 1
+y_max = y_min + 5
 
-kicad_mod.addPolygoneLine([{'x':start_pos_x-3, 'y':-1.3}
-                          ,{'x':start_pos_x-3, 'y':-1.9}
-                          ,{'x':end_pos_x+3, 'y':-1.9}
-                          ,{'x':end_pos_x+3, 'y':-1.3}]
-                          ,'F.SilkS', 0.15)
 
-kicad_mod.addPolygoneLine([{'x':start_pos_x-3, 'y':2.5}
-                          ,{'x':start_pos_x-3, 'y':3.1}
-                          ,{'x':start_pos_x-0.9, 'y':3.1}]
-                          ,'F.SilkS', 0.15)
+silk_y_min = y_min - silk_to_part_offset
+silk_y_max = y_max + silk_to_part_offset
+body_back_protrusion_width = 0.8
 
-kicad_mod.addPolygoneLine([{'x':end_pos_x+3, 'y':2.5}
-                          ,{'x':end_pos_x+3, 'y':3.1}
-                          ,{'x':end_pos_x+0.9, 'y':3.1}]
-                          ,'F.SilkS', 0.15)
+y_min_big_cutout = y_max-1.2
+dx_big_cutout_to_side = 3.45
 
-kicad_mod.addPolygoneLine([{'x':start_pos_x+0.5, 'y':-1.9}
-                          ,{'x':start_pos_x+0.5, 'y':-1.2}
-                          ,{'x':start_pos_x-1.2, 'y':-1.2} # -1.45
-                          ,{'x':start_pos_x-1.2, 'y':2.3}
-                          ,{'x':start_pos_x-0.9, 'y':2.3}] 
-                          ,'F.SilkS', 0.15)
+for pincount in range (2,17):
+    x_mid = 0
+    x_max = (pincount-1)*pitch/2.0 + 2.975
+    silk_x_max = x_max + silk_to_part_offset
+    x_min = -x_max
+    silk_x_min = x_min - silk_to_part_offset
+    first_pad_x=-(pincount-1)/2.0*pitch
+    x_left_mount_pad = first_pad_x-mount_pad_center_x_to_pin
 
-kicad_mod.addPolygoneLine([{'x':end_pos_x-0.5, 'y':-1.9}
-                          ,{'x':end_pos_x-0.5, 'y':-1.2}
-                          ,{'x':end_pos_x+1.2, 'y':-1.2} # +1.45
-                          ,{'x':end_pos_x+1.2, 'y':2.3}
-                          ,{'x':end_pos_x+0.9, 'y':2.3}] 
-                          ,'F.SilkS', 0.15)
+    # Through-hole type shrouded header, Top entry type
+    footprint_name = prefix + part.format(n=pincount) + suffix.format(n=pincount, p=pitch)
 
-for i in range(0, pincount-1):
-    middle_x = start_pos_x+1+i*2
-    start_x = middle_x-0.1
-    end_x = middle_x+0.1
-    kicad_mod.addLine({'x':start_x, 'y':3.1}, {'x':end_x, 'y':3.1}, 'F.SilkS', 0.15)
-    kicad_mod.addLine({'x':start_x, 'y':2.3}, {'x':end_x, 'y':2.3}, 'F.SilkS', 0.15)
-    kicad_mod.addPolygoneLine([{'x':start_x, 'y':2.3}
-                              ,{'x':start_x, 'y':1.8}
-                              ,{'x':end_x, 'y':1.8}
-                              ,{'x':end_x, 'y':2.3}], 'F.SilkS', 0.15)
-    kicad_mod.addLine({'x':middle_x, 'y':2.3}, {'x':middle_x, 'y':1.8}, 'F.SilkS', 0.15)
+    kicad_mod = Footprint(footprint_name)
+    description = "JST PH series connector, " + part.format(n=pincount) + ", top entry type, surface mount, Datasheet: http://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
+    kicad_mod.setDescription(description)
+    kicad_mod.setTags('connector jst ph')
+    kicad_mod.setAttribute("smd")
 
-kicad_mod.addCircle({'x':start_pos_x-2.95+0.8+0.75, 'y':3.1+0.75}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
+    # set general values
+    ref_pos_1=[x_mid, y_min-0.5-silk_reference_fontsize[0]/2.0]
+    ref_pos_2=[x_mid, y_min+0.5+silk_reference_fontsize[0]/2.0]
+    if ref_on_ffab and not main_ref_on_silk:
+        kicad_mod.append(Text(type='user', text='%R', at=ref_pos_1, layer='F.SilkS',
+            size=silk_reference_fontsize, thickness=silk_reference_fontwidth))
+        kicad_mod.append(Text(type='reference', text='REF**', layer='F.Fab',
+            at=ref_pos_2, size=fab_reference_fontsize, thickness=fab_reference_fontwidth))
+    elif ref_on_ffab and main_ref_on_silk:
+        kicad_mod.append(Text(type='user', text='%R', at=ref_pos_2, layer='F.Fab',
+            size=silk_reference_fontsize, thickness=silk_reference_fontwidth))
+        kicad_mod.append(Text(type='reference', text='REF**', layer='F.SilkS',
+            at=ref_pos_1, size=fab_reference_fontsize, thickness=fab_reference_fontwidth))
+    else:
+        kicad_mod.append(Text(type='reference', text='REF**', layer='F.SilkS',
+            at=ref_pos_1, size=silk_reference_fontsize, thickness=silk_reference_fontwidth))
 
-# create Courtyard
-kicad_mod.addRectLine({'x':start_pos_x-1.6-1.6-0.5, 'y':5.6+0.275 + 0.25}, {'x':end_pos_x+1.6+1.6+0.5, 'y':-1.9-0.275-0.25}, 'F.CrtYd', 0.05)
+    value_pos_y=pad_pos_y+pad_size[1]/2.0+0.5+value_fontsize[0]/2.0
+    kicad_mod.append(Text(type='value', text=footprint_name, at=[x_mid, value_pos_y], layer='F.Fab',
+        size=value_fontsize, thickness=value_fontwidth))
 
-# create pads
-createNumberedPadsSMD(kicad_mod, pincount, 2, {'x':1, 'y':5.5}, 4.75-1.9) #TODO y
-kicad_mod.addPad('""', 'smd', 'rect', {'x':start_pos_x-1.6-1.6/2, 'y':0.6}, {'x':1.6, 'y':3}, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
-kicad_mod.addPad('""', 'smd', 'rect', {'x':end_pos_x+1.6+1.6/2, 'y':0.6}, {'x':1.6, 'y':3}, 0, ['F.Cu', 'F.Paste', 'F.Mask'])
+    # create Silkscreen
+    poly_silk_top = [
+        {'x':silk_x_min, 'y':mount_pad_y_pos-mount_pad_size[1]/2.0-pad_to_silk},
+        {'x':silk_x_min, 'y':silk_y_min},
+        {'x':silk_x_max, 'y':silk_y_min},
+        {'x':silk_x_max, 'y':mount_pad_y_pos-mount_pad_size[1]/2.0-pad_to_silk}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_top, layer='F.SilkS', width=silk_line_width))
 
-# output kicad model
-print(kicad_mod)
+    poly_silk_bottom_left = [
+        {'x':silk_x_min, 'y':mount_pad_y_pos+mount_pad_size[1]/2.0+pad_to_silk},
+        {'x':silk_x_min, 'y':silk_y_max},
+        {'x':first_pad_x-pad_size[0]/2.0-pad_to_silk, 'y':silk_y_max}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_bottom_left, layer='F.SilkS', width=silk_line_width))
+
+    poly_silk_bottom_right = [
+        {'x':silk_x_max, 'y':mount_pad_y_pos+mount_pad_size[1]/2.0+pad_to_silk},
+        {'x':silk_x_max, 'y':silk_y_max},
+        {'x':-first_pad_x+pad_size[0]/2.0+pad_to_silk, 'y':silk_y_max}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_bottom_right, layer='F.SilkS', width=silk_line_width))
+
+    poly_silk_inner_left = [
+        {'x':silk_x_min+3.5, 'y':silk_y_min},
+        {'x':silk_x_min+3.5, 'y':silk_y_min+0.7},
+        {'x':silk_x_min+1.8, 'y':silk_y_min+0.7},
+        {'x':silk_x_min+1.8, 'y':silk_y_max-0.8},
+        {'x':first_pad_x-pad_size[0]/2.0-pad_to_silk, 'y':silk_y_max-0.8}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_inner_left, layer='F.SilkS', width=silk_line_width))
+
+    poly_silk_inner_right = [
+        {'x':silk_x_max-3.5, 'y':silk_y_min},
+        {'x':silk_x_max-3.5, 'y':silk_y_min+0.7},
+        {'x':silk_x_max-1.8, 'y':silk_y_min+0.7},
+        {'x':silk_x_max-1.8, 'y':silk_y_max-0.8},
+        {'x':-first_pad_x+pad_size[0]/2.0+pad_to_silk, 'y':silk_y_max-0.8}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_inner_right, layer='F.SilkS', width=silk_line_width))
+
+    #Fab outline
+    kicad_mod.append(RectLine(start=[x_min, y_min], end=[x_max, y_max],
+        layer='F.Fab', width=fab_line_width))
+    #Pin 1 Marker
+    kicad_mod.append(Line(start=[first_pad_x-pad_size[0]/2.0-pad_to_silk, silk_y_max],
+        end=[first_pad_x-pad_size[0]/2.0-pad_to_silk, pad_pos_y+pad_size[1]/2.0],
+        layer='F.SilkS', width=silk_line_width))
+    poly_pin1_marker = [
+        {'x':first_pad_x-1, 'y':y_max},
+        {'x':first_pad_x, 'y':y_max-1},
+        {'x':first_pad_x+1, 'y':y_max}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.Fab', width=fab_line_width))
+    #kicad_mod.addCircle({'x':start_pos_x-2.95+0.8+0.75, 'y':3.1+0.75}, {'x':0.25, 'y':0}, 'F.SilkS', 0.15)
+
+    # create Courtyard
+    part_x_min = x_left_mount_pad - mount_pad_size[0]/2.0
+    part_x_max = -x_left_mount_pad + mount_pad_size[0]/2.0
+    part_y_min = y_min
+    part_y_max = pad_pos_y+pad_size[1]/2.0
+
+    kicad_mod.append(RectLine(start=round_crty_point([part_x_min-CrtYd_offset, part_y_min-CrtYd_offset]),
+        end=round_crty_point([part_x_max+CrtYd_offset, part_y_max+CrtYd_offset]),
+        layer='F.CrtYd', width=CrtYd_linewidth))
+
+    # create pads
+    #create Pads
+    for p in range(pincount):
+        Y = pad_pos_y
+        X = first_pad_x + p * pitch
+
+        num = p
+        kicad_mod.append(Pad(number=num, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                            at=[X, Y], size=pad_size, layers=LAYERS_SMT))
+
+    kicad_mod.append(Pad(number ='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        at=[x_left_mount_pad, mount_pad_y_pos],
+                        size=mount_pad_size, layers=LAYERS_SMT))
+    kicad_mod.append(Pad(number ='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        at=[-x_left_mount_pad, mount_pad_y_pos],
+                        size=mount_pad_size, layers=LAYERS_SMT))
+    #Add a model
+    kicad_mod.append(Model(filename=_3dshapes + footprint_name + ".wrl", at=[0,0,0], scale=[1,1,1], rotate=[0,0,0]))
+
+
+    #filename
+    filename = output_dir + footprint_name + ".kicad_mod"
+
+
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile(filename)
