@@ -53,30 +53,40 @@ class ModArgparser(object):
     def _parse_and_execute_yml(self, filepath):
         with open(filepath, 'r') as stream:
             try:
-                parsed = yaml.load(stream)
+                parsed = yaml.load(stream)  # parse file
+
                 if parsed is None:
-                    print("file is empty!")
+                    print("empty file!")
                     return
 
                 for footprint in parsed:
                     kwargs = parsed.get(footprint)
+
+                    # name is a reserved key
                     if 'name' in kwargs:
                         print("ERROR: name is already used for root name!")
                         continue
                     kwargs['name'] = footprint
-                    self._execute_script(**kwargs)
+
+                    self._execute_script(**kwargs)  # now we can execute the script
+
             except yaml.YAMLError as exc:
                 print(exc)
 
     def _parse_and_execute_csv(self, filepath):
         with open(filepath, 'r') as stream:
-            reader = csv.DictReader(stream, delimiter=';')
+            dialect = csv.Sniffer().sniff(stream.read(1024))  # check which type of formating the csv file likel has
+            stream.seek(0)
+
+            reader = csv.DictReader(stream, dialect=dialect)  # parse file
 
             for row in reader:
-                trimmed_dict = {}
+                # we wan't to remove spaces before and after the fields
+                kwargs = {}
                 for k, v in row.items():
-                    trimmed_dict[k.strip()] = v.strip()
-                self._execute_script(**trimmed_dict)
+                    kwargs[k.strip()] = v.strip()
+
+                self._execute_script(**kwargs)  # now we can execute the script
 
     def _execute_script(self, **kwargs):
         parsed_args = {}
