@@ -19,7 +19,7 @@ tags = "connector hirose df13 top straight vertical through thru hole"
 
 for pincount in range(2,16):
 
-    part = "DF13-{pincount:02}P-125DSA".format(pincount=pincount)
+    part = "DF13-{pincount:02}P-1.25DSA".format(pincount=pincount)
     
     footprint_name = "{0}_{1}_{2:02}x{3:.2f}mm_{4}".format(manu,part,pincount,pitch,suffix)
 
@@ -27,9 +27,13 @@ for pincount in range(2,16):
     kicad_mod.setDescription(desc)
     kicad_mod.setTags(tags)
 
+    A = (pincount - 1) * pitch
+    B = A + 2.9
+    
     # set general values
-    kicad_mod.addText('reference', 'REF**', {'x':0, 'y':2.5}, 'F.SilkS')
-    kicad_mod.addText('value', footprint_name, {'x':0, 'y':4}, 'F.Fab')
+    kicad_mod.addText('reference', 'REF**', {'x':A/2, 'y':-4}, 'F.SilkS')
+    #kicad_mod.addText('user', '%R', {'x':A/2, 'y':-4}, 'F.Fab')
+    kicad_mod.addText('value', footprint_name, {'x':A/2, 'y':2.5}, 'F.Fab')
     
     drill = 0.6
 
@@ -39,8 +43,6 @@ for pincount in range(2,16):
     # create pads
     createNumberedPadsTHT(kicad_mod, pincount, pitch, drill, {'x':x_dia, 'y':y_dia})
     
-    A = (pincount - 1) * pitch
-    B = A + 2.9
     
     x1 = -(B-A) / 2
     y1 = -2.2
@@ -146,19 +148,9 @@ for pincount in range(2,16):
     
     kicad_mod.model = "Connectors_Hirose.3dshapes/" + footprint_name + ".wrl"
     
-    #shift the model along
-    
-    if pincount % 2 == 0: #even
-        xOff = (pincount / 2 - 0.5) * pitch
-    else:
-        xOff = (pincount / 2) * pitch
-        
-    kicad_mod.model_pos['x'] = xOff / 25.4
-    kicad_mod.model_rot['z'] = 180
-    
     # output kicad model
     f = open(footprint_name + ".kicad_mod","w")
     
-    f.write(kicad_mod.__str__())
+    f.write(kicad_mod.__str__() + "\n")
 
     f.close()

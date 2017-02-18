@@ -19,10 +19,12 @@ tags = "connector hirose df13 top straight vertical surface mount SMD SMT"
 
 for pincount in range(2,16):
 
-    part = "DF13C-{pincount:02}P-125V".format(pincount=pincount)
+    part = "DF13C-{pincount:02}P-1.25V".format(pincount=pincount)
     
     footprint_name = "{0}_{1}_{2:02}x{3:.2f}mm_{4}".format(manu,part,pincount,pitch,suffix)
 
+    print(footprint_name)
+    
     kicad_mod = KicadMod(footprint_name)
     kicad_mod.setDescription(desc)
     kicad_mod.setTags(tags)
@@ -64,8 +66,15 @@ for pincount in range(2,16):
     x2 = B / 2
     y2 = 3.5
     
+    #draw the connector outline on the F.Fab layer
+    kicad_mod.addRectLine(
+        {'x': x1,'y': y1},
+        {'x': x2,'y': y2},
+        'F.Fab', 0.15
+    )
+    
     #line offset 
-    off = 0.1
+    off = 0.15
     
     x1 -= off
     y1 -= off
@@ -117,7 +126,7 @@ for pincount in range(2,16):
                                    {'x': px-w,'y': py+w},
                                    {'x': px+w,'y': py+w},
                                    {'x': px+w,'y': py-w},
-                                   {'x': px-w,'y': py-w}])
+                                   {'x': px-w,'y': py-w}], 'F.Fab')
     
               
     #add a courtyard
