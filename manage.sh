@@ -3,7 +3,12 @@ PYTHONPATH=$BASE_DIR
 KICADMODTREE_DIR="$BASE_DIR/KicadModTree"
 ACTION=$1
 
+update_packages() {
+    pip install --upgrade -r "$BASE_DIR/requirements.txt"
+}
+
 update_dev_packages() {
+	update_packages
     pip install --upgrade -r "$BASE_DIR/requirements-dev.txt"
 }
 
@@ -52,6 +57,7 @@ Commands
     unit_tests           - Run unit tests
     py_test_coverage     - Unit test coverage
     tests                - Run all tests
+    update_packages      - Check & update production dependency changes
     update_dev_packages  - Check & update development and production dependency changes
 "
 }
