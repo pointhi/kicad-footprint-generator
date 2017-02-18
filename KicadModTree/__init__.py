@@ -20,3 +20,6 @@ from KicadModTree.nodes import *
 
 # File Handlers
 from KicadModTree.KicadFileHandler import KicadFileHandler
+
+# Argparser
+from KicadModTree.ModArgparser import ModArgparser
