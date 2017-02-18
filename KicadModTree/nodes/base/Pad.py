@@ -51,7 +51,7 @@ class Pad(Node):
         self._initLayers(**kwargs)
 
     def _initNumber(self, **kwargs):
-        self.number = kwargs.get('number', '""')  # default to an un-numbered pad
+        self.number = kwargs.get('number')  # default to an un-numbered pad
 
     def _initType(self, **kwargs):
         if not kwargs.get('type'):
