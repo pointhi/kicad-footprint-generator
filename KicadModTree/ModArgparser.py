@@ -15,6 +15,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 (C) 2017 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 '''
 
+import sys
 import argparse
 import yaml
 import csv
@@ -30,17 +31,28 @@ class ModArgparser(object):
         self._footprint_function = footprint_function
         self._params = {}
 
-    def addParam(self, name, **kwargs):
+    def add_parameter(self, name, **kwargs):
         self._params[name] = kwargs
 
     def run(self):
         parser = argparse.ArgumentParser(description='Parse footprint defintion file(s) and create matching footprints')
-        parser.add_argument('files', metavar='file', type=str, nargs='+', help='.yml or .csv files which contains data')
+        parser.add_argument('files', metavar='file', type=str, nargs='*', help='.yml or .csv files which contains data')
         parser.add_argument('-v', '--verbose', help='show some additional information', action='store_true')  # TODO
+        parser.add_argument('--print_yml', help='print example .yml file', action='store_true')
+        parser.add_argument('--print_csv', help='print example .csv file', action='store_true')
 
         # TODO: allow writing into sub dir
 
         args = parser.parse_args()
+
+        if args.print_yml:
+            self._print_example_yml()
+            return
+
+        if args.print_csv:
+            self._print_example_csv()
+            return
+
         for filepath in args.files:
             print("use file: {0}".format(filepath))
             if filepath.endswith('.yml') or filepath.endswith('.yaml'):
@@ -73,6 +85,42 @@ class ModArgparser(object):
             except yaml.YAMLError as exc:
                 print(exc)
 
+    def _create_example_data_required(self, **kwargs):
+        params = {}
+        for k, v in self._params.items():
+            if kwargs.get('include_name', False) is False and k == "name":
+                continue
+            if v.get('required', False):
+                params[k] = self._create_example_datapoint(v.get('type', str))
+
+        return params
+
+    def _create_example_data_full(self, **kwargs):
+        params = {}
+        for k, v in self._params.items():
+            if kwargs.get('include_name', False) is False and k == "name":
+                continue
+            params[k] = self._create_example_datapoint(v.get('type', str))
+
+        return params
+
+    def _create_example_datapoint(self, type):
+        if type is bool:
+            return False
+        elif type is int:
+            return 0
+        elif type is float:
+            return 0.0
+        elif type is str:
+            return "some string"
+        else:
+            return "??"
+
+    def _print_example_yml(self):
+        data = {'footprint_required': self._create_example_data_required(),
+                'footprint_full': self._create_example_data_full()}
+        print(yaml.dump(data, default_flow_style=False))
+
     def _parse_and_execute_csv(self, filepath):
         with open(filepath, 'r') as stream:
             dialect = csv.Sniffer().sniff(stream.read(1024))  # check which type of formating the csv file likel has
@@ -87,6 +135,13 @@ class ModArgparser(object):
                     kwargs[k.strip()] = v.strip()
 
                 self._execute_script(**kwargs)  # now we can execute the script
+
+    def _print_example_csv(self):
+        writer = csv.DictWriter(sys.stdout, fieldnames=self._params.keys())
+
+        writer.writeheader()
+        writer.writerow(self._create_example_data_required(include_name=True))
+        writer.writerow(self._create_example_data_full(include_name=True))
 
     def _execute_script(self, **kwargs):
         parsed_args = {}

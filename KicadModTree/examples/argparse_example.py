@@ -30,11 +30,11 @@ def example_footprint(args):
 
 if __name__ == '__main__':
     parser = ModArgparser(example_footprint)
-    parser.addParam("name", type=str, required=True)  # the root node of .yml files is parsed as name
-    parser.addParam("datasheet", type=str, required=False)
-    parser.addParam("courtjard", type=float, required=False, default=0.25)
-    parser.addParam("diameter", type=float, required=True)
-    parser.addParam("pad_length", type=float, required=True)
-    parser.addParam("pad_width", type=float, required=True)
+    parser.add_parameter("name", type=str, required=True)  # the root node of .yml files is parsed as name
+    parser.add_parameter("datasheet", type=str, required=False)
+    parser.add_parameter("courtjard", type=float, required=False, default=0.25)
+    parser.add_parameter("diameter", type=float, required=True)
+    parser.add_parameter("pad_length", type=float, required=True)
+    parser.add_parameter("pad_width", type=float, required=True)
 
     parser.run()  # now run our script which handles the whole part of parsing the files
