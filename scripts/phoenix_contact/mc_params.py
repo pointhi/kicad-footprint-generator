@@ -350,6 +350,6 @@ def generate_description(params):
     d = "Generic Phoenix Contact connector footprint for series: " + params.series_name + "; number of pins: " + ("%02d" %params.num_pins) + "; pin pitch: " + (('%.2f' % params.pin_pitch))\
         +"mm" + ('; Angled' if params.angled else '; Vertical')\
         + ('; threaded flange' + (' (footprint includes mount hole)' if params.mount_hole else '') if params.flanged else '')
-    for order_num, info in params.order_info.iteritems():
+    for order_num, info in params.order_info.items():
         d += " || order number: " + order_num + " " + info
     return d

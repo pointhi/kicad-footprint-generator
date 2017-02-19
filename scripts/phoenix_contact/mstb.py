@@ -241,6 +241,6 @@ if __name__ == "__main__":
         if not os.path.exists(options.out_dir):
             os.makedirs(options.out_dir)
         model_filter_regobj=re.compile(options.model_filter)
-        for model, params in all_params.iteritems():
+        for model, params in all_params.items():
             if model_filter_regobj.match(model):
                 generate_one_footprint(model, params, options)
