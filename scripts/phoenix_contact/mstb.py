@@ -214,16 +214,29 @@ def generate_one_footprint(model, params, options):
     kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left), end=round_crty_point(crtyd_bottom_right), layer='F.CrtYd'))
 
     ################################################# Text Fields #################################################
-    ref_pos_1=[center_x + (0 if params.num_pins > 2 else 1), crtyd_top_left[1]-0.7]
-    ref_pos_2=[center_x, (3 if params.angled else 0)]
-    kicad_mod.append(Text(type='reference', text='REF**', layer=('F.Fab' if options.reference_on_fab_layer else'F.SilkS'),
-        at=(ref_pos_2 if options.reference_on_fab_layer else ref_pos_1)))
-    if options.reference_on_fab_layer:
-        kicad_mod.append(Text(type='user', text='%R', at=ref_pos_1, layer='F.SilkS'))
-    kicad_mod.append(Text(type='value', text=footprint_name, layer='F.Fab', at=[center_x, crtyd_bottom_right[1]+1]))
+    silk_ref_pos =[center_x + (0 if params.num_pins > 2 else 1),
+        crtyd_top_left[1] - options.main_ref_fontsize[1]/2.0]
+    fab_ref_pos = [center_x,
+        (3 if params.angled else -3) if options.use_second_ref else silk_ref_pos[1]]
+
+    value_pos = [center_x, silk_bottom_right[1] -0.5 - options.value_fontsize[1]/2.0 if options.value_inside else crtyd_bottom_right[1] + options.value_fontsize[1]/2.0]
+
+    kicad_mod.append(Text(type='reference', text='REF**',
+        layer=('F.SilkS' if options.main_ref_on_silk else'F.Fab'),
+        at=(silk_ref_pos if options.main_ref_on_silk else fab_ref_pos),
+        size=options.main_ref_fontsize,
+        thickness=options.main_ref_fontwidth))
+    if options.use_second_ref:
+        kicad_mod.append(Text(type='user', text='%R',
+            layer=('F.SilkS' if not options.main_ref_on_silk else'F.Fab'),
+            at=(silk_ref_pos if not options.main_ref_on_silk else fab_ref_pos)))
+
+    kicad_mod.append(Text(type='value', text=footprint_name, layer='F.Fab', at=value_pos,
+        size=options.value_fontsize,
+        thickness=options.value_fontwidth))
 
     ################################################# Pin 1 Marker #################################################
-    kicad_mod.append(PolygoneLine(polygone=create_marker_poly(crtyd_top_left[1])))
+    kicad_mod.append(PolygoneLine(polygone=options.create_marker_poly(crtyd_top_left[1])))
 
     #################################################### 3d file ###################################################
     p3dname = options.packages_3d + footprint_name + ".wrl"
