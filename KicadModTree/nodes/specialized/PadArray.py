@@ -153,7 +153,3 @@ class PadArray(Node):
         
     def getVirtualChilds(self):
         return self.virtual_childs
-        
-        
-        
-        

@@ -26,7 +26,7 @@ class Line(Node):
         self.end_pos = Point(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.width = kwargs.get('width', 0.15)
+        self.width = kwargs.get('width')
 
     def calculateBoundingBox(self):
         render_start_pos = self.getRealPosition(self.start_pos)

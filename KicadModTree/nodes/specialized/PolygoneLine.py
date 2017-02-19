@@ -55,7 +55,6 @@ class PolygoneLine(Node):
         nodes = []
 
         for line_start, line_end in zip(polygone_line, polygone_line[1:]):
-        
             new_node = Line(start=line_start, end=line_end, layer=self.layer, width=self.width)
             new_node._parent = self
             nodes.append(new_node)
