@@ -33,6 +33,7 @@ When you serialize your footprint, the serialize command only has to handle base
 This allows us to write specialized nodes without worrying about the FileHandlers or other core systems.
 You simply create you special node, and the framework knows how to handle it seamlessly.
 
+Please also look into the [Documentation](http://kicad-footprint-generator.readthedocs.io/en/latest/) for further details
 
 ### Base Nodes
 
