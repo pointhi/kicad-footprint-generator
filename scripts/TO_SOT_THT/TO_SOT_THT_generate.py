@@ -1116,8 +1116,8 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 if __name__ == '__main__':
     # make standard packages
     packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK","TO-3PB"]
-    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4], [3], [3], [3],  [3]]
-    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54], [0], [0], [0],  [0]]
+    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3]]
+    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0]]
     has3dv = [[True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
               [True, True, True, True], [True], [True], [True], [True], ]
     has3dh = [ [True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],

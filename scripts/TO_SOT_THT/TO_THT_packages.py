@@ -397,6 +397,8 @@ class pack:
                 self.more_packnames.append("Pentawatt")
                 self.more_packnames.append("Multiwatt-5")
                 self.staggered_pin_minlength = 2.05+1.28  # y-offset of back-pins in staggered mode
+                self.rm = 1.7
+                self.pad = [1.3, 1.8]
             if pins == 9:
                 self.pinw = [0.5, 0.38];
                 self.drill = 0.7
