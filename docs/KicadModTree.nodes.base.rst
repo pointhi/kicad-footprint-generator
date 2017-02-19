@@ -1,9 +1,6 @@
 KicadModTree.nodes.base package
 ===============================
 
-Submodules
-----------
-
 KicadModTree.nodes.base.Arc module
 ----------------------------------
 
@@ -48,15 +45,6 @@ KicadModTree.nodes.base.Text module
 -----------------------------------
 
 .. automodule:: KicadModTree.nodes.base.Text
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: KicadModTree.nodes.base
     :members:
     :undoc-members:
     :show-inheritance:

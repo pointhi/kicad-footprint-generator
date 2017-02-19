@@ -23,12 +23,12 @@ This allows us to write specialized nodes without worrying about the FileHandler
 You simply create you special node, and the framework knows how to handle it seamlessly.
 
 
-Datastructures
-==============
+Module Index
+============
 
 .. toctree::
    :maxdepth: 4
-   :caption: Contents:
+   :glob:
 
    KicadModTree
 

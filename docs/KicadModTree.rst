@@ -1,16 +1,11 @@
 KicadModTree package
 ====================
 
-Subpackages
------------
-
 .. toctree::
 
     KicadModTree.nodes
     KicadModTree.util
 
-Submodules
-----------
 
 KicadModTree.FileHandler module
 -------------------------------
@@ -44,11 +39,3 @@ KicadModTree.Point module
     :undoc-members:
     :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: KicadModTree
-    :members:
-    :undoc-members:
-    :show-inheritance:

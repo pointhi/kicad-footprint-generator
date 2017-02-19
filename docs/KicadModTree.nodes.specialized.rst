@@ -1,9 +1,6 @@
 KicadModTree.nodes.specialized package
 ======================================
 
-Submodules
-----------
-
 KicadModTree.nodes.specialized.FilledRect module
 ------------------------------------------------
 
@@ -48,15 +45,6 @@ KicadModTree.nodes.specialized.Translation module
 -------------------------------------------------
 
 .. automodule:: KicadModTree.nodes.specialized.Translation
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: KicadModTree.nodes.specialized
     :members:
     :undoc-members:
     :show-inheritance:
