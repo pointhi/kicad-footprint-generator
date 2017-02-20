@@ -5,8 +5,8 @@ def round_to(n, precision):
 def v_add(p1,p2):
     return [p1[0]+p2[0],p1[1]+p2[1]]
 
-def round_crty_point(point):
-    return [round_to(point[0],0.05),round_to(point[1],0.05)]
+def round_crty_point(point, grid_size):
+    return [round_to(point[0], grid_size),round_to(point[1], grid_size)]
 
 def offset_dir(coordinate, offset, center=0):
     if coordinate > center:

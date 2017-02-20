@@ -160,7 +160,7 @@ def generate_one_footprint(motel, params, options):
     else:
         crtyd_top_left=v_offset(body_top_left, options.courtyard_distance)
     crtyd_bottom_right=v_offset(body_bottom_right, options.courtyard_distance)
-    kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left), end=round_crty_point(crtyd_bottom_right), layer='F.CrtYd'))
+    kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left, options.courtyard_grid), end=round_crty_point(crtyd_bottom_right, options.courtyard_grid), layer='F.CrtYd'))
 
     ################################################# Text Fields #################################################
     silk_ref_pos =[center_x + (0 if params.num_pins > 2 else 1),

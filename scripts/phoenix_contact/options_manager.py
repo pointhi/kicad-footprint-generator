@@ -20,6 +20,7 @@ class OptionManager():
         self.packages_3d=self.lib_name+".3dshapes"+os.sep
 
         self.courtyard_distance = 0.5
+        self.courtyard_grid = 0.05
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.15
         self.silk_line_width = 0.15
@@ -45,6 +46,7 @@ class OptionManager():
         self.packages_3d=self.lib_name+".3dshapes"+os.sep
 
         self.courtyard_distance = 0.5
+        self.courtyard_grid = 0.05
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.1
         self.silk_line_width = 0.12
@@ -70,6 +72,7 @@ class OptionManager():
         self.packages_3d=self.lib_name+".3dshapes"+os.sep
 
         self.courtyard_distance = 0.5
+        self.courtyard_grid = 0.01
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.1
         self.silk_line_width = 0.12
@@ -95,6 +98,7 @@ class OptionManager():
         self.packages_3d=self.lib_name+".3dshapes"+os.sep
 
         self.courtyard_distance = 0.5
+        self.courtyard_grid = 0.01
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.05
         self.silk_line_width = 0.15
