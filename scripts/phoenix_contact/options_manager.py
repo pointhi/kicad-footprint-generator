@@ -21,6 +21,9 @@ class OptionManager():
 
         self.courtyard_distance = 0.5
         self.courtyard_grid = 0.05
+        self.courtyard_line_width = 0.05
+        self.courtyard_for_mountscrews = False
+
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.15
         self.silk_line_width = 0.15
@@ -47,6 +50,9 @@ class OptionManager():
 
         self.courtyard_distance = 0.5
         self.courtyard_grid = 0.05
+        self.courtyard_line_width = 0.05
+        self.courtyard_for_mountscrews = False
+
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.1
         self.silk_line_width = 0.12
@@ -73,6 +79,9 @@ class OptionManager():
 
         self.courtyard_distance = 0.5
         self.courtyard_grid = 0.01
+        self.courtyard_line_width = 0.05
+        self.courtyard_for_mountscrews = False
+
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.1
         self.silk_line_width = 0.12
@@ -99,6 +108,9 @@ class OptionManager():
 
         self.courtyard_distance = 0.5
         self.courtyard_grid = 0.01
+        self.courtyard_line_width = 0.05
+        self.courtyard_for_mountscrews = True
+
         self.silk_body_offset = 0.08
         self.fab_line_width = 0.05
         self.silk_line_width = 0.15

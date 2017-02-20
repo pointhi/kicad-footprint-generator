@@ -150,9 +150,9 @@ def generate_one_footprint(motel, params, options):
     if params.mount_hole:
         kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r+options.silk_body_offset, layer='B.SilkS', width=options.silk_line_width))
         kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r+options.silk_body_offset, layer='B.SilkS', width=options.silk_line_width))
-        if options.inner_details_on_fab:
-            kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=options.fab_line_width))
-            kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=options.fab_line_width))
+
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=options.fab_line_width))
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=options.fab_line_width))
 
     ################################################## Courtyard ##################################################
     if params.angled:
@@ -160,7 +160,11 @@ def generate_one_footprint(motel, params, options):
     else:
         crtyd_top_left=v_offset(body_top_left, options.courtyard_distance)
     crtyd_bottom_right=v_offset(body_bottom_right, options.courtyard_distance)
-    kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left, options.courtyard_grid), end=round_crty_point(crtyd_bottom_right, options.courtyard_grid), layer='F.CrtYd'))
+    kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left, options.courtyard_grid), end=round_crty_point(crtyd_bottom_right, options.courtyard_grid), layer='F.CrtYd', width=options.courtyard_line_width))
+
+    if params.mount_hole and options.courtyard_for_mountscrews:
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r+options.courtyard_distance, layer='B.CrtYd', width=options.courtyard_line_width))
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r+options.courtyard_distance, layer='B.CrtYd', width=options.courtyard_line_width))
 
     ################################################# Text Fields #################################################
     silk_ref_pos =[center_x + (0 if params.num_pins > 2 else 1),
