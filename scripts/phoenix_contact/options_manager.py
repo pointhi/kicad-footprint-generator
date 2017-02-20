@@ -49,7 +49,7 @@ class OptionManager():
         self.fab_line_width = 0.1
         self.silk_line_width = 0.12
 
-        self.with_fab_layer = False
+        self.with_fab_layer = True
         self.inner_details_on_fab = False
         self.use_second_ref = False
         self.main_ref_on_silk = False
@@ -155,7 +155,7 @@ class OptionManager():
     def printHelp(self):
         print("The following options can be used to configurate the generated footprints:\n"+
             "\t"+' or '.join(self.helpstr) + " prints this help message and stops. (only if first parameter)\n"+
-            "\t --useconfig=[KLCv1.2 | KLCv1.1 | KLCv1.0 | TERA] without any option KLCv1.2 will be used"
+            "\t--useconfig=[KLCv1.2 | KLCv1.1 | KLCv1.0 | TERA] without any option KLCv1.2 will be used\n"
             "\t--lib_name=<Name of Library> Used for output dir name and 3dshapes name.\n"+
             "\t--out_dir=<path> output will be put here.\n"+
             "\t--model_filter=<filter string> Unix filename filter syntax.\n"
@@ -170,17 +170,3 @@ class OptionManager():
 
     def set_outdir(self, new_dir):
         self.out_dir=new_dir + ("" if new_dir.endswith(os.sep) else os.sep)
-
-    def create_marker_poly(self, bottom_y, center_x=0):
-        marker_width=0.6
-        marker_height=0.6
-
-        marker_top=bottom_y-marker_height
-        marker_poly=[
-            {'x':center_x, 'y':bottom_y},
-            {'x':center_x+marker_width/2, 'y':marker_top},
-            {'x':center_x-marker_width/2, 'y':marker_top},
-            {'x':center_x, 'y':bottom_y}
-        ]
-
-        return marker_poly

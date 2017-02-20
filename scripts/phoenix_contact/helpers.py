@@ -41,3 +41,26 @@ def offset_polyline(polyline_points, offset, center=(0,0)):
         resulting_points.append(v_offset(point,offset,center))
 
     return resulting_points
+
+def create_pin1_marker_triangle(bottom_y, center_x = 0, dimensions = [0.6,0.6], with_top_line = True):
+    marker_width = dimensions[0]
+    marker_height = dimensions[1]
+
+    marker_top=bottom_y-marker_height
+    marker_poly=[
+        {'x':center_x+marker_width/2, 'y':marker_top},
+        {'x':center_x, 'y':bottom_y},
+        {'x':center_x-marker_width/2, 'y':marker_top}
+    ]
+    if with_top_line:
+        marker_poly.append({'x':center_x+marker_width/2, 'y':marker_top})
+    return marker_poly
+
+def create_pin1_marker_corner(top_y, left_x, sidelength = [1,1]):
+    marker_poly=[
+        {'x':left_x, 'y':top_y + sidelength[1]},
+        {'x':left_x, 'y':top_y},
+        {'x':left_x + sidelength[0], 'y':top_y}
+    ]
+
+    return marker_poly

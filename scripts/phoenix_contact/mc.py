@@ -60,17 +60,17 @@ def generate_one_footprint(motel, params, options):
     if params.angled:
         #kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS'))
 
-        kicad_mod.append(Line(start=silk_top_left, end=[silk_top_left[0], silk_bottom_right[1]], layer='F.SilkS'))
-        kicad_mod.append(Line(start=[silk_top_left[0], silk_bottom_right[1]], end=silk_bottom_right, layer='F.SilkS'))
-        kicad_mod.append(Line(start=silk_bottom_right, end=[silk_bottom_right[0], silk_top_left[1]], layer='F.SilkS'))
+        kicad_mod.append(Line(start=silk_top_left, end=[silk_top_left[0], silk_bottom_right[1]], layer='F.SilkS', width=options.silk_line_width))
+        kicad_mod.append(Line(start=[silk_top_left[0], silk_bottom_right[1]], end=silk_bottom_right, layer='F.SilkS', width=options.silk_line_width))
+        kicad_mod.append(Line(start=silk_bottom_right, end=[silk_bottom_right[0], silk_top_left[1]], layer='F.SilkS', width=options.silk_line_width))
 
-        kicad_mod.append(Line(start=silk_top_left, end=[-seriesParams.silkGab, silk_top_left[1]], layer='F.SilkS'))
+        kicad_mod.append(Line(start=silk_top_left, end=[-seriesParams.silkGab, silk_top_left[1]], layer='F.SilkS', width=options.silk_line_width))
         kicad_mod.append(Line(start=[silk_bottom_right[0], silk_top_left[1]], end=[(params.num_pins-1)*params.pin_pitch+seriesParams.silkGab, silk_top_left[1]],\
-                        layer='F.SilkS'))
+                        layer='F.SilkS', width=options.silk_line_width))
 
         for p in range(params.num_pins-1):
             kicad_mod.append(Line(start=[p*params.pin_pitch+seriesParams.silkGab, silk_top_left[1]], \
-                            end=[(p+1)*params.pin_pitch-seriesParams.silkGab, silk_top_left[1]], layer='F.SilkS'))
+                            end=[(p+1)*params.pin_pitch-seriesParams.silkGab, silk_top_left[1]], layer='F.SilkS', width=options.silk_line_width))
 
         if options.with_fab_layer:
             kicad_mod.append(RectLine(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=options.fab_line_width))
@@ -78,19 +78,19 @@ def generate_one_footprint(motel, params, options):
         left = silk_top_left[0] + (seriesParams.flange_lenght if params.flanged else 0)
         right = silk_bottom_right[0] - (seriesParams.flange_lenght if params.flanged else 0)
         scoreline_y = seriesParams.scoreline_from_back+params.back_to_pin
-        kicad_mod.append(Line(start=[left, scoreline_y], end=[right, scoreline_y], layer='F.SilkS'))
+        kicad_mod.append(Line(start=[left, scoreline_y], end=[right, scoreline_y], layer='F.SilkS', width=options.silk_line_width))
         if options.inner_details_on_fab:
             kicad_mod.append(Line(start=[left +(0 if params.flanged else options.silk_body_offset), scoreline_y],
                 end=[right-(0 if params.flanged else options.silk_body_offset), scoreline_y], layer='F.Fab', width=options.fab_line_width))
         if params.flanged:
-            kicad_mod.append(Line(start=[left, silk_top_left[1]], end=[left, silk_bottom_right[1]], layer='F.SilkS'))
-            kicad_mod.append(Line(start=[right, silk_top_left[1]], end=[right, silk_bottom_right[1]], layer='F.SilkS'))
+            kicad_mod.append(Line(start=[left, silk_top_left[1]], end=[left, silk_bottom_right[1]], layer='F.SilkS', width=options.silk_line_width))
+            kicad_mod.append(Line(start=[right, silk_top_left[1]], end=[right, silk_bottom_right[1]], layer='F.SilkS', width=options.silk_line_width))
             if options.inner_details_on_fab:
                 kicad_mod.append(Line(start=[left, body_top_left[1]], end=[left, body_bottom_right[1]], layer='F.Fab', width=options.fab_line_width))
                 kicad_mod.append(Line(start=[right, body_top_left[1]], end=[right, body_bottom_right[1]], layer='F.Fab', width=options.fab_line_width))
     else:
         if not params.flanged:
-            kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS'))
+            kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS', width=options.silk_line_width))
             if options.with_fab_layer:
                 kicad_mod.append(RectLine(start=body_top_left, end=body_bottom_right, layer='F.Fab', width=options.fab_line_width))
         else:
@@ -106,17 +106,17 @@ def generate_one_footprint(motel, params, options):
                     {'x':silk_top_left[0], 'y':silk_top_left[1]+flange_cutout},
                     {'x':silk_top_left[0], 'y':silk_bottom_right[1]}
                 ]
-            kicad_mod.append(PolygoneLine(polygone=outline_poly))
+            kicad_mod.append(PolygoneLine(polygone=outline_poly, layer='F.SilkS', width=options.silk_line_width))
             if options.with_fab_layer:
                 outline_poly=offset_polyline(outline_poly,-options.silk_body_offset,(center_x,0))
-                kicad_mod.append(PolygoneLine(polygone=outline_poly, layer="F.Fab", width=0.05))
+                kicad_mod.append(PolygoneLine(polygone=outline_poly, layer="F.Fab", width=options.fab_line_width))
 
         if params.flanged:
-            kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=1.9, layer='F.SilkS'))
-            kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=1.9, layer='F.SilkS'))
+            kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=1.9, layer='F.SilkS', width=options.silk_line_width))
+            kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=1.9, layer='F.SilkS', width=options.silk_line_width))
             if not params.mount_hole:
-                kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=1, layer='F.SilkS'))
-                kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=1, layer='F.SilkS'))
+                kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=1, layer='F.SilkS', width=options.silk_line_width))
+                kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=1, layer='F.SilkS', width=options.silk_line_width))
             if options.inner_details_on_fab:
                 kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=1.9, layer='F.Fab', width=options.fab_line_width))
                 kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=1.9, layer='F.Fab', width=options.fab_line_width))
@@ -141,15 +141,15 @@ def generate_one_footprint(motel, params, options):
                 {'x':seriesParams.plug_cut_len/2.0, 'y':calc_dim.plug_front},
                 {'x':seriesParams.plug_arc_len/2.0, 'y':calc_dim.plug_front}
             ]
-            plug_outline_translation.append(PolygoneLine(polygone=plug_outline_poly))
-            plug_outline_translation.append(Arc(start=[-seriesParams.plug_arc_len/2.0,calc_dim.plug_front], center=[0,calc_dim.plug_front+1.7], angle=47.6))
+            plug_outline_translation.append(PolygoneLine(polygone=plug_outline_poly, layer='F.SilkS', width=options.silk_line_width))
+            plug_outline_translation.append(Arc(start=[-seriesParams.plug_arc_len/2.0,calc_dim.plug_front], center=[0,calc_dim.plug_front+1.7], angle=47.6, layer='F.SilkS', width=options.silk_line_width))
             if options.inner_details_on_fab:
-                plug_outline_translation.append(PolygoneLine(polygone=plug_outline_poly,  layer="F.Fab", width=0.05))
-                plug_outline_translation.append(Arc(start=[-seriesParams.plug_arc_len/2.0,calc_dim.plug_front], center=[0,calc_dim.plug_front+1.7], angle=47.6,  layer="F.Fab", width=0.05))
+                plug_outline_translation.append(PolygoneLine(polygone=plug_outline_poly,  layer="F.Fab", width=options.fab_line_width))
+                plug_outline_translation.append(Arc(start=[-seriesParams.plug_arc_len/2.0,calc_dim.plug_front], center=[0,calc_dim.plug_front+1.7], angle=47.6,  layer="F.Fab", width=options.fab_line_width))
             kicad_mod.append(plug_outline_translation)
     if params.mount_hole:
-        kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r, layer='B.SilkS'))
-        kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r, layer='B.SilkS'))
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r+options.silk_body_offset, layer='B.SilkS', width=options.silk_line_width))
+        kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r+options.silk_body_offset, layer='B.SilkS', width=options.silk_line_width))
         if options.inner_details_on_fab:
             kicad_mod.append(Circle(center=calc_dim.mount_hole_left, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=options.fab_line_width))
             kicad_mod.append(Circle(center=calc_dim.mount_hole_right, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=options.fab_line_width))
@@ -185,7 +185,21 @@ def generate_one_footprint(motel, params, options):
         thickness=options.value_fontwidth))
 
     ################################################# Pin 1 Marker #################################################
-    kicad_mod.append(PolygoneLine(polygone=options.create_marker_poly(crtyd_top_left[1])))
+    if not params.angled:
+        pin1_marker_poly = create_pin1_marker_corner(crtyd_top_left[1],
+            body_top_left[0] - options.courtyard_distance +
+            (seriesParams.flange_lenght if params.flanged else 0), [2,1.25])
+        kicad_mod.append(PolygoneLine(polygone=pin1_marker_poly, layer='F.SilkS', width=options.silk_line_width))
+        if options.with_fab_layer:
+            kicad_mod.append(PolygoneLine(polygone=pin1_marker_poly, layer='F.Fab', width=options.fab_line_width))
+    else:
+        kicad_mod.append(PolygoneLine(polygone=create_pin1_marker_triangle(crtyd_top_left[1]),
+            layer='F.SilkS', width=options.silk_line_width))
+        if options.with_fab_layer:
+            kicad_mod.append(PolygoneLine(
+                polygone=create_pin1_marker_triangle(bottom_y = 0,
+                    dimensions = [seriesParams.pin_Sx - 0.2, -body_top_left[1]], with_top_line = False),
+                layer='F.Fab', width=options.fab_line_width))
 
     #################################################### 3d file ###################################################
     p3dname = options.packages_3d + footprint_name + ".wrl"
