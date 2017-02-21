@@ -31,7 +31,7 @@ def generate_one_footprint(motel, params, options):
 
 
     kicad_mod.setDescription(generate_description(params))
-    kicad_mod.setTags(globalParams.manufacturer_tag + model)
+    kicad_mod.setTags(globalParams.manufacturer_tag + ' connector ' + model)
 
     #add the pads
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
@@ -197,7 +197,7 @@ def generate_one_footprint(motel, params, options):
         if options.with_fab_layer:
             kicad_mod.append(PolygoneLine(polygone=pin1_marker_poly, layer='F.Fab', width=options.fab_line_width))
     else:
-        kicad_mod.append(PolygoneLine(polygone=create_pin1_marker_triangle(crtyd_top_left[1]),
+        kicad_mod.append(PolygoneLine(polygone=create_pin1_marker_triangle(-seriesParams.pin_Sy/2-0.2),
             layer='F.SilkS', width=options.silk_line_width))
         if options.with_fab_layer:
             kicad_mod.append(PolygoneLine(
