@@ -19,6 +19,29 @@ from KicadModTree.nodes.base import Line
 
 
 class RectFill(Node):
+    r"""Add the filling of a Rect to the render tree
+
+    Normally, this class isn't needed, because ``FilledRect`` combines ``RectLine`` with ``RectFill``
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *start* (``Point``) --
+          start edge of the rect fill
+        * *end* (``Point``) --
+          end edge of the rect fill
+        * *layer* (``str``) --
+          layer on which the rect fill is drawn
+        * *width* (``float``) --
+          width of the filling lines
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> RectFill(start=[-3, -2], end=[3, 2], layer='F.SilkS')
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.start_pos = Point(kwargs['start'])

@@ -19,6 +19,27 @@ from .PolygoneLine import PolygoneLine
 
 
 class RectLine(PolygoneLine):
+    r"""Add a Rect to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *start* (``Point``) --
+          start edge of the rect
+        * *end* (``Point``) --
+          end edge of the rect
+        * *layer* (``str``) --
+          layer on which the rect is drawn
+        * *width* (``float``) --
+          width of the outer line
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> RectLine(start=[-3, -2], end=[3, 2], layer='F.SilkS')
+    """
+
     def __init__(self, **kwargs):
         self.start_pos = Point(kwargs['start'])
         self.end_pos = Point(kwargs['end'])

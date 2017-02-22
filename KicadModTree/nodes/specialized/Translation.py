@@ -18,9 +18,18 @@ from KicadModTree.nodes.Node import Node
 
 
 class Translation(Node):
-    '''
-    Apply translation to the child tree
-    '''
+    """Apply translation to the child tree
+
+    :param x: change of x coordinate
+    :type x: ``float``
+    :param y: change of y coordinate
+    :type y: ``float``
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Translation(1, 2)
+    """
     def __init__(self, x, y):
         Node.__init__(self)
 

@@ -19,6 +19,25 @@ from KicadModTree.nodes.base.Line import Line
 
 
 class PolygoneLine(Node):
+    r"""Add a Polygone Line to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *polygone* (``list(Point)``) --
+          edges of the polygone
+        * *layer* (``str``) --
+          layer on which the polygone is drawn
+        * *width* (``float``) --
+          width of the line
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> PolygoneLine(polygone=[[0, 0], [0, 1], [1, 1], [0, 0]], layer='F.SilkS')
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.polygone_line = kwargs['polygone']

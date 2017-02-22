@@ -20,9 +20,17 @@ from KicadModTree.nodes.Node import Node
 
 
 class Rotation(Node):
-    '''
-    Apply rotation to the child tree
-    '''
+    """Apply rotation to the child tree
+
+    :param r: angle which the child should rotate
+    :type r: ``float``
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Rotation(90)
+    """
+
     def __init__(self, r):
         Node.__init__(self)
         self.rotation = r  # in degree
