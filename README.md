@@ -100,9 +100,9 @@ kicad_mod.append(RectLine(start=[-2.25, -2.25], end=[5.25, 2.25], layer='F.CrtYd
 
 # create pads
 kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                     at=[0, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
+                     at=[0, 0], size=[2, 2], drill=1.2, layers=Pad.LAYERS_THT))
 kicad_mod.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                     at=[3, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
+                     at=[3, 0], size=[2, 2], drill=1.2, layers=Pad.LAYERS_THT))
 
 # add model
 kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl",

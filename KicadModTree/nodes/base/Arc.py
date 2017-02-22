@@ -35,6 +35,11 @@ class Arc(Node):
           layer on which the arc is drawn
         * *width* (``float``) --
           width of the arc line
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Arc(center=[0, 0], start=[-1, 0], angle=180, layer='F.SilkS')
     """
 
     def __init__(self, **kwargs):

@@ -32,6 +32,12 @@ class Model(Node):
           scale of the model
         * *rotate* (``Point``) --
           rotation of the model
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Model(filename="example.3dshapes/example_footprint.wrl",
+    ...       at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0])
     """
 
     def __init__(self, **kwargs):

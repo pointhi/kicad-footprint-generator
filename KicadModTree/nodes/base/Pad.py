@@ -45,6 +45,12 @@ class Pad(Node):
           solder paste margin ratio of the pad
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+    ...     at=[0, 0], size=[2, 2], drill=1.2, layers=Pad.LAYERS_THT)
     """
 
     TYPE_THT = 'thru_hole'

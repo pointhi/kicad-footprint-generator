@@ -40,6 +40,12 @@ class Text(Node):
           thickness of the text
         * *hide* (``bool``) --
           hide text
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Text(type='reference', text='REF**', at=[0, -3], layer='F.SilkS')
+    >>> Text(type='value', text="footprint name", at=[0, 3], layer='F.Fab')
     """
 
     def __init__(self, **kwargs):

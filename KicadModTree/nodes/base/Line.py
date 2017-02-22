@@ -32,6 +32,11 @@ class Line(Node):
           layer on which the line is drawn
         * *width* (``float``) --
           width of the line
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Line(start=[-1, 0], end=[-1, 0], layer='F.SilkS')
     """
 
     def __init__(self, **kwargs):

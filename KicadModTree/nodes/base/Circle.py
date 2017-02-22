@@ -32,6 +32,11 @@ class Circle(Node):
           layer on which the circle is drawn
         * *width* (``float``) --
           width of the circle line
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Circle(center=[0, 0], radius=1.5, layer='F.SilkS')
     """
 
     def __init__(self, **kwargs):
