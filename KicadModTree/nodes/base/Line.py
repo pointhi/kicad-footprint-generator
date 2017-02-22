@@ -18,6 +18,22 @@ from KicadModTree.nodes.Node import Node
 
 
 class Line(Node):
+    r"""Add a Line to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *start* (``Point``) --
+          start point of the line
+        * *end* (``Point``) --
+          end point of the line
+        * *layer* (``str``) --
+          layer on which the line is drawn
+        * *width* (``float``) --
+          width of the line
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.start_pos = Point(kwargs['start'])

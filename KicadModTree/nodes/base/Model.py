@@ -18,6 +18,22 @@ from KicadModTree.nodes.Node import Node
 
 
 class Model(Node):
+    r"""Add a 3D-Model to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *filename* (``str``) --
+          name of the 3d-model file
+        * *at* (``Point``) --
+          position of the model
+        * *scale* (``Point``) --
+          scale of the model
+        * *rotate* (``Point``) --
+          rotation of the model
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.filename = kwargs['filename']

@@ -18,6 +18,22 @@ from KicadModTree.nodes.Node import Node
 
 
 class Circle(Node):
+    r"""Add a Circle to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *center* (``Point``) --
+          center of the circle
+        * *radius* (``float``) --
+          radius of the circle
+        * *layer* (``str``) --
+          layer on which the circle is drawn
+        * *width* (``float``) --
+          width of the circle line
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.center_pos = Point(kwargs['center'])

@@ -19,6 +19,24 @@ import math
 
 
 class Arc(Node):
+    r"""Add an Arc to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *center* (``Point``) --
+          center of arc
+        * *start* (``Point``) --
+          start point of arc
+        * *angle* (``float``) --
+          angle of arc
+        * *layer* (``str``) --
+          layer on which the arc is drawn
+        * *width* (``float``) --
+          width of the arc line
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.center_pos = Point(kwargs['center'])

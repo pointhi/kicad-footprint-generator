@@ -19,6 +19,34 @@ from KicadModTree.util.kicad_util import lispString
 
 
 class Pad(Node):
+    r"""Add a Pad to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *number* (``int``, ``str``) --
+          number/name of the pad
+        * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
+          type of the pad
+        * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``) --
+          shape of the pad
+        * *at* (``Point``) --
+          center position of the pad
+        * *rotation* (``float``) --
+          rotation of the pad
+        * *size* (``float``, ``Point``) --
+          size of the pad
+        * *offset* (``Point``) --
+          offset of the pad
+        * *drill* (``float``, ``Point``) --
+          drill-size of the pad
+        * *solder_paste_margin_ratio* (``float``) --
+          solder paste margin ratio of the pad
+        * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
+          layers on which are used for the pad
+    """
+
     TYPE_THT = 'thru_hole'
     TYPE_SMT = 'smd'
     TYPE_CONNECT = 'connect'

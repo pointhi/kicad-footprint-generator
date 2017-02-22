@@ -18,6 +18,30 @@ from KicadModTree.nodes.Node import Node
 
 
 class Text(Node):
+    r"""Add a Line to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *type* (``str``) --
+          type of text
+        * *text* (``str``) --
+          text which is been visualized
+        * *at* (``Point``) --
+          position of text
+        * *rotation* (``float``) --
+          rotation of text
+        * *layer* (``str``) --
+          layer on which the text is drawn
+        * *size* (``Point``) --
+          size of the text
+        * *thickness* (``float``) --
+          thickness of the text
+        * *hide* (``bool``) --
+          hide text
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.type = kwargs['type']
