@@ -1,6 +1,9 @@
 KicadModTree.nodes.base package
 ===============================
 
+Those nodes represent the primitives which we can use to create footprints. They are 1:1 mappings to the corresponding
+types used in .kicad_mod files.
+
 KicadModTree.nodes.base.Arc module
 ----------------------------------
 
