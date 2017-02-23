@@ -1,25 +1,44 @@
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-(C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
-'''
+# KicadModTree is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# KicadModTree is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
 
 
 class Circle(Node):
+    r"""Add a Circle to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *center* (``Point``) --
+          center of the circle
+        * *radius* (``float``) --
+          radius of the circle
+        * *layer* (``str``) --
+          layer on which the circle is drawn
+        * *width* (``float``) --
+          width of the circle line
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Circle(center=[0, 0], radius=1.5, layer='F.SilkS')
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.center_pos = Point(kwargs['center'])

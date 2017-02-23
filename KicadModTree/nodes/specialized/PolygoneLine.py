@@ -1,19 +1,17 @@
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-(C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
-'''
+# KicadModTree is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# KicadModTree is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
@@ -21,6 +19,25 @@ from KicadModTree.nodes.base.Line import Line
 
 
 class PolygoneLine(Node):
+    r"""Add a Polygone Line to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *polygone* (``list(Point)``) --
+          edges of the polygone
+        * *layer* (``str``) --
+          layer on which the polygone is drawn
+        * *width* (``float``) --
+          width of the line
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> PolygoneLine(polygone=[[0, 0], [0, 1], [1, 1], [0, 0]], layer='F.SilkS')
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.polygone_line = kwargs['polygone']

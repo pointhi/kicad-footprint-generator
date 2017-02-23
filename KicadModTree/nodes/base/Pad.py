@@ -1,19 +1,17 @@
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-(C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
-'''
+# KicadModTree is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# KicadModTree is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
@@ -21,6 +19,40 @@ from KicadModTree.util.kicad_util import lispString
 
 
 class Pad(Node):
+    r"""Add a Pad to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *number* (``int``, ``str``) --
+          number/name of the pad
+        * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
+          type of the pad
+        * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``) --
+          shape of the pad
+        * *at* (``Point``) --
+          center position of the pad
+        * *rotation* (``float``) --
+          rotation of the pad
+        * *size* (``float``, ``Point``) --
+          size of the pad
+        * *offset* (``Point``) --
+          offset of the pad
+        * *drill* (``float``, ``Point``) --
+          drill-size of the pad
+        * *solder_paste_margin_ratio* (``float``) --
+          solder paste margin ratio of the pad
+        * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
+          layers on which are used for the pad
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+    ...     at=[0, 0], size=[2, 2], drill=1.2, layers=Pad.LAYERS_THT)
+    """
+
     TYPE_THT = 'thru_hole'
     TYPE_SMT = 'smd'
     TYPE_CONNECT = 'connect'

@@ -337,12 +337,22 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     
     # create FAB-layer
     if (h_fabm > 0):
-        if len(pck.metal_angled)>0:
-            addRectAngledTop(kicad_modt, [l_fabp + pck.metal_offset_x, t_fabp - h_fabp], [l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], pck.metal_angled, 'F.Fab', lw_fab)
+        if len(pck.plastic_angled)>0:
+            if len(pck.metal_angled) > 0:
+                addRectAngledTopNoBottom(kicad_modt, [l_fabp + pck.metal_offset_x, t_fabp - h_fabp+pck.plastic_angled[1]],
+                                 [l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], pck.metal_angled, 'F.Fab',
+                                 lw_fab)
+            else:
+                kicad_modt.append(RectLine(start=[l_fabp + pck.metal_offset_x, t_fabp - h_fabp-pck.plastic_angled[1]],
+                                           end=[l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], layer='F.Fab',
+                                           width=lw_fab))
         else:
-            kicad_modt.append(RectLine(start=[l_fabp + pck.metal_offset_x, t_fabp - h_fabp],
-                                  end=[l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], layer='F.Fab',
-                                  width=lw_fab))
+            if len(pck.metal_angled)>0:
+                addRectAngledTop(kicad_modt, [l_fabp + pck.metal_offset_x, t_fabp - h_fabp], [l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], pck.metal_angled, 'F.Fab', lw_fab)
+            else:
+                kicad_modt.append(RectLine(start=[l_fabp + pck.metal_offset_x, t_fabp - h_fabp],
+                                      end=[l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], layer='F.Fab',
+                                      width=lw_fab))
             
     if len(pck.plastic_angled)>0:
          addRectAngledTop(kicad_modt, [l_fabp, t_fabp],
@@ -1105,21 +1115,21 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
 if __name__ == '__main__':
     # make standard packages
-    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK"]
-    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4], [3], [3], [3],  ]
-    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54], [0], [0], [0],  ]
+    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK","TO-3PB"]
+    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3]]
+    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0]]
     has3dv = [[True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
-              [True, True, True, True], [True], [True], [True], ]
+              [True, True, True, True], [True], [True], [True], [True], ]
     has3dh = [ [True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
-              [True, True, True, True], [True], [True], [True], ]
-    off3d = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[], [0.1,0,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], ]
-    off3dh = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[0.1,0.2,0], [0.1,0.2,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], ]
+              [True, True, True, True], [True], [True], [True], [True], ]
+    off3d = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[], [0.1,0,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], [[]], ]
+    off3dh = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[0.1,0.2,0], [0.1,0.2,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], [[]], ]
     off3dls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, -4 / 25.4], [0.1, 0, -4 / 25.4], [], [0, 0, -4 / 25.4]],
-             [[]], [[]], [[]], ]
+             [[]], [[]], [[]], [[]], ]
     off3dvls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[-0.1, 0, -2 / 25.4], [-0.1, 0, -2 / 25.4], [], [-0, 0, -2 / 25.4]],
-             [[]], [[]], [[]], ]
+             [[]], [[]], [[]], [[]], ]
 
-    scale3d = [ [[], [], []], [[], [1,1,1], [], []], [[], [1,1,1]], [[], []], [[], [1,1,1]], [[], [], [], []], [[]], [[]], [[]],  ]
+    scale3d = [ [[], [], []], [[], [1,1,1], [], []], [[], [1,1,1]], [[], []], [[], [1,1,1]], [[], [], [], []], [[]], [[]], [[]], [[]],  ]
     
     #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
     #exit()

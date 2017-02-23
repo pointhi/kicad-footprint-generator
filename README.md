@@ -9,6 +9,7 @@ This repository contains scripts to generate custom KiCAD footprints using pytho
 
 [![Build Status](https://travis-ci.org/pointhi/kicad-footprint-generator.svg?branch=master)](https://travis-ci.org/pointhi/kicad-footprint-generator)
 [![Code Climate](https://codeclimate.com/github/pointhi/kicad-footprint-generator/badges/gpa.svg)](https://codeclimate.com/github/pointhi/kicad-footprint-generator)
+[![Documentation Status](https://readthedocs.org/projects/kicad-footprint-generator/badge/?version=latest)](http://kicad-footprint-generator.readthedocs.io/en/latest/?badge=latest)
 
 **WARNING:** currently under development, but already usable for some footprints. But note that API changes are possible due to refactoring.
 
@@ -33,6 +34,7 @@ When you serialize your footprint, the serialize command only has to handle base
 This allows us to write specialized nodes without worrying about the FileHandlers or other core systems.
 You simply create you special node, and the framework knows how to handle it seamlessly.
 
+Please also look into the [Documentation](http://kicad-footprint-generator.readthedocs.io/en/latest/) for further details
 
 ### Base Nodes
 
@@ -99,9 +101,9 @@ kicad_mod.append(RectLine(start=[-2.25, -2.25], end=[5.25, 2.25], layer='F.CrtYd
 
 # create pads
 kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                     at=[0, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
+                     at=[0, 0], size=[2, 2], drill=1.2, layers=Pad.LAYERS_THT))
 kicad_mod.append(Pad(number=2, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                     at=[3, 0], size=[2, 2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
+                     at=[3, 0], size=[2, 2], drill=1.2, layers=Pad.LAYERS_THT))
 
 # add model
 kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl",

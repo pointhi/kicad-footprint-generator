@@ -1,19 +1,17 @@
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-
-(C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
-'''
+# KicadModTree is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# KicadModTree is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+#
+# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
@@ -21,6 +19,29 @@ from KicadModTree.nodes.base import Line
 
 
 class RectFill(Node):
+    r"""Add the filling of a Rect to the render tree
+
+    Normally, this class isn't needed, because ``FilledRect`` combines ``RectLine`` with ``RectFill``
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *start* (``Point``) --
+          start edge of the rect fill
+        * *end* (``Point``) --
+          end edge of the rect fill
+        * *layer* (``str``) --
+          layer on which the rect fill is drawn
+        * *width* (``float``) --
+          width of the filling lines
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> RectFill(start=[-3, -2], end=[3, 2], layer='F.SilkS')
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.start_pos = Point(kwargs['start'])

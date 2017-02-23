@@ -3,3 +3,5 @@ flake8
 unittest2
 nose2
 nose2-cov
+sphinx
+sphinx_rtd_theme
