@@ -308,7 +308,7 @@ all_params = {
 class seriesParams():
     drill = 1.2
     mount_drill = 2.4
-    mount_screw_head_r = 2.0
+    mount_screw_head_r = 2.1
     pin_Sx = 1.8
     pin_Sy = 3.6
     flange_lenght = 4.8
@@ -323,7 +323,7 @@ class seriesParams():
     plug_seperator_distance = 1.5
 
     silkGab = pin_Sx/2.0+0.15
-
+    mount_screw_info = "ISO 1481-ST 2.2x4.5 C or ISO 7049-ST 2.2x4.5 C (http://www.fasteners.eu/standards/ISO/7049/)"
 
 
 #lock_cutout=
@@ -349,7 +349,7 @@ def dimensions(params):
 def generate_description(params):
     d = "Generic Phoenix Contact connector footprint for series: " + params.series_name + "; number of pins: " + ("%02d" %params.num_pins) + "; pin pitch: " + (('%.2f' % params.pin_pitch))\
         +"mm" + ('; Angled' if params.angled else '; Vertical')\
-        + ('; threaded flange' + (' (footprint includes mount hole)' if params.mount_hole else '') if params.flanged else '')
-    for order_num, info in params.order_info.iteritems():
+        + ('; threaded flange' + ('; footprint includes mount hole for mounting screw: ' + seriesParams.mount_screw_info if params.mount_hole else '') if params.flanged else '')
+    for order_num, info in params.order_info.items():
         d += " || order number: " + order_num + " " + info
     return d
