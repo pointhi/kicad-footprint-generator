@@ -51,6 +51,10 @@ class ModArgparser(object):
             self._print_example_csv()
             return
 
+        if len(args.files) == 0:
+            parser.print_help()
+            return
+
         for filepath in args.files:
             print("use file: {0}".format(filepath))
             if filepath.endswith('.yml') or filepath.endswith('.yaml'):
@@ -146,12 +150,22 @@ class ModArgparser(object):
         error = False
         for k, v in self._params.items():
             try:
-                if k in kwargs:
+                if kwargs.get(k) not in [None, '']:
                     parsed_args[k] = v.get('type', str)(kwargs[k])
                 elif v.get('required', False):
                     raise ParserException("parameter expected: {}".format(k))
                 else:
-                    parsed_args[k] = v.get('type', str)(v.get('default'))
+                    type = v.get('type', str)
+                    if type is bool:
+                        parsed_args[k] = type(v.get('default', False))
+                    elif type is int:
+                        parsed_args[k] = type(v.get('default', 0))
+                    elif type is float:
+                        parsed_args[k] = type(v.get('default', 0.0))
+                    elif type is str:
+                        parsed_args[k] = type(v.get('default', ''))
+                    else:
+                        parsed_args[k] = type(v.get('default'))
             except (ValueError, ParserException) as e:
                 error = True
                 print("ERROR: {}".format(e))
