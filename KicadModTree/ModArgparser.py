@@ -125,8 +125,8 @@ class ModArgparser(object):
 
     def _parse_and_execute_csv(self, filepath):
         with open(filepath, 'r') as stream:
-            #dialect = csv.Sniffer().sniff(stream.read(1024))  # check which type of formating the csv file likel has
-            #stream.seek(0)
+            # dialect = csv.Sniffer().sniff(stream.read(1024))  # check which type of formating the csv file likel has
+            # stream.seek(0)
 
             reader = csv.DictReader(stream, dialect=csv.excel)  # parse file
 
