@@ -387,7 +387,6 @@ c_elec_10x12.5:
 
 c_elec_10x12.6:
     description: "SMT capacitor, aluminium electrolytic, 10x12.6, Panasonic F12"
-
     courtjard: 0.25
     length: 10.3
     width: 10.3
