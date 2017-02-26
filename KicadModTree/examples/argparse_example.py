@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser = ModArgparser(example_footprint)
     parser.add_parameter("name", type=str, required=True)  # the root node of .yml files is parsed as name
     parser.add_parameter("datasheet", type=str, required=False)
-    parser.add_parameter("courtjard", type=float, required=False, default=0.25)
+    parser.add_parameter("courtyard", type=float, required=False, default=0.25)
     parser.add_parameter("diameter", type=float, required=True)
     parser.add_parameter("pad_length", type=float, required=True)
     parser.add_parameter("pad_width", type=float, required=True)

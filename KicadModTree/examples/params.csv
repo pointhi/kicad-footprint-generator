@@ -1,4 +1,5 @@
-name;        diameter;    pad_length;      pad_width
-10x2x5;      10;          2;               5
-15x2x5;      15;          2;               5
-18x2x5;      18;          2;               5
+name,        diameter,    pad_length,      pad_width
+10x2x5,10,2,5
+15x2x5,15,2,5
+18x2x5,18,2,5
+"Jsjdlfmlakefjsl , asldl",13,5,2.5
