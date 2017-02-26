@@ -179,6 +179,26 @@ def addRectAngledTop(kicad_mod, x1, x2, angled_delta, layer, width, roun=0.001):
                                [roundG(xma, roun),roundG(ymi, roun)],
                                [roundG(xmi, roun),roundG(ymi, roun)]], layer=layer, width=width))
 
+
+
+
+# add a rectangle that has two angled corners at the top
+def addRectAngledTopNoBottom(kicad_mod, x1, x2, angled_delta, layer, width, roun=0.001):
+    xmi=min(x1[0], x2[0])
+    xma = max(x1[0], x2[0])
+    xa=xma-angled_delta[0]
+    xl = xmi + angled_delta[0]
+    ymi=max(x1[1], x2[1])
+    yma = min(x1[1], x2[1])
+    ya = yma + angled_delta[1]
+    kicad_mod.append(
+        PolygoneLine(polygone=[[roundG(xmi, roun),roundG(ymi, roun)], [roundG(xmi, roun),roundG(ya, roun)],
+                               [roundG(xl, roun), roundG(yma, roun)],
+                               [roundG(xa, roun), roundG(yma, roun)],
+                               [roundG(xma, roun),roundG(ya, roun)],
+                               [roundG(xma, roun),roundG(ymi, roun)]], layer=layer, width=width))
+
+
 # add a rectangle that has two angled corners at the bottom
 def addRectAngledBottom(kicad_mod, x1, x2, angled_delta, layer, width, roun=0.001):
     xmi=min(x1[0], x2[0])

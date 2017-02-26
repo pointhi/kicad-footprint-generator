@@ -281,6 +281,25 @@ class pack:
             if largepads:
                 self.pad = [3.5, 4.5]
                 self.largepads = True
+        elif (name == "TO-3PB"):
+            self.plastic = [15.6, 17.9, 4.8]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [self.plastic[0], 19.9,
+                          2]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.pins = 3  # number of pins
+            self.rm = 5.47  # pin distance
+            self.pad = [2.5, 3.5]  # width/height of pads
+            self.drill = 1.5  # diameter of pad drills
+            self.name = name  # name of package
+            self.mounting_hole_pos = [15.6 / 2, 19.9-5]  # position of mounting hole from bottom-left
+            self.mounting_hole_diameter = 3.2  # diameter of mounting hole in package
+            self.mounting_hole_drill = 3.5  # diameter of mounting hole drill
+            self.pin_minlength = 4  # min. elongation of pins before 90° bend
+            self.pinw = [1.05, 0.65];  # width,height of pins
+            self.metal_angled=[1.8,1.8]
+            self.plastic_angled = [3, 4]
+            self.tags = [""]  # description/keywords
+            self.more_packnames.append("")
+            self.pin_offset_z = 1.4
                 
         elif (name == "TO-264"):
             self.plastic = [20, 26, 5]  # width,heigth,depth of plastic package, starting at bottom-left
@@ -378,6 +397,8 @@ class pack:
                 self.more_packnames.append("Pentawatt")
                 self.more_packnames.append("Multiwatt-5")
                 self.staggered_pin_minlength = 2.05+1.28  # y-offset of back-pins in staggered mode
+                self.rm = 1.7
+                self.pad = [1.3, 1.8]
             if pins == 9:
                 self.pinw = [0.5, 0.38];
                 self.drill = 0.7
@@ -524,7 +545,8 @@ class pack:
             self.additional_pin_pad = [self.plastic[0] / 2, self.metal[1] - self.additional_pin_pad_size[
                 1] / 3]  # Position des Zusatz-SMD-Pads
         else:
-            __init__()
+            print("DID NOT FIND '", name,"'")
+            self.__init__()
         
         if rm > 0:
             self.rm = rm
