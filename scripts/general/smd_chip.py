@@ -26,7 +26,7 @@ def smd_chip(args):
 
     # create silkscreen
     silk_x = args['part_x'] / 2.
-    silk_y = max([args['pad_y'] / 2., args['part_y'] / 2.]) + max(0.15, args['courtyard'] - 0.05)
+    silk_y = max([args['pad_y'] / 2., args['part_y'] / 2.]) + min(max(0.15, args['courtyard'] - 0.05), 0.2)
 
     kicad_mod.append(Line(start=[silk_x, silk_y], end=[-silk_x, silk_y], layer='F.SilkS'))
     kicad_mod.append(Line(start=[silk_x, -silk_y], end=[-silk_x, -silk_y], layer='F.SilkS'))
