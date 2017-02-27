@@ -93,7 +93,7 @@ class ModArgparser(object):
             if kwargs.get('include_name', False) is False and k == "name":
                 continue
             if v.get('required', False):
-                params[k] = self._create_example_datapoint(v.get('type', str))
+                params[k] = self._create_example_datapoint(v.get('type', str), v.get('default'))
 
         return params
 
@@ -102,11 +102,14 @@ class ModArgparser(object):
         for k, v in self._params.items():
             if kwargs.get('include_name', False) is False and k == "name":
                 continue
-            params[k] = self._create_example_datapoint(v.get('type', str))
+            params[k] = self._create_example_datapoint(v.get('type', str), v.get('default'))
 
         return params
 
-    def _create_example_datapoint(self, type):
+    def _create_example_datapoint(self, type, default):
+        if default:
+            return type(default)
+
         if type is bool:
             return False
         elif type is int:
