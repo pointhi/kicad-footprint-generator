@@ -18,19 +18,18 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 from KicadModTree.nodes.base.Pad import *
 from KicadModTree.nodes.Node import Node
 
+
 class PadArray(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
-        
         self._initPincount(**kwargs)
         self._initInitialNumber(**kwargs)
         self._initIncrement(**kwargs)
         self._initSpacing(**kwargs)
         self._initStartingPosition(**kwargs)
-        
         self.virtual_childs = self._createPads(**kwargs)
         
-    #how many pads in the array
+    # How many pads in the array
     def _initPincount(self, **kwargs):
         if not kwargs.get('pincount'):
             raise KeyError('pincount not declared (like "pincount=10")')
@@ -38,17 +37,16 @@ class PadArray(Node):
         if type(self.pincount) is not int or self.pincount <= 0:
             raise ValueError('{pc} is an invalid value for pincount'.format(pc=self.pincount))
         
-    #where to start the aray
+    # Where to start the aray
     def _initStartingPosition(self, **kwargs):
         """
         can use the 'start' argument to start a pad array at a given position
         OR
         can use the 'center' argument to center the array around the given position
         """
-        
         self.startingPosition = [0,0]
         
-        #start takes priority
+        # Start takes priority
         if kwargs.get('start'):
             self.startingPosition = kwargs.get('start')
             if type(self.startingPosition) not in [list,tuple] or not len(self.startingPosition) == 2:
@@ -63,12 +61,11 @@ class PadArray(Node):
             if any([type(i) not in [int, float] for i in center]):
                 raise ValueError('array center coordinates must be numerical')
                
-               
-            #now calculate the desired starting position of the array
+            # Now calculate the desired starting position of the array
             self.startingPosition[0] = center[0] -(self.pincount - 1) * self.spacing[0]/2.
             self.startingPosition[1] = center[1] -(self.pincount - 1) * self.spacing[1]/2.
     
-    #what number to start with?
+    # What number to start with?
     def _initInitialNumber(self, **kwargs):
         if not kwargs.get('initial'):
             self.initialPin = 1
@@ -77,7 +74,7 @@ class PadArray(Node):
             if type(self.initialPin) is not int or self.initialPin < 1:
                 raise ValueError('{pn} is not a valid starting pin number'.format(pn=self.initialPin))
         
-    #pin incrementing
+    # Pin incrementing
     def _initIncrement(self, **kwargs):
         if kwargs.get('increment',None) == None:
             self.increment = 1
@@ -86,7 +83,7 @@ class PadArray(Node):
             if type(self.increment) is not int:
                 raise ValueError('{inc} is not a valid number for pin increment'.format(inc=self.increment))
         
-    #pad spacing
+    # Pad spacing
     def _initSpacing(self, **kwargs):
         """
         spacing can be given as:
@@ -105,7 +102,7 @@ class PadArray(Node):
                 raise ValueError('spacing must be supplied as x,y pair')
             elif any([type(i) not in [int, float] for i in self.spacing]):
                 raise ValueError('spacing must be numerical value')
-            #if 'spacing' is specified, ignore x_spacing and y_spacing
+            # if 'spacing' is specified, ignore x_spacing and y_spacing
             return
         
         if kwargs.get('x_spacing'):
@@ -130,8 +127,8 @@ class PadArray(Node):
         
         padShape = kwargs.get('shape')
         
-        #special case, increment = 0
-        #this can be used for creating an array with all the same pad number
+        # Special case, increment = 0
+        # this can be used for creating an array with all the same pad number
         if self.increment == 0:
             pad_numbers = [self.initialPin] * self.pincount
             
