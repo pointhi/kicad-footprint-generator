@@ -20,6 +20,54 @@ from KicadModTree.nodes.Node import Node
 
 
 class PadArray(Node):
+    r"""Add a row of Pads
+
+    Simplifies the handling of pads which are rendered in a specific form
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+        * *start* (``Point``) --
+          start edge of the pad array
+        * *center* (``Point``) --
+          center pad array around specific point
+        * *pincount*(``int``) --
+         number of pads to render
+        * *spacing* (``Point``, ``float``) --
+          offset between rendered pads
+        * *x_spacing* (``float``) --
+          x offset between rendered pads
+        * *y_spacing* (``float``) --
+          y offset between rendered pads
+        * *initial* (``int``) --
+          name of the first pad
+        * *increment* (``int``) --
+          declare how the name of the follow up is calculated
+        * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
+          type of the pad
+        * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``) --
+          shape of the pad
+        * *rotation* (``float``) --
+          rotation of the pad
+        * *size* (``float``, ``Point``) --
+          size of the pad
+        * *offset* (``Point``) --
+          offset of the pad
+        * *drill* (``float``, ``Point``) --
+          drill-size of the pad
+        * *solder_paste_margin_ratio* (``float``) --
+          solder paste margin ratio of the pad
+        * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
+          layers on which are used for the pad
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> PadArray(pincount=10, spacing=[1,-1], center=[0,0], initial=5, increment=2,
+                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[1,2], layers=Pad.LAYERS_SMT)
+    """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self._initPincount(**kwargs)

@@ -33,6 +33,8 @@ class RectLine(PolygoneLine):
           layer on which the rect is drawn
         * *width* (``float``) --
           width of the outer line
+        * *offset* (``Point``, ``float``) --
+          offset of the rect line to the specified one
 
     :Example:
 

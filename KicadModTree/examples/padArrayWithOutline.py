@@ -18,8 +18,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 import sys
 sys.path.append('../..')  # enable package import from parent directory
 
-from KicadModTree import *
-from KicadModTree.nodes.specialized.PadArray import PadArray
+from KicadModTree import *  # NOQA
 
 if __name__ == '__main__':
     footprint_name = "pad_array_footprint"
@@ -49,7 +48,7 @@ if __name__ == '__main__':
                   type=Pad.TYPE_SMT,
                   shape=Pad.SHAPE_RECT,
                   size=[1, 2],
-                  layers=["*.Cu"])
+                  layers=Pad.LAYERS_SMT)
 
     kicad_mod.append(pa)
 

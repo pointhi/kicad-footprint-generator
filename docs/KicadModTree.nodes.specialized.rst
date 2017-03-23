@@ -33,6 +33,13 @@ KicadModTree.nodes.specialized.FilledRect module
     :members:
     :show-inheritance:
 
+KicadModTree.nodes.specialized.PadArray module
+------------------------------------------------
+
+.. automodule:: KicadModTree.nodes.specialized.PadArray
+    :members:
+    :show-inheritance:
+
 KicadModTree.nodes.specialized.Rotation module
 ----------------------------------------------
 
