@@ -174,7 +174,7 @@ class Node(object):
             max_x = max([max_x, child_outline['max']['x']])
             max_y = max([max_y, child_outline['max']['y']])
 
-        return {'min':Point(min_x, min_y), 'max':Point(max_x, max_y)}
+        return {'min': Point(min_x, min_y), 'max': Point(max_x, max_y)}
 
     def _getRenderTreeText(self):
         '''

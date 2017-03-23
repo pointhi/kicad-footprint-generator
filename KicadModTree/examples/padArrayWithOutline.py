@@ -48,7 +48,7 @@ if __name__ == '__main__':
                   increment=2,
                   type=Pad.TYPE_SMT,
                   shape=Pad.SHAPE_RECT,
-                  size=[1,2],
+                  size=[1, 2],
                   layers=["*.Cu"])
 
     kicad_mod.append(pa)

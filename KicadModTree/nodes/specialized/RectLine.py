@@ -19,6 +19,7 @@ from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
 from .PolygoneLine import PolygoneLine
 
+
 class RectLine(PolygoneLine):
     def __init__(self, **kwargs):
         self.start_pos = Point(kwargs['start'])
@@ -36,7 +37,7 @@ class RectLine(PolygoneLine):
             # Has an offset / inset been specified?
             if type(kwargs['offset']) in [int, float]:
                 offset[0] = offset[1] = kwargs['offset']
-            elif type(kwargs['offset']) in [list,tuple] and len(kwargs['offset']) == 2:
+            elif type(kwargs['offset']) in [list, tuple] and len(kwargs['offset']) == 2:
                 # Ensure that all offset params are numerical
                 if all([type(i) in [int, float] for i in kwargs['offset']]):
                     offset = kwargs['offset']
@@ -55,11 +56,11 @@ class RectLine(PolygoneLine):
             self.end_pos.x = x2 + offset[0]
             self.end_pos.y = y2 + offset[1]
 
-        polygone_line = [{'x':self.start_pos.x, 'y':self.start_pos.y},
-                         {'x':self.start_pos.x, 'y':self.end_pos.y},
-                         {'x':self.end_pos.x, 'y':self.end_pos.y},
-                         {'x':self.end_pos.x, 'y':self.start_pos.y},
-                         {'x':self.start_pos.x, 'y':self.start_pos.y}]
+        polygone_line = [{'x': self.start_pos.x, 'y': self.start_pos.y},
+                         {'x': self.start_pos.x, 'y': self.end_pos.y},
+                         {'x': self.end_pos.x, 'y': self.end_pos.y},
+                         {'x': self.end_pos.x, 'y': self.start_pos.y},
+                         {'x': self.start_pos.x, 'y': self.start_pos.y}]
 
         PolygoneLine.__init__(self, polygone=polygone_line, layer=kwargs['layer'], width=kwargs['width'])
 

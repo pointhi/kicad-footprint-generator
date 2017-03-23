@@ -19,33 +19,31 @@ from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.base.Line import Line
 
-
 class PolygoneLine(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
 
-        self.layer = kwargs.get('layer','F.SilkS')
-        self.width = kwargs.get('width',0.15)
-        
+        self.layer = kwargs.get('layer', 'F.SilkS')
+        self.width = kwargs.get('width', 0.15)
+
         self._initMirror(**kwargs)
-        
+
         self._initPolygone(**kwargs)
 
         self.virtual_childs = self._createChildNodes(self.polygone_line)
 
-    def _initMirror(self, **kwargs):
-    
+    def _initMirror(self, **kwargs):    
         self.mirror = [None,None]
-        if kwargs.get('x_mirror') and type(kwargs['x_mirror']) in [float,int]:
+        if kwargs.get('x_mirror') and type(kwargs['x_mirror']) in [float, int]:
             self.mirror[0] = kwargs['x_mirror']
-        if kwargs.get('y_mirror') and type(kwargs['y_mirror']) in [float,int]:
+        if kwargs.get('y_mirror') and type(kwargs['y_mirror']) in [float, int]:
             self.mirror[1] = kwargs['y_mirror']
 
     def _initPolygone(self, **kwargs):
         self.polygone_line = kwargs['polygone']
-        
+
         for point in self.polygone_line:
-        
+
             if self.mirror[0] is not None:
                 point['x'] = 2 * self.mirror[0] - point['x']
             if self.mirror[1] is not None:
