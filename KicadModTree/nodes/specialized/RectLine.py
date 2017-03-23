@@ -46,10 +46,8 @@ class RectLine(PolygoneLine):
         self.start_pos = Point(kwargs['start'])
         self.end_pos = Point(kwargs['end'])
 
-        """
-        If specifed, an 'offset' can be applied to the RectLine.
-        For example, creating a border around a given Rect of a specified size
-        """
+        # If specifed, an 'offset' can be applied to the RectLine.
+        # For example, creating a border around a given Rect of a specified size
         if kwargs.get('offset'):
             # offset for the rect line
             # e.g. for creating a rectLine 0.5mm LARGER than the given rect, or similar
