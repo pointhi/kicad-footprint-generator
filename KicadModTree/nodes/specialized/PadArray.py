@@ -116,7 +116,7 @@ class PadArray(Node):
                 raise ValueError('y_spacing must be supplied as numerical value')
 
         if all([i == 0 for i in self.spacing]):
-            raise ValueError('pad spacing ({sp}) must be non-zero'.format(sp = self.spacing))
+            raise ValueError('pad spacing ({sp}) must be non-zero'.format(sp=self.spacing))
 
     def _createPads(self, **kwargs):
 
