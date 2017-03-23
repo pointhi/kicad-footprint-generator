@@ -32,8 +32,8 @@ class PadArray(Node):
           start edge of the pad array
         * *center* (``Point``) --
           center pad array around specific point
-        * *pincount*(``int``) --
-         number of pads to render
+        * *pincount* (``int``) --
+          number of pads to render
         * *spacing* (``Point``, ``float``) --
           offset between rendered pads
         * *x_spacing* (``float``) --
@@ -65,7 +65,7 @@ class PadArray(Node):
 
     >>> from KicadModTree import *
     >>> PadArray(pincount=10, spacing=[1,-1], center=[0,0], initial=5, increment=2,
-                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[1,2], layers=Pad.LAYERS_SMT)
+    ...          type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[1,2], layers=Pad.LAYERS_SMT)
     """
 
     def __init__(self, **kwargs):
