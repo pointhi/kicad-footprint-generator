@@ -19,6 +19,7 @@ from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.base.Line import Line
 
+
 class PolygoneLine(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
@@ -32,8 +33,8 @@ class PolygoneLine(Node):
 
         self.virtual_childs = self._createChildNodes(self.polygone_line)
 
-    def _initMirror(self, **kwargs):    
-        self.mirror = [None,None]
+    def _initMirror(self, **kwargs):
+        self.mirror = [None, None]
         if kwargs.get('x_mirror') and type(kwargs['x_mirror']) in [float, int]:
             self.mirror[0] = kwargs['x_mirror']
         if kwargs.get('y_mirror') and type(kwargs['y_mirror']) in [float, int]:
@@ -48,7 +49,7 @@ class PolygoneLine(Node):
                 point['x'] = 2 * self.mirror[0] - point['x']
             if self.mirror[1] is not None:
                 point['y'] = 2 * self.mirror[1] - point['y']
-            
+
     def _createChildNodes(self, polygone_line):
         nodes = []
 
