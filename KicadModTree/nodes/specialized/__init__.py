@@ -20,3 +20,5 @@ from .PolygoneLine import PolygoneLine
 from .RectLine import RectLine
 from .RectFill import RectFill
 from .FilledRect import FilledRect
+
+from .PadArray import PadArray
