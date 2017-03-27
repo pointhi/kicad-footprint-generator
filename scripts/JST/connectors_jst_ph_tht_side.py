@@ -12,7 +12,7 @@ LAYERS_THT = ['*.Cu','*.Mask']
 LAYERS_NPTH = ['*.Cu', '*.Mask']
 
 output_dir = os.getcwd()
-_3dshapes = "Connectors_JST.3dshapes"+os.sep
+_3dshapes = "${KISYS3DMOD}/Connectors_JST.3dshapes"+os.sep
 ref_on_ffab = False
 main_ref_on_silk = True
 fab_line_width = 0.1
@@ -36,6 +36,7 @@ silk_pin1_marker_type = 1
 
 pad_to_silk = 0.2
 pad_size=[1.2, 1.7]
+drill_size = 0.75 #Datasheet: 0.7 +0.1/-0.0 => It might be better to assume 0.75 +/-0.05mm
 
 def round_to(n, precision):
     correction = 0.5 if n >= 0 else -0.5
@@ -44,41 +45,56 @@ def round_to(n, precision):
 def round_crty_point(point):
     return [round_to(point[0],CrtYd_grid),round_to(point[1],CrtYd_grid)]
 
+config_to_use = "KLCv2.0"
+
 if len(sys.argv) > 1:
-    if sys.argv[1] == "TERA":
-        ref_on_ffab = True
-        main_ref_on_silk = False
-        fab_line_width = 0.05
-        silk_line_width = 0.15
-        _3dshapes = "tera_Connectors_JST.3dshapes"+os.sep
-        value_fontsize = [0.6,0.6]
-        value_fontwidth = 0.1
-        fab_pin1_marker_type = 2
-        value_inside = True
-    elif sys.argv[1] == "KLCv1.1":
-        _3dshapes = "Connectors_JST.3dshapes"+os.sep
-        ref_on_ffab = False
-        main_ref_on_silk = True
-        fab_line_width = 0.1
-        silk_line_width = 0.15
-        value_fontsize = [1,1]
-        value_fontwidth=0.15
-        value_inside = False
-    elif sys.argv[1] == "KLCv1.2":
-        _3dshapes = "Connectors_JST.3dshapes"+os.sep
-        ref_on_ffab = True
-        main_ref_on_silk = True
-        fab_line_width = 0.1
-        silk_line_width = 0.12
-        value_fontsize = [1,1]
-        value_fontwidth = 0.15
-        value_inside = False
-        silk_reference_fontsize=[1,1]
-        silk_reference_fontwidth=0.15
-        fab_reference_fontsize=[1,1]
-        fab_reference_fontwidth=0.15
-        fab_pin1_marker_type = 3
-        silk_pin1_marker_type = 2
+    if sys.argv[1].lower() == "tera":
+        config_to_use = "TERA"
+    elif sys.argv[1].lower() == "klcv1.1":
+        config_to_use = "KLCv1.1"
+    elif sys.argv[1].lower() == "klcv2.0":
+        config_to_use = "KLCv2.0"
+
+print("Used configuration: " + config_to_use)
+
+if config_to_use == "TERA":
+    ref_on_ffab = True
+    main_ref_on_silk = False
+    fab_line_width = 0.05
+    silk_line_width = 0.15
+    _3dshapes = "${KISYS3DMOD}/tera_Connectors_JST.3dshapes"+os.sep
+    value_fontsize = [0.6,0.6]
+    value_fontwidth = 0.1
+    fab_pin1_marker_type = 2
+    value_inside = True
+    drill_size = 0.8 # A bit bigger for hand soldering
+elif config_to_use == "KLCv1.1":
+    _3dshapes = "${KISYS3DMOD}/Connectors_JST.3dshapes"+os.sep
+    ref_on_ffab = False
+    main_ref_on_silk = True
+    fab_line_width = 0.1
+    silk_line_width = 0.15
+    value_fontsize = [1,1]
+    value_fontwidth=0.15
+    value_inside = False
+elif config_to_use == "KLCv2.0":
+    _3dshapes = "${KISYS3DMOD}/Connectors_JST.3dshapes"+os.sep
+    ref_on_ffab = True
+    main_ref_on_silk = True
+    fab_line_width = 0.1
+    silk_line_width = 0.12
+    value_fontsize = [1,1]
+    value_fontwidth = 0.15
+    value_inside = False
+    silk_reference_fontsize=[1,1]
+    silk_reference_fontwidth=0.15
+    fab_reference_fontsize=[1,1]
+    fab_reference_fontwidth=0.15
+    fab_pin1_marker_type = 3
+    silk_pin1_marker_type = 2
+else:
+    print("Programming error: Unknown config!")
+    exit(-1)
 
 out_dir="Connectors_JST.pretty"+os.sep
 if len(sys.argv) > 2:
@@ -234,7 +250,7 @@ for pincount in range (2,17):
     #add the pads
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
                         at=[0, 0], size=pad_size,
-                        drill=0.7, layers=LAYERS_THT))
+                        drill=drill_size, layers=LAYERS_THT))
     for p in range(1, pincount):
         Y = 0
         X = p * pitch
@@ -242,7 +258,7 @@ for pincount in range (2,17):
         num = p+1
         kicad_mod.append(Pad(number=num, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
                             at=[X, Y], size=pad_size,
-                            drill=0.7, layers=LAYERS_THT))
+                            drill=drill_size, layers=LAYERS_THT))
 
 
     # pin 1 marker

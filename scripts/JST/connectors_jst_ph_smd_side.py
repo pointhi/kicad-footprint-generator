@@ -13,9 +13,12 @@ LAYERS_THT = ['*.Cu','*.Mask']
 LAYERS_NPTH = ['*.Cu', '*.Mask']
 
 output_dir = os.getcwd()
-_3dshapes = "Connectors_JST.3dshapes"+os.sep
+_3dshapes = "${KISYS3DMOD}/Connectors_JST.3dshapes"+os.sep
 ref_on_ffab = False
 main_ref_on_silk = True
+
+allow_silk_below_part = True
+
 fab_line_width = 0.1
 silk_line_width = 0.12
 value_fontsize = [1,1]
@@ -43,39 +46,57 @@ def round_to(n, precision):
 def round_crty_point(point):
     return [round_to(point[0],CrtYd_grid),round_to(point[1],CrtYd_grid)]
 
+config_to_use = "KLCv2.0"
+
 if len(sys.argv) > 1:
-    if sys.argv[1] == "TERA":
-        ref_on_ffab = True
-        main_ref_on_silk = False
-        fab_line_width = 0.05
-        silk_line_width = 0.15
-        _3dshapes = "tera_Connectors_JST.3dshapes"+os.sep
-        value_fontsize = [0.6,0.6]
-        value_fontwidth = 0.1
-        fab_pin1_marker_type = 2
-        value_inside = True
-    elif sys.argv[1] == "KLCv1.1":
-        _3dshapes = "Connectors_JST.3dshapes"+os.sep
-        ref_on_ffab = False
-        main_ref_on_silk = True
-        fab_line_width = 0.1
-        silk_line_width = 0.15
-        value_fontsize = [1,1]
-        value_fontwidth=0.15
-        value_inside = False
-    elif sys.argv[1] == "KLCv1.2":
-        _3dshapes = "Connectors_JST.3dshapes"+os.sep
-        ref_on_ffab = True
-        main_ref_on_silk = True
-        fab_line_width = 0.1
-        silk_line_width = 0.12
-        value_fontsize = [1,1]
-        value_fontwidth = 0.15
-        value_inside = False
-        silk_reference_fontsize=[1,1]
-        silk_reference_fontwidth=0.15
-        fab_reference_fontsize=[1,1]
-        fab_reference_fontwidth=0.15
+    if sys.argv[1].lower() == "tera":
+        config_to_use = "TERA"
+    elif sys.argv[1].lower() == "klcv1.1":
+        config_to_use = "KLCv1.1"
+    elif sys.argv[1].lower() == "klcv2.0":
+        config_to_use = "KLCv2.0"
+
+print("Used configuration: " + config_to_use)
+
+
+if config_to_use == "TERA":
+    ref_on_ffab = True
+    main_ref_on_silk = False
+    fab_line_width = 0.05
+    silk_line_width = 0.15
+    _3dshapes = "${KISYS3DMOD}/tera_Connectors_JST.3dshapes"+os.sep
+    value_fontsize = [0.6,0.6]
+    value_fontwidth = 0.1
+    fab_pin1_marker_type = 2
+    value_inside = True
+    allow_silk_below_part = True
+elif config_to_use == "KLCv1.1":
+    _3dshapes = "${KISYS3DMOD}/Connectors_JST.3dshapes"+os.sep
+    ref_on_ffab = False
+    main_ref_on_silk = True
+    fab_line_width = 0.1
+    silk_line_width = 0.15
+    value_fontsize = [1,1]
+    value_fontwidth=0.15
+    value_inside = False
+    allow_silk_below_part = True
+elif config_to_use == "KLCv2.0":
+    _3dshapes = "${KISYS3DMOD}/Connectors_JST.3dshapes"+os.sep
+    ref_on_ffab = True
+    main_ref_on_silk = True
+    fab_line_width = 0.1
+    silk_line_width = 0.12
+    value_fontsize = [1,1]
+    value_fontwidth = 0.15
+    value_inside = False
+    silk_reference_fontsize=[1,1]
+    silk_reference_fontwidth=0.15
+    fab_reference_fontsize=[1,1]
+    fab_reference_fontwidth=0.15
+    allow_silk_below_part = False
+else:
+    print("Programming error: Unknown config!")
+    exit(-1)
 
 out_dir="Connectors_JST.pretty"+os.sep
 if len(sys.argv) > 2:
@@ -216,25 +237,26 @@ for pincount in range (2,16):
     ]
     kicad_mod.append(PolygoneLine(polygone=poly_silk_outline_top_right, layer='F.SilkS', width=silk_line_width))
 
-    poly_big_cutout=[
-        {'x':x_min+dx_big_cutout_to_side, 'y':silk_y_max},
-        {'x':x_min+dx_big_cutout_to_side, 'y':y_min_big_cutout},
-        {'x':x_max-dx_big_cutout_to_side, 'y':y_min_big_cutout},
-        {'x':x_max-dx_big_cutout_to_side, 'y':silk_y_max}
-    ]
-    kicad_mod.append(PolygoneLine(polygone=poly_big_cutout, layer='F.SilkS', width=silk_line_width))
-
-    kicad_mod.append(Line(start=[silk_x_min, silk_y_main_min], end=[tmp_x1, silk_y_main_min], layer='F.SilkS', width=silk_line_width))
-    kicad_mod.append(Line(start=[silk_x_max, silk_y_main_min], end=[tmp_x2, silk_y_main_min], layer='F.SilkS', width=silk_line_width))
-
     kicad_mod.append(Line(start=[x_left_mount_pad+mount_pad_size[0]/2.0+pad_to_silk, silk_y_max],
         end=[-x_left_mount_pad-mount_pad_size[0]/2.0-pad_to_silk, silk_y_max],
         layer='F.SilkS', width=silk_line_width))
 
-    kicad_mod.append(RectLine(start=[x_min+1.75, -0.7], end=[x_min+2.75, 2.7],
-        layer='F.SilkS', width=silk_line_width))
-    kicad_mod.append(RectLine(start=[x_max-1.75, -0.7], end=[x_max-2.75, 2.7],
-        layer='F.SilkS', width=silk_line_width))
+    if allow_silk_below_part:
+        poly_big_cutout=[
+            {'x':x_min+dx_big_cutout_to_side, 'y':silk_y_max},
+            {'x':x_min+dx_big_cutout_to_side, 'y':y_min_big_cutout},
+            {'x':x_max-dx_big_cutout_to_side, 'y':y_min_big_cutout},
+            {'x':x_max-dx_big_cutout_to_side, 'y':silk_y_max}
+        ]
+        kicad_mod.append(PolygoneLine(polygone=poly_big_cutout, layer='F.SilkS', width=silk_line_width))
+
+        kicad_mod.append(Line(start=[silk_x_min, silk_y_main_min], end=[tmp_x1, silk_y_main_min], layer='F.SilkS', width=silk_line_width))
+        kicad_mod.append(Line(start=[silk_x_max, silk_y_main_min], end=[tmp_x2, silk_y_main_min], layer='F.SilkS', width=silk_line_width))
+
+        kicad_mod.append(RectLine(start=[x_min+1.75, -0.7], end=[x_min+2.75, 2.7],
+            layer='F.SilkS', width=silk_line_width))
+        kicad_mod.append(RectLine(start=[x_max-1.75, -0.7], end=[x_max-2.75, 2.7],
+            layer='F.SilkS', width=silk_line_width))
 
     #Pin 1 Marker
     kicad_mod.append(Line(start=[first_pad_x-pad_size[0]/2.0-pad_to_silk, silk_y_main_min],
@@ -263,7 +285,7 @@ for pincount in range (2,16):
         Y = pad_pos_y
         X = first_pad_x + p * pitch
 
-        num = p
+        num = p+1
         kicad_mod.append(Pad(number=num, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                             at=[X, Y], size=pad_size, layers=LAYERS_SMT))
 
