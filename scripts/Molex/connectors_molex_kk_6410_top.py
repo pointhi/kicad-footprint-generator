@@ -50,7 +50,7 @@ if __name__ == '__main__':
     kicad_mod.setTags('connector molex kk_6410 22-27-2{pincount:02g}1'.format(pincount=pincount))
 
     # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[0, -4.5], layer='F.SilkS'))
+    kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[1, -4.5], layer='F.SilkS'))
     kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[centre_x, 0], layer='F.Fab'))
     kicad_mod.append(Text(type='value', text=footprint_name, at=[centre_x, 4.5], layer='F.Fab'))
 
@@ -60,6 +60,10 @@ if __name__ == '__main__':
     kicad_mod.append(PadArray(pincount=pincount-1, spacing=[pad_spacing,0], start=[pad_spacing,0],\
         initial=2, increment=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, size=[2,2.6],\
         drill=1.2, layers=Pad.LAYERS_THT))
+
+    # create fab outline
+    kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0-2*nudge, -3.02-nudge],\
+        end=[end_pos_x+pad_spacing/2.0+2*nudge, 2.98+nudge], layer='F.Fab', width=silk_w))
 
     # create silkscreen
     kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0-nudge, -3.02],\
@@ -71,14 +75,26 @@ if __name__ == '__main__':
             [end_pos_x, 1.98], [end_pos_x, 2.98]], layer='F.SilkS', width=silk_w))
         kicad_mod.append(PolygoneLine(polygone=[[start_pos_x, 1.98], [start_pos_x+0.25, 1.55],\
             [end_pos_x-0.25, 1.55], [end_pos_x, 1.98] ],layer='F.SilkS', width=silk_w))
-        kicad_mod.append(RectLine(start=[start_pos_x+0.25, 2.98],\
-            end=[start_pos_x+0.25, 1.98], layer='F.SilkS', width=silk_w))
-        kicad_mod.append(RectLine(start=[end_pos_x-0.25, 2.98],\
-            end=[end_pos_x-0.25, 1.98], layer='F.SilkS', width=silk_w))
+        kicad_mod.append(PolygoneLine(polygone=[[start_pos_x+0.25, 2.98],\
+            [start_pos_x+0.25, 1.98]], layer='F.SilkS', width=silk_w))
+        kicad_mod.append(PolygoneLine(polygone=[[end_pos_x-0.25, 2.98],\
+            [end_pos_x-0.25, 1.98]], layer='F.SilkS', width=silk_w))
 
     else:
         # two ramps
-        pass
+        kicad_mod.append(PolygoneLine(polygone=[[start_pos_x, 2.98], [start_pos_x, 1.98],\
+            [start_pos_x+2*pad_spacing, 1.98], [start_pos_x+2*pad_spacing, 2.98]], layer='F.SilkS', width=silk_w))
+        kicad_mod.append(PolygoneLine(polygone=[[start_pos_x, 1.98], [start_pos_x+0.25, 1.55],\
+            [start_pos_x+2*pad_spacing, 1.55], [start_pos_x+2*pad_spacing, 1.98] ],layer='F.SilkS', width=silk_w))
+        kicad_mod.append(PolygoneLine(polygone=[[start_pos_x+0.25, 2.98],\
+            [start_pos_x+0.25, 1.98]], layer='F.SilkS', width=silk_w))
+
+        kicad_mod.append(PolygoneLine(polygone=[[end_pos_x, 2.98], [end_pos_x, 1.98],\
+            [end_pos_x-2*pad_spacing, 1.98], [end_pos_x-2*pad_spacing, 2.98]], layer='F.SilkS', width=silk_w))
+        kicad_mod.append(PolygoneLine(polygone=[[end_pos_x, 1.98], [end_pos_x-0.25, 1.55],\
+            [end_pos_x-2*pad_spacing, 1.55], [end_pos_x-2*pad_spacing, 1.98] ],layer='F.SilkS', width=silk_w))
+        kicad_mod.append(PolygoneLine(polygone=[[end_pos_x-0.25, 2.98],\
+            [end_pos_x-0.25, 1.98]], layer='F.SilkS', width=silk_w))
 
     for i in range(0, pincount):
         middle_x = start_pos_x + i * pad_spacing
@@ -86,9 +102,6 @@ if __name__ == '__main__':
         end_x = middle_x + 1.6/2
         kicad_mod.append(PolygoneLine(polygone=[[start_x, -3.02], [start_x, -2.4],\
             [end_x, -2.4], [end_x, -3.02]], layer='F.SilkS', width=silk_w))
-
-
-
 
     # create Courtyard
     def round_to(n, precision):
