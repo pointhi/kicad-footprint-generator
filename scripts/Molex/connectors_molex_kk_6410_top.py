@@ -68,6 +68,8 @@ if __name__ == '__main__':
     # create silkscreen
     kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0-nudge, -3.02],\
         end=[end_pos_x+pad_spacing/2.0+nudge, 2.98], layer='F.SilkS', width=silk_w))
+    kicad_mod.append(Line(start=[start_pos_x-pad_spacing/2.0-0.4, -2.0],\
+        end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.SilkS', width=silk_w))
 
     if pincount <= 6:
         # one ramp
