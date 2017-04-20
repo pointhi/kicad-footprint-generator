@@ -39,7 +39,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     pincount = int(args.pincount[0])
     partnumber = str(args.partnumber[0])
-    footprint_name = 'Molex_SlimStack_Receptacle_02x{pc:02g}_0.5mm_54722-{pn:s}'.format(pc=pincount/2, pn=partnumber)
+    footprint_name = 'Molex_SlimStack_Receptacle_2x{pc:02g}_Pitch0.5mm_54722-{pn:s}'.format(pc=pincount/2, pn=partnumber)
     print('Building {:s} '.format(footprint_name))
 
     # calculate working values
