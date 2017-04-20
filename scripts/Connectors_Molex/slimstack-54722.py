@@ -39,7 +39,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     pincount = int(args.pincount[0])
     partnumber = str(args.partnumber[0])
-    footprint_name = 'Molex_SlimStack_Receptacle_02x{pc:02g}_0.5mm_54722-{pn:s}'.format(pc=pincount, pn=partnumber)
+    footprint_name = 'Molex_SlimStack_Receptacle_02x{pc:02g}_0.5mm_54722-{pn:s}'.format(pc=pincount/2, pn=partnumber)
     print('Building {:s} '.format(footprint_name))
 
     # calculate working values
@@ -68,10 +68,9 @@ if __name__ == '__main__':
     label_x_offset = 0
     label_y_offset = 4.5
 
-    # TODO finish documentation
     # initialise footprint
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription('TBC, http://TBC.pdf')
+    kicad_mod.setDescription('Molex SlimStack receptacle, 02x{pc:02g} contacts 0.5mm pitch 1.5mm height, http://www.molex.com/pdm_docs/sd/547220604_sd.pdf'.format(pc=pincount/2))
     kicad_mod.setTags('connector molex slimstack 54722-{:s}'.format(partnumber))
     kicad_mod.setAttribute('smd')
 
