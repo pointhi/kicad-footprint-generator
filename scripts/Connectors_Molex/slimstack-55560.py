@@ -46,7 +46,7 @@ if __name__ == '__main__':
     pad_x_spacing = 0.5
     pad_y_spacing = 2.9 + 1.0
     pad_width = 0.3
-    pad_height = 1.1
+    pad_height = 1.0
     pad_x_span = (pad_x_spacing * ((pincount / 2) - 1))
 
     h_body_width = 2.83 / 2.0
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     courtyard_y = round_to((pad_y_spacing + pad_height) / 2.0 + courtyard_clearance, courtyard_precision)
 
     label_x_offset = 0
-    label_y_offset = 4.5
+    label_y_offset = courtyard_y + 0.7
 
     # initialise footprint
     kicad_mod = Footprint(footprint_name)
