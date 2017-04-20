@@ -73,6 +73,7 @@ if __name__ == '__main__':
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription('TBC, http://TBC.pdf')
     kicad_mod.setTags('connector molex slimstack 54722-{:s}'.format(partnumber))
+    kicad_mod.setAttribute('smd')
 
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[label_x_offset, -label_y_offset], layer='F.SilkS'))
