@@ -49,12 +49,12 @@ if __name__ == '__main__':
     pad_height = 1.1
     pad_x_span = (pad_x_spacing * ((pincount / 2) - 1))
 
-    h_body_width = 2.83 / 2.0
-    h_body_length = (pad_x_span / 2.0) + 0.45 + 0.525
+    h_body_width = 3.1 / 2.0
+    h_body_length = (pad_x_span / 2.0) + 1.4 + 0.37
 
     fab_width = 0.1
 
-    outline_x = 0.6
+    outline_x = h_body_length - (pad_x_span / 2.0) - 0.3
     marker_y = 0.8
     silk_width = 0.12
     nudge = 0.15
@@ -66,12 +66,12 @@ if __name__ == '__main__':
     courtyard_y = round_to((pad_y_spacing + pad_height) / 2.0 + courtyard_clearance, courtyard_precision)
 
     label_x_offset = 0
-    label_y_offset = 4.5
+    label_y_offset = courtyard_y + 0.7
 
     # initialise footprint
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription('Molex SlimStack plug, 02x{pc:02g} contacts 0.5mm pitch 1.5mm height, http://www.molex.com/pdm_docs/sd/555600307_sd.pdf'.format(pc=pincount/2))
-    kicad_mod.setTags('connector molex slimstack 55560-{:s}'.format(partnumber))
+    kicad_mod.setDescription('Molex SlimStack plug, 02x{pc:02g} contacts 0.5mm pitch 4mm height, http://www.molex.com/pdm_docs/sd/5019204001_sd.pdf'.format(pc=pincount/2))
+    kicad_mod.setTags('connector molex slimstack 501920-{:s}'.format(partnumber))
     kicad_mod.setAttribute('smd')
 
     # set general values
