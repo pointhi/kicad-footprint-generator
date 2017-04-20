@@ -52,7 +52,7 @@ if __name__ == '__main__':
     h_body_width = 4.3 / 2.0
     h_body_length = (pad_x_span / 2.0) + 2.15 + 0.35
 
-    tab_width = 1.5
+    tab_width = 1.3
     tab_height = 0.5
 
     fab_width = 0.1
@@ -101,9 +101,18 @@ if __name__ == '__main__':
                      [h_body_length-outline_x, -h_body_width-nudge]]
     top_left_tab = [[-h_body_length-nudge, -h_body_width-nudge], [-h_body_length-nudge, -h_body_width-nudge-tab_height],\
                     [-h_body_length-nudge+tab_width, -h_body_width-nudge-tab_height], [-h_body_length-nudge+tab_width, -h_body_width-nudge]]
+    bottom_left_tab = [[-h_body_length-nudge, h_body_width+nudge], [-h_body_length-nudge+tab_width/3, h_body_width+nudge+tab_height],\
+                       [-h_body_length-nudge+tab_width, h_body_width+nudge+tab_height], [-h_body_length-nudge+tab_width, h_body_width+nudge]]
+    top_right_tab = [[h_body_length+nudge, -h_body_width-nudge], [h_body_length+nudge, -h_body_width-nudge-tab_height],\
+                     [h_body_length+nudge-tab_width, -h_body_width-nudge-tab_height], [h_body_length+nudge-tab_width, -h_body_width-nudge]]
+    bottom_right_tab = [[h_body_length+nudge, h_body_width+nudge], [h_body_length+nudge, h_body_width+nudge+tab_height],\
+                       [h_body_length+nudge-tab_width, h_body_width+nudge+tab_height], [h_body_length+nudge-tab_width, h_body_width+nudge]]
     kicad_mod.append(PolygoneLine(polygone=left_outline, layer='F.SilkS', width=silk_width))
     kicad_mod.append(PolygoneLine(polygone=right_outline, layer='F.SilkS', width=silk_width))
     kicad_mod.append(PolygoneLine(polygone=top_left_tab, layer='F.SilkS', width=silk_width))
+    kicad_mod.append(PolygoneLine(polygone=bottom_left_tab, layer='F.SilkS', width=silk_width))
+    kicad_mod.append(PolygoneLine(polygone=top_right_tab, layer='F.SilkS', width=silk_width))
+    kicad_mod.append(PolygoneLine(polygone=bottom_right_tab, layer='F.SilkS', width=silk_width))
 
     # create courtyard
     kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
