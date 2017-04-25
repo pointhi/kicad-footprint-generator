@@ -32,19 +32,19 @@ def round_to(n, precision):
     correction = 0.5 if n >= 0 else -0.5
     return int( n/precision+correction ) * precision
 
+def footprint_name(package, num_pins, add_tab, tab_number):
+    tab_suffix = '_TabPin' if add_tab else ''
+    pins = str(num_pins)
+    tab = str(tab_number)
+    name = '{p:s}-{ps:s}Lead{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
+    return name
 
-if __name__ == '__main__':
 
-    # handle arguments
-    parser = argparse.ArgumentParser()
-    # parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs=1)
-    # parser.add_argument('partnumber', help='suffix to 55560 series number (e.g. 0161)', type=str, nargs=1)
-    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
-    args = parser.parse_args()
-    pincount = 10
-    partnumber = 'foo'
-    footprint_name = 'DPAK-test-{pn:s}'.format(pc=pincount/2, pn=partnumber)
-    print('Building DPAK')
+
+
+def build_footprint(base, variant, cut_pin=False, tab_linked=False, split_paste=False):
+
+    name = footprint_name(base['package'], variant['pins'], not cut_pin, 1 + variant['pins'] // 2)
 
     # calculate working values
     pad_x_spacing = 0.5
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
 
     # add model
-    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(footprint_name), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
+    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(name), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
     # print render tree
     if args.verbose:
@@ -115,25 +115,49 @@ if __name__ == '__main__':
 
     # write file
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile('{:s}.kicad_mod'.format(footprint_name))
+    file_handler.writeFile('{:s}.kicad_mod'.format(name))
 
 
-def footprint_name(package, variant, num_pins, add_tab, tab_number):
-    tab_suffix = '_TabPin' if add_tab else ''
-    pins = str(num_pins)
-    tab = str(tab_number)
-    return '{p:s}-{ps:s}Lead{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
+def build_family(config, split_paste):
+    print('Building family {f:s}'.format(f=config['base']['package']))
+    base = config['base']
+    for variant in config['variants']:
+        if 'uncut' in variant['centre_pin']:
+            build_footprint(base, variant)
+            build_footprint(base, variant, tab_linked=True)
+        if 'cut' in variant['centre_pin']:
+            build_footprint(base, variant, cut_pin=True)
 
 
-for device in yaml.load_all(open('dpak-config.yaml')):
-    print('PACKAGE: {p:s}'.format(p=device['package']))
-    print('KEYWORDS: {w:s}'.format(w=device['keywords']))
-    print('BASE:')
-    pprint.pprint(device['base'])    
-    for v in device['variants']:
-        print('VARIANT: {np:1d} pins'.format(np=v['pins']))
-        pprint.pprint(v)
-        print('EXAMPLE FOOTPRINT NAME: {fn:s}'\
-              .format(fn=footprint_name(device['package'], v, v['pins'], True, 1 + v['pins'] // 2)))
-    print()
+if __name__ == '__main__':
+
+    # handle arguments
+    parser = argparse.ArgumentParser()
+    # parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs=1)
+    parser.add_argument('--family', help='device type to build: TO-252 | TO-263 | TO-268  (default is all)', type=str, nargs=1)
+    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
+    args = parser.parse_args()
+    pincount = 10
+    partnumber = 'foo'
+    print('Building DPAK')
+
+    if args.verbose:
+        for device in yaml.load_all(open('dpak-config.yaml')):
+            print('PACKAGE: {p:s}'.format(p=device['base']['package']))
+            print('KEYWORDS: {w:s}'.format(w=device['base']['keywords']))
+            print('BASE:')
+            pprint.pprint(device['base'])    
+            for v in device['variants']:
+                print('VARIANT: {np:1d} pins'.format(np=v['pins']))
+                pprint.pprint(v)
+                print('EXAMPLE FOOTPRINT NAME: {fn:s}'.format(fn=footprint_name(device['base']['package'], v['pins'], True, 1 + v['pins'] // 2)))
+            print()
+
+    for device in yaml.load_all(open('dpak-config.yaml')):
+        if args.family:
+            if args.family[0] == device['base']['package']:
+                build_family(device, split_paste=False)
+        else:
+            build_family(device, split_paste=False)
+ 
 

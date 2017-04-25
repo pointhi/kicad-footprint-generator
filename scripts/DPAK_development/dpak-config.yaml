@@ -1,6 +1,6 @@
-package: TO-252
-keywords: 'the quick brown fox'
 base:
+    package: TO-252
+    keywords: 'the quick brown fox'
     footprint:
         x_mm: 10.6
         tab_x_mm: 6.4
@@ -32,9 +32,9 @@ variants:
 
 ---
 
-package: TO-263
-keywords: 'the quick brown fox'
 base:
+    package: TO-263
+    keywords: 'the quick brown fox'
     footprint:
         x_mm: 16.15
         tab_x_mm: 9.4
@@ -73,9 +73,9 @@ variants:
 
 ---
 
-package: TO-268
-keywords: 'the quick brown fox'
 base:
+    package: TO-268
+    keywords: 'the quick brown fox'
     footprint:
         x_mm: 21.95
         tab_x_mm: 13.5
