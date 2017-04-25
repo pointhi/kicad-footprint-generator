@@ -42,7 +42,7 @@ def round_to(n, precision):
 def footprint_name(package, num_pins, add_tab, tab_number):
     tab_suffix = '_TabPin' if add_tab else ''
     pins = str(num_pins)
-    tab = str(tab_number)
+    tab = str(tab_number) if add_tab else ''
     name = '{p:s}-{ps:s}Lead{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
     return name
 
@@ -125,7 +125,7 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False, split_paste=
                               end=[COURTYARD_OFFSET_X_MM, COURTYARD_OFFSET_Y_MM], layer='F.CrtYd', width=COURTYARD_LINE_WIDTH_MM))
 
     # add 3D model
-    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(NAME), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
+    kicad_mod.append(Model(filename="{p:s}/{n:s}.wrl".format(p=base['3d_prefix'], n=NAME), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
     # print render tree
     if args.verbose:
