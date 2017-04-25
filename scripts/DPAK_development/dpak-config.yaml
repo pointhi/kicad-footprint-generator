@@ -8,12 +8,12 @@ base:
         paste_gutter_mm: 0.3
     device:
         x_mm: 9.9
-    body:
-        x_mm: 6.22
-        y_mm: 6.5
-    tab:
-        x_mm: 1.0
-        y_mm: 5.4
+        body:
+            x_mm: 6.22
+            y_mm: 6.5
+        tab:
+            x_mm: 1.0
+            y_mm: 5.4
 variants:
     - pins: 3
       pitch: 2.28
@@ -22,6 +22,7 @@ variants:
           y_mm: 1.2
       centre_pin: ['cut', 'uncut']
       keywords: 'jumped over the'
+      datasheet: http://www.molex.com/pdm_docs/sd/555600307_sd.pdf
     - pins: 5
       pitch: 1.34
       pad:
@@ -29,6 +30,7 @@ variants:
           y_mm: 0.8
       centre_pin: ['cut', 'uncut']
       keywords: 'lazy dog'
+      datasheet: http://www.molex.com/pdm_docs/sd/555600307_sd.pdf
 
 ---
 
@@ -42,12 +44,12 @@ base:
         paste_gutter_mm: 0.3
     device:
         x_mm: 15.0
-    body:
-        x_mm: 9.25
-        y_mm: 10.0
-    tab:
-        x_mm: 1.0
-        y_mm: 10.0
+        body:
+            x_mm: 9.25
+            y_mm: 10.0
+        tab:
+            x_mm: 1.0
+            y_mm: 10.0
 variants:
     - pins: 3
       pitch: 2.54
@@ -56,6 +58,7 @@ variants:
           y_mm: 1.1
       centre_pin: ['cut', 'uncut']
       keywords: 'jumped over the'
+      datasheet: http://www.molex.com/pdm_docs/sd/555600307_sd.pdf
     - pins: 5
       pitch: 1.7
       pad:
@@ -63,6 +66,7 @@ variants:
           y_mm: 1.1
       centre_pin: ['cut', 'uncut']
       keywords: 'lazy dog'
+      datasheet: http://www.molex.com/pdm_docs/sd/555600307_sd.pdf
     - pins: 7
       pitch: 1.27
       pad:
@@ -70,6 +74,7 @@ variants:
           y_mm: 0.8
       centre_pin: ['cut', 'uncut']
       keywords: 'lazy dog'
+      datasheet: http://www.molex.com/pdm_docs/sd/555600307_sd.pdf
 
 ---
 
@@ -83,12 +88,12 @@ base:
         paste_gutter_mm: 0.3
     device:
         x_mm: 19.0
-    body:
-        x_mm: 14.0
-        y_mm: 15.9
-    tab:
-        x_mm: 1.1
-        y_mm: 15.9
+        body:
+            x_mm: 14.0
+            y_mm: 15.9
+        tab:
+            x_mm: 1.1
+            y_mm: 15.9
 variants:
     - pins: 3
       pitch: 5.45
@@ -97,4 +102,5 @@ variants:
           y_mm: 3.0
       centre_pin: ['cut']
       keywords: 'jumped over the'
+      datasheet: http://www.molex.com/pdm_docs/sd/555600307_sd.pdf
 

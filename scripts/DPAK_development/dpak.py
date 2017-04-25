@@ -18,19 +18,26 @@
 import sys
 import os
 import argparse
+import yaml
+import pprint
 
 sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
 
 from KicadModTree import *  # NOQA
 
 
-import yaml
-import pprint
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--family', help='device type to build: TO-252 | TO-263 | TO-268  (default is all)', type=str, nargs=1)
+    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
+    return parser.parse_args()
 
 
 def round_to(n, precision):
     correction = 0.5 if n >= 0 else -0.5
     return int( n/precision+correction ) * precision
+
 
 def footprint_name(package, num_pins, add_tab, tab_number):
     tab_suffix = '_TabPin' if add_tab else ''
@@ -40,60 +47,110 @@ def footprint_name(package, num_pins, add_tab, tab_number):
     return name
 
 
-
-
 def build_footprint(base, variant, cut_pin=False, tab_linked=False, split_paste=False):
 
-    name = footprint_name(base['package'], variant['pins'], not cut_pin, 1 + variant['pins'] // 2)
+    CENTRE_PIN = 1 + variant['pins'] // 2
+    TAB_PIN_NUMBER = CENTRE_PIN if tab_linked else variant['pins'] + 1
 
+    NAME = footprint_name(base['package'], variant['pins'], not cut_pin, TAB_PIN_NUMBER)
+
+    PAD_1_X_MM = (variant['pad']['x_mm'] - base['footprint']['x_mm']) / 2.0
+    PAD_1_Y_MM = -variant['pitch'] * (variant['pins'] - 1) / 2.0
+    TAB_POS_X_MM = (base['footprint']['x_mm'] - base['footprint']['tab_x_mm']) / 2.0
+    TAB_POS_Y_MM = 0.0
+
+    dev = base['device']
+    DEVICE_OFFSET_X_MM = dev['x_mm'] / 2.0
+    TAB_X_MM = dev['tab']['x_mm']
+    TAB_OFFSET_Y_MM = dev['tab']['y_mm'] / 2.0
+    BODY_X_MM = dev['body']['x_mm']
+    BODY_OFFSET_Y_MM = dev['body']['y_mm'] / 2.0
+    CORNER = 1.0
+
+    COURTYARD_CLEARANCE = 0.25
+    COURTYARD_PRECISION = 0.01
+    biggest_x_mm = base['footprint']['x_mm']
+    biggest_y_mm = max(base['footprint']['tab_y_mm'], base['device']['body']['y_mm'], PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0) 
+    COURTYARD_OFFSET_X_MM = round_to(COURTYARD_CLEARANCE + biggest_x_mm / 2.0, COURTYARD_PRECISION)
+    COURTYARD_OFFSET_Y_MM = round_to(COURTYARD_CLEARANCE + biggest_y_mm / 2.0, COURTYARD_PRECISION)
+
+    LABEL_X_MM = 0
+    LABEL_Y_MM = COURTYARD_OFFSET_Y_MM + 0.7
+
+    SILK_LINE_NUDGE = 0.15
+
+    FAB_LINE_WIDTH_MM = 0.1
+    SILK_LINE_WIDTH_MM = 0.12
+    COURTYARD_LINE_WIDTH_MM = 0.05
+
+    # initialise footprint
+    kicad_mod = Footprint(NAME)
+    kicad_mod.setDescription(variant['datasheet'])
+    kicad_mod.setTags('{bk:s} {vk:s}'.format(bk=base['keywords'], vk=variant['keywords']))
+    kicad_mod.setAttribute('smd')
+
+    # set general values
+    kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[LABEL_X_MM, -LABEL_Y_MM], layer='F.SilkS'))
+    kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[0, 0], layer='F.Fab'))
+    kicad_mod.append(Text(type='value', text=NAME, at=[LABEL_X_MM, LABEL_Y_MM], layer='F.Fab'))
+
+    # create pads
+    for pin in range(1, variant['pins'] + 1):
+        if not (pin == CENTRE_PIN and cut_pin):
+            kicad_mod.append(Pad(number=pin, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
+                                 at=[PAD_1_X_MM, PAD_1_Y_MM + (pin - 1) * variant['pitch']],\
+                                 size=[variant['pad']['x_mm'], variant['pad']['y_mm']], \
+                                 layers=Pad.LAYERS_SMT))
+    kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
+                         at=[TAB_POS_X_MM, TAB_POS_Y_MM],\
+                         size=[base['footprint']['tab_x_mm'], base['footprint']['tab_y_mm']], \
+                         layers=Pad.LAYERS_SMT))
+
+    # TODO add paste split
+
+    # create fab outline 
+    tab_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM, -TAB_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM, -TAB_OFFSET_Y_MM],\
+                   [DEVICE_OFFSET_X_MM, TAB_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, TAB_OFFSET_Y_MM]]
+    body_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM, -BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, BODY_OFFSET_Y_MM],\
+                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, -BODY_OFFSET_Y_MM + CORNER],\
+                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + CORNER, -BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, -BODY_OFFSET_Y_MM]]
+
+    kicad_mod.append(PolygoneLine(polygone=tab_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
+    kicad_mod.append(PolygoneLine(polygone=body_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
+
+    # TODO create silkscreen marks and pin 1 marker 
+
+    # create courtyard
+    kicad_mod.append(RectLine(start=[-COURTYARD_OFFSET_X_MM, -COURTYARD_OFFSET_Y_MM],\
+                              end=[COURTYARD_OFFSET_X_MM, COURTYARD_OFFSET_Y_MM], layer='F.CrtYd', width=COURTYARD_LINE_WIDTH_MM))
+
+    # add 3D model
+    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(NAME), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
+
+    # print render tree
+    if args.verbose:
+        print(kicad_mod.getRenderTree())
+
+    # write file
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile('{:s}.kicad_mod'.format(NAME))
+
+
+"""
     # calculate working values
-    pad_x_spacing = 0.5
-    pad_y_spacing = 2.9 + 1.0
-    pad_width = 0.3
-    pad_height = 1.0
     pad_x_span = (pad_x_spacing * ((pincount / 2) - 1))
 
     h_body_width = 2.83 / 2.0
     h_body_length = (pad_x_span / 2.0) + 0.45 + 0.525
 
-    fab_width = 0.1
 
     outline_x = 0.6
     marker_y = 0.8
-    silk_width = 0.12
     nudge = 0.15
 
-    courtyard_width = 0.05
-    courtyard_precision = 0.01
-    courtyard_clearance = 0.5
-    courtyard_x = round_to(h_body_length + courtyard_clearance, courtyard_precision)
-    courtyard_y = round_to((pad_y_spacing + pad_height) / 2.0 + courtyard_clearance, courtyard_precision)
 
-    label_x_offset = 0
-    label_y_offset = courtyard_y + 0.7
 
-    # initialise footprint
-    kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription('Molex SlimStack plug, 02x{pc:02g} contacts 0.5mm pitch 1.5mm height, http://www.molex.com/pdm_docs/sd/555600307_sd.pdf'.format(pc=pincount/2))
-    kicad_mod.setTags('connector molex slimstack 55560-{:s}'.format(partnumber))
-    kicad_mod.setAttribute('smd')
 
-    # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[label_x_offset, -label_y_offset], layer='F.SilkS'))
-    kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[0, 0], layer='F.Fab'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[label_x_offset, label_y_offset], layer='F.Fab'))
-
-    # create pads
-    kicad_mod.append(PadArray(pincount=pincount//2, x_spacing=pad_x_spacing, y_spacing=0,\
-        center=[0,-pad_y_spacing/2.0], initial=1, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[pad_width, pad_height],\
-        layers=Pad.LAYERS_SMT))
-    kicad_mod.append(PadArray(pincount=pincount//2, x_spacing=pad_x_spacing, y_spacing=0,\
-        center=[0,pad_y_spacing/2.0], initial=2, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[pad_width, pad_height],\
-        layers=Pad.LAYERS_SMT))
-
-    # create fab outline and pin 1 marker
-    kicad_mod.append(RectLine(start=[-h_body_length, -h_body_width], end=[h_body_length, h_body_width], layer='F.Fab', width=fab_width))
-    kicad_mod.append(Line(start=[-h_body_length+outline_x, -h_body_width-nudge], end=[-h_body_length+outline_x, -h_body_width-marker_y], layer='F.Fab', width=fab_width))
 
     # create silkscreen outline and pin 1 marker
     left_outline = [[-h_body_length+outline_x, h_body_width+nudge], [-h_body_length-nudge, h_body_width+nudge], [-h_body_length-nudge, -h_body_width-nudge],\
@@ -103,19 +160,8 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False, split_paste=
     kicad_mod.append(PolygoneLine(polygone=left_outline, layer='F.SilkS', width=silk_width))
     kicad_mod.append(PolygoneLine(polygone=right_outline, layer='F.SilkS', width=silk_width))
 
-    # create courtyard
-    kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
 
-    # add model
-    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(name), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
-
-    # print render tree
-    if args.verbose:
-        print(kicad_mod.getRenderTree())
-
-    # write file
-    file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile('{:s}.kicad_mod'.format(name))
+"""
 
 
 def build_family(config, split_paste):
@@ -131,18 +177,14 @@ def build_family(config, split_paste):
 
 if __name__ == '__main__':
 
-    # handle arguments
-    parser = argparse.ArgumentParser()
-    # parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs=1)
-    parser.add_argument('--family', help='device type to build: TO-252 | TO-263 | TO-268  (default is all)', type=str, nargs=1)
-    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
-    args = parser.parse_args()
-    pincount = 10
-    partnumber = 'foo'
     print('Building DPAK')
 
+    args = get_args()
+
+    devices = yaml.load_all(open('dpak-config.yaml'))
+
     if args.verbose:
-        for device in yaml.load_all(open('dpak-config.yaml')):
+        for device in devices:
             print('PACKAGE: {p:s}'.format(p=device['base']['package']))
             print('KEYWORDS: {w:s}'.format(w=device['base']['keywords']))
             print('BASE:')
@@ -153,7 +195,7 @@ if __name__ == '__main__':
                 print('EXAMPLE FOOTPRINT NAME: {fn:s}'.format(fn=footprint_name(device['base']['package'], v['pins'], True, 1 + v['pins'] // 2)))
             print()
 
-    for device in yaml.load_all(open('dpak-config.yaml')):
+    for device in devices:
         if args.family:
             if args.family[0] == device['base']['package']:
                 build_family(device, split_paste=False)
