@@ -190,7 +190,7 @@ if __name__ == '__main__':
 
     args = get_args()
 
-    devices = yaml.load_all(open('dpak-config.yaml'))
+    devices = yaml.load_all(open('config.yaml'))
 
     for device in devices:
         if args.family:
