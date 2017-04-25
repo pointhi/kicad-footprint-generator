@@ -50,17 +50,17 @@ def footprint_name(package, num_pins, add_tab, tab_number):
 def build_footprint(base, variant, cut_pin=False, tab_linked=False):
 
     CENTRE_PIN = 1 + variant['pins'] // 2
-    TAB_PIN_NUMBER = CENTRE_PIN if tab_linked else variant['pins'] + 1
+    TAB_PIN_NUMBER = CENTRE_PIN if (tab_linked or cut_pin) else variant['pins'] + 1
 
-    NAME = footprint_name(base['package'], variant['pins'], not cut_pin, TAB_PIN_NUMBER)
+    NAME = footprint_name(base['package'], variant['pins'] - 1 if cut_pin else variant['pins'], not cut_pin, TAB_PIN_NUMBER)
 
-    PAD_1_X_MM = (variant['pad']['x_mm'] - base['footprint']['x_mm']) / 2.0
-    PAD_1_Y_MM = -variant['pitch'] * (variant['pins'] - 1) / 2.0
-    TAB_POS_X_MM = (base['footprint']['x_mm'] - base['footprint']['tab_x_mm']) / 2.0
+    PAD_1_X_MM = (variant['pad']['x_mm'] - base['footprint']['overall_x_mm']) / 2.0
+    PAD_1_Y_MM = -variant['pitch_mm'] * (variant['pins'] - 1) / 2.0
+    TAB_POS_X_MM = (base['footprint']['overall_x_mm'] - base['footprint']['tab']['x_mm']) / 2.0
     TAB_POS_Y_MM = 0.0
 
     dev = base['device']
-    DEVICE_OFFSET_X_MM = dev['x_mm'] / 2.0
+    DEVICE_OFFSET_X_MM = dev['overall_x_mm'] / 2.0
     TAB_X_MM = dev['tab']['x_mm']
     TAB_OFFSET_Y_MM = dev['tab']['y_mm'] / 2.0
     BODY_X_MM = dev['body']['x_mm']
@@ -69,13 +69,13 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
 
     COURTYARD_CLEARANCE = 0.25
     COURTYARD_PRECISION = 0.01
-    biggest_x_mm = base['footprint']['x_mm']
-    biggest_y_mm = max(base['footprint']['tab_y_mm'], base['device']['body']['y_mm'], PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0) 
+    biggest_x_mm = base['footprint']['overall_x_mm']
+    biggest_y_mm = max(base['footprint']['tab']['y_mm'], base['device']['body']['y_mm'], PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0) 
     COURTYARD_OFFSET_X_MM = round_to(COURTYARD_CLEARANCE + biggest_x_mm / 2.0, COURTYARD_PRECISION)
     COURTYARD_OFFSET_Y_MM = round_to(COURTYARD_CLEARANCE + biggest_y_mm / 2.0, COURTYARD_PRECISION)
 
     LABEL_X_MM = 0
-    LABEL_Y_MM = COURTYARD_OFFSET_Y_MM + 0.7
+    LABEL_Y_MM = COURTYARD_OFFSET_Y_MM + 1
 
     SILK_LINE_NUDGE = 0.15
 
@@ -87,7 +87,7 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
 
     # initialise footprint
     kicad_mod = Footprint(NAME)
-    kicad_mod.setDescription(variant['datasheet'])
+    kicad_mod.setDescription('{bd:s}, {vd:s}'.format(bd=base['description'], vd=variant['datasheet']))
     kicad_mod.setTags('{bk:s} {vk:s}'.format(bk=base['keywords'], vk=variant['keywords']))
     kicad_mod.setAttribute('smd')
 
@@ -100,7 +100,7 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
     for pin in range(1, variant['pins'] + 1):
         if not (pin == CENTRE_PIN and cut_pin):
             kicad_mod.append(Pad(number=pin, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
-                                 at=[PAD_1_X_MM, PAD_1_Y_MM + (pin - 1) * variant['pitch']],\
+                                 at=[PAD_1_X_MM, PAD_1_Y_MM + (pin - 1) * variant['pitch_mm']],\
                                  size=[variant['pad']['x_mm'], variant['pad']['y_mm']], \
                                  layers=Pad.LAYERS_SMT))
     tab_layers = Pad.LAYERS_SMT[:]
@@ -109,10 +109,10 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
         tab_layers.remove('F.Paste')
     kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
                          at=[TAB_POS_X_MM, TAB_POS_Y_MM],\
-                         size=[base['footprint']['tab_x_mm'], base['footprint']['tab_y_mm']], \
+                         size=[base['footprint']['tab']['x_mm'], base['footprint']['tab']['y_mm']], \
                          layers=tab_layers))
-    paste_x_mm = (base['footprint']['tab_x_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
-    paste_y_mm = (base['footprint']['tab_y_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
+    paste_x_mm = (base['footprint']['tab']['x_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
+    paste_y_mm = (base['footprint']['tab']['y_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
     paste_offset_x_mm = (paste_x_mm + base['footprint']['paste_gutter_mm']) / 2.0
     paste_offset_y_mm = (paste_y_mm + base['footprint']['paste_gutter_mm']) / 2.0
     kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
