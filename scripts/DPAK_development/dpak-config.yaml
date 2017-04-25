@@ -14,7 +14,7 @@ base:
         tab:
             x_mm: 1.0
             y_mm: 5.4
-    3d_prefix: '${{KISYS3DMOD}}/TO_SOT_Packages_SMD.3dshapes'
+    3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
 variants:
     - pins: 3
       pitch: 2.28
@@ -51,7 +51,7 @@ base:
         tab:
             x_mm: 1.0
             y_mm: 10.0
-    3d_prefix: '${{KISYS3DMOD}}/TO_SOT_Packages_SMD.3dshapes'
+    3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
 variants:
     - pins: 3
       pitch: 2.54
@@ -96,7 +96,7 @@ base:
         tab:
             x_mm: 1.1
             y_mm: 15.9
-    3d_prefix: '${{KISYS3DMOD}}/TO_SOT_Packages_SMD.3dshapes'
+    3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
 variants:
     - pins: 3
       pitch: 5.45
