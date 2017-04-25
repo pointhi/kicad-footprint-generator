@@ -8,7 +8,7 @@ base:
         tab:
             x_mm: 6.4
             y_mm: 5.8
-        split_paste: 'off'
+        split_paste: 'on'
         paste_gutter_mm: 0.3
     device:
         overall_x_mm: 9.9

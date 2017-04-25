@@ -77,7 +77,7 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
     LABEL_X_MM = 0
     LABEL_Y_MM = COURTYARD_OFFSET_Y_MM + 1
 
-    SILK_LINE_NUDGE = 0.15
+    SILK_LINE_NUDGE = 0.20
 
     FAB_LINE_WIDTH_MM = 0.1
     SILK_LINE_WIDTH_MM = 0.12
@@ -104,33 +104,35 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
                                  size=[variant['pad']['x_mm'], variant['pad']['y_mm']], \
                                  layers=Pad.LAYERS_SMT))
     tab_layers = Pad.LAYERS_SMT[:]
-    paste_layers = ['F.Paste']
     if SPLIT_PASTE:
         tab_layers.remove('F.Paste')
+    paste_layers = Pad.LAYERS_SMT[:]
+    paste_layers.remove('F.Mask')
     kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
                          at=[TAB_POS_X_MM, TAB_POS_Y_MM],\
                          size=[base['footprint']['tab']['x_mm'], base['footprint']['tab']['y_mm']], \
                          layers=tab_layers))
-    paste_x_mm = (base['footprint']['tab']['x_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
-    paste_y_mm = (base['footprint']['tab']['y_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
-    paste_offset_x_mm = (paste_x_mm + base['footprint']['paste_gutter_mm']) / 2.0
-    paste_offset_y_mm = (paste_y_mm + base['footprint']['paste_gutter_mm']) / 2.0
-    kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
-                         at=[TAB_POS_X_MM + paste_offset_x_mm, TAB_POS_Y_MM + paste_offset_y_mm],\
-                         size=[paste_x_mm, paste_y_mm], \
-                         layers=paste_layers))
-    kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
-                         at=[TAB_POS_X_MM - paste_offset_x_mm, TAB_POS_Y_MM - paste_offset_y_mm],\
-                         size=[paste_x_mm, paste_y_mm], \
-                         layers=paste_layers))
-    kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
-                         at=[TAB_POS_X_MM + paste_offset_x_mm, TAB_POS_Y_MM - paste_offset_y_mm],\
-                         size=[paste_x_mm, paste_y_mm], \
-                         layers=paste_layers))
-    kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
-                         at=[TAB_POS_X_MM - paste_offset_x_mm, TAB_POS_Y_MM + paste_offset_y_mm],\
-                         size=[paste_x_mm, paste_y_mm], \
-                         layers=paste_layers))
+    if SPLIT_PASTE:
+        paste_x_mm = (base['footprint']['tab']['x_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
+        paste_y_mm = (base['footprint']['tab']['y_mm'] - base['footprint']['paste_gutter_mm']) / 2.0
+        paste_offset_x_mm = (paste_x_mm + base['footprint']['paste_gutter_mm']) / 2.0
+        paste_offset_y_mm = (paste_y_mm + base['footprint']['paste_gutter_mm']) / 2.0
+        kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
+                             at=[TAB_POS_X_MM + paste_offset_x_mm, TAB_POS_Y_MM + paste_offset_y_mm],\
+                             size=[paste_x_mm, paste_y_mm], \
+                             layers=paste_layers))
+        kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
+                             at=[TAB_POS_X_MM - paste_offset_x_mm, TAB_POS_Y_MM - paste_offset_y_mm],\
+                             size=[paste_x_mm, paste_y_mm], \
+                             layers=paste_layers))
+        kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
+                             at=[TAB_POS_X_MM + paste_offset_x_mm, TAB_POS_Y_MM - paste_offset_y_mm],\
+                             size=[paste_x_mm, paste_y_mm], \
+                             layers=paste_layers))
+        kicad_mod.append(Pad(number=TAB_PIN_NUMBER, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
+                             at=[TAB_POS_X_MM - paste_offset_x_mm, TAB_POS_Y_MM + paste_offset_y_mm],\
+                             size=[paste_x_mm, paste_y_mm], \
+                             layers=paste_layers))
 
     # create fab outline 
     tab_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM, -TAB_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM, -TAB_OFFSET_Y_MM],\
@@ -145,11 +147,12 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
     # create silkscreen marks and pin 1 marker 
     top_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + 1.3, -BODY_OFFSET_Y_MM - SILK_LINE_NUDGE],\
                    [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, -BODY_OFFSET_Y_MM - SILK_LINE_NUDGE],\
-                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - SILK_LINE_NUDGE],
-                   [PAD_1_X_MM - variant['pad']['x_mm'] / 2.0, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - SILK_LINE_NUDGE]]
+                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - 1.5 * SILK_LINE_NUDGE],
+                   [PAD_1_X_MM - variant['pad']['x_mm'] / 2.0, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - 1.5 * SILK_LINE_NUDGE]]
     bottom_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + 1.3, BODY_OFFSET_Y_MM + SILK_LINE_NUDGE],\
                      [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, BODY_OFFSET_Y_MM + SILK_LINE_NUDGE],\
-                     [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, -PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0 + SILK_LINE_NUDGE]]
+                     [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, -PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0 + 1.5 * SILK_LINE_NUDGE],\
+                     [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - 1.3, -PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0 + 1.5 * SILK_LINE_NUDGE]]
     kicad_mod.append(PolygoneLine(polygone=top_outline, layer='F.SilkS', width=SILK_LINE_WIDTH_MM))
     kicad_mod.append(PolygoneLine(polygone=bottom_outline, layer='F.SilkS', width=SILK_LINE_WIDTH_MM))
 
