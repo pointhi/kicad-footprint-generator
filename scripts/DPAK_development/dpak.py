@@ -24,6 +24,10 @@ sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import fro
 from KicadModTree import *  # NOQA
 
 
+import yaml
+import pprint
+
+
 def round_to(n, precision):
     correction = 0.5 if n >= 0 else -0.5
     return int( n/precision+correction ) * precision
@@ -33,14 +37,14 @@ if __name__ == '__main__':
 
     # handle arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs=1)
-    parser.add_argument('partnumber', help='suffix to 55560 series number (e.g. 0161)', type=str, nargs=1)
+    # parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs=1)
+    # parser.add_argument('partnumber', help='suffix to 55560 series number (e.g. 0161)', type=str, nargs=1)
     parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
     args = parser.parse_args()
-    pincount = int(args.pincount[0])
-    partnumber = str(args.partnumber[0])
-    footprint_name = 'Molex_SlimStack_Plug_2x{pc:02g}_Pitch0.5mm_55560-{pn:s}'.format(pc=pincount/2, pn=partnumber)
-    print('Building {:s} '.format(footprint_name))
+    pincount = 10
+    partnumber = 'foo'
+    footprint_name = 'DPAK-test-{pn:s}'.format(pc=pincount/2, pn=partnumber)
+    print('Building DPAK')
 
     # calculate working values
     pad_x_spacing = 0.5
@@ -112,4 +116,24 @@ if __name__ == '__main__':
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile('{:s}.kicad_mod'.format(footprint_name))
+
+
+def footprint_name(package, variant, num_pins, add_tab, tab_number):
+    tab_suffix = '_TabPin' if add_tab else ''
+    pins = str(num_pins)
+    tab = str(tab_number)
+    return '{p:s}-{ps:s}Lead{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
+
+
+for device in yaml.load_all(open('dpak-config.yaml')):
+    print('PACKAGE: {p:s}'.format(p=device['package']))
+    print('KEYWORDS: {w:s}'.format(w=device['keywords']))
+    print('BASE:')
+    pprint.pprint(device['base'])    
+    for v in device['variants']:
+        print('VARIANT: {np:1d} pins'.format(np=v['pins']))
+        pprint.pprint(v)
+        print('EXAMPLE FOOTPRINT NAME: {fn:s}'\
+              .format(fn=footprint_name(device['package'], v, v['pins'], True, 1 + v['pins'] // 2)))
+    print()
 
