@@ -2,7 +2,7 @@
 base:
     package: TO-252
     description: 'TO-252 / DPAK SMD package'
-    keywords: 'the quick brown fox'
+    keywords: 'DPAK TO-252'
     footprint:
         overall_x_mm: 10.6
         tab:
@@ -26,7 +26,7 @@ variants:
           x_mm: 2.2
           y_mm: 1.2
       centre_pin: ['cut', 'uncut']
-      keywords: 'jumped over the'
+      keywords: 'DPAK-3 TO-252-3 SOT-428'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
     - pins: 5
       pitch_mm: 1.34
@@ -34,7 +34,7 @@ variants:
           x_mm: 2.2
           y_mm: 0.8
       centre_pin: ['cut', 'uncut']
-      keywords: 'lazy dog'
+      keywords: 'DPAK-5 TO-252-5'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
 
 ---
@@ -43,7 +43,7 @@ variants:
 base:
     package: TO-263
     description: 'TO-263 / D2PAK / DDPAK SMD package'
-    keywords: 'the quick brown fox'
+    keywords: 'D2PAK DDPAK TO-263'
     footprint:
         overall_x_mm: 16.15
         tab:
@@ -67,7 +67,7 @@ variants:
           x_mm: 4.6
           y_mm: 1.1
       centre_pin: ['cut', 'uncut']
-      keywords: 'jumped over the'
+      keywords: 'D2PAK-3 TO-263-3 SOT-404'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-3-1/
     - pins: 5
       pitch_mm: 1.7
@@ -75,7 +75,7 @@ variants:
           x_mm: 4.6
           y_mm: 1.1
       centre_pin: ['cut', 'uncut']
-      keywords: 'lazy dog'
+      keywords: 'D2PAK-5 TO-263-5 SOT-426'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-5-1/
     - pins: 7
       pitch_mm: 1.27
@@ -83,7 +83,7 @@ variants:
           x_mm: 4.6
           y_mm: 0.8
       centre_pin: ['cut', 'uncut']
-      keywords: 'lazy dog'
+      keywords: 'D2PAK-7 TO-263-7 SOT-427'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-7-1/
 
 ---
@@ -92,7 +92,7 @@ variants:
 base:
     package: TO-268
     description: 'TO-268 / D3PAK SMD package'
-    keywords: 'the quick brown fox'
+    keywords: 'D3PAK TO-268'
     footprint:
         overall_x_mm: 21.95
         tab:
@@ -116,6 +116,6 @@ variants:
           x_mm: 5.0
           y_mm: 3.0
       centre_pin: ['cut']
-      keywords: 'jumped over the'
+      keywords: 'D3PAK-3 TO-268-3'
       datasheet: http://www.icbank.com/icbank_data/semi_package/to268aa_dim.pdf
 
