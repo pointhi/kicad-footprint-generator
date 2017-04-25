@@ -5,6 +5,7 @@ base:
         x_mm: 10.6
         tab_x_mm: 6.4
         tab_y_mm: 5.8
+        split_paste: 'off'
         paste_gutter_mm: 0.3
     device:
         x_mm: 9.9
@@ -42,6 +43,7 @@ base:
         x_mm: 16.15
         tab_x_mm: 9.4
         tab_y_mm: 10.8
+        split_paste: 'on'
         paste_gutter_mm: 0.3
     device:
         x_mm: 15.0
@@ -87,6 +89,7 @@ base:
         x_mm: 21.95
         tab_x_mm: 13.5
         tab_y_mm: 16.6
+        split_paste: 'on'
         paste_gutter_mm: 0.3
     device:
         x_mm: 19.0
