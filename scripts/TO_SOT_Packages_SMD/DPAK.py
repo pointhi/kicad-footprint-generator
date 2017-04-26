@@ -84,7 +84,7 @@ class DPAK(object):
         return m
 
 
-    def add_labels(self, m, variant, dim, cut_pin=False, tab_linked=False):
+    def add_labels(self, m, variant, dim):
         m.append(Text(type='reference', text='REF**', size=[1,1], at=[dim.label_centre_x_mm, -dim.label_centre_y_mm],
                       layer='F.SilkS'))
         m.append(Text(type='user', text='%R', size=[1,1], at=[0, 0], layer='F.Fab'))
@@ -264,4 +264,6 @@ class TO268(DPAK):
     def __init__(self, config_file):
         self.PACKAGE = 'TO-268'
         self.config = self.load_config(config_file)
+
+
 
