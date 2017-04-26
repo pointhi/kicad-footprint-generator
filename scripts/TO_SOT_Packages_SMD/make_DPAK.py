@@ -242,6 +242,24 @@ if __name__ == '__main__':
 
     args = get_args()
 
+    print('Rebuilding DPAK')
+
+    from DPAK import DPAK, TO252, TO263, TO268
+
+    CONFIG = 'DPAK_config.yaml' 
+
+    if args.family:
+        build_list = []
+        pass
+    else:
+        build_list = [TO252(CONFIG), TO263(CONFIG), TO268(CONFIG)]
+        
+    for package in build_list:
+        package.build_family(verbose=args.verbose)
+
+
+"""
+
     devices = yaml.load_all(open('DPAK_config.yaml'))
 
     for device in devices:
