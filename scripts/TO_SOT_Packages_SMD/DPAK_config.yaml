@@ -42,9 +42,7 @@ variants:
       centre_pin: ['cut', 'uncut']
       keywords: 'DPAK-5 TO-252-5'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
-
 ---
-
 # TO-263 / D2PAK
 base:
     package: TO-263
@@ -103,9 +101,7 @@ variants:
       centre_pin: ['cut', 'uncut']
       keywords: 'D2PAK-7 TO-263-7 SOT-427'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-7-1/
-
 ---
-
 # TO-268 / D3PAK
 base:
     package: TO-268
@@ -142,4 +138,3 @@ variants:
       centre_pin: ['cut']
       keywords: 'D3PAK-3 TO-268-3'
       datasheet: http://www.icbank.com/icbank_data/semi_package/to268aa_dim.pdf
-
