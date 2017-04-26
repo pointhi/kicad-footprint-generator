@@ -25,6 +25,9 @@ variants:
       pad:
           x_mm: 2.2
           y_mm: 1.2
+      pin:
+          x_mm: 2.7
+          y_mm: 0.75
       centre_pin: ['cut', 'uncut']
       keywords: 'DPAK-3 TO-252-3 SOT-428'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
@@ -33,6 +36,9 @@ variants:
       pad:
           x_mm: 2.2
           y_mm: 0.8
+      pin:
+          x_mm: 2.7
+          y_mm: 0.6
       centre_pin: ['cut', 'uncut']
       keywords: 'DPAK-5 TO-252-5'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
@@ -53,6 +59,9 @@ base:
         paste_gutter_mm: 0.3
     device:
         overall_x_mm: 15.0
+        pin:
+            x_mm: 3.0
+            y_mm: 1.0
         body:
             x_mm: 9.25
             y_mm: 10.0
@@ -66,6 +75,9 @@ variants:
       pad:
           x_mm: 4.6
           y_mm: 1.1
+      pin:
+          x_mm: 4.7
+          y_mm: 1.0
       centre_pin: ['cut', 'uncut']
       keywords: 'D2PAK-3 TO-263-3 SOT-404'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-3-1/
@@ -74,6 +86,9 @@ variants:
       pad:
           x_mm: 4.6
           y_mm: 1.1
+      pin:
+          x_mm: 4.7
+          y_mm: 0.8
       centre_pin: ['cut', 'uncut']
       keywords: 'D2PAK-5 TO-263-5 SOT-426'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-5-1/
@@ -82,6 +97,9 @@ variants:
       pad:
           x_mm: 4.6
           y_mm: 0.8
+      pin:
+          x_mm: 4.7
+          y_mm: 0.6
       centre_pin: ['cut', 'uncut']
       keywords: 'D2PAK-7 TO-263-7 SOT-427'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-7-1/
@@ -102,6 +120,9 @@ base:
         paste_gutter_mm: 0.3
     device:
         overall_x_mm: 19.0
+        pin:
+            x_mm: 3.0
+            y_mm: 1.0
         body:
             x_mm: 14.0
             y_mm: 15.9
@@ -115,6 +136,9 @@ variants:
       pad:
           x_mm: 5.0
           y_mm: 3.0
+      pin:
+          x_mm: 3.9
+          y_mm: 1.3
       centre_pin: ['cut']
       keywords: 'D3PAK-3 TO-268-3'
       datasheet: http://www.icbank.com/icbank_data/semi_package/to268aa_dim.pdf

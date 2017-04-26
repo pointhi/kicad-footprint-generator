@@ -140,9 +140,23 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
     body_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM, -BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, BODY_OFFSET_Y_MM],\
                    [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, -BODY_OFFSET_Y_MM + CORNER],\
                    [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + CORNER, -BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, -BODY_OFFSET_Y_MM]]
-
     kicad_mod.append(PolygoneLine(polygone=tab_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
     kicad_mod.append(PolygoneLine(polygone=body_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
+
+    # create fab pins
+    pin_1_top_y_mm = PAD_1_Y_MM - (variant['pin']['y_mm'] / 2.0)
+    body_corner_bottom_y_mm = -BODY_OFFSET_Y_MM + CORNER
+    pin_1_extend_mm = (body_corner_bottom_y_mm - pin_1_top_y_mm) if (pin_1_top_y_mm < body_corner_bottom_y_mm) else 0.0
+    print(pin_1_top_y_mm)
+    print(body_corner_bottom_y_mm)
+    print(pin_1_extend_mm)
+    for pin in range(1, variant['pins'] + 1):
+        if not (pin == CENTRE_PIN and cut_pin):
+            pin_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + (pin_1_extend_mm if pin == 1 else 0), PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)],\
+                           [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - variant['pin']['x_mm'], PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)],\
+                           [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - variant['pin']['x_mm'], PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)],\
+                           [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)]]
+            kicad_mod.append(PolygoneLine(polygone=pin_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
 
     # create silkscreen marks and pin 1 marker 
     top_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + 1.3, -BODY_OFFSET_Y_MM - SILK_LINE_NUDGE],\
