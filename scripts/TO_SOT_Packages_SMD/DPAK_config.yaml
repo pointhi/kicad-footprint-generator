@@ -4,14 +4,14 @@ base:
     description: 'TO-252 / DPAK SMD package'
     keywords: 'DPAK TO-252'
     footprint:
-        overall_x_mm: 10.6
+        x_mm: 10.6
         tab:
             x_mm: 6.4
             y_mm: 5.8
         split_paste: 'on'
         paste_gutter_mm: 0.3
     device:
-        overall_x_mm: 9.9
+        x_mm: 9.9
         body:
             x_mm: 6.22
             y_mm: 6.5
@@ -51,14 +51,14 @@ base:
     description: 'TO-263 / D2PAK / DDPAK SMD package'
     keywords: 'D2PAK DDPAK TO-263'
     footprint:
-        overall_x_mm: 16.15
+        x_mm: 16.15
         tab:
             x_mm: 9.4
             y_mm: 10.8
         split_paste: 'on'
         paste_gutter_mm: 0.3
     device:
-        overall_x_mm: 15.0
+        x_mm: 15.0
         pin:
             x_mm: 3.0
             y_mm: 1.0
@@ -112,14 +112,14 @@ base:
     description: 'TO-268 / D3PAK SMD package'
     keywords: 'D3PAK TO-268'
     footprint:
-        overall_x_mm: 21.95
+        x_mm: 21.95
         tab:
             x_mm: 13.5
             y_mm: 16.6
         split_paste: 'on'
         paste_gutter_mm: 0.3
     device:
-        overall_x_mm: 19.0
+        x_mm: 19.0
         pin:
             x_mm: 3.0
             y_mm: 1.0

@@ -28,8 +28,10 @@ from KicadModTree import *  # NOQA
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--family', help='device type to build: TO-252 | TO-263 | TO-268  (default is all)', type=str, nargs=1)
-    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
+    parser.add_argument('--family', help='device type to build: TO-252 | TO-263 | TO-268  (default is all)',
+                        type=str, nargs=1)
+    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint',
+                        action='store_true')
     return parser.parse_args()
 
 

@@ -14,26 +14,30 @@ class Dimensions(object):
     def __init__(self, base, variant, cut_pin=False, tab_linked=False):
         self.centre_pin = 1 + variant['pins'] // 2
         self.tab_pin_number= self.centre_pin if (tab_linked or cut_pin) else variant['pins'] + 1
-        self.name = self.footprint_name(base['package'], variant['pins'] - 1 if cut_pin else variant['pins'], not cut_pin, self.tab_pin_number)
-        self.pad_1_x_mm = (variant['pad']['x_mm'] - base['footprint']['overall_x_mm']) / 2.0
-        self.pad_1_y_mm = -variant['pitch_mm'] * (variant['pins'] - 1) / 2.0
-        self.tab_pos_x_mm = (base['footprint']['overall_x_mm'] - base['footprint']['tab']['x_mm']) / 2.0
-        self.tab_pos_y_mm = 0.0
-        self.device_offset_x_mm = base['device']['overall_x_mm'] / 2.0
+        self.name = self.footprint_name(base['package'], (variant['pins'] - 1) if cut_pin else variant['pins'],
+                                        not cut_pin, self.tab_pin_number)
+        self.pad_1_centre_x_mm = (variant['pad']['x_mm'] / 2.0) - (base['footprint']['x_mm'] / 2.0)
+        self.pad_1_centre_y_mm = -variant['pitch_mm'] * (variant['pins'] - 1) / 2.0
+        self.tab_centre_x_mm = (base['footprint']['x_mm'] - base['footprint']['tab']['x_mm']) / 2.0
+        self.tab_centre_y_mm = 0.0
+        self.device_offset_x_mm = base['device']['x_mm'] / 2.0  # x coordinate of RHS of device
         self.tab_x_mm = base['device']['tab']['x_mm']
-        self.tab_offset_y_mm = base['device']['tab']['y_mm'] / 2.0
+        self.tab_offset_y_mm = base['device']['tab']['y_mm'] / 2.0  # y coordinate of bottom of tab
         self.body_x_mm = base['device']['body']['x_mm']
-        self.body_offset_y_mm = base['device']['body']['y_mm'] / 2.0
-        self.corner = 1.0
-        self.courtyard_clearance = 0.25
-        self.courtyard_precision = 0.01
-        self.biggest_x_mm = base['footprint']['overall_x_mm']
-        self.biggest_y_mm = max(base['footprint']['tab']['y_mm'], base['device']['body']['y_mm'], self.pad_1_y_mm + variant['pad']['y_mm'] / 2.0)
-        self.courtyard_offset_x_mm = self.round_to(self.courtyard_clearance + self.biggest_x_mm / 2.0, self.courtyard_precision)
-        self.courtyard_offset_y_mm = self.round_to(self.courtyard_clearance + self.biggest_y_mm / 2.0, self.courtyard_precision)
-        self.label_x_mm = 0
-        self.label_y_mm = self.courtyard_offset_y_mm + 1
-        self.silk_line_nudge = 0.20
+        self.body_offset_y_mm = base['device']['body']['y_mm'] / 2.0  # y coordinate of bottom of body
+        self.corner_mm = 1.0  #  x and y size of chamfered corner on top left of body
+        self.courtyard_clearance_mm = 0.25
+        self.courtyard_precision_mm = 0.01
+        self.biggest_x_mm = base['footprint']['x_mm']
+        self.biggest_y_mm = max(base['footprint']['tab']['y_mm'], base['device']['body']['y_mm'],
+                                       2.0 * self.pad_1_centre_y_mm + variant['pad']['y_mm'])
+        self.courtyard_offset_x_mm = self.round_to(self.courtyard_clearance_mm + self.biggest_x_mm / 2.0,
+                                                   self.courtyard_precision_mm)
+        self.courtyard_offset_y_mm = self.round_to(self.courtyard_clearance_mm + self.biggest_y_mm / 2.0,
+                                                   self.courtyard_precision_mm)
+        self.label_centre_x_mm = 0
+        self.label_centre_y_mm = self.courtyard_offset_y_mm + 1
+        self.silk_line_nudge_mm = 0.20  #  amount to shift to stop silkscreen lines overlapping fab lines
         self.fab_line_width_mm = 0.1
         self.silk_line_width_mm = 0.12
         self.courtyard_line_width_mm = 0.05
@@ -81,9 +85,10 @@ class DPAK(object):
 
 
     def add_labels(self, m, variant, dim, cut_pin=False, tab_linked=False):
-        m.append(Text(type='reference', text='REF**', size=[1,1], at=[dim.label_x_mm, -dim.label_y_mm], layer='F.SilkS'))
+        m.append(Text(type='reference', text='REF**', size=[1,1], at=[dim.label_centre_x_mm, -dim.label_centre_y_mm],
+                      layer='F.SilkS'))
         m.append(Text(type='user', text='%R', size=[1,1], at=[0, 0], layer='F.Fab'))
-        m.append(Text(type='value', text=dim.name, at=[dim.label_x_mm, dim.label_y_mm], layer='F.Fab'))
+        m.append(Text(type='value', text=dim.name, at=[dim.label_centre_x_mm, dim.label_centre_y_mm], layer='F.Fab'))
         return m
 
 
@@ -103,7 +108,7 @@ class DPAK(object):
         top_y = -dim.body_offset_y_mm
         bottom_y = -top_y
         body_outline = [[right_x, top_y], [right_x, bottom_y], [left_x, bottom_y],\
-                        [left_x, top_y + dim.corner], [left_x + dim.corner, top_y], [right_x, top_y]]
+                        [left_x, top_y + dim.corner_mm], [left_x + dim.corner_mm, top_y], [right_x, top_y]]
         m.append(PolygoneLine(polygone=body_outline, layer=layer, width=dim.fab_line_width_mm))
         return m
 
@@ -111,14 +116,14 @@ class DPAK(object):
     def draw_pins(self, m, variant, dim, layer, cut_pin):
         right_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm
         left_x = right_x - variant['pin']['x_mm']
-        pin_1_top_y_mm = dim.pad_1_y_mm - (variant['pin']['y_mm'] / 2.0)
-        body_corner_bottom_y_mm = -dim.body_offset_y_mm + dim.corner
-        pin_1_extend_mm = (body_corner_bottom_y_mm - pin_1_top_y_mm) if (pin_1_top_y_mm < body_corner_bottom_y_mm) else 0.0
+        pin_1_top_y = dim.pad_1_centre_y_mm - (variant['pin']['y_mm'] / 2.0)
+        body_corner_bottom_y = -dim.body_offset_y_mm + dim.corner_mm
+        pin_1_extend = (body_corner_bottom_y - pin_1_top_y) if (pin_1_top_y < body_corner_bottom_y) else 0.0
         for pin in range(1, variant['pins'] + 1):
             if not (pin == dim.centre_pin and cut_pin):
-                top_y = dim.pad_1_y_mm + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)
-                bottom_y = dim.pad_1_y_mm + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)
-                pin_outline = [[right_x + (pin_1_extend_mm if pin == 1 else 0), top_y],\
+                top_y = dim.pad_1_centre_y_mm + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)
+                bottom_y = dim.pad_1_centre_y_mm + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)
+                pin_outline = [[right_x + (pin_1_extend if pin == 1 else 0), top_y],
                                [left_x , top_y], [left_x, bottom_y], [right_x, bottom_y]]
                 m.append(PolygoneLine(polygone=pin_outline, layer=layer, width=dim.fab_line_width_mm))
         return m
@@ -135,10 +140,10 @@ class DPAK(object):
         magic_number = 1.3  # TODO needs better name
         other_magic_number = 1.5  #  TODO needs better name
         right_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm + magic_number
-        middle_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm - dim.silk_line_nudge
-        left_x = dim.pad_1_x_mm - variant['pad']['x_mm'] / 2.0
-        top_y = -dim.body_offset_y_mm - dim.silk_line_nudge
-        bottom_y = dim.pad_1_y_mm - variant['pad']['y_mm'] / 2.0 - other_magic_number * dim.silk_line_nudge
+        middle_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm - dim.silk_line_nudge_mm
+        left_x = dim.pad_1_centre_x_mm - variant['pad']['x_mm'] / 2.0
+        top_y = -dim.body_offset_y_mm - dim.silk_line_nudge_mm
+        bottom_y = dim.pad_1_centre_y_mm - variant['pad']['y_mm'] / 2.0 - other_magic_number * dim.silk_line_nudge_mm
         top_marker = [[right_x, top_y], [middle_x, top_y], [middle_x, bottom_y], [left_x, bottom_y]]
         m.append(PolygoneLine(polygone=top_marker, layer=layer, width=dim.silk_line_width_mm))
         top_y = -top_y
@@ -152,31 +157,31 @@ class DPAK(object):
     def draw_pads(self, m, base, variant, dim, cut_pin):
         for pin in range(1, variant['pins'] + 1):
             if not (pin == dim.centre_pin and cut_pin):
-                m.append(Pad(number=pin, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
-                                     at=[dim.pad_1_x_mm, dim.pad_1_y_mm + (pin - 1) * variant['pitch_mm']],\
-                                     size=[variant['pad']['x_mm'], variant['pad']['y_mm']], \
+                m.append(Pad(number=pin, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                                     at=[dim.pad_1_centre_x_mm, dim.pad_1_centre_y_mm + (pin - 1) * variant['pitch_mm']],
+                                     size=[variant['pad']['x_mm'], variant['pad']['y_mm']],
                                      layers=Pad.LAYERS_SMT))
         tab_layers = Pad.LAYERS_SMT[:]
         if dim.split_paste:
             tab_layers.remove('F.Paste')
         paste_layers = Pad.LAYERS_SMT[:]
         paste_layers.remove('F.Mask')
-        m.append(Pad(number=dim.tab_pin_number, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
-                             at=[dim.tab_pos_x_mm, dim.tab_pos_y_mm],\
-                             size=[base['footprint']['tab']['x_mm'], base['footprint']['tab']['y_mm']], \
+        m.append(Pad(number=dim.tab_pin_number, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                             at=[dim.tab_centre_x_mm, dim.tab_centre_y_mm],
+                             size=[base['footprint']['tab']['x_mm'], base['footprint']['tab']['y_mm']],
                              layers=tab_layers))
         if dim.split_paste:
-            gutter_mm = base['footprint']['paste_gutter_mm']
-            paste_x_mm = (base['footprint']['tab']['x_mm'] - gutter_mm) / 2.0
-            paste_y_mm = (base['footprint']['tab']['y_mm'] - gutter_mm) / 2.0
-            paste_offset_x_mm = (paste_x_mm + gutter_mm) / 2.0
-            paste_offset_y_mm = (paste_y_mm + gutter_mm) / 2.0
-            left_x = dim.tab_pos_x_mm - paste_offset_x_mm
-            right_x = dim.tab_pos_x_mm + paste_offset_x_mm
-            top_y = dim.tab_pos_y_mm - paste_offset_y_mm
-            bottom_y = dim.tab_pos_y_mm + paste_offset_y_mm
+            gutter = base['footprint']['paste_gutter_mm']
+            paste_x_mm = (base['footprint']['tab']['x_mm'] - gutter) / 2.0
+            paste_y_mm = (base['footprint']['tab']['y_mm'] - gutter) / 2.0
+            paste_offset_x = (paste_x_mm + gutter) / 2.0
+            paste_offset_y = (paste_y_mm + gutter) / 2.0
+            left_x = dim.tab_centre_x_mm - paste_offset_x
+            right_x = dim.tab_centre_x_mm + paste_offset_x
+            top_y = dim.tab_centre_y_mm - paste_offset_y
+            bottom_y = dim.tab_centre_y_mm + paste_offset_y
             for pad_xy in [[right_x, bottom_y], [left_x, top_y], [right_x, top_y], [left_x, bottom_y]]:
-                m.append(Pad(number=dim.tab_pin_number, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,\
+                m.append(Pad(number=dim.tab_pin_number, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                                      at=pad_xy, size=[paste_x_mm, paste_y_mm], layers=paste_layers))
         return m
 
@@ -189,7 +194,7 @@ class DPAK(object):
 
 
     def draw_courtyard(self, m ,dim):
-        m.append(RectLine(start=[-dim.courtyard_offset_x_mm, -dim.courtyard_offset_y_mm], \
+        m.append(RectLine(start=[-dim.courtyard_offset_x_mm, -dim.courtyard_offset_y_mm],
                                   end=[dim.courtyard_offset_x_mm, dim.courtyard_offset_y_mm], layer='F.CrtYd',
                                   width=dim.courtyard_line_width_mm))
         return m
