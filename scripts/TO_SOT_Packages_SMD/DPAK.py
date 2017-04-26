@@ -19,12 +19,11 @@ class Dimensions(object):
         self.pad_1_y_mm = -variant['pitch_mm'] * (variant['pins'] - 1) / 2.0
         self.tab_pos_x_mm = (base['footprint']['overall_x_mm'] - base['footprint']['tab']['x_mm']) / 2.0
         self.tab_pos_y_mm = 0.0
-        dev = base['device']
-        self.device_offset_x_mm = dev['overall_x_mm'] / 2.0
-        self.tab_x_mm = dev['tab']['x_mm']
-        self.tab_offset_y_mm = dev['tab']['y_mm'] / 2.0
-        self.body_x_mm = dev['body']['x_mm']
-        self.body_offset_y_mm = dev['body']['y_mm'] / 2.0
+        self.device_offset_x_mm = base['device']['overall_x_mm'] / 2.0
+        self.tab_x_mm = base['device']['tab']['x_mm']
+        self.tab_offset_y_mm = base['device']['tab']['y_mm'] / 2.0
+        self.body_x_mm = base['device']['body']['x_mm']
+        self.body_offset_y_mm = base['device']['body']['y_mm'] / 2.0
         self.corner = 1.0
         self.courtyard_clearance = 0.25
         self.courtyard_precision = 0.01
@@ -52,7 +51,6 @@ class Dimensions(object):
         tab = str(tab_number) if add_tab else ''
         name = '{p:s}-{ps:s}{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
         return name
-
 
 
 class DPAK(object):
