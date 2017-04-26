@@ -92,28 +92,28 @@ class DPAK(object):
         return m
 
 
-    def draw_tab(self, m, dim, layer):
+    def draw_tab(self, m, dim):
         right_x = dim.device_offset_x_mm
         left_x = right_x - dim.tab_x_mm
         top_y = -dim.tab_offset_y_mm
         bottom_y = -top_y
         tab_outline = [[left_x, top_y], [right_x, top_y], [right_x, bottom_y], [left_x, bottom_y]]
-        m.append(PolygoneLine(polygone=tab_outline, layer=layer, width=dim.fab_line_width_mm))
+        m.append(PolygoneLine(polygone=tab_outline, layer='F.Fab', width=dim.fab_line_width_mm))
         return m
 
 
-    def draw_body(self, m, dim, layer):
+    def draw_body(self, m, dim):
         right_x = dim.device_offset_x_mm - dim.tab_x_mm
         left_x = right_x - dim.body_x_mm
         top_y = -dim.body_offset_y_mm
         bottom_y = -top_y
         body_outline = [[right_x, top_y], [right_x, bottom_y], [left_x, bottom_y],\
                         [left_x, top_y + dim.corner_mm], [left_x + dim.corner_mm, top_y], [right_x, top_y]]
-        m.append(PolygoneLine(polygone=body_outline, layer=layer, width=dim.fab_line_width_mm))
+        m.append(PolygoneLine(polygone=body_outline, layer='F.Fab', width=dim.fab_line_width_mm))
         return m
 
 
-    def draw_pins(self, m, variant, dim, layer, cut_pin):
+    def draw_pins(self, m, variant, dim, cut_pin):
         right_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm
         left_x = right_x - variant['pin']['x_mm']
         pin_1_top_y = dim.pad_1_centre_y_mm - (variant['pin']['y_mm'] / 2.0)
@@ -125,18 +125,18 @@ class DPAK(object):
                 bottom_y = dim.pad_1_centre_y_mm + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)
                 pin_outline = [[right_x + (pin_1_extend if pin == 1 else 0), top_y],
                                [left_x , top_y], [left_x, bottom_y], [right_x, bottom_y]]
-                m.append(PolygoneLine(polygone=pin_outline, layer=layer, width=dim.fab_line_width_mm))
+                m.append(PolygoneLine(polygone=pin_outline, layer='F.Fab', width=dim.fab_line_width_mm))
         return m
 
 
-    def draw_outline(self, m, variant, dim, layer, cut_pin=False):
-        m = self.draw_tab(m, dim, layer)
-        m = self.draw_body(m, dim, layer)
-        m = self.draw_pins(m, variant, dim, layer, cut_pin)
+    def draw_outline(self, m, variant, dim, cut_pin=False):
+        m = self.draw_tab(m, dim)
+        m = self.draw_body(m, dim)
+        m = self.draw_pins(m, variant, dim, cut_pin)
         return m
 
 
-    def draw_markers(self, m, variant, dim, layer):
+    def draw_markers(self, m, variant, dim):
         magic_number = 1.3  # TODO needs better name
         other_magic_number = 1.5  #  TODO needs better name
         right_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm + magic_number
@@ -145,12 +145,12 @@ class DPAK(object):
         top_y = -dim.body_offset_y_mm - dim.silk_line_nudge_mm
         bottom_y = dim.pad_1_centre_y_mm - variant['pad']['y_mm'] / 2.0 - other_magic_number * dim.silk_line_nudge_mm
         top_marker = [[right_x, top_y], [middle_x, top_y], [middle_x, bottom_y], [left_x, bottom_y]]
-        m.append(PolygoneLine(polygone=top_marker, layer=layer, width=dim.silk_line_width_mm))
+        m.append(PolygoneLine(polygone=top_marker, layer='F.SilkS', width=dim.silk_line_width_mm))
         top_y = -top_y
         bottom_y = -bottom_y
         left_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm - magic_number
         bottom_marker = [[right_x, top_y], [middle_x, top_y], [middle_x, bottom_y], [left_x, bottom_y]]
-        m.append(PolygoneLine(polygone=bottom_marker, layer=layer, width=dim.silk_line_width_mm))
+        m.append(PolygoneLine(polygone=bottom_marker, layer='F.SilkS', width=dim.silk_line_width_mm))
         return m
 
 
@@ -214,10 +214,10 @@ class DPAK(object):
         kicad_mod = self.draw_pads(kicad_mod, base, variant, dim, cut_pin)
 
         # create fab outline
-        kicad_mod = self.draw_outline(kicad_mod, variant, dim, 'F.Fab', cut_pin)
+        kicad_mod = self.draw_outline(kicad_mod, variant, dim, cut_pin)
 
         # create silkscreen marks and pin 1 marker
-        kicad_mod = self.draw_markers(kicad_mod, variant, dim, 'F.SilkS')
+        kicad_mod = self.draw_markers(kicad_mod, variant, dim)
 
         # create courtyard
         kicad_mod = self.draw_courtyard(kicad_mod, dim)
