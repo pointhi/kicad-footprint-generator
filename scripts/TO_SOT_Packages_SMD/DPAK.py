@@ -12,22 +12,36 @@ from KicadModTree import *  # NOQA
 class Dimensions(object):
 
     def __init__(self, base, variant, cut_pin=False, tab_linked=False):
+        # FROM KLC
+        self.fab_line_width_mm = 0.1
+        self.silk_line_width_mm = 0.12
+        self.courtyard_line_width_mm = 0.05
+        self.courtyard_clearance_mm = 0.25
+        self.courtyard_precision_mm = 0.01
+
+        # PIN NUMBERING
         self.centre_pin = 1 + variant['pins'] // 2
         self.tab_pin_number= self.centre_pin if (tab_linked or cut_pin) else variant['pins'] + 1
+        
+        # NAME
         self.name = self.footprint_name(base['package'], (variant['pins'] - 1) if cut_pin else variant['pins'],
                                         not cut_pin, self.tab_pin_number)
+        # PADS
         self.pad_1_centre_x_mm = (variant['pad']['x_mm'] / 2.0) - (base['footprint']['x_mm'] / 2.0)
         self.pad_1_centre_y_mm = -variant['pitch_mm'] * (variant['pins'] - 1) / 2.0
         self.tab_centre_x_mm = (base['footprint']['x_mm'] - base['footprint']['tab']['x_mm']) / 2.0
         self.tab_centre_y_mm = 0.0
+        self.split_paste = (base['footprint']['split_paste'] == 'on')
+
+        # FAB OUTLINE
         self.device_offset_x_mm = base['device']['x_mm'] / 2.0  # x coordinate of RHS of device
         self.tab_x_mm = base['device']['tab']['x_mm']
         self.tab_offset_y_mm = base['device']['tab']['y_mm'] / 2.0  # y coordinate of bottom of tab
         self.body_x_mm = base['device']['body']['x_mm']
         self.body_offset_y_mm = base['device']['body']['y_mm'] / 2.0  # y coordinate of bottom of body
-        self.corner_mm = 1.0  #  x and y size of chamfered corner on top left of body
-        self.courtyard_clearance_mm = 0.25
-        self.courtyard_precision_mm = 0.01
+        self.corner_mm = 1.0  #  x and y size of chamfered corner on top left of body -- from KLC
+        
+        # COURTYARD
         self.biggest_x_mm = base['footprint']['x_mm']
         self.biggest_y_mm = max(base['footprint']['tab']['y_mm'], base['device']['body']['y_mm'],
                                        2.0 * self.pad_1_centre_y_mm + variant['pad']['y_mm'])
@@ -35,13 +49,10 @@ class Dimensions(object):
                                                    self.courtyard_precision_mm)
         self.courtyard_offset_y_mm = self.round_to(self.courtyard_clearance_mm + self.biggest_y_mm / 2.0,
                                                    self.courtyard_precision_mm)
+        # SILKSCREEN
         self.label_centre_x_mm = 0
         self.label_centre_y_mm = self.courtyard_offset_y_mm + 1
         self.silk_line_nudge_mm = 0.20  #  amount to shift to stop silkscreen lines overlapping fab lines
-        self.fab_line_width_mm = 0.1
-        self.silk_line_width_mm = 0.12
-        self.courtyard_line_width_mm = 0.05
-        self.split_paste = (base['footprint']['split_paste'] == 'on')
 
 
     def round_to(self, n, precision):
