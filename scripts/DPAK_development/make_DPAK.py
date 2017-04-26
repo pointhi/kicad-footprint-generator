@@ -43,7 +43,7 @@ def footprint_name(package, num_pins, add_tab, tab_number):
     tab_suffix = '_TabPin' if add_tab else ''
     pins = str(num_pins)
     tab = str(tab_number) if add_tab else ''
-    name = '{p:s}-{ps:s}Lead{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
+    name = '{p:s}-{ps:s}{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
     return name
 
 
@@ -147,9 +147,6 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
     pin_1_top_y_mm = PAD_1_Y_MM - (variant['pin']['y_mm'] / 2.0)
     body_corner_bottom_y_mm = -BODY_OFFSET_Y_MM + CORNER
     pin_1_extend_mm = (body_corner_bottom_y_mm - pin_1_top_y_mm) if (pin_1_top_y_mm < body_corner_bottom_y_mm) else 0.0
-    print(pin_1_top_y_mm)
-    print(body_corner_bottom_y_mm)
-    print(pin_1_extend_mm)
     for pin in range(1, variant['pins'] + 1):
         if not (pin == CENTRE_PIN and cut_pin):
             pin_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + (pin_1_extend_mm if pin == 1 else 0), PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)],\
