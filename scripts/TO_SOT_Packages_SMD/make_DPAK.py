@@ -26,7 +26,6 @@ sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import fro
 from KicadModTree import *  # NOQA
 
 
-
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--family', help='device type to build: TO-252 | TO-263 | TO-268  (default is all)', type=str, nargs=1)
@@ -259,14 +258,3 @@ if __name__ == '__main__':
 
 
 """
-
-    devices = yaml.load_all(open('DPAK_config.yaml'))
-
-    for device in devices:
-        if args.family:
-            if args.family[0] == device['base']['package']:
-                build_family(device)
-        else:
-            build_family(device)
-
-
