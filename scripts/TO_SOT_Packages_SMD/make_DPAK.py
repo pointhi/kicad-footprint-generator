@@ -196,15 +196,12 @@ def build_family(config):
             build_footprint(base, variant, cut_pin=True)
 
 
-=======
->>>>>>> Stashed changes
 if __name__ == '__main__':
 
     print('Building DPAK')
 
     args = get_args()
 
-<<<<<<< Updated upstream
     devices = yaml.load_all(open('DPAK_config.yaml'))
 
     for device in devices:
@@ -214,24 +211,4 @@ if __name__ == '__main__':
         else:
             build_family(device)
 
-=======
-    from DPAK import DPAK, TO252, TO263, TO268
 
-    CONFIG = 'DPAK_config.yaml' 
-
-    if args.family:
-        if args.family[0] == 'TO252':
-            build_list = [TO252(CONFIG)]
-        elif args.family[0] == 'TO263':
-            build_list = [TO263(CONFIG)]
-        elif args.family[0] == 'TO268':
-            build_list = [TO268(CONFIG)]
-        else:
-            print('ERROR: family not recognised')
-            build_list = []
-    else:
-        build_list = [TO252(CONFIG), TO263(CONFIG), TO268(CONFIG)]
-        
-    for package in build_list:
-        package.build_family(verbose=args.verbose)
->>>>>>> Stashed changes
