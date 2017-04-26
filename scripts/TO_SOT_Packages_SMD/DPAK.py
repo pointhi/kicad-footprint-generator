@@ -71,7 +71,8 @@ class Dimensions(object):
 class DPAK(object):
 
     def __init__(self, config_file):
-        pass
+        self.PACKAGE = None
+        self.config = None
 
 
     def load_config(self, config_file):
@@ -85,7 +86,7 @@ class DPAK(object):
             if dev['base']['package'] == self.PACKAGE:
                 config = dev
                 break
-        return dev
+        return config
 
 
     def add_properties(self, m, variant):
