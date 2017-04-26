@@ -86,6 +86,65 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
 
     SPLIT_PASTE = (base['footprint']['split_paste'] == 'on')
 
+
+    def draw_tab(m, layer):
+        tab_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM, -TAB_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM, -TAB_OFFSET_Y_MM],\
+                       [DEVICE_OFFSET_X_MM, TAB_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, TAB_OFFSET_Y_MM]]
+        m.append(PolygoneLine(polygone=tab_outline, layer=layer, width=FAB_LINE_WIDTH_MM))
+        return m
+
+
+    def draw_body(m, layer):
+        right_x = DEVICE_OFFSET_X_MM - TAB_X_MM
+        left_x = right_x - BODY_X_MM
+        top_y = -BODY_OFFSET_Y_MM
+        bottom_y = -top_y
+        body_outline = [[right_x, top_y], [right_x, bottom_y], [left_x, bottom_y],\
+                        [left_x, top_y + CORNER], [left_x + CORNER, top_y], [right_x, top_y]]
+        m.append(PolygoneLine(polygone=body_outline, layer=layer, width=FAB_LINE_WIDTH_MM))
+        return m
+
+
+    def draw_pins(m, layer):
+        right_x = DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM
+        left_x = right_x - variant['pin']['x_mm']
+        pin_1_top_y_mm = PAD_1_Y_MM - (variant['pin']['y_mm'] / 2.0)
+        body_corner_bottom_y_mm = -BODY_OFFSET_Y_MM + CORNER
+        pin_1_extend_mm = (body_corner_bottom_y_mm - pin_1_top_y_mm) if (pin_1_top_y_mm < body_corner_bottom_y_mm) else 0.0
+        for pin in range(1, variant['pins'] + 1):
+            if not (pin == CENTRE_PIN and cut_pin):
+                top_y = PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)
+                bottom_y = PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)
+                pin_outline = [[right_x + (pin_1_extend_mm if pin == 1 else 0), top_y], [left_x , top_y],\
+                               [left_x, bottom_y], [right_x, bottom_y]]
+                kicad_mod.append(PolygoneLine(polygone=pin_outline, layer=layer, width=FAB_LINE_WIDTH_MM))
+        return m
+
+
+    def draw_outline(m, layer):
+        m = draw_tab(m, layer)
+        m = draw_body(m, layer)
+        m = draw_pins(m, layer)
+        return m
+
+
+    def draw_markers(m, layer):
+        top_marker = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + 1.3, -BODY_OFFSET_Y_MM - SILK_LINE_NUDGE],\
+                       [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, -BODY_OFFSET_Y_MM - SILK_LINE_NUDGE],\
+                       [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - 1.5 * SILK_LINE_NUDGE],
+                       [PAD_1_X_MM - variant['pad']['x_mm'] / 2.0, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - 1.5 * SILK_LINE_NUDGE]]
+        bottom_marker = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + 1.3, BODY_OFFSET_Y_MM + SILK_LINE_NUDGE],\
+                         [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, BODY_OFFSET_Y_MM + SILK_LINE_NUDGE],\
+                         [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, -PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0 + 1.5 * SILK_LINE_NUDGE],\
+                         [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - 1.3, -PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0 + 1.5 * SILK_LINE_NUDGE]]
+        m.append(PolygoneLine(polygone=top_marker, layer=layer, width=SILK_LINE_WIDTH_MM))
+        m.append(PolygoneLine(polygone=bottom_marker, layer=layer, width=SILK_LINE_WIDTH_MM))
+        return m
+
+
+
+
+
     # initialise footprint
     kicad_mod = Footprint(NAME)
     kicad_mod.setDescription('{bd:s}, {vd:s}'.format(bd=base['description'], vd=variant['datasheet']))
@@ -136,37 +195,10 @@ def build_footprint(base, variant, cut_pin=False, tab_linked=False):
                              layers=paste_layers))
 
     # create fab outline 
-    tab_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM, -TAB_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM, -TAB_OFFSET_Y_MM],\
-                   [DEVICE_OFFSET_X_MM, TAB_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, TAB_OFFSET_Y_MM]]
-    body_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM, -BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, BODY_OFFSET_Y_MM],\
-                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, -BODY_OFFSET_Y_MM + CORNER],\
-                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + CORNER, -BODY_OFFSET_Y_MM], [DEVICE_OFFSET_X_MM - TAB_X_MM, -BODY_OFFSET_Y_MM]]
-    kicad_mod.append(PolygoneLine(polygone=tab_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
-    kicad_mod.append(PolygoneLine(polygone=body_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
-
-    # create fab pins
-    pin_1_top_y_mm = PAD_1_Y_MM - (variant['pin']['y_mm'] / 2.0)
-    body_corner_bottom_y_mm = -BODY_OFFSET_Y_MM + CORNER
-    pin_1_extend_mm = (body_corner_bottom_y_mm - pin_1_top_y_mm) if (pin_1_top_y_mm < body_corner_bottom_y_mm) else 0.0
-    for pin in range(1, variant['pins'] + 1):
-        if not (pin == CENTRE_PIN and cut_pin):
-            pin_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + (pin_1_extend_mm if pin == 1 else 0), PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)],\
-                           [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - variant['pin']['x_mm'], PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) - (variant['pin']['y_mm'] / 2.0)],\
-                           [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - variant['pin']['x_mm'], PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)],\
-                           [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM, PAD_1_Y_MM + ((pin - 1) * variant['pitch_mm']) + (variant['pin']['y_mm'] / 2.0)]]
-            kicad_mod.append(PolygoneLine(polygone=pin_outline, layer='F.Fab', width=FAB_LINE_WIDTH_MM))
+    kicad_mod = draw_outline(kicad_mod, 'F.Fab')
 
     # create silkscreen marks and pin 1 marker 
-    top_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + 1.3, -BODY_OFFSET_Y_MM - SILK_LINE_NUDGE],\
-                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, -BODY_OFFSET_Y_MM - SILK_LINE_NUDGE],\
-                   [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - 1.5 * SILK_LINE_NUDGE],
-                   [PAD_1_X_MM - variant['pad']['x_mm'] / 2.0, PAD_1_Y_MM - variant['pad']['y_mm'] / 2.0 - 1.5 * SILK_LINE_NUDGE]]
-    bottom_outline = [[DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM + 1.3, BODY_OFFSET_Y_MM + SILK_LINE_NUDGE],\
-                     [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, BODY_OFFSET_Y_MM + SILK_LINE_NUDGE],\
-                     [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - SILK_LINE_NUDGE, -PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0 + 1.5 * SILK_LINE_NUDGE],\
-                     [DEVICE_OFFSET_X_MM - TAB_X_MM - BODY_X_MM - 1.3, -PAD_1_Y_MM + variant['pad']['y_mm'] / 2.0 + 1.5 * SILK_LINE_NUDGE]]
-    kicad_mod.append(PolygoneLine(polygone=top_outline, layer='F.SilkS', width=SILK_LINE_WIDTH_MM))
-    kicad_mod.append(PolygoneLine(polygone=bottom_outline, layer='F.SilkS', width=SILK_LINE_WIDTH_MM))
+    kicad_mod = draw_markers(kicad_mod, 'F.SilkS')
 
 
     # create courtyard
