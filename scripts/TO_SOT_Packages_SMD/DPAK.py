@@ -9,7 +9,6 @@ sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import fro
 from KicadModTree import *  # NOQA
 
 
-
 class Dimensions(object):
 
     def __init__(self, base, variant, cut_pin=False, tab_linked=False):
