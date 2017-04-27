@@ -1312,6 +1312,22 @@ if __name__ == '__main__':
     off3d.append([])
     scale3d.append([])
 
+    packs.append("TO-100")
+    modifiers.append(["", "Window"])
+    pins.append([10])
+    has3d.append([True,True])
+    off3d.append([])
+    scale3d.append([])
+
+
+    packs.append("TO-75")
+    modifiers.append(["", "Window"])
+    pins.append([6])
+    has3d.append([True])
+    off3d.append([[]])
+    scale3d.append([[]])
+
+
 
 
     for p in range(0, len(packs)):

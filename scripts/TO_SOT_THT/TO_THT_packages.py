@@ -96,7 +96,7 @@ class pack_round:
                 self.window_diameter = 4  # diameter of an on-top glass window
 
 
-        if (name == "TO-5") or (name == "TO-5_PD5.08") or (name == "TO-11") or (name == "TO-12") or (name == "TO-33") or (name == "TO-39") or (name == "TO-99") or (name == "TO-78"):
+        if (name == "TO-5") or (name == "TO-5_PD5.08") or (name == "TO-11") or (name == "TO-12") or (name == "TO-33") or (name == "TO-39") or (name == "TO-99") or (name == "TO-78") or (name == "TO-100") or (name == "TO-75"):
             self.diameter_inner = 8.5  # diameter of top can
             self.diameter_outer = 9.4  # diameter of bottom can
             self.mark_width = 0.86  # width of marking
@@ -110,6 +110,8 @@ class pack_round:
                 self.pin_circle_diameter = 5.84  # pin circle diameterdistance
             elif pins>8:
                 self.mark_angle = self.pin1_angle + 36  # angular position of marking
+            if (name == "TO-100"):
+                self.pin_circle_diameter = 5.84  # pin circle diameterdistance
             self.pad = [1.2, 1.2]  # width/height of pads
             self.drill = 0.7  # diameter of pad drills
             if (name == "TO-5_PD5.08"):
