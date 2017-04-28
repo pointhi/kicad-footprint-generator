@@ -61,5 +61,5 @@ if __name__ == '__main__':
         build_list = [TO252(CONFIG), TO263(CONFIG), TO268(CONFIG)]
                 
     for package in build_list:
-        package.build_family(verbose=args.verbose)
+        package.build_series(verbose=args.verbose)
 

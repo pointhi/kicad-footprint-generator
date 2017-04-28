@@ -1,7 +1,7 @@
-# TO-252 / DPAK
+# TO-252/DPAK SMD packages
 base:
-    package: TO-252
-    description: 'TO-252 / DPAK SMD package'
+    series: TO-252                                                   
+    description: 'TO-252/DPAK SMD package'
     keywords: 'DPAK TO-252'
     footprint:
         x_mm: 10.6
@@ -11,16 +11,28 @@ base:
         split_paste: 'on'
         paste_gutter_mm: 0.3
     device:
-        x_mm: 9.9
+        x_mm: 9.9                                                    
         body:
-            x_mm: 6.22
+            x_mm: 6.22                                               
             y_mm: 6.5
+            z_mm: 2.3                                                
+            waist_z_mm: 0.9                                          
+            marker_offset_x_mm: -1.5                                 
+            colour: 'black body'                                     
         tab:
-            x_mm: 1.0
+            x_mm: 5.24                                               
             y_mm: 5.4
+            z_mm: 0.5                                                
+            project_x_mm: 1.0
+            colour: 'metal grey pins'                                
+        marker:
+            x_mm: 1.0                                                
+            z_mm: 0.1                                                
+        pins:
+            colour: 'metal grey pins'                                
     3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
 variants:
-    - pins: 3
+    - pins: 3                                                        
       pitch_mm: 2.28
       pad:
           x_mm: 2.2
@@ -28,10 +40,11 @@ variants:
       pin:
           x_mm: 2.7
           y_mm: 0.75
+          z_mm: 0.5                                                  
       centre_pin: ['cut', 'uncut']
       keywords: 'DPAK-3 TO-252-3 SOT-428'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
-    - pins: 5
+    - pins: 5                                                        
       pitch_mm: 1.14
       pad:
           x_mm: 2.2
@@ -39,14 +52,15 @@ variants:
       pin:
           x_mm: 2.7
           y_mm: 0.6
+          z_mm: 0.5                                                  
       centre_pin: ['cut', 'uncut']
       keywords: 'DPAK-5 TO-252-5'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
 ---
-# TO-263 / D2PAK
+# TO-263/D2PAK SMD packages
 base:
-    package: TO-263
-    description: 'TO-263 / D2PAK / DDPAK SMD package'
+    series: TO-263                                                   
+    description: 'TO-263/D2PAK/DDPAK SMD package'
     keywords: 'D2PAK DDPAK TO-263'
     footprint:
         x_mm: 16.15
@@ -63,12 +77,24 @@ base:
         body:
             x_mm: 9.25
             y_mm: 10.0
+            z_mm: 4.4                                                 
+            waist_z_mm: 2.4                                           
+            marker_offset_x_mm: 0.0                                  
+            colour: 'black body'                                     
         tab:
-            x_mm: 1.0
+            x_mm: 7.55                                                
             y_mm: 10.0
+            z_mm: 1.27                                                
+            project_x_mm: 1.0
+            colour: 'metal grey pins'                                
+        marker:
+            x_mm: 2.5                                                 
+            z_mm: 0.1                                                 
+        pins:
+            colour: 'metal grey pins'                                
     3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
 variants:
-    - pins: 3
+    - pins: 3                                                        
       pitch_mm: 2.54
       pad:
           x_mm: 4.6
@@ -76,10 +102,11 @@ variants:
       pin:
           x_mm: 4.7
           y_mm: 1.0
+          z_mm: 0.5                                                   
       centre_pin: ['cut', 'uncut']
       keywords: 'D2PAK-3 TO-263-3 SOT-404'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-3-1/
-    - pins: 5
+    - pins: 5                                                        
       pitch_mm: 1.7
       pad:
           x_mm: 4.6
@@ -87,6 +114,7 @@ variants:
       pin:
           x_mm: 4.7
           y_mm: 0.8
+          z_mm: 0.5                                                   
       centre_pin: ['cut', 'uncut']
       keywords: 'D2PAK-5 TO-263-5 SOT-426'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-5-1/
@@ -98,14 +126,15 @@ variants:
       pin:
           x_mm: 4.7
           y_mm: 0.6
+          z_mm: 0.5                                                   
       centre_pin: ['cut', 'uncut']
       keywords: 'D2PAK-7 TO-263-7 SOT-427'
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-7-1/
 ---
-# TO-268 / D3PAK
+# TO-268/D3PAK SMD packages
 base:
-    package: TO-268
-    description: 'TO-268 / D3PAK SMD package'
+    series: TO-268                                                   
+    description: 'TO-268/D3PAK SMD package'
     keywords: 'D3PAK TO-268'
     footprint:
         x_mm: 21.95
@@ -122,12 +151,24 @@ base:
         body:
             x_mm: 14.0
             y_mm: 15.9
+            z_mm: 5.0                                                 
+            waist_z_mm: 2.8                                           
+            marker_offset_x_mm: -1.0                                  
+            colour: 'black body'                                     
         tab:
-            x_mm: 1.1
+            x_mm: 12.5                                                
             y_mm: 15.9
+            z_mm: 1.5                                                 
+            project_x_mm: 1.0
+            colour: 'metal grey pins'                                
+        marker:
+            x_mm: 2.5                                                 
+            z_mm: 0.1                                                 
+        pins:
+            colour: 'metal grey pins'                                
     3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
 variants:
-    - pins: 3
+    - pins: 3                                                        
       pitch_mm: 5.45
       pad:
           x_mm: 5.0
@@ -135,6 +176,7 @@ variants:
       pin:
           x_mm: 3.9
           y_mm: 1.3
+          z_mm: 0.5                                                  
       centre_pin: ['cut']
       keywords: 'D3PAK-3 TO-268-3'
       datasheet: http://www.icbank.com/icbank_data/semi_package/to268aa_dim.pdf

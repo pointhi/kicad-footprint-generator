@@ -24,7 +24,7 @@ class Dimensions(object):
         self.tab_pin_number= self.centre_pin if (tab_linked or cut_pin) else variant['pins'] + 1
         
         # NAME
-        self.name = self.footprint_name(base['package'], (variant['pins'] - 1) if cut_pin else variant['pins'],
+        self.name = self.footprint_name(base['series'], (variant['pins'] - 1) if cut_pin else variant['pins'],
                                         not cut_pin, self.tab_pin_number)
         # PADS
         self.pad_1_centre_x_mm = (variant['pad']['x_mm'] / 2.0) - (base['footprint']['x_mm'] / 2.0)
@@ -35,7 +35,7 @@ class Dimensions(object):
 
         # FAB OUTLINE
         self.device_offset_x_mm = base['device']['x_mm'] / 2.0  # x coordinate of RHS of device
-        self.tab_x_mm = base['device']['tab']['x_mm']
+        self.tab_project_x_mm = base['device']['tab']['project_x_mm']
         self.tab_offset_y_mm = base['device']['tab']['y_mm'] / 2.0  # y coordinate of bottom of tab
         self.body_x_mm = base['device']['body']['x_mm']
         self.body_offset_y_mm = base['device']['body']['y_mm'] / 2.0  # y coordinate of bottom of body
@@ -60,18 +60,18 @@ class Dimensions(object):
         return int(n / precision + correction) * precision
 
 
-    def footprint_name(self, package, num_pins, add_tab, tab_number):
+    def footprint_name(self, series, num_pins, add_tab, tab_number):
         tab_suffix = '_TabPin' if add_tab else ''
         pins = str(num_pins)
         tab = str(tab_number) if add_tab else ''
-        name = '{p:s}-{ps:s}{ts:s}{tn:s}'.format(p=package, ps=pins, ts=tab_suffix, tn=tab)
+        name = '{p:s}-{ps:s}{ts:s}{tn:s}'.format(p=series, ps=pins, ts=tab_suffix, tn=tab)
         return name
 
 
 class DPAK(object):
 
     def __init__(self, config_file):
-        self.PACKAGE = None
+        self.SERIES = None
         self.config = None
 
 
@@ -83,7 +83,7 @@ class DPAK(object):
             return
         config = None
         for dev in devices:
-            if dev['base']['package'] == self.PACKAGE:
+            if dev['base']['series'] == self.SERIES:
                 config = dev
                 break
         return config
@@ -106,7 +106,7 @@ class DPAK(object):
 
     def draw_tab(self, m, dim):
         right_x = dim.device_offset_x_mm
-        left_x = right_x - dim.tab_x_mm
+        left_x = right_x - dim.tab_project_x_mm
         top_y = -dim.tab_offset_y_mm
         bottom_y = -top_y
         tab_outline = [[left_x, top_y], [right_x, top_y], [right_x, bottom_y], [left_x, bottom_y]]
@@ -115,7 +115,7 @@ class DPAK(object):
 
 
     def draw_body(self, m, dim):
-        right_x = dim.device_offset_x_mm - dim.tab_x_mm
+        right_x = dim.device_offset_x_mm - dim.tab_project_x_mm
         left_x = right_x - dim.body_x_mm
         top_y = -dim.body_offset_y_mm
         bottom_y = -top_y
@@ -126,7 +126,7 @@ class DPAK(object):
 
 
     def draw_pins(self, m, variant, dim, cut_pin):
-        right_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm
+        right_x = dim.device_offset_x_mm - dim.tab_project_x_mm - dim.body_x_mm
         left_x = right_x - variant['pin']['x_mm']
         pin_1_top_y = dim.pad_1_centre_y_mm - (variant['pin']['y_mm'] / 2.0)
         body_corner_bottom_y = -dim.body_offset_y_mm + dim.corner_mm
@@ -151,8 +151,8 @@ class DPAK(object):
     def draw_markers(self, m, variant, dim):
         magic_number = 1.3  # TODO needs better name
         other_magic_number = 1.5  #  TODO needs better name
-        right_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm + magic_number
-        middle_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm - dim.silk_line_nudge_mm
+        right_x = dim.device_offset_x_mm - dim.tab_project_x_mm - dim.body_x_mm + magic_number
+        middle_x = dim.device_offset_x_mm - dim.tab_project_x_mm - dim.body_x_mm - dim.silk_line_nudge_mm
         left_x = dim.pad_1_centre_x_mm - variant['pad']['x_mm'] / 2.0
         top_y = -dim.body_offset_y_mm - dim.silk_line_nudge_mm
         bottom_y = dim.pad_1_centre_y_mm - variant['pad']['y_mm'] / 2.0 - other_magic_number * dim.silk_line_nudge_mm
@@ -160,7 +160,7 @@ class DPAK(object):
         m.append(PolygoneLine(polygone=top_marker, layer='F.SilkS', width=dim.silk_line_width_mm))
         top_y = -top_y
         bottom_y = -bottom_y
-        left_x = dim.device_offset_x_mm - dim.tab_x_mm - dim.body_x_mm - magic_number
+        left_x = dim.device_offset_x_mm - dim.tab_project_x_mm - dim.body_x_mm - magic_number
         bottom_marker = [[right_x, top_y], [middle_x, top_y], [middle_x, bottom_y], [left_x, bottom_y]]
         m.append(PolygoneLine(polygone=bottom_marker, layer='F.SilkS', width=dim.silk_line_width_mm))
         return m
@@ -246,7 +246,7 @@ class DPAK(object):
         file_handler.writeFile('{:s}.kicad_mod'.format(dim.name))
 
 
-    def build_family(self, verbose=False):
+    def build_series(self, verbose=False):
         print('Building {p:s}'.format(p=self.config['base']['description']))
         base = self.config['base']
         for variant in self.config['variants']:
@@ -260,21 +260,21 @@ class DPAK(object):
 class TO252(DPAK):
 
     def __init__(self, config_file):
-        self.PACKAGE = 'TO-252'
+        self.SERIES = 'TO-252'
         self.config = self.load_config(config_file)
 
 
 class TO263(DPAK):
 
     def __init__(self, config_file):
-        self.PACKAGE = 'TO-263'
+        self.SERIES = 'TO-263'
         self.config = self.load_config(config_file)
 
 
 class TO268(DPAK):
 
     def __init__(self, config_file):
-        self.PACKAGE = 'TO-268'
+        self.SERIES = 'TO-268'
         self.config = self.load_config(config_file)
 
 
