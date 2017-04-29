@@ -71,9 +71,6 @@ base:
         paste_gutter_mm: 0.3
     device:
         x_mm: 15.0
-        pin:
-            x_mm: 3.0
-            y_mm: 1.0
         body:
             x_mm: 9.25
             y_mm: 10.0
@@ -145,9 +142,6 @@ base:
         paste_gutter_mm: 0.3
     device:
         x_mm: 19.0
-        pin:
-            x_mm: 3.0
-            y_mm: 1.0
         body:
             x_mm: 14.0
             y_mm: 15.9
@@ -180,3 +174,51 @@ variants:
       centre_pin: ['cut']
       keywords: 'D3PAK-3 TO-268-3'
       datasheet: http://www.icbank.com/icbank_data/semi_package/to268aa_dim.pdf
+---
+# ATPAK SMD packages
+base:
+    series: ATPAK                                                   
+    description: 'ATPAK SMD package'
+    keywords: 'ATPAK'
+    footprint:
+        x_mm: 10.3
+        tab:
+            x_mm: 6.7
+            y_mm: 6.5
+        split_paste: 'on'
+        paste_gutter_mm: 0.3
+    device:
+        x_mm: 9.5
+        body:
+            x_mm: 7.3
+            y_mm: 6.5
+            z_mm: 1.5                                                 
+            waist_z_mm: 0.4                                           
+            marker_offset_x_mm: 2.0                                  
+            colour: 'black body'                                     
+        tab:
+            x_mm: 6.05                                             
+            y_mm: 6.5
+            z_mm: 0.4                                                
+            project_x_mm: 0.5
+            colour: 'metal grey pins'                                
+        marker:
+            x_mm: 1.0                                                 
+            z_mm: 0.1                                                 
+        pins:
+            colour: 'metal grey pins'                                
+    3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
+variants:
+    - pins: 3                                                        
+      pitch_mm: 2.3
+      pad:
+          x_mm: 1.6
+          y_mm: 1.5
+      pin:
+          x_mm: 1.7
+          y_mm: 0.6
+          z_mm: 0.4                                                   
+      centre_pin: ['cut']
+      keywords: ''
+      datasheet: http://www.onsemi.com/pub/Collateral/ENA2192-D.PDF
+

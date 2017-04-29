@@ -277,5 +277,11 @@ class TO268(DPAK):
         self.SERIES = 'TO-268'
         self.config = self.load_config(config_file)
 
+class ATPAK(DPAK):
+
+    def __init__(self, config_file):
+        self.SERIES = 'ATPAK'
+        self.config = self.load_config(config_file)
+
 
 
