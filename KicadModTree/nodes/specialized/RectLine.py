@@ -35,24 +35,38 @@ class RectLine(PolygoneLine):
           width of the outer line
         * *offset* (``Point``, ``float``) --
           offset of the rect line to the specified one
+        * *chamfers* (``list`` of ``dict`` ) --
+          one or more chamfer instructions
 
     :Example:
 
     >>> from KicadModTree import *
     >>> RectLine(start=[-3, -2], end=[3, 2], layer='F.SilkS')
+    >>> RectLine(start=[-3, -2], end=[3, 2], layer='F.SilkS', chamfers=[{'corner': 'topleft', 'size': 1.5}, {'corner': 'topright', 'size': 0.5}])
     """
 
     def __init__(self, **kwargs):
         self.start_pos = Point(kwargs['start'])
         self.end_pos = Point(kwargs['end'])
 
+        # If specified, one or more corners can be chamfered at 45 degrees
+        # Name of corner and size of chamfer for that corner are key:value pairs in a dict
+        # Argument is list of one or more dicts
+        c_list = kwargs.get('chamfers') if kwargs.get('chamfers') else []
+        self.chamfers = []
+        for c in c_list:
+            try:
+                if 'corner' in c.keys() and 'size' in c.keys():
+                    self.chamfers.append(c)
+            except Exception as e:
+                # print(e)
+                pass
+
         # If specifed, an 'offset' can be applied to the RectLine.
         # For example, creating a border around a given Rect of a specified size
+        # offset for the rect line
+        offset = [0, 0]
         if kwargs.get('offset'):
-            # offset for the rect line
-            # e.g. for creating a rectLine 0.5mm LARGER than the given rect, or similar
-            offset = [0, 0]
-
             # Has an offset / inset been specified?
             if type(kwargs['offset']) in [int, float]:
                 offset[0] = offset[1] = kwargs['offset']
@@ -61,25 +75,81 @@ class RectLine(PolygoneLine):
                 if all([type(i) in [int, float] for i in kwargs['offset']]):
                     offset = kwargs['offset']
 
-            # For the offset to work properly, start-pos must be top-left, and end-pos must be bottom-right
-            x1 = min(self.start_pos.x, self.end_pos.x)
-            x2 = max(self.start_pos.x, self.end_pos.x)
+        # For the offset and chamfer to work properly, start-pos must be top-left, and end-pos must be bottom-right
+        x1 = min(self.start_pos.x, self.end_pos.x)
+        x2 = max(self.start_pos.x, self.end_pos.x)
+        y1 = min(self.start_pos.y, self.end_pos.y)
+        y2 = max(self.start_pos.y, self.end_pos.y)
 
-            y1 = min(self.start_pos.y, self.end_pos.y)
-            y2 = max(self.start_pos.y, self.end_pos.y)
+        # Put the offset (if any) back in
+        self.start_pos.x = x1 - offset[0]
+        self.start_pos.y = y1 - offset[1]
+        self.end_pos.x = x2 + offset[0]
+        self.end_pos.y = y2 + offset[1]
+        
+        # Work out intermediate positions on each side to use later when drawing corners or chamfers
+        self.top_left_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 - 0.01, self.start_pos.y])
+        self.top_right_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 + 0.01, self.start_pos.y])
+        self.bottom_left_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 - 0.01, self.end_pos.y])
+        self.bottom_right_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 + 0.01, self.end_pos.y])
+        self.left_top_mid_pos = Point([self.start_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 - 0.01])
+        self.left_bottom_mid_pos = Point([self.start_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 + 0.01])
+        self.right_top_mid_pos = Point([self.end_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 - 0.01])
+        self.right_bottom_mid_pos = Point([self.end_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 + 0.01])
 
-            # Put the offset back in
-            self.start_pos.x = x1 - offset[0]
-            self.start_pos.y = y1 - offset[1]
+        # Set the positions of the corners
+        self.top_left_pos = Point([self.start_pos.x, self.start_pos.y])
+        self.top_right_pos = Point([self.end_pos.x, self.start_pos.y])
+        self.bottom_left_pos = Point([self.start_pos.x, self.end_pos.y])
+        self.bottom_right_pos = Point([self.end_pos.x, self.end_pos.y])
 
-            self.end_pos.x = x2 + offset[0]
-            self.end_pos.y = y2 + offset[1]
+        for c in self.chamfers:
+            # Need to shift chamfered edges so they maintain constant distance from non-offset line
+            # tan(22.5) = 0.414 works correctly when chamfer is at 45 degrees (same  and Y offset), 
+            # and still looks OK when X and Y offsets are different
+            try:
+                x_delta = c['size'] + 0.414 * offset[0]
+                y_delta = c['size'] + 0.414 * offset[1]
+                if c['corner'] == 'topleft':
+                    self.top_left_pos.x = self.start_pos.x + (x_delta) / 2.0
+                    self.top_left_pos.y = self.start_pos.y + (y_delta) / 2.0
+                    self.top_left_mid_pos.x = self.start_pos.x + (x_delta)
+                    self.left_top_mid_pos.y = self.start_pos.y + (y_delta)
+                elif c['corner'] == 'topright':
+                    self.top_right_pos.x = self.end_pos.x - (x_delta) / 2.0
+                    self.top_right_pos.y = self.start_pos.y + (y_delta) / 2.0
+                    self.top_right_mid_pos.x = self.end_pos.x - (x_delta)
+                    self.right_top_mid_pos.y = self.start_pos.y + (y_delta)
+                elif c['corner'] == 'bottomleft':
+                    self.bottom_left_pos.x = self.start_pos.x + (x_delta) / 2.0
+                    self.bottom_left_pos.y = self.end_pos.y - (y_delta) / 2.0
+                    self.bottom_left_mid_pos.x = self.start_pos.x + (x_delta)
+                    self.left_bottom_mid_pos.y = self.end_pos.y - (y_delta)
+                elif c['corner'] == 'bottomright':
+                    self.bottom_right_pos.x = self.end_pos.x - (x_delta) / 2.0
+                    self.bottom_right_pos.y = self.end_pos.y - (y_delta) / 2.0
+                    self.bottom_right_mid_pos.x = self.end_pos.x - (x_delta)
+                    self.right_bottom_mid_pos.y = self.end_pos.y - (y_delta)
+                else:
+                    pass
+            except Exception as e:
+                # print(e)
+                pass
 
-        polygone_line = [{'x': self.start_pos.x, 'y': self.start_pos.y},
-                         {'x': self.start_pos.x, 'y': self.end_pos.y},
-                         {'x': self.end_pos.x, 'y': self.end_pos.y},
-                         {'x': self.end_pos.x, 'y': self.start_pos.y},
-                         {'x': self.start_pos.x, 'y': self.start_pos.y}]
+        polygone_line = [
+                         {'x': self.top_left_pos.x, 'y': self.top_left_pos.y},
+                         {'x': self.top_left_mid_pos.x, 'y': self.top_left_mid_pos.y},
+                         {'x': self.top_right_mid_pos.x, 'y': self.top_right_mid_pos.y},
+                         {'x': self.top_right_pos.x, 'y': self.top_right_pos.y},
+                         {'x': self.right_top_mid_pos.x, 'y': self.right_top_mid_pos.y},
+                         {'x': self.right_bottom_mid_pos.x, 'y': self.right_bottom_mid_pos.y},
+                         {'x': self.bottom_right_pos.x, 'y': self.bottom_right_pos.y},
+                         {'x': self.bottom_right_mid_pos.x, 'y': self.bottom_right_mid_pos.y},
+                         {'x': self.bottom_left_mid_pos.x, 'y': self.bottom_left_mid_pos.y},
+                         {'x': self.bottom_left_pos.x, 'y': self.bottom_left_pos.y},
+                         {'x': self.left_bottom_mid_pos.x, 'y': self.left_bottom_mid_pos.y},
+                         {'x': self.left_top_mid_pos.x, 'y': self.left_top_mid_pos.y},
+                         {'x': self.top_left_pos.x, 'y': self.top_left_pos.y} ]
 
         PolygoneLine.__init__(self, polygone=polygone_line, layer=kwargs['layer'], width=kwargs['width'])
 
@@ -89,5 +159,5 @@ class RectLine(PolygoneLine):
                                                                                      sy=self.start_pos.y,
                                                                                      ex=self.end_pos.x,
                                                                                      ey=self.end_pos.y)
-
         return render_text
+

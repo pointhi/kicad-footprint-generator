@@ -23,4 +23,3 @@ from .FilledRect import FilledRect
 
 from .PadArray import PadArray
 
-from .RectChamfer import RectChamfer

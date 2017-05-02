@@ -28,21 +28,28 @@ if __name__ == '__main__':
     kicad_mod = Footprint(footprint_name)
 
     # create fab
-    kicad_mod.append(RectChamfer(start=[-2,-2], end=[5,2], layer='F.Fab', width=0.15,
+    kicad_mod.append(RectLine(start=[-1,-1], end=[1,1], layer='F.Fab', width=0.1))
+    kicad_mod.append(RectLine(start=[-2,-2], end=[5,2], layer='F.Fab', width=0.1,
         chamfers=[{'corner': 'topleft',     'size': 1.0}, 
                   {'corner': 'bottomleft',  'size': 0.5},
                   {'corner': 'topright',    'size': 0.5},
                   {'corner': 'bottomright', 'size': 2.5} ]))
                           
     # create silkscreen
-    kicad_mod.append(RectChamfer(start=[-2,-2], end=[5,2], layer='F.SilkS', width=0.15, offset=0.15,
+    kicad_mod.append(RectLine(start=[-2,-2], end=[5,2], layer='F.SilkS', width=0.12, offset=(0.15, 0.15),
         chamfers=[{'corner': 'topleft',     'size': 1.0}, 
                   {'corner': 'bottomleft',  'size': 0.5},
                   {'corner': 'topright',    'size': 0.5},
                   {'corner': 'bottomright', 'size': 2.5} ]))
+    kicad_mod.append(RectLine(start=[-2,-2], end=[5,2], layer='F.SilkS', width=0.12, offset=(0.30, 0.45),
+        chamfers=[{'corner': 'topleft',     'size': 1.0}, 
+                  {'corner': 'bottomleft',  'size': 0.5},
+                  {'corner': 'topright',    'size': 0.5},
+                  {'corner': 'bottomright', 'size': 2.5} ]))
+
     # print render tree
     print(kicad_mod.getRenderTree())
-    #print(kicad_mod.getCompleteRenderTree())
+    # print(kicad_mod.getCompleteRenderTree())
 
     # write file
     file_handler = KicadFileHandler(kicad_mod)
