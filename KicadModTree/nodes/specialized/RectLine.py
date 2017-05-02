@@ -42,6 +42,7 @@ class RectLine(PolygoneLine):
 
     >>> from KicadModTree import *
     >>> RectLine(start=[-3, -2], end=[3, 2], layer='F.SilkS')
+    >>> RectLine(start=[-3, -2], end=[3, 2], layer='F.SilkS', chamfers=[{'corner': 'all', 'size': 1.5}])
     >>> RectLine(start=[-3, -2], end=[3, 2], layer='F.SilkS', chamfers=[{'corner': 'topleft', 'size': 1.5}, {'corner': 'topright', 'size': 0.5}])
     """
 
@@ -88,14 +89,15 @@ class RectLine(PolygoneLine):
         self.end_pos.y = y2 + offset[1]
         
         # Work out intermediate positions on each side to use later when drawing corners or chamfers
-        self.top_left_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 - 0.01, self.start_pos.y])
-        self.top_right_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 + 0.01, self.start_pos.y])
-        self.bottom_left_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 - 0.01, self.end_pos.y])
-        self.bottom_right_mid_pos = Point([(self.end_pos.x + self.start_pos.x) / 2.0 + 0.01, self.end_pos.y])
-        self.left_top_mid_pos = Point([self.start_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 - 0.01])
-        self.left_bottom_mid_pos = Point([self.start_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 + 0.01])
-        self.right_top_mid_pos = Point([self.end_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 - 0.01])
-        self.right_bottom_mid_pos = Point([self.end_pos.x, (self.end_pos.y + self.start_pos.y) / 2.0 + 0.01])
+        JOG = 0.001  # avoid coincident intermediate points on non-chamfered sides
+        self.top_left_mid_pos = Point([self.start_pos.x + JOG, self.start_pos.y])
+        self.top_right_mid_pos = Point([self.end_pos.x - JOG, self.start_pos.y])
+        self.bottom_left_mid_pos = Point([self.start_pos.x + JOG, self.end_pos.y])
+        self.bottom_right_mid_pos = Point([self.end_pos.x - JOG, self.end_pos.y])
+        self.left_top_mid_pos = Point([self.start_pos.x, self.start_pos.y + JOG])
+        self.left_bottom_mid_pos = Point([self.start_pos.x, self.end_pos.y - JOG])
+        self.right_top_mid_pos = Point([self.end_pos.x, self.start_pos.y + JOG])
+        self.right_bottom_mid_pos = Point([self.end_pos.x, self.end_pos.y - JOG])
 
         # Set the positions of the corners
         self.top_left_pos = Point([self.start_pos.x, self.start_pos.y])
@@ -130,6 +132,11 @@ class RectLine(PolygoneLine):
                     self.bottom_right_pos.y = self.end_pos.y - (y_delta) / 2.0
                     self.bottom_right_mid_pos.x = self.end_pos.x - (x_delta)
                     self.right_bottom_mid_pos.y = self.end_pos.y - (y_delta)
+                elif c['corner'] == 'all':
+                    self.chamfers.append({'corner': 'topleft', 'size': c['size']})
+                    self.chamfers.append({'corner': 'topright', 'size': c['size']})
+                    self.chamfers.append({'corner': 'bottomleft', 'size': c['size']})
+                    self.chamfers.append({'corner': 'bottomright', 'size': c['size']})
                 else:
                     pass
             except Exception as e:
