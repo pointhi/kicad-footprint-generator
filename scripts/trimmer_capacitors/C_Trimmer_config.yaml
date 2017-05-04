@@ -1,119 +1,92 @@
-# TO-252/DPAK SMD packages
+# SMD trimmer capacitors STYLE A
 base:
-    series: TO-252                                                   
-    description: 'TO-252/DPAK SMD package'
-    keywords: 'DPAK TO-252'
-    footprint:
-        x_mm: 10.6
-        tab:
-            x_mm: 6.4
-            y_mm: 5.8
-        split_paste: 'on'
-        paste_gutter_mm: 0.3
-    device:
-        x_mm: 9.9                                                    
-        body:
-            x_mm: 6.22                                               
-            y_mm: 6.5
-            z_mm: 2.3                                                
-            waist_z_mm: 0.9                                          
-            marker_offset_x_mm: -1.5                                 
-            colour: 'black body'                                     
-        tab:
-            x_mm: 5.24                                               
-            y_mm: 5.4
-            z_mm: 0.5                                                
-            project_x_mm: 1.0
-            colour: 'metal grey pins'                                
-        marker:
-            x_mm: 1.0                                                
-            z_mm: 0.1                                                
-        pins:
-            colour: 'metal grey pins'                                
-    3d_prefix: '${KISYS3DMOD}/TO_SOT_Packages_SMD.3dshapes'
-variants:
-    - pins: 3                                                        
-      pitch_mm: 2.28
-      pad:
-          x_mm: 2.2
-          y_mm: 1.2
-      pin:
-          x_mm: 2.7
-          y_mm: 0.75
-          z_mm: 0.5                                                  
-      centre_pin: ['cut', 'uncut']
-      keywords: 'DPAK-3 TO-252-3 SOT-428'
-      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
-    - pins: 5                                                        
-      pitch_mm: 1.14
-      pad:
-          x_mm: 2.2
-          y_mm: 0.8
-      pin:
-          x_mm: 2.7
-          y_mm: 0.6
-          z_mm: 0.5                                                  
-      centre_pin: ['cut', 'uncut']
-      keywords: 'DPAK-5 TO-252-5'
-      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-5-11/
----
-# Murata SMD trimmer capacitors
-base:
-    series: Murata
-    description: 'Murata SMD trimmer capacitor'
+    family: STYLE-A
+    description: 'trimmer capacitor SMD'
     keywords: ''
-#    footprint:
-#        x_mm: 10.6
-#        tab:
-#            x_mm: 6.4
-#            y_mm: 5.8
-#        split_paste: 'on'
-#        paste_gutter_mm: 0.3
     device:
-#        x_mm: 9.9                                                    
         body:
-#            x_mm: 6.22                                               
-#            y_mm: 6.5
-#            z_mm: 2.3                                                
-#            waist_z_mm: 0.9                                          
-#            marker_offset_x_mm: -1.5                                 
-            colour: 'black body'
-#        tab:
-#            x_mm: 5.24                                               
-#            y_mm: 5.4
-#            z_mm: 0.5                                                
-#            project_x_mm: 1.0
-#            colour: 'metal grey pins'                                
-#        marker:
-#            x_mm: 1.0                                                
-#            z_mm: 0.1                                                
-#        pins:
-#            colour: 'metal grey pins'                                
+            colour: 'white body'
+        frame:
+            colour: 'metal grey pins'
+        contacts:
+            colour: 'metal grey pins'
+        cover:
+           colour: 'white body'
+        rotor:
+           colour: 'white body'
     3d_prefix: '${KISYS3DMOD}/Capacitors_SMD.3dshapes'
 variants:
-    - model: TZR1                                                        
-#      pitch_mm: 2.28
-#      pad:
-#          x_mm: 2.2
-#          y_mm: 1.2
-#      pin:
-#          x_mm: 2.7
-#          y_mm: 0.75
-#          z_mm: 0.5                                                  
-#      centre_pin: ['cut', 'uncut']
-#      keywords: 'DPAK-3 TO-252-3 SOT-428'
+    - series: TZR1
+      manufacturer: Murata
+      footprint:
+          x_mm: 2.2
+          pad:
+              x_mm: 0.5
+              y_mm: 0.5
+      device:
+          body:
+              x_mm: 1.7
+              y_mm: 1.4
+          projection: 
+              sides: ['x', 'y']
+              offset_mm: 0.1
+              x_side_mm: 0.8  # TBC
+              y_side_mm: 0.8  # TBC
+      keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
-    - model: TZY2                                                      
-#      pitch_mm: 2.28
-#      pad:
-#          x_mm: 2.2
-#          y_mm: 1.2
-#      pin:
-#          x_mm: 2.7
-#          y_mm: 0.75
-#          z_mm: 0.5                                                  
-#      centre_pin: ['cut', 'uncut']
-#      keywords: 'DPAK-3 TO-252-3 SOT-428'
+    - series: TZY2
+      manufacturer: Murata
+      footprint:
+          x_mm: 4.0
+          pad:
+              x_mm: 0.8
+              y_mm: 1.2
+      device:
+          body:
+              x_mm: 3.0
+              y_mm: 2.1
+          projection: 
+              sides: ['x', 'y']
+              offset_mm: 0.2
+              x_side_mm: 0.8  # TBC
+              y_side_mm: 0.8  # TBC
+      keywords: ''
+      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+    - series: TZW4
+      manufacturer: Murata
+      footprint:
+          x_mm: 7.0
+          pad:
+              x_mm: 1.3
+              y_mm: 2.5
+      device:
+          body:
+              x_mm: 5.2
+              y_mm: 4.0
+          projection: 
+              sides: ['x']
+              offset_mm: 0.1
+              x_side_mm: 0.8  # TBC
+              y_side_mm: 0.0
+      keywords: ''
+      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+    - series: JR
+      manufacturer: Voltronics
+      footprint:
+          x_mm: 4.4
+          pad:
+              x_mm: 1.0
+              y_mm: 1.8
+      device:
+          body:
+              x_mm: 3.5
+              y_mm: 3.1
+          projection: 
+              sides: ['y']
+              offset_mm: 0.4
+              x_side_mm: 0.8  # TBC
+              y_side_mm: 0.8  # TBC
+      keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
 ---
 
