@@ -275,8 +275,8 @@ class Factory(object):
         self._create_build_list()
 
     def _parse_command_line(self):
-        parser = argparse.ArgumentParser(description='Select which series of devices to make')
-        parser.add_argument('--series', help='devices to make: TO-252 | TO-263 | TO-268  (default is all series)',
+        parser = argparse.ArgumentParser(description='Select which devices to make')
+        parser.add_argument('--series', help='devices to make: TO-252 | Murata | foo  (default is all series)',
                             type=str, nargs=1)
         parser.add_argument('-v', '--verbose', help='show detailed information while making the footprints',
                             action='store_true')
@@ -291,5 +291,4 @@ class Factory(object):
                 self.build_list.append(TO252(self._config_file))
             if not self.build_list:
                 print('Series not recognised')
-
 
