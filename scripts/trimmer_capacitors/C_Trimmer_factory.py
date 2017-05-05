@@ -49,9 +49,6 @@ class Dimensions(object):
                                                    self.courtyard_precision_mm)
         self.courtyard_offset_y_mm = self._round_to(self.courtyard_clearance_mm + self.biggest_y_mm / 2.0,
                                                    self.courtyard_precision_mm)
-        print (self.courtyard_offset_x_mm)
-        print (self.courtyard_offset_y_mm)
-
         # SILKSCREEN
         self.label_centre_x_mm = 0
         self.label_centre_y_mm = self.courtyard_offset_y_mm + 1
@@ -154,7 +151,6 @@ class CapacitorTrimmer(object):
             chamfers = ['topright', 'bottomright']
         else:
             chamfers = []
-        print(chamfers)
         m = add_corners(m, [left_x, top_y], [right_x, bottom_y], 0.5, 0.5, layer='F.SilkS', width=width, offset=offset, chamfers=chamfers)
         return m
 
@@ -247,12 +243,4 @@ class Factory(object):
                 self.build_list.append(StyleA(self._config_file))
             if not self.build_list:
                 print('Family not recognised')
-
-
-"""
-
-"""
-
-
-
 
