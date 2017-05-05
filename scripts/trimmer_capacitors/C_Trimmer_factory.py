@@ -49,10 +49,13 @@ class Dimensions(object):
                                                    self.courtyard_precision_mm)
         self.courtyard_offset_y_mm = self._round_to(self.courtyard_clearance_mm + self.biggest_y_mm / 2.0,
                                                    self.courtyard_precision_mm)
+        print (self.courtyard_offset_x_mm)
+        print (self.courtyard_offset_y_mm)
+
         # SILKSCREEN
         self.label_centre_x_mm = 0
         self.label_centre_y_mm = self.courtyard_offset_y_mm + 1
-        self.silk_offset_mm = (0.4, 0.2)  #  amount to shift silkscreen in X and Y directions to avoid overlapping fab lines
+        self.silk_offset_mm = (0.2, 0.2)  #  amount to shift silkscreen in X and Y directions to avoid overlapping fab lines
 
 
     def _round_to(self, n, precision):
@@ -113,10 +116,7 @@ class CapacitorTrimmer(object):
         return m
 
 
-    def _draw_outline(self, m, variant, dim, layer, width, offset):
-        m = add_corners(m, [0,0], [3,5], 1, 2, 'F.SilkS', 0.1)
-
-
+    def _draw_fab_outline(self, m, variant, dim, width, offset):
         # draw body
         right_x = dim.device_offset_x_mm
         left_x = right_x - dim.body_x_mm
@@ -130,14 +130,32 @@ class CapacitorTrimmer(object):
                         {'corner': 'bottomright', 'size': variant['device']['chamfer']['size_mm']}]
         else:
             chamfers = []
-        m.append(RectLine(start=[left_x, top_y], end=[right_x, bottom_y], layer=layer, width=width, offset=offset, chamfers=chamfers))
+        m.append(RectLine(start=[left_x, top_y], end=[right_x, bottom_y], layer='F.Fab', width=width, offset=offset, chamfers=chamfers))
+        m.append(Circle(center=[0, 0], radius=dim.body_offset_y_mm, layer='F.Fab', width=width))
         # add frame extensions
         p = variant['device']['projection']
         if 'x' in p['sides']:
-            m.append(Bump(anchor=[0, top_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='up', offset=offset, layer=layer, width=width))
-            m.append(Bump(anchor=[0, bottom_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='down', offset=offset, layer=layer, width=width))
+            m.append(Bump(anchor=[0, top_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='up', offset=offset, layer='F.Fab', width=width))
+            m.append(Bump(anchor=[0, bottom_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='down', offset=offset, layer='F.Fab', width=width))
         if 'y' in p['sides']:
-            m.append(Bump(anchor=[right_x, 0], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='right', offset=offset, layer=layer, width=width))
+            m.append(Bump(anchor=[right_x, 0], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='right', offset=offset, layer='F.Fab', width=width))
+
+        return m
+
+
+    def _draw_silk_outline(self, m, variant, dim, width, offset):
+        right_x = dim.device_offset_x_mm
+        left_x = right_x - dim.body_x_mm
+        top_y = -dim.body_offset_y_mm
+        bottom_y = -top_y
+        if 'left' in variant['device']['chamfer']['sides']:
+            chamfers = ['topleft', 'bottomleft']
+        elif 'right' in variant['device']['chamfer']['sides']:
+            chamfers = ['topright', 'bottomright']
+        else:
+            chamfers = []
+        print(chamfers)
+        m = add_corners(m, [left_x, top_y], [right_x, bottom_y], 0.5, 0.5, layer='F.SilkS', width=width, offset=offset, chamfers=chamfers)
         return m
 
 
@@ -169,10 +187,10 @@ class CapacitorTrimmer(object):
         kicad_mod = self._draw_pads(kicad_mod, variant, dim)
 
         # create fab outline
-        kicad_mod = self._draw_outline(kicad_mod, variant, dim, 'F.Fab', dim.fab_line_width_mm, (0, 0))
+        kicad_mod = self._draw_fab_outline(kicad_mod, variant, dim, dim.fab_line_width_mm, (0, 0))
 
         # create silkscreen outline
-        kicad_mod = self._draw_outline(kicad_mod, variant, dim, 'F.SilkS', dim.silk_line_width_mm, dim.silk_offset_mm)
+        kicad_mod = self._draw_silk_outline(kicad_mod, variant, dim, dim.silk_line_width_mm, dim.silk_offset_mm)
 
         # create courtyard
         kicad_mod = self._draw_courtyard(kicad_mod, dim)
@@ -229,4 +247,12 @@ class Factory(object):
                 self.build_list.append(StyleA(self._config_file))
             if not self.build_list:
                 print('Family not recognised')
+
+
+"""
+
+"""
+
+
+
 

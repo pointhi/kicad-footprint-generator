@@ -89,7 +89,7 @@ class RectLine(PolygoneLine):
         self.end_pos.y = y2 + offset[1]
         
         # Work out intermediate positions on each side to use later when drawing corners or chamfers
-        JOG = 0.001  # avoid coincident intermediate points on non-chamfered sides
+        JOG = 0.01  # avoid coincident intermediate points on non-chamfered sides
         self.top_left_mid_pos = Point([self.start_pos.x + JOG, self.start_pos.y])
         self.top_right_mid_pos = Point([self.end_pos.x - JOG, self.start_pos.y])
         self.bottom_left_mid_pos = Point([self.start_pos.x + JOG, self.end_pos.y])
