@@ -8,6 +8,7 @@ sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import fro
 
 from KicadModTree import *  # NOQA
 from bump import Bump
+from corners import *
 
 
 class Dimensions(object):
@@ -19,7 +20,13 @@ class Dimensions(object):
 
         # FROM KLC
         self.fab_line_width_mm = 0.1
+        self.fab_text_size = [1.0, 1.0]
+        self.fab_text_thickness = 0.15
+        self.fab_reference_text_size = [0.5, 0.5]
+        self.fab_reference_text_thickness = 0.05
         self.silk_line_width_mm = 0.12
+        self.silk_text_size = [1.0, 1.0]
+        self.silk_text_thickness = 0.15
         self.courtyard_line_width_mm = 0.05
         self.courtyard_clearance_mm = 0.25
         self.courtyard_precision_mm = 0.01
@@ -87,10 +94,10 @@ class CapacitorTrimmer(object):
 
 
     def _add_labels(self, m, variant, dim):
-        m.append(Text(type='reference', text='REF**', size=[1,1], at=[dim.label_centre_x_mm, -dim.label_centre_y_mm],
+        m.append(Text(type='reference', text='REF**', size=dim.silk_text_size, thickness=dim.silk_text_thickness, at=[dim.label_centre_x_mm, -dim.label_centre_y_mm],
                       layer='F.SilkS'))
-        m.append(Text(type='user', text='%R', size=[0.5,0.5], thickness=0.05, at=[0, 0], layer='F.Fab'))
-        m.append(Text(type='value', text=dim.name, at=[dim.label_centre_x_mm, dim.label_centre_y_mm], layer='F.Fab'))
+        m.append(Text(type='user', text='%R', size=dim.fab_reference_text_size, thickness=dim.fab_reference_text_thickness, at=[0, 0], layer='F.Fab'))
+        m.append(Text(type='value', text=dim.name, size=dim.fab_text_size, thickness=dim.fab_text_thickness, at=[dim.label_centre_x_mm, dim.label_centre_y_mm], layer='F.Fab'))
         return m
 
 
@@ -107,19 +114,30 @@ class CapacitorTrimmer(object):
 
 
     def _draw_outline(self, m, variant, dim, layer, width, offset):
+        m = add_corners(m, [0,0], [3,5], 1, 2, 'F.SilkS', 0.1)
+
+
         # draw body
         right_x = dim.device_offset_x_mm
         left_x = right_x - dim.body_x_mm
         top_y = -dim.body_offset_y_mm
         bottom_y = -top_y
-        m.append(RectLine(start=[left_x, top_y], end=[right_x, bottom_y], layer=layer, width=width, offset=offset))
+        if 'left' in variant['device']['chamfer']['sides']:
+            chamfers = [{'corner': 'topleft', 'size': variant['device']['chamfer']['size_mm']}, 
+                        {'corner': 'bottomleft', 'size': variant['device']['chamfer']['size_mm']}]
+        elif 'right' in variant['device']['chamfer']['sides']:
+            chamfers = [{'corner': 'topright', 'size': variant['device']['chamfer']['size_mm']}, 
+                        {'corner': 'bottomright', 'size': variant['device']['chamfer']['size_mm']}]
+        else:
+            chamfers = []
+        m.append(RectLine(start=[left_x, top_y], end=[right_x, bottom_y], layer=layer, width=width, offset=offset, chamfers=chamfers))
         # add frame extensions
         p = variant['device']['projection']
         if 'x' in p['sides']:
-            m.append(Bump(anchor=[right_x, 0], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='right', offset=offset, layer=layer, width=width))
+            m.append(Bump(anchor=[0, top_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='up', offset=offset, layer=layer, width=width))
+            m.append(Bump(anchor=[0, bottom_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='down', offset=offset, layer=layer, width=width))
         if 'y' in p['sides']:
-            m.append(Bump(anchor=[0, top_y], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='up', offset=offset, layer=layer, width=width))
-            m.append(Bump(anchor=[0, bottom_y], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='down', offset=offset, layer=layer, width=width))
+            m.append(Bump(anchor=[right_x, 0], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='right', offset=offset, layer=layer, width=width))
         return m
 
 

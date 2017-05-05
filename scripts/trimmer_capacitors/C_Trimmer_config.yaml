@@ -27,11 +27,14 @@ variants:
           body:
               x_mm: 1.7
               y_mm: 1.4
+          chamfer:
+              sides: []
+              size_mm: 0.0
           projection: 
               sides: ['x', 'y']
               offset_mm: 0.1
-              x_side_mm: 0.8  # TBC
-              y_side_mm: 0.8  # TBC
+              x_side_mm: 0.9
+              y_side_mm: 0.6
       keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
     - series: TZY2
@@ -45,11 +48,14 @@ variants:
           body:
               x_mm: 3.0
               y_mm: 2.1
+          chamfer:
+              sides: []
+              size_mm: 0.0
           projection: 
               sides: ['x', 'y']
               offset_mm: 0.2
-              x_side_mm: 0.8  # TBC
-              y_side_mm: 0.8  # TBC
+              x_side_mm: 1.8              
+              y_side_mm: 1.0
       keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
     - series: TZW4
@@ -63,10 +69,13 @@ variants:
           body:
               x_mm: 5.2
               y_mm: 4.0
+          chamfer:
+              sides: []
+              size_mm: 0.0
           projection: 
               sides: ['x']
               offset_mm: 0.1
-              x_side_mm: 0.8  # TBC
+              x_side_mm: 3.0
               y_side_mm: 0.0
       keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
@@ -81,11 +90,14 @@ variants:
           body:
               x_mm: 3.5
               y_mm: 3.1
+          chamfer:
+              sides: ['left']
+              size_mm: 0.6
           projection: 
               sides: ['y']
               offset_mm: 0.4
-              x_side_mm: 0.8  # TBC
-              y_side_mm: 0.8  # TBC
+              x_side_mm: 0.0
+              y_side_mm: 1.6
       keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
 ---
