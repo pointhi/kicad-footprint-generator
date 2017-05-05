@@ -180,6 +180,27 @@ variants:
               y_side_mm:
       keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+    - series: SGC3
+      manufacturer: Sprague-Goodman
+      footprint:
+          x_mm: 4.75
+          pad:
+              x_mm: 1.075
+              y_mm: 1.4
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 3.2
+          chamfer:
+              sides: ['left']
+              size_mm: 0.6
+          projection: 
+              sides: []
+              offset_mm:
+              x_side_mm:
+              y_side_mm:
+      keywords: ''
+      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
 ---
 # SMD trimmer capacitors STYLE D
 base:
