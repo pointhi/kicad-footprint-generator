@@ -44,7 +44,9 @@ class Dimensions(object):
         
         # COURTYARD
         self.biggest_x_mm = footprint['x_mm']
-        self.biggest_y_mm = device['body']['y_mm'] + 2.0 * (device['projection']['offset_mm'] if 'y' in device['projection']['sides'] else 0.0)
+        self.biggest_y_mm = device['body']['y_mm']
+        if 'top' in device['projection']['sides'] or 'bottom' in device['projection']['sides']:
+             self.biggest_y_mm += 2.0 * device['projection']['offset_mm']
         self.courtyard_offset_x_mm = self._round_to(self.courtyard_clearance_mm + self.biggest_x_mm / 2.0,
                                                    self.courtyard_precision_mm)
         self.courtyard_offset_y_mm = self._round_to(self.courtyard_clearance_mm + self.biggest_y_mm / 2.0,
@@ -131,11 +133,14 @@ class CapacitorTrimmer(object):
         m.append(Circle(center=[0, 0], radius=dim.body_offset_y_mm, layer='F.Fab', width=width))
         # add frame extensions
         p = variant['device']['projection']
-        if 'x' in p['sides']:
+        if 'top' in p['sides']:
             m.append(Bump(anchor=[0, top_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='up', offset=offset, layer='F.Fab', width=width))
+        if 'bottom' in p['sides']:
             m.append(Bump(anchor=[0, bottom_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='down', offset=offset, layer='F.Fab', width=width))
-        if 'y' in p['sides']:
+        if 'right' in p['sides']:
             m.append(Bump(anchor=[right_x, 0], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='right', offset=offset, layer='F.Fab', width=width))
+        if 'left' in p['sides']:
+            m.append(Bump(anchor=[left_x, 0], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='left', offset=offset, layer='F.Fab', width=width))
 
         return m
 
@@ -225,6 +230,20 @@ class StyleB(CapacitorTrimmer):
         self.config = self._load_config(config_file)
 
 
+class StyleC(CapacitorTrimmer):
+
+    def __init__(self, config_file):
+        self.FAMILY = 'STYLE-C'
+        self.config = self._load_config(config_file)
+
+
+class StyleD(CapacitorTrimmer):
+
+    def __init__(self, config_file):
+        self.FAMILY = 'STYLE-D'
+        self.config = self._load_config(config_file)
+
+
 class Factory(object):
 
     def __init__(self, config_file):
@@ -235,7 +254,7 @@ class Factory(object):
 
     def _parse_command_line(self):
         parser = argparse.ArgumentParser(description='Select which devices to make')
-        parser.add_argument('--family', help='device families to make: STYLE-A | STYLE-B | ...  (default is all families)',
+        parser.add_argument('--family', help='device families to make: STYLE-A | STYLE-B | STYLE-C | STYLE-D  (default is all families)',
                             type=str, nargs=1)
         parser.add_argument('-v', '--verbose', help='show detailed information while making the footprints',
                             action='store_true')
@@ -243,13 +262,17 @@ class Factory(object):
 
     def _create_build_list(self):
         if not self._args.family:
-            self.build_list = [StyleA(self._config_file)]
+            self.build_list = [StyleA(self._config_file), StyleB(self._config_file), StyleC(self._config_file), StyleD(self._config_file)]
         else:
             self.build_list = []
             if 'STYLE-A' in self._args.family:
                 self.build_list.append(StyleA(self._config_file))
             if 'STYLE-B' in self._args.family:
                 self.build_list.append(StyleB(self._config_file))
+            if 'STYLE-C' in self._args.family:
+                self.build_list.append(StyleC(self._config_file))
+            if 'STYLE-D' in self._args.family:
+                self.build_list.append(StyleD(self._config_file))
             if not self.build_list:
                 print('Family not recognised')
 

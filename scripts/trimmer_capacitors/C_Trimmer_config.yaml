@@ -31,7 +31,7 @@ variants:
               sides: []
               size_mm: 0.0
           projection: 
-              sides: ['x', 'y']
+              sides: ['top', 'bottom', 'right']
               offset_mm: 0.1
               x_side_mm: 0.9
               y_side_mm: 0.6
@@ -52,7 +52,7 @@ variants:
               sides: []
               size_mm: 0.0
           projection: 
-              sides: ['x', 'y']
+              sides: ['top', 'bottom', 'right']
               offset_mm: 0.2
               x_side_mm: 1.8              
               y_side_mm: 1.0
@@ -73,7 +73,7 @@ variants:
               sides: []
               size_mm: 0.0
           projection: 
-              sides: ['x']
+              sides: ['top', 'bottom']
               offset_mm: 0.1
               x_side_mm: 3.0
               y_side_mm: 0.0
@@ -94,7 +94,7 @@ variants:
               sides: ['left']
               size_mm: 0.6
           projection: 
-              sides: ['y']
+              sides: ['right']
               offset_mm: 0.4
               x_side_mm: 0.0
               y_side_mm: 1.6
@@ -138,6 +138,107 @@ variants:
               offset_mm:
               x_side_mm:
               y_side_mm:
+      keywords: ''
+      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+---
+# SMD trimmer capacitors STYLE C
+base:
+    family: STYLE-C
+    description: 'trimmer capacitor SMD'
+    keywords: ''
+    device:
+        body:
+            colour: 'white body'
+        frame:
+            colour: 'metal grey pins'
+        contacts:
+            colour: 'metal grey pins'
+        cover:
+           colour: 'white body'
+        rotor:
+           colour: 'white body'
+    3d_prefix: '${KISYS3DMOD}/Capacitors_SMD.3dshapes'
+variants:
+    - series: JZ
+      manufacturer: Voltronics
+      footprint:
+          x_mm: 4.8
+          pad:
+              x_mm: 0.9
+              y_mm: 1.4
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 3.2
+          chamfer:
+              sides: ['left']
+              size_mm: 0.6
+          projection: 
+              sides: []
+              offset_mm:
+              x_side_mm:
+              y_side_mm:
+      keywords: ''
+      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+---
+# SMD trimmer capacitors STYLE D
+base:
+    family: STYLE-D
+    description: 'trimmer capacitor SMD'
+    keywords: ''
+    device:
+        body:
+            colour: 'white body'
+        frame:
+            colour: 'metal grey pins'
+        contacts:
+            colour: 'metal grey pins'
+        cover:
+           colour: 'white body'
+        rotor:
+           colour: 'white body'
+    3d_prefix: '${KISYS3DMOD}/Capacitors_SMD.3dshapes'
+variants:
+    - series: TZB4-A
+      manufacturer: Murata
+      footprint:
+          x_mm: 7.0
+          pad:
+              x_mm: 2.3
+              y_mm: 1.6
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 4.0
+          chamfer:
+              sides: []
+              size_mm:
+          projection: 
+              sides: ['left', 'right']
+              offset_mm: 0.25
+              x_side_mm:
+              y_side_mm: 1.2
+      keywords: ''
+      datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
+    - series: TZB4-B
+      manufacturer: Murata
+      footprint:
+          x_mm: 8.0
+          pad:
+              x_mm: 2.0
+              y_mm: 1.6
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 4.0
+          chamfer:
+              sides: []
+              size_mm:
+          projection: 
+              sides: ['left', 'right']
+              offset_mm: 1.25
+              x_side_mm:
+              y_side_mm: 1.2
       keywords: ''
       datasheet: http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/
 ---
