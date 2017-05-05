@@ -218,6 +218,13 @@ class StyleA(CapacitorTrimmer):
         self.config = self._load_config(config_file)
 
 
+class StyleB(CapacitorTrimmer):
+
+    def __init__(self, config_file):
+        self.FAMILY = 'STYLE-B'
+        self.config = self._load_config(config_file)
+
+
 class Factory(object):
 
     def __init__(self, config_file):
@@ -228,7 +235,7 @@ class Factory(object):
 
     def _parse_command_line(self):
         parser = argparse.ArgumentParser(description='Select which devices to make')
-        parser.add_argument('--family', help='device families to make: STYLE-A | ...  (default is all families)',
+        parser.add_argument('--family', help='device families to make: STYLE-A | STYLE-B | ...  (default is all families)',
                             type=str, nargs=1)
         parser.add_argument('-v', '--verbose', help='show detailed information while making the footprints',
                             action='store_true')
@@ -239,8 +246,10 @@ class Factory(object):
             self.build_list = [StyleA(self._config_file)]
         else:
             self.build_list = []
-            if 'STYLE-A' in self._args.series:
+            if 'STYLE-A' in self._args.family:
                 self.build_list.append(StyleA(self._config_file))
+            if 'STYLE-B' in self._args.family:
+                self.build_list.append(StyleB(self._config_file))
             if not self.build_list:
                 print('Family not recognised')
 
