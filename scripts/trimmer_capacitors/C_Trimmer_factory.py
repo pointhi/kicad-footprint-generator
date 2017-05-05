@@ -7,7 +7,7 @@ import pprint
 sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
 
 from KicadModTree import *  # NOQA
-from bump import Bump
+from bump import *
 from corners import *
 
 
@@ -134,14 +134,13 @@ class CapacitorTrimmer(object):
         # add frame extensions
         p = variant['device']['projection']
         if 'top' in p['sides']:
-            m.append(Bump(anchor=[0, top_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='up', offset=offset, layer='F.Fab', width=width))
+            m = add_bump(m, [0, top_y], p['x_side_mm'], p['offset_mm'], 'up', 'F.Fab', width, offset)
         if 'bottom' in p['sides']:
-            m.append(Bump(anchor=[0, bottom_y], bump_length=p['x_side_mm'], bump_width=p['offset_mm'], direction='down', offset=offset, layer='F.Fab', width=width))
+            m = add_bump(m, [0, bottom_y], p['x_side_mm'], p['offset_mm'], 'down', 'F.Fab', width, offset)
         if 'right' in p['sides']:
-            m.append(Bump(anchor=[right_x, 0], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='right', offset=offset, layer='F.Fab', width=width))
+            m = add_bump(m, [right_x, 0], p['y_side_mm'], p['offset_mm'], 'right', 'F.Fab', width, offset)
         if 'left' in p['sides']:
-            m.append(Bump(anchor=[left_x, 0], bump_length=p['y_side_mm'], bump_width=p['offset_mm'], direction='left', offset=offset, layer='F.Fab', width=width))
-
+            m = add_bump(m, [left_x, 0], p['y_side_mm'], p['offset_mm'], 'left', 'F.Fab', width, offset)
         return m
 
 
@@ -156,7 +155,7 @@ class CapacitorTrimmer(object):
             chamfers = ['topright', 'bottomright']
         else:
             chamfers = []
-        m = add_corners(m, [left_x, top_y], [right_x, bottom_y], 0.5, 0.5, layer='F.SilkS', width=width, offset=offset, chamfers=chamfers)
+        m = add_corners(m, [left_x, top_y], [right_x, bottom_y], 0.5, 0.5, 'F.SilkS', width, offset, chamfers)
         return m
 
 
