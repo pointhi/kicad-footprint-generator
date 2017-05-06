@@ -9,6 +9,7 @@ sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import fro
 from KicadModTree import *  # NOQA
 from bump import *
 from corners import *
+from chamfers import *
 
 
 class Dimensions(object):
@@ -129,7 +130,7 @@ class CapacitorTrimmer(object):
                         {'corner': 'bottomright', 'size': variant['device']['chamfer']['size_mm']}]
         else:
             chamfers = []
-        m.append(RectLine(start=[left_x, top_y], end=[right_x, bottom_y], layer='F.Fab', width=width, offset=offset, chamfers=chamfers))
+        m = add_rect_chamfer(m, [left_x, top_y], [right_x, bottom_y], 'F.Fab', width, offset, chamfers)
         m.append(Circle(center=[0, 0], radius=dim.body_offset_y_mm, layer='F.Fab', width=width))
         # add frame extensions
         p = variant['device']['projection']
