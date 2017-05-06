@@ -38,11 +38,6 @@ if __name__ == '__main__':
     # create silscreen
     kicad_mod.append(RectLine(start=[-2,-2], end=[5,2], layer='F.SilkS', width=0.15))
 
-    # create fab
-    kicad_mod.append(RectLine(start=[-2,-2], end=[5,2], layer='F.Fab', width=0.15, offset=-0.2,\
-                              chamfers=[{'corner': 'topleft', 'size': 0.5},
-                                        {'corner': 'topright', 'size': 1.0}]))
-
     # create courtyard
     kicad_mod.append(RectLine(start=[-2.25,-2.25], end=[5.25,2.25], layer='F.CrtYd', width=0.05, offset=2))
 
@@ -52,14 +47,14 @@ if __name__ == '__main__':
     
     kicad_mod.append(Pad(number=12, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[3,0], size=[2,2], drill=1.2, layers=['*.Cu', '*.Mask', 'F.SilkS']))
 
-    kicad_mod.append(PadArray(pincount=10,spacing=[1,-1],center=[0,0], initial=5, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[1,2], layers=["*.Cu"]))
-                          
     # add model
     kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl"
                           ,at=[0,0,0]
                           ,scale=[1,1,1]
                           ,rotate=[0,0,0]))
     
+    kicad_mod.append(PadArray(pincount=10,spacing=[1,-1],center=[0,0], initial=5, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[1,2], layers=["*.Cu"]))
+                          
     # output kicad model
     #print(kicad_mod)
 
