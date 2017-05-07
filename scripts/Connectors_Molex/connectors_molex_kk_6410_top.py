@@ -62,12 +62,18 @@ if __name__ == '__main__':
         drill=1.2, layers=Pad.LAYERS_THT))
 
     # create fab outline
-    kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0-2*nudge, -3.02-nudge],\
-        end=[end_pos_x+pad_spacing/2.0+2*nudge, 2.98+nudge], layer='F.Fab', width=silk_w))
+    kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0, -5.8/2.0],\
+        end=[end_pos_x+pad_spacing/2.0, 5.8/2.0], layer='F.Fab', width=silk_w))
 
     # create silkscreen
     kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0-nudge, -3.02],\
         end=[end_pos_x+pad_spacing/2.0+nudge, 2.98], layer='F.SilkS', width=silk_w))
+
+    # pin 1 markers
+    kicad_mod.append(Line(start=[start_pos_x-pad_spacing/2.0-0.4, -2.0],\
+        end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.SilkS', width=silk_w))
+    kicad_mod.append(Line(start=[start_pos_x-pad_spacing/2.0-0.4, -2.0],\
+        end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.Fab', width=silk_w))
 
     if pincount <= 6:
         # one ramp
