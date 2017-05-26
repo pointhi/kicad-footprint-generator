@@ -1,0 +1,329 @@
+# SMD trimmer capacitors STYLE A
+base:
+    family: STYLE-A
+    description: 'trimmer capacitor SMD horizontal'
+    keywords: ''
+    device:
+        body:
+            colour: 'white body'
+        frame:
+            colour: 'metal grey pins'
+        contacts:
+            colour: 'metal grey pins'
+        cover:
+           colour: 'white body'
+        rotor:
+           colour: 'white body'
+    3d_prefix: '${KISYS3DMOD}/Capacitors_SMD.3dshapes'
+variants:
+    - series: TZR1
+      manufacturer: Murata
+      footprint:
+          x_mm: 2.2
+          pad:
+              x_mm: 0.5
+              y_mm: 0.5
+      device:
+          body:
+              x_mm: 1.7
+              y_mm: 1.4
+          chamfer:
+              sides: []
+              size_mm: 0.0
+          projection: 
+              sides: ['top', 'bottom', 'right']
+              offset_mm: 0.1
+              x_side_mm: 0.9
+              y_side_mm: 0.6
+      keywords: 'Murata TZR1'
+      datasheet: http://www.murata.com/~/media/webrenewal/support/library/catalog/products/capacitor/trimmer/t13e.ashx?la=en-gb
+    - series: TZY2
+      manufacturer: Murata
+      footprint:
+          x_mm: 4.0
+          pad:
+              x_mm: 0.8
+              y_mm: 1.2
+      device:
+          body:
+              x_mm: 3.0
+              y_mm: 2.1
+          chamfer:
+              sides: []
+              size_mm: 0.0
+          projection: 
+              sides: ['top', 'bottom', 'right']
+              offset_mm: 0.2
+              x_side_mm: 1.8              
+              y_side_mm: 1.0
+      keywords: 'Murata TZY2'
+      datasheet: http://www.murata.com/~/media/webrenewal/support/library/catalog/products/capacitor/trimmer/t13e.ashx?la=en-gb
+    - series: TZW4
+      manufacturer: Murata
+      footprint:
+          x_mm: 7.0
+          pad:
+              x_mm: 1.3
+              y_mm: 2.5
+      device:
+          body:
+              x_mm: 5.2
+              y_mm: 4.0
+          chamfer:
+              sides: []
+              size_mm: 0.0
+          projection: 
+              sides: ['top', 'bottom']
+              offset_mm: 0.1
+              x_side_mm: 3.0
+              y_side_mm: 0.0
+      keywords: 'Murata TZW4'
+      datasheet: http://www.murata.com/~/media/webrenewal/support/library/catalog/products/capacitor/trimmer/t13e.ashx?la=en-gb
+    - series: JR
+      manufacturer: Voltronics
+      footprint:
+          x_mm: 4.4
+          pad:
+              x_mm: 1.0
+              y_mm: 1.8
+      device:
+          body:
+              x_mm: 3.5
+              y_mm: 3.1
+          chamfer:
+              sides: ['left']
+              size_mm: 0.6
+          projection: 
+              sides: ['right']
+              offset_mm: 0.4
+              x_side_mm: 0.0
+              y_side_mm: 1.6
+      keywords: 'Voltronics JR'
+      datasheet: http://www.knowlescapacitors.com/File%20Library/Voltronics/English/GlobalNavigation/Products/Trimmer%20Capacitors/CerChipTrimCap.pdf
+    - series: JN
+      manufacturer: Voltronics
+      footprint:
+          x_mm: 2.2
+          pad:
+              x_mm: 0.5
+              y_mm: 0.5
+      device:
+          body:
+              x_mm: 1.7
+              y_mm: 1.4
+          chamfer:
+              sides: []
+              size_mm: 0.0
+          projection: 
+              sides: ['top', 'bottom', 'right']
+              offset_mm: 0.1
+              x_side_mm: 0.9
+              y_side_mm: 0.6
+      keywords: 'Voltronics JN'
+      datasheet: http://www.knowlescapacitors.com/File%20Library/Voltronics/English/GlobalNavigation/Products/Trimmer%20Capacitors/CerChipTrimCap.pdf
+    - series: JV
+      manufacturer: Voltronics
+      footprint:
+          x_mm: 4.0
+          pad:
+              x_mm: 0.8
+              y_mm: 1.2
+      device:
+          body:
+              x_mm: 3.0
+              y_mm: 2.1
+          chamfer:
+              sides: []
+              size_mm: 0.0
+          projection: 
+              sides: ['top', 'bottom', 'right']
+              offset_mm: 0.2
+              x_side_mm: 1.8              
+              y_side_mm: 1.0
+      keywords: 'Voltronics JV'
+      datasheet: http://www.knowlescapacitors.com/File%20Library/Voltronics/English/GlobalNavigation/Products/Trimmer%20Capacitors/CerChipTrimCap.pdf
+    - series: JQ
+      manufacturer: Voltronics
+      footprint:
+          x_mm: 3.2
+          pad:
+              x_mm: 0.55
+              y_mm: 1.0
+      device:
+          body:
+              x_mm: 2.5
+              y_mm: 1.8
+          chamfer:
+              sides: []
+              size_mm: 0.0
+          projection: 
+              sides: ['top', 'bottom', 'right']
+              offset_mm: 0.2
+              x_side_mm: 1.5            
+              y_side_mm: 1.0
+      keywords: 'Voltronics JQ'
+      datasheet: http://www.knowlescapacitors.com/File%20Library/Voltronics/English/GlobalNavigation/Products/Trimmer%20Capacitors/CerChipTrimCap.pdf
+---
+# SMD trimmer capacitors STYLE B
+base:
+    family: STYLE-B
+    description: 'trimmer capacitor SMD horizontal'
+    keywords: ''
+    device:
+        body:
+            colour: 'white body'
+        frame:
+            colour: 'metal grey pins'
+        contacts:
+            colour: 'metal grey pins'
+        cover:
+           colour: 'white body'
+        rotor:
+           colour: 'white body'
+    3d_prefix: '${KISYS3DMOD}/Capacitors_SMD.3dshapes'
+variants:
+    - series: TZC3
+      manufacturer: Murata
+      footprint:
+          x_mm: 5.0
+          pad:
+              x_mm: 0.85
+              y_mm: 1.0
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 3.2
+          chamfer:
+              sides: ['left']
+              size_mm: 0.6
+          projection: 
+              sides: []
+              offset_mm:
+              x_side_mm:
+              y_side_mm:
+      keywords: 'Murata TZC3'
+      datasheet: http://www.murata.com/~/media/webrenewal/support/library/catalog/products/capacitor/trimmer/t13e.ashx?la=en-gb
+---
+# SMD trimmer capacitors STYLE C
+base:
+    family: STYLE-C
+    description: 'trimmer capacitor SMD horizontal'
+    keywords: ''
+    device:
+        body:
+            colour: 'white body'
+        frame:
+            colour: 'metal grey pins'
+        contacts:
+            colour: 'metal grey pins'
+        cover:
+           colour: 'white body'
+        rotor:
+           colour: 'white body'
+    3d_prefix: '${KISYS3DMOD}/Capacitors_SMD.3dshapes'
+variants:
+    - series: JZ
+      manufacturer: Voltronics
+      footprint:
+          x_mm: 4.8
+          pad:
+              x_mm: 0.9
+              y_mm: 1.4
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 3.2
+          chamfer:
+              sides: ['left']
+              size_mm: 0.6
+          projection: 
+              sides: []
+              offset_mm:
+              x_side_mm:
+              y_side_mm:
+      keywords: 'Voltronics JR'
+      datasheet: http://www.knowlescapacitors.com/File%20Library/Voltronics/English/GlobalNavigation/Products/Trimmer%20Capacitors/CerChipTrimCap.pdf
+    - series: SGC3
+      manufacturer: Sprague-Goodman
+      footprint:
+          x_mm: 4.75
+          pad:
+              x_mm: 1.075
+              y_mm: 1.4
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 3.2
+          chamfer:
+              sides: ['left']
+              size_mm: 0.6
+          projection: 
+              sides: []
+              offset_mm:
+              x_side_mm:
+              y_side_mm:
+      keywords: 'Sprague Goodman SGC3'
+      datasheet: http://media.wix.com/ugd/d86717_38d9821e12823a7aa9cef38c6c2a73cc.pdf
+---
+# SMD trimmer capacitors STYLE D
+base:
+    family: STYLE-D
+    description: 'trimmer capacitor SMD horizontal'
+    keywords: ''
+    device:
+        body:
+            colour: 'white body'
+        frame:
+            colour: 'metal grey pins'
+        contacts:
+            colour: 'metal grey pins'
+        cover:
+           colour: 'white body'
+        rotor:
+           colour: 'white body'
+    3d_prefix: '${KISYS3DMOD}/Capacitors_SMD.3dshapes'
+variants:
+    - series: TZB4-A
+      manufacturer: Murata
+      footprint:
+          x_mm: 7.0
+          pad:
+              x_mm: 2.3
+              y_mm: 1.6
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 4.0
+          chamfer:
+              sides: []
+              size_mm:
+          projection: 
+              sides: ['left', 'right']
+              offset_mm: 0.25
+              x_side_mm:
+              y_side_mm: 1.2
+      keywords: 'Murata TZB4 TZB4-A'
+      datasheet: http://www.murata.com/~/media/webrenewal/support/library/catalog/products/capacitor/trimmer/t13e.ashx?la=en-gb
+    - series: TZB4-B
+      manufacturer: Murata
+      footprint:
+          x_mm: 8.0
+          pad:
+              x_mm: 2.0
+              y_mm: 1.6
+      device:
+          body:
+              x_mm: 4.5
+              y_mm: 4.0
+          chamfer:
+              sides: []
+              size_mm:
+          projection: 
+              sides: ['left', 'right']
+              offset_mm: 1.25
+              x_side_mm:
+              y_side_mm: 1.2
+      keywords: 'Murata TZB4 TZB4-A'
+      datasheet: http://www.murata.com/~/media/webrenewal/support/library/catalog/products/capacitor/trimmer/t13e.ashx?la=en-gb
+---
+
