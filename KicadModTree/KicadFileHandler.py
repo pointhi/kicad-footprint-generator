@@ -181,7 +181,7 @@ class KicadFileHandler(FileHandler):
                                              str2='({})'.format(' '.join(render_strings2)))
 
     def serialize_Model(self, node):
-        render_string = "(model {filename}\n".format(filename=node.filename)
+        render_string = "(model ${{KISYS3DMOD}}/{filename}\n".format(filename=node.filename)
         # TODO: apply position from parent nodes (missing z)
         render_string += "  (at {at})\n".format(at=node.at.render('(xyz {x} {y} {z})'))
         # TODO: apply scale from parent nodes
