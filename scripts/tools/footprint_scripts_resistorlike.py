@@ -684,39 +684,59 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
 
     if script3d!="":
         with open(script3d, "a") as myfile:
-            myfile.write("\n\n # {0}\n".format(footprint_name))
-            myfile.write("import FreeCAD\n")
-            myfile.write("import os\n")
+
+            myfile.write("\n    \"{0}\" : Params(# from Jan Kriege's 3d models\n".format(footprint_name))
+            myfile.write("        H = {:0.2f}, # Body Height\n".format(height3d))
+            myfile.write("        L = {:0.2f}, # Body Length\n".format(innerw))
+            myfile.write("        W = {:0.2f}, # Body Width\n".format(innerh))
+            myfile.write("        d = {:0.2f}, # Lead Diameter\n".format(ddrill-0.3))
+            if secondPitch:
+                myfile.write("        F = {:0.2f}, # Lead Seperation\n".format(rm2))
+            else:
+                myfile.write("        F = {:0.2f}, # Lead Seperation\n".format(rm))
+            myfile.write("        ll = 2.0, # Lead Length\n")
+            myfile.write("        bs = 0.0, # Board Seperation\n")
+            if len(name_additions) > 0 and name_additions[0] == "MKT":
+                myfile.write("        series = 'MKT', # 'MKS' or 'MKT'\n")
+            else:
+                myfile.write("        series = 'MKS', # 'MKS' or 'MKT'\n")
+            myfile.write("        modelName = '{0}', # Modelname\n".format(footprint_name))
+            myfile.write("        rotation = 0, # Rotation\n")
+            myfile.write("        dest_dir_prefix = '../Capacitors_THT.3dshapes/', # Destination\n")
+            myfile.write("    ),\n")
+            # Jan's Script
+            '''
+            myfile.write("\n\n # {0}\n".format(footprint_name)) 
+            myfile.write("import FreeCAD\n") 
+            myfile.write("import os\n") 
             myfile.write("import os.path\n\n")
             myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
-            myfile.write("App.ActiveDocument.recompute()\n")
-            myfile.write("# Wx\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(innerw) )
-            myfile.write("# iWx\nApp.ActiveDocument.Spreadsheet.set('D1', '{0}')\n".format(w) )
-            myfile.write("# W2\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(w2) )
-            myfile.write("# Wy\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(innerh) )
-            myfile.write("# iWy\nApp.ActiveDocument.Spreadsheet.set('D2', '{0}')\n".format(h) )
-            myfile.write("# RMx\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(rm) )
-            myfile.write("# RMy\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(rm2) )
-            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(height3d) )
-            myfile.write("# offsetx\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(-(l_fab+offset[0])) )
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(ddrill-0.3))
-            if len(additionalPins)>0:
-                ep=additionalPins[0]
-                myfile.write("# d_wire_pin3\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(ep[3]-0.3))
-                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ep[1]))
-                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(ep[2]))
-            myfile.write("App.ActiveDocument.recompute()\n")
-            myfile.write("doc = FreeCAD.activeDocument()\n")
-            myfile.write("__objs__=[]\n")
-            myfile.write("for obj in doc.Objects:	\n")
+            myfile.write("App.ActiveDocument.recompute()\n") 
+            myfile.write("# Wx\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(innerw) ) 
+            myfile.write("# iWx\nApp.ActiveDocument.Spreadsheet.set('D1', '{0}')\n".format(w) ) 
+            myfile.write("# W2\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(w2) ) 
+            myfile.write("# Wy\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(innerh) ) 
+            myfile.write("# iWy\nApp.ActiveDocument.Spreadsheet.set('D2', '{0}')\n".format(h) ) 
+            myfile.write("# RMx\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(rm) ) 
+            myfile.write("# RMy\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(rm2) ) 
+            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(height3d) ) 
+            myfile.write("# offsetx\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(-(l_fab+offset[0])) ) 
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(ddrill-0.3)) 
+            if len(additionalPins)>0: 
+                ep=additionalPins[0] 
+                myfile.write("# d_wire_pin3\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(ep[3]-0.3)) 
+                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ep[1])) 
+                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(ep[2])) 
+            myfile.write("App.ActiveDocument.recompute()\n") 
+            myfile.write("doc = FreeCAD.activeDocument()\n") 
+            myfile.write("__objs__=[]\n") 
+            myfile.write("for obj in doc.Objects:  \n") 
             myfile.write("    if obj.ViewObject.Visibility:\n")
             myfile.write("        __objs__.append(obj)\n")
             myfile.write("\nFreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+\"{0}.wrl\")\n".format(footprint_name))
             myfile.write("doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+\"{0}.FCStd\")\n".format(footprint_name))
             myfile.write("print(\"created {0}\")\n".format(footprint_name))
-
-
-
+            '''
 
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)

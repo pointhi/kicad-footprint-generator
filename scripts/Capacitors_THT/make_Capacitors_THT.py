@@ -164,14 +164,12 @@ if __name__ == '__main__':
     for w in [7.6,7.8,7.9,9.1,9.6,11,11.9,12.2,13,13.8,14.2,16]:
         caps+=[  29, w,  19, 27.5,      1.2,            ["MKT"],                           "https://en.tdk.eu/inf/20/20/db/fc_2009/MKT_B32560_564.pdf"],
 
-
-    script3mkt="c_mkt.py"
-    with open(script3mkt, "w") as myfile:
+    script3rect="c_rect.py"
+    with open(script3rect, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
-    script3mks="c_mks.py"
-    with open(script3mks, "w") as myfile:
+    script3rect="c_rect.py"
+    with open(script3rect, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
-
     for c in caps:
         seriesname = "Rect";
         w = c[0];
@@ -182,11 +180,9 @@ if __name__ == '__main__':
         ddrill = c[4];
         add_description = c[6];
         name_additions = c[5]
-        scr=script3mks
-        if len(name_additions)>0 and name_additions[0]=="MKT":
-            scr=script3mkt
+        scr=script3rect
         makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
                                     specialtags=specialtags, classname="C", lib_name="Capacitors_ThroughHole", script3d=scr, height3d=h3d)
 
@@ -211,9 +207,7 @@ if __name__ == '__main__':
         ddrill = c[4];
         add_description = c[6];
         name_additions = c[5]
-        scr = script3mks
-        if len(name_additions) > 0 and name_additions[0] == "MKT":
-            scr = script3mkt
+        scr = script3rect
         makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
