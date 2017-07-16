@@ -21,3 +21,5 @@ slk_offset = lw_slk/2
 txt_offset = 1
 grid_crt=0.05
 min_pad_distance=0.2
+fab_text_size_min=0.25
+fab_text_size_max=2.00
