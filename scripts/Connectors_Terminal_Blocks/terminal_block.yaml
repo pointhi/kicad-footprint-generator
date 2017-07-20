@@ -14,3 +14,19 @@ TerminalBlock_Philmore_TB133_03x5mm_Straight:
   pad_spacing: 5
   ways: 3
   datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_4UCON_19963_02x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 2
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_03x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 3
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
