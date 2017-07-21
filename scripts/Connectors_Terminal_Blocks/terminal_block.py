@@ -156,7 +156,7 @@ if __name__ == '__main__':
     parser.add_parameter("name", type=str, required=True)
     parser.add_parameter("datasheet", type=str, required=False)
     parser.add_parameter("ways", type=int, required=False, default=2)
-    parser.add_parameter("courtyard", type=float, required=False, default=0.25)
+    parser.add_parameter("courtyard", type=float, required=False, default=0.5)
     parser.add_parameter("hole_size", type=float, required=False, default=1.2)
     parser.add_parameter("pad_size", type=float, required=False, default=2.4)
     parser.add_parameter("pad_spacing", type=float, required=False, default=3.5)

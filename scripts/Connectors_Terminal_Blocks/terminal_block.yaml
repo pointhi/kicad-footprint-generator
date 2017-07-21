@@ -5,7 +5,6 @@ TerminalBlock_Philmore_TB132_02x5mm_Straight:
   pad_size: 2.4
   pad_spacing: 5
   ways: 2
-  courtyard: 0.5
   datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
 TerminalBlock_Philmore_TB133_03x5mm_Straight:
   back_depth: 4.8
@@ -14,5 +13,228 @@ TerminalBlock_Philmore_TB133_03x5mm_Straight:
   pad_size: 2.4
   pad_spacing: 5
   ways: 3
-  courtyard: 0.5
   datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_04x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 4
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_05x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 5
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_06x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 6
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_07x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 7
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_08x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 8
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_09x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 9
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_10x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 10
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_11x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 11
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_12x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 12
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_13x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 13
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_14x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 14
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_15x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 15
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_Philmore_TB13x_16x5mm_Straight:
+  back_depth: 4.8
+  front_depth: 5.4
+  hole_size: 1.47
+  pad_size: 2.4
+  pad_spacing: 5
+  ways: 16
+  datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
+TerminalBlock_4UCON_19963_02x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 2
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_03x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 3
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_04x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 4
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_05x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 5
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_06x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 6
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_07x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 7
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_08x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 8
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_09x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 9
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_10x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 10
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_11x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 11
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_12x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 12
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_13x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 13
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_14x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 14
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_15x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 15
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
+TerminalBlock_4UCON_19963_16x3.5mm_Straight:
+  back_depth: 3.4
+  front_depth: 3.6
+  hole_size: 1.2
+  pad_size: 2.4
+  pad_spacing: 3.5
+  ways: 16
+  datasheet: https://cdn-shop.adafruit.com/datasheets/19963.pdf
