@@ -5,7 +5,6 @@ TerminalBlock_Philmore_TB132_02x5mm_Straight:
   pad_size: 2.4
   pad_spacing: 5
   ways: 2
-  courtyard: 0.5
   datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
 TerminalBlock_Philmore_TB133_03x5mm_Straight:
   back_depth: 4.8
@@ -14,5 +13,4 @@ TerminalBlock_Philmore_TB133_03x5mm_Straight:
   pad_size: 2.4
   pad_spacing: 5
   ways: 3
-  courtyard: 0.5
   datasheet: http://www.philmore-datak.com/mc/Page%20197.pdf
