@@ -122,8 +122,8 @@ if __name__ == '__main__':
 		
 		
         #
-        # Add F.Fab lines
-        #
+		# Top lines
+		#
         x1 = StartFX
         y1 = StartFY
         x2 = x1 + 5
@@ -132,6 +132,9 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[x1, y1 - 0.13], [x2 + 0.13, y2 - 0.13]], layer='F.SilkS',width=0.12))
         footprint.append(PolygoneLine(polygone=[[round(x1, 2), round(y1 - 0.25, 2)], [round(x2 + 0.25, 2), round(y2 - 0.25, 2)]], layer='F.CrtYd',width=0.05))
 
+        #
+		# Right lines
+		#
         x1 = x2
         y1 = y2
         x2 = x2
@@ -140,6 +143,9 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[x1 + 0.13, y1 - 0.13], [x2 + 0.13, y2 + 0.13]], layer='F.SilkS',width=0.12))
         footprint.append(PolygoneLine(polygone=[[round(x1 + 0.25, 2), round(y1 - 0.25, 2)], [round(x2 + 0.25, 2), round(y2 + 0.25, 2)]], layer='F.CrtYd',width=0.05))
 		
+        #
+		# Bottom lines
+		#
         x1 = x2
         y1 = y2
         x2 = StartFX
@@ -148,6 +154,9 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[x1 + 0.13, y1 + 0.13], [x2, y2 + 0.13]], layer='F.SilkS',width=0.12))
         footprint.append(PolygoneLine(polygone=[[round(x1 + 0.25, 2), round(y1 + 0.25, 2)], [round(x2, 2), round(y2 + 0.25, 2)]], layer='F.CrtYd',width=0.05))
 
+        #
+		# Upper arcs
+		#
         ccx = GuideHoleX1
         ccy = GuideHoleY1
         csx = GuideHoleX1
@@ -164,6 +173,9 @@ if __name__ == '__main__':
         csy = -0.62
         footprint.append(Arc(center=[ccx, ccy], start=[round(csx, 2), round(csy, 2)], angle=168, layer='F.CrtYd',width=0.05))
 
+        #
+		# Left lines
+		#
         x1 = GuideHoleX1
         y1 = GuideHoleY1 + (GuideHoleY1 - StartFY)
         x2 = GuideHoleX1
@@ -178,6 +190,9 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[x1 - 0.13, y1 + 0.13], [x2 - 0.13, y2 - 0.13]], layer='F.SilkS',width=0.12))
         footprint.append(PolygoneLine(polygone=[[round(x1 - 0.25, 2), round(y1 + 0.25, 2)], [round(x2 - 0.25, 2), round(y2 - 0.25, 2)]], layer='F.CrtYd',width=0.05))
 		
+        #
+		# Bottom arcs
+		#
         ccx = GuideHoleX1
         ccy = GuideHoleY2
         csx = GuideHoleX1
@@ -194,16 +209,6 @@ if __name__ == '__main__':
         csy = ((pins - 1) * pitch) + 2.755 + 0.25
         footprint.append(Arc(center=[ccx, ccy], start=[round(csx, 2), round(csy, 2)], angle=168, layer='F.CrtYd',width=0.05))
 		
-        # courtyard
-#        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.CrtYd',width=0.05))
-        
-        # outline on Fab
-#        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab'))
-        
-#        footprint.append(Circle(center=[x1+T,y2-T],radius=0.2,layer='F.Fab'))
-        
-        # outline on SilkScreen
-#        footprint.append(RectLine(start=[x1,y1],end=[x2,y2],offset=0.15))
 
         #Add a model
         footprint.append(Model(filename="${KISYS3DMOD}/Connectors_Molex.3dshapes/" + fp_name + ".wrl", at=[0,0], scale=[0,0], rotate=[0,0,0]))
