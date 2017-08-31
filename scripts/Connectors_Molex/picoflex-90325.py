@@ -122,8 +122,8 @@ if __name__ == '__main__':
 		
 		
         #
-		# Top lines
-		#
+        # Top lines
+        #
         x1 = StartFX
         y1 = StartFY
         x2 = x1 + 5
@@ -133,8 +133,8 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[round(x1, 2), round(y1 - 0.25, 2)], [round(x2 + 0.25, 2), round(y2 - 0.25, 2)]], layer='F.CrtYd',width=0.05))
 
         #
-		# Right lines
-		#
+        # Right lines
+        #
         x1 = x2
         y1 = y2
         x2 = x2
@@ -144,8 +144,8 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[round(x1 + 0.25, 2), round(y1 - 0.25, 2)], [round(x2 + 0.25, 2), round(y2 + 0.25, 2)]], layer='F.CrtYd',width=0.05))
 		
         #
-		# Bottom lines
-		#
+        # Bottom lines
+        #
         x1 = x2
         y1 = y2
         x2 = StartFX
@@ -155,8 +155,8 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[round(x1 + 0.25, 2), round(y1 + 0.25, 2)], [round(x2, 2), round(y2 + 0.25, 2)]], layer='F.CrtYd',width=0.05))
 
         #
-		# Upper arcs
-		#
+        # Upper arcs
+        #
         ccx = GuideHoleX1
         ccy = GuideHoleY1
         csx = GuideHoleX1
@@ -174,8 +174,8 @@ if __name__ == '__main__':
         footprint.append(Arc(center=[ccx, ccy], start=[round(csx, 2), round(csy, 2)], angle=168, layer='F.CrtYd',width=0.05))
 
         #
-		# Left lines
-		#
+        # Left lines
+        #
         x1 = GuideHoleX1
         y1 = GuideHoleY1 + (GuideHoleY1 - StartFY)
         x2 = GuideHoleX1
@@ -191,8 +191,8 @@ if __name__ == '__main__':
         footprint.append(PolygoneLine(polygone=[[round(x1 - 0.25, 2), round(y1 + 0.25, 2)], [round(x2 - 0.25, 2), round(y2 - 0.25, 2)]], layer='F.CrtYd',width=0.05))
 		
         #
-		# Bottom arcs
-		#
+        # Bottom arcs
+        #
         ccx = GuideHoleX1
         ccy = GuideHoleY2
         csx = GuideHoleX1
