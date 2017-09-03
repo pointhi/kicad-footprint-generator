@@ -102,6 +102,8 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     kicad_modg.append(
         Text(type='reference', text='REF**', at=[pinrow_distance / 2, t_slk - txt_offset], layer='F.SilkS'))
     kicad_modg.append(
+        Text(type='user', text='%R', at=[pinrow_distance/2, t_fab + h_fab / 2], layer='F.Fab'))
+    kicad_modg.append(
         Text(type='value', text=footprint_name, at=[pinrow_distance / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
     
     # create FAB-layer
