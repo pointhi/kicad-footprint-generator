@@ -137,23 +137,23 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
         pad_type = Pad.TYPE_SMT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_RECT
-        pad_layers = 'F'
+        pad_layers = ['F.Cu', 'F.Mask', 'F.Paste']
     else:
         pad_type = Pad.TYPE_THT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_OVAL
-        pad_layers = '*'
+        pad_layers = ['*.Cu', '*.Mask']
     
     for p in range(1, int(pins / 2 + 1)):
         if p == 1:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         else:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         
         kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
-                              layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                              layers=pad_layers))
         
         p1 = p1 + 1
         p2 = p2 + 1
@@ -322,23 +322,23 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
         pad_type = Pad.TYPE_SMT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_RECT
-        pad_layers = 'F'
+        pad_layers = ['F.Cu', 'F.Mask', 'F.Paste']
     else:
         pad_type = Pad.TYPE_THT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_OVAL
-        pad_layers = '*'
+        pad_layers = ['*.Cu', '*.Mask']
     
     for p in range(1, int(pins / 2 + 1)):
         if p == 1:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         else:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         
         kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
-                              layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                              layers=pad_layers))
         
         p1 = p1 + 1
         p2 = p2 + 1
@@ -348,16 +348,16 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     if len(cornerPads) == 2:
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=['F.Cu', 'F.Mask']))
+                              layers=pad_layers))
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + w_fab - cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=['F.Cu', 'F.Mask']))
+                              layers=pad_layers))
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=['F.Cu', 'F.Mask']))
+                              layers=pad_layers))
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + w_fab - cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads,
-                              drill=0, layers=['F.Cu', 'F.Mask']))
+                              drill=0, layers=pad_layers))
     
     # add model
     kicad_modg.append(
