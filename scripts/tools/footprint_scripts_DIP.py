@@ -76,8 +76,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     tags = "DIL DIP PDIP {0}mm {1}mm {2}mil".format(rm, pinrow_distance, int(pinrow_distance / 2.54 * 100))
     if (len(tags_additional) > 0):
         for t in tags_additional:
-            if t != "SMD":  # suppress "SMD" in file name since this is already part of folder name
-                footprint_name = footprint_name + "_" + t
+            footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
     
