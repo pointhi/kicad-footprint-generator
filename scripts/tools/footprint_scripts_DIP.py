@@ -259,8 +259,12 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     # set general values
     kicad_modg.append(
         Text(type='reference', text='REF**', at=[pinrow_distance / 2, t_slk - txt_offset], layer='F.SilkS'))
+    if pins == 2:
+        fab_ref_size = [0.6, 0.6]
+    else:
+        fab_ref_size = [0.8, 0.8]
     kicad_modg.append(
-        Text(type='user', text='%R', at=[pinrow_distance/2 + (package_width+switch_width)/4, t_fab + h_fab /2], rotation=90, size=[0.8, 0.8], layer='F.Fab'))
+        Text(type='user', text='%R', at=[pinrow_distance/2 + (package_width+switch_width)/4, t_fab + h_fab /2], rotation=90, size=fab_ref_size, layer='F.Fab'))
     kicad_modg.append(
         Text(type='value', text=footprint_name, at=[pinrow_distance / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
 
