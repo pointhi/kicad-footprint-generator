@@ -29,9 +29,9 @@ class Circle(Node):
         * *radius* (``float``) --
           radius of the circle
         * *layer* (``str``) --
-          layer on which the circle is drawn
+          layer on which the circle is drawn (default: 'F.SilkS')
         * *width* (``float``) --
-          width of the circle line
+          width of the circle line (default: None, which means auto detection)
 
     :Example:
 

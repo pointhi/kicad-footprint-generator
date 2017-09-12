@@ -33,9 +33,9 @@ class FilledRect(Node):
         * *end* (``Point``) --
           end edge of the rect
         * *layer* (``str``) --
-          layer on which the rect is drawn
+          layer on which the rect is drawn (default: 'F.SilkS')
         * *width* (``float``) --
-          width of the outer line
+          width of the outer line (default: 0.15)
 
     :Example:
 
@@ -49,7 +49,7 @@ class FilledRect(Node):
         self.end_pos = Point(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.width = kwargs.get('width', 0.15)  # TODO: better variation to get line width
+        self.width = kwargs.get('width', 0.12)  # TODO: better variation to get line width
 
         rect_line = RectLine(**kwargs)
         rect_line._parent = self

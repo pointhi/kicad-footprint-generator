@@ -26,7 +26,7 @@ class Pad(Node):
 
     :Keyword Arguments:
         * *number* (``int``, ``str``) --
-          number/name of the pad
+          number/name of the pad (default: \"\")
         * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
           type of the pad
         * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``) --
@@ -83,7 +83,7 @@ class Pad(Node):
         self._initLayers(**kwargs)
 
     def _initNumber(self, **kwargs):
-        self.number = kwargs.get('number')  # default to an un-numbered pad
+        self.number = kwargs.get('number', "")  # default to an un-numbered pad
 
     def _initType(self, **kwargs):
         if not kwargs.get('type'):

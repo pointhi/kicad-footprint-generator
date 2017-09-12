@@ -28,9 +28,9 @@ class PolygoneLine(Node):
         * *polygone* (``list(Point)``) --
           edges of the polygone
         * *layer* (``str``) --
-          layer on which the polygone is drawn
+          layer on which the polygone is drawn (default: 'F.SilkS')
         * *width* (``float``) --
-          width of the line
+          width of the line (default: None, which means auto detection)
 
     :Example:
 
@@ -42,7 +42,7 @@ class PolygoneLine(Node):
         Node.__init__(self)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.width = kwargs.get('width', 0.15)
+        self.width = kwargs.get('width')
 
         self._initMirror(**kwargs)
 

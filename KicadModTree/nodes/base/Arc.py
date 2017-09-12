@@ -32,9 +32,9 @@ class Arc(Node):
         * *angle* (``float``) --
           angle of arc
         * *layer* (``str``) --
-          layer on which the arc is drawn
+          layer on which the arc is drawn (default: 'F.SilkS')
         * *width* (``float``) --
-          width of the arc line
+          width of the arc line (default: None, which means auto detection)
 
     :Example:
 

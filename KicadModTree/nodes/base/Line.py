@@ -29,9 +29,9 @@ class Line(Node):
         * *end* (``Point``) --
           end point of the line
         * *layer* (``str``) --
-          layer on which the line is drawn
+          layer on which the line is drawn (default: 'F.SilkS')
         * *width* (``float``) --
-          width of the line
+          width of the line (default: None, which means auto detection)
 
     :Example:
 
