@@ -15,7 +15,6 @@
 
 import time
 import re
-from string import whitespace as WHITESPACE_CHARACTERS
 
 
 def formatFloat(val):
@@ -115,6 +114,79 @@ def parseLispString(input):
         syntax_tree = syntax_tree[0]
 
     return syntax_tree
+
+
+class SexprSerializer(object):
+    '''
+    Converts a nested python list into a sexpr syntax which can be parsed by KiCad
+    '''
+
+    NEW_LINE = object
+
+    def __init__(self, sexpr):
+        '''
+        :param sexpr: A list of lists and primitive values representing the file
+        '''
+        self.sexpr = sexpr
+
+    def primitive_to_string(self, primitive):
+        pType = type(primitive)
+        if pType is int:
+            return str(primitive)
+        elif pType is float:
+            return formatFloat(primitive)
+        elif pType is str:
+            return lispString(primitive)
+        else:
+            raise RuntimeError("unexpected type: {}".format(pType))
+
+    def sexpr_to_string(self, sexpr, prefix=None):
+        if prefix is None:
+            prefix = ""
+
+        serial_string = "("
+
+        # see: https://stackoverflow.com/questions/3190706/nonlocal-keyword-in-python-2-x
+        loop_ctrl = {'first': True, 'indentation': False}
+
+        def get_seperator():
+            if loop_ctrl['first']:
+                loop_ctrl['first'] = False
+                return_str = ""
+            else:
+                return_str = " "
+
+            if loop_ctrl['indentation']:
+                return_str += " "
+                loop_ctrl['indentation'] = False
+
+            return return_str
+
+        for attr in sexpr:
+            if isinstance(attr, (tuple, list)):
+                return_string = self.sexpr_to_string(attr, prefix + " ")
+
+                if loop_ctrl['indentation']:
+                    return_string = return_string.replace('\n', '\n ')
+                serial_string += get_seperator()
+
+                serial_string += return_string
+            elif attr == SexprSerializer.NEW_LINE:
+                serial_string += "\n"
+                serial_string += prefix
+                loop_ctrl['indentation'] = True
+            else:
+                serial_string += get_seperator()
+                serial_string += self.primitive_to_string(attr)
+
+        serial_string += ")"
+        return serial_string
+
+    def __str__(self):
+        '''
+        :return: A string which respresents the sexpr
+        '''
+        return self.sexpr_to_string(self.sexpr)
 
 
 def parseTimestamp(timestamp):

@@ -13,8 +13,6 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-import string
-
 from KicadModTree.FileHandler import FileHandler
 from KicadModTree.util.kicad_util import *
 from KicadModTree.nodes.base.Pad import Pad  # TODO: why .KicadModTree is not enough?
@@ -37,87 +35,6 @@ def get_layer_width(layer, width=None):
         return DEFAULT_LAYER_WIDTH.get(layer, DEFAULT_WIDTH)
 
 
-def contains_whitespace(s):
-    return True in [c in s for c in string.whitespace]
-
-
-class SexprSerializer(object):
-    '''
-    Converts a nested python list into a sexpr syntax which can be parsed by KiCad
-    '''
-
-    NEW_LINE = object
-
-    def __init__(self, sexpr):
-        '''
-        :param sexpr: A list of lists and primitive values representing the file
-        '''
-        self.sexpr = sexpr
-
-    def primitive_to_string(self, primitive):
-        pType = type(primitive)
-        if pType is int:
-            return str(primitive)
-        elif pType is float:
-            return str(primitive)
-        elif pType is str:
-            if contains_whitespace(primitive):
-                # in this case, we need to return an escaped string
-                return "\"{}\"".format(primitive.replace('"', '\\"'))
-            else:
-                return primitive
-        else:
-            raise RuntimeError("unexpected type: {}".format(pType))
-
-    def sexpr_to_string(self, sexpr, prefix = None):
-        if prefix is None:
-            prefix = ""
-
-        serial_string = "("
-
-        # see: https://stackoverflow.com/questions/3190706/nonlocal-keyword-in-python-2-x
-        loop_ctrl = {'first':True, 'indentation': False}
-
-        def get_seperator():
-            if loop_ctrl['first']:
-                loop_ctrl['first'] = False
-                return_str = ""
-            else:
-                return_str = " "
-
-            if loop_ctrl['indentation']:
-                return_str += " "
-                loop_ctrl['indentation'] = False
-
-            return return_str
-
-        for attr in sexpr:
-            if isinstance(attr, (tuple, list)):
-                return_string = self.sexpr_to_string(attr, prefix + " ")
-
-                if loop_ctrl['indentation']:
-                    return_string = return_string.replace('\n', '\n ')
-                serial_string += get_seperator()
-
-                serial_string += return_string
-            elif attr == SexprSerializer.NEW_LINE:
-                serial_string += "\n"
-                serial_string += prefix
-                loop_ctrl['indentation'] = True
-            else:
-                serial_string += get_seperator()
-                serial_string += self.primitive_to_string(attr)
-
-        serial_string += ")"
-        return serial_string
-
-    def __str__(self):
-        '''
-        :return: A string which respresents the sexpr of the kicad file
-        '''
-        return self.sexpr_to_string(self.sexpr)
-
-
 class KicadFileHandler(FileHandler):
     '''
     Write our generated Tree into a .kicad_mod file
@@ -126,23 +43,27 @@ class KicadFileHandler(FileHandler):
         FileHandler.__init__(self, kicad_mod)
 
     def serialize(self):
-        serial_string = "(module {name} (layer F.Cu) (tedit {timestamp})\n".format(name=self.kicad_mod.name,
-                                                                                   timestamp=formatTimestamp())
+        sexpr = ['module', self.kicad_mod.name,
+                 ['layer', 'F.Cu'],
+                 ['tedit', formatTimestamp()],
+                 SexprSerializer.NEW_LINE
+                ]  # NOQA
 
         if self.kicad_mod.description:
-            serial_string += '  (descr "{description}")\n'.format(description=self.kicad_mod.description)
+            sexpr.append(['descr', self.kicad_mod.description])
+            sexpr.append(SexprSerializer.NEW_LINE)
 
         if self.kicad_mod.tags:
-            serial_string += '  (tags "{tags}")\n'.format(tags=self.kicad_mod.tags)
+            sexpr.append(['tags', self.kicad_mod.tags])
+            sexpr.append(SexprSerializer.NEW_LINE)
 
         if self.kicad_mod.attribute:
-            serial_string += '  (attr {attr})\n'.format(attr=self.kicad_mod.attribute)
+            sexpr.append(['attr', self.kicad_mod.attribute])
+            sexpr.append(SexprSerializer.NEW_LINE)
 
-        serial_string += self.serializeTree()
+        sexpr.extend(self.serializeTree())
 
-        serial_string += ")"
-
-        return serial_string
+        return str(SexprSerializer(sexpr))
 
     def serializeTree(self):
         nodes = self.kicad_mod.serialize()
@@ -157,24 +78,20 @@ class KicadFileHandler(FileHandler):
 
             grouped_nodes[node_type] = current_nodes
 
-        serial_tree = ""
+        sexpr = []
 
         # serialize initial text nodes
         if 'Text' in grouped_nodes:
             reference_nodes = list(filter(lambda node: node.type == 'reference', grouped_nodes['Text']))
             for node in reference_nodes:
-                value_serialized = self.serialize_Text(node)
-                if value_serialized:
-                    value_serialized = value_serialized.replace('\n', '\n  ') + "\n"
-                    serial_tree += "  " + value_serialized
+                sexpr.append(self.serialize_Text(node))
+                sexpr.append(SexprSerializer.NEW_LINE)
                 grouped_nodes['Text'].remove(node)
 
             value_nodes = list(filter(lambda node: node.type == 'value', grouped_nodes['Text']))
             for node in value_nodes:
-                value_serialized = self.serialize_Text(node)
-                if value_serialized:
-                    value_serialized = value_serialized.replace('\n', '\n  ') + "\n"
-                    serial_tree += "  " + value_serialized
+                sexpr.append(self.serialize_Text(node))
+                sexpr.append(SexprSerializer.NEW_LINE)
                 grouped_nodes['Text'].remove(node)
 
         for key, value in sorted(grouped_nodes.items()):
@@ -184,19 +101,16 @@ class KicadFileHandler(FileHandler):
 
             # render base nodes
             for node in value:
-                value_serialized = self._callSerialize(node)
-                if value_serialized:
-                    value_serialized = value_serialized.replace('\n', '\n  ') + "\n"
-                    serial_tree += "  " + value_serialized
+                sexpr.append(self._callSerialize(node))
+                sexpr.append(SexprSerializer.NEW_LINE)
 
         # serialize 3D Models at the end
         if grouped_nodes.get('Model'):
             for node in grouped_nodes.get('Model'):
-                value_serialized = self.serialize_Model(node)
-                if value_serialized:
-                    serial_tree += "  " + value_serialized.replace('\n', '\n  ') + "\n"
+                sexpr.append(self.serialize_Model(node))
+                sexpr.append(SexprSerializer.NEW_LINE)
 
-        return serial_tree
+        return sexpr
 
     def _callSerialize(self, node):
         '''
@@ -211,124 +125,101 @@ class KicadFileHandler(FileHandler):
             raise NotImplementedError(exception_string.format(name=method_name, type=method_type))
 
     def serialize_Arc(self, node):
-        render_strings = ['fp_arc']
         # in KiCAD, some file attributes of Arc are named not in the way of their real meaning
-        render_strings.append(node.getRealPosition(node.center_pos).render('(start {x} {y})'))
-        render_strings.append(node.getRealPosition(node.start_pos).render('(end {x} {y})'))
-        render_strings.append('(angle {angle:.1f})'.format(angle=node.angle))
-        render_strings.append('(layer {layer})'.format(layer=node.layer))
-        render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
+        center_pos = node.getRealPosition(node.center_pos)
+        end_pos = node.getRealPosition(node.start_pos)
 
-        return '({})'.format(' '.join(render_strings))
+        sexpr = ['fp_arc',
+                 ['start', center_pos.x, center_pos.y],
+                 ['end', end_pos.x, end_pos.y],
+                 ['angle', '{1f}'.format(node.angle)],
+                 ['layer', node.layer],
+                 ['width', get_layer_width(node.layer, node.width)]
+                ]  # NOQA
+
+        return sexpr
 
     def serialize_Circle(self, node):
-        render_strings = ['fp_circle']
-        render_strings.append(node.getRealPosition(node.center_pos).render('(center {x} {y})'))
-        render_strings.append(node.getRealPosition(node.end_pos).render('(end {x} {y})'))
-        render_strings.append('(layer {layer})'.format(layer=node.layer))
-        render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
+        center_pos = node.getRealPosition(node.center_pos)
+        end_pos = node.getRealPosition(node.end_pos)
 
-        return '({})'.format(' '.join(render_strings))
+        sexpr = ['fp_circle',
+                 ['center', center_pos.x, center_pos.y],
+                 ['end', end_pos.x, end_pos.y],
+                 ['layer', node.layer],
+                 ['width', get_layer_width(node.layer, node.width)]
+                ]  # NOQA
+
+        return sexpr
 
     def serialize_Line(self, node):
-        render_strings = ['fp_line']
-        render_strings.append(node.getRealPosition(node.start_pos).render('(start {x} {y})'))
-        render_strings.append(node.getRealPosition(node.end_pos).render('(end {x} {y})'))
-        render_strings.append('(layer {layer})'.format(layer=node.layer))
-        render_strings.append('(width {width})'.format(width=get_layer_width(node.layer, node.width)))
+        start_pos = node.getRealPosition(node.start_pos)
+        end_pos = node.getRealPosition(node.end_pos)
 
-        return '({})'.format(' '.join(render_strings))
+        sexpr = ['fp_line',
+                 ['start', start_pos.x, start_pos.y],
+                 ['end', end_pos.x, end_pos.y],
+                 ['layer', node.layer],
+                 ['width', get_layer_width(node.layer, node.width)]
+                ]  # NOQA
+
+        return sexpr
 
     def serialize_Text(self, node):
-        render_strings1 = ['fp_text']
-        render_strings1.append(lispString(node.type))
-        render_strings1.append(lispString(node.text))
+        sexpr = ['fp_text', node.type, node.text]
 
-        at_real_position, real_rotation = node.getRealPosition(node.at, node.rotation)
-        if real_rotation:
-            render_strings1.append(at_real_position.render('(at {{x}} {{y}} {r})'.format(r=real_rotation)))
+        position, rotation = node.getRealPosition(node.at, node.rotation)
+        if rotation:
+            sexpr.append(['at', position.x, position.y, rotation])
         else:
-            render_strings1.append(at_real_position.render('(at {x} {y})'))
+            sexpr.append(['at', position.x, position.y])
 
-        render_strings1.append('(layer {layer})'.format(layer=node.layer))
+        sexpr.append(['layer', node.layer])
         if node.hide:
-            render_strings1.append('hide')
-        render_strings_font = ['font']
-        render_strings_font.append(node.size.render('(size {x} {y})'))
-        render_strings_font.append('(thickness {thickness})'.format(thickness=node.thickness))
+            sexpr.append('hide')
+        sexpr.append(SexprSerializer.NEW_LINE)
 
-        render_strings2 = ['effects']
-        render_strings2.append('({})'.format(' '.join(render_strings_font)))
+        sexpr.append(['effects',
+                      ['font',
+                       ['size', node.size.x, node.size.y],
+                       ['thickness', node.thickness]
+                      ]
+                     ]
+                    )  # NOQA
+        sexpr.append(SexprSerializer.NEW_LINE)
 
-        return "({str1}\n  {str2}\n)".format(str1=' '.join(render_strings1),
-                                             str2='({})'.format(' '.join(render_strings2)))
+        return sexpr
 
     def serialize_Model(self, node):
-        render_string = "(model {filename}\n".format(filename=node.filename)
-        # TODO: apply position from parent nodes (missing z)
-        render_string += "  (at {at})\n".format(at=node.at.render('(xyz {x} {y} {z})'))
-        # TODO: apply scale from parent nodes
-        render_string += "  (scale {scale})\n".format(scale=node.scale.render('(xyz {x} {y} {z})'))
-        # TODO: apply rotation from parent nodes
-        render_string += "  (rotate {rotate})\n".format(rotate=node.rotate.render('(xyz {x} {y} {z})'))
-        render_string += ")"
+        sexpr = ['model', node.filename,
+                 SexprSerializer.NEW_LINE,
+                 ['at', ['xyz', node.at.x, node.at.y, node.at.z]],
+                 SexprSerializer.NEW_LINE,
+                 ['scale', ['xyz', node.scale.x, node.scale.y, node.scale.z]],
+                 SexprSerializer.NEW_LINE,
+                 ['rotate', ['xyz', node.rotate.x, node.rotate.y, node.rotate.z]],
+                 SexprSerializer.NEW_LINE
+                ]  # NOQA
 
-        return render_string
+        return sexpr
 
     def serialize_Pad(self, node):
-        render_strings = ['pad']
-        render_strings.append(lispString(node.number))
-        render_strings.append(lispString(node.type))
-        render_strings.append(lispString(node.shape))
+        sexpr = ['pad', node.number, node.type, node.shape]
 
         position, rotation = node.getRealPosition(node.at, node.rotation)
         if not rotation % 360 == 0:
-            render_strings.append(node.getRealPosition(node.at).render('(at {{x}} {{y}} {r})'.format(r=rotation)))
+            sexpr.append(['at', position.x, position.y, rotation])
         else:
-            render_strings.append(node.getRealPosition(node.at).render('(at {x} {y})'))
+            sexpr.append(['at', position.x, position.y])
 
-        render_strings.append(node.size.render('(size {x} {y})'))
+        sexpr.append(['size', node.size.x, node.size.y])
+
         if node.type in [Pad.TYPE_THT, Pad.TYPE_NPTH]:
             if node.drill.x == node.drill.y:
-                render_strings.append('(drill {})'.format(node.drill.x))
+                sexpr.append(['drill', node.drill.x])
             else:
-                render_strings.append(node.drill.render('(drill oval {x} {y})'))
-        render_strings.append('(layers {})'.format(' '.join(node.layers)))
+                sexpr.append(['drill', 'oval', node.drill.x, node.drill.y])
 
-        return '({})'.format(' '.join(render_strings))
+        sexpr.append(['layers'] + node.layers)
 
-    def _callUnserialize(self, lisp_obj):
-        '''
-        call the corresponding method to serialize the node
-        '''
-        method_type = lisp_obj[0]
-        method_name = "unserialize_{0}".format(method_type)
-        if hasattr(self, method_name):
-            return getattr(self, method_name)(node)
-        else:
-            exception_string = "{name}(node) not found, cannot unserialized the node of type {type}"
-            raise NotImplementedError(exception_string.format(name=method_name, type=method_type))
-
-    def unserialize_fp_arc(self, node):
-        raise NotImplementedError()
-        return Arc()
-
-    def unserialize_fp_circle(self, node):
-        raise NotImplementedError()
-        return Circle()
-
-    def unserialize_fp_line(self, node):
-        raise NotImplementedError()
-        return Line()
-
-    def unserialize_fp_text(self, node):
-        raise NotImplementedError()
-        return Text()
-
-    def unserialize_model(self, node):
-        raise NotImplementedError()
-        return Model()
-
-    def unserialize_pad(self, node):
-        raise NotImplementedError()
-        return Pad()
+        return sexpr
