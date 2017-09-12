@@ -44,7 +44,7 @@ class Circle(Node):
         self.center_pos = Point(kwargs['center'])
         self.radius = kwargs['radius']
 
-        self.end_pos = {'x': self.center_pos.x+self.radius, 'y': self.center_pos.y}
+        self.end_pos = Point([self.center_pos.x+self.radius, self.center_pos.y])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
