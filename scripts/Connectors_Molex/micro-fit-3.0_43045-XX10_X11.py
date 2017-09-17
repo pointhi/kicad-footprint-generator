@@ -169,17 +169,34 @@ if __name__ == '__main__':
                 y1 = sny - ((1.65 / 2) + LineDX + LindeDelta)
                 points.append([round(x1, 2), round(y1, 2)])
                 #
-                x1 = snx + (3.43 / 2) +  LineDX + LindeDelta
-                y1 = y1
-                points.append([round(x1, 2), round(y1, 2)])
-                #
-                x1 = x1
-                y1 =sny + ((1.65 / 2) + LineDX + LindeDelta)
-                points.append([round(x1, 2), round(y1, 2)])
-                #
-                x1 = (A / 2) + LineDX
-                y1 = y1
-                points.append([round(x1, 2), round(y1, 2)])
+                if (i == 1):
+                    footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                    #
+                    # Need to do something ugly here, becosue we will do points = [] 
+                    # We need to reflect these points already here
+                    #
+                    points2 = []
+                    for pp in points:
+                        points2.append([0 - pp[0], pp[1]])
+                    footprint.append(PolygoneLine(polygone=points2, layer=Layer, width=LineWidth))
+                    #
+                    #
+                    points = [] 
+                    x1 = x1
+                    y1 =sny + ((1.65 / 2) + LineDX + LindeDelta)
+                    points.append([round(x1, 2), round(y1, 2)])
+                elif (i == 2):
+                    x1 = snx + (3.43 / 2) +  LineDX + LindeDelta
+                    y1 = y1
+                    points.append([round(x1, 2), round(y1, 2)])
+                    #
+                    x1 = x1
+                    y1 =sny + ((1.65 / 2) + LineDX + LindeDelta)
+                    points.append([round(x1, 2), round(y1, 2)])
+                    #
+                    x1 = (A / 2) + LineDX
+                    y1 = y1
+                    points.append([round(x1, 2), round(y1, 2)])
                 #
                 x1 = x1
                 y1 = tty + 9.91 + LineDX
@@ -189,17 +206,21 @@ if __name__ == '__main__':
                 y1 = y1
                 points.append([round(x1, 2), round(y1, 2)])
                 #
-                x1 = x1
-                y1 = ((PadDist / 2) + (PadSiseY / 2) + LineDX + LindeDelta)
-                points.append([round(x1, 2), round(y1, 2)])
-                #
-                #
-                x1 = 0
-                y1 = y1
-                points.append([round(x1, 2), round(y1, 2)])
-                #
-                #
-                footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                if (i == 1):
+                    ttx1 = x1
+                    tty1 = ((PadDist / 2) + (PadSiseY / 2) + LineDX + LindeDelta)
+                    
+                if (i == 0) or (i == 2):
+                    x1 = x1
+                    y1 = ((PadDist / 2) + (PadSiseY / 2) + LineDX + LindeDelta)
+                    ttx1 = x1
+                    tty1 = y1
+                    points.append([round(x1, 2), round(y1, 2)])
+                    #
+                    #
+                    x1 = 0
+                    y1 = y1
+                    points.append([round(x1, 2), round(y1, 2)])
                 #
                 # Reflect right part around the X-axis
                 #
@@ -211,28 +232,34 @@ if __name__ == '__main__':
                 if (i == 0):
                     # Add pin 1 marker
                     tt = len(points2)
-                    p0 = points2[tt-2]
-                    p1 = points2[tt-1]
-                    pp1 = points2[tt - 3]
-                    points2[tt - 2] = [pp1[0], pp1[1] + 0.5]
-                    points2[tt - 1] = [pp1[0] + 1, pp1[1] + 1]
-                    pp = [pp1[0], pp1[1] + 2]
-                    points2.append(pp)
+                    p0 = points2[tt - 1]
+                    p1 = points2[tt - 2]
+                    p2 = points2[tt - 3]
+                    p2 = [p2[0] - 1, p2[1]]
+                    pp2 = [p1[0], p2[1] + 1]
+                    points2[tt - 3] = p2
+                    points2[tt - 2] = pp2
+                    points2[tt - 1] = p1
                     points2.append(p0)
-                    points2.append(p1)
-                    footprint.append(PolygoneLine(polygone=points2, layer=Layer, width=LineWidth))
-                else:
-                    footprint.append(PolygoneLine(polygone=points2, layer=Layer, width=LineWidth))
-                
+                elif (i == 1):
+                    points2.append([round(0 - ttx1, 2), round(tty1, 2)])
+                    
+                #
+                #
+                footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                #
+                footprint.append(PolygoneLine(polygone=points2, layer=Layer, width=LineWidth))                
             
             #
-            pp = points2[8]
-            Fab1X = round(pp[0] - 0.25, 2)
-            Fab1Y = round(pp[1] + 0.25, 2)
-            Fabpoints = [[Fab1X - 2, Fab1Y], 
-                        [Fab1X,  Fab1Y], 
-                        [Fab1X,  Fab1Y + 2]]
-            footprint.append(PolygoneLine(polygone=Fabpoints, layer='F.SilkS', width=0.12))
+            # Pin 1 marker
+            #
+#            pp = points2[8]
+#            Fab1X = round(pp[0] - 0.25, 2)
+#            Fab1Y = round(pp[1] + 0.25, 2)
+#            Fabpoints = [[Fab1X - 2, Fab1Y], 
+#                        [Fab1X,  Fab1Y], 
+#                        [Fab1X,  Fab1Y + 2]]
+#            footprint.append(PolygoneLine(polygone=Fabpoints, layer='F.SilkS', width=0.12))
                
             
             
