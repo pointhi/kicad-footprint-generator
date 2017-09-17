@@ -101,6 +101,8 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     kicad_modg.append(
         Text(type='reference', text='REF**', at=[pinrow_distance / 2, t_slk - txt_offset], layer='F.SilkS'))
     kicad_modg.append(
+        Text(type='user', text='%R', at=[pinrow_distance/2, t_fab + h_fab / 2], layer='F.Fab'))
+    kicad_modg.append(
         Text(type='value', text=footprint_name, at=[pinrow_distance / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
     
     # create FAB-layer
@@ -137,23 +139,23 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
         pad_type = Pad.TYPE_SMT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_RECT
-        pad_layers = 'F'
+        pad_layers = ['F.Cu', 'F.Mask', 'F.Paste']
     else:
         pad_type = Pad.TYPE_THT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_OVAL
-        pad_layers = '*'
+        pad_layers = ['*.Cu', '*.Mask']
     
     for p in range(1, int(pins / 2 + 1)):
         if p == 1:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         else:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         
         kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
-                              layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                              layers=pad_layers))
         
         p1 = p1 + 1
         p2 = p2 + 1
@@ -162,7 +164,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     
     # add model
     kicad_modg.append(
-        Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
+        Model(filename="${KISYS3DMOD}/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -229,7 +231,8 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     tags = "DIP Switch {0} {1}mm {2}mil".format(mode, pinrow_distance, int(pinrow_distance / 2.54 * 100))
     if (len(tags_additional) > 0):
         for t in tags_additional:
-            footprint_name = footprint_name + "_" + t
+            if t != "SMD":  # suppress "SMD" in file name since this is already part of folder name
+                footprint_name = footprint_name + "_" + t
             description = description + ", " + t
             tags = tags + " " + t
     
@@ -256,9 +259,16 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     # set general values
     kicad_modg.append(
         Text(type='reference', text='REF**', at=[pinrow_distance / 2, t_slk - txt_offset], layer='F.SilkS'))
+    if pins == 2:
+        fab_ref_size = [0.6, 0.6]
+    else:
+        fab_ref_size = [0.8, 0.8]
+    kicad_modg.append(
+        Text(type='user', text='%R', at=[pinrow_distance/2 + (package_width+switch_width)/4, t_fab + h_fab /2], rotation=90, size=fab_ref_size, layer='F.Fab'))
     kicad_modg.append(
         Text(type='value', text=footprint_name, at=[pinrow_distance / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
-    
+
+
     # create FAB-layer
     bevelRectTL(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], 'F.Fab', lw_fab)
     for sw in range(0, switches):
@@ -322,23 +332,23 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
         pad_type = Pad.TYPE_SMT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_RECT
-        pad_layers = 'F'
+        pad_layers = ['F.Cu', 'F.Mask', 'F.Paste']
     else:
         pad_type = Pad.TYPE_THT
         pad_shape1 = Pad.SHAPE_RECT
         pad_shapeother = Pad.SHAPE_OVAL
-        pad_layers = '*'
+        pad_layers = ['*.Cu', '*.Mask']
     
     for p in range(1, int(pins / 2 + 1)):
         if p == 1:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         else:
             kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                                  layers=pad_layers))
         
         kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
-                              layers=[pad_layers + '.Cu', pad_layers + '.Mask']))
+                              layers=pad_layers))
         
         p1 = p1 + 1
         p2 = p2 + 1
@@ -348,20 +358,20 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     if len(cornerPads) == 2:
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=['F.Cu', 'F.Mask']))
+                              layers=pad_layers))
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + w_fab - cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=['F.Cu', 'F.Mask']))
+                              layers=pad_layers))
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=['F.Cu', 'F.Mask']))
+                              layers=pad_layers))
         kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                               at=[l_fab + w_fab - cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads,
-                              drill=0, layers=['F.Cu', 'F.Mask']))
+                              drill=0, layers=pad_layers))
     
     # add model
     kicad_modg.append(
-        Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
+        Model(filename="${KISYS3DMOD}/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())

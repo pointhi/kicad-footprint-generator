@@ -32,7 +32,7 @@ class RectLine(PolygoneLine):
         * *layer* (``str``) --
           layer on which the rect is drawn
         * *width* (``float``) --
-          width of the outer line
+          width of the outer line (default: None, which means auto detection)
         * *offset* (``Point``, ``float``) --
           offset of the rect line to the specified one
 
@@ -81,7 +81,7 @@ class RectLine(PolygoneLine):
                          {'x': self.end_pos.x, 'y': self.start_pos.y},
                          {'x': self.start_pos.x, 'y': self.start_pos.y}]
 
-        PolygoneLine.__init__(self, polygone=polygone_line, layer=kwargs['layer'], width=kwargs['width'])
+        PolygoneLine.__init__(self, polygone=polygone_line, layer=kwargs['layer'], width=kwargs.get('width'))
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)

@@ -29,9 +29,9 @@ class Circle(Node):
         * *radius* (``float``) --
           radius of the circle
         * *layer* (``str``) --
-          layer on which the circle is drawn
+          layer on which the circle is drawn (default: 'F.SilkS')
         * *width* (``float``) --
-          width of the circle line
+          width of the circle line (default: None, which means auto detection)
 
     :Example:
 
@@ -44,7 +44,7 @@ class Circle(Node):
         self.center_pos = Point(kwargs['center'])
         self.radius = kwargs['radius']
 
-        self.end_pos = {'x': self.center_pos.x+self.radius, 'y': self.center_pos.y}
+        self.end_pos = Point([self.center_pos.x+self.radius, self.center_pos.y])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')

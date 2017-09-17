@@ -31,15 +31,15 @@ class Text(Node):
         * *at* (``Point``) --
           position of text
         * *rotation* (``float``) --
-          rotation of text
+          rotation of text (default: 0)
         * *layer* (``str``) --
-          layer on which the text is drawn
+          layer on which the text is drawn (default: 'F.SilkS')
         * *size* (``Point``) --
-          size of the text
+          size of the text (default: [1, 1])
         * *thickness* (``float``) --
-          thickness of the text
+          thickness of the text (default: 0.15)
         * *hide* (``bool``) --
-          hide text
+          hide text (default: False)
 
     :Example:
 
@@ -55,7 +55,7 @@ class Text(Node):
         self.at = Point(kwargs['at'])
         self.rotation = kwargs.get('rotation', 0)
 
-        self.layer = kwargs['layer']
+        self.layer = kwargs.get('layer', 'F.SilkS')
         self.size = Point(kwargs.get('size', [1, 1]))
         self.thickness = kwargs.get('thickness', 0.15)
 

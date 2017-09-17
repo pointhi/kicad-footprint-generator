@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 BASE_DIR=$(dirname `readlink -f $0`)
 PYTHONPATH=$BASE_DIR
 KICADMODTREE_DIR="$BASE_DIR/KicadModTree"

@@ -32,9 +32,9 @@ class RectFill(Node):
         * *end* (``Point``) --
           end edge of the rect fill
         * *layer* (``str``) --
-          layer on which the rect fill is drawn
+          layer on which the rect fill is drawn (default: 'F.SilkS')
         * *width* (``float``) --
-          width of the filling lines
+          width of the filling lines (default: 0.12)
 
     :Example:
 
@@ -48,7 +48,7 @@ class RectFill(Node):
         self.end_pos = Point(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.width = kwargs.get('width', 0.15)  # TODO: better variation to get line width
+        self.width = kwargs.get('width', 0.12)  # TODO: auto detection
 
         self.virtual_childs = self._createChildNodes(self.start_pos, self.end_pos, self.layer, self.width)
 

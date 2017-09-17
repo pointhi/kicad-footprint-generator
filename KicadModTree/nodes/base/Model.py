@@ -27,11 +27,11 @@ class Model(Node):
         * *filename* (``str``) --
           name of the 3d-model file
         * *at* (``Point``) --
-          position of the model
+          position of the model (default: [0, 0, 0])
         * *scale* (``Point``) --
-          scale of the model
+          scale of the model (default: [1, 1, 1])
         * *rotate* (``Point``) --
-          rotation of the model
+          rotation of the model (default: [0, 0, 0])
 
     :Example:
 
@@ -43,9 +43,9 @@ class Model(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.filename = kwargs['filename']
-        self.at = Point(kwargs['at'])
-        self.scale = Point(kwargs['scale'])
-        self.rotate = Point(kwargs['rotate'])
+        self.at = Point(kwargs.get('at', [0, 0, 0]))
+        self.scale = Point(kwargs.get('scale', [1, 1, 1]))
+        self.rotate = Point(kwargs.get('rotate', [0, 0, 0]))
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
