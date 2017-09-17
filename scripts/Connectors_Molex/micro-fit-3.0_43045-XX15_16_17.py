@@ -121,15 +121,14 @@ if __name__ == '__main__':
 
             ValY = 0
             RefX = 0
-            RefY = round(0 - ((A / 2) + 2), 2)
             #
             # Set general values
             if (socketType == 0):
                 ValY = round(((A / 2) + 2), 2)
-                RefX = 0 - (D / 3)
+                RefY = round(0 - ((A / 2) + 2), 2)
             else:
                 ValY = round(((A / 2) + 4), 2)
-                RefX = 0 - (D / 3)
+                RefY = round(0 - ((A / 2) + 4), 2)
             #
             footprint.append(Text(type='user', text='%R', at=[cx, cy], layer='F.Fab'))
             footprint.append(Text(type='reference', text='REF**', at=[RefX, RefY], layer='F.SilkS'))
@@ -159,7 +158,7 @@ if __name__ == '__main__':
             footprint.append(PadArray(start=[round(0 - (PadDist / 2), 2), round((0 - (B / 2)), 2)], pincount=pinsi, initial=1,    increment=1,  x_spacing=0,  y_spacing=pitch, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[PadSiseY, PadSiseX], drill=[0, 0], layers=Pad.LAYERS_SMT))
             footprint.append(PadArray(start=[round((PadDist / 2), 2),     round((0 - (B / 2)), 2)], pincount=pinsi, initial=pins, increment=-1, x_spacing=0,  y_spacing=pitch, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[PadSiseY, PadSiseX], drill=[0, 0], layers=Pad.LAYERS_SMT))
             
-            #
+            # 
             # Add F.Fab
             #
             LayerA = ['F.Fab', 'F.SilkS', 'F.CrtYd']
@@ -174,63 +173,193 @@ if __name__ == '__main__':
                 points = []
                 
                 if (socketType == 0):
-                    points.append([round(0, 2),                                         round(0 - ((A / 2) + LineDX), 2)])
-                    points.append([round(3.43 + LineDX, 2),                             round(0 - ((A / 2) + LineDX), 2)])
-                    points.append([round(3.43 + LineDX, 2),                             round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                    #
+                    # With drill holes
+                    #
+                    if (i == 0):
+                        points.append([round(0, 2),                         round(0 - ((A / 2) + LineDX), 2)])
+                        points.append([round(3.43 + LineDX, 2),             round(0 - ((A / 2) + LineDX), 2)])
+                        points.append([round((3.43 + LineDX), 2),           round(A / 2 + LineDX, 2)])
+                        points.append([round(0, 2),                         round((A / 2) + LineDX, 2)]) 
+                        points.append([round(0 - (3.94 + LineDX), 2),       round(A / 2 + LineDX, 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),       round(0 - ((A / 2) + LineDX - 1), 2)])
+                        points.append([round(0 - (3.94 + LineDX - 1), 2),   round(0 - ((A / 2) + LineDX), 2)])
+                        points.append([round(0, 2),                         round(0 - ((A / 2) + LineDX), 2)])
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                    #
+                    if (i == 1):
+                        #
+                        # Top part
+                        #
+                        points.append([round(0 - ((D / 2)), 2),       round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(0 - (3.94 + LineDX), 2),       round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(0 - (3.94 + LineDX), 2),       round(0 - ((A / 2) + LineDX), 2)]) 
+                        points.append([round(3.43 + LineDX, 2),             round(0 - ((A / 2) + LineDX), 2)])
+                        points.append([round(3.43 + LineDX, 2),             round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        # Right part
+                        #
+                        points = []
+                        x1 = 3.43 + LineDX
+                        y1 = 0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta)
+                        y1 = y1 + pitch
+                        y2 = y1 - (pitch / 4)
+                        if (pins > 3):
+                            ii = int((pins / 2) - 1)
+                            for np in range(ii):
+                                footprint.append(Line(start=[round(x1, 2), round(y1, 2)], end=[round(x1, 2), round(y2, 2)], layer=Layer, width=LineWidth))
+                                y1 = y1 + pitch
+                                y2 = y1 - pitch / 4
+                        #
+                        # Bottom part
+                        #
+                        points = []
+                        points.append([round((3.43 + LineDX), 2),           round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round((3.43 + LineDX), 2),           round(A / 2 + LineDX, 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),       round(A / 2 + LineDX, 2)]) 
+                        points.append([round(0 - (3.94 + LineDX), 2),       round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        # Left part
+                        #
+                        x1 = 0 - (3.94 + LineDX)
+                        y1 = round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)
+                        y1 = y1 - pitch
+                        y2 = y1 + (pitch / 4)
+                        if (pins > 3):
+                            ii = int((pins / 2) - 1)
+                            for np in range(ii):
+                                footprint.append(Line(start=[round(x1, 2), round(y1, 2)], end=[round(x1, 2), round(y2, 2)], layer=Layer, width=LineWidth))
+                                y1 = y1 - pitch
+                                y2 = y1 + pitch / 4
+                        
+                    #
+                    if (i == 2):
+                        #
+                        # Top part
+                        #
+                        points = []
+                        points.append([round(0, 2),                                 round(0 - ((A / 2) + LineDX), 2)]) 
+                        points.append([round(3.43 + LineDX, 2),                     round(0 - ((A / 2) + LineDX), 2)])
+                        points.append([round(3.43 + LineDX, 2),                     round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(((D / 2) + LineDX + LindeDelta), 2),   round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(((D / 2) + LineDX + LindeDelta), 2),   round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(3.43 + LineDX, 2),                     round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(3.43 + LineDX, 2),                     round(((A / 2) + LineDX), 2)])
+                        points.append([round(0, 2),                                 round(((A / 2) + LineDX), 2)]) 
+                        points.append([round(0 - (3.94 + LineDX), 2),               round(((A / 2) + LineDX), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),               round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),   round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),   round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(0 - (3.94 + LineDX), 2),               round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),               round(0 - ((A / 2) + LineDX), 2)])
+                        points.append([round(0, 2),                                 round(0 - ((A / 2) + LineDX), 2)])
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        
                 else:
+                
                     if (i == 0):
                         # Pass throught the top pad
                         points.append([round(0, 2),                                     round(0 - ((C / 2) - 2.0 + LineDX), 2)])
                         points.append([round(3.43 + LineDX, 2),                         round(0 - ((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(3.43 + LineDX, 2),                                 round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        points = []
+                        # Pass throught the right pad
+                        points.append([round(3.43 + LineDX, 2),                        round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        # Pass throught the bottom pad
+                        points.append([round(3.43 + LineDX, 2),                        round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(3.43 + LineDX, 2),                        round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                      round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        points = []
+                        # Draw line through left pad
+                        points.append([round(0 - (3.94 + LineDX), 2),               round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        # Make the chamfer
+                        points.append([round(0 - (3.94 + LineDX), 2),               round(0 - ((A / 2) + LineDX - 1), 2)]);
+                        points.append([round(0 - (3.94 + LineDX - 1), 2),           round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
+                        points.append([round(0, 2),                                 round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
+                        
                     if (i == 1):
                         # Draw to the top pad
-                        points.append([round(1.65 / 2 + LineDX + LindeDelta, 2),        round(0 - ((C / 2) - 2.0 + LineDX), 2)])
-                        points.append([round(3.43 + LineDX, 2),                         round(0 - ((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(1.65 / 2 + LineDX + LindeDelta, 2),    round(0 - ((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(3.43 + LineDX, 2),                     round(0 - ((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(3.43 + LineDX, 2),                     round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        # Right part
+                        #
+                        points = []
+                        x1 = 3.43 + LineDX
+                        y1 = 0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta)
+                        y1 = y1 + pitch
+                        y2 = y1 - (pitch / 4)
+                        if (pins > 3):
+                            ii = int((pins / 2) - 1)
+                            for np in range(ii):
+                                footprint.append(Line(start=[round(x1, 2), round(y1, 2)], end=[round(x1, 2), round(y2, 2)], layer=Layer, width=LineWidth))
+                                y1 = y1 + pitch
+                                y2 = y1 - pitch / 4
+                        
+                        
+                        #
+                        points = []
+                        # Draw to the right pad
+                        points.append([round((3.43 + LineDX), 2),                   round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        # Draw to the bottom pad
+                        points.append([round(3.43 + LineDX, 2),                     round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(3.43 + LineDX, 2),                     round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(1.65 / 2 + LineDX + LindeDelta, 2),    round(((C / 2) - 2.0 + LineDX), 2)])
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        points = []
+                        points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                      round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        points = []
+                        # Draw line to left pad
+                        points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
+                        points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(0 - ((C / 2) - 2.0 + LineDX), 2)])
+                        #
+                        # Left part
+                        #
+                        x1 = 0 - (3.94 + LineDX)
+                        y1 = round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)
+                        y1 = y1 - pitch
+                        y2 = y1 + (pitch / 4)
+                        if (pins > 3):
+                            ii = int((pins / 2) - 1)
+                            for np in range(ii):
+                                footprint.append(Line(start=[round(x1, 2), round(y1, 2)], end=[round(x1, 2), round(y2, 2)], layer=Layer, width=LineWidth))
+                                y1 = y1 - pitch
+                                y2 = y1 + pitch / 4
+                        
                     elif (i == 2):
                         # Draw around the top pad
                         points.append([round(0, 2),                                     round(0 - ((C / 2) + LineDX + LindeDelta), 2)])
                         points.append([round(1.65 / 2 + LineDX + LindeDelta, 2),        round(0 - ((C / 2) + LineDX + LindeDelta), 2)])
                         points.append([round(1.65 / 2 + LineDX + LindeDelta, 2),        round(0 - ((C / 2) - 2.0 + LineDX), 2)])
                         points.append([round(3.43 + LineDX, 2),                         round(0 - ((C / 2) - 2.0 + LineDX), 2)])
-
-                points.append([round(3.43 + LineDX, 2),                                 round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-
-                footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
-                points = []
-                #
-                #
-                if (i == 0):
-                    # Pass throught the right pad
-                    points.append([round(3.43 + LineDX, 2),                        round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                if (i == 1):
-                    # Draw to the right pad
-                    points.append([round((3.43 + LineDX), 2),                          round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                elif (i == 2):
-                    # Draw around the right pad
-                    points.append([round(3.43 + LineDX, 2),                        round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                    points.append([round(((D / 2) + LineDX + LindeDelta), 2),          round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                    points.append([round(((D / 2) + LineDX + LindeDelta), 2),          round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
-                    points.append([round((3.43 + LineDX), 2),                          round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                 
-                #
-                #
-                if (socketType == 0):
-                    points.append([round((3.43 + LineDX), 2),                      round(A / 2 + LineDX, 2)])
-                    points.append([round(0, 2),                                    round((A / 2) + LineDX, 2)]) 
-                    points.append([round(0 - (3.94 + LineDX), 2),                  round((A / 2) + LineDX, 2)])
-                else:
-                    if (i == 0):
-                        # Pass throught the bottom pad
-                        points.append([round(3.43 + LineDX, 2),                        round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                        points.append([round(3.43 + LineDX, 2),                        round(((C / 2) - 2.0 + LineDX), 2)])
-                    if (i == 1):
-                        # Draw to the bottom pad
-                        points.append([round(3.43 + LineDX, 2),                        round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                        points.append([round(3.43 + LineDX, 2),                        round(((C / 2) - 2.0 + LineDX), 2)])
-                        points.append([round(1.65 / 2 + LineDX + LindeDelta, 2),       round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(3.43 + LineDX, 2),                                 round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
                         footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
                         points = []
-                    elif (i == 2):
+                        # Draw around the right pad
+                        points.append([round(3.43 + LineDX, 2),                        round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(((D / 2) + LineDX + LindeDelta), 2),          round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(((D / 2) + LineDX + LindeDelta), 2),          round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round((3.43 + LineDX), 2),                          round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
                         # Draw around the bottom pad
                         points.append([round(3.43 + LineDX, 2),                        round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
                         points.append([round(3.43 + LineDX, 2),                        round(((C / 2) - 2.0 + LineDX), 2)])
@@ -238,59 +367,24 @@ if __name__ == '__main__':
                         points.append([round(1.65 / 2 + LineDX + LindeDelta, 2),       round(((C / 2) + LineDX + LindeDelta), 2)])
                         points.append([round(0, 2),                                    round(((C / 2) + LineDX + LindeDelta), 2)])
                         points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(((C / 2) + LineDX + LindeDelta), 2)])
-                
-                    points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(((C / 2) - 2.0 + LineDX), 2)])
-                    points.append([round(0 - (3.94 + LineDX), 2),                  round(((C / 2) - 2.0 + LineDX), 2)])
-
-                #
-                points.append([round(0 - (3.94 + LineDX), 2),                      round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
-                #
-                footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
-                points = []
-                #
-                #
-                if (i == 0):
-                    # Draw line through left pad
-                    points.append([round(0 - (3.94 + LineDX), 2),                  round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
-                if (i == 1):
-                    # Draw line to left pad
-                    points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                    points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
-                elif (i == 2):
-                    # Draw line around left pad
-                    points.append([round(0 - (3.94 + LineDX), 2),                  round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
-                    points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),  round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                    points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                    points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
-                    
-                if (socketType == 0):
-                    if (i == 0):
-                        # Make the chamfer
-                        points.append([round(0 - (3.94 + LineDX), 2),              round(0 - ((A / 2) + LineDX - 1), 2)]);
-                        points.append([round(0 - (3.94 + LineDX - 1), 2),          round(0 - ((A / 2) + LineDX), 2)]);
-                    else:
-                        points.append([round(0 - (3.94 + LineDX), 2),              round(0 - ((A / 2) + LineDX), 2)]);
-                        
-                    points.append([round(0, 2),                                    round(0 - ((A / 2) + LineDX), 2)]);
-                else:
-                    if (i == 0):
-                        # Make the chamfer
-                        points.append([round(0 - (3.94 + LineDX), 2),              round(0 - ((A / 2) + LineDX - 1), 2)]);
-                        points.append([round(0 - (3.94 + LineDX - 1), 2),          round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
-                        points.append([round(0, 2),                                round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
-                    elif (i == 1):
-                        # 
-                        points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
-                        points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
-                        points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(0 - ((C / 2) - 2.0 + LineDX), 2)])
-                    else:
+                        points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(((C / 2) - 2.0 + LineDX), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                      round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                        #
+                        points = []
+                        # Draw line around left pad
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)]) 
+                        points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),  round(((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(0 - ((D / 2) + LineDX + LindeDelta), 2),  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
+                        points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((B / 2) + (PadSiseX / 2) + LineDX + LindeDelta), 2)])
                         points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
                         points.append([round(0 - (3.94 + LineDX), 2),                  round(0 - ((C / 2) - 2.0 + LineDX), 2)]);
                         points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(0 - ((C / 2) - 2.0 + LineDX), 2)])
                         points.append([round(0 - (1.65 / 2 + LineDX + LindeDelta), 2), round(0 - ((C / 2) + LineDX + LindeDelta), 2)])
                         points.append([round(0, 2),                                    round(0 - ((C / 2) + LineDX + LindeDelta), 2)])
                 
-                footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
+                    footprint.append(PolygoneLine(polygone=points, layer=Layer, width=LineWidth))
             
             #
             
