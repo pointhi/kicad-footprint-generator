@@ -135,7 +135,7 @@ if __name__ == '__main__':
             footprint.append(PadArray(start=[round((0 - (B / 2)), 2), round(0 - (PadDist / 2), 2)], pincount=pinsi, initial=1,    increment=1,  x_spacing=pitch,  y_spacing=0, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[PadSiseX, PadSiseY], drill=[0, 0], layers=Pad.LAYERS_SMT))
             footprint.append(PadArray(start=[round((0 - (B / 2)), 2), round((PadDist / 2), 2)],     pincount=pinsi, initial=pins, increment=-1, x_spacing=pitch,  y_spacing=0, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[PadSiseX, PadSiseY], drill=[0, 0], layers=Pad.LAYERS_SMT))
             #
-            
+           
             #
             # Add F.Fab
             #
@@ -206,11 +206,16 @@ if __name__ == '__main__':
                 y1 = y1
                 points.append([round(x1, 2), round(y1, 2)])
                 #
+                if (i == 0):
+                    x1 = 0
+                    y1 = y1
+                    points.append([round(x1, 2), round(y1, 2)])
+
                 if (i == 1):
                     ttx1 = x1
                     tty1 = ((PadDist / 2) + (PadSiseY / 2) + LineDX + LindeDelta)
                     
-                if (i == 0) or (i == 2):
+                if (i == 2):
                     x1 = x1
                     y1 = ((PadDist / 2) + (PadSiseY / 2) + LineDX + LindeDelta)
                     ttx1 = x1
@@ -232,15 +237,15 @@ if __name__ == '__main__':
                 if (i == 0):
                     # Add pin 1 marker
                     tt = len(points2)
-                    p0 = points2[tt - 1]
+                    ps = points2[tt - 1]
                     p1 = points2[tt - 2]
-                    p2 = points2[tt - 3]
-                    p2 = [p2[0] - 1, p2[1]]
-                    pp2 = [p1[0], p2[1] + 1]
-                    points2[tt - 3] = p2
-                    points2[tt - 2] = pp2
-                    points2[tt - 1] = p1
-                    points2.append(p0)
+                    p2 = [(0 - (B / 2)) - 1, p1[1]]
+                    p3 = [(0 - (B / 2)), p1[1] - 1]
+                    p4 = [(0 - (B / 2)) + 1, p1[1]]
+                    points2[tt - 2] = p2
+                    points2[tt - 1] = p3
+                    points2.append(p4)
+                    points2.append(ps)
                 elif (i == 1):
                     points2.append([round(0 - ttx1, 2), round(tty1, 2)])
                     
