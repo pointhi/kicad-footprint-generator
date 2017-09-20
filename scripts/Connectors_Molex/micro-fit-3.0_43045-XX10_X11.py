@@ -117,7 +117,7 @@ if __name__ == '__main__':
             footprint.append(Text(type='reference', text='REF**', at=[RefX, RefY], layer='F.SilkS'))
             footprint.append(Text(type='value', text=fp_name, at=[0, ValY], layer='F.Fab'))
             # Add 3D model
-            footprint.append(Model(filename="${KISYS3DMOD}/Connectors_Molex.3dshapes/" + fp_name + ".wrl", at=[0,0], scale=[0,0], rotate=[0,0,0]))
+            footprint.append(Model(filename="${KISYS3DMOD}/Connectors_Molex.3dshapes/" + fp_name + ".wrl", at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
             #
             # Add solder nails
             #
