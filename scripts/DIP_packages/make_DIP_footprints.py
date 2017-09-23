@@ -108,13 +108,28 @@ if __name__ == '__main__':
             socket_width, socket_height, 0, ["SMDSocket", "SmallPads"])
 
     # special SMD footprints
-    smd_pins=[4,6,8,10,14,16]
+    smd_pins=[4,6,8,10,12,14,16,18,20,22,24,32]
     pad_smd = [2, 1.78]
     smd_pinrow_distances=[7.62, 9.53, 11.48]
     package_width=6.35
     for p in smd_pins:
         for prd in smd_pinrow_distances:
-            makeDIP(p, rm, prd, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, True,  0,0,0, ["SMD"])
+            makeDIP(p, rm, prd, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, True,  0,0,0, [], "Housings_DIP", [0, 0, 0], [1, 1, 1], [0, 0, 0], 'SMDIP', 'surface-mounted (SMD) DIP', 'SMD DIP DIL PDIP SMDIP')
+
+    smd_pins=[24,28,32,40,42,78,64]
+    pad_smd = [2, 1.78]
+    smd_pinrow_distances=[15.24]
+    package_width=14.73
+    for p in smd_pins:
+        for prd in smd_pinrow_distances:
+            makeDIP(p, rm, prd, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, True,  0,0,0, [], "Housings_DIP", [0, 0, 0], [1, 1, 1], [0, 0, 0], 'SMDIP', 'surface-mounted (SMD) DIP', 'SMD DIP DIL PDIP SMDIP')
+    smd_pins=[40]
+    pad_smd = [2, 1.78]
+    smd_pinrow_distances=[25.24]
+    package_width=24.89
+    for p in smd_pins:
+        for prd in smd_pinrow_distances:
+            makeDIP(p, rm, prd, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, True,  0,0,0, [], "Housings_DIP", [0, 0, 0], [1, 1, 1], [0, 0, 0], 'SMDIP', 'surface-mounted (SMD) DIP', 'SMD DIP DIL PDIP SMDIP')
 
 
     # DIP-switches:
