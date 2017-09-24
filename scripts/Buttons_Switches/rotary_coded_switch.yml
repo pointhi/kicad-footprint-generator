@@ -1,0 +1,20 @@
+Nidec_Copal_SH-7010A:
+  style: J-hook
+  pad_width: 2.5
+  pad_x_spacing: 6.5
+Nidec_Copal_SH-7010B:
+  style: gull wing
+  pad_width: 3.0
+  pad_x_spacing: 8.0
+Nidec_Copal_SH-7010C:
+  style: through-hole
+  thru_hole: true
+  pad_height: 1.9
+  pad_width: 2.1
+  pad_x_spacing: 7.62
+  drill_size: 1.0
+Nidec_Copal_SH-7040B:
+  style: gull wing, Gray code
+  gray: true
+  pad_width: 3.0
+  pad_x_spacing: 8.0
