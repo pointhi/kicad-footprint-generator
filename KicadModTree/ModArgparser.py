@@ -35,6 +35,7 @@ class ModArgparser(object):
 
     :param footprint_function:
         A function which is called for every footprint we want to generate
+    :type footprint_function: ``function reference``
 
     :Example:
 
