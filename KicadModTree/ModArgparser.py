@@ -61,7 +61,7 @@ class ModArgparser(object):
             name of the argument
         :param \**kwargs:
             See below
-        :type name: str
+        :type name: ``str``
 
         :Keyword Arguments:
             * *type* (``type``) --
