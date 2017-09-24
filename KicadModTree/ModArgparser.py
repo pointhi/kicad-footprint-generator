@@ -55,12 +55,13 @@ class ModArgparser(object):
         self._params = {}
 
     def add_parameter(self, name, **kwargs):
-        r"""Add a paramter to the ModArgparser
+        r"""Add a parameter to the ModArgparser
 
         :param name:
             name of the argument
         :param \**kwargs:
             See below
+        :type name: str
 
         :Keyword Arguments:
             * *type* (``type``) --
