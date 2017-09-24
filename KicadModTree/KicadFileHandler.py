@@ -28,7 +28,7 @@ DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.12,
 DEFAULT_WIDTH = 0.15
 
 
-def get_layer_width(layer, width=None):
+def _get_layer_width(layer, width=None):
     if width is not None:
         return width
     else:
@@ -36,13 +36,34 @@ def get_layer_width(layer, width=None):
 
 
 class KicadFileHandler(FileHandler):
-    '''
-    Write our generated Tree into a .kicad_mod file
-    '''
+    r"""Implementation of the FileHandler for .kicad_mod files
+
+    :param kicad_mod:
+        Main object representing the footprint
+    :type kicad_mod: ``KicadModTree.Footprint``
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> kicad_mod = Footprint("example_footprint")
+    >>> file_handler = KicadFileHandler(kicad_mod)
+    >>> file_handler.writeFile('example_footprint.kicad_mod')
+    """
+
     def __init__(self, kicad_mod):
         FileHandler.__init__(self, kicad_mod)
 
     def serialize(self):
+        r"""Get a valid string representation of the footprint in the .kicad_mod format
+
+        :Example:
+
+        >>> from KicadModTree import *
+        >>> kicad_mod = Footprint("example_footprint")
+        >>> file_handler = KicadFileHandler(kicad_mod)
+        >>> print(file_handler.serialize())
+        """
+
         sexpr = ['module', self.kicad_mod.name,
                  ['layer', 'F.Cu'],
                  ['tedit', formatTimestamp()],
@@ -61,11 +82,11 @@ class KicadFileHandler(FileHandler):
             sexpr.append(['attr', self.kicad_mod.attribute])
             sexpr.append(SexprSerializer.NEW_LINE)
 
-        sexpr.extend(self.serializeTree())
+        sexpr.extend(self._serializeTree())
 
         return str(SexprSerializer(sexpr))
 
-    def serializeTree(self):
+    def _serializeTree(self):
         nodes = self.kicad_mod.serialize()
 
         grouped_nodes = {}
@@ -84,13 +105,13 @@ class KicadFileHandler(FileHandler):
         if 'Text' in grouped_nodes:
             reference_nodes = list(filter(lambda node: node.type == 'reference', grouped_nodes['Text']))
             for node in reference_nodes:
-                sexpr.append(self.serialize_Text(node))
+                sexpr.append(self._serialize_Text(node))
                 sexpr.append(SexprSerializer.NEW_LINE)
                 grouped_nodes['Text'].remove(node)
 
             value_nodes = list(filter(lambda node: node.type == 'value', grouped_nodes['Text']))
             for node in value_nodes:
-                sexpr.append(self.serialize_Text(node))
+                sexpr.append(self._serialize_Text(node))
                 sexpr.append(SexprSerializer.NEW_LINE)
                 grouped_nodes['Text'].remove(node)
 
@@ -107,7 +128,7 @@ class KicadFileHandler(FileHandler):
         # serialize 3D Models at the end
         if grouped_nodes.get('Model'):
             for node in grouped_nodes.get('Model'):
-                sexpr.append(self.serialize_Model(node))
+                sexpr.append(self._serialize_Model(node))
                 sexpr.append(SexprSerializer.NEW_LINE)
 
         return sexpr
@@ -117,14 +138,14 @@ class KicadFileHandler(FileHandler):
         call the corresponding method to serialize the node
         '''
         method_type = node.__class__.__name__
-        method_name = "serialize_{0}".format(method_type)
+        method_name = "_serialize_{0}".format(method_type)
         if hasattr(self, method_name):
             return getattr(self, method_name)(node)
         else:
             exception_string = "{name} (node) not found, cannot serialized the node of type {type}"
             raise NotImplementedError(exception_string.format(name=method_name, type=method_type))
 
-    def serialize_Arc(self, node):
+    def _serialize_Arc(self, node):
         # in KiCAD, some file attributes of Arc are named not in the way of their real meaning
         center_pos = node.getRealPosition(node.center_pos)
         end_pos = node.getRealPosition(node.start_pos)
@@ -134,12 +155,12 @@ class KicadFileHandler(FileHandler):
                  ['end', end_pos.x, end_pos.y],
                  ['angle', '{1f}'.format(node.angle)],
                  ['layer', node.layer],
-                 ['width', get_layer_width(node.layer, node.width)]
+                 ['width', _get_layer_width(node.layer, node.width)]
                 ]  # NOQA
 
         return sexpr
 
-    def serialize_Circle(self, node):
+    def _serialize_Circle(self, node):
         center_pos = node.getRealPosition(node.center_pos)
         end_pos = node.getRealPosition(node.end_pos)
 
@@ -147,12 +168,12 @@ class KicadFileHandler(FileHandler):
                  ['center', center_pos.x, center_pos.y],
                  ['end', end_pos.x, end_pos.y],
                  ['layer', node.layer],
-                 ['width', get_layer_width(node.layer, node.width)]
+                 ['width', _get_layer_width(node.layer, node.width)]
                 ]  # NOQA
 
         return sexpr
 
-    def serialize_Line(self, node):
+    def _serialize_Line(self, node):
         start_pos = node.getRealPosition(node.start_pos)
         end_pos = node.getRealPosition(node.end_pos)
 
@@ -160,12 +181,12 @@ class KicadFileHandler(FileHandler):
                  ['start', start_pos.x, start_pos.y],
                  ['end', end_pos.x, end_pos.y],
                  ['layer', node.layer],
-                 ['width', get_layer_width(node.layer, node.width)]
+                 ['width', _get_layer_width(node.layer, node.width)]
                 ]  # NOQA
 
         return sexpr
 
-    def serialize_Text(self, node):
+    def _serialize_Text(self, node):
         sexpr = ['fp_text', node.type, node.text]
 
         position, rotation = node.getRealPosition(node.at, node.rotation)
@@ -190,7 +211,7 @@ class KicadFileHandler(FileHandler):
 
         return sexpr
 
-    def serialize_Model(self, node):
+    def _serialize_Model(self, node):
         sexpr = ['model', node.filename,
                  SexprSerializer.NEW_LINE,
                  ['at', ['xyz', node.at.x, node.at.y, node.at.z]],
@@ -203,7 +224,7 @@ class KicadFileHandler(FileHandler):
 
         return sexpr
 
-    def serialize_Pad(self, node):
+    def _serialize_Pad(self, node):
         sexpr = ['pad', node.number, node.type, node.shape]
 
         position, rotation = node.getRealPosition(node.at, node.rotation)

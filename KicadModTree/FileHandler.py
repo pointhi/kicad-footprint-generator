@@ -15,17 +15,38 @@
 
 
 class FileHandler(object):
-    '''
-    implement basic methodes to read and write footprints
-    '''
+    r"""some basic methods to write footprints, and which is the base class of footprint writer implementations
+
+    :param kicad_mod:
+        Main object representing the footprint
+    :type kicad_mod: ``KicadModTree.Footprint``
+
+    :Example:
+
+    >>> from KicadModTree import *
+    >>> kicad_mod = Footprint("example_footprint")
+    >>> file_handler = KicadFileHandler(kicad_mod)  # KicadFileHandler is a implementation of FileHandler
+    >>> file_handler.writeFile('example_footprint.kicad_mod')
+    """
 
     def __init__(self, kicad_mod):
         self.kicad_mod = kicad_mod
 
     def writeFile(self, filename):
-        '''
-        Write the output of serialize to a file
-        '''
+        r"""Write the output of FileHandler.serialize to a file
+
+        :param filename:
+            path of the output file
+        :type filename: ``str``
+
+        :Example:
+
+        >>> from KicadModTree import *
+        >>> kicad_mod = Footprint("example_footprint")
+        >>> file_handler = KicadFileHandler(kicad_mod)  # KicadFileHandler is a implementation of FileHandler
+        >>> file_handler.writeFile('example_footprint.kicad_mod')
+        """
+
         f = open(filename, "w", newline='')
 
         output = self.serialize()
@@ -34,27 +55,14 @@ class FileHandler(object):
         f.close()
 
     def serialize(self):
-        '''
-        serialize a KicadModTree object
-        '''
+        r"""Get a valid string representation of the footprint in the specified format
+
+        :Example:
+
+        >>> from KicadModTree import *
+        >>> kicad_mod = Footprint("example_footprint")
+        >>> file_handler = KicadFileHandler(kicad_mod)  # KicadFileHandler is a implementation of FileHandler
+        >>> print(file_handler.serialize())
+        """
+
         raise NotImplementedError("serialize has to be implemented by child class")
-
-        return None
-
-    def readFile(self, filename):
-        '''
-        Read a footprint file and parse it
-        '''
-        f = open(filename, "r")
-
-        input = f.read()
-
-        return self.unserialize(input)
-
-    def unserialize(self, input):
-        '''
-        parse a footprint and export it to a KicadModTree object
-        '''
-        raise NotImplementedError("serialize has to be implemented by child class")
-
-        return KicadModTree()
