@@ -42,7 +42,7 @@ class Pad(Node):
         * *drill* (``float``, ``Point``) --
           drill-size of the pad
         * *solder_paste_margin_ratio* (``float``) --
-          solder paste margin ratio of the pad
+          solder paste margin ratio of the pad (default: 0)
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
 
