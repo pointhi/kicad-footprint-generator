@@ -43,6 +43,15 @@ if __name__ == '__main__':
         makeDIP(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smdsocket, True, socket_width,socket_height,1.27, ["SMDSocket","LongPads"])
         makeDIP(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smdsocket_small, True,socket_width, socket_height, 0, ["SMDSocket", "SmallPads"])
 
+    # narrow 7.62 DIPs
+    pins=[4,6,8,10,12,14,16,]
+    pinrow_distance=10.16
+    package_width=6.35
+    socket_width=pinrow_distance+2.54
+    for p in pins:
+        makeDIP(p,rm,pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad,False,0,0,0)
+        makeDIP(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_large, False, 0,0,0, ["LongPads"])
+
     # mid 10.16 DIPs
     pins=[22,24]
     pinrow_distance=10.16

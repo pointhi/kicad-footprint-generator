@@ -56,16 +56,16 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     hasSocket = False
     if (socket_height > 0 and socket_width > 0):
         hasSocket = True
-        h_fabs = socket_height
+        h_fabs = max(socket_height,h_slk)
         w_fabs = socket_width
         l_fabs = (pinrow_distance - w_fabs) / 2
         t_fabs = ((pins / 2 - 1) * rm - h_fabs) / 2
-        h_slks = socket_height + 2 * slk_offset
-        w_slks = max(socket_width, pinrow_distance + pad[0]) + 2 * slk_offset
+        h_slks = h_fabs + 2 * slk_offset
+        w_slks = max(w_fabs, pinrow_distance + pad[0] + 6 * slk_offset) + 2 * slk_offset
         l_slks = (pinrow_distance - w_slks) / 2
         t_slks = ((pins / 2 - 1) * rm - h_slks) / 2
-        w_crt = max(w_crt, w_slks + 2 * crt_offset)
-        h_crt = max(h_crt, h_slks + 2 * crt_offset)
+        w_crt = max(w_crt, w_fabs + 2 * crt_offset)
+        h_crt = max(h_crt, h_fabs + 2 * crt_offset)
     
     l_crt = pinrow_distance / 2 - w_crt / 2
     t_crt = (pins / 2 - 1) * rm / 2 - h_crt / 2
