@@ -15,8 +15,13 @@
 
 import sys
 import argparse
-import yaml
 import csv
+
+try:
+    import yaml
+    YAML_AVAILABLE = True
+except ImportError:
+    YAML_AVAILABLE = False
 
 
 class ParserException(Exception):
@@ -133,6 +138,10 @@ class ModArgparser(object):
                 print("unexpected filetype: {0}".format(filepath))
 
     def _parse_and_execute_yml(self, filepath):
+        if not YAML_AVAILABLE:
+            print("pyyaml not available!")
+            sys.exit(1)
+
         with open(filepath, 'r') as stream:
             try:
                 parsed = yaml.load(stream)  # parse file
@@ -190,6 +199,10 @@ class ModArgparser(object):
             return "??"
 
     def _print_example_yml(self):
+        if not YAML_AVAILABLE:
+            print("pyyaml not available!")
+            sys.exit(1)
+
         data = {'footprint_required': self._create_example_data_required(),
                 'footprint_full': self._create_example_data_full()}
         print(yaml.dump(data, default_flow_style=False))
