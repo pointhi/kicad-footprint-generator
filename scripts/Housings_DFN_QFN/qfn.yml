@@ -1,0 +1,84 @@
+SiliconLabs_QFN-20-1EP_3x3mm_Pitch0.5mm_ThermalVias:
+  description: "20-Lead Plastic Quad Flat, No Lead Package - 3x3 mm Body [QFN] with corner pads and thermal vias; see figure 8.2 of https://www.silabs.com/documents/public/data-sheets/efm8bb1-datasheet.pdf"
+  pkg_width: 3.0
+  pkg_height: 3.0
+  pitch: 0.5
+  n_horz_pads: 4
+  n_vert_pads: 4
+  pad_width: 0.9
+  pad_height: 0.3
+  pad_h_distance: 3.1
+  pad_v_distance: 3.1
+  corner_pads: true
+  corner_pad_size: 0.3
+  corner_pad_h_distance: 2.5
+  corner_pad_v_distance: 2.5
+  center_pad: true
+  center_pad_width: 1.8
+  center_pad_height: 1.8
+  center_pad_h_div: 2
+  center_pad_v_div: 2
+  paste_margin_ratio: -0.2
+  thermal_vias: true
+  via_size: 0.3
+QFN-48-1EP_6x6mm_Pitch0.4mm_ThermalVias:
+  description: "48-Lead Plastic Quad Flat, No Lead Package - 6x6 mm Body [QFN] with thermal vias; see figure 7.2 of https://static.dev.sifive.com/SiFive-FE310-G000-datasheet-v1.0.4.pdf"
+  pkg_width: 6.0
+  pkg_height: 6.0
+  pitch: 0.4
+  n_horz_pads: 12
+  n_vert_pads: 12
+  pad_width: 0.65
+  pad_height: 0.2
+  pad_h_distance: 5.85
+  pad_v_distance: 5.85
+  corner_pads: false
+  center_pad: true
+  center_pad_width: 4.4
+  center_pad_height: 4.4
+  center_pad_h_div: 3
+  center_pad_v_div: 3
+  paste_margin_ratio: -0.2
+  thermal_vias: true
+  via_size: 0.3
+SiliconLabs_QFN-20-1EP_3x3mm_Pitch0.5mm:
+  description: "20-Lead Plastic Quad Flat, No Lead Package - 3x3 mm Body [QFN] with corner pads; see figure 8.2 of https://www.silabs.com/documents/public/data-sheets/efm8bb1-datasheet.pdf"
+  pkg_width: 3.0
+  pkg_height: 3.0
+  pitch: 0.5
+  n_horz_pads: 4
+  n_vert_pads: 4
+  pad_width: 0.9
+  pad_height: 0.3
+  pad_h_distance: 3.1
+  pad_v_distance: 3.1
+  corner_pads: true
+  corner_pad_size: 0.3
+  corner_pad_h_distance: 2.5
+  corner_pad_v_distance: 2.5
+  center_pad: true
+  center_pad_width: 1.8
+  center_pad_height: 1.8
+  center_pad_h_div: 2
+  center_pad_v_div: 2
+  paste_margin_ratio: -0.2
+  thermal_vias: false
+QFN-48-1EP_6x6mm_Pitch0.4mm:
+  description: "48-Lead Plastic Quad Flat, No Lead Package - 6x6 mm Body [QFN]; see figure 7.2 of https://static.dev.sifive.com/SiFive-FE310-G000-datasheet-v1.0.4.pdf"
+  pkg_width: 6.0
+  pkg_height: 6.0
+  pitch: 0.4
+  n_horz_pads: 12
+  n_vert_pads: 12
+  pad_width: 0.65
+  pad_height: 0.2
+  pad_h_distance: 5.85
+  pad_v_distance: 5.85
+  corner_pads: false
+  center_pad: true
+  center_pad_width: 4.4
+  center_pad_height: 4.4
+  center_pad_h_div: 3
+  center_pad_v_div: 3
+  paste_margin_ratio: -0.2
+  thermal_vias: false
