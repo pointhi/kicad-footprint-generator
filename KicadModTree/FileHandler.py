@@ -13,6 +13,9 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+import sys
+import io
+
 
 class FileHandler(object):
     r"""some basic methods to write footprints, and which is the base class of footprint writer implementations
@@ -47,12 +50,16 @@ class FileHandler(object):
         >>> file_handler.writeFile('example_footprint.kicad_mod')
         """
 
-        f = open(filename, "w", newline='')
+        with io.open(filename, "w", newline='\n') as f:
+            output = self.serialize()
 
-        output = self.serialize()
-        f.write(output)
+            # convert to unicode if running python2
+            if sys.version_info[0] == 2 and type(output) != unicode:
+                output = unicode(output, "utf-8")
 
-        f.close()
+            f.write(output)
+
+            f.close()
 
     def serialize(self):
         r"""Get a valid string representation of the footprint in the specified format
