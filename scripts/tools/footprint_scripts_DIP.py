@@ -31,7 +31,7 @@ from drawing_tools import *  # NOQA
 #       <----RM---->
 def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bottom, ddrill, pad, smd_pads=False,
             socket_width=0, socket_height=0, socket_pinrow_distance_offset=0, tags_additional=[],
-            lib_name="Housings_DIP", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0]):
+            lib_name="Housings_DIP", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], DIPName='DIP', DIPDescription='though-hole mounted DIP', DIPTags='THT DIP DIL PDIP'):
     pinrow_distance = pinrow_distance_in + socket_pinrow_distance_offset
     h_fab = (pins / 2 - 1) * rm + overlen_top + overlen_bottom
     w_fab = package_width
@@ -47,7 +47,7 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
         t_fabs = (h_fabs - (pins / 2 - 1) * rm) / 2
     
     h_slk = h_fab + 2 * slk_offset
-    w_slk = min(w_fab + 2 * slk_offset, pinrow_distance - pad[0] - 4 * slk_offset)
+    w_slk = min(w_fab + 2 * slk_offset, pinrow_distance - pad[0] - 12 * slk_offset)
     l_slk = (pinrow_distance - w_slk) / 2
     t_slk = -overlen_top - slk_offset
     w_crt = max(package_width, pinrow_distance + pad[0]) + 2 * crt_offset
@@ -56,24 +56,25 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     hasSocket = False
     if (socket_height > 0 and socket_width > 0):
         hasSocket = True
-        h_fabs = socket_height
+        h_fabs = max(socket_height,h_slk)
         w_fabs = socket_width
         l_fabs = (pinrow_distance - w_fabs) / 2
         t_fabs = ((pins / 2 - 1) * rm - h_fabs) / 2
-        h_slks = socket_height + 2 * slk_offset
-        w_slks = max(socket_width, pinrow_distance + pad[0]) + 2 * slk_offset
+        h_slks = h_fabs + 2 * slk_offset
+        w_slks = max(w_fabs, pinrow_distance + pad[0] + 6 * slk_offset) + 2 * slk_offset
         l_slks = (pinrow_distance - w_slks) / 2
         t_slks = ((pins / 2 - 1) * rm - h_slks) / 2
-        w_crt = max(w_crt, w_slks + 2 * crt_offset)
-        h_crt = max(h_crt, h_slks + 2 * crt_offset)
+        w_crt = max(w_crt, w_fabs + 2 * crt_offset)
+        h_crt = max(h_crt, h_fabs + 2 * crt_offset)
     
     l_crt = pinrow_distance / 2 - w_crt / 2
     t_crt = (pins / 2 - 1) * rm / 2 - h_crt / 2
     
-    footprint_name = "DIP-{0}_W{1}mm".format(pins, round(pinrow_distance, 2))
-    description = "{0}-lead dip package, row spacing {1} mm ({2} mils)".format(pins, round(pinrow_distance, 2),
-                                                                               int(pinrow_distance / 2.54 * 100))
-    tags = "DIL DIP PDIP {0}mm {1}mm {2}mil".format(rm, pinrow_distance, int(pinrow_distance / 2.54 * 100))
+    footprint_name = DIPName+"-{0}_W{1}mm".format(pins, round(pinrow_distance, 2))
+    description = "{0}-lead {3} package, row spacing {1} mm ({2} mils)".format(pins, round(pinrow_distance, 2),
+                                                                               int(pinrow_distance / 2.54 * 100),
+																			   DIPDescription)
+    tags = DIPTags+" {0}mm {1}mm {2}mil".format(rm, pinrow_distance, int(pinrow_distance / 2.54 * 100))
     if (len(tags_additional) > 0):
         for t in tags_additional:
             footprint_name = footprint_name + "_" + t
