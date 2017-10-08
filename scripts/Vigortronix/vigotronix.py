@@ -16,6 +16,7 @@ along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/
 '''
 
 
+
 #sizes,shapes,etc]
 #prefix, serie, Type, W, L, H, PDiam, pin1x, pin1y, pin2x, pin2y, pin3x, pin3y, pin4x, pin4y
 converters = [
