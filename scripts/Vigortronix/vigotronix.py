@@ -1,4 +1,20 @@
-#http://katalog.we-online.com/en/pbs/WE-MAPI]
+#!/usr/bin/env python
+
+'''
+kicad-footprint-generator is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+kicad-footprint-generator is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
+'''
+
 
 #sizes,shapes,etc]
 #prefix, serie, Type, W, L, H, PDiam, pin1x, pin1y, pin2x, pin2y, pin3x, pin3y, pin4x, pin4y
