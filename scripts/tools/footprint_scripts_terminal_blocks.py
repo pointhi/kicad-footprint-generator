@@ -115,7 +115,7 @@ def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_of
 		x1=x1+rm
 	
 	# create Body
-	chamfer = min(h_fab/4, 1, bevel_height[0])
+	chamfer = min(h_fab/4, 2, bevel_height[0])
 	bevelRectBL(kicad_modg,	 [l_fab,t_fab], [w_fab,h_fab], 'F.Fab', lw_fab, bevel_size=chamfer)
 	for bh in bevel_height:
 		kicad_modg.append(Line(start=[l_fab, t_fab + h_fab-bh], end=[l_fab+w_fab, t_fab + h_fab-bh], layer='F.Fab', width=lw_fab))
