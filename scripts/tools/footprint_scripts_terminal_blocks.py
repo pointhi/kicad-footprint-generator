@@ -32,7 +32,7 @@ crt_offset = 0.5 # different for connectors
 #
 #
 def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw=True, screw_pin_offset=[0,0], secondHoleDiameter=0, secondHoleOffset=[0,0], thirdHoleDiameter=0, thirdHoleOffset=[0,0], fourthHoleDiameter=0, fourthHoleOffset=[0,0],nibbleSize=[],nibblePos=[], fabref_offset=[0,0],
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_Terminal_Blocks", classname="Connectors_Terminal_Blocks", classname_description="terminal block"):
+						tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_Terminal_Blocks", classname="Connectors_Terminal_Blocks", classname_description="terminal block", webpage=""):
 						
 	package_size=[2*leftbottom_offset[0]+(pins-1)*rm, package_height];
 	
@@ -63,8 +63,8 @@ def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_of
 	text_t = text_size[0] * 0.15
 	
 	
-	description = "{2}, {0} pins, pitch {1:02}mm".format(pins, rm,classname_description)
-	tags = "THT {2} pitch {1:02}mm".format(pins, rm,classname_description)
+	description = "{2}, {0} pins, pitch {1:02}mm, size {3}x{4}mm^2, drill diamater {5}mm, pad diameter {6}mm, see {7}".format(pins, rm,classname_description, package_size[0], package_size[1], ddrill, max(pad), webpage)
+	tags = "THT {2} pitch {1:02}mm size {3}x{4}mm^2 drill {5}mm pad {6}mm".format(pins, rm,classname_description, package_size[0], package_size[1], ddrill, max(pad))
 	
 	if (len(tags_additional) > 0):
 		for t in tags_additional:
