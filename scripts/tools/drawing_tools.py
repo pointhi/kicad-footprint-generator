@@ -58,7 +58,7 @@ def addKeepoutRound(x, y, w, h):
         return addKeepoutRect(x, y, w, h)
     else:
         res = []
-        Nrects = 4
+        Nrects = 16
         r = max(h, w) / 2
         yysum = 0
         for ya in frange(0, r, r / Nrects):
