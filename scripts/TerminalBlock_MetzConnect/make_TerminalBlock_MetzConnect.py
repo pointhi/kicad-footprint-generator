@@ -42,7 +42,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type067_RT019{0:02}HDWC".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name='${KISYS3DMOD}/TerminalBlock_MetzConnect', classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_310671_RT019xxHDWC_OFF-023605N.pdf")
 
 	pins=range(2,3+1)
@@ -67,7 +67,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type703_RT10N{0:02}HGLU".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_317031_RT10NxxHGLU_OFF-022897S.pdf")
 
 	pins=range(2,6+1)
@@ -92,7 +92,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type094_RT035{0:02}HBLU".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_310111_RT055xxHBLC_OFF-022717S.pdf")
 
 	pins=range(2,6+1)
@@ -117,7 +117,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type011_RT055{0:02}HBWC".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_310111_RT055xxHBLC_OFF-022717S.pdf")
 
 	pins=range(2,6+1)
@@ -142,7 +142,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type101_RT016{0:02}HBWC".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_311011_RT016xxHBWC_OFF-022771S.pdf")
 
 	pins=range(2,6+1)
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type086_RT034{0:02}HBLC".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_310861_RT034xxHBLC_OFF-026114K.pdf")
 
 	pins=range(2,6+1)
@@ -192,7 +192,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type059_RT063{0:02}HBWC".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_310591_RT063xxHBWC_OFF-022684T.pdf")
 
 
@@ -218,7 +218,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type073_RT026{0:02}HBLU".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_310731_RT026xxHBLU_OFF-022792U.pdf")
 
 	pins=range(2,3+1)
@@ -243,7 +243,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type701_RT11L{0:02}HGLU".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_317011_RT11LxxHGLU_OFF-022798U.pdf")
 
 
@@ -269,7 +269,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type171_RT137{0:02}HBWC".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_311711_RT137xxHBWC_OFF-022811Q.pdf")
 
 	pins=range(2,6+1)
@@ -294,7 +294,7 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type175_RT027{0:02}HBLC".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_311751_RT027xxHBLC_OFF-022814U.pdf")
 
 	pins=range(2,4+1)
@@ -319,6 +319,6 @@ if __name__ == '__main__':
 	for p in pins:
 		name="Type055_RT015{0:02}HDWU".format(p)
 		makeTerminalBlockStd("TerminalBlock_MetzConnect_{0}_Pitch{1:3.2f}mm".format(name, rm), p, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw, screw_pin_offset, secondHoleDiameter, secondHoleOffset, thirdHoleDiameter, thirdHoleOffset, fourthHoleDiameter, fourthHoleOffset, nibbleSize,nibblePos, fabref_offset,
-						tags_additional=[], lib_name="${{KISYS3DMOD}}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
+						tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_MetzConnect", classname="TerminalBlock_MetzConnect", classname_description="terminal block Metz Connect {0}".format(name, rm), 
 						webpage="http://www.metz-connect.com/de/system/files/productfiles/Datenblatt_310551_RT015xxHDWU_OFF-022723S.pdf")
 	
