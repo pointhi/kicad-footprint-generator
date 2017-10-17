@@ -213,7 +213,7 @@ if __name__ == '__main__':
 
                 if (i == 1):
                     ttx1 = x1
-                    tty1 = ((PadDist / 2) + (PadSiseY / 2) + LineDX + LindeDelta)
+                    tty1 = y1 + (PadSiseY / 2)
                     
                 if (i == 2):
                     x1 = x1
