@@ -72,9 +72,9 @@ if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (D
 Datasheet: http://www.jst-mfg.com/product/pdf/eng/eJWPF1.pdf
 Naming: JST_JWPF_BXXB-JWPF-SK-R_XxXX_Pitch2.00mm
 """
-part = "B{n:02}B-JWPF-SK-K" #JST part number format string
+part = "B{n:02}B-JWPF-SK-R" #JST part number format string
 
-prefix = "JWPF_"
+prefix = "JST_JWPF_"
 
 pitch = 2.00
 
@@ -109,13 +109,13 @@ for pincount in [2, 3, 4, 6, 8]:
     if pincount in [6, 8]:
         rows = 2
         pin_per_row = int(pincount / 2)
-        pn = "2x{n}".format(n=pin_per_row)
+        pn = "2x{n:02}".format(n=pin_per_row)
     else:
         rows = 1
         pin_per_row = pincount
-        pn = "{n}".format(n=pincount)
+        pn = "1x{n:02}".format(n=pincount)
 
-    pin_info = "_{x}x{p:.2f}mm_Straight".format(x=pn, p=pitch)
+    pin_info = "_{x}_P{p:.2f}mm_Vertical".format(x=pn, p=pitch)
 
     footprint_name = prefix + part.format(n=pincount) + pin_info
 
@@ -142,8 +142,10 @@ for pincount in [2, 3, 4, 6, 8]:
     x1 = -5.4 # measured from 3D model alignment
     x2 = x1 + conn_width
 
-    kicad_mod.append(Text(type='reference', text='REF**', layer='F.SilkS', at=[x_mid, -3.5], thickness=silk_reference_fontwidth, size=silk_reference_fontsize))
-    kicad_mod.append(Text(type='user', text='%R', at=[-2, y_mid], layer='F.Fab', thickness=fab_reference_fontwidth, size=fab_reference_fontsize, rotation='90'))
+    y_ref = -3 if rows == 1 else -4
+
+    kicad_mod.append(Text(type='reference', text='REF**', layer='F.SilkS', at=[x_mid, y_ref ], thickness=silk_reference_fontwidth, size=silk_reference_fontsize))
+    kicad_mod.append(Text(type='user', text='%R', at=[-2.5, y_mid], layer='F.Fab', thickness=fab_reference_fontwidth, size=fab_reference_fontsize, rotation='90'))
     kicad_mod.append(Text(type='value', text=footprint_name, at=[x_mid, y2 + 1.5], layer='F.Fab', size=value_fontsize, thickness=value_fontwidth))
 
     # Create pins
@@ -225,7 +227,7 @@ for pincount in [2, 3, 4, 6, 8]:
 
     # Add pin-1 marker on F.Fab
     D = -0.5 - pad_y / 2
-    M = 1.0
+    M = 0.75
     p1 = [
         {'x': -M/2, 'y': D - M},
         {'x': M/2, 'y': D - M},
