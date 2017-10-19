@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	nut_diameter=5
 	nut_length=5
 	tags_additional=[]
-	lib_name="${{KISYS3DMOD}}/Connectors_DSub"
+	lib_name="${KISYS3DMOD}/Connectors_DSub"
 	classname="DSUB"
 	classname_description="D-Sub connector"
 	webpage="https://disti-assets.s3.amazonaws.com/tonar/files/datasheets/16730.pdf"
