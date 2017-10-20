@@ -717,24 +717,24 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 								  end=[roundCrt(l_crt + offset[0] + w_crt), roundCrt(t_crt + offset[1] + h_crt)],
 								  layer='F.CrtYd', width=lw_crt))
 	else:
-		kicad_modg.append(PolygoneLine(polygone=[
-												 [-can_width/2-crt_offset, ypcb_egde+shield_thickness+can_height+crt_offset], 
-												 [-can_width/2-crt_offset, ypcb_egde+shield_thickness+crt_offset], 
-												 [-shield_width/2-crt_offset, ypcb_egde+shield_thickness+crt_offset], 
-												 [-shield_width/2-crt_offset, ypcb_egde-crt_offset], 
-												 [-backcan_width/2-crt_offset, ypcb_egde-crt_offset], 
-												 [-backcan_width/2-crt_offset, ypcb_egde-backcan_height-crt_offset], 
-												 [leftmost-pad/2-crt_offset, ypcb_egde-backcan_height-crt_offset], 
-												 [leftmost-pad/2-crt_offset, ypcb_egde-back_height-crt_offset], 
-												 [rightmost+pad/2+crt_offset, ypcb_egde-back_height-crt_offset], 
-												 [rightmost+pad/2+crt_offset, ypcb_egde-backcan_height-crt_offset], 
-												 [backcan_width/2+crt_offset, ypcb_egde-backcan_height-crt_offset], 
-												 [backcan_width/2+crt_offset, ypcb_egde-crt_offset], 
-												 [shield_width/2+crt_offset, ypcb_egde-crt_offset], 
-												 [shield_width/2+crt_offset, ypcb_egde+shield_thickness+crt_offset], 
-												 [can_width/2+crt_offset, ypcb_egde+shield_thickness+crt_offset], 
-												 [can_width/2+crt_offset, ypcb_egde+shield_thickness+can_height+crt_offset], 
-												 [-can_width/2-crt_offset, ypcb_egde+shield_thickness+can_height+crt_offset], 
+		kicad_mod.append(PolygoneLine(polygone=[
+												 [offset[0]-can_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+can_height+crt_offset], 
+												 [offset[0]-can_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
+												 [offset[0]-shield_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
+												 [offset[0]-shield_width/2-crt_offset, offset[1]+ypcb_egde-crt_offset], 
+												 [offset[0]-backcan_width/2-crt_offset, offset[1]+ypcb_egde-crt_offset], 
+												 [offset[0]-backcan_width/2-crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
+												 [offset[0]+leftmost-pad/2-crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
+												 [offset[0]+leftmost-pad/2-crt_offset, offset[1]+ypcb_egde-back_height-crt_offset], 
+												 [offset[0]+rightmost+pad/2+crt_offset, offset[1]+ypcb_egde-back_height-crt_offset], 
+												 [offset[0]+rightmost+pad/2+crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
+												 [offset[0]+backcan_width/2+crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
+												 [offset[0]+backcan_width/2+crt_offset, offset[1]+ypcb_egde-crt_offset], 
+												 [offset[0]+shield_width/2+crt_offset, offset[1]+ypcb_egde-crt_offset], 
+												 [offset[0]+shield_width/2+crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
+												 [offset[0]+can_width/2+crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
+												 [offset[0]+can_width/2+crt_offset, offset[1]+ypcb_egde+shield_thickness+can_height+crt_offset], 
+												 [offset[0]-can_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+can_height+crt_offset], 
 												], layer='F.CrtYd', width=lw_crt))
 	
 	
