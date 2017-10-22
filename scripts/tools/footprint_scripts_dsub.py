@@ -290,7 +290,7 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 		description = description+", female"
 		tags = tags+" female"
 		footprint_name=footprint_name+"_Female"
-	footprint_name=footprint_name+"_EgdeMount"
+	footprint_name=footprint_name+"_EdgeMount"
 	
 	description = description+", x-pin-pitch {0}mm".format(rmx)
 	tags = tags+" x-pin-pitch {0}mm".format(rmx)
@@ -327,12 +327,12 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 	
 	# anchor for SMD-symbols is in the center, for THT-sybols at pin1
 	
-	ypcb_egde=pad[1]/2+soldercup_pad_edge_offset;
+	ypcb_edge=pad[1]/2+soldercup_pad_edge_offset;
 	
 	# set general values
 	kicad_mod.append(Text(type='reference', text='REF**', at=[x10-topoffset-pad[0]/2-text_size[0]*3, 0], layer='F.SilkS'))
-	kicad_mod.append(Text(type='user', text='%R', at=[0,ypcb_egde+smaller_backcan_height/2], layer='F.Fab', size=text_size ,thickness=text_t))
-	kicad_mod.append(Text(type='value', text=footprint_name, at=[0, ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+can_height+text_size[0]], layer='F.Fab'))
+	kicad_mod.append(Text(type='user', text='%R', at=[0,ypcb_edge+smaller_backcan_height/2], layer='F.Fab', size=text_size ,thickness=text_t))
+	kicad_mod.append(Text(type='value', text=footprint_name, at=[0, ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+can_height+text_size[0]], layer='F.Fab'))
 	
 	
 	# create pads
@@ -361,7 +361,7 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 	for p in range(1, pinstop+1): 
 		kicad_mod.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=0, layers=pad_layers_top)) 
 		keepouts=keepouts+addKeepoutRect(x1, y1, pad[0]+8*slk_offset, pad[1]+8*slk_offset)
-		kicad_mod.append(RectLine(start=[x1-soldercup_diameter/2, ypcb_egde-soldercup_length], end=[x1+soldercup_diameter/2, ypcb_egde], layer='F.Fab', width=lw_fab))
+		kicad_mod.append(RectLine(start=[x1-soldercup_diameter/2, ypcb_edge-soldercup_length], end=[x1+soldercup_diameter/2, ypcb_edge], layer='F.Fab', width=lw_fab))
 		if p==1:
 			x_pin1=x1;
 		leftmost=min(leftmost, x1-pad[0]/2)
@@ -381,7 +381,7 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 		 
 		kicad_mod.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=0, layers=pad_layers_bot)) 
 		keepouts=keepouts+addKeepoutRect(x1, y1, pad[0]+8*slk_offset, pad[1]+8*slk_offset)
-		kicad_mod.append(RectLine(start=[x1-soldercup_diameter/2, ypcb_egde-soldercup_length], end=[x1+soldercup_diameter/2, ypcb_egde], layer='B.Fab', width=lw_fab))
+		kicad_mod.append(RectLine(start=[x1-soldercup_diameter/2, ypcb_edge-soldercup_length], end=[x1+soldercup_diameter/2, ypcb_edge], layer='B.Fab', width=lw_fab))
 		leftmost=min(leftmost, x1-pad[0]/2)
 		rightmost=max(rightmost, x1+pad[0]/2)
 		if isMale:
@@ -393,32 +393,32 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 	
 	smaller_backcup_width=backcan_width-2*smaller_backcan_offset
 	#fabrication_layer
-	kicad_mod.append(RectLine(start=[-smaller_backcup_width/2, ypcb_egde], end=[smaller_backcup_width/2, ypcb_egde+smaller_backcan_height], layer='F.Fab', width=lw_fab))
-	kicad_mod.append(RectLine(start=[-backcan_width/2, ypcb_egde+smaller_backcan_height], end=[backcan_width/2, ypcb_egde+smaller_backcan_height+backcan_height], layer='F.Fab', width=lw_fab))
-	kicad_mod.append(RectLine(start=[-shield_width/2, ypcb_egde+smaller_backcan_height+backcan_height], end=[shield_width/2, ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness], layer='F.Fab', width=lw_fab))
-	kicad_mod.append(RectLine(start=[-connwidth/2, ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness], end=[connwidth/2, ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+can_height], layer='F.Fab', width=lw_fab))
+	kicad_mod.append(RectLine(start=[-smaller_backcup_width/2, ypcb_edge], end=[smaller_backcup_width/2, ypcb_edge+smaller_backcan_height], layer='F.Fab', width=lw_fab))
+	kicad_mod.append(RectLine(start=[-backcan_width/2, ypcb_edge+smaller_backcan_height], end=[backcan_width/2, ypcb_edge+smaller_backcan_height+backcan_height], layer='F.Fab', width=lw_fab))
+	kicad_mod.append(RectLine(start=[-shield_width/2, ypcb_edge+smaller_backcan_height+backcan_height], end=[shield_width/2, ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness], layer='F.Fab', width=lw_fab))
+	kicad_mod.append(RectLine(start=[-connwidth/2, ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness], end=[connwidth/2, ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+can_height], layer='F.Fab', width=lw_fab))
 	
 	# create courtyard
 	kicad_mod.append(PolygoneLine(polygone=[[roundCrt(leftmost-crt_offset), roundCrt(-pad[1]/2-crt_offset)],
 							                [roundCrt(rightmost + crt_offset), roundCrt(-pad[1]/2-crt_offset)],
-							                [roundCrt(rightmost + crt_offset), roundCrt(ypcb_egde-crt_offset)],
-											[roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_egde-crt_offset)],
-											[roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height-crt_offset)],
-											[roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height-crt_offset)],
-											[roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height-crt_offset)],
-											[roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height-crt_offset)],
-											[roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
-											[roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
-											[roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+can_height+crt_offset)],
-											[-roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+can_height+crt_offset)],
-											[-roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
-											[-roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
-											[-roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height-crt_offset)],
-											[-roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height+backcan_height-crt_offset)],
-											[-roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height-crt_offset)],
-											[-roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_egde+smaller_backcan_height-crt_offset)],
-											[-roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_egde-crt_offset)],
-							                [-roundCrt(rightmost + crt_offset), roundCrt(ypcb_egde-crt_offset)],
+							                [roundCrt(rightmost + crt_offset), roundCrt(ypcb_edge-crt_offset)],
+											[roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge-crt_offset)],
+											[roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
+											[roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
+											[roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height-crt_offset)],
+											[roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height-crt_offset)],
+											[roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
+											[roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
+											[roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+can_height+crt_offset)],
+											[-roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+can_height+crt_offset)],
+											[-roundCrt(connwidth/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
+											[-roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height+shieldthickness+crt_offset)],
+											[-roundCrt(shield_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height-crt_offset)],
+											[-roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height+backcan_height-crt_offset)],
+											[-roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
+											[-roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
+											[-roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge-crt_offset)],
+							                [-roundCrt(rightmost + crt_offset), roundCrt(ypcb_edge-crt_offset)],
 							                [-roundCrt(rightmost + crt_offset), roundCrt(-pad[1]/2-crt_offset)]
 											],
 							  layer='F.CrtYd', width=lw_crt))
@@ -437,8 +437,8 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 	                                        [x_pin1+topoffset+pad[0]/2+(slk_pad_offset+2*lw_slk), y1-pad[1]/2-(slk_pad_offset+2*lw_slk)], 
 											[x_pin1+topoffset-rmx, y1-pad[1]/2-(slk_pad_offset+2*lw_slk)]], layer=slk_layers_top, width=lw_slk))
 	
-	kicad_mod.append(Line(start=[-shield_width/2, ypcb_egde], end=[shield_width/2, pad[1]/2+soldercup_pad_edge_offset], layer='Dwgs.User', width=lw_crt))
-	kicad_mod.append(Text(type='user', text='PCB edge', at=[-shield_width/2+5*text_size[0], ypcb_egde-text_size[1]*2/3], layer='Dwgs.User', size=[text_size[0]/2,text_size[1]/2] ,thickness=text_t/2))
+	kicad_mod.append(Line(start=[-shield_width/2, ypcb_edge], end=[shield_width/2, pad[1]/2+soldercup_pad_edge_offset], layer='Dwgs.User', width=lw_crt))
+	kicad_mod.append(Text(type='user', text='PCB edge', at=[-shield_width/2+5*text_size[0], ypcb_edge-text_size[1]*2/3], layer='Dwgs.User', size=[text_size[0]/2,text_size[1]/2] ,thickness=text_t/2))
 	
 	
 	# add model
@@ -454,7 +454,7 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 
 
 
-def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_distance, mountingdrill, mountingpad, mountingdistance, mounting_pcb_distance, shield_width, shield_thickness, can_width, can_height, backbox_width, backbox_height, nut_diameter, nut_length, backcan_width=0, backcan_height=0,
+def makeDSubAngled(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_distance, mountingdrill, mountingpad, mountingdistance, mounting_pcb_distance, shield_width, shield_thickness, can_width, can_height, backbox_width, backbox_height, nut_diameter, nut_length, backcan_width=0, backcan_height=0,
 						tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_DSub", classname="DSub", classname_description="D-Sub connector", webpage="", HighDensityOffsetMidLeft=0):
 						
 	hasMountingHoles=mountingdrill>0 and mountingdistance>0
@@ -484,7 +484,7 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 
 	rmy_default=2.84
 	if rmy!=rmy_default:
-		footprint_name=footprint_name+"_Px{0:3.2f}mm".format(rmy)
+		footprint_name=footprint_name+"_P{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
 	description = description+", pitch {0}x{1}mm, pin-PCB-offset {2}mm".format(rmx,rmy,pin_pcb_distance)
 	tags = tags+" pitch {0}x{1}mm pin-PCB-offset {2}mm".format(rmx,rmy,pin_pcb_distance)
 
@@ -510,11 +510,13 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 	
 	print(footprint_name)
 	
+	rows=2
 	pinstop=int((pins + 1)/2)
 	pinsmid=0
 	pinsbot=int((pins - 1)/2)
 	drmy=rmy/2
 	if HighDensity:
+		rows=3
 		pinstop=int((pins+1)/3)
 		pinsmid=pinstop
 		pinsbot=pins-pinstop-pinsbot
@@ -529,11 +531,11 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 		topoffset=rmx/2
 		botoffset=rmx/2
 	
-	ypcb_egde=drmy+pin_pcb_distance
+	ypcb_edge=drmy+pin_pcb_distance
 	
 	back_height=backbox_height
 	if hasNoBackBox:
-		back_height=pin_pcb_distance+rmy+pad/2
+		back_height=pin_pcb_distance+rmy*(rows-1)+pad/2
 
 	w_crt = max([backbox_width, shield_width])+2*crt_offset
 	h_crt = max([backbox_height, mounting_pcb_distance+mountingpad/2])+max([nut_length, can_height])+shield_thickness+2*crt_offset
@@ -557,9 +559,9 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 	kicad_mod.append(kicad_modg)
 	
 	# set general values
-	kicad_modg.append(Text(type='reference', text='REF**', at=[0, ypcb_egde-back_height-text_size[0]], layer='F.SilkS'))
-	kicad_modg.append(Text(type='user', text='%R', at=[0,ypcb_egde+shield_thickness+can_height/2], layer='F.Fab', size=text_size ,thickness=text_t))
-	kicad_modg.append(Text(type='value', text=footprint_name, at=[0, ypcb_egde+shield_thickness+can_height+text_size[0]*1.5], layer='F.Fab'))
+	kicad_modg.append(Text(type='reference', text='REF**', at=[0, ypcb_edge-back_height-text_size[0]], layer='F.SilkS'))
+	kicad_modg.append(Text(type='user', text='%R', at=[0,ypcb_edge+shield_thickness+can_height/2], layer='F.Fab', size=text_size ,thickness=text_t))
+	kicad_modg.append(Text(type='value', text=footprint_name, at=[0, ypcb_edge+shield_thickness+can_height+text_size[0]*1.5], layer='F.Fab'))
 	
 	
 	# create pads
@@ -594,9 +596,9 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 			kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=pindrill, layers=pad_layers))
 			keepouts=keepouts+addKeepoutRound(x1, y1, pad+(slk_pad_offset+2*lw_slk), pad+(slk_pad_offset+2*lw_slk))
 		if hasNoBackBox:
-			kicad_modg.append(Line(start=[x1-lw_fab, y1], end=[x1-lw_fab, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
-			kicad_modg.append(Line(start=[x1, y1], end=[x1, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
-			kicad_modg.append(Line(start=[x1+lw_fab, y1], end=[x1+lw_fab, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
+			kicad_modg.append(Line(start=[x1-lw_fab, y1], end=[x1-lw_fab, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
+			kicad_modg.append(Line(start=[x1, y1], end=[x1, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
+			kicad_modg.append(Line(start=[x1+lw_fab, y1], end=[x1+lw_fab, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
 		leftmost=min(leftmost,x1)
 		rightmost=max(rightmost,x1)
 		if isMale:
@@ -618,9 +620,9 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 				kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=pindrill, layers=pad_layers))
 				keepouts=keepouts+addKeepoutRound(x1, y1, pad+(slk_pad_offset+2*lw_slk), pad+(slk_pad_offset+2*lw_slk))
 			if hasNoBackBox:
-				kicad_modg.append(Line(start=[x1-lw_fab, y1], end=[x1-lw_fab, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
-				kicad_modg.append(Line(start=[x1, y1], end=[x1, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
-				kicad_modg.append(Line(start=[x1+lw_fab, y1], end=[x1+lw_fab, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
+				kicad_modg.append(Line(start=[x1-lw_fab, y1], end=[x1-lw_fab, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
+				kicad_modg.append(Line(start=[x1, y1], end=[x1, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
+				kicad_modg.append(Line(start=[x1+lw_fab, y1], end=[x1+lw_fab, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
 			
 			leftmost=min(leftmost,x1)
 			rightmost=max(rightmost,x1)
@@ -643,9 +645,9 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 			kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=pindrill, layers=pad_layers))
 			keepouts=keepouts+addKeepoutRound(x1, y1, pad+(slk_pad_offset+2*lw_slk), pad+(slk_pad_offset+2*lw_slk))
 		if hasNoBackBox:
-			kicad_modg.append(Line(start=[x1-lw_fab, y1], end=[x1-lw_fab, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
-			kicad_modg.append(Line(start=[x1, y1], end=[x1, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
-			kicad_modg.append(Line(start=[x1+lw_fab, y1], end=[x1+lw_fab, ypcb_egde-backcan_height], layer='F.Fab', width=lw_fab))
+			kicad_modg.append(Line(start=[x1-lw_fab, y1], end=[x1-lw_fab, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
+			kicad_modg.append(Line(start=[x1, y1], end=[x1, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
+			kicad_modg.append(Line(start=[x1+lw_fab, y1], end=[x1+lw_fab, ypcb_edge-backcan_height], layer='F.Fab', width=lw_fab))
 		
 		leftmost=min(leftmost,x1)
 		rightmost=max(rightmost,x1)
@@ -657,59 +659,59 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 	
 	# mounting holes
 	if hasMountingHoles and mountingpad>0:
-		kicad_modg.append(Pad(number=0, type=pad_type, shape=pad_shapeother, at=[-mountingdistance/2, ypcb_egde-mounting_pcb_distance], size=[mountingpad,mountingpad], drill=mountingdrill, layers=pad_layers))
-		keepouts=keepouts+addKeepoutRound(-mountingdistance/2, ypcb_egde-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
-		kicad_modg.append(Pad(number=0, type=pad_type, shape=pad_shapeother, at=[mountingdistance/2, ypcb_egde-mounting_pcb_distance], size=[mountingpad,mountingpad], drill=mountingdrill, layers=pad_layers))
-		keepouts=keepouts+addKeepoutRound(mountingdistance/2, ypcb_egde-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
+		kicad_modg.append(Pad(number=0, type=pad_type, shape=pad_shapeother, at=[-mountingdistance/2, ypcb_edge-mounting_pcb_distance], size=[mountingpad,mountingpad], drill=mountingdrill, layers=pad_layers))
+		keepouts=keepouts+addKeepoutRound(-mountingdistance/2, ypcb_edge-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
+		kicad_modg.append(Pad(number=0, type=pad_type, shape=pad_shapeother, at=[mountingdistance/2, ypcb_edge-mounting_pcb_distance], size=[mountingpad,mountingpad], drill=mountingdrill, layers=pad_layers))
+		keepouts=keepouts+addKeepoutRound(mountingdistance/2, ypcb_edge-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
 	if hasMountingHoles and mountingpad<=0 and backbox_width*backbox_height==0:
-		kicad_modg.append(Pad(number=0, type=hole_type, shape=pad_shapeother, at=[-mountingdistance/2, ypcb_egde-mounting_pcb_distance], size=[0,0], drill=mountingdrill, layers=pad_layers))
-		keepouts=keepouts+addKeepoutRound(-mountingdistance/2, ypcb_egde-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
-		kicad_modg.append(Pad(number=0, type=hole_type, shape=pad_shapeother, at=[mountingdistance/2, ypcb_egde-mounting_pcb_distance], size=[0,0], drill=mountingdrill, layers=pad_layers))
-		keepouts=keepouts+addKeepoutRound(mountingdistance/2, ypcb_egde-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
+		kicad_modg.append(Pad(number=0, type=hole_type, shape=pad_shapeother, at=[-mountingdistance/2, ypcb_edge-mounting_pcb_distance], size=[0,0], drill=mountingdrill, layers=pad_layers))
+		keepouts=keepouts+addKeepoutRound(-mountingdistance/2, ypcb_edge-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
+		kicad_modg.append(Pad(number=0, type=hole_type, shape=pad_shapeother, at=[mountingdistance/2, ypcb_edge-mounting_pcb_distance], size=[0,0], drill=mountingdrill, layers=pad_layers))
+		keepouts=keepouts+addKeepoutRound(mountingdistance/2, ypcb_edge-mounting_pcb_distance, mountingpad+(slk_pad_offset+2*lw_slk), mountingpad+(slk_pad_offset+2*lw_slk))
 
 	# PCB edge marker
-	#kicad_modg.append(Line(start=[-shield_width/2, ypcb_egde], end=[shield_width/2, ypcb_egde], layer='Dwgs.User', width=lw_crt))
-	#kicad_modg.append(Text(type='user', text='PCB edge', at=[-shield_width/2+5*text_size[0], ypcb_egde-text_size[1]*2/3], layer='Dwgs.User', size=[text_size[0]/2,text_size[1]/2] ,thickness=text_t/2))
+	#kicad_modg.append(Line(start=[-shield_width/2, ypcb_edge], end=[shield_width/2, ypcb_edge], layer='Dwgs.User', width=lw_crt))
+	#kicad_modg.append(Text(type='user', text='PCB edge', at=[-shield_width/2+5*text_size[0], ypcb_edge-text_size[1]*2/3], layer='Dwgs.User', size=[text_size[0]/2,text_size[1]/2] ,thickness=text_t/2))
 		
 	# outline
 	if not hasNoBackBox:
-		kicad_modg.append(RectLine(start=[-backbox_width/2, ypcb_egde-backbox_height], end=[backbox_width/2, ypcb_egde], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(RectLine(start=[-backbox_width/2, ypcb_edge-backbox_height], end=[backbox_width/2, ypcb_edge], layer='F.Fab', width=lw_fab))
 	else:
-		kicad_modg.append(RectLine(start=[-backcan_width/2, ypcb_egde-backcan_height], end=[backcan_width/2, ypcb_egde], layer='F.Fab', width=lw_fab))
-	kicad_modg.append(RectLine(start=[-shield_width/2, ypcb_egde], end=[shield_width/2, ypcb_egde+shield_thickness], layer='F.Fab', width=lw_fab))
-	kicad_modg.append(RectLine(start=[-can_width/2, ypcb_egde+shield_thickness], end=[can_width/2, ypcb_egde+shield_thickness+can_height], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(RectLine(start=[-backcan_width/2, ypcb_edge-backcan_height], end=[backcan_width/2, ypcb_edge], layer='F.Fab', width=lw_fab))
+	kicad_modg.append(RectLine(start=[-shield_width/2, ypcb_edge], end=[shield_width/2, ypcb_edge+shield_thickness], layer='F.Fab', width=lw_fab))
+	kicad_modg.append(RectLine(start=[-can_width/2, ypcb_edge+shield_thickness], end=[can_width/2, ypcb_edge+shield_thickness+can_height], layer='F.Fab', width=lw_fab))
 	if nut_length>0 and nut_diameter>0:
-		kicad_modg.append(RectLine(start=[-mountingdistance/2-nut_diameter/2, ypcb_egde+shield_thickness], end=[-mountingdistance/2+nut_diameter/2, ypcb_egde+shield_thickness+nut_length], layer='F.Fab', width=lw_fab))
-		kicad_modg.append(RectLine(start=[mountingdistance/2-nut_diameter/2, ypcb_egde+shield_thickness], end=[mountingdistance/2+nut_diameter/2, ypcb_egde+shield_thickness+nut_length], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(RectLine(start=[-mountingdistance/2-nut_diameter/2, ypcb_edge+shield_thickness], end=[-mountingdistance/2+nut_diameter/2, ypcb_edge+shield_thickness+nut_length], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(RectLine(start=[mountingdistance/2-nut_diameter/2, ypcb_edge+shield_thickness], end=[mountingdistance/2+nut_diameter/2, ypcb_edge+shield_thickness+nut_length], layer='F.Fab', width=lw_fab))
 	if hasMountingHoles:
-		kicad_modg.append(Line(start=[-mountingdistance/2-mountingdrill/2, ypcb_egde], end=[-mountingdistance/2-mountingdrill/2, ypcb_egde-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
-		kicad_modg.append(Line(start=[-mountingdistance/2+mountingdrill/2, ypcb_egde], end=[-mountingdistance/2+mountingdrill/2, ypcb_egde-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
-		kicad_modg.append(Arc(start=[-mountingdistance/2-mountingdrill/2, ypcb_egde-mounting_pcb_distance], center=[-mountingdistance/2, ypcb_egde-mounting_pcb_distance], angle=180, layer='F.Fab', width=lw_fab))
-		kicad_modg.append(Line(start=[mountingdistance/2-mountingdrill/2, ypcb_egde], end=[mountingdistance/2-mountingdrill/2, ypcb_egde-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
-		kicad_modg.append(Line(start=[mountingdistance/2+mountingdrill/2, ypcb_egde], end=[mountingdistance/2+mountingdrill/2, ypcb_egde-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
-		kicad_modg.append(Arc(start=[mountingdistance/2-mountingdrill/2, ypcb_egde-mounting_pcb_distance], center=[mountingdistance/2, ypcb_egde-mounting_pcb_distance], angle=180, layer='F.Fab', width=lw_fab))
+		kicad_modg.append(Line(start=[-mountingdistance/2-mountingdrill/2, ypcb_edge], end=[-mountingdistance/2-mountingdrill/2, ypcb_edge-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(Line(start=[-mountingdistance/2+mountingdrill/2, ypcb_edge], end=[-mountingdistance/2+mountingdrill/2, ypcb_edge-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(Arc(start=[-mountingdistance/2-mountingdrill/2, ypcb_edge-mounting_pcb_distance], center=[-mountingdistance/2, ypcb_edge-mounting_pcb_distance], angle=180, layer='F.Fab', width=lw_fab))
+		kicad_modg.append(Line(start=[mountingdistance/2-mountingdrill/2, ypcb_edge], end=[mountingdistance/2-mountingdrill/2, ypcb_edge-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(Line(start=[mountingdistance/2+mountingdrill/2, ypcb_edge], end=[mountingdistance/2+mountingdrill/2, ypcb_edge-mounting_pcb_distance], layer='F.Fab', width=lw_fab))
+		kicad_modg.append(Arc(start=[mountingdistance/2-mountingdrill/2, ypcb_edge-mounting_pcb_distance], center=[mountingdistance/2, ypcb_edge-mounting_pcb_distance], angle=180, layer='F.Fab', width=lw_fab))
 
 	# silkscreen
 	if not hasNoBackBox:
 		kicad_modg.append(PolygoneLine(polygone=[
-												 [-backbox_width/2-slk_offset, ypcb_egde-lw_slk/2], 
-												 [-backbox_width/2-slk_offset, ypcb_egde-backbox_height-slk_offset], 
-												 [backbox_width/2+slk_offset, ypcb_egde-backbox_height-slk_offset], 
-												 [backbox_width/2+slk_offset, ypcb_egde-lw_slk/2], 
+												 [-backbox_width/2-slk_offset, ypcb_edge-lw_slk/2], 
+												 [-backbox_width/2-slk_offset, ypcb_edge-backbox_height-slk_offset], 
+												 [backbox_width/2+slk_offset, ypcb_edge-backbox_height-slk_offset], 
+												 [backbox_width/2+slk_offset, ypcb_edge-lw_slk/2], 
 												], layer='F.SilkS', width=lw_slk))
-		allEqualSidedDownTriangle(kicad_modg, xcenter=[x1pos, ypcb_egde-backbox_height-slk_offset-text_size[0]*0.75], side_length=text_size[0]/2, layer='F.SilkS', width=lw_slk)
+		allEqualSidedDownTriangle(kicad_modg, xcenter=[x1pos, ypcb_edge-backbox_height-slk_offset-text_size[0]*0.75], side_length=text_size[0]/2, layer='F.SilkS', width=lw_slk)
 	else:	
 		kicad_modg.append(PolygoneLine(polygone=[
-												 [-backcan_width/2-slk_offset, ypcb_egde-lw_slk/2], 
-												 [-backcan_width/2-slk_offset, ypcb_egde-backcan_height-slk_offset], 
-												 [leftmost-pad/2-slk_pad_offset, ypcb_egde-backcan_height-slk_offset], 
-												 [leftmost-pad/2-slk_pad_offset, ypcb_egde-back_height-slk_pad_offset], 
-												 [rightmost+pad/2+slk_pad_offset, ypcb_egde-back_height-slk_pad_offset], 
-												 [rightmost+pad/2+slk_pad_offset, ypcb_egde-backcan_height-slk_offset], 
-												 [backcan_width/2+slk_offset, ypcb_egde-backcan_height-slk_offset], 
-												 [backcan_width/2+slk_offset, ypcb_egde-lw_slk/2], 
+												 [-backcan_width/2-slk_offset, ypcb_edge-lw_slk/2], 
+												 [-backcan_width/2-slk_offset, ypcb_edge-backcan_height-slk_offset], 
+												 [leftmost-pad/2-slk_pad_offset, ypcb_edge-backcan_height-slk_offset], 
+												 [leftmost-pad/2-slk_pad_offset, ypcb_edge-back_height-slk_pad_offset], 
+												 [rightmost+pad/2+slk_pad_offset, ypcb_edge-back_height-slk_pad_offset], 
+												 [rightmost+pad/2+slk_pad_offset, ypcb_edge-backcan_height-slk_offset], 
+												 [backcan_width/2+slk_offset, ypcb_edge-backcan_height-slk_offset], 
+												 [backcan_width/2+slk_offset, ypcb_edge-lw_slk/2], 
 												], layer='F.SilkS', width=lw_slk))
-		allEqualSidedDownTriangle(kicad_modg, xcenter=[x1pos, ypcb_egde-back_height-slk_offset-text_size[0]*0.75], side_length=text_size[0]/2, layer='F.SilkS', width=lw_slk)
+		allEqualSidedDownTriangle(kicad_modg, xcenter=[x1pos, ypcb_edge-back_height-slk_offset-text_size[0]*0.75], side_length=text_size[0]/2, layer='F.SilkS', width=lw_slk)
 	
 	# create courtyard
 	if not hasNoBackBox:
@@ -718,23 +720,23 @@ def makeDSubBoxed(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_di
 								  layer='F.CrtYd', width=lw_crt))
 	else:
 		kicad_mod.append(PolygoneLine(polygone=[
-												 [offset[0]-can_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+can_height+crt_offset], 
-												 [offset[0]-can_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
-												 [offset[0]-shield_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
-												 [offset[0]-shield_width/2-crt_offset, offset[1]+ypcb_egde-crt_offset], 
-												 [offset[0]-backcan_width/2-crt_offset, offset[1]+ypcb_egde-crt_offset], 
-												 [offset[0]-backcan_width/2-crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
-												 [offset[0]+leftmost-pad/2-crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
-												 [offset[0]+leftmost-pad/2-crt_offset, offset[1]+ypcb_egde-back_height-crt_offset], 
-												 [offset[0]+rightmost+pad/2+crt_offset, offset[1]+ypcb_egde-back_height-crt_offset], 
-												 [offset[0]+rightmost+pad/2+crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
-												 [offset[0]+backcan_width/2+crt_offset, offset[1]+ypcb_egde-backcan_height-crt_offset], 
-												 [offset[0]+backcan_width/2+crt_offset, offset[1]+ypcb_egde-crt_offset], 
-												 [offset[0]+shield_width/2+crt_offset, offset[1]+ypcb_egde-crt_offset], 
-												 [offset[0]+shield_width/2+crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
-												 [offset[0]+can_width/2+crt_offset, offset[1]+ypcb_egde+shield_thickness+crt_offset], 
-												 [offset[0]+can_width/2+crt_offset, offset[1]+ypcb_egde+shield_thickness+can_height+crt_offset], 
-												 [offset[0]-can_width/2-crt_offset, offset[1]+ypcb_egde+shield_thickness+can_height+crt_offset], 
+												 [roundCrt(offset[0]-can_width/2-crt_offset), roundCrt(offset[1]+ypcb_edge+shield_thickness+can_height+crt_offset)], 
+												 [roundCrt(offset[0]-can_width/2-crt_offset), roundCrt(offset[1]+ypcb_edge+shield_thickness+crt_offset)], 
+												 [roundCrt(offset[0]-shield_width/2-crt_offset), roundCrt(offset[1]+ypcb_edge+shield_thickness+crt_offset)], 
+												 [roundCrt(offset[0]-shield_width/2-crt_offset), roundCrt(offset[1]+ypcb_edge-crt_offset)], 
+												 [roundCrt(offset[0]-backcan_width/2-crt_offset), roundCrt(offset[1]+ypcb_edge-crt_offset)], 
+												 [roundCrt(offset[0]-backcan_width/2-crt_offset), roundCrt(offset[1]+ypcb_edge-backcan_height-crt_offset)], 
+												 [roundCrt(offset[0]+leftmost-pad/2-crt_offset), roundCrt(offset[1]+ypcb_edge-backcan_height-crt_offset)], 
+												 [roundCrt(offset[0]+leftmost-pad/2-crt_offset), roundCrt(offset[1]+ypcb_edge-back_height-crt_offset)], 
+												 [roundCrt(offset[0]+rightmost+pad/2+crt_offset), roundCrt(offset[1]+ypcb_edge-back_height-crt_offset)], 
+												 [roundCrt(offset[0]+rightmost+pad/2+crt_offset), roundCrt(offset[1]+ypcb_edge-backcan_height-crt_offset)], 
+												 [roundCrt(offset[0]+backcan_width/2+crt_offset), roundCrt(offset[1]+ypcb_edge-backcan_height-crt_offset)], 
+												 [roundCrt(offset[0]+backcan_width/2+crt_offset), roundCrt(offset[1]+ypcb_edge-crt_offset)], 
+												 [roundCrt(offset[0]+shield_width/2+crt_offset), roundCrt(offset[1]+ypcb_edge-crt_offset)], 
+												 [roundCrt(offset[0]+shield_width/2+crt_offset), roundCrt(offset[1]+ypcb_edge+shield_thickness+crt_offset)], 
+												 [roundCrt(offset[0]+can_width/2+crt_offset), roundCrt(offset[1]+ypcb_edge+shield_thickness+crt_offset)], 
+												 [roundCrt(offset[0]+can_width/2+crt_offset), roundCrt(offset[1]+ypcb_edge+shield_thickness+can_height+crt_offset)], 
+												 [roundCrt(offset[0]-can_width/2-crt_offset), roundCrt(offset[1]+ypcb_edge+shield_thickness+can_height+crt_offset)], 
 												], layer='F.CrtYd', width=lw_crt))
 	
 	
