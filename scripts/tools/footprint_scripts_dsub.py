@@ -67,8 +67,8 @@ def makeDSubStraight(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, mountin
 	text_t = text_size[0] * 0.15
 	
 	
-	description = "{0}-pin {1}, straight, THT-mount".format(pins, classname_description)
-	tags = "{0}-pin {1} straight THT".format(pins, classname_description)
+	description = "{0}-pin {1}, straight/vertical, THT-mount".format(pins, classname_description)
+	tags = "{0}-pin {1} straight vertical THT".format(pins, classname_description)
 	footprint_name="{0}-{1}".format(classname,pins)
 	if HighDensity:
 		footprint_name=footprint_name+"-HD"
@@ -80,11 +80,11 @@ def makeDSubStraight(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, mountin
 		description = description+", female"
 		tags = tags+" female"
 		footprint_name=footprint_name+"_Female"
-	footprint_name=footprint_name+"_Straight"
 	
 	description = description+", pitch {0}x{1}mm".format(rmx,rmy)
 	tags = tags+" pitch {0}x{1}mm".format(rmx,rmy)
-	#footprint_name=footprint_name+"_Pitch{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
+	footprint_name=footprint_name+"_P{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
+	footprint_name=footprint_name+"_Vertical"
 
 	description = description+", distance of mounting holes {0}mm".format(mountingdistance)
 	tags = tags+" mounting holes distance {0}mm".format(mountingdistance)
@@ -280,7 +280,7 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 	
 	
 	description = "{0}-pin {1}, solder-cups edge-mounted".format(pins, classname_description)
-	tags = "{0}-pin {1} straight edge mount solder cup".format(pins, classname_description)
+	tags = "{0}-pin {1} edge mount solder cup".format(pins, classname_description)
 	footprint_name="{0}-{1}".format(classname,pins)
 	if isMale:
 		description = description+", male"
@@ -290,10 +290,11 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 		description = description+", female"
 		tags = tags+" female"
 		footprint_name=footprint_name+"_Female"
-	footprint_name=footprint_name+"_EdgeMount"
 	
 	description = description+", x-pin-pitch {0}mm".format(rmx)
 	tags = tags+" x-pin-pitch {0}mm".format(rmx)
+	footprint_name=footprint_name+"_P{0:3.2f}mm".format(rmx)
+	footprint_name=footprint_name+"_EdgeMount"
 
 	description = description+", distance of mounting holes {0}mm".format(mountingdistance)
 	tags = tags+" mounting holes distance {0}mm".format(mountingdistance)
@@ -466,8 +467,8 @@ def makeDSubAngled(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_d
 	text_t = text_size[0] * 0.15
 	
 	
-	description = "{0}-pin {1}, angled (90 deg), THT-mount".format(pins, classname_description)
-	tags = "{0}-pin {1} angled 90deg THT".format(pins, classname_description)
+	description = "{0}-pin {1}, horizontal/angled (90 deg), THT-mount".format(pins, classname_description)
+	tags = "{0}-pin {1} horizontal angled 90deg THT".format(pins, classname_description)
 	footprint_name="{0}-{1}".format(classname,pins)
 	if HighDensity:
 		footprint_name=footprint_name+"-HD"
@@ -479,15 +480,15 @@ def makeDSubAngled(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_d
 		description = description+", female"
 		tags = tags+" female"
 		footprint_name=footprint_name+"_Female"
-	footprint_name=footprint_name+"_Angled"
-	footprint_name=footprint_name+"_PinsOffset{0:3.2f}mm".format(pin_pcb_distance)
 
 	rmy_default=2.84
-	if rmy!=rmy_default:
-		footprint_name=footprint_name+"_P{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
+	footprint_name=footprint_name+"_P{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
 	description = description+", pitch {0}x{1}mm, pin-PCB-offset {2}mm".format(rmx,rmy,pin_pcb_distance)
 	tags = tags+" pitch {0}x{1}mm pin-PCB-offset {2}mm".format(rmx,rmy,pin_pcb_distance)
 
+	footprint_name=footprint_name+"_Horizontal"
+	footprint_name=footprint_name+"_EdgePinOffset{0:3.2f}mm".format(pin_pcb_distance)
+	
 	if hasMountingHoles:
 		description = description+", distance of mounting holes {0}mm, distance of mounting holes to PCB edge {1}mm".format(mountingdistance, mounting_pcb_distance)
 		tags = tags+" mounting-holes-distance {0}mm mounting-hole-offset {0}mm".format(mountingdistance, mounting_pcb_distance)
