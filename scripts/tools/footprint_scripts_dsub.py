@@ -83,15 +83,15 @@ def makeDSubStraight(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, mountin
 	
 	description = description+", pitch {0}x{1}mm".format(rmx,rmy)
 	tags = tags+" pitch {0}x{1}mm".format(rmx,rmy)
-	footprint_name=footprint_name+"_P{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
 	footprint_name=footprint_name+"_Vertical"
+	footprint_name=footprint_name+"_Pitch{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
 
 	description = description+", distance of mounting holes {0}mm".format(mountingdistance)
 	tags = tags+" mounting holes distance {0}mm".format(mountingdistance)
 	#footprint_name=footprint_name+"_MHDist{0:3.2f}mm".format(mountingdistance)
 	
-	if not hasMountingHoles:
-		footprint_name=footprint_name+"_NoMountingHoles"
+	if hasMountingHoles:
+		footprint_name=footprint_name+"_MountingHoles"
 
 	if len(webpage)>0:
 		description = description+", see {0}".format(webpage)
@@ -293,8 +293,8 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 	
 	description = description+", x-pin-pitch {0}mm".format(rmx)
 	tags = tags+" x-pin-pitch {0}mm".format(rmx)
-	footprint_name=footprint_name+"_P{0:3.2f}mm".format(rmx)
 	footprint_name=footprint_name+"_EdgeMount"
+	footprint_name=footprint_name+"_Pitch{0:3.2f}mm".format(rmx)
 
 	description = description+", distance of mounting holes {0}mm".format(mountingdistance)
 	tags = tags+" mounting holes distance {0}mm".format(mountingdistance)
@@ -401,8 +401,8 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 	
 	# create courtyard
 	kicad_mod.append(PolygoneLine(polygone=[[roundCrt(leftmost-crt_offset), roundCrt(-pad[1]/2-crt_offset)],
-							                [roundCrt(rightmost + crt_offset), roundCrt(-pad[1]/2-crt_offset)],
-							                [roundCrt(rightmost + crt_offset), roundCrt(ypcb_edge-crt_offset)],
+											[roundCrt(rightmost + crt_offset), roundCrt(-pad[1]/2-crt_offset)],
+											[roundCrt(rightmost + crt_offset), roundCrt(ypcb_edge-crt_offset)],
 											[roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge-crt_offset)],
 											[roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
 											[roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
@@ -419,23 +419,23 @@ def makeDSubEdge(pins, isMale, rmx, pad, mountingdrill, mountingdistance, shield
 											[-roundCrt(backcan_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
 											[-roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge+smaller_backcan_height-crt_offset)],
 											[-roundCrt(smaller_backcup_width/2 + crt_offset), roundCrt(ypcb_edge-crt_offset)],
-							                [-roundCrt(rightmost + crt_offset), roundCrt(ypcb_edge-crt_offset)],
-							                [-roundCrt(rightmost + crt_offset), roundCrt(-pad[1]/2-crt_offset)]
+											[-roundCrt(rightmost + crt_offset), roundCrt(ypcb_edge-crt_offset)],
+											[-roundCrt(rightmost + crt_offset), roundCrt(-pad[1]/2-crt_offset)]
 											],
 							  layer='F.CrtYd', width=lw_crt))
 	
 	#silkscreen + PDB-edge
 	kicad_mod.append(PolygoneLine(polygone=[[-x10+topoffset+pad[0]/2+slk_pad_offset, y1+pad[1]/2], 
-	                                        [-x10+topoffset+pad[0]/2+slk_pad_offset, y1-pad[1]/2-slk_pad_offset],
+											[-x10+topoffset+pad[0]/2+slk_pad_offset, y1-pad[1]/2-slk_pad_offset],
 											[x10-topoffset-pad[0]/2-slk_pad_offset, y1-pad[1]/2-slk_pad_offset],
 											[x10-topoffset-pad[0]/2-slk_pad_offset, y1+pad[1]/2]], layer=slk_layers_top, width=lw_slk))
 	if isMale:
 		kicad_mod.append(PolygoneLine(polygone=[[x_pin1-topoffset-pad[0]/2-(slk_pad_offset+2*lw_slk), y1], 
-	                                        [x_pin1-topoffset-pad[0]/2-(slk_pad_offset+2*lw_slk), y1-pad[1]/2-(slk_pad_offset+2*lw_slk)], 
+											[x_pin1-topoffset-pad[0]/2-(slk_pad_offset+2*lw_slk), y1-pad[1]/2-(slk_pad_offset+2*lw_slk)], 
 											[x_pin1-topoffset+rmx, y1-pad[1]/2-(slk_pad_offset+2*lw_slk)]], layer=slk_layers_top, width=lw_slk))
 	else:
 		kicad_mod.append(PolygoneLine(polygone=[[x_pin1+topoffset+pad[0]/2+(slk_pad_offset+2*lw_slk), y1], 
-	                                        [x_pin1+topoffset+pad[0]/2+(slk_pad_offset+2*lw_slk), y1-pad[1]/2-(slk_pad_offset+2*lw_slk)], 
+											[x_pin1+topoffset+pad[0]/2+(slk_pad_offset+2*lw_slk), y1-pad[1]/2-(slk_pad_offset+2*lw_slk)], 
 											[x_pin1+topoffset-rmx, y1-pad[1]/2-(slk_pad_offset+2*lw_slk)]], layer=slk_layers_top, width=lw_slk))
 	
 	kicad_mod.append(Line(start=[-shield_width/2, ypcb_edge], end=[shield_width/2, pad[1]/2+soldercup_pad_edge_offset], layer='Dwgs.User', width=lw_crt))
@@ -482,22 +482,22 @@ def makeDSubAngled(pins, isMale, HighDensity, rmx, rmy, pindrill, pad, pin_pcb_d
 		footprint_name=footprint_name+"_Female"
 
 	rmy_default=2.84
-	footprint_name=footprint_name+"_P{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
 	description = description+", pitch {0}x{1}mm, pin-PCB-offset {2}mm".format(rmx,rmy,pin_pcb_distance)
 	tags = tags+" pitch {0}x{1}mm pin-PCB-offset {2}mm".format(rmx,rmy,pin_pcb_distance)
 
 	footprint_name=footprint_name+"_Horizontal"
+	footprint_name=footprint_name+"_Pitch{0:3.2f}x{1:3.2f}mm".format(rmx,rmy)
 	footprint_name=footprint_name+"_EdgePinOffset{0:3.2f}mm".format(pin_pcb_distance)
 	
 	if hasMountingHoles:
 		description = description+", distance of mounting holes {0}mm, distance of mounting holes to PCB edge {1}mm".format(mountingdistance, mounting_pcb_distance)
 		tags = tags+" mounting-holes-distance {0}mm mounting-hole-offset {0}mm".format(mountingdistance, mounting_pcb_distance)
+		if not hasNoBackBox:
+			footprint_name=footprint_name+"_Housed"
 		footprint_name=footprint_name+"_MountingHolesOffset{0:3.2f}mm".format(mounting_pcb_distance)
 	else:
-		if hasNoBackBox:
-			footprint_name=footprint_name+"_NoBox"
-		else:
-			footprint_name=footprint_name+"_NoMountingHoles"
+		if not hasNoBackBox:
+			footprint_name=footprint_name+"_Housed"
 
 
 	if len(webpage)>0:
