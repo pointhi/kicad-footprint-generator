@@ -175,12 +175,12 @@ def BFemale(size, pin_cb, more_description):
 def BMale(size, pin_cb, more_description):
 	colss = [32, 16, 10]
 	cols = colss[size]
-	npth_a_offset_y = 2.54 # ERNI
+	npth_a_offset_y = -2.54 # ERNI
 	npth_steps = [88.9, 48.26, 33.02] # ERNI
 	npth_step = npth_steps[size]
 	npth_drill = 2.8 # ERNI
-	col_step = -2.54 # ERNI and ept
-	row_step = -2.54 # ERNI and ept
+	col_step = 2.54 # ERNI and ept
+	row_step = 2.54 # ERNI and ept
 	pin_drill = 1 # ERNI and ept
 	pin_pad = 1.7 # same as module pinheader
 	jack_to_npth = 10.2 # ERNI
@@ -189,6 +189,7 @@ def BMale(size, pin_cb, more_description):
 	jack_to_eyelet = 12.7
 	eyelet_spans = [94, 53.5, 38.1] # ERNI or ept
 	eyelet_span = eyelet_spans[size]
+	board_edge_to_a = 5.3 # ERNI
 
 	mid_x = 0.5 * col_step * (cols - 1)
 	mid_y = 0.5 * row_step
@@ -229,41 +230,41 @@ def BMale(size, pin_cb, more_description):
 	# assume plastic part to be centered around the pins
 	eyelet_border = jack_to_eyelet - jack_to_npth
 	package_outline = [
-		[mid_x - eyelet_span/2 + 2 * eyelet_border, npth_y - eyelet_border + pin_drill/2], # x: guess
-		[mid_x - eyelet_span/2 + 2 * eyelet_border, npth_y - eyelet_border], # x: guess
-		[mid_x - eyelet_span/2, npth_y - eyelet_border],
-		[mid_x - eyelet_span/2, npth_y + eyelet_border], # y: guess, not ept
-		[mid_x - jack_width/2, npth_y + eyelet_border], # y: guess, not ept
-		[mid_x - jack_width/2, npth_y + jack_to_npth],
+		[mid_x - eyelet_span/2 + 2 * eyelet_border, npth_y + eyelet_border - pin_drill/2], # x: guess
+		[mid_x - eyelet_span/2 + 2 * eyelet_border, npth_y + eyelet_border], # x: guess
+		[mid_x - eyelet_span/2, npth_y + eyelet_border],
+		[mid_x - eyelet_span/2, npth_y - eyelet_border], # y: guess, not ept
+		[mid_x - jack_width/2, npth_y - eyelet_border], # y: guess, not ept
+		[mid_x - jack_width/2, npth_y - jack_to_npth],
 		# --- mirror line ---
-		[mid_x + jack_width/2, npth_y + jack_to_npth],
-		[mid_x + jack_width/2, npth_y + eyelet_border], # y: guess, not ept
-		[mid_x + eyelet_span/2, npth_y + eyelet_border], # y: guess, not ept
-		[mid_x + eyelet_span/2, npth_y - eyelet_border],
-		[mid_x + eyelet_span/2 - 2 * eyelet_border, npth_y - eyelet_border], # x: guess
-		[mid_x + eyelet_span/2 - 2 * eyelet_border, npth_y - eyelet_border + pin_drill/2], # x: guess
+		[mid_x + jack_width/2, npth_y - jack_to_npth],
+		[mid_x + jack_width/2, npth_y - eyelet_border], # y: guess, not ept
+		[mid_x + eyelet_span/2, npth_y - eyelet_border], # y: guess, not ept
+		[mid_x + eyelet_span/2, npth_y + eyelet_border],
+		[mid_x + eyelet_span/2 - 2 * eyelet_border, npth_y + eyelet_border], # x: guess
+		[mid_x + eyelet_span/2 - 2 * eyelet_border, npth_y + eyelet_border - pin_drill/2], # x: guess
 	]
 	# silkscreen is offset by 0.1 mm to be visible with component placed
 	silkscreen_left = [
-		[package_outline[ 0][0] + 0.1, package_outline[ 0][1] - 0.1],
-		[package_outline[ 1][0] + 0.1, package_outline[ 1][1] - 0.1],
-		[package_outline[ 2][0] - 0.1, package_outline[ 2][1] - 0.1],
-		[package_outline[ 3][0] - 0.1, package_outline[ 3][1] + 0.1],
-		[package_outline[ 4][0] - 0.1, package_outline[ 4][1] + 0.1],
+		[package_outline[ 0][0] + 0.1, package_outline[ 0][1] + 0.1],
+		[package_outline[ 1][0] + 0.1, package_outline[ 1][1] + 0.1],
+		[package_outline[ 2][0] - 0.1, package_outline[ 2][1] + 0.1],
+		[package_outline[ 3][0] - 0.1, package_outline[ 3][1] - 0.1],
+		[package_outline[ 4][0] - 0.1, package_outline[ 4][1] - 0.1],
 		# can not draw further, it would leave the pcb
 	]
 	silkscreen_right = [
-		[package_outline[ 7][0] + 0.1, package_outline[ 7][1] + 0.1],
-		[package_outline[ 8][0] + 0.1, package_outline[ 8][1] + 0.1],
-		[package_outline[ 9][0] + 0.1, package_outline[ 9][1] - 0.1],
-		[package_outline[10][0] - 0.1, package_outline[10][1] - 0.1],
-		[package_outline[11][0] - 0.1, package_outline[11][1] - 0.1],
+		[package_outline[ 7][0] + 0.1, package_outline[ 7][1] - 0.1],
+		[package_outline[ 8][0] + 0.1, package_outline[ 8][1] - 0.1],
+		[package_outline[ 9][0] + 0.1, package_outline[ 9][1] + 0.1],
+		[package_outline[10][0] - 0.1, package_outline[10][1] + 0.1],
+		[package_outline[11][0] - 0.1, package_outline[11][1] + 0.1],
 	]
 	pin_a1_arrow = [ # form taken from module Connectors_Molex
-		[pin_pad/2 + 0.5 + 0.0, 0.0],
-		[pin_pad/2 + 0.5 + 0.6, -0.3],
-		[pin_pad/2 + 0.5 + 0.6, 0.3],
-		[pin_pad/2 + 0.5 + 0.0, 0.0]
+		[-pin_pad/2 - 0.5 - 0.0, 0.0],
+		[-pin_pad/2 - 0.5 - 0.6, -0.3],
+		[-pin_pad/2 - 0.5 - 0.6, 0.3],
+		[-pin_pad/2 - 0.5 - 0.0, 0.0]
 	]
 	kicad_mod.append(PolygoneLine(
 		polygone=silkscreen_left,
@@ -299,19 +300,19 @@ def BMale(size, pin_cb, more_description):
 	# ------ Courtyard ------
 	# KLC: connectors should have 0.5mm clearance
 	courtyard = [
-		[(cols - 1) * col_step - pin_pad/2 - 0.5, row_step - pin_pad/2 - 0.5],
-		[(cols - 1) * col_step - pin_pad/2 - 0.5, package_outline[ 1][1] - 0.5],
-		[package_outline[ 2][0] - 0.5, package_outline[ 2][1] - 0.5],
-		[package_outline[ 3][0] - 0.5, package_outline[ 3][1] + 0.5],
-		[package_outline[ 4][0] - 0.5, package_outline[ 4][1] + 0.5],
-		[package_outline[ 5][0] - 0.5, package_outline[ 5][1] + 0.5],
-		[package_outline[ 6][0] + 0.5, package_outline[ 6][1] + 0.5],
-		[package_outline[ 7][0] + 0.5, package_outline[ 7][1] + 0.5],
-		[package_outline[ 8][0] + 0.5, package_outline[ 8][1] + 0.5],
-		[package_outline[ 9][0] + 0.5, package_outline[ 9][1] - 0.5],
-		[package_outline[10][0] - 0.5, package_outline[10][1] - 0.5],
-		[pin_pad/2 + 0.5, package_outline[10][1] - 0.5],
-		[pin_pad/2 + 0.5, row_step - pin_pad/2 - 0.5],
+		[-pin_pad/2 - 0.5, row_step + pin_pad/2 + 0.5],
+		[-pin_pad/2 - 0.5, package_outline[10][1] + 0.5],
+		[package_outline[ 2][0] - 0.5, package_outline[ 2][1] + 0.5],
+		[package_outline[ 3][0] - 0.5, package_outline[ 3][1] - 0.5],
+		[package_outline[ 4][0] - 0.5, package_outline[ 4][1] - 0.5],
+		[package_outline[ 5][0] - 0.5, package_outline[ 5][1] - 0.5],
+		[package_outline[ 6][0] + 0.5, package_outline[ 6][1] - 0.5],
+		[package_outline[ 7][0] + 0.5, package_outline[ 7][1] - 0.5],
+		[package_outline[ 8][0] + 0.5, package_outline[ 8][1] - 0.5],
+		[package_outline[ 9][0] + 0.5, package_outline[ 9][1] + 0.5],
+		[package_outline[10][0] - 0.5, package_outline[10][1] + 0.5],
+		[(cols - 1) * col_step + pin_pad/2 + 0.5, package_outline[ 1][1] + 0.5],
+		[(cols - 1) * col_step + pin_pad/2 + 0.5, row_step + pin_pad/2 + 0.5],
 	]
 	kicad_mod.append(PolygoneLine(
 		polygone = courtyard + [courtyard[0]],
