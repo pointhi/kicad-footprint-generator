@@ -11,6 +11,31 @@ sys.path.append(os.path.join(sys.path[0],"..","tools")) # for drawing_tools
 from KicadModTree import *
 from drawing_tools import *
 
+# According to IEC 60603-2 §3 and DIN 41612-1 §2 connector names should be like
+# this:
+# "${STANDARD}${TYPE}${PINCOUNT}${GENDER}${METHOD}-${FURTHER_INFO}"
+# with:
+# STANDARD: either "IEC 60603-2 " or "DIN 41 612-"
+# TYPE: B, C, D, E, F, G, H, M, Q, R, S, T, U, V, W
+# PINCOUNT: Number of populated pins, 3 digits
+# SEX: M: male, F: female
+# METHOD: A: screws, C (DIN) crimp (IEC), D: insulation displacement (IEC),
+#         K: clamps (DIN), P: press fit (DIN) S: solder, T: blade receptacle,
+#         W: wire wrap
+# FURTHER_INFO: Pin length, materials and other things that don't change the
+#               footprint.
+#
+# This library choose to use the prefix "Conn_DIN41612_", because Din 41612 is
+# more common term.
+# METHOD and further are ommited, because the footprint is suited for
+# soldering and press fit.
+#
+# It includes half and third sized connectors, that are not part of IEC 60603 
+# or DIN 41612. These connectors are named 2X and 3X, a convention also used by
+# Harting.
+
+
+
 # When a manufacturer is mentioned in the comment, it means that
 # the value is explicitly stated in a datasheet by this company.
 
@@ -65,12 +90,8 @@ def BFemale(size, pin_cb, more_description):
 	for col in range(1, cols + 1):
 		pin_count += int(pin_cb('A', col))
 		pin_count += int(pin_cb('B', col))
-	size_names = ["B1", "B2", "B3"]
-	footprint_name = "Conn_DIN41612_" + size_names[size] + "-" + str(pin_count) + "-female"
-	# "Conn"(ector): Called like this by ERNI and ept
-	#     Not "Socket", because it does not host (small) components
-	# "B-64": called like this by ERNI. Pin count only is shorter than descriptive
-	#     row configuration.
+	size_names = ["B", "2B", "3B"]
+	footprint_name = "Conn_DIN41612_%s%03dF" % (size_names[size], pin_count)
 
 	# init kicad footprint
 	kicad_mod = Footprint(footprint_name)
@@ -199,12 +220,8 @@ def BMale(size, pin_cb, more_description):
 	for col in range(1, cols + 1):
 		pin_count += int(pin_cb('A', col))
 		pin_count += int(pin_cb('B', col))
-	size_names = ["B1", "B2", "B3"]
-	footprint_name = "Conn_DIN41612_" + size_names[size] + "-" + str(pin_count) + "-male"
-	# "Conn"(ector): Called like this by ERNI and ept
-	#     Not "Socket", because it does not host (small) components
-	# "B-64": called like this by ERNI. Pin count only is shorter than descriptive
-	#     row configuration.
+	size_names = ["B", "2B", "3B"]
+	footprint_name = "Conn_DIN41612_%s%03dM" % (size_names[size], pin_count)
 
 	# init kicad footprint
 	kicad_mod = Footprint(footprint_name)
@@ -249,16 +266,15 @@ def BMale(size, pin_cb, more_description):
 		[package_outline[ 0][0] + 0.1, package_outline[ 0][1] + 0.1],
 		[package_outline[ 1][0] + 0.1, package_outline[ 1][1] + 0.1],
 		[package_outline[ 2][0] - 0.1, package_outline[ 2][1] + 0.1],
-		[package_outline[ 3][0] - 0.1, package_outline[ 3][1] - 0.1],
-		[package_outline[ 4][0] - 0.1, package_outline[ 4][1] - 0.1],
+		[package_outline[ 3][0] - 0.1, package_outline[ 3][1]],
 		# can not draw further, it would leave the pcb
 	]
 	silkscreen_right = [
-		[package_outline[ 7][0] + 0.1, package_outline[ 7][1] - 0.1],
-		[package_outline[ 8][0] + 0.1, package_outline[ 8][1] - 0.1],
-		[package_outline[ 9][0] + 0.1, package_outline[ 9][1] + 0.1],
-		[package_outline[10][0] - 0.1, package_outline[10][1] + 0.1],
 		[package_outline[11][0] - 0.1, package_outline[11][1] + 0.1],
+		[package_outline[10][0] - 0.1, package_outline[10][1] + 0.1],
+		[package_outline[ 9][0] + 0.1, package_outline[ 9][1] + 0.1],
+		[package_outline[ 8][0] + 0.1, package_outline[ 8][1]],
+		# can not draw further, it would leave the pcb
 	]
 	pin_a1_arrow = [ # form taken from module Connectors_Molex
 		[-pin_pad/2 - 0.5 - 0.0, 0.0],
@@ -280,7 +296,7 @@ def BMale(size, pin_cb, more_description):
 		layer='F.SilkS'))
 	kicad_mod.append(Text(
 		type='reference', text='REF**',
-		at=[mid_x, row_step - 2.0],
+		at=[mid_x - npth_step * 0.5, row_step * 0.5],
 		layer='F.SilkS'))
 
 	# ------ Fabrication layer ------
@@ -289,7 +305,7 @@ def BMale(size, pin_cb, more_description):
 		layer = 'F.Fab'))
 	kicad_mod.append(Text(
 		type='value', text=footprint_name,
-		at=[mid_x, npth_y + jack_to_npth + 1.3],
+		at=[mid_x, npth_y + jack_to_npth - 1.3],
 		layer='F.Fab'))
 	kicad_mod.append(Text(
 		type='user', text='%R',
@@ -317,6 +333,31 @@ def BMale(size, pin_cb, more_description):
 	kicad_mod.append(PolygoneLine(
 		polygone = courtyard + [courtyard[0]],
 		layer = 'F.CrtYd'))
+	
+	# ------ Board edge ------
+	kicad_mod.append(Line(
+		start = [mid_x - jack_width/2, -board_edge_to_a],
+		end = [mid_x + jack_width/2, -board_edge_to_a],
+		width = 0.08,
+		layer = 'Dwgs.User'))
+	kicad_mod.append(Line(
+		start = [mid_x, -board_edge_to_a - 1.5],
+		end = [mid_x, -board_edge_to_a - 0.1],
+		width = 0.1,
+		layer = 'Cmts.User'))
+	kicad_mod.append(PolygoneLine(
+		polygone = [
+			[mid_x - 0.2, -board_edge_to_a - 0.6],
+			[mid_x, -board_edge_to_a - 0.1],
+			[mid_x + 0.2, -board_edge_to_a - 0.6],
+		],
+		width = 0.1,
+		layer = 'Cmts.User'))
+	kicad_mod.append(Text(
+		type='user', text='Board edge',
+		at=[mid_x, -board_edge_to_a - 2],
+		size=[0.7, 0.7], thickness=0.1,
+		layer='Cmts.User'))
 
 	# ------ 3D reference ------
 	# in case someone wants to make a model
