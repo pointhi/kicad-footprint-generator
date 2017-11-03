@@ -107,71 +107,84 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 def roundToBase(value, base):
 	return round(value/base) * base
 
-def calc_pad_details(device_params, ipc_data, ipc_round_base, configuration):
-    # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
-    # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
-    # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
-    F = configuration.get('manufacturing_tolerance', 0.1)
-    P = configuration.get('placement_tolerance', 0.05)
+class TwoTerminalSMDchip():
+    def __init__(self, command_file, configuration):
+        self.configuration = configuration
+        with open(command_file, 'r') as command_stream:
+            try:
+                footprint_commands = yaml.load(command_stream)
+            except yaml.YAMLError as exc:
+                print(exc)
+        ipc_doc = footprint_commands['ipc_definition']
+        with open(ipc_doc, 'r') as ipc_stream:
+            try:
+                self.ipc_defintions = yaml.load(ipc_stream)
+            except yaml.YAMLError as exc:
+                print(exc)
 
-    length_tolerance = device_params['body_length_max']-device_params['body_length_min']
-    width_tolerance = device_params['body_width_max']-device_params['body_width_min']
-    spacing_tolerance = device_params['terminator_spacing_max']-device_params['terminator_spacing_min']
+        device_size_docs = footprint_commands['device_size_definitions']
+        self.package_size_defintions={}
+        for device_size_doc in device_size_docs:
+            with open(device_size_doc, 'r') as size_stream:
+                try:
+                    self.package_size_defintions.update(yaml.load(size_stream))
+                except yaml.YAMLError as exc:
+                    print(exc)
+        self.footprint_group_definitions = footprint_commands['device_groups']
 
-    Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(length_tolerance**2 + F**2 + P**2)
-    Gmin = device_params['terminator_spacing_max'] - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
-    Xmax = device_params['body_width_min'] + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
+    def calcPadDetails(self, device_params, ipc_data, ipc_round_base, footprint_group_data):
+        # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
+        # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
+        # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
+        F = self.configuration.get('manufacturing_tolerance', 0.1)
+        P = self.configuration.get('placement_tolerance', 0.05)
 
-    Zmax = roundToBase(Zmax, ipc_round_base['toe'])
-    Gmin = roundToBase(Gmin, ipc_round_base['heel'])
-    Xmax = roundToBase(Xmax, ipc_round_base['side'])
+        length_tolerance = device_params['body_length_max']-device_params['body_length_min']
+        width_tolerance = device_params['body_width_max']-device_params['body_width_min']
+        spacing_tolerance = device_params['terminator_spacing_max']-device_params['terminator_spacing_min']
 
-    return {'at':[(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax], 'Z':Zmax,'G':Gmin,'W':Xmax}
+        Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(length_tolerance**2 + F**2 + P**2)
+        Gmin = device_params['terminator_spacing_max'] - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
+        Xmax = device_params['body_width_min'] + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
 
-def parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions, configuration):
-    with open(filepath, 'r') as stream:
-        try:
-            footprint_group_definitions = yaml.load(stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-    for group_name in footprint_group_definitions:
-        #print(device_group)
-        footprint_group_data = footprint_group_definitions[group_name]
-        for size_name in package_size_defintions:
-            device_size_data = package_size_defintions[size_name]
-            print(group_name + ' ' + size_name)
-            ipc_reference = device_size_data['ipc_reference']
-            ipc_density = footprint_group_data['ipc_density']
-            ipc_data_set = ipc_defintions[ipc_reference][ipc_density]
-            ipc_round_base = ipc_defintions[ipc_reference]['round_base']
-            print(calc_pad_details(device_size_data, ipc_data_set, ipc_round_base, configuration))
-            #print(calc_pad_details())
-            #print("generate {name}.kicad_mod".format(name=footprint))
-        #create_footprint(footprint, **yaml_parsed.get(footprint))
+        Zmax = roundToBase(Zmax, ipc_round_base['toe'])
+        Gmin = roundToBase(Gmin, ipc_round_base['heel'])
+        Xmax = roundToBase(Xmax, ipc_round_base['side'])
 
+        Zmax += footprint_group_data.get('pad_length_addition', 0)
+
+        return {'at':[(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax], 'Z':Zmax,'G':Gmin,'W':Xmax}
+
+    def generateFootprints(self):
+        for group_name in self.footprint_group_definitions:
+            #print(device_group)
+            footprint_group_data = self.footprint_group_definitions[group_name]
+            for size_name in self.package_size_defintions:
+                device_size_data = self.package_size_defintions[size_name]
+
+                ipc_reference = device_size_data['ipc_reference']
+                ipc_density = footprint_group_data['ipc_density']
+                ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
+                ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
+
+                #print(calc_pad_details())
+                #print("generate {name}.kicad_mod".format(name=footprint))
+
+                suffix = footprint_group_data.get('suffix', '')
+                prefix = footprint_group_data['prefix']
+                code_imperial = device_size_data['code_imperial']
+                code_metric = device_size_data['code_metric']
+                name_format = self.configuration['fp_name_format_string']
+                fp_name = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix=suffix)
+                print(fp_name)
+                print(self.calcPadDetails(device_size_data, ipc_data_set, ipc_round_base, footprint_group_data))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('files', metavar='file', type=str, nargs='+',
                         help='list of files holding information about what devices should be created.')
     parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv3.0.yaml')
-    ipc_doc = 'ipc.yaml'
-    with open(ipc_doc, 'r') as ipc_stream:
-        try:
-            ipc_defintions = yaml.load(ipc_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
 
-    device_size_doc = 'device_sizes.yaml'
-    with open(device_size_doc, 'r') as size_stream:
-        try:
-            package_size_defintions = yaml.load(size_stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-    # print(ipc_defintions['ipc_spec_smaller_0603']['nominal'])
-    #parser.add_argument('-v', '--verbose', help='show more information when creating footprint', action='store_true')
-    # TODO: allow writing into sub file
     args = parser.parse_args()
 
     with open(args.config, 'r') as config_stream:
@@ -181,4 +194,5 @@ if __name__ == "__main__":
             print(exc)
 
     for filepath in args.files:
-        parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions, configuration)
+        two_terminal_smd =TwoTerminalSMDchip(filepath, configuration)
+        two_terminal_smd.generateFootprints()

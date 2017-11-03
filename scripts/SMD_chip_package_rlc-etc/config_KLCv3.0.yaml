@@ -1,0 +1,30 @@
+# This holds the configuration information
+# using this config file will create KLCv3.0 compatible footprints.
+
+placement_tolerance: 0.05
+manufacturing_tolerance: 0.1
+
+fp_name_format_string: '{prefix:s}_{code_imperial:s}_{code_metric:s}Metric{suffix:s}'
+
+silk_line_width: 0.12
+fab_line_width: 0.1
+courtyard_line_width: 0.05
+courtyard_grid: 0.01
+references:
+    - reference:
+        layer: 'F.Silk'
+        position: ['top', 'center']
+        size: [1,1]
+        thickness_factor: 0.15
+    - reference:
+        layer: 'F.Fab'
+        position: ['center', 'center']
+        size_max: [1,1]
+        size_min: [0.5, 0.5]
+        thickness_factor: 0.15
+values:
+    - value:
+        layer: 'F.Fab'
+        position: ['bottom', 'center']
+        size: [1,1]
+        thickness_factor: 0.15
