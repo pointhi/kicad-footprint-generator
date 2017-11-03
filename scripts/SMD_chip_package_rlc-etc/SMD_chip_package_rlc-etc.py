@@ -294,14 +294,14 @@ class TwoTerminalSMDchip():
                     kicad_mod.append(Text(type='user', text='%V',
                         **self.getTextFieldDetails(additional_value, outline_size)))
 
-                prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
+                modeld_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
                 if footprint_group_data.get('include_suffix_in_3dpath', 'True') == 'True':
-                    model_name = '{prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
-                        prefix=prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name)
+                    model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+                        modeld_path_prefix=modeld_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name)
                 else:
                     fp_name_2 = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix="")
-                    model_name = '{prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
-                        prefix=prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
+                    model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+                        modeld_path_prefix=modeld_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
 
                 kicad_mod.append(Model(filename=model_name))
                 output_dir = '{lib_name:s}.pretty/'.format(lib_name=footprint_group_data['fp_lib_name'])
