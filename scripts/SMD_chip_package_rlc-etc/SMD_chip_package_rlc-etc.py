@@ -153,9 +153,44 @@ class TwoTerminalSMDchip():
 
         Zmax += footprint_group_data.get('pad_length_addition', 0)
 
-        return {'at':[(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax], 'Z':Zmax,'G':Gmin,'W':Xmax}
+        return {'at':[-(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax], 'Z':Zmax,'G':Gmin,'W':Xmax}
+
+    def getTextFieldDetails(self, field_definition, body_size):
+        position_y = field_definition['position'][0]
+        at = [0,0]
+
+        if 'size' in field_definition:
+            size = field_definition['size']
+        elif 'size_min' in field_definition and 'size_max' in field_definition:
+            # We want at least 3 char reference designators space. If we can't fit these we move the reverence to the outside.
+            size_max = field_definition['size_max']
+            size_min = field_definition['size_min']
+            if body_size[0] >= 4*size_max[1]:
+                size = size_max
+            elif body_size[0] < 3*size_min[1]:
+                size = size_min
+                if position_y == 'center':
+                    position_y = 'top'
+            else:
+                if body_size[0] < 4*size_min[1]:
+                    size = size_min
+                else:
+                    fs = roundToBase(body_size[0]/4, 0.01)
+                    size = [fs, fs]
+        else:
+            size = [1,1]
+
+        text_outside_y_pos = fs = roundToBase(body_size[1]/2+5/4.0*size[0], 0.01)
+        if position_y == 'top':
+            at = [0, -text_outside_y_pos]
+        elif position_y == 'bottom':
+            at = [0, text_outside_y_pos]
+
+        fontwidth = roundToBase(field_definition['thickness_factor']*size[0], 0.01)
+        return {'at': at, 'size': size, 'layer': field_definition['layer'], 'thickness': fontwidth}
 
     def generateFootprints(self):
+        fab_line_width = self.configuration.get('fab_line_width', 0.1)
         for group_name in self.footprint_group_definitions:
             #print(device_group)
             footprint_group_data = self.footprint_group_definitions[group_name]
@@ -167,17 +202,68 @@ class TwoTerminalSMDchip():
                 ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
                 ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
+                pad_details = self.calcPadDetails(device_size_data, ipc_data_set, ipc_round_base, footprint_group_data)
                 #print(calc_pad_details())
                 #print("generate {name}.kicad_mod".format(name=footprint))
 
-                suffix = footprint_group_data.get('suffix', '')
+                suffix = footprint_group_data.get('suffix', '').format(pad_x=pad_details['size'][0], pad_y=pad_details['size'][1])
                 prefix = footprint_group_data['prefix']
                 code_imperial = device_size_data['code_imperial']
                 code_metric = device_size_data['code_metric']
                 name_format = self.configuration['fp_name_format_string']
                 fp_name = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix=suffix)
-                print(fp_name)
-                print(self.calcPadDetails(device_size_data, ipc_data_set, ipc_round_base, footprint_group_data))
+                #print(fp_name)
+                #print(pad_details)
+
+                kicad_mod = Footprint(fp_name)
+
+                # init kicad footprint
+                kicad_mod.setDescription(footprint_group_data['description'].format(code_imperial=code_imperial, code_metric=code_metric, size_info=device_size_data.get('size_info')))
+                kicad_mod.setTags(footprint_group_data['keywords'])
+                kicad_mod.setAttribute('smd')
+
+                kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT, **pad_details))
+                pad_details['at'][0] *= (-1)
+                kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT, **pad_details))
+
+                fab_outline = self.configuration.get('fab_outline', 'typical')
+                if fab_outline == 'max':
+                    outline_size = [device_size_data['body_length_max'], device_size_data['body_width_max']]
+                elif fab_outline == 'min':
+                    outline_size = [device_size_data['body_length_min'], device_size_data['body_width_min']]
+                else:
+                    outline_size = [device_size_data['body_length'], device_size_data['body_width']]
+
+                kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2], end=[outline_size[0]/2, -outline_size[1]/2],
+                    layer='F.Fab', width=fab_line_width))
+
+                reference_fields = self.configuration['references']
+                kicad_mod.append(Text(type='reference', text='REF**',
+                    **self.getTextFieldDetails(reference_fields[0], outline_size)))
+
+                for additional_ref in reference_fields[1:]:
+                    kicad_mod.append(Text(type='user', text='%R',
+                    **self.getTextFieldDetails(additional_ref, outline_size)))
+
+                value_fields = self.configuration['values']
+                kicad_mod.append(Text(type='value', text=fp_name,
+                    **self.getTextFieldDetails(value_fields[0], outline_size)))
+
+                for additional_value in value_fields[1:]:
+                    kicad_mod.append(Text(type='user', text='%V',
+                        **self.getTextFieldDetails(additional_value, outline_size)))
+
+                prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
+                model_name = '{prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(prefix=prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name)
+
+                kicad_mod.append(Model(filename=model_name))
+                output_dir = '{lib_name:s}.pretty/'.format(lib_name=footprint_group_data['fp_lib_name'])
+                if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+                    os.makedirs(output_dir)
+                filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=fp_name)
+
+                file_handler = KicadFileHandler(kicad_mod)
+                file_handler.writeFile(filename)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')

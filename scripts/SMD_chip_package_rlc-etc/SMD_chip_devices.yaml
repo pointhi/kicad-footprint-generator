@@ -12,17 +12,19 @@ device_size_definitions: ['device_sizes_two_terminal_chip.yaml']
 
 device_groups:
     resistor:
+        fp_lib_name: 'Resistor_SMD'
         prefix: 'R'
-        description: 'Resistor SMD {size:s}, IPC_7351 nominal'
+        description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
         keywords: 'resistor'
         ipc_density: 'nominal'
         pad_length_addition: 0
         suffix: ""
 
     resistor_handsolder:
+        fp_lib_name: 'Resistor_SMD'
         prefix: 'R'
-        description: 'Resistor SMD {size:s}, IPC_7351 nominal'
+        description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), IPC_7351 nominal with elongated pad for handsoldering. {size_info:s}, generated with kicad-footprint-generator'
         keywords: 'resistor, handsolder'
         ipc_density: 'nominal'
         pad_length_addition: 0.3
-        suffix: "_HandSolder"
+        suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
