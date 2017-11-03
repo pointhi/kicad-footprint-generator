@@ -105,7 +105,7 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 #     file_handler.writeFile('{name}.kicad_mod'.format(name=name))
 
 def roundToBase(value, base):
-	return round(value/base) * base
+    return round(value/base) * base
 
 class TwoTerminalSMDchip():
     def __init__(self, command_file, configuration):
@@ -266,11 +266,13 @@ class TwoTerminalSMDchip():
                         end=[silk_outline_x, silk_outline_y], layer='F.SilkS', width=silk_line_width))
 
                 CrtYd_rect = [None,None]
-                CrtYd_rect[0] = 2 * abs(pad_details['at'][0]) + pad_details['size'][0] + 2 * ipc_data_set['courtyard']
+                CrtYd_rect[0] = roundToBase(2 * abs(pad_details['at'][0]) + pad_details['size'][0] + 2 * ipc_data_set['courtyard'], 0.02)
                 if pad_details['size'][1] > outline_size[1]:
                     CrtYd_rect[1] = pad_details['size'][1] + 2 * ipc_data_set['courtyard']
                 else:
                     CrtYd_rect[1] = outline_size[1] + 2 * ipc_data_set['courtyard']
+
+                CrtYd_rect[1] = roundToBase(CrtYd_rect[1], 0.02)
 
                 kicad_mod.append(RectLine(start=[-CrtYd_rect[0]/2, CrtYd_rect[1]/2],
                     end=[CrtYd_rect[0]/2, -CrtYd_rect[1]/2],
@@ -293,7 +295,13 @@ class TwoTerminalSMDchip():
                         **self.getTextFieldDetails(additional_value, outline_size)))
 
                 prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
-                model_name = '{prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(prefix=prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name)
+                if footprint_group_data.get('include_suffix_in_3dpath', 'True') == 'True':
+                    model_name = '{prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+                        prefix=prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name)
+                else:
+                    fp_name_2 = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix="")
+                    model_name = '{prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+                        prefix=prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
 
                 kicad_mod.append(Model(filename=model_name))
                 output_dir = '{lib_name:s}.pretty/'.format(lib_name=footprint_group_data['fp_lib_name'])

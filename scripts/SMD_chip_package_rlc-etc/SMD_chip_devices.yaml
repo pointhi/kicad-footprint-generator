@@ -27,7 +27,8 @@ device_groups:
         size_definitions: ['size_default_chip_devices.yaml', 'size_wide_body_chip_resistor.yaml']
         prefix: 'R'
         description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), IPC_7351 nominal with elongated pad for handsoldering. {size_info:s}, generated with kicad-footprint-generator'
-        keywords: 'resistor, handsolder'
+        keywords: 'resistor handsolder'
         ipc_density: 'nominal'
         pad_length_addition: 0.3
         suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
+        include_suffix_in_3dpath: 'False'
