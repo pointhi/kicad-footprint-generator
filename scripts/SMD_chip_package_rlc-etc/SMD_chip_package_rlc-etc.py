@@ -167,25 +167,34 @@ class TwoTerminalSMDchip():
         position_y = field_definition['position'][0]
         at = [0,0]
 
+        if body_size[0] < body_size[1] and position_y == 'center':
+            rotation = 1
+        else:
+            rotation = 0
+
         if 'size' in field_definition:
             size = field_definition['size']
+            rotation = 0
         elif 'size_min' in field_definition and 'size_max' in field_definition:
             # We want at least 3 char reference designators space. If we can't fit these we move the reverence to the outside.
             size_max = field_definition['size_max']
             size_min = field_definition['size_min']
-            if body_size[0] >= 4*size_max[1]:
+            if body_size[rotation] >= 4*size_max[1]:
+                if body_size[0] >= 4*size_max[1]:
+                    rotation = 0
                 size = size_max
-            elif body_size[0] < 3*size_min[1]:
+            elif body_size[rotation] < 4*size_min[1]:
                 size = size_min
-                if position_y == 'center':
-                    position_y = 'top'
+                if body_size[rotation] < 3*size_min[1]:
+                    if position_y == 'center':
+                        rotation = 0
+                        position_y = 'top'
             else:
-                if body_size[0] < 4*size_min[1]:
-                    size = size_min
-                else:
-                    fs = roundToBase(body_size[0]/4, 0.01)
-                    size = [fs, fs]
+                fs = roundToBase(body_size[rotation]/4, 0.01)
+                size = [fs, fs]
         else:
+            rotation = 0
+            position_y = 'top'
             size = [1,1]
 
         text_outside_y_pos = fs = roundToBase(body_size[1]/2+5/4.0*size[0], 0.01)
@@ -195,7 +204,7 @@ class TwoTerminalSMDchip():
             at = [0, text_outside_y_pos]
 
         fontwidth = roundToBase(field_definition['thickness_factor']*size[0], 0.01)
-        return {'at': at, 'size': size, 'layer': field_definition['layer'], 'thickness': fontwidth}
+        return {'at': at, 'size': size, 'layer': field_definition['layer'], 'thickness': fontwidth, 'rotation': rotation*90}
 
     def generateFootprints(self):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
