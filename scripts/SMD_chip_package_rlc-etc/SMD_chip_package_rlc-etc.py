@@ -104,16 +104,15 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 #     file_handler = KicadFileHandler(kicad_mod)
 #     file_handler.writeFile('{name}.kicad_mod'.format(name=name))
 
-F = 0.1
-P = 0.05
-
 def roundToBase(value, base):
 	return round(value/base) * base
 
-def calc_pad_details(device_params, ipc_data, ipc_round_base):
+def calc_pad_details(device_params, ipc_data, ipc_round_base, configuration):
     # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
     # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
     # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
+    F = configuration.get('manufacturing_tolerance', 0.1)
+    P = configuration.get('placement_tolerance', 0.05)
 
     length_tolerance = device_params['body_length_max']-device_params['body_length_min']
     width_tolerance = device_params['body_width_max']-device_params['body_width_min']
@@ -129,7 +128,7 @@ def calc_pad_details(device_params, ipc_data, ipc_round_base):
 
     return {'at':[(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax], 'Z':Zmax,'G':Gmin,'W':Xmax}
 
-def parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions):
+def parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions, configuration):
     with open(filepath, 'r') as stream:
         try:
             footprint_group_definitions = yaml.load(stream)
@@ -145,16 +144,17 @@ def parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions
             ipc_density = footprint_group_data['ipc_density']
             ipc_data_set = ipc_defintions[ipc_reference][ipc_density]
             ipc_round_base = ipc_defintions[ipc_reference]['round_base']
-            print(calc_pad_details(device_size_data, ipc_data_set, ipc_round_base))
+            print(calc_pad_details(device_size_data, ipc_data_set, ipc_round_base, configuration))
             #print(calc_pad_details())
             #print("generate {name}.kicad_mod".format(name=footprint))
         #create_footprint(footprint, **yaml_parsed.get(footprint))
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Parse *.kicad_mod.yml file(s) and create matching footprints')
+    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('files', metavar='file', type=str, nargs='+',
-                        help='yml-files to parse')
+                        help='list of files holding information about what devices should be created.')
+    parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv3.0.yaml')
     ipc_doc = 'ipc.yaml'
     with open(ipc_doc, 'r') as ipc_stream:
         try:
@@ -173,5 +173,12 @@ if __name__ == "__main__":
     #parser.add_argument('-v', '--verbose', help='show more information when creating footprint', action='store_true')
     # TODO: allow writing into sub file
     args = parser.parse_args()
+
+    with open(args.config, 'r') as config_stream:
+        try:
+            configuration = yaml.load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
     for filepath in args.files:
-        parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions)
+        parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions, configuration)
