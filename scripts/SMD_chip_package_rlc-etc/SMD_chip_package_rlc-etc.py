@@ -104,17 +104,30 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 #     file_handler = KicadFileHandler(kicad_mod)
 #     file_handler.writeFile('{name}.kicad_mod'.format(name=name))
 
-def calc_pad_details(device_params, ipc_data):
-    # Zmax = Lmin + 2JT + √CL2 + F2 + P2
-    # Gmin = Smax − 2JH − √CS2 + F2 + P2
-    # Xmax = Wmin + 2JS + √CW2 + F2 + P2
+F = 0.1
+P = 0.05
 
+def roundToBase(value, base):
+	return round(value/base) * base
 
-    Zmax = device_params['body_length_min'] + 2*ipc_data['toe']
-    Gmin = device_params['terminator_spacing_max'] - 2*ipc_data['heel']
-    Xmax = device_params['body_width_min'] + 2*ipc_data['side']
+def calc_pad_details(device_params, ipc_data, ipc_round_base):
+    # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
+    # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
+    # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
 
-    return {'at':[(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax]}
+    length_tolerance = device_params['body_length_max']-device_params['body_length_min']
+    width_tolerance = device_params['body_width_max']-device_params['body_width_min']
+    spacing_tolerance = device_params['terminator_spacing_max']-device_params['terminator_spacing_min']
+
+    Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(length_tolerance**2 + F**2 + P**2)
+    Gmin = device_params['terminator_spacing_max'] - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
+    Xmax = device_params['body_width_min'] + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
+
+    Zmax = roundToBase(Zmax, ipc_round_base['toe'])
+    Gmin = roundToBase(Gmin, ipc_round_base['heel'])
+    Xmax = roundToBase(Xmax, ipc_round_base['side'])
+
+    return {'at':[(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax], 'Z':Zmax,'G':Gmin,'W':Xmax}
 
 def parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions):
     with open(filepath, 'r') as stream:
@@ -131,7 +144,8 @@ def parse_and_execute_yml_file(filepath, ipc_defintions, package_size_defintions
             ipc_reference = device_size_data['ipc_reference']
             ipc_density = footprint_group_data['ipc_density']
             ipc_data_set = ipc_defintions[ipc_reference][ipc_density]
-            print(calc_pad_details(device_size_data, ipc_data_set))
+            ipc_round_base = ipc_defintions[ipc_reference]['round_base']
+            print(calc_pad_details(device_size_data, ipc_data_set, ipc_round_base))
             #print(calc_pad_details())
             #print("generate {name}.kicad_mod".format(name=footprint))
         #create_footprint(footprint, **yaml_parsed.get(footprint))

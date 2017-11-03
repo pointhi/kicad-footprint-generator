@@ -16,10 +16,10 @@ resistor:
     pad_length_addition: 0
     name_modifier: ""
 
-resistor_handsolder:
-    prefix: 'R'
-    description: 'Resistor SMD {size:s}, IPC_7351 nominal'
-    keywords: 'resistor, handsolder'
-    ipc_density: 'nominal'
-    pad_length_addition: 0.3
-    name_modifier: "_HandSolder"
+# resistor_handsolder:
+#     prefix: 'R'
+#     description: 'Resistor SMD {size:s}, IPC_7351 nominal'
+#     keywords: 'resistor, handsolder'
+#     ipc_density: 'nominal'
+#     pad_length_addition: 0.3
+#     name_modifier: "_HandSolder"

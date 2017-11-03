@@ -2,32 +2,37 @@
 # Page 23
 
 # < 0603 (1608 Metric)
-#           | Minimum | Median    | Maximum
-#           | (Least) | (Nominal) | (Most)
-#           | Density | Density   | Density
-# Lead Part | Level C | Level B   | Level A
-# ----------+---------+-----------+--------
-# Heel (JH) |  0.0    |  0.1      |  0.2
-# Toe  (JT) | -0.05   | -0.05     | -0.05
-# Side (JS) |  0.00   | 0.00      |  0.05
-# Courtyard |  0.1    | 0.15      |  0.2
+#           | Minimum | Median    | Maximum |
+#           | (Least) | (Nominal) | (Most)  |
+#           | Density | Density   | Density | round
+# Lead Part | Level C | Level B   | Level A |  to
+# ----------+---------+-----------+---------+-
+# Toe (JT)  |  0.0    |  0.1      |  0.2    | 0.05
+# Heel (JH) | -0.05   | -0.05     | -0.05   | 0.05
+# Side (JS) |  0.00   | 0.00      |  0.05   | 0.05
+# Courtyard |  0.1    | 0.15      |  0.2    |
 
 ipc_spec_smaller_0603:
     least:
-        heel: 0.0
-        toe: -0.05
+        toe: 0.0
+        heel: -0.05
         side: 0.0
         courtyard: 0.1
     nominal:
-        heel: 0.1
-        toe: -0.05
+        toe: 0.1
+        heel: -0.05
         side: 0.0
         courtyard: 0.15
     most:
-        heel: 0.2
-        toe: -0.05
+        toe: 0.2
+        heel: -0.05
         side: 0.5
         courtyard: 0.2
+    round_base:
+        toe: 0.05
+        heel: 0.05
+        side: 0.05
+
 
 # >= 0603 (1608 Metric)
 #           | Minimum | Median    | Maximum
@@ -35,24 +40,28 @@ ipc_spec_smaller_0603:
 #           | Density | Density   | Density
 # Lead Part | Level C | Level B   | Level A
 # ----------+---------+-----------+--------
-# Heel (JH) |  0.15   |  0.35     |  0.55
-# Toe (JT)  | -0.30   | -0.20     | -0.10
+# Toe (JT)  |  0.15   |  0.35     |  0.55
+# Heel (JH) | -0.30   | -0.20     | -0.10
 # Side (JS) |  0.01   | 0.03      |  0.05
 # Courtyard |  0.1    | 0.25      |  0.5
 
 ipc_spec_larger_or_equal_0603:
     least:
-        heel: 015
-        toe: -0.3
+        toe: 015
+        heel: -0.3
         side: 0.01
         courtyard: 0.1
     nominal:
-        heel: 0.35
-        toe: -0.2
+        toe: 0.35
+        heel: -0.2
         side: 0.03
         courtyard: 0.25
     most:
-        heel: 0.55
-        toe: -0.1
+        toe: 0.55
+        heel: -0.1
         side: 0.05
         courtyard: 0.5
+    round_base:
+        toe: 0.02
+        heel: 0.02
+        side: 0.1
