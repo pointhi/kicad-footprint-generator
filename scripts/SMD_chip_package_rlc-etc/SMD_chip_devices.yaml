@@ -8,11 +8,11 @@
 
 
 ipc_definition: 'ipc_smd_two_terminal_chip.yaml'
-device_size_definitions: ['device_sizes_two_terminal_chip.yaml']
 
 device_groups:
     resistor:
         fp_lib_name: 'Resistor_SMD'
+        size_definitions: ['size_default_chip_devices.yaml', 'size_wide_body_chip_resistor.yaml']
         prefix: 'R'
         description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
         keywords: 'resistor'
@@ -21,7 +21,10 @@ device_groups:
         suffix: ""
 
     resistor_handsolder:
+        #ToDo: only generate > 0402
+        #ToDo: <0603: generate non silk verision
         fp_lib_name: 'Resistor_SMD'
+        size_definitions: ['size_default_chip_devices.yaml', 'size_wide_body_chip_resistor.yaml']
         prefix: 'R'
         description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), IPC_7351 nominal with elongated pad for handsoldering. {size_info:s}, generated with kicad-footprint-generator'
         keywords: 'resistor, handsolder'

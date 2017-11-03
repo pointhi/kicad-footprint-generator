@@ -122,29 +122,37 @@ class TwoTerminalSMDchip():
             except yaml.YAMLError as exc:
                 print(exc)
 
-        device_size_docs = footprint_commands['device_size_definitions']
-        self.package_size_defintions={}
-        for device_size_doc in device_size_docs:
-            with open(device_size_doc, 'r') as size_stream:
-                try:
-                    self.package_size_defintions.update(yaml.load(size_stream))
-                except yaml.YAMLError as exc:
-                    print(exc)
         self.footprint_group_definitions = footprint_commands['device_groups']
 
     def calcPadDetails(self, device_params, ipc_data, ipc_round_base, footprint_group_data):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
         # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
+
+        # Some manufacturers do not list the terminal spacing (S) in their datasheet but list the terminal lenght (T)
+        # Then one can calculate
+        # Stol(RMS) = √(Ltol^2 + 2*Ttol^2)
+        # Smin = Lmin - 2*Tmax
+        # Smax(RMS) = Smin + Stol(RMS)
+
         F = self.configuration.get('manufacturing_tolerance', 0.1)
         P = self.configuration.get('placement_tolerance', 0.05)
 
         length_tolerance = device_params['body_length_max']-device_params['body_length_min']
         width_tolerance = device_params['body_width_max']-device_params['body_width_min']
-        spacing_tolerance = device_params['terminator_spacing_max']-device_params['terminator_spacing_min']
+
+        if 'terminator_spacing_max' in device_params:
+            spacing_tolerance = device_params['terminator_spacing_max']-device_params['terminator_spacing_min']
+            Gmin = device_params['terminator_spacing_max'] - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
+        else:
+            terminal_tolerance = device_params['terminal_length_max'] - device_params['terminal_length_min']
+            spacing_tolerance = math.sqrt(length_tolerance**2+terminal_tolerance**2)
+            Smin = device_params['body_length_min'] - 2*device_params['terminal_length_max']
+            Smax = Smin + spacing_tolerance
+
+            Gmin = Smax - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
 
         Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(length_tolerance**2 + F**2 + P**2)
-        Gmin = device_params['terminator_spacing_max'] - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
         Xmax = device_params['body_width_min'] + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
 
         Zmax = roundToBase(Zmax, ipc_round_base['toe'])
@@ -194,8 +202,18 @@ class TwoTerminalSMDchip():
         for group_name in self.footprint_group_definitions:
             #print(device_group)
             footprint_group_data = self.footprint_group_definitions[group_name]
-            for size_name in self.package_size_defintions:
-                device_size_data = self.package_size_defintions[size_name]
+
+            device_size_docs = footprint_group_data['size_definitions']
+            package_size_defintions={}
+            for device_size_doc in device_size_docs:
+                with open(device_size_doc, 'r') as size_stream:
+                    try:
+                        package_size_defintions.update(yaml.load(size_stream))
+                    except yaml.YAMLError as exc:
+                        print(exc)
+
+            for size_name in package_size_defintions:
+                device_size_data = package_size_defintions[size_name]
 
                 ipc_reference = device_size_data['ipc_reference']
                 ipc_density = footprint_group_data['ipc_density']
