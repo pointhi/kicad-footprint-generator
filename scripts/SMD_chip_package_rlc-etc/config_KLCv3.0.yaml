@@ -8,6 +8,9 @@ fp_name_format_string: '{prefix:s}_{code_imperial:s}_{code_metric:s}Metric{suffi
 3d_model_prefix: '${KISYS3DMOD}/'
 
 silk_line_width: 0.12
+pad_silk_clearance: 0.2
+silk_fab_offset: 0.11
+silk_line_lenght_min: 0.4
 fab_line_width: 0.1
 fab_outline: 'typical' # typical | max | min
 courtyard_line_width: 0.05

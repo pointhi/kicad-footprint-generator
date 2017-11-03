@@ -255,6 +255,27 @@ class TwoTerminalSMDchip():
                 kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2], end=[outline_size[0]/2, -outline_size[1]/2],
                     layer='F.Fab', width=fab_line_width))
 
+                pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
+                if pad_spacing > 2*self.configuration['pad_silk_clearance'] + self.configuration['silk_line_lenght_min']:
+                    silk_outline_x = pad_spacing/2 - self.configuration['pad_silk_clearance']
+                    silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
+                    silk_line_width = self.configuration['silk_line_width']
+                    kicad_mod.append(Line(start=[-silk_outline_x, -silk_outline_y],
+                        end=[silk_outline_x, -silk_outline_y], layer='F.SilkS', width=silk_line_width))
+                    kicad_mod.append(Line(start=[-silk_outline_x, silk_outline_y],
+                        end=[silk_outline_x, silk_outline_y], layer='F.SilkS', width=silk_line_width))
+
+                CrtYd_rect = [None,None]
+                CrtYd_rect[0] = 2 * abs(pad_details['at'][0]) + pad_details['size'][0] + 2 * ipc_data_set['courtyard']
+                if pad_details['size'][1] > outline_size[1]:
+                    CrtYd_rect[1] = pad_details['size'][1] + 2 * ipc_data_set['courtyard']
+                else:
+                    CrtYd_rect[1] = outline_size[1] + 2 * ipc_data_set['courtyard']
+
+                kicad_mod.append(RectLine(start=[-CrtYd_rect[0]/2, CrtYd_rect[1]/2],
+                    end=[CrtYd_rect[0]/2, -CrtYd_rect[1]/2],
+                    layer='F.CrtYd', width=self.configuration['courtyard_line_width']))
+
                 reference_fields = self.configuration['references']
                 kicad_mod.append(Text(type='reference', text='REF**',
                     **self.getTextFieldDetails(reference_fields[0], outline_size)))
