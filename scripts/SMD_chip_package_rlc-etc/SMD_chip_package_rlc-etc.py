@@ -224,7 +224,7 @@ class TwoTerminalSMDchip():
             for size_name in package_size_defintions:
                 device_size_data = package_size_defintions[size_name]
 
-                ipc_reference = device_size_data['ipc_reference']
+                ipc_reference = footprint_group_data['ipc_reference']
                 ipc_density = footprint_group_data['ipc_density']
                 ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
                 ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
@@ -236,9 +236,13 @@ class TwoTerminalSMDchip():
                 suffix = footprint_group_data.get('suffix', '').format(pad_x=pad_details['size'][0], pad_y=pad_details['size'][1])
                 prefix = footprint_group_data['prefix']
                 code_imperial = device_size_data['code_imperial']
-                code_metric = device_size_data['code_metric']
                 name_format = self.configuration['fp_name_format_string']
-                fp_name = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix=suffix)
+                if 'code_metric' in device_size_data:
+                    code_metric = device_size_data['code_metric']
+                    fp_name = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix=suffix)
+                else:
+                    name_format_non_metric = self.configuration['fp_name_non_metric_format_string']
+                    fp_name = name_format_non_metric.format(prefix=prefix, code_imperial=code_imperial, suffix=suffix)
                 #print(fp_name)
                 #print(pad_details)
 

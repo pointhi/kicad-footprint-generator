@@ -1,53 +1,3 @@
-#0603:
-#    code_imperial: "0603"
-#    code_metric: "1608"
-#    body_length: 1.6
-#    body_length_min: 1.7
-#    body_width: 0.8
-#    body_width_min: 0.95
-#    terminator_spacing_max: 0.7
-#    ipc_reference: "ipc_spec_larger_or_equal_0603"
-
-
-
-# MD_01005:
-#     code_imperial: "01005"
-#     code_metric: "0402"
-#     body_length: 0.4
-#     body_length_min:
-#     body_width: 0.2
-#     body_width_min:
-#     terminator_spacing_max:
-#     ipc_reference: "ipc_spec_smaller_0603"
-
-SMD_0201:
-   code_imperial: "0201"
-   code_metric: "0603"
-   body_length: 0.6
-   body_length_min: 0.55
-   body_length_max: 0.65
-   body_width: 0.3
-   body_width_min: 0.25
-   body_width_max: 0.35
-   terminal_length_min: 0.1
-   terminal_length_max: 0.2
-   ipc_reference: "ipc_spec_smaller_0603"
-   size_info: '(Body size source: https://www.vishay.com/docs/20052/crcw0201e3.pdf)'
-
-SMD_0402:
-    code_imperial: "0402"
-    code_metric: "1005"
-    body_length: 1.0
-    body_length_min: 1.0
-    body_length_max: 1.1
-    body_width: 0.5
-    body_width_min: 0.48
-    body_width_max: 0.6
-    terminator_spacing_min: 0.1
-    terminator_spacing_max: 0.7
-    ipc_reference: "ipc_spec_smaller_0603"
-    size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
-
 SMD_0603:
     code_imperial: "0603"
     code_metric: "1608"
@@ -59,7 +9,6 @@ SMD_0603:
     body_width_max: 0.95
     terminator_spacing_min: 0.7
     terminator_spacing_max: 1.11
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
 
 SMD_0805:
@@ -73,10 +22,10 @@ SMD_0805:
     body_width_max: 1.4
     terminator_spacing_min: 0.55
     terminator_spacing_max: 1.32
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
 
 # SMD_1008:
+# I did not find any part that uses this package.
 #     code_imperial: "1008"
 #     code_metric: "2520"
 #     body_length: 2.5
@@ -84,7 +33,6 @@ SMD_0805:
 #     body_width: 2.0
 #     body_width_min:
 #     terminator_spacing_max:
-#     ipc_reference: "ipc_spec_larger_or_equal_0603"
 
 SMD_1206:
     code_imperial: "1206"
@@ -97,7 +45,6 @@ SMD_1206:
     body_width_max: 1.75
     terminator_spacing_min: 1.55
     terminator_spacing_max: 2.32
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
 
 SMD_1210:
@@ -111,20 +58,20 @@ SMD_1210:
     body_width_max: 2.64
     terminator_spacing_min: 1.55
     terminator_spacing_max: 2.32
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
 
-#ToDo: add option for 1508 wide body
-
-# SMD_1806:
-#     code_imperial: "1806"
-#     code_metric: "4516"
-#     body_length: 4.5
-#     body_length_min:
-#     body_width: 1.6
-#     body_width_min:
-#     terminator_spacing_max:
-#     ipc_reference: "ipc_spec_larger_or_equal_0603"
+SMD_1806:
+    code_imperial: "1806"
+    code_metric: "4516"
+    body_length: 4.5
+    body_length_min: 4.3
+    body_length_max: 4.7
+    body_width: 1.6
+    body_width_min: 1.4
+    body_width_max: 1.8
+    terminal_length_min: 0.4
+    terminal_length_max: 1.0
+    size_info: '(Body size source: https://www.modelithics.com/models/Vendor/MuRata/BLM41P.pdf)'
 
 SMD_1812:
     code_imperial: "1812"
@@ -137,18 +84,7 @@ SMD_1812:
     body_width_max: 3.4
     terminal_length_min: 0.3
     terminal_length_max: 0.7
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: https://www.nikhef.nl/pub/departments/mt/projects/detectorR_D/dtddice/ERJ2G.pdf)'
-
-# SMD_1825:
-#     code_imperial: "1825"
-#     code_metric: "4564"
-#     body_length: 4.5
-#     body_length_min:
-#     body_width: 6.4
-#     body_width_min:
-#     terminator_spacing_max:
-#     ipc_reference: "ipc_spec_larger_or_equal_0603"
 
 SMD_2010:
     code_imperial: "2010"
@@ -161,7 +97,6 @@ SMD_2010:
     body_width_max: 2.65
     terminator_spacing_min: 3.15
     terminator_spacing_max: 3.92
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
 
 SMD_2512:
@@ -175,7 +110,6 @@ SMD_2512:
     body_width_max: 3.35
     terminator_spacing_min: 4.45
     terminator_spacing_max: 5.22
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
 
 SMD_2816:
@@ -189,15 +123,4 @@ SMD_2816:
     body_width_max: 4.454
     terminal_length_min: 1.316
     terminal_length_max: 1.824
-    ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size from: https://www.vishay.com/docs/30100/wsl.pdf)'
-
-# SMD_2920:
-#     code_imperial: "2920"
-#     code_metric: "7451"
-#     body_length: 7.4
-#     body_length_min:
-#     body_width: 5.1
-#     body_width_min:
-#     terminator_spacing_max:
-#     ipc_reference: "ipc_spec_larger_or_equal_0603"
