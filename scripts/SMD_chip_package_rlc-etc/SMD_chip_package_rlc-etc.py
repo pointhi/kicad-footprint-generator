@@ -167,6 +167,7 @@ class TwoTerminalSMDchip():
         position_y = field_definition['position'][0]
         at = [0,0]
 
+
         if body_size[0] < body_size[1] and position_y == 'center':
             rotation = 1
         else:
@@ -208,6 +209,8 @@ class TwoTerminalSMDchip():
 
     def generateFootprints(self):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
+        silk_line_width = self.configuration.get('silk_line_width', 0.12)
+
         for group_name in self.footprint_group_definitions:
             #print(device_group)
             footprint_group_data = self.footprint_group_definitions[group_name]
@@ -265,21 +268,80 @@ class TwoTerminalSMDchip():
                 else:
                     outline_size = [device_size_data['body_length'], device_size_data['body_width']]
 
-                kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2], end=[outline_size[0]/2, -outline_size[1]/2],
-                    layer='F.Fab', width=fab_line_width))
+                if footprint_group_data.get('polarization_mark', 'False') == 'True':
+                    polararity_marker_size = self.configuration.get('fab_polarity_factor', 0.25)
+                    polararity_marker_size *= (outline_size[1] if outline_size[1] < outline_size[0] else outline_size[0])
 
-                pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
-                if pad_spacing > 2*self.configuration['pad_silk_clearance'] + self.configuration['silk_line_lenght_min']:
-                    silk_outline_x = pad_spacing/2 - self.configuration['pad_silk_clearance']
-                    silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
-                    silk_line_width = self.configuration['silk_line_width']
-                    kicad_mod.append(Line(start=[-silk_outline_x, -silk_outline_y],
-                        end=[silk_outline_x, -silk_outline_y], layer='F.SilkS', width=silk_line_width))
-                    kicad_mod.append(Line(start=[-silk_outline_x, silk_outline_y],
-                        end=[silk_outline_x, silk_outline_y], layer='F.SilkS', width=silk_line_width))
+                    polarity_marker_thick_line = False
+
+                    polarity_max_size = self.configuration.get('fab_polarity_max_size', 1)
+                    if polararity_marker_size > polarity_max_size:
+                        polararity_marker_size = polarity_max_size
+                    polarity_min_size = self.configuration.get('fab_polarity_min_size', 0.25)
+                    if polararity_marker_size < polarity_min_size:
+                        if polararity_marker_size < polarity_min_size*0.6:
+                            polarity_marker_thick_line = True
+                        polararity_marker_size = polarity_min_size
+
+                    silk_x_left = -abs(pad_details['at'][0]) - pad_details['size'][0]/2 - \
+                        self.configuration['pad_silk_clearance'] - silk_line_width/2
+
+                    silk_y_bottom = self.configuration['pad_silk_clearance'] + silk_line_width/2 + \
+                        (outline_size[1] if outline_size[1]> pad_details['size'][1] else pad_details['size'][1])/2
+
+                    if polarity_marker_thick_line:
+                        kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
+                            end=[outline_size[0]/2, -outline_size[1]/2],
+                            layer='F.Fab', width=fab_line_width))
+                        x = -outline_size[0]/2 + fab_line_width
+                        kicad_mod.append(Line(start=[x, outline_size[1]/2],
+                            end=[x, -outline_size[1]/2],
+                            layer='F.Fab', width=fab_line_width))
+                        x += fab_line_width
+                        if x < -fab_line_width/2:
+                            kicad_mod.append(Line(start=[x, outline_size[1]/2],
+                                end=[x, -outline_size[1]/2],
+                                layer='F.Fab', width=fab_line_width))
+
+                        kicad_mod.append(Circle(center=[silk_x_left-0.05, 0],
+                            radius=0.05, layer="F.SilkS", width=0.1))
+                    else:
+                        poly_fab= [
+                            {'x':outline_size[0]/2,'y':-outline_size[1]/2},
+                            {'x':polararity_marker_size - outline_size[0]/2,'y':-outline_size[1]/2},
+                            {'x':-outline_size[0]/2,'y':polararity_marker_size-outline_size[1]/2},
+                            {'x':-outline_size[0]/2,'y':outline_size[1]/2},
+                            {'x':outline_size[0]/2,'y':outline_size[1]/2},
+                            {'x':outline_size[0]/2,'y':-outline_size[1]/2}
+                        ]
+                        kicad_mod.append(PolygoneLine(polygone=poly_fab, layer='F.Fab', width=fab_line_width))
+
+                        poly_silk = [
+                            {'x':outline_size[0]/2,'y':-silk_y_bottom},
+                            {'x':silk_x_left,'y':-silk_y_bottom},
+                            {'x':silk_x_left,'y':silk_y_bottom},
+                            {'x':outline_size[0]/2,'y':silk_y_bottom}
+                        ]
+                        kicad_mod.append(PolygoneLine(polygone=poly_silk, layer='F.SilkS', width=silk_line_width))
+                else:
+                    kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
+                        end=[outline_size[0]/2, -outline_size[1]/2],
+                        layer='F.Fab', width=fab_line_width))
+
+                    pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
+                    if pad_spacing > 2*self.configuration['pad_silk_clearance'] + \
+                            self.configuration['silk_line_lenght_min'] + self.configuration['silk_line_width']:
+                        silk_outline_x = pad_spacing/2 - silk_line_width - self.configuration['pad_silk_clearance']
+                        silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
+
+                        kicad_mod.append(Line(start=[-silk_outline_x, -silk_outline_y],
+                            end=[silk_outline_x, -silk_outline_y], layer='F.SilkS', width=silk_line_width))
+                        kicad_mod.append(Line(start=[-silk_outline_x, silk_outline_y],
+                            end=[silk_outline_x, silk_outline_y], layer='F.SilkS', width=silk_line_width))
 
                 CrtYd_rect = [None,None]
-                CrtYd_rect[0] = roundToBase(2 * abs(pad_details['at'][0]) + pad_details['size'][0] + 2 * ipc_data_set['courtyard'], 0.02)
+                CrtYd_rect[0] = roundToBase(2 * abs(pad_details['at'][0]) + \
+                    pad_details['size'][0] + 2 * ipc_data_set['courtyard'], 0.02)
                 if pad_details['size'][1] > outline_size[1]:
                     CrtYd_rect[1] = pad_details['size'][1] + 2 * ipc_data_set['courtyard']
                 else:

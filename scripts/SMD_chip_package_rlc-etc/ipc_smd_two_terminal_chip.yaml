@@ -99,31 +99,31 @@ ipc_spec_tantalumn:
         heel: 0.02
         side: 0.1
 
-# castelated
+# castellated
 #           | Minimum | Median    | Maximum
 #           | (Least) | (Nominal) | (Most)
 #           | Density | Density   | Density
 # Lead Part | Level C | Level B   | Level A
 # ----------+---------+-----------+--------
-# Toe (JT)  |  0.15   |  0.35     |  0.55
-# Heel (JH) | -0.30   | -0.20     | -0.10
-# Side (JS) |  0.01   | 0.03      |  0.05
-# Courtyard |  0.1    | 0.25      |  0.5
+# Toe (JT)  |  0.45   |  0.55     |  0.65
+# Heel (JH) |  0.05   |  0.15     |  0.25
+# Side (JS) | -0.15   | -0.05     |  0.05
+# Courtyard |  0.1    |  0.25     |  0.5
 
-ipc_spec_castelated:
+ipc_spec_castellated:
     least:
-        toe: 0.05
-        heel: 0.45
+        toe: 0.45
+        heel: 0.05
         side: -0.15
         courtyard: 0.1
     nominal:
-        toe: 0.15
-        heel: 0.55
+        toe: 0.55
+        heel: 0.15
         side: -0.05
         courtyard: 0.25
     most:
-        toe: 0.25
-        heel: 0.65
+        toe: 0.65
+        heel: 0.25
         side: 0.05
         courtyard: 0.5
     round_base:
