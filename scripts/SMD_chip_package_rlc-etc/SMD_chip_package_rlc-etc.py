@@ -152,37 +152,42 @@ class TwoTerminalSMDchip():
                 #print(calc_pad_details())
                 #print("generate {name}.kicad_mod".format(name=footprint))
 
-                suffix = footprint_group_data.get('suffix', '').format(pad_x=pad_details['size'][0], pad_y=pad_details['size'][1])
+                suffix = footprint_group_data.get('suffix', '').format(pad_x=pad_details['size'][0],
+                    pad_y=pad_details['size'][1])
                 prefix = footprint_group_data['prefix']
+
+                model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
+                suffix_3d = suffix if footprint_group_data.get('include_suffix_in_3dpath', 'True') == 'True' else ""
+
+                code_metric = device_size_data.get('code_metric')
+                code_letter = device_size_data.get('code_letter')
+                code_imperial = device_size_data.get('code_imperial')
+
                 if 'code_letter' in device_size_data:
                     name_format = self.configuration['fp_name_tantal_format_string']
-                    code_metric = device_size_data['code_metric']
-                    code_letter = device_size_data['code_letter']
-                    fp_name = name_format.format(prefix=prefix,
-                        code_letter=code_letter, code_metric=code_metric, suffix=suffix)
                 else:
-                    code_imperial = device_size_data['code_imperial']
-                    name_format = self.configuration['fp_name_format_string']
                     if 'code_metric' in device_size_data:
-                        code_metric = device_size_data['code_metric']
-                        fp_name = name_format.format(prefix=prefix,
-                            code_imperial=code_imperial, code_metric=code_metric, suffix=suffix)
+                        name_format = self.configuration['fp_name_format_string']
                     else:
-                        name_format_non_metric = self.configuration['fp_name_non_metric_format_string']
-                        fp_name = name_format_non_metric.format(prefix=prefix,
-                            code_imperial=code_imperial, suffix=suffix)
+                        name_format = self.configuration['fp_name_non_metric_format_string']
+
+                fp_name = name_format.format(prefix=prefix,
+                    code_imperial=code_imperial, code_metric=code_metric,
+                    code_letter=code_letter, suffix=suffix)
+                fp_name_2 = name_format.format(prefix=prefix,
+                    code_imperial=code_imperial, code_letter=code_letter,
+                    code_metric=code_metric, suffix=suffix_3d)
+                model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+                    model3d_path_prefix=model3d_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
                 #print(fp_name)
                 #print(pad_details)
 
                 kicad_mod = Footprint(fp_name)
 
                 # init kicad footprint
-                if 'code_letter' in device_size_data:
-                    kicad_mod.setDescription(footprint_group_data['description'].format(code_letter=code_letter,
-                        code_metric=code_metric, size_info=device_size_data.get('size_info')))
-                else:
-                    kicad_mod.setDescription(footprint_group_data['description'].format(code_imperial=code_imperial,
-                        code_metric=code_metric, size_info=device_size_data.get('size_info')))
+                kicad_mod.setDescription(footprint_group_data['description'].format(code_imperial=code_imperial,
+                    code_metric=code_metric, code_letter=code_letter,
+                    size_info=device_size_data.get('size_info')))
                 kicad_mod.setTags(footprint_group_data['keywords'])
                 kicad_mod.setAttribute('smd')
 
@@ -298,23 +303,6 @@ class TwoTerminalSMDchip():
                 for additional_value in value_fields[1:]:
                     kicad_mod.append(Text(type='user', text='%V',
                         **self.getTextFieldDetails(additional_value, outline_size)))
-
-                modeld_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
-                if footprint_group_data.get('include_suffix_in_3dpath', 'True') == 'True':
-                    model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
-                        modeld_path_prefix=modeld_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name)
-                elif 'code_letter' in device_size_data:
-                    name_format = self.configuration['fp_name_tantal_format_string']
-                    code_metric = device_size_data['code_metric']
-                    code_letter = device_size_data['code_letter']
-                    fp_name_2 = name_format.format(prefix=prefix,
-                        code_letter=code_letter, code_metric=code_metric, suffix="")
-                    model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
-                        modeld_path_prefix=modeld_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
-                else:
-                    fp_name_2 = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix="")
-                    model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
-                        modeld_path_prefix=modeld_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
 
                 kicad_mod.append(Model(filename=model_name))
                 output_dir = '{lib_name:s}.pretty/'.format(lib_name=footprint_group_data['fp_lib_name'])
