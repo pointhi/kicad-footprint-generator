@@ -11,98 +11,6 @@ sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of Ki
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 
-# def create_footprint(name, **kwargs):
-#     kicad_mod = Footprint(name)
-#
-#     # init kicad footprint
-#     kicad_mod.setDescription(kwargs['description'])
-#     kicad_mod.setTags('Capacitor Electrolytic')
-#     kicad_mod.setAttribute('smd')
-#
-#     # set general values
-#     text_offset_y = kwargs['width'] / 2. + kwargs['courtjard'] + 0.8
-#
-#     kicad_mod.append(Text(type='reference', text='REF**', at=[0, -text_offset_y], layer='F.SilkS'))
-#     kicad_mod.append(Text(type='value', text=name, at=[0, text_offset_y], layer='F.Fab'))
-#
-#     # create fabrication layer
-#     fab_x = kwargs['length'] / 2.
-#     fab_y = kwargs['width'] / 2.
-#     fab_edge = 1
-#     fab_x_edge = fab_x - fab_edge
-#     fab_y_edge = fab_y - fab_edge
-#     kicad_mod.append(Line(start=[fab_x, -fab_y], end=[fab_x, fab_y], layer='F.Fab'))
-#     kicad_mod.append(Line(start=[-fab_x_edge, -fab_y], end=[fab_x, -fab_y], layer='F.Fab'))
-#     kicad_mod.append(Line(start=[-fab_x_edge, fab_y], end=[fab_x, fab_y], layer='F.Fab'))
-#     kicad_mod.append(Line(start=[-fab_x, -fab_y_edge], end=[-fab_x, fab_y_edge], layer='F.Fab'))
-#
-#     kicad_mod.append(Line(start=[-fab_x, -fab_y_edge], end=[-fab_x_edge, -fab_y], layer='F.Fab'))
-#     kicad_mod.append(Line(start=[-fab_x, fab_y_edge], end=[-fab_x_edge, fab_y], layer='F.Fab'))
-#
-#     fab_text_x = kwargs['pad_spacing'] / 2. + kwargs['pad_length'] / 4.
-#     kicad_mod.append(Text(type='user', text='+', at=[-fab_text_x, 0], layer='F.Fab'))
-#
-#     # create silkscreen
-#     silk_x = kwargs['length'] / 2. + 0.11
-#     silk_y = kwargs['width'] / 2. + 0.11
-#     silk_y_start = kwargs['pad_width'] / 2. + 0.3
-#     silk_x_edge = fab_x - fab_edge + 0.05
-#     silk_y_edge = fab_y - fab_edge + 0.05
-#
-#     kicad_mod.append(Line(start=[silk_x, silk_y], end=[silk_x, silk_y_start], layer='F.SilkS'))
-#     kicad_mod.append(Line(start=[silk_x, -silk_y], end=[silk_x, -silk_y_start], layer='F.SilkS'))
-#     kicad_mod.append(Line(start=[-silk_x_edge, -silk_y], end=[silk_x, -silk_y], layer='F.SilkS'))
-#     kicad_mod.append(Line(start=[-silk_x_edge, silk_y], end=[silk_x, silk_y], layer='F.SilkS'))
-#
-#     if silk_y_edge > silk_y_start:
-#         kicad_mod.append(Line(start=[-silk_x, silk_y_edge], end=[-silk_x, silk_y_start], layer='F.SilkS'))
-#         kicad_mod.append(Line(start=[-silk_x, -silk_y_edge], end=[-silk_x, -silk_y_start], layer='F.SilkS'))
-#
-#         kicad_mod.append(Line(start=[-silk_x, -silk_y_edge], end=[-silk_x_edge, -silk_y], layer='F.SilkS'))
-#         kicad_mod.append(Line(start=[-silk_x, silk_y_edge], end=[-silk_x_edge, silk_y], layer='F.SilkS'))
-#     else:
-#         silk_x_cut = silk_x - (silk_y_start - silk_y_edge) # because of the 45 degree edge we can user a simple apporach
-#         silk_y_edge_cut = silk_y_start
-#
-#         kicad_mod.append(Line(start=[-silk_x_cut, -silk_y_edge_cut], end=[-silk_x_edge, -silk_y], layer='F.SilkS'))
-#         kicad_mod.append(Line(start=[-silk_x_cut, silk_y_edge_cut], end=[-silk_x_edge, silk_y], layer='F.SilkS'))
-#
-#     silk_cane_x_start = math.cos(math.asin(silk_y_start / (kwargs['diameter'] / 2.))) * (kwargs['diameter'] / 2.)
-#     silk_cane_angle = 180 - math.acos(2 * (silk_cane_x_start / kwargs['diameter'])) * 360. / math.pi # TODO 180
-#
-#     kicad_mod.append(Arc(center=[0, 0], start=[-silk_cane_x_start, -silk_y_start], angle=silk_cane_angle,layer='F.SilkS'))
-#     kicad_mod.append(Arc(center=[0, 0], start=[silk_cane_x_start, silk_y_start], angle=silk_cane_angle, layer='F.SilkS'))
-#
-#     # create courtyard
-#     courtjard_x = kwargs['pad_spacing'] / 2. + kwargs['pad_length'] + kwargs['courtjard']
-#     courtjard_y = kwargs['width'] / 2. + kwargs['courtjard']
-#
-#     kicad_mod.append(RectLine(start=[courtjard_x, courtjard_y], end=[-courtjard_x, -courtjard_y], layer='F.CrtYd'))
-#
-#     # '+' sign on silkscreen
-#     silk_text_x = courtjard_x- 0.6
-#     silk_text_y = courtjard_y - 0.6
-#     kicad_mod.append(Text(type='user', text='+', at=[-silk_text_x, silk_text_y], layer='F.SilkS'))
-#
-#     # all pads have this kwargs, so we only write them once
-#     pad_kwargs = {'type': Pad.TYPE_SMT,
-#                   'shape': Pad.SHAPE_RECT,
-#                   'layers': ['F.Cu', 'F.Mask', 'F.Paste']}
-#
-#     # create pads
-#     x_pad_spacing = kwargs['pad_spacing'] / 2. + kwargs['pad_length'] / 2.
-#     kicad_mod.append(Pad(number= 1, at=[-x_pad_spacing, 0],
-#                          size=[kwargs['pad_length'], kwargs['pad_width']], **pad_kwargs))
-#     kicad_mod.append(Pad(number= 2, at=[x_pad_spacing, 0],
-#                          size=[kwargs['pad_length'], kwargs['pad_width']], **pad_kwargs))
-#
-#     # add model
-#     kicad_mod.append(Model(filename="example.3dshapes/{name}.wrl".format(name=name),
-#                             at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
-#
-#     # write file
-#     file_handler = KicadFileHandler(kicad_mod)
-#     file_handler.writeFile('{name}.kicad_mod'.format(name=name))
 
 def roundToBase(value, base):
     return round(value/base) * base
@@ -139,7 +47,15 @@ class TwoTerminalSMDchip():
         P = self.configuration.get('placement_tolerance', 0.05)
 
         length_tolerance = device_params['body_length_max']-device_params['body_length_min']
-        width_tolerance = device_params['body_width_max']-device_params['body_width_min']
+
+        if 'terminal_width_min' in device_params:
+            terminal_width_min = device_params['terminal_width_min']
+            terminal_width_max = device_params['terminal_width_max']
+        else:
+            terminal_width_min = device_params['body_width_min']
+            terminal_width_max = device_params['body_width_max']
+
+        width_tolerance = terminal_width_max - terminal_width_min
 
         if 'terminator_spacing_max' in device_params:
             spacing_tolerance = device_params['terminator_spacing_max']-device_params['terminator_spacing_min']
@@ -153,7 +69,7 @@ class TwoTerminalSMDchip():
             Gmin = Smax - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
 
         Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(length_tolerance**2 + F**2 + P**2)
-        Xmax = device_params['body_width_min'] + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
+        Xmax = terminal_width_min + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
 
         Zmax = roundToBase(Zmax, ipc_round_base['toe'])
         Gmin = roundToBase(Gmin, ipc_round_base['heel'])
@@ -238,21 +154,35 @@ class TwoTerminalSMDchip():
 
                 suffix = footprint_group_data.get('suffix', '').format(pad_x=pad_details['size'][0], pad_y=pad_details['size'][1])
                 prefix = footprint_group_data['prefix']
-                code_imperial = device_size_data['code_imperial']
-                name_format = self.configuration['fp_name_format_string']
-                if 'code_metric' in device_size_data:
+                if 'code_letter' in device_size_data:
+                    name_format = self.configuration['fp_name_tantal_format_string']
                     code_metric = device_size_data['code_metric']
-                    fp_name = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix=suffix)
+                    code_letter = device_size_data['code_letter']
+                    fp_name = name_format.format(prefix=prefix,
+                        code_letter=code_letter, code_metric=code_metric, suffix=suffix)
                 else:
-                    name_format_non_metric = self.configuration['fp_name_non_metric_format_string']
-                    fp_name = name_format_non_metric.format(prefix=prefix, code_imperial=code_imperial, suffix=suffix)
+                    code_imperial = device_size_data['code_imperial']
+                    name_format = self.configuration['fp_name_format_string']
+                    if 'code_metric' in device_size_data:
+                        code_metric = device_size_data['code_metric']
+                        fp_name = name_format.format(prefix=prefix,
+                            code_imperial=code_imperial, code_metric=code_metric, suffix=suffix)
+                    else:
+                        name_format_non_metric = self.configuration['fp_name_non_metric_format_string']
+                        fp_name = name_format_non_metric.format(prefix=prefix,
+                            code_imperial=code_imperial, suffix=suffix)
                 #print(fp_name)
                 #print(pad_details)
 
                 kicad_mod = Footprint(fp_name)
 
                 # init kicad footprint
-                kicad_mod.setDescription(footprint_group_data['description'].format(code_imperial=code_imperial, code_metric=code_metric, size_info=device_size_data.get('size_info')))
+                if 'code_letter' in device_size_data:
+                    kicad_mod.setDescription(footprint_group_data['description'].format(code_letter=code_letter,
+                        code_metric=code_metric, size_info=device_size_data.get('size_info')))
+                else:
+                    kicad_mod.setDescription(footprint_group_data['description'].format(code_imperial=code_imperial,
+                        code_metric=code_metric, size_info=device_size_data.get('size_info')))
                 kicad_mod.setTags(footprint_group_data['keywords'])
                 kicad_mod.setAttribute('smd')
 
@@ -373,6 +303,14 @@ class TwoTerminalSMDchip():
                 if footprint_group_data.get('include_suffix_in_3dpath', 'True') == 'True':
                     model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
                         modeld_path_prefix=modeld_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name)
+                elif 'code_letter' in device_size_data:
+                    name_format = self.configuration['fp_name_tantal_format_string']
+                    code_metric = device_size_data['code_metric']
+                    code_letter = device_size_data['code_letter']
+                    fp_name_2 = name_format.format(prefix=prefix,
+                        code_letter=code_letter, code_metric=code_metric, suffix="")
+                    model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+                        modeld_path_prefix=modeld_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
                 else:
                     fp_name_2 = name_format.format(prefix=prefix, code_imperial=code_imperial, code_metric=code_metric, suffix="")
                     model_name = '{modeld_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(

@@ -1,14 +1,3 @@
-#0603:
-#    code_imperial: "0603"
-#    code_metric: "1608"
-#    body_length: 1.6
-#    body_length_min: 1.7
-#    body_width: 0.8
-#    body_width_min: 0.95
-#    terminator_spacing_max: 0.7
-#    ipc_reference: "ipc_spec_larger_or_equal_0603"
-
-
 SMD_2920:
     code_imperial: "2920"
     code_metric: "7451"
