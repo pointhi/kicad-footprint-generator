@@ -3,6 +3,7 @@
 
 placement_tolerance: 0.05
 manufacturing_tolerance: 0.1
+ipc_definition: 'ipc_smd_two_terminal_chip.yaml'
 
 fp_name_format_string: '{prefix:s}_{code_imperial:s}_{code_metric:s}Metric{suffix:s}'
 fp_name_non_metric_format_string: '{prefix:s}_{code_imperial:s}{suffix:s}'

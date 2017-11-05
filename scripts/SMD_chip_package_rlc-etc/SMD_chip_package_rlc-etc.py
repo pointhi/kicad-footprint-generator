@@ -20,17 +20,17 @@ class TwoTerminalSMDchip():
         self.configuration = configuration
         with open(command_file, 'r') as command_stream:
             try:
-                footprint_commands = yaml.load(command_stream)
+                self.footprint_group_definitions = yaml.load(command_stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        ipc_doc = footprint_commands['ipc_definition']
+        ipc_doc = configuration['ipc_definition']
         with open(ipc_doc, 'r') as ipc_stream:
             try:
                 self.ipc_defintions = yaml.load(ipc_stream)
             except yaml.YAMLError as exc:
                 print(exc)
 
-        self.footprint_group_definitions = footprint_commands['device_groups']
+
 
     def calcPadDetails(self, device_params, ipc_data, ipc_round_base, footprint_group_data):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
