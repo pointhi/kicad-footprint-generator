@@ -1,6 +1,5 @@
-def round_to(n, precision):
-    correction = 0.5 if n >= 0 else -0.5
-    return int( n/precision+correction ) * precision
+def round_to(value, base):
+    return round(value/base) * base
 
 def v_add(p1,p2):
     return [p1[0]+p2[0],p1[1]+p2[1]]

@@ -3,7 +3,6 @@
 import sys
 import os
 from helpers import *
-from global_params import *
 import re
 import fnmatch
 import argparse
@@ -33,11 +32,11 @@ def getTextFieldDetails(field_definition, crtyd_top, crtyd_bottom, center_x, par
     bottom_pos = [center_x, crtyd_bottom + field_definition['size'][1]/2.0]
     if position_y == 'top':
         at = top_pos
-    elif position_y = 'inside_top':
+    elif position_y == 'inside_top':
         at = inner_ref
-    elif position_y = 'inside_bottom':
+    elif position_y == 'inside_bottom':
         at = inner_value
-    elif position_y = 'bottom'
+    elif position_y == 'bottom':
         at = bottom_pos
     else:
         at = [0,0]
@@ -46,14 +45,15 @@ def getTextFieldDetails(field_definition, crtyd_top, crtyd_bottom, center_x, par
 
 def generate_one_footprint(model, params, configuration):
 
-    #mpn_readable = '{series_prefix:s}_{rating:s}_{num_pins:s}-{style:s}{pitch:s}'
+    subseries, connector_style = params.series_name.split('-')
     pitch_mpn = ''
     if params.pin_pitch == 5.08:
         pitch_mpn = '-5,08'
     elif params.pin_pitch == 7.62:
         pitch_mpn = '-7,62'
-    lib_name = configuration['lib_name_format_str'].format(series=series[0], style=series[1], pitch=params.pitch)
-    mpn = configuration['mpn_format_string'].format(series_prefix=series_prefix, rating=series[1], num_pins=params.num_pins, pitch=pitch_mpn)
+    lib_name = configuration['lib_name_format_str'].format(series=series[0], style=series[1], pitch=params.pin_pitch)
+    mpn = configuration['mpn_format_string'].format(subseries=subseries, style = connector_style,
+        rating=series[1], num_pins=params.num_pins, pitch=pitch_mpn)
     footprint_name = configuration['fp_name_format_string'].format(man = configuration['manufacturer'], series = series[0], mpn = mpn, num_rows = 1,
         num_pins = params.num_pins, pitch = params.pin_pitch,
         orientation = configuration['orientation_str'][1] if params.angled else configuration['orientation_str'][0],
@@ -73,12 +73,13 @@ def generate_one_footprint(model, params, configuration):
 
 
     kicad_mod.setDescription(generate_description(params))
-    kicad_mod.setTags(globalParams.manufacturer_tag + ' connector ' + model)
+    kicad_mod.setTags(configuration['keywords_format_string'].format(mpn=mpn, param_name=model,
+        order_info = ', '.join(params.order_info)))
 
 
     ################################################# Pads #################################################
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                        at=[0, 0], size=[seriesParams.pin_Sx, seriesParams.pin_Sy], \
+                        at=[0, 0], size=[params.pin_Sx, params.pin_Sy], \
                         drill=seriesParams.drill, layers=configuration['pin_layers']))
     for p in range(1,params.num_pins):
         Y = 0
@@ -86,7 +87,7 @@ def generate_one_footprint(model, params, configuration):
 
         num = p+1
         kicad_mod.append(Pad(number=num, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-                            at=[X, Y], size=[seriesParams.pin_Sx, seriesParams.pin_Sy], \
+                            at=[X, Y], size=[params.pin_Sx, params.pin_Sy], \
                             drill=seriesParams.drill, layers=configuration['pin_layers']))
     if params.mount_hole:
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
@@ -265,15 +266,15 @@ def generate_one_footprint(model, params, configuration):
 
     for additional_ref in reference_fields[1:]:
         kicad_mod.append(Text(type='user', text='%R',
-        **getTextFieldDetails(additional_ref, , crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
+        **getTextFieldDetails(additional_ref, crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
 
     value_fields = configuration['values']
-    kicad_mod.append(Text(type='value', text=fp_name,
-        **getTextFieldDetails(value_fields[0], , crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
+    kicad_mod.append(Text(type='value', text=footprint_name,
+        **getTextFieldDetails(value_fields[0], crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
 
     for additional_value in value_fields[1:]:
         kicad_mod.append(Text(type='user', text='%V',
-            **getTextFieldDetails(additional_value, , crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
+            **getTextFieldDetails(additional_value, crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
 
     ################################################# Pin 1 Marker #################################################
     if not params.angled:
@@ -281,26 +282,29 @@ def generate_one_footprint(model, params, configuration):
             layer='F.SilkS', width=configuration['silk_line_width']))
         if configuration['with_fab_layer']:
             kicad_mod.append(PolygoneLine(
-                polygone=create_pin1_marker_triangle(bottom_y = -seriesParams.pin_Sy/2- 0.75,
+                polygone=create_pin1_marker_triangle(bottom_y = -params.pin_Sy/2- 0.75,
                     dimensions = [1, 1], with_top_line = True),
                 layer='F.Fab', width=configuration['fab_line_width']))
     else:
-        y_bottom_silk_marker = (silk_top_left[1] if silk_top_left[1] < -seriesParams.pin_Sy/2 else -seriesParams.pin_Sy/2) - 0.2
+        y_bottom_silk_marker = (silk_top_left[1] if silk_top_left[1] < -params.pin_Sy/2 else -params.pin_Sy/2) - 0.2
         kicad_mod.append(PolygoneLine(polygone=create_pin1_marker_triangle(y_bottom_silk_marker),
             layer='F.SilkS', width=configuration['silk_line_width']))
         if configuration['with_fab_layer']:
             kicad_mod.append(PolygoneLine(
                 polygone=create_pin1_marker_triangle(bottom_y = -0.5,
-                    dimensions = [seriesParams.pin_Sx - 0.2, -body_top_left[1]-0.5], with_top_line = False),
+                    dimensions = [1.9, -body_top_left[1]-0.5], with_top_line = False),
                 layer='F.Fab', width=configuration['fab_line_width']))
 
     #################################################### 3d file ###################################################
-    p3dname = '{prefix:s}{lib_name:s}/{fp_name}.wrl'.format(prefix = configuration.get('3d_model_prefix', '${KISYS3DMOD}/'), lib_name=lib_name, fp_name=footprint_name)
+    p3dname = '{prefix:s}{lib_name:s}.3dshapes/{fp_name}.wrl'.format(prefix = configuration.get('3d_model_prefix', '${KISYS3DMOD}/'), lib_name=lib_name, fp_name=footprint_name)
     kicad_mod.append(Model(filename=p3dname,
                            at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
 
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile(options.out_dir+footprint_name + ".kicad_mod")
+    out_dir = '{:s}.pretty/'.format(lib_name)
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+    file_handler.writeFile('{:s}.pretty/{:s}.kicad_mod'.format(lib_name, footprint_name))
 
 
 if __name__ == "__main__":
@@ -308,6 +312,7 @@ if __name__ == "__main__":
     parser.add_argument('--model_filter', type=str, nargs='?',
                         help='define a filter for what should be generated.', default="*")
     parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv2.0.yaml')
+    args = parser.parse_args()
 
     with open(args.config, 'r') as config_stream:
         try:
@@ -315,7 +320,7 @@ if __name__ == "__main__":
         except yaml.YAMLError as exc:
             print(exc)
 
-    model_filter_regobj=re.compile(fnmatch.translate(parser.model_filter))
+    model_filter_regobj=re.compile(fnmatch.translate(args.model_filter))
     for model, params in all_params.items():
         if model_filter_regobj.match(model):
             generate_one_footprint(model, params, configuration)
