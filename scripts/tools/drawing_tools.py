@@ -346,6 +346,11 @@ def addVDLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts=[], roun=0
 
 
 
+# split a rectangle 
+def addRectWith(kicad_mod, x, y, w, h, layer, width, roun=0.001):
+	kicad_modg.append(RectLine(start=[roundG(x, roun),roundG(y, roun)], end=[roundG(x+w, roun),roundG(y+h, roun)], layer=layer, width=width))
+
+
 # split a rectangle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
 def addRectWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun=0.001):
     addHLineWithKeepout(kicad_mod, x, x+w, y, layer,width,keepouts,roun)
