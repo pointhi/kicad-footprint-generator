@@ -19,30 +19,6 @@ from mstb_params import seriesParams, dimensions, generate_description, all_para
 
 series = ['MSTB', '2,5']
 
-def getTextFieldDetails(field_definition, crtyd_top, crtyd_bottom, center_x, params):
-    position_y = field_definition['position']
-
-    top_pos =[center_x + (0 if params.num_pins > 2 else 1),
-        crtyd_top - field_definition['size'][1]/2.0]
-    inner_ref = [center_x + (0 if params.num_pins > 2 else 1),
-        (3 if params.angled else -3)]
-
-    inner_value = [center_x, crtyd_bottom - 1.0 - field_definition['size'][1]/2.0]
-
-    bottom_pos = [center_x, crtyd_bottom + field_definition['size'][1]/2.0]
-    if position_y == 'top':
-        at = top_pos
-    elif position_y == 'inside_top':
-        at = inner_ref
-    elif position_y == 'inside_bottom':
-        at = inner_value
-    elif position_y == 'bottom':
-        at = bottom_pos
-    else:
-        at = [0,0]
-
-    return {'at': at, 'size': field_definition['size'], 'layer': field_definition['layer'], 'thickness': field_definition['fontwidth']}
-
 def generate_one_footprint(model, params, configuration):
 
     subseries, connector_style = params.series_name.split('-')
