@@ -234,6 +234,7 @@ diode_handsolder:
     pad_length_addition: 0
     polarization_mark: 'True'
     suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
+    include_suffix_in_3dpath: 'False'
 
 diode_castellated:
     fp_lib_name: 'Diode_SMD'
@@ -299,6 +300,7 @@ led_handsolder:
     pad_length_addition: 0
     polarization_mark: 'True'
     suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
+    include_suffix_in_3dpath: 'False'
 
 led_castellated:
     fp_lib_name: 'LED_SMD'
