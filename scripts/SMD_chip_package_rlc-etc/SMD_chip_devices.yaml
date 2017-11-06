@@ -20,6 +20,31 @@ resistor_smaller_0603:
     pad_length_addition: 0
     suffix: ""
 
+resistor_smaller_0603:
+    fp_lib_name: 'Resistor_SMD'
+    size_definitions: ['size_default_chip_devices_smaller_0603.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'R'
+    description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'resistor'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: ""
+
+resistor_smaller_0402:
+    fp_lib_name: 'Resistor_SMD'
+    size_definitions: ['size_default_chip_devices_smaller_0402.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'R'
+    description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'resistor'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: ""
+    paste_pad:
+        all_sides_rel: 0.9 #-10%
+        heel_abs: -0.05 # additional heel reduction
+
 resistor_handsolder:
     #ToDo: only generate > 0402
     fp_lib_name: 'Resistor_SMD'

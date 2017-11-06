@@ -33,6 +33,28 @@ ipc_spec_smaller_0603:
         heel: 0.05
         side: 0.05
 
+#0201 and smaller need special paste layer treadment.
+ipc_spec_smaller_0402:
+    least:
+        toe: 0.0
+        heel: -0.05
+        side: 0.0
+        courtyard: 0.1
+    nominal:
+        toe: 0.1
+        heel: -0.05
+        side: 0.0
+        courtyard: 0.15
+    most:
+        toe: 0.2
+        heel: -0.05
+        side: 0.5
+        courtyard: 0.2
+    round_base:
+        toe: 0.05
+        heel: 0.05
+        side: 0.05
+
 
 # >= 0603 (1608 Metric)
 #           | Minimum | Median    | Maximum

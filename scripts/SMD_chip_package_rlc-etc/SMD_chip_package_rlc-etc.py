@@ -11,7 +11,7 @@ sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of Ki
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 
-
+size_definition_path = "size_definitions/"
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -76,8 +76,18 @@ class TwoTerminalSMDchip():
         Xmax = roundToBase(Xmax, ipc_round_base['side'])
 
         Zmax += footprint_group_data.get('pad_length_addition', 0)
+        Pad = {'at':[-(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax]}
+        Paste = None
 
-        return {'at':[-(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax], 'Z':Zmax,'G':Gmin,'W':Xmax}
+        if 'paste_pad' in footprint_group_data:
+            rel_reduction_factor = footprint_group_data['paste_pad'].get('all_sides_rel', 0.9)
+            x_abs_reduction = (1 - rel_reduction_factor)*Pad['size'][0]
+            Zmax -= 2*x_abs_reduction
+            Gmin += 2*x_abs_reduction - 2 * footprint_group_data['paste_pad'].get('heel_abs',0)
+            Xmax *= rel_reduction_factor
+            Paste = {'at':[-(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax]}
+
+        return Pad, Paste
 
     def getTextFieldDetails(self, field_definition, body_size):
         position_y = field_definition['position'][0]
@@ -134,7 +144,7 @@ class TwoTerminalSMDchip():
             device_size_docs = footprint_group_data['size_definitions']
             package_size_defintions={}
             for device_size_doc in device_size_docs:
-                with open(device_size_doc, 'r') as size_stream:
+                with open(size_definition_path+device_size_doc, 'r') as size_stream:
                     try:
                         package_size_defintions.update(yaml.load(size_stream))
                     except yaml.YAMLError as exc:
@@ -148,7 +158,7 @@ class TwoTerminalSMDchip():
                 ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
                 ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
-                pad_details = self.calcPadDetails(device_size_data, ipc_data_set, ipc_round_base, footprint_group_data)
+                pad_details, paste_details = self.calcPadDetails(device_size_data, ipc_data_set, ipc_round_base, footprint_group_data)
                 #print(calc_pad_details())
                 #print("generate {name}.kicad_mod".format(name=footprint))
 
@@ -191,9 +201,24 @@ class TwoTerminalSMDchip():
                 kicad_mod.setTags(footprint_group_data['keywords'])
                 kicad_mod.setAttribute('smd')
 
-                kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT, **pad_details))
-                pad_details['at'][0] *= (-1)
-                kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT, **pad_details))
+                if paste_details is not None:
+                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        layers=['F.Cu', 'F.Mask'], **pad_details))
+                    pad_details['at'][0] *= (-1)
+                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        layers=['F.Cu', 'F.Mask'], **pad_details))
+
+                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        layers=['F.Paste'], **paste_details))
+                    paste_details['at'][0] *= (-1)                        
+                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        layers=['F.Paste'], **paste_details))
+                else:
+                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        layers=Pad.LAYERS_SMT, **pad_details))
+                    pad_details['at'][0] *= (-1)
+                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                        layers=Pad.LAYERS_SMT, **pad_details))
 
                 fab_outline = self.configuration.get('fab_outline', 'typical')
                 if fab_outline == 'max':
