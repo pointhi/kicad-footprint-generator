@@ -81,6 +81,20 @@ capacitor_smaller_0603:
     pad_length_addition: 0
     suffix: ""
 
+capacitor_smaller_0402:
+    fp_lib_name: 'Capacitor_SMD'
+    size_definitions: ['size_default_chip_devices_smaller_0402.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'C'
+    description: 'Capacitor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'capacitor'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: ""
+    paste_pad:
+        all_sides_rel: 0.9 #-10%
+        heel_abs: -0.05 # additional heel reduction
+
 capacitor_handsolder:
     #ToDo: only generate > 0402
     fp_lib_name: 'Capacitor_SMD'
@@ -142,6 +156,20 @@ inductor_smaller_0603:
     pad_length_addition: 0
     suffix: ""
 
+inductor_smaller_0402:
+    fp_lib_name: 'Inductor_SMD'
+    size_definitions: ['size_default_chip_devices_smaller_0402.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'L'
+    description: 'Inductor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'inductor'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: ""
+    paste_pad:
+        all_sides_rel: 0.9 #-10%
+        heel_abs: -0.05 # additional heel reduction
+
 inductor_handsolder:
     #ToDo: only generate > 0402
     fp_lib_name: 'Inductor_SMD'
@@ -179,6 +207,21 @@ diode_smaller_0603:
     pad_length_addition: 0
     polarization_mark: 'True'
     suffix: ""
+
+diode_smaller_0402:
+    fp_lib_name: 'Diode_SMD'
+    size_definitions: ['size_default_chip_devices_smaller_0402.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'D'
+    description: 'Diode SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'diode'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    polarization_mark: 'True'
+    suffix: ""
+    paste_pad:
+        all_sides_rel: 0.9 #-10%
+        heel_abs: -0.05 # additional heel reduction
 
 diode_handsolder:
     fp_lib_name: 'Diode_SMD'
@@ -228,6 +271,22 @@ led_smaller_0603:
     pad_length_addition: 0
     polarization_mark: 'True'
     suffix: ""
+
+
+led_smaller_0402:
+    fp_lib_name: 'LED_SMD'
+    size_definitions: ['size_default_chip_devices_smaller_0402.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'LED'
+    description: 'LED SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'LED'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    polarization_mark: 'True'
+    suffix: ""
+    paste_pad:
+        all_sides_rel: 0.9 #-10%
+        heel_abs: -0.05 # additional heel reduction
 
 led_handsolder:
     fp_lib_name: 'LED_SMD'
