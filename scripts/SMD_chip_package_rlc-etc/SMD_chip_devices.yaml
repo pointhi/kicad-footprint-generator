@@ -1,6 +1,6 @@
 resistor:
     fp_lib_name: 'Resistor_SMD'
-    size_definitions: ['size_default_chip_devices.yaml', 'size_wide_body_chip_resistor.yaml']
+    size_definitions: ['size_default_chip_devices.yaml', 'size_wide_body_chip_resistor.yaml', 'size_resistor.yaml']
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     prefix: 'R'
     description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
@@ -23,7 +23,7 @@ resistor_smaller_0603:
 resistor_handsolder:
     #ToDo: only generate > 0402
     fp_lib_name: 'Resistor_SMD'
-    size_definitions: ['size_default_chip_devices.yaml', 'size_wide_body_chip_resistor.yaml']
+    size_definitions: ['size_default_chip_devices.yaml', 'size_wide_body_chip_resistor.yaml', 'size_resistor.yaml']
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     prefix: 'R'
     description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. {size_info:s}, generated with kicad-footprint-generator'
@@ -133,7 +133,7 @@ inductor_handsolder:
 
 diode:
     fp_lib_name: 'Diode_SMD'
-    size_definitions: ['size_default_chip_devices.yaml']
+    size_definitions: ['size_default_chip_devices.yaml', 'size_diode.yaml']
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     prefix: 'D'
     description: 'Diode SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
@@ -157,7 +157,7 @@ diode_smaller_0603:
 
 diode_handsolder:
     fp_lib_name: 'Diode_SMD'
-    size_definitions: ['size_default_chip_devices.yaml']
+    size_definitions: ['size_default_chip_devices.yaml', 'size_diode.yaml']
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     prefix: 'D'
     description: 'Diode SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
@@ -169,7 +169,7 @@ diode_handsolder:
 
 diode_castellated:
     fp_lib_name: 'Diode_SMD'
-    size_definitions: ['size_default_chip_devices.yaml']
+    size_definitions: ['size_default_chip_devices.yaml', 'size_diode.yaml']
     ipc_reference: "ipc_spec_castellated"
     prefix: 'D'
     description: 'Diode SMD {code_imperial:s} ({code_metric:s} Metric), castellated end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'

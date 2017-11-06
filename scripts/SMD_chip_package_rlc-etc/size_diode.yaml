@@ -1,0 +1,31 @@
+SMD_2114:
+    code_imperial: "2114"
+    code_metric: "3652"
+    body_length: 5.2
+    body_length_min: 5.1
+    body_length_max: 5.3
+    body_width: 3.6
+    body_width_min: 3.5
+    body_width_max: 3.7
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.05
+    terminal_length_max: 1.25
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    size_info: '(Body size from: http://datasheets.avx.com/schottky.pdf)'
+
+SMD_3220:
+    code_imperial: "3220"
+    code_metric: "8050"
+    body_length: 8.0
+    body_length_min: 7.9
+    body_length_max: 8.1
+    body_width: 5.0
+    body_width_min: 4.9
+    body_width_max: 5.1
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.85
+    terminal_length_max: 2.05
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    size_info: '(Body size from: http://datasheets.avx.com/schottky.pdf)'
