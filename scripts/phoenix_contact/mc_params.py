@@ -3,7 +3,6 @@ from global_params import generate_footprint_name
 
 Params = namedtuple("Params",[
     'series_name',
-    'file_name',
     'angled',
     'flanged',
     'num_pins',
@@ -19,7 +18,6 @@ def generate_params(num_pins, series_name, pin_pitch, angled, flanged, order_inf
 
     return Params(
         series_name=series_name,
-        file_name=generate_footprint_name(series_name, num_pins, pin_pitch, angled, mount_hole, flanged),
         angled=angled,
         flanged=flanged,
         num_pins=num_pins,
