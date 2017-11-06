@@ -35,7 +35,7 @@ def generate_one_footprint(motel, params, options):
 
     #add the pads
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                        at=[0, 0], size=[seriesParams.pin_Sx, seriesParams.pin_Sy], \
+                        at=[0, 0], size=[params.pin_Sx, params.pin_Sy], \
                         drill=seriesParams.drill, layers=globalParams.pin_layers))
     for p in range(1,params.num_pins):
         Y = 0
@@ -43,7 +43,7 @@ def generate_one_footprint(motel, params, options):
 
         num = p+1
         kicad_mod.append(Pad(number=num, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-                            at=[X, Y], size=[seriesParams.pin_Sx, seriesParams.pin_Sy], \
+                            at=[X, Y], size=[params.pin_Sx, params.pin_Sy], \
                             drill=seriesParams.drill, layers=globalParams.pin_layers))
     if params.mount_hole:
         kicad_mod.append(Pad(number='""', type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
