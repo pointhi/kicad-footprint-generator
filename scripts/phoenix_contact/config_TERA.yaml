@@ -1,7 +1,7 @@
 # This holds the configuration information
 # using this config file will create KLCv2.x compatible footprints.
 
-lib_name_format_str: "Connectors_Phoenix"
+lib_name_format_str: "Tera_Connectors_Phoenix"
 #lib_name_format_str: "Conn_Phoenix_{series:s}-{style:%s}_{pitch:.2f}"
 manufacturer: "PhoenixContact"
 
@@ -11,7 +11,7 @@ fp_name_format_string: '{man:s}_{mpn:s}_{num_pins:02d}x{pitch:.2f}mm_{orientatio
 #mpn_format_string: '{subseries:s}_{rating:s}_{num_pins:s}-{style:s}{pitch:s}'
 mpn_format_string: '{subseries:s}-{style:s}'
 mpn_format_string_description: '{subseries:s}_{rating:s}/{num_pins:d}-{style:s}{pitch:s}'
-3d_model_prefix: '${KISYS3DMOD}/'
+3d_model_prefix: '${TERA3DMOD}/'
 #keywords_format_string: 'phoenix_contact connector {mpn:s}{param_name:s}{order_info:s}'
 keywords_format_string: 'phoenix_contact connector {param_name:s}'
 
@@ -28,8 +28,8 @@ courtyard_line_width :  0.05
 courtyard_for_mountscrews :  True
 
 silk_body_offset :  0.08
-fab_line_width :  0.1
-silk_line_width :  0.12
+fab_line_width :  0.05
+silk_line_width :  0.15
 
 with_fab_layer :  True
 inner_details_on_fab :  False
@@ -39,13 +39,13 @@ silk_line_lenght_min: 0.4
 
 references:
     -
-          layer: 'F.SilkS'
-          position: 'top'
+          layer: 'F.Fab'
+          position: 'inside_top'
           size: [1,1]
           fontwidth: 0.15
     -
-          layer: 'F.Fab'
-          position: 'inside_top'
+          layer: 'F.SilkS'
+          position: 'top'
           size: [1,1]
           fontwidth: 0.15
 values:

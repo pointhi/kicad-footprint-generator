@@ -33,6 +33,7 @@ def generate_one_footprint(motel, params, configuration):
         flanged = configuration['flanged_str'][1] if params.flanged else configuration['flanged_str'][0],
         mount_hole = configuration['mount_hole_str'][1] if params.mount_hole else configuration['mount_hole_str'][0])
 
+
     calc_dim = dimensions(params)
 
     body_top_left=[calc_dim.left_to_pin,params.back_to_pin]
@@ -42,8 +43,9 @@ def generate_one_footprint(motel, params, configuration):
     center_x = (params.num_pins-1)/2.0*params.pin_pitch
     kicad_mod = Footprint(footprint_name)
 
-
-    kicad_mod.setDescription(generate_description(params))
+    mpn = configuration['mpn_format_string_description'].format(subseries=subseries, style = connector_style,
+        rating=series[1], num_pins=params.num_pins, pitch=pitch_mpn)
+    kicad_mod.setDescription(generate_description(params, mpn))
     kicad_mod.setTags(configuration['keywords_format_string'].format(mpn=mpn, param_name=model,
         order_info = ', '.join(params.order_info)))
 
@@ -231,7 +233,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--model_filter', type=str, nargs='?',
                         help='define a filter for what should be generated.', default="*")
-    parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv2.0.yaml')
+    parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv3.0.yaml')
     args = parser.parse_args()
 
     with open(args.config, 'r') as config_stream:

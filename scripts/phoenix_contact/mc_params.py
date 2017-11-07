@@ -370,8 +370,8 @@ def dimensions(params):
         ,plug_back = params.back_to_pin+0.6+0.25
     )
 
-def generate_description(params):
-    d = "Generic Phoenix Contact connector footprint for series: " + params.series_name + "; number of pins: " + ("%02d" %params.num_pins) + "; pin pitch: " + (('%.2f' % params.pin_pitch))\
+def generate_description(params, mpn):
+    d = "Generic Phoenix Contact connector footprint for: " + mpn + "; number of pins: " + ("%02d" %params.num_pins) + "; pin pitch: " + (('%.2f' % params.pin_pitch))\
         +"mm" + ('; Angled' if params.angled else '; Vertical')\
         + ('; threaded flange' + ('; footprint includes mount hole for mounting screw: ' + seriesParams.mount_screw_info if params.mount_hole else '') if params.flanged else '')
     for order_num, info in params.order_info.items():
