@@ -137,13 +137,13 @@ if __name__ == '__main__':
 
         # create fab outline and pin 1 marker
         kicad_mod.append(RectLine(start=[-half_body_length, -half_body_width], end=[half_body_length, half_body_width], layer='F.Fab', width=fab_width))
-        kicad_mod.append(Line(start=[-half_body_length+outline_x, -half_body_width], end=[-half_body_length+outline_x, -half_body_width-marker_y], layer='F.Fab', width=fab_width))
+        kicad_mod.append(Line(start=[half_body_length-outline_x, -half_body_width], end=[half_body_length-outline_x, -half_body_width-marker_y], layer='F.Fab', width=fab_width))
 
         # create silkscreen outline and pin 1 marker
         left_outline = [[-half_body_length+outline_x, half_body_width+nudge], [-half_body_length-nudge, half_body_width+nudge], [-half_body_length-nudge, -half_body_width-nudge],\
-                        [-half_body_length+outline_x, -half_body_width-nudge], [-half_body_length+outline_x, -half_body_width-marker_y]]
+                        [-half_body_length+outline_x, -half_body_width-nudge]]
         right_outline = [[half_body_length-outline_x, half_body_width+nudge], [half_body_length+nudge, half_body_width+nudge], [half_body_length+nudge, -half_body_width-nudge],\
-                         [half_body_length-outline_x, -half_body_width-nudge]]
+                         [half_body_length-outline_x, -half_body_width-nudge], [half_body_length-outline_x, -half_body_width-marker_y]]
         kicad_mod.append(PolygoneLine(polygone=left_outline, layer='F.SilkS', width=silk_width))
         kicad_mod.append(PolygoneLine(polygone=right_outline, layer='F.SilkS', width=silk_width))
 
