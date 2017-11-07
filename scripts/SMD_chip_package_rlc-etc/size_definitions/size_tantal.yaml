@@ -1,0 +1,435 @@
+SMD_1608-08:
+    code_metric: '1608-08'
+    # size   | 1,6 x 0,8 x 0,8 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_J'
+    body_length: 1.6
+    body_length_min: 1.4
+    body_length_max: 1.8
+    body_width: 0.85
+    body_width_min: 0.65
+    body_width_max: 1.05
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.4
+    terminal_length_max: 0.6
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: https://www.vishay.com/docs/48064/_t58_vmn_pt0471_1601.pdf)'
+
+SMD_1608-10:
+    code_metric: '1608-10'
+    # size   | 1,6 x 0,85 x 1,05 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_L'
+    body_length: 1.6
+    body_length_min: 1.4
+    body_length_max: 1.8
+    body_width: 0.85
+    body_width_min: 0.65
+    body_width_max: 1.05
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.4
+    terminal_length_max: 0.6
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: https://www.vishay.com/docs/48064/_t58_vmn_pt0471_1601.pdf)'
+
+SMD_2012-12:
+    code_metric: '2012-12'
+    # size   | 2,05 x 1,35 x 1,2 mm
+    code_letter: 'Kemet_R'
+    #code_letter: 'AVX_R'
+    body_length: 2.0
+    body_length_min: 1.8
+    body_length_max: 2.2
+    body_width: 1.25
+    body_width_min: 1.05
+    body_width_max: 1.45
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.3
+    terminal_length_max: 0.7
+    terminal_width_min: 0.8
+    terminal_width_max: 1.0
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: https://www.vishay.com/docs/40182/tmch.pdf)'
+
+SMD_2012-15:
+    code_metric: '2012-15'
+    # size   | 2,05 x 1,35 x 1,5 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_P'
+    body_length: 2.0
+    body_length_min: 1.8
+    body_length_max: 2.2
+    body_width: 1.25
+    body_width_min: 1.05
+    body_width_max: 1.45
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.3
+    terminal_length_max: 0.7
+    terminal_width_min: 0.8
+    terminal_width_max: 1.0
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: https://www.vishay.com/docs/40182/tmch.pdf)'
+
+SMD_3216-10:
+    code_metric: '3216-10'
+    # size   | 3,2 x 1,6 x 1,0 mm
+    code_letter: 'Kemet_I'
+    #code_letter: 'AVX_K'
+    body_length: 3.2
+    body_length_min: 3.0
+    body_length_max: 3.4
+    body_width: 1.6
+    body_width_min: 1.4
+    body_width_max: 1.8
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.4
+    terminal_length_max: 1.0
+    terminal_width_min: 1.1
+    terminal_width_max: 1.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_3216-12:
+    code_metric: '3216-12'
+    # size   | 3,2 x 1,6 x 1,2 mm
+    code_letter: 'Kemet_S'
+    #code_letter: 'AVX_S'
+    body_length: 3.2
+    body_length_min: 3.0
+    body_length_max: 3.4
+    body_width: 1.6
+    body_width_min: 1.4
+    body_width_max: 1.8
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.4
+    terminal_length_max: 1.0
+    terminal_width_min: 1.1
+    terminal_width_max: 1.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_3216-18:
+    code_metric: '3216-18'
+    # size   | 3,2 x 1,6 x 1,8 mm
+    code_letter: 'Kemet_A'
+    #code_letter: 'AVX_A'
+    body_length: 3.2
+    body_length_min: 3.0
+    body_length_max: 3.4
+    body_width: 1.6
+    body_width_min: 1.4
+    body_width_max: 1.8
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.4
+    terminal_length_max: 1.0
+    terminal_width_min: 1.1
+    terminal_width_max: 1.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_3528-12:
+    code_metric: '3528-12'
+    # size   | 3,5 x 2,8 x 1,2 mm
+    code_letter: 'Kemet_T'
+    #code_letter: 'AVX_T'
+    body_length: 3.5
+    body_length_min: 3.3
+    body_length_max: 3.7
+    body_width: 2.8
+    body_width_min: 2.6
+    body_width_max: 3.0
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.5
+    terminal_length_max: 1.1
+    terminal_width_min: 2.1
+    terminal_width_max: 2.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_3528-15:
+    code_metric: '3528-15'
+    # size   | 3,5 x 2,8 x 1,5 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_H'
+    body_length: 3.5
+    body_length_min: 3.3
+    body_length_max: 3.7
+    body_width: 2.8
+    body_width_min: 2.6
+    body_width_max: 3.0
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.5
+    terminal_length_max: 1.1
+    terminal_width_min: 2.1
+    terminal_width_max: 2.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_3528-21:
+    code_metric: '3528-21'
+    # size   | 3,5 x 2,8 x 2,1 mm
+    code_letter: 'Kemet_B'
+    #code_letter: 'AVX_B'
+    body_length: 3.5
+    body_length_min: 3.3
+    body_length_max: 3.7
+    body_width: 2.8
+    body_width_min: 2.6
+    body_width_max: 3.0
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 0.5
+    terminal_length_max: 1.1
+    terminal_width_min: 2.1
+    terminal_width_max: 2.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_6032-15:
+    code_metric: '6032-15'
+    # size   | 6,0 x 3,2 x 1,5 mm
+    code_letter: 'Kemet_U'
+    #code_letter: 'AVX_W'
+    body_length: 6.0
+    body_length_min: 5.7
+    body_length_max: 6.3
+    body_width: 3.2
+    body_width_min: 3.0
+    body_width_max: 3.4
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.1
+    terminal_width_max: 2.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_6032-20:
+    code_metric: '6032-20'
+    # size   | 6,0 x 3,2 x 2,0 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_F'
+    body_length: 6.0
+    body_length_min: 5.7
+    body_length_max: 6.3
+    body_width: 3.2
+    body_width_min: 3.0
+    body_width_max: 3.4
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.1
+    terminal_width_max: 2.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_6032-28:
+    code_metric: '6032-28'
+    # size   | 6,0 x 3,2 x 2,8 mm
+    code_letter: 'Kemet_C'
+    #code_letter: 'AVX_C'
+    body_length: 6.0
+    body_length_min: 5.7
+    body_length_max: 6.3
+    body_width: 3.2
+    body_width_min: 3.0
+    body_width_max: 3.4
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.1
+    terminal_width_max: 2.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7343-15:
+    code_metric: '7343-15'
+    # size   | 7,3 x 4,3 x 1,5 mm
+    code_letter: 'Kemet_W'
+    #code_letter: 'AVX_X'
+    body_length: 7.3
+    body_length_min: 7.0
+    body_length_max: 7.6
+    body_width: 4.3
+    body_width_min: 4.0
+    body_width_max: 4.6
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.3
+    terminal_width_max: 2.5
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7343-20:
+    code_metric: '7343-20'
+    # size   | 7,3 x 4,3 x 2,0 mm
+    code_letter: 'Kemet_V'
+    #code_letter: 'AVX_Y'
+    body_length: 7.3
+    body_length_min: 7.0
+    body_length_max: 7.6
+    body_width: 4.3
+    body_width_min: 4.0
+    body_width_max: 4.6
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.3
+    terminal_width_max: 2.5
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7343-30:
+    code_metric: '7343-30'
+    # size   | 7,3 x 4,3 x 3,0 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_N'
+    body_length: 7.3
+    body_length_min: 7.0
+    body_length_max: 7.6
+    body_width: 4.3
+    body_width_min: 4.0
+    body_width_max: 4.6
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.3
+    terminal_width_max: 2.5
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7343-31:
+    code_metric: '7343-31'
+    # size   | 7,3 x 4,3 x 3,1 mm
+    code_letter: 'Kemet_D'
+    #code_letter: 'AVX_D'
+    body_length: 7.3
+    body_length_min: 7.0
+    body_length_max: 7.6
+    body_width: 4.3
+    body_width_min: 4.0
+    body_width_max: 4.6
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.3
+    terminal_width_max: 2.5
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7343-40:
+    code_metric: '7343-40'
+    # size   | 7,3 x 4,3 x 4,0 mm
+    code_letter: 'Kemet_Y'
+    #code_letter: 'AVX_—'
+    body_length: 7.3
+    body_length_min: 7.0
+    body_length_max: 7.6
+    body_width: 4.3
+    body_width_min: 4.0
+    body_width_max: 4.6
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.3
+    terminal_width_max: 2.5
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7343-43:
+    code_metric: '7343-43'
+    # size   | 7,3 x 4,3 x 4,3 mm
+    code_letter: 'Kemet_X'
+    #code_letter: 'AVX_E'
+    body_length: 7.3
+    body_length_min: 7.0
+    body_length_max: 7.6
+    body_width: 4.3
+    body_width_min: 4.0
+    body_width_max: 4.6
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 2.3
+    terminal_width_max: 2.5
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7360-38:
+    code_metric: '7360-38'
+    # size   | 7,3 x 6,0 x 3,8 mm
+    code_letter: 'Kemet_E'
+    #code_letter: 'AVX_—'
+    body_length: 7.3
+    body_length_min: 7.0
+    body_length_max: 7.6
+    body_width: 6.0
+    body_width_min: 5.7
+    body_width_max: 6.3
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.0
+    terminal_length_max: 1.6
+    terminal_width_min: 4.0
+    terminal_width_max: 4.2
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://www.kemet.com/Lists/ProductCatalog/Attachments/253/KEM_TC101_STD.pdf)'
+
+SMD_7361-38:
+    code_metric: '7361-38'
+    # size   | 7,3 x 6,1 x 3,8 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_V'
+    body_length: 7.3
+    body_length_min: 7.1
+    body_length_max: 7.5
+    body_width: 6.1
+    body_width_min: 6.0
+    body_width_max: 6.3
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.1
+    terminal_length_max: 1.6
+    terminal_width_min: 2.9
+    terminal_width_max: 3.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://datasheets.avx.com/NOS.pdf)'
+
+SMD_7361-438:
+    code_metric: '7361-438'
+    # size | 7,3 x 6,1 x 4,3 mm
+    #code_letter: 'Kemet_—'
+    code_letter: 'AVX_U'
+    body_length: 7.3
+    body_length_min: 7.1
+    body_length_max: 7.5
+    body_width: 6.1
+    body_width_min: 6.0
+    body_width_max: 6.3
+    #terminator_spacing_min:
+    #terminator_spacing_max:
+    terminal_length_min: 1.1
+    terminal_length_max: 1.6
+    terminal_width_min: 2.9
+    terminal_width_max: 3.3
+    ipc_reference: "ipc_spec_tantalumn"
+    size_info: '(Body size from: http://datasheets.avx.com/NOS.pdf)'

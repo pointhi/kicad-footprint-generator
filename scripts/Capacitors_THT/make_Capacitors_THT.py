@@ -164,10 +164,7 @@ if __name__ == '__main__':
     for w in [7.6,7.8,7.9,9.1,9.6,11,11.9,12.2,13,13.8,14.2,16]:
         caps+=[  29, w,  19, 27.5,      1.2,            ["MKT"],                           "https://en.tdk.eu/inf/20/20/db/fc_2009/MKT_B32560_564.pdf"],
 
-    script3rect="c_rect.py"
-    with open(script3rect, "w") as myfile:
-        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
-    script3rect="c_rect.py"
+    script3rect="CQ_params_C_Rect.py"
     with open(script3rect, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
     for c in caps:
@@ -184,7 +181,7 @@ if __name__ == '__main__':
         makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=specialtags, classname="C", lib_name="Capacitors_ThroughHole", script3d=scr, height3d=h3d)
+                                    specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scr, height3d=h3d)
 
 
     ###########################################################
@@ -209,9 +206,9 @@ if __name__ == '__main__':
         name_additions = c[5]
         scr = script3rect
         makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=specialtags, classname="C", lib_name="Capacitors_ThroughHole", script3d=scr, height3d=10)
+                                    specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scr, height3d=10)
 
 
 
@@ -264,9 +261,7 @@ if __name__ == '__main__':
         [ 16.0,5.0,   10,        1,                          [],                              "http://www.vishay.com/docs/28535/vy2series.pdf"],
     ]
     
-    script3mkt="c_disk.py"
-    with open(script3mkt, "w") as myfile:
-        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+    script3mkt="CQ_params_C_Disc.py"
 
     for c in caps:
         seriesname = "Disc";
@@ -279,9 +274,9 @@ if __name__ == '__main__':
         add_description = c[5];
         name_additions = c[4]
         makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=specialtags, classname="C", lib_name="Capacitors_ThroughHole", script3d=script3mkt)
+                           specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=script3mkt)
 
 
 
@@ -296,7 +291,7 @@ if __name__ == '__main__':
     ###########################################################
     # axial capacitors
     ###########################################################
-    scriptaxh="c_axial_hor.py"
+    scriptaxh="CQ_params_C_Axial.py"
     with open(scriptaxh, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
@@ -304,16 +299,16 @@ if __name__ == '__main__':
     seriesname = "Axial"; w = 3.8; d = 2.6; ddrill = 0.8; R_POW = 0; add_description = "http://www.vishay.com/docs/45231/arseries.pdf"; name_additions = []
     for rm in [7.5, 10, 12.5, 15]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="Capacitors_ThroughHole", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
 
     seriesname = "Axial"; w = 5.1; d = 3.1; ddrill = 0.8; R_POW = 0; add_description = "http://www.vishay.com/docs/45231/arseries.pdf"; name_additions = []
     for rm in [7.5, 10, 12.5, 15]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="Capacitors_ThroughHole", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
     for w in [12,17,19,22]:
         if w == 12:
             rms = [15, 20]
@@ -331,33 +326,33 @@ if __name__ == '__main__':
             for rm in rms:
                 seriesname = "Axial"; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
                 makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
-                                            type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                            type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                             specialfpname="", add_description=add_description, name_additions=name_additions,
-                                            specialtags=name_additions, classname="C", lib_name="Capacitors_ThroughHole", script3d=scriptaxh)
+                                            specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 6.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="Capacitors_ThroughHole", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 7.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="Capacitors_ThroughHole", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 8.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="Capacitors_ThroughHole", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 9.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
-                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                                    type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="Capacitors_ThroughHole", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
 
 
 
@@ -392,7 +387,7 @@ if __name__ == '__main__':
         
     ]
     
-    scripttan="cp_tantal.py"
+    scripttan="CQ_params_CP_Tantal.py"
     with open(scripttan, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
@@ -407,9 +402,9 @@ if __name__ == '__main__':
         add_description = c[4];
         name_additions = c[3]
         makeResistorRadial(seriesname=seriesname, rm=rm, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=specialtags, classname="CP", lib_name="Capacitors_ThroughHole", deco=deco, script3d=scripttan)
+                           specialtags=specialtags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco, script3d=scripttan)
 
     ###########################################################
     # radial electrolytic capacitors
@@ -454,7 +449,7 @@ if __name__ == '__main__':
         [40, 50, 10, 0, 2, ["SnapIn"], [], ", http://www.vishay.com/docs/28342/058059pll-si.pdf"],
 
     ]
-    scriptcprad = "cp_radial_round.py"
+    scriptcprad = "CQ_params_CP_Radial.py"
     with open(scriptcprad, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
@@ -472,9 +467,9 @@ if __name__ == '__main__':
         name_additions = c[5]
         special_tags = specialtags + c[6]
         makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="Capacitors_ThroughHole", deco=deco,
+                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco,
                            script3d=scriptcprad, height3d=h3d)
 
     ###########################################################
@@ -513,9 +508,9 @@ if __name__ == '__main__':
         special_tags = specialtags + c[6]
         ap=[c[3]]
         makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="Capacitors_ThroughHole", deco=deco,
+                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco,
                            script3d=scriptcprad3p, height3d=h3d, additionalPins=ap)
 
 
@@ -582,7 +577,7 @@ if __name__ == '__main__':
         [        6,        11,          18,            1.2,                          [],                        [],                              ""],
         [        8,        21,          28,            1.2,                          [],                        [],                              ""],
     ]
-    scriptcpax="cp_axial_round.py"
+    scriptcpax="CQ_params_CP_Axial.py"
     with open(scriptcpax, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
@@ -598,8 +593,6 @@ if __name__ == '__main__':
         name_additions = c[4]
         special_tags = specialtags + c[5]
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=l, d=d, ddrill=ddrill, R_POW=R_POW,
-                           type=type, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1,
+                           type=type, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="Capacitors_ThroughHole", deco=deco, script3d=scriptcpax)
-    
-    
+                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco, script3d=scriptcpax)

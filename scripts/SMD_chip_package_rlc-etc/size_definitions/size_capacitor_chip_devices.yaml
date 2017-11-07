@@ -1,0 +1,56 @@
+
+SMD_1825:
+    code_imperial: "1825"
+    code_metric: "4564"
+    body_length: 4.6
+    body_length_min: 4.1
+    body_length_max: 5.1
+    body_width: 6.3
+    body_width_min: 5.9
+    body_width_max: 6.7
+    terminal_length_min: 0.4
+    terminal_length_max: 1.1
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    size_info: '(Body size from: http://datasheets.avx.com/AVX-HV_MLCC.pdf)'
+
+SMD_2220:
+    code_imperial: "2220"
+    code_metric: "5650"
+    body_length: 5.7
+    body_length_min: 5.2
+    body_length_max: 6.2
+    body_width: 5.0
+    body_width_min: 4.6
+    body_width_max: 5.4
+    terminal_length_min: 0.5
+    terminal_length_max: 1.2
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    size_info: '(Body size from: http://datasheets.avx.com/AVX-HV_MLCC.pdf)'
+
+SMD_2225:
+    code_imperial: "2225"
+    code_metric: "5664"
+    body_length: 5.72
+    body_length_min: 5.47
+    body_length_max: 5.97
+    body_width: 6.35
+    body_width_min: 6.1
+    body_width_max: 6.6
+    terminal_length_min: 0.5
+    terminal_length_max: 1.2
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    size_info: '(Body size from: http://datasheets.avx.com/AVX-HV_MLCC.pdf)'
+
+SMD_3640:
+    code_imperial: "3640"
+    code_metric: "9110"
+    body_length: 9.14
+    body_length_min: 8.89
+    body_length_max: 9.39
+    body_width: 10.2
+    body_width_min: 9.95
+    body_width_max: 10.45
+    terminal_length_min: 0.76
+    terminal_length_max: 1.52
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    size_info: '(Body size from: http://datasheets.avx.com/AVX-HV_MLCC.pdf)'

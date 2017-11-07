@@ -82,3 +82,42 @@ QFN-48-1EP_6x6mm_Pitch0.4mm:
   center_pad_v_div: 3
   paste_margin_ratio: -0.2
   thermal_vias: false
+QFN-44-1EP_9x9mm_Pitch0.65mm:
+  description: "44-Lead Plastic Quad Flat, No Lead Package - 9x9 mm Body [QFN]; see section 10.3 of https://www.parallax.com/sites/default/files/downloads/P8X32A-Propeller-Datasheet-v1.4.0_0.pdf"
+  pkg_width: 9.0
+  pkg_height: 9.0
+  pitch: 0.65
+  n_horz_pads: 11
+  n_vert_pads: 11
+  pad_width: 0.60
+  pad_height: 0.33
+  pad_h_distance: 8.6
+  pad_v_distance: 8.6
+  corner_pads: false
+  center_pad: true
+  center_pad_width: 7.5
+  center_pad_height: 7.5
+  center_pad_h_div: 2
+  center_pad_v_div: 2
+  paste_margin_ratio: -0.14666666666666667
+  thermal_vias: false
+QFN-44-1EP_9x9mm_Pitch0.65mm_ThermalVias:
+  description: "44-Lead Plastic Quad Flat, No Lead Package - 9x9 mm Body [QFN] with thermal vias; see section 10.3 of https://www.parallax.com/sites/default/files/downloads/P8X32A-Propeller-Datasheet-v1.4.0_0.pdf"
+  pkg_width: 9.0
+  pkg_height: 9.0
+  pitch: 0.65
+  n_horz_pads: 11
+  n_vert_pads: 11
+  pad_width: 0.60
+  pad_height: 0.33
+  pad_h_distance: 8.6
+  pad_v_distance: 8.6
+  corner_pads: false
+  center_pad: true
+  center_pad_width: 7.5
+  center_pad_height: 7.5
+  center_pad_h_div: 2
+  center_pad_v_div: 2
+  paste_margin_ratio: -0.14666666666666667
+  thermal_vias: true
+  via_size: 0.3

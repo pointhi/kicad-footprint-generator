@@ -169,21 +169,24 @@ def makePinHeadStraight(rows, cols, rm, coldist, package_width, overlen_top, ove
             else:
                 top_x_end = top_x_pos
             kicad_modg.append(Line(start=[l_slk, shoulder_y_pos], end=[-top_x_round, shoulder_y_pos], layer='F.SilkS', width=lw_slk))
-            kicad_modg.append(Line(start=[top_x_round, shoulder_y_pos], end=[top_x_end, shoulder_y_pos], layer='F.SilkS', width=lw_slk))
+            if top_x_round*2 + lw_slk*2 < pad[0]:
+                kicad_modg.append(Line(start=[top_x_round, shoulder_y_pos], end=[top_x_end, shoulder_y_pos], layer='F.SilkS', width=lw_slk))
         if top_x_lines == 1:
             kicad_modg.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, t_slk], layer='F.SilkS', width=lw_slk))
         elif top_x_lines == 2:
             shoulder_y_round = sqrt(((pad[0]/2+min_pad_distance+slk_offset) * (pad[0]/2+min_pad_distance+slk_offset) - (coldist-top_x_pos) * (coldist-top_x_pos)))
             if shoulder_y_pos > rm-shoulder_y_round:
                 shoulder_y_pos = rm-shoulder_y_round
-            kicad_modg.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, shoulder_y_round], layer='F.SilkS', width=lw_slk))
-            kicad_modg.append(Line(start=[top_x_pos, -shoulder_y_round], end=[top_x_pos, t_slk], layer='F.SilkS', width=lw_slk))
+            if shoulder_y_round*2 + lw_slk*2 < pad[1]:    
+                kicad_modg.append(Line(start=[top_x_pos, shoulder_y_pos], end=[top_x_pos, shoulder_y_round], layer='F.SilkS', width=lw_slk))
+                kicad_modg.append(Line(start=[top_x_pos, -shoulder_y_round], end=[top_x_pos, t_slk], layer='F.SilkS', width=lw_slk))
         #highest horizontal line
         if abs(t_slk) > body_min_y_square:
             kicad_modg.append(Line(start=[top_x_pos, t_slk], end=[l_slk + w_slk, t_slk], layer='F.SilkS', width=lw_slk))
         else:
             top_x_round = sqrt(((pad[0]/2+min_pad_distance+slk_offset) * (pad[0]/2+min_pad_distance+slk_offset) - (abs(t_slk)) * (abs(t_slk))))
-            kicad_modg.append(Line(start=[top_x_pos, t_slk], end=[coldist-top_x_round, t_slk], layer='F.SilkS', width=lw_slk))
+            if top_x_pos > coldist-top_x_round + 2*lw_slk:
+                kicad_modg.append(Line(start=[top_x_pos, t_slk], end=[coldist-top_x_round, t_slk], layer='F.SilkS', width=lw_slk))
             kicad_modg.append(Line(start=[coldist+top_x_round, t_slk], end=[l_slk + w_slk, t_slk], layer='F.SilkS', width=lw_slk))
 
 
@@ -409,14 +412,17 @@ def makePinHeadAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_leng
     if l_slkb-slk_offset > pad[0]/2 + min_pad_distance + (cols-1)*coldist:
         kicad_modg.append(RectLine(start=[l_slkb, t_slkb], end=[l_slkp, t_slkb+rm*rows+slk_offset*2], layer='F.SilkS', width=lw_slk))
     else:
-        if l_slkb < body_min_x_square and t_slkb-slk_offset > -body_min_y_square:
-            upper_body_x = body_min_x_square
+        if l_slkb < body_min_x_square + (cols-1)*coldist and t_slkb-slk_offset > -(body_min_y_square + (cols-1)*coldist):
+            if cols == 1:
+                upper_body_x = body_min_x_square
+            else:
+                upper_body_x = bodyend_min_x_round + (cols-1)*coldist
         else:
             upper_body_x = l_slkb
         if rows == 1 and cols == 1:
             lower_body_x = body_min_x_square  + (cols-1)*coldist
-        elif l_slkb < bodyend_min_x_round and t_slkb-slk_offset > -body_min_y_square:
-            lower_body_x = bodyend_min_x_round
+        elif l_slkb < bodyend_min_x_round + (cols-1)*coldist and t_slkb-slk_offset > -(body_min_y_square + (cols-1)*coldist):
+            lower_body_x = bodyend_min_x_round + (cols-1)*coldist
         else:
             lower_body_x = l_slkb
         if body_lines_y != False:
@@ -439,8 +445,8 @@ def makePinHeadAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_leng
                     kicad_modg.append(Line(start=[l_slkb, (r-1)*rm+rm/2], end=[l_slkp, (r-1)*rm+rm/2], layer='F.SilkS',width=lw_slk))
             else:
                 # add line between rows
-                if l_slkb < body_min_x_round:
-                    kicad_modg.append(Line(start=[body_min_x_round, (r-1)*rm+rm/2], end=[l_slkp, (r-1)*rm+rm/2], layer='F.SilkS',width=lw_slk))
+                if l_slkb < body_min_x_round + (cols-1)*coldist:
+                    kicad_modg.append(Line(start=[body_min_x_round+ (cols-1)*coldist, (r-1)*rm+rm/2], end=[l_slkp, (r-1)*rm+rm/2], layer='F.SilkS',width=lw_slk))
                 else:
                     kicad_modg.append(Line(start=[l_slkb, (r-1)*rm+rm/2], end=[l_slkp, (r-1)*rm+rm/2], layer='F.SilkS',width=lw_slk))
                     if body_lines_y != False:
@@ -844,17 +850,25 @@ def makePinHeadStraightSMD(rows, cols, rm, coldist, rmx_pad_offset,rmx_pin_lengt
    
     if cols == 1:
         for c in cleft:
-            kicad_modg.append(Line(start=[l_slk+w_slk, max(t_slk, (c-1) * rm + slk_offset_pad)], end=[l_slk+w_slk, min(t_slk+h_slk,(c+1) * rm - slk_offset_pad)], layer='F.SilkS', width=lw_slk))
             if c == 0:
                 kicad_modg.append(Line(start=[l_slk , -slk_offset_pad], end=[-rmx_pad_offset-pad[0]/2+lw_slk/2 , -slk_offset_pad], layer='F.SilkS', width=lw_slk))
                 kicad_modg.append(Line(start=[l_slk , t_slk], end=[l_slk, -slk_offset_pad], layer='F.SilkS', width=lw_slk))
                 kicad_modg.append(Line(start=[l_slk+w_slk, (rows-1)*rm+slk_offset_pad],end=[l_slk+w_slk, t_slk+h_slk],layer='F.SilkS', width=lw_slk))
+                kicad_modg.append(Line(start=[l_slk+w_slk, -slk_offset_pad], end=[l_slk+w_slk, min(t_slk+h_slk,(c+1) * rm - slk_offset_pad)], layer='F.SilkS', width=lw_slk))
+            elif c == rows-1:
+                kicad_modg.append(Line(start=[l_slk+w_slk, max(t_slk, (c-1) * rm + slk_offset_pad)], end=[l_slk+w_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
+            else:
+                kicad_modg.append(Line(start=[l_slk+w_slk, max(t_slk, (c-1) * rm + slk_offset_pad)], end=[l_slk+w_slk, min(t_slk+h_slk,(c+1) * rm - slk_offset_pad)], layer='F.SilkS', width=lw_slk))
         for c in cright:
-            kicad_modg.append(Line(start=[l_slk , max(t_slk, (c-1) * rm + slk_offset_pad)],end=[l_slk, min(t_slk+h_slk,(c+1) * rm - slk_offset_pad)], layer='F.SilkS',width=lw_slk))
             if c == 0:
                 kicad_modg.append(Line(start=[l_slk+w_slk, -slk_offset_pad],end=[rmx_pad_offset+pad[0]/2-lw_slk/2, -slk_offset_pad],layer='F.SilkS', width=lw_slk))
                 kicad_modg.append(Line(start=[l_slk+w_slk, t_slk],end=[l_slk+w_slk, -slk_offset_pad],layer='F.SilkS', width=lw_slk))
                 kicad_modg.append(Line(start=[l_slk, (rows-1)*rm+slk_offset_pad],end=[l_slk, t_slk+h_slk],layer='F.SilkS', width=lw_slk))
+                kicad_modg.append(Line(start=[l_slk , -slk_offset_pad],end=[l_slk, min(t_slk+h_slk,(c+1) * rm - slk_offset_pad)], layer='F.SilkS',width=lw_slk))
+            if c == rows-1:
+                kicad_modg.append(Line(start=[l_slk , max(t_slk, (c-1) * rm + slk_offset_pad)],end=[l_slk, t_slk+h_slk], layer='F.SilkS',width=lw_slk))
+            else:
+                kicad_modg.append(Line(start=[l_slk , max(t_slk, (c-1) * rm + slk_offset_pad)],end=[l_slk, min(t_slk+h_slk,(c+1) * rm - slk_offset_pad)], layer='F.SilkS',width=lw_slk))
     if (cols==2):
         if isSocket:
             #print(pad[0]/2+rmx_pad_offset,pad[0]/2,rmx_pad_offset)

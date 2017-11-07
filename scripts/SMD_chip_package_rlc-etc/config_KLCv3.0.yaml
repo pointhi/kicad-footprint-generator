@@ -1,0 +1,46 @@
+# This holds the configuration information
+# using this config file will create KLCv3.0 compatible footprints.
+
+placement_tolerance: 0.05
+manufacturing_tolerance: 0.1
+ipc_definition: 'ipc_smd_two_terminal_chip.yaml'
+
+fp_name_format_string: '{prefix:s}_{code_imperial:s}_{code_metric:s}Metric{suffix:s}'
+fp_name_non_metric_format_string: '{prefix:s}_{code_imperial:s}{suffix:s}'
+
+fp_name_tantal_format_string: '{prefix:s}_{code_letter:s}_EIA-{code_metric:s}{suffix:s}'
+
+3d_model_prefix: '${KISYS3DMOD}/'
+
+silk_line_width: 0.12
+pad_silk_clearance: 0.2
+silk_fab_offset: 0.11
+silk_line_lenght_min: 0.4
+
+fab_line_width: 0.1
+fab_outline: 'typical' # typical | max | min
+fab_polarity_min_size: 0.3
+fab_polarity_max_size: 1
+fab_polarity_factor: 0.25
+
+courtyard_line_width: 0.05
+courtyard_grid: 0.01
+
+references:
+    -
+          layer: 'F.SilkS'
+          position: ['top', 'center']
+          size: [1,1]
+          thickness_factor: 0.15
+    -
+          layer: 'F.Fab'
+          position: ['center', 'center']
+          size_max: [1,1]
+          size_min: [0.5, 0.5]
+          thickness_factor: 0.15
+values:
+    -
+          layer: 'F.Fab'
+          position: ['bottom', 'center']
+          size: [1,1]
+          thickness_factor: 0.15
