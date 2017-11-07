@@ -47,6 +47,7 @@ for pincount in range(2,16):
     # set general values
     kicad_mod.addText('reference', 'REF**', {'x':0, 'y':-7.5}, 'F.SilkS')
     kicad_mod.addText('value', footprint_name, {'x':0, 'y':1.5}, 'F.Fab')
+    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_JST.3dshapes/" + footprint_name + ".wrl"))
 
     #create outline
     # create Courtyard
