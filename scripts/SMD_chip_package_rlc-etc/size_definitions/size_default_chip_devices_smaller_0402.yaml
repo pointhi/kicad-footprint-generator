@@ -1,0 +1,25 @@
+SMD_01005:
+    code_imperial: "01005"
+    code_metric: "0402"
+    body_length: 0.4
+    body_length_min: 0.38
+    body_length_max: 0.42
+    body_width: 0.2
+    body_width_min: 0.18
+    body_width_max: 0.22
+    terminal_length_min: 0.07
+    terminal_length_max: 0.13
+    size_info: '(Body size source: http://www.vishay.com/docs/20056/crcw01005e3.pdf)'
+
+SMD_0201:
+   code_imperial: "0201"
+   code_metric: "0603"
+   body_length: 0.6
+   body_length_min: 0.55
+   body_length_max: 0.65
+   body_width: 0.3
+   body_width_min: 0.25
+   body_width_max: 0.35
+   terminal_length_min: 0.1
+   terminal_length_max: 0.2
+   size_info: '(Body size source: https://www.vishay.com/docs/20052/crcw0201e3.pdf)'
