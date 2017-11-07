@@ -19,10 +19,10 @@ from footprint_scripts_sip import *
 if __name__ == '__main__':
     for R in range(3, 14):
         pins=R+1
-        makeSIP(pins, "Resistor_Array_SIP%d" % (pins), "{0}-pin Resistor SIP pack".format(pins, R))
+        makeResistorSIP(pins, "Resistor_Array_SIP%d" % (pins), "{0}-pin Resistor SIP pack".format(pins, R))
     #for R in range(3,6):
     #    pins=2*R
-    #    makeSIP(pins, "Resistor_ArrayParallel_SIP%d" % (R), "{0}-pin Resistor SIP pack, {1} parallel resistors".format(pins, R))
+    #    makeResistorSIP(pins, "Resistor_ArrayParallel_SIP%d" % (R), "{0}-pin Resistor SIP pack, {1} parallel resistors".format(pins, R))
     #for R in range(3,6):
     #    pins=R+2
-    #    makeSIP(pins, "Resistor_ArrayDivider_SIP%d" % (R), "{0}-pin Resistor SIP pack, {1} voltage dividers = {2} resistors".format(pins, R, 2*R))
+    #    makeResistorSIP(pins, "Resistor_ArrayDivider_SIP%d" % (R), "{0}-pin Resistor SIP pack, {1} voltage dividers = {2} resistors".format(pins, R, 2*R))
