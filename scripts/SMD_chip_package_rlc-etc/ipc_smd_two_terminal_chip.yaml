@@ -1,0 +1,154 @@
+# IPC IPC-7351 http://pcbget.ru/Files/Standarts/IPC_7351.pdf
+# Page 23
+
+# < 0603 (1608 Metric)
+#           | Minimum | Median    | Maximum |
+#           | (Least) | (Nominal) | (Most)  |
+#           | Density | Density   | Density | round
+# Lead Part | Level C | Level B   | Level A |  to
+# ----------+---------+-----------+---------+-
+# Toe (JT)  |  0.0    |  0.1      |  0.2    | 0.05
+# Heel (JH) | -0.05   | -0.05     | -0.05   | 0.05
+# Side (JS) |  0.00   | 0.00      |  0.05   | 0.05
+# Courtyard |  0.1    | 0.15      |  0.2    |
+
+ipc_spec_smaller_0603:
+    least:
+        toe: 0.0
+        heel: -0.05
+        side: 0.0
+        courtyard: 0.1
+    nominal:
+        toe: 0.1
+        heel: -0.05
+        side: 0.0
+        courtyard: 0.15
+    most:
+        toe: 0.2
+        heel: -0.05
+        side: 0.5
+        courtyard: 0.2
+    round_base:
+        toe: 0.05
+        heel: 0.05
+        side: 0.05
+
+#0201 and smaller need special paste layer treadment.
+ipc_spec_smaller_0402:
+    least:
+        toe: 0.0
+        heel: -0.05
+        side: 0.0
+        courtyard: 0.1
+    nominal:
+        toe: 0.1
+        heel: -0.05
+        side: 0.0
+        courtyard: 0.15
+    most:
+        toe: 0.2
+        heel: -0.05
+        side: 0.5
+        courtyard: 0.2
+    round_base:
+        toe: 0.05
+        heel: 0.05
+        side: 0.05
+
+
+# >= 0603 (1608 Metric)
+#           | Minimum | Median    | Maximum
+#           | (Least) | (Nominal) | (Most)
+#           | Density | Density   | Density
+# Lead Part | Level C | Level B   | Level A
+# ----------+---------+-----------+--------
+# Toe (JT)  |  0.15   |  0.35     |  0.55
+# Heel (JH) | -0.30   | -0.20     | -0.10
+# Side (JS) |  0.01   |  0.03     |  0.05
+# Courtyard |  0.1    |  0.25     |  0.5
+
+ipc_spec_larger_or_equal_0603:
+    least:
+        toe: 0.15
+        heel: -0.3
+        side: 0.01
+        courtyard: 0.1
+    nominal:
+        toe: 0.35
+        heel: -0.2
+        side: 0.03
+        courtyard: 0.25
+    most:
+        toe: 0.55
+        heel: -0.1
+        side: 0.05
+        courtyard: 0.5
+    round_base:
+        toe: 0.02
+        heel: 0.02
+        side: 0.1
+
+
+# tantalum cap
+#           | Minimum | Median    | Maximum
+#           | (Least) | (Nominal) | (Most)
+#           | Density | Density   | Density
+# Lead Part | Level C | Level B   | Level A
+# ----------+---------+-----------+--------
+# Toe (JT)  |  0.07   |  0.15     |  0.25
+# Heel (JH) |  0.20   |  0.50     |  0.80
+# Side (JS) | -0.10   | -0.05     |  0.01
+# Courtyard |  0.1    |  0.25     |  0.5
+
+ipc_spec_tantalumn:
+    least:
+        toe: 0.07
+        heel: 0.2
+        side: -0.1
+        courtyard: 0.1
+    nominal:
+        toe: 0.15
+        heel: 0.5
+        side: -0.05
+        courtyard: 0.25
+    most:
+        toe: 0.25
+        heel: 0.8
+        side: 0.01
+        courtyard: 0.5
+    round_base:
+        toe: 0.02
+        heel: 0.02
+        side: 0.1
+
+# castellated
+#           | Minimum | Median    | Maximum
+#           | (Least) | (Nominal) | (Most)
+#           | Density | Density   | Density
+# Lead Part | Level C | Level B   | Level A
+# ----------+---------+-----------+--------
+# Toe (JT)  |  0.45   |  0.55     |  0.65
+# Heel (JH) |  0.05   |  0.15     |  0.25
+# Side (JS) | -0.15   | -0.05     |  0.05
+# Courtyard |  0.1    |  0.25     |  0.5
+
+ipc_spec_castellated:
+    least:
+        toe: 0.45
+        heel: 0.05
+        side: -0.15
+        courtyard: 0.1
+    nominal:
+        toe: 0.55
+        heel: 0.15
+        side: -0.05
+        courtyard: 0.25
+    most:
+        toe: 0.65
+        heel: 0.25
+        side: 0.05
+        courtyard: 0.5
+    round_base:
+        toe: 0.02
+        heel: 0.02
+        side: 0.01
