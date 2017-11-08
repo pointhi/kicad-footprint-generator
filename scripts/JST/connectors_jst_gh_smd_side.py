@@ -33,20 +33,20 @@ def generate_one_footprint(pincount, configuration):
     pad_spacing = 1.25
     mounting_pad_size = [1, 2.7]
     pad_to_mountpad = 1.35 + mounting_pad_size[0]/2
-    start_pos_x = -(pincount-1)*pad_spacing/2
-    end_pos_x = (pincount-1)*pad_spacing/2
 
-
-    mp_p_center_distance = pad_outside_y - pad_size[1]/2 - mounting_pad_size[1]/2
+    p = 0.25
 
     A = (pincount - 1) * 1.25
     b_size_x = A + 4.5
     b_size_y = 4.05
 
-    p = 0.25
+    pad_y = -pad_outside_y/2 + pad_size[1]/2
+
+    mpad_x = -A/2 - pad_to_mountpad
+    mpad_y = pad_outside_y/2 - mounting_pad_size[1]/2
 
     # body outline coordinates
-    oyb = mp_p_center_distance/2 + mounting_pad_size[1]/2 - p
+    oyb = pad_outside_y/2 - p
     oyt = oyb - b_size_y
     oxl = -b_size_x/2
     oxr = b_size_x/2
@@ -67,12 +67,9 @@ def generate_one_footprint(pincount, configuration):
     # output kicad model
 
     #create pads
-    createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, pad_size, -mp_p_center_distance/2)
+    createNumberedPadsSMD(kicad_mod, pincount, pad_spacing, pad_size, pad_y)
 
     #add mounting pads (no number)
-    mpad_x = -A/2 - pad_to_mountpad
-    mpad_y = mp_p_center_distance/2
-
     kicad_mod.append(Pad(number='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
         at={'x':mpad_x, 'y':mpad_y}, size=mounting_pad_size, layers=Pad.LAYERS_SMT))
     kicad_mod.append(Pad(number='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
@@ -87,14 +84,14 @@ def generate_one_footprint(pincount, configuration):
                             layer='F.SilkS', width=configuration['silk_line_width']))
 
     #add top left corner (including pin 1 marker)
-    kicad_mod.append(PolygoneLine(polygone=[{'x':-b_size_x/2 - configuration['silk_fab_offset'],'y': mp_p_center_distance/2 - mounting_pad_size[1]/2 - pad_edge_silk_center_offset},
+    kicad_mod.append(PolygoneLine(polygone=[{'x':-b_size_x/2 - configuration['silk_fab_offset'],'y': mpad_y - mounting_pad_size[1]/2 - pad_edge_silk_center_offset},
                                 {'x':-b_size_x/2 - configuration['silk_fab_offset'],'y':oyt - configuration['silk_fab_offset']},
                                 {'x':-A/2 - pad_size[0]/2 - pad_edge_silk_center_offset,'y':oyt - configuration['silk_fab_offset']},
-                                {'x':-A/2 - pad_size[0]/2 - pad_edge_silk_center_offset,'y':-mp_p_center_distance/2 -pad_size[1]/2}],
+                                {'x':-A/2 - pad_size[0]/2 - pad_edge_silk_center_offset,'y':pad_y -pad_size[1]/2}],
                                 layer='F.SilkS', width=configuration['silk_line_width']))
 
     #add top right corner
-    kicad_mod.append(PolygoneLine(polygone=[{'x':b_size_x/2 + configuration['silk_fab_offset'],'y': mp_p_center_distance/2 - mounting_pad_size[1]/2 - pad_edge_silk_center_offset},
+    kicad_mod.append(PolygoneLine(polygone=[{'x':b_size_x/2 + configuration['silk_fab_offset'],'y': mpad_y - mounting_pad_size[1]/2 - pad_edge_silk_center_offset},
                                 {'x':b_size_x/2 + configuration['silk_fab_offset'],'y':oyt - configuration['silk_fab_offset']},
                                 {'x':A/2 + pad_size[0]/2 + pad_edge_silk_center_offset,'y':oyt - configuration['silk_fab_offset']}],
                                 layer='F.SilkS', width=configuration['silk_line_width']))
@@ -128,8 +125,8 @@ def generate_one_footprint(pincount, configuration):
     cx1 = mpad_x - mounting_pad_size[0]/2 - configuration['courtyard_distance']
     cx2 = -mpad_x + mounting_pad_size[0]/2 + configuration['courtyard_distance']
 
-    cy1 = -mp_p_center_distance/2 - pad_size[1]/2 - configuration['courtyard_distance']
-    cy2 = mp_p_center_distance/2 + mounting_pad_size[1]/2 + configuration['courtyard_distance']
+    cy1 = pad_y - pad_size[1]/2 - configuration['courtyard_distance']
+    cy2 = mpad_y + mounting_pad_size[1]/2 + configuration['courtyard_distance']
 
     #make sure they lie on an 0.05mm grid
 
@@ -142,7 +139,7 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.append(RectLine(start={'x':cx1,'y':cy1}, end={'x':cx2,'y':cy2},
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
-    center = [0,0.5]
+    center = [0,0]
 
     reference_fields = configuration['references']
     kicad_mod.append(Text(type='reference', text='REF**',
