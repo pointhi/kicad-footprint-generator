@@ -23,6 +23,7 @@ from math import sqrt
 series = "GH"
 orientation = 'Horizontal'
 number_of_rows = 1
+datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eGH.pdf'
 
 def generate_one_footprint(pincount, configuration):
     pad_edge_silk_center_offset = configuration['silk_pad_clearence'] + configuration['silk_line_width']/2
@@ -57,7 +58,7 @@ def generate_one_footprint(pincount, configuration):
         pins_per_row=pincount, pitch=pad_spacing, orientation=orientation)
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("JST GH series connector, " + jst_name + ", side entry type")
+    kicad_mod.setDescription("JST GH series connector, {:s}, side entry type, ({:s})".format(jst_name, datasheet))
     kicad_mod.setAttribute('smd')
     kicad_mod.setTags('connector jst GH SMT side horizontal entry 1.25mm pitch')
 
@@ -138,23 +139,26 @@ def generate_one_footprint(pincount, configuration):
     cy1 = roundToBase(cy1,configuration['courtyard_grid'])
     cy2 = roundToBase(cy2,configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(start={'x':cx1,'y':cy1}, end={'x':cx2,'y':cy2}, layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    kicad_mod.append(RectLine(start={'x':cx1,'y':cy1}, end={'x':cx2,'y':cy2},
+        layer='F.CrtYd', width=configuration['courtyard_line_width']))
+
+    center = [0,0.5]
 
     reference_fields = configuration['references']
     kicad_mod.append(Text(type='reference', text='REF**',
-        **getTextFieldDetails(reference_fields[0], cy1, cy2, [0,0])))
+        **getTextFieldDetails(reference_fields[0], cy1, cy2, center)))
 
     for additional_ref in reference_fields[1:]:
         kicad_mod.append(Text(type='user', text='%R',
-        **getTextFieldDetails(additional_ref, cy1, cy2, [0,0])))
+        **getTextFieldDetails(additional_ref, cy1, cy2, center)))
 
     value_fields = configuration['values']
     kicad_mod.append(Text(type='value', text=footprint_name,
-        **getTextFieldDetails(value_fields[0], cy1, cy2, [0,0])))
+        **getTextFieldDetails(value_fields[0], cy1, cy2, center)))
 
     for additional_value in value_fields[1:]:
         kicad_mod.append(Text(type='user', text='%V',
-            **getTextFieldDetails(additional_value, cy1, cy2, [0,0])))
+            **getTextFieldDetails(additional_value, cy1, cy2, center)))
 
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
