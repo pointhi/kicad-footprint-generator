@@ -56,7 +56,7 @@ def generate_one_footprint(pincount, configuration):
     first_pad_x=-(pincount-1)/2.0*pitch
     x_left_mount_pad = first_pad_x-mount_pad_center_x_to_pin
 
-    # Through-hole type shrouded header, Top entry type
+    # Surface mount shrouded header, side entry type
     part = "S{n:d}B-PH-SM4-TB".format(n=pincount)
     footprint_name = configuration['fp_name_format_string'].format(series=series, mpn=part, num_rows=number_of_rows,
         pins_per_row=pincount, pitch=pitch, orientation=orientation)
