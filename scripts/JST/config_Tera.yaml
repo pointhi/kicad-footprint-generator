@@ -1,17 +1,17 @@
 
-fp_name_format_string: 'JST_{series:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}_P{pitch:.2f}mm_{orientation:s}'
+fp_name_format_string: 'JST_{series:s}_{mpn:s}_{pins_per_row:02d}x{pitch:.2f}mm_{orientation:s}'
 
 #lib_name_format_string: 'Conn_JST_{series:s}'
-lib_name_format_string: 'Conn_JST'
+lib_name_format_string: 'Tera_Connectors_JST'
 3d_model_prefix: '${KISYS3DMOD}/'
 
-silk_line_width: 0.12
+silk_line_width: 0.15
 silk_pad_clearence: 0.2
 silk_fab_offset: 0.11
 silk_line_lenght_min: 0.4
 allow_silk_below_part: 'tht' # tht | smd | all | none
 
-fab_line_width: 0.1
+fab_line_width: 0.05
 
 courtyard_line_width: 0.05
 courtyard_grid: 0.01
@@ -19,18 +19,18 @@ courtyard_distance: 0.5
 
 references:
     -
-          layer: 'F.SilkS'
-          position: 'top'
+          layer: 'F.Fab'
+          position: 'center'
           size: [1,1]
           fontwidth: 0.15
     -
-          layer: 'F.Fab'
-          position: 'center'
+          layer: 'F.SilkS'
+          position: 'top'
           size: [1,1]
           fontwidth: 0.15
 values:
     -
           layer: 'F.Fab'
           position: 'bottom'
-          size: [1,1]
-          fontwidth: 0.15
+          size: [0.6,0.6]
+          fontwidth: 0.1
