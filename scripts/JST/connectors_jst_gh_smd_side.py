@@ -2,13 +2,14 @@
 
 import sys
 import os
-sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
+sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of KicadModTree
 
 import argparse
 import yaml
 from KicadModTree import *
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 from helpers import *
+from math import sqrt
 
 #parser = argparse.ArgumentParser()
 #parser.add_argument('pincount', help='number of pins of the jst connector', type=int, nargs=1)
@@ -26,14 +27,15 @@ number_of_rows = 1
 def generate_one_footprint(pincount, configuration):
     pad_edge_silk_center_offset = configuration['silk_pad_clearence'] + configuration['silk_line_width']/2
 
-    pad_size = [0.6, 5.6-3.9]
+    pad_outside_y = 5.4
+    pad_size = [0.6, pad_outside_y - 3.7]
     pad_spacing = 1.25
-    mounting_pad_size = [1, 2.8]
+    mounting_pad_size = [1, 2.7]
     pad_to_mountpad = 1.35 + mounting_pad_size[0]/2
     start_pos_x = -(pincount-1)*pad_spacing/2
     end_pos_x = (pincount-1)*pad_spacing/2
 
-    pad_outside_y = 5.6
+
     mp_p_center_distance = pad_outside_y - pad_size[1]/2 - mounting_pad_size[1]/2
 
     A = (pincount - 1) * 1.25
@@ -97,6 +99,10 @@ def generate_one_footprint(pincount, configuration):
                                 layer='F.SilkS', width=configuration['silk_line_width']))
 
     #add designator for pin #1
+    kicad_mod.append(PolygoneLine(polygone=[{'x': -A/2 - 0.5,'y': oyt},
+                               {'x': -A/2,'y': oyt + 1/sqrt(2)},
+                               {'x': -A/2 + 0.5,'y': oyt}],
+                                layer='F.Fab', width=configuration['fab_line_width']))
 
 
 
