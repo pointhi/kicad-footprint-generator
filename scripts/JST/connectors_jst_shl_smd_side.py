@@ -56,7 +56,7 @@ def generate_one_footprint(pincount, configuration):
         pins_per_row=pincount, pitch=pad_spacing, orientation=orientation)
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("JST SHL series connector, " + jst_name)
+    kicad_mod.setDescription("JST SHL series connector, {:s} ({:s})".format(jst_name, datasheet))
     kicad_mod.setAttribute('smd')
     kicad_mod.setTags('connector jst SHL SMT side')
 
