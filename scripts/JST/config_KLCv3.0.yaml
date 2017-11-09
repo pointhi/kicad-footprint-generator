@@ -1,5 +1,8 @@
 
 fp_name_format_string: 'JST_{series:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}_P{pitch:.2f}mm_{orientation:s}'
+orientation_options:
+    H: 'Horizontal'
+    V: 'Vertical'
 
 #lib_name_format_string: 'Conn_JST_{series:s}'
 lib_name_format_string: 'Conn_JST'

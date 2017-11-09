@@ -1,12 +1,13 @@
 PH_side_entry:
     series: 'PH'
-    mpn_format_string: "S{pincount:d}B-PH-SM4-TB"
-    orientation: 'Horizontal'
+    mpn_format_string: 'S{pincount:d}B-PH-SM4-TB'
+    orientation: 'H'
     datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
     tags: 'connector jst SHL SMT side'
+    pinrange: ['range', [2, 16]]
     ref_text_inside_pos: [0, 1.5]
     pitch: 2
-    pad1_position: 'top-left' # 'top-left' | 'bottom-left'
+    pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
     mounting_pad_size: [1.5, 3.4]
     # x position mounting inner mounting pad edge relative to nearest pad center
     center_pad_to_mounting_pad_edge: 1.6
@@ -15,6 +16,9 @@ PH_side_entry:
     rel_pad_y_inside_edge: 5.7
     pad_size_x: 1
     # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
-    rel_body_edge: -0.2
+    rel_body_edge_y: -0.2
     body_size_y: 6
-    body_fin_producion: 1.6
+    body_fin_protrusion: 1.6
+    body_fin_width: 0.8
+    # x body edge relative to nearest pin
+    rel_body_edge_x: 2.95 #(7.9-2)/2
