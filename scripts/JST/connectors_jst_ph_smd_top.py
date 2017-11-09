@@ -22,9 +22,9 @@ pitch = 2.00
 pad_size = [1, 7.5-2]
 mount_pad_size = [1.6, 3] #Datasheet: width = 1.5+/-0.1
 pad_y_outside_distance = 7.5-1 #See freecad sketch and Datasheet.
-pad_y_center_distance = pad_y_outside_distance-pad_size[1]/2.0-mount_pad_size[1]/2.0
-pad_pos_y = pad_y_center_distance/2.0
-mount_pad_y_pos = -pad_pos_y
+
+pad_pos_y = pad_y_outside_distance/2.0 - pad_size[1]/2
+mount_pad_y_pos = -pad_y_outside_distance/2.0 + mount_pad_size[1]/2
 mount_pad_center_x_to_pin = 1.6+mount_pad_size[0]/2.0
 
 
@@ -41,7 +41,7 @@ dx_big_cutout_to_side = 3.45
 def generate_one_footprint(pincount, configuration):
     silk_y_min = y_min - configuration['silk_fab_offset']
     silk_y_max = y_max + configuration['silk_fab_offset']
-    
+
     x_mid = 0
     x_max = (pincount-1)*pitch/2.0 + 2.975
     silk_x_max = x_max + configuration['silk_fab_offset']
