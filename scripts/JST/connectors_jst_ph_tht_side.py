@@ -25,7 +25,6 @@ drill_size = 0.75 #Datasheet: 0.7 +0.1/-0.0 => It might be better to assume 0.75
 pitch = 2.00
 
 # Connector Parameters
-silk_to_part_offset = 0.1
 x_min = -1.95
 y_max = 6.25
 y_min = y_max-6-1.6
@@ -33,15 +32,15 @@ y_main_min = y_max - 6
 
 body_back_protrusion_width=0.7
 
-silk_x_min = x_min - silk_to_part_offset
-silk_y_min = y_min - silk_to_part_offset
-silk_y_main_min = y_main_min - silk_to_part_offset
-silk_y_max = y_max + silk_to_part_offset
-
 def generate_one_footprint(pincount, configuration):
+    silk_x_min = x_min - configuration['silk_fab_offset']
+    silk_y_min = y_min - configuration['silk_fab_offset']
+    silk_y_main_min = y_main_min - configuration['silk_fab_offset']
+    silk_y_max = y_max + configuration['silk_fab_offset']
+    
     x_mid = (pincount-1)*pitch/2.0
     x_max = (pincount-1)*pitch + 1.95
-    silk_x_max = x_max + silk_to_part_offset
+    silk_x_max = x_max + configuration['silk_fab_offset']
 
     # Through-hole type shrouded header, Side entry type
     part = "S{n}B-PH-K".format(n=pincount) #JST part number format string
@@ -54,8 +53,8 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.setTags('connector jst ph')
 
     # create Silkscreen
-    tmp_x1=x_min+body_back_protrusion_width+silk_to_part_offset
-    tmp_x2=x_max-body_back_protrusion_width-silk_to_part_offset
+    tmp_x1=x_min+body_back_protrusion_width+configuration['silk_fab_offset']
+    tmp_x2=x_max-body_back_protrusion_width-configuration['silk_fab_offset']
     poly_silk_outline= [
                     {'x':-pad_size[0]/2.0-configuration['silk_pad_clearence'], 'y':silk_y_main_min},
                     {'x':tmp_x1, 'y':silk_y_main_min},

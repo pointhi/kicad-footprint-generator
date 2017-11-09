@@ -29,17 +29,11 @@ mount_pad_center_x_to_pin = 1.6+mount_pad_size[0]/2.0
 
 
 # Connector Parameters
-silk_to_part_offset = 0.1
-
 
 y_max = mount_pad_y_pos + mount_pad_size[1]/2.0 - 0.2
 y_min = y_max-6-1.6
 y_main_min = y_max-6
 
-
-silk_y_min = y_min - silk_to_part_offset
-silk_y_main_min = y_main_min - silk_to_part_offset
-silk_y_max = y_max + silk_to_part_offset
 body_back_protrusion_width = 0.8
 
 y_min_big_cutout = y_max-1.2
@@ -48,11 +42,15 @@ dx_big_cutout_to_side = 3.45
 
 
 def generate_one_footprint(pincount, configuration):
+    silk_y_min = y_min - configuration['silk_fab_offset']
+    silk_y_main_min = y_main_min - configuration['silk_fab_offset']
+    silk_y_max = y_max + configuration['silk_fab_offset']
+
     x_mid = 0
     x_max = (pincount-1)*pitch/2.0 + 2.95
-    silk_x_max = x_max + silk_to_part_offset
+    silk_x_max = x_max + configuration['silk_fab_offset']
     x_min = -x_max
-    silk_x_min = x_min - silk_to_part_offset
+    silk_x_min = x_min - configuration['silk_fab_offset']
     first_pad_x=-(pincount-1)/2.0*pitch
     x_left_mount_pad = first_pad_x-mount_pad_center_x_to_pin
 
@@ -82,8 +80,8 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.append(PolygoneLine(polygone=poly_fab_outline, layer='F.Fab', width=configuration['fab_line_width']))
     # create Silkscreen
 
-    tmp_x1 = x_min+body_back_protrusion_width+silk_to_part_offset
-    tmp_x2 = x_max-body_back_protrusion_width-silk_to_part_offset
+    tmp_x1 = x_min+body_back_protrusion_width+configuration['silk_fab_offset']
+    tmp_x2 = x_max-body_back_protrusion_width-configuration['silk_fab_offset']
     poly_silk_outline_top_left = [
         {'x':first_pad_x-pad_size[0]/2.0-configuration['silk_pad_clearence'],'y':silk_y_main_min},
         {'x':tmp_x1,'y':silk_y_main_min},

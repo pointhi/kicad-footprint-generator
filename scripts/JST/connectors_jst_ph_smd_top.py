@@ -29,25 +29,24 @@ mount_pad_center_x_to_pin = 1.6+mount_pad_size[0]/2.0
 
 
 # Connector Parameters
-silk_to_part_offset = 0.1
 
 y_min = mount_pad_y_pos - mount_pad_size[1]/2.0 - 1
 y_max = y_min + 5
 
-
-silk_y_min = y_min - silk_to_part_offset
-silk_y_max = y_max + silk_to_part_offset
 body_back_protrusion_width = 0.8
 
 y_min_big_cutout = y_max-1.2
 dx_big_cutout_to_side = 3.45
 
 def generate_one_footprint(pincount, configuration):
+    silk_y_min = y_min - configuration['silk_fab_offset']
+    silk_y_max = y_max + configuration['silk_fab_offset']
+    
     x_mid = 0
     x_max = (pincount-1)*pitch/2.0 + 2.975
-    silk_x_max = x_max + silk_to_part_offset
+    silk_x_max = x_max + configuration['silk_fab_offset']
     x_min = -x_max
-    silk_x_min = x_min - silk_to_part_offset
+    silk_x_min = x_min - configuration['silk_fab_offset']
     first_pad_x=-(pincount-1)/2.0*pitch
     x_left_mount_pad = first_pad_x-mount_pad_center_x_to_pin
 
