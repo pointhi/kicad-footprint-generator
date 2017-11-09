@@ -1,0 +1,20 @@
+PH_side_entry:
+    series: 'PH'
+    mpn_format_string: "S{pincount:d}B-PH-SM4-TB"
+    orientation: 'Horizontal'
+    datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
+    tags: 'connector jst SHL SMT side'
+    ref_text_inside_pos: [0, 1.5]
+    pitch: 2
+    pad1_position: 'top-left' # 'top-left' | 'bottom-left'
+    mounting_pad_size: [1.5, 3.4]
+    # x position mounting inner mounting pad edge relative to nearest pad center
+    center_pad_to_mounting_pad_edge: 1.6
+    # y dimensions for pad given relative to mounting pad edge
+    rel_pad_y_outside_edge: 9.2
+    rel_pad_y_inside_edge: 5.7
+    pad_size_x: 1
+    # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+    rel_body_edge: -0.2
+    body_size_y: 6
+    body_fin_producion: 1.6
