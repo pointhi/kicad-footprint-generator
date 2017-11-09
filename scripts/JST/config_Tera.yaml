@@ -6,6 +6,13 @@ lib_name_format_string: 'Tera_Connectors_JST'
 orientation_options:
     H: 'Horizontal'
     V: 'Vertical'
+entry_direction:
+    H: 'top entry'
+    V: 'side entry'
+
+#keyword_fp_string: 'connector JST {series:s} {entry:s} {orientation:s}'
+keyword_fp_string: 'connector JST {series:s} {entry:s}'
+
 3d_model_prefix: '${KISYS3DMOD}/'
 
 silk_line_width: 0.15

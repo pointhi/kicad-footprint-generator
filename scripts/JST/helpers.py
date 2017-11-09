@@ -1,6 +1,3 @@
-
-from KicadModTree.nodes.base.Pad import Pad  # NOQA
-
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -17,11 +14,3 @@ def getTextFieldDetails(field_definition, crtyd_top, crtyd_bottom, center):
         at = center
 
     return {'at': at, 'size': field_definition['size'], 'layer': field_definition['layer'], 'thickness': field_definition['fontwidth']}
-
-def createNumberedPadsSMD(kicad_mod, pincount, pitch, size, position_y):
-
-    at = [-(pincount-1)/2.0*pitch, position_y]
-    for i in range(pincount):
-        kicad_mod.append(Pad(number= i+1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-            layers=Pad.LAYERS_SMT, at=at, size=size))
-        at[0] += pitch

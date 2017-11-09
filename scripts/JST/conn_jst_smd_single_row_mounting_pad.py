@@ -51,7 +51,9 @@ def generate_one_footprint(pincount, series_definition, configuration):
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s})".format(series_definition['series'],
         jst_name, series_definition['datasheet']))
     kicad_mod.setAttribute('smd')
-    kicad_mod.setTags(series_definition['tags'])
+    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series_definition['series'],
+        orientation=orientation,
+        entry=configuration['entry_direction'][series_definition['orientation']]))
 
 
     ############################# Pads ##################################
