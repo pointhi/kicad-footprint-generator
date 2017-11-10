@@ -203,15 +203,19 @@ def addLineWithKeepout(kicad_mod, x1, y1, x2,y2, layer, width, keepouts=[], roun
     x=x1; y=y1
     xs=x1; ys=y1;
     hasToDraw=not containedInAnyKeepout(x, y, keepouts)
+    didDrawAny=False
     for n in range(0,200):
         if containedInAnyKeepout(x+dx, y+dy, keepouts):
-            if hasToDraw: kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x, roun), roundG(y, roun)], layer=layer, width=width))
+            if hasToDraw: 
+                didDrawAny=True
+                kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x, roun), roundG(y, roun)], layer=layer, width=width))
             xs=x+2*dx; ys=y+2*dy; hasToDraw=False
         else:
             hasToDraw = True
         
         x=x+dx; y=y+dy
-    if hasToDraw and xs!=x2 and ys!=y2: kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x2, roun), roundG(y2, roun)], layer=layer, width=width))
+    if hasToDraw and ((xs!=x2 and ys!=y2) or (not didDrawAny)): 
+        kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x2, roun), roundG(y2, roun)], layer=layer, width=width))
 
 
 # split an arbitrary line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
@@ -390,6 +394,116 @@ def allBevelRect(model, x, size, layer, width, bevel_size=0.2):
                                             [x[0], x[1] + size[1] - bevel_size],
                                             [x[0], x[1] + bevel_size],
                                             [x[0] + bevel_size, x[1]]], layer=layer, width=width))
+
+# draw a trapezoid with a given angle of the vertical lines
+#
+# angle<0
+#      /---------------------\     ^
+#     /                       \    |
+#    /                         \  size[1]
+#   /                           \  |
+#  /-----------------------------\ v
+#  <------------size[0]---------->
+def allTrapezoid(model, x, size, angle, layer, width):
+    dx=size[1]*math.tan(math.fabs(angle)/180*math.pi)
+    if angle == 0:
+        model.append(RectLine(start=x, end=[x[0] + size[0], x[1] + size[1]], layer=layer, width=width))
+    elif angle<0:
+        model.append(PolygoneLine(polygone=[[x[0] + dx, x[1]],
+                                            [x[0] + size[0] - dx, x[1]],
+                                            [x[0] + size[0], x[1] + size[1]],
+                                            [x[0], x[1] + size[1] ],
+                                            [x[0] + dx, x[1]]], layer=layer, width=width))
+    elif angle>0:
+        model.append(PolygoneLine(polygone=[[x[0], x[1]],
+                                            [x[0] + size[0], x[1]],
+                                            [x[0] + size[0]-dx, x[1] + size[1]],
+                                            [x[0] + dx, x[1] + size[1] ],
+                                            [x[0] , x[1]]], layer=layer, width=width))
+
+# draw a downward equal-sided triangle
+def allEqualSidedDownTriangle(model, xcenter, side_length, layer, width):
+    h=math.sqrt(3)/6*side_length
+    model.append(PolygoneLine(polygone=[[xcenter[0]-side_length/2, xcenter[1]-h],
+                                        [xcenter[0]+side_length/2, xcenter[1]-h],
+                                        [xcenter[0], xcenter[1]+2*h],
+                                        [xcenter[0]-side_length/2, xcenter[1]-h],
+                                       ], layer=layer, width=width))
+
+# draw a trapezoid with a given angle of the vertical lines and rounded corners
+#
+# angle<0
+#      /---------------------\     ^
+#     /                       \    |
+#    /                         \  size[1]
+#   /                           \  |
+#  /-----------------------------\ v
+#  <------------size[0]---------->
+def allRoundedBevelRect(model, x, size, angle, corner_radius, layer, width):
+    if corner_radius<=0:
+        allTrapezoid(model,x,size,angle,layer,width)
+    else:
+        dx=size[1]*math.tan(math.fabs(angle)/180*math.pi)
+        dx2=corner_radius*math.tan((90-math.fabs(angle))/2/180*math.pi)
+        dx3=corner_radius/math.tan((90-math.fabs(angle))/2/180*math.pi)
+        ds2=corner_radius*math.sin(math.fabs(angle)/180*math.pi)
+        dc2=corner_radius*math.cos(math.fabs(angle)/180*math.pi)
+        
+        if angle == 0:
+            addRoundedRect(model, x, size, corner_radius, layer, width=0.2)
+        elif angle<0:
+            ctl=[x[0] +dx+dx2, x[1]+corner_radius]
+            ctr=[x[0] + size[0]-dx-dx2, x[1]+corner_radius]
+            cbl=[x[0] +dx3, x[1]+size[1]-corner_radius]
+            cbr=[x[0] + size[0]-dx3, x[1]+size[1]-corner_radius]
+            model.append(Arc(center=ctl, start=[ctl[0], x[1]], angle=-(90-math.fabs(angle)),layer=layer, width=width))
+            model.append(Arc(center=ctr, start=[ctr[0], x[1]], angle=(90-math.fabs(angle)),layer=layer, width=width))
+            model.append(Arc(center=cbl, start=[cbl[0], x[1]+size[1]], angle=(90+math.fabs(angle)),layer=layer, width=width))
+            model.append(Arc(center=cbr, start=[cbr[0], x[1]+size[1]], angle=-(90+math.fabs(angle)),layer=layer, width=width))
+            model.append(Line(start=[ctl[0], x[1]], end=[ctr[0], x[1]], layer=layer, width=width))
+            model.append(Line(start=[cbl[0], x[1]+size[1]], end=[cbr[0], x[1]+size[1]], layer=layer, width=width))
+            model.append(Line(start=[ctr[0]+dc2,ctr[1]-ds2], end=[cbr[0]+dc2,cbr[1]-ds2], layer=layer, width=width))
+            model.append(Line(start=[ctl[0]-dc2,ctl[1]-ds2], end=[cbl[0]-dc2,cbl[1]-ds2], layer=layer, width=width))
+        elif angle>0:
+            cbl=[x[0] +dx+dx2, x[1]+size[1]-corner_radius]
+            cbr=[x[0] + size[0]-dx-dx2, x[1]+size[1]-corner_radius]
+            ctl=[x[0] +dx3, x[1]+corner_radius]
+            ctr=[x[0] + size[0]-dx3, x[1]+corner_radius]
+            model.append(Arc(center=ctl, start=[ctl[0], x[1]], angle=-(90+math.fabs(angle)),layer=layer, width=width))
+            model.append(Arc(center=ctr, start=[ctr[0], x[1]], angle=(90+math.fabs(angle)),layer=layer, width=width))
+            model.append(Arc(center=cbl, start=[cbl[0], x[1]+size[1]], angle=(90-math.fabs(angle)),layer=layer, width=width))
+            model.append(Arc(center=cbr, start=[cbr[0], x[1]+size[1]], angle=-(90-math.fabs(angle)),layer=layer, width=width))
+            model.append(Line(start=[ctl[0], x[1]], end=[ctr[0], x[1]], layer=layer, width=width))
+            model.append(Line(start=[cbl[0], x[1]+size[1]], end=[cbr[0], x[1]+size[1]], layer=layer, width=width))
+            model.append(Line(start=[ctr[0]+dc2,ctr[1]+ds2], end=[cbr[0]+dc2,cbr[1]+ds2], layer=layer, width=width))
+            model.append(Line(start=[ctl[0]-dc2,ctl[1]+ds2], end=[cbl[0]-dc2,cbl[1]+ds2], layer=layer, width=width))
+
+        
+# draw a rectangle with rounded corners on all sides (e.g. for crystals), or a simple rectangle if bevel_size0=0)
+#
+#   /----\
+#  /      \
+# |        |
+# |        |
+# |        |
+# |        |
+# |        |
+#  \      /
+#   \----/
+def addRoundedRect(model, x, size, corner_radius, layer, width=0.2):
+    if corner_radius <= 0:
+        model.append(RectLine(start=x, end=[x[0] + size[0], x[1] + size[1]], layer=layer, width=width))
+    else:
+        model.append(Line(start=[x[0] + corner_radius, x[1]], end=[x[0] + size[0] - corner_radius, x[1]], layer=layer, width=width))
+        model.append(Line(start=[x[0] + size[0], x[1] + corner_radius], end=[x[0] + size[0], x[1] + size[1] - corner_radius], layer=layer, width=width))
+        model.append(Line(start=[x[0] + size[0] - corner_radius, x[1] + size[1]], end=[x[0] + corner_radius, x[1] + size[1]], layer=layer, width=width))
+        model.append(Line(start=[x[0], x[1] + size[1] - corner_radius], end=[x[0], x[1] + corner_radius], layer=layer, width=width))
+        model.append(Arc(center=[x[0]+corner_radius, x[1] +corner_radius], start=[x[0], x[1] +corner_radius], angle=90, layer=layer, width=width))
+        model.append(Arc(center=[x[0]+ size[0]-corner_radius, x[1] +corner_radius], start=[x[0]+ size[0]-corner_radius, x[1]], angle=90, layer=layer, width=width))
+        model.append(Arc(center=[x[0]+corner_radius, x[1] +size[1]-corner_radius], start=[x[0], x[1] +size[1]-corner_radius], angle=-90, layer=layer, width=width))
+        model.append(Arc(center=[x[0]+ size[0]-corner_radius, x[1] +size[1]-corner_radius], start=[x[0]+ size[0], x[1] +size[1]-corner_radius], angle=90, layer=layer, width=width))
+
+
 
 # draws a filled circle consisting of concentric circles of varying widths (e.g. for glue dots!)
 def fillCircle(model, center, radius, layer, width):
