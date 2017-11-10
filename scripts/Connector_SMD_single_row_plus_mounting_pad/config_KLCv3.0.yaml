@@ -18,7 +18,7 @@ lib_name_format_string: 'Conn_{man:s}'
 silk_line_width: 0.12
 silk_pad_clearence: 0.2
 silk_fab_offset: 0.11
-silk_line_lenght_min: 0.4
+silk_line_lenght_min: 0.3
 allow_silk_below_part: 'tht' # tht | smd | all | none
 
 fab_line_width: 0.1

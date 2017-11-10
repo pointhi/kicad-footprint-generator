@@ -211,6 +211,11 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
             if mid_line_y_mount_pad_side > bounding_box_y_mount_pad_side:
                 bounding_box_y_mount_pad_side = mid_line_y_mount_pad_side
 
+        if modifier['depth'] < 0:
+            silk_x_offset = -configuration['silk_fab_offset']
+        else:
+            silk_x_offset = configuration['silk_fab_offset']
+
         poly_fab_mp_side=[
             {'x': body_edge['left'], 'y': body_edge_mount_pad},
             {'x': modified_mp_start_x_inner, 'y': body_edge_mount_pad},
@@ -222,10 +227,10 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
 
         poly_silk_mp_side=[
             {'x': mp_inner_edge_x_left_silk, 'y': body_edge_mount_pad - silk_y_offset_pin_side},
-            {'x': modified_mp_start_x_inner + configuration['silk_fab_offset'], 'y': body_edge_mount_pad - silk_y_offset_pin_side},
-            {'x': modified_mp_end_x_inner + configuration['silk_fab_offset'], 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side},
-            {'x': -modified_mp_end_x_inner - configuration['silk_fab_offset'], 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side},
-            {'x': -modified_mp_start_x_inner - configuration['silk_fab_offset'], 'y': body_edge_mount_pad - silk_y_offset_pin_side},
+            {'x': modified_mp_start_x_inner + silk_x_offset, 'y': body_edge_mount_pad - silk_y_offset_pin_side},
+            {'x': modified_mp_end_x_inner + silk_x_offset, 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side},
+            {'x': -modified_mp_end_x_inner - silk_x_offset, 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side},
+            {'x': -modified_mp_start_x_inner - silk_x_offset, 'y': body_edge_mount_pad - silk_y_offset_pin_side},
             {'x': -mp_inner_edge_x_left_silk, 'y': body_edge_mount_pad - silk_y_offset_pin_side}
         ]
         if modified_mp_start_x_inner + configuration['silk_fab_offset'] < mp_inner_edge_x_left_silk:
