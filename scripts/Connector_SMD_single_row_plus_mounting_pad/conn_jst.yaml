@@ -126,11 +126,14 @@ device_definition:
                 reference_point: ['center', -0.25] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
                 rectangle:
                     size: [0.5, 0.5] # centered around reference_point
-                    # start: [] #releative to reference_point
-                    # end: [] #relative to reference_point
-                #polygone:
-                #    - [x,y] # point1
-                #    - [x,y] # point2
+                    # start: [-0.25, -0.25] #releative to reference_point
+                    # end: [0.25, 0.25] #relative to reference_point
+                # polygone:
+                #     - [-0.25,-0.25]
+                #     - [-0.25,0.25]
+                #     - [0.25,0.25]
+                #     - [0.25,-0.25]
+                #     - [-0.25,-0.25]
                 repeat:
                     spacing: ['pitch', 0] # x,y= 'pitch' | value
                     reference_is: 'center' # 'center' | 'first' | 'last'
@@ -167,7 +170,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
         pinrange: ['range', [2, 17]]
-        ref_text_inside_pos: [0, -1.5]
+        ref_text_inside_pos: [0, -1]
         pitch: 2
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.6, 3]
@@ -182,6 +185,25 @@ device_definition:
         body_size_y: 5
         # x body edge relative to nearest pin
         rel_body_edge_x: 2.975 #(7.95-2)/2
+        additional_drawing:
+            -
+                layer: 'F.Fab'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['center', -2.5] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                rectangle:
+                    size: [0.5, 0.5] # centered around reference_point
+                    # start: [-0.25, -0.25] #releative to reference_point
+                    # end: [0.25, 0.25] #relative to reference_point
+                # polygone:
+                #     - [-0.25,-0.25]
+                #     - [-0.25,0.25]
+                #     - [0.25,0.25]
+                #     - [0.25,-0.25]
+                #     - [-0.25,-0.25]
+                repeat:
+                    spacing: ['pitch', 0] # x,y= 'pitch' | value
+                    reference_is: 'center' # 'center' | 'first' | 'last'
+                    count: 'pincount' # 'pincount' | value
 
     SHL_side_entry:
         series: 'SHL'
@@ -189,7 +211,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSHL.pdf'
         pinrange: ['list', [2,5,6,7,8,10,11,12,14,16,20,22,26,30]]
-        ref_text_inside_pos: [0, 0]
+        ref_text_inside_pos: [0, 0.5]
         pitch: 1
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.9, 1.7]
@@ -237,7 +259,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSH.pdf'
         pinrange: ['range', [2,16]]
-        ref_text_inside_pos: [0, 0]
+        ref_text_inside_pos: [0, -0.25]
         pitch: 1
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.2, 1.8]
@@ -254,6 +276,25 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
+        additional_drawing:
+            -
+                layer: 'F.Fab'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['center', -1.25] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                rectangle:
+                    size: [0.3, 0.6] # centered around reference_point
+                    # start: [-0.25, -0.25] #releative to reference_point
+                    # end: [0.25, 0.25] #relative to reference_point
+                # polygone:
+                #     - [-0.25,-0.25]
+                #     - [-0.25,0.25]
+                #     - [0.25,0.25]
+                #     - [0.25,-0.25]
+                #     - [-0.25,-0.25]
+                repeat:
+                    spacing: ['pitch', 0] # x,y= 'pitch' | value
+                    reference_is: 'center' # 'center' | 'first' | 'last'
+                    count: 'pincount' # 'pincount' | value
 
     SUR_side_entry:
         series: 'SUR'
@@ -285,7 +326,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSUR.pdf'
         pinrange: ['list', [2, 3, 4, 5, 6, 8, 10, 12, 14, 15, 16, 17, 20]]
-        ref_text_inside_pos: [0, 0]
+        ref_text_inside_pos: [0, -0.4]
         pitch: 0.8
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.2, 1.7]
@@ -333,7 +374,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eZE.pdf'
         pinrange: ['range', [2, 17]]
-        ref_text_inside_pos: [0, 0]
+        ref_text_inside_pos: [0, -2]
         pitch: 1.5
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.8, 3.3]
@@ -350,3 +391,16 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 3
+        additional_drawing:
+            -
+                layer: 'F.Fab'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['center', -0.25] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                rectangle:
+                    size: [0.5, 0.5] # centered around reference_point
+                    # start: [-0.25, -0.25] #releative to reference_point
+                    # end: [0.25, 0.25] #relative to reference_point
+                repeat:
+                    spacing: ['pitch', 0] # x,y= 'pitch' | value
+                    reference_is: 'center' # 'center' | 'first' | 'last'
+                    count: 'pincount' # 'pincount' | value
