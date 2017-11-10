@@ -13,8 +13,9 @@ from KicadModTree import *
 from math import sqrt
 
 def generate_one_footprint(pincount, series_definition, configuration, group_definition):
-    has_fin = 'body_fin_protrusion' in series_definition and 'body_fin_width' in series_definition
     mpn = series_definition['mpn_format_string'].format(pincount=pincount)
+    pins_toward_bottom = series_definition['pad1_position'] == 'bottom-left'
+    needs_additional_silk_pin1_marker = False
 
     pad_size = [series_definition['pad_size_x'],
         series_definition['rel_pad_y_outside_edge'] - series_definition['rel_pad_y_inside_edge']]
@@ -28,7 +29,7 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
     dimension_A = (pincount-1)*series_definition['pitch']
 
     body_edge = {}
-    if series_definition['pad1_position'] == 'bottom-left':
+    if pins_toward_bottom:
         pad_pos_y *= -1
         mount_pad_y_pos *= -1
         mount_pad_edge_y_outside = mount_pad_y_pos - mounting_pad_size[1]/2
@@ -71,29 +72,213 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
                         size=mounting_pad_size,
                         layers=Pad.LAYERS_SMT))
 
+    ######################### Body outline ###############################
+    pad_edge_silk_center_offset = configuration['silk_pad_clearence'] + configuration['silk_line_width']/2
+    pad_1_x_outside_edge = -dimension_A/2 - pad_size[0]/2
+
+    if pins_toward_bottom: #Man i wish there where a rotate footprint function available.
+        body_edge_pin = body_edge['bottom']
+        body_edge_mount_pad = body_edge['top']
+        silk_y_mp_pin_side = mount_pad_y_pos + mounting_pad_size[1]/2 + pad_edge_silk_center_offset
+        mp_edge_outside = mount_pad_y_pos - mounting_pad_size[1]/2
+        silk_y_mp_outside = mp_edge_outside - pad_edge_silk_center_offset
+        pin_edge_outside = pad_pos_y + pad_size[1]/2
+        silk_y_offset_pin_side = configuration['silk_fab_offset']
+    else:
+        body_edge_pin = body_edge['top']
+        body_edge_mount_pad = body_edge['bottom']
+        silk_y_mp_pin_side = mount_pad_y_pos - mounting_pad_size[1]/2 - pad_edge_silk_center_offset
+        mp_edge_outside = mount_pad_y_pos + mounting_pad_size[1]/2
+        silk_y_mp_outside = mp_edge_outside + pad_edge_silk_center_offset
+        pin_edge_outside = pad_pos_y - pad_size[1]/2
+        silk_y_offset_pin_side = -configuration['silk_fab_offset']
+
+
+    # Pin side
+    bounding_box_y_pin_side = pad_pos_y + (pad_size[1]/2 if pins_toward_bottom else -pad_size[1]/2)
+    side_line_y_pin_side = body_edge_pin
+    mp_inner_edge_x_left_silk = mount_pad_left_x_pos + mounting_pad_size[0]/2 + pad_edge_silk_center_offset
+    modified_pinside_x_inner = body_edge['left']
+    if 'edge_modifier_pin_side' in series_definition:
+        modifier = series_definition['edge_modifier_pin_side']
+        modified_pinside_x_inner = body_edge['left'] + modifier['width']
+
+        if pins_toward_bottom:
+            side_line_y_pin_side += modifier['length']
+            if side_line_y_pin_side > bounding_box_y_pin_side:
+                bounding_box_y_pin_side = side_line_y_pin_side
+        else:
+            side_line_y_pin_side -= modifier['length']
+            if side_line_y_pin_side < bounding_box_y_pin_side:
+                bounding_box_y_pin_side = side_line_y_pin_side
+
+        poly_fab_pin_side=[
+            {'x': body_edge['left'], 'y': side_line_y_pin_side},
+            {'x': modified_pinside_x_inner, 'y': side_line_y_pin_side},
+            {'x': modified_pinside_x_inner, 'y': body_edge_pin},
+            {'x': -modified_pinside_x_inner, 'y': body_edge_pin},
+            {'x': -modified_pinside_x_inner, 'y': side_line_y_pin_side},
+            {'x': body_edge['right'], 'y': side_line_y_pin_side}
+        ]
+
+        if modifier['length'] < 0:
+            silk_x_offset = -configuration['silk_fab_offset']
+        else:
+            silk_x_offset = configuration['silk_fab_offset']
+
+        if modified_pinside_x_inner + silk_x_offset > pad_1_x_outside_edge - pad_edge_silk_center_offset:
+            poly_silk_edge_left = [
+                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': silk_y_mp_pin_side},
+                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': pin_edge_outside}
+            ]
+            if abs(pin_edge_outside) - abs(side_line_y_pin_side + silk_y_offset_pin_side) < configuration['silk_line_lenght_min']:
+                needs_additional_silk_pin1_marker = True
+
+            poly_silk_edge_right = [
+                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': silk_y_mp_pin_side},
+                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+                {'x': -pad_1_x_outside_edge + pad_edge_silk_center_offset, 'y': side_line_y_pin_side + silk_y_offset_pin_side}
+            ]
+
+        else:
+            poly_silk_edge_left = [
+                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': silk_y_mp_pin_side},
+                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+                {'x': modified_pinside_x_inner + silk_x_offset, 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+                {'x': modified_pinside_x_inner + silk_x_offset, 'y': body_edge_pin + silk_y_offset_pin_side},
+                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': body_edge_pin + silk_y_offset_pin_side},
+                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': pin_edge_outside}
+            ]
+            if abs(pin_edge_outside) - abs(body_edge_pin + silk_y_offset_pin_side) < configuration['silk_line_lenght_min']:
+                needs_additional_silk_pin1_marker = True
+
+            poly_silk_edge_right = [
+                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': silk_y_mp_pin_side},
+                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+                {'x': -modified_pinside_x_inner - silk_x_offset, 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+                {'x': -modified_pinside_x_inner - silk_x_offset, 'y': body_edge_pin + silk_y_offset_pin_side},
+                {'x': -pad_1_x_outside_edge + pad_edge_silk_center_offset, 'y': body_edge_pin + silk_y_offset_pin_side}
+            ]
+    else:
+        poly_fab_pin_side=[
+            {'x': body_edge['left'], 'y': body_edge_pin},
+            {'x': body_edge['right'], 'y': body_edge_pin}
+        ]
+        poly_silk_edge_left = [
+            {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': silk_y_mp_pin_side},
+            {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+            {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': body_edge_pin + silk_y_offset_pin_side},
+            {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': pin_edge_outside}
+        ]
+        if abs(pin_edge_outside) - abs(body_edge_pin + silk_y_offset_pin_side) < configuration['silk_line_lenght_min']:
+            needs_additional_silk_pin1_marker = True
+
+        poly_silk_edge_right = [
+            {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': silk_y_mp_pin_side},
+            {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': side_line_y_pin_side + silk_y_offset_pin_side},
+            {'x': -pad_1_x_outside_edge + pad_edge_silk_center_offset, 'y': body_edge_pin + silk_y_offset_pin_side}
+        ]
+    kicad_mod.append(PolygoneLine(polygone=poly_fab_pin_side, layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_edge_left, layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_edge_right, layer='F.SilkS', width=configuration['silk_line_width']))
+
+    # Mount pad side
+    bounding_box_y_mount_pad_side = mount_pad_y_pos + (-mounting_pad_size[1]/2 if pins_toward_bottom else mounting_pad_size[1]/2)
+    if abs(bounding_box_y_mount_pad_side) < abs(body_edge_mount_pad):
+        bounding_box_y_mount_pad_side = body_edge_mount_pad
+    mid_line_y_mount_pad_side = body_edge_mount_pad
+    if 'edge_modifier_mount_pad_side' in series_definition:
+        modifier = series_definition['edge_modifier_mount_pad_side']
+
+        if 'width_start' in modifier:
+            modified_mp_start_x_inner = - modifier['width_start']/2 # We assume centered body!
+        if 'start_from_body_side' in modifier:
+            modified_mp_start_x_inner = body_edge['left'] + modifier['start_from_body_side']
+        modified_mp_end_x_inner = modified_mp_start_x_inner
+        if 'width_end' in modifier:
+            modified_mp_end_x_inner = - modifier['width_end']/2 # We assume centered body!
+        if 'end_from_body_side' in modifier:
+            modified_mp_end_x_inner = body_edge['left'] + modifier['end_from_body_side']
+
+        if pins_toward_bottom:
+            mid_line_y_mount_pad_side += modifier['depth']
+            if mid_line_y_mount_pad_side < bounding_box_y_mount_pad_side:
+                bounding_box_y_mount_pad_side = mid_line_y_mount_pad_side
+        else:
+            mid_line_y_mount_pad_side -= modifier['depth']
+            if mid_line_y_mount_pad_side > bounding_box_y_mount_pad_side:
+                bounding_box_y_mount_pad_side = mid_line_y_mount_pad_side
+
+        poly_fab_mp_side=[
+            {'x': body_edge['left'], 'y': body_edge_mount_pad},
+            {'x': modified_mp_start_x_inner, 'y': body_edge_mount_pad},
+            {'x': modified_mp_end_x_inner, 'y': mid_line_y_mount_pad_side},
+            {'x': -modified_mp_end_x_inner, 'y': mid_line_y_mount_pad_side},
+            {'x': -modified_mp_start_x_inner, 'y': body_edge_mount_pad},
+            {'x': body_edge['right'], 'y': body_edge_mount_pad}
+        ]
+
+        poly_silk_mp_side=[
+            {'x': mp_inner_edge_x_left_silk, 'y': body_edge_mount_pad - silk_y_offset_pin_side},
+            {'x': modified_mp_start_x_inner + configuration['silk_fab_offset'], 'y': body_edge_mount_pad - silk_y_offset_pin_side},
+            {'x': modified_mp_end_x_inner + configuration['silk_fab_offset'], 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side},
+            {'x': -modified_mp_end_x_inner - configuration['silk_fab_offset'], 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side},
+            {'x': -modified_mp_start_x_inner - configuration['silk_fab_offset'], 'y': body_edge_mount_pad - silk_y_offset_pin_side},
+            {'x': -mp_inner_edge_x_left_silk, 'y': body_edge_mount_pad - silk_y_offset_pin_side}
+        ]
+        if modified_mp_start_x_inner + configuration['silk_fab_offset'] < mp_inner_edge_x_left_silk:
+            poly_silk_mp_side=[
+                {'x': mp_inner_edge_x_left_silk, 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side},
+                {'x': -mp_inner_edge_x_left_silk, 'y': mid_line_y_mount_pad_side - silk_y_offset_pin_side}
+            ]
+    else:
+        poly_fab_mp_side=[
+            {'x': body_edge['left'], 'y': body_edge_mount_pad},
+            {'x': body_edge['right'], 'y': body_edge_mount_pad}
+        ]
+        poly_silk_mp_side=[
+            {'x': mp_inner_edge_x_left_silk, 'y': body_edge_mount_pad - silk_y_offset_pin_side},
+            {'x': -mp_inner_edge_x_left_silk, 'y': body_edge_mount_pad - silk_y_offset_pin_side}
+        ]
+
+    if series_definition['rel_body_edge_y'] > pad_edge_silk_center_offset:
+        poly_silk_mp_side[0]['x'] = body_edge['left']
+        poly_silk_mp_side[len(poly_silk_mp_side)-1]['x'] = body_edge['right']
+
+    if series_definition['rel_body_edge_y'] > pad_edge_silk_center_offset + configuration['silk_line_lenght_min']:
+        poly_silk_mp_side[0]['x'] = body_edge['left'] - configuration['silk_fab_offset']
+        poly_silk_mp_side[len(poly_silk_mp_side)-1]['x'] = body_edge['right'] + configuration['silk_fab_offset']
+
+        poly_silk_mp_side.insert(0,{'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': silk_y_mp_outside})
+        poly_silk_mp_side.append({'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': silk_y_mp_outside})
+
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_mp_side, layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=poly_fab_mp_side, layer='F.Fab', width=configuration['fab_line_width']))
+
+    kicad_mod.append(Line(start=[body_edge['left'], side_line_y_pin_side], end=[body_edge['left'], body_edge_mount_pad],
+                            layer='F.Fab', width=configuration['fab_line_width']))
+
+    kicad_mod.append(Line(start=[body_edge['right'], side_line_y_pin_side], end=[body_edge['right'], body_edge_mount_pad],
+                            layer='F.Fab', width=configuration['fab_line_width']))
+
+    ###################### Additional Drawing ###########################
+    if 'additional_drawing' in series_definition:
+        for drawing in series_definition['additional_drawing']:
+            parseAdditionalDrawing(kicad_mod, drawing, configuration, series_definition, body_edge, pincount)
+
     ############################# CrtYd ##################################
     mp_left_edge = mount_pad_left_x_pos - mounting_pad_size[0]/2
     bounding_box_x1 = body_edge['left'] if body_edge['left'] < mp_left_edge else mp_left_edge
     bounding_box_x2 = -bounding_box_x1
-    if series_definition['pad1_position'] == 'bottom-left':
-        mp_top_edge = mount_pad_y_pos - mounting_pad_size[1]/2
-        mp_bottom_edge = mp_top_edge + mounting_pad_size[1]
-        bounding_box_y1 = body_edge['top'] if body_edge['top'] < mp_top_edge else mp_top_edge
-        bounding_box_y2 = pad_pos_y + pad_size[1]/2
-        if has_fin:
-            fin_y_outside_edge = body_edge['bottom'] + series_definition['body_fin_protrusion']
-            if fin_y_outside_edge > bounding_box_y2:
-                bounding_box_y2 = fin_y_outside_edge
-    else:
-        mp_bottom_edge = mount_pad_y_pos + mounting_pad_size[1]/2
-        mp_top_edge = mp_bottom_edge - mounting_pad_size[1]
-        bounding_box_y1 = pad_pos_y - pad_size[1]/2
-        bounding_box_y2 = body_edge['bottom'] if body_edge['bottom'] > mp_bottom_edge else mp_bottom_edge
-        if has_fin:
-            fin_y_outside_edge = body_edge['top'] - series_definition['body_fin_protrusion']
-            if fin_y_outside_edge < bounding_box_y1:
-                bounding_box_y1 = fin_y_outside_edge
+    if pins_toward_bottom:
+        bounding_box_y1 = bounding_box_y_mount_pad_side
+        bounding_box_y2 = bounding_box_y_pin_side
 
+    else:
+        bounding_box_y1 = bounding_box_y_pin_side
+        bounding_box_y2 = bounding_box_y_mount_pad_side
 
 
     cx1 = roundToBase(bounding_box_x1 - configuration['courtyard_distance'], configuration['courtyard_grid'])
@@ -106,143 +291,19 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
-    ######################### Body outline ###############################
-    pad_edge_silk_center_offset = configuration['silk_pad_clearence'] + configuration['silk_line_width']/2
-    pad_1_x_outside_edge = -dimension_A/2 - pad_size[0]/2
-
-    if has_fin:
-        fin_x_inside_edge = {}
-        fin_x_inside_edge['left'] = body_edge['left'] + series_definition['body_fin_width']
-        fin_x_inside_edge['right'] = -fin_x_inside_edge['left']
-        if series_definition['pad1_position'] == 'bottom-left':
-            poly_outline = [
-                {'x': body_edge['left'], 'y': body_edge['top']},
-                {'x': body_edge['right'], 'y': body_edge['top']},
-                {'x': body_edge['right'], 'y': fin_y_outside_edge},
-                {'x': fin_x_inside_edge['right'], 'y': fin_y_outside_edge},
-                {'x': fin_x_inside_edge['right'], 'y': body_edge['bottom']},
-                {'x': fin_x_inside_edge['left'], 'y': body_edge['bottom']},
-                {'x': fin_x_inside_edge['left'], 'y': fin_y_outside_edge},
-                {'x': body_edge['left'], 'y': fin_y_outside_edge},
-                {'x': body_edge['left'], 'y': body_edge['top']}
-            ]
-            poly_silk_edge_left = [
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': mp_bottom_edge + pad_edge_silk_center_offset},
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': fin_y_outside_edge + configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['left'] + configuration['silk_fab_offset'], 'y': fin_y_outside_edge + configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['left'] + configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': pad_pos_y + pad_size[1]/2}
-            ]
-            poly_silk_edge_right = [
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': mp_bottom_edge + pad_edge_silk_center_offset},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': fin_y_outside_edge + configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['right'] - configuration['silk_fab_offset'], 'y': fin_y_outside_edge + configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['right'] - configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': -pad_1_x_outside_edge + pad_edge_silk_center_offset, 'y': body_edge['bottom'] + configuration['silk_fab_offset']}
-            ]
-
-        else:
-            poly_outline = [
-                {'x': body_edge['left'], 'y': body_edge['bottom']},
-                {'x': body_edge['right'], 'y': body_edge['bottom']},
-                {'x': body_edge['right'], 'y': fin_y_outside_edge},
-                {'x': fin_x_inside_edge['right'], 'y': fin_y_outside_edge},
-                {'x': fin_x_inside_edge['right'], 'y': body_edge['top']},
-                {'x': fin_x_inside_edge['left'], 'y': body_edge['top']},
-                {'x': fin_x_inside_edge['left'], 'y': fin_y_outside_edge},
-                {'x': body_edge['left'], 'y': fin_y_outside_edge},
-                {'x': body_edge['left'], 'y': body_edge['bottom']}
-            ]
-            poly_silk_edge_left = [
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': mp_top_edge - pad_edge_silk_center_offset},
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': fin_y_outside_edge - configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['left'] + configuration['silk_fab_offset'], 'y': fin_y_outside_edge - configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['left'] + configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': pad_pos_y - pad_size[1]/2}
-            ]
-            poly_silk_edge_right = [
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': mp_top_edge - pad_edge_silk_center_offset},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': fin_y_outside_edge - configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['right'] - configuration['silk_fab_offset'], 'y': fin_y_outside_edge - configuration['silk_fab_offset']},
-                {'x': fin_x_inside_edge['right'] - configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': -pad_1_x_outside_edge + pad_edge_silk_center_offset, 'y': body_edge['top'] - configuration['silk_fab_offset']}
-            ]
-
-        kicad_mod.append(PolygoneLine(polygone=poly_outline, layer='F.Fab', width=configuration['fab_line_width']))
-    #################################  no fin #################################
-    else:
-        kicad_mod.append(RectLine(
-            start=[body_edge['left'], body_edge['top']],
-            end=[body_edge['right'], body_edge['bottom']],
-            layer='F.Fab', width=configuration['fab_line_width']))
-        if series_definition['pad1_position'] == 'bottom-left':
-            poly_silk_edge_left = [
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': mp_bottom_edge + pad_edge_silk_center_offset},
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': pad_pos_y + pad_size[1]/2}
-            ]
-            poly_silk_edge_right = [
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': mp_bottom_edge + pad_edge_silk_center_offset},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': -pad_1_x_outside_edge + pad_edge_silk_center_offset, 'y': body_edge['bottom'] + configuration['silk_fab_offset']}
-            ]
-        else:
-            poly_silk_edge_left = [
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': mp_top_edge - pad_edge_silk_center_offset},
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': pad_1_x_outside_edge - pad_edge_silk_center_offset, 'y': pad_pos_y - pad_size[1]/2}
-            ]
-            poly_silk_edge_right = [
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': mp_top_edge - pad_edge_silk_center_offset},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': -pad_1_x_outside_edge + pad_edge_silk_center_offset, 'y': body_edge['top'] - configuration['silk_fab_offset']}
-            ]
-
-    kicad_mod.append(PolygoneLine(polygone=poly_silk_edge_left, layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=poly_silk_edge_right, layer='F.SilkS', width=configuration['silk_line_width']))
-
-    #########################################################################
-    mp_inner_edge_x_left = mount_pad_left_x_pos + mounting_pad_size[0]/2 + pad_edge_silk_center_offset
-    if series_definition['pad1_position'] == 'bottom-left':
-        if series_definition['rel_body_edge_y'] > pad_edge_silk_center_offset:
-            #todo: check min lenght
-            poly_silk_mp_side = [
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': mp_top_edge - pad_edge_silk_center_offset},
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': mp_top_edge - pad_edge_silk_center_offset}
-            ]
-        else:
-            poly_silk_mp_side = [
-                {'x': mp_inner_edge_x_left, 'y': body_edge['top'] - configuration['silk_fab_offset']},
-                {'x': -mp_inner_edge_x_left, 'y': body_edge['top'] - configuration['silk_fab_offset']}
-            ]
-    else:
-        if series_definition['rel_body_edge_y'] > pad_edge_silk_center_offset:
-            #todo: check min lenght
-            poly_silk_mp_side = [
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': mp_bottom_edge + pad_edge_silk_center_offset},
-                {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': mp_bottom_edge + pad_edge_silk_center_offset}
-            ]
-        else:
-            poly_silk_mp_side = [
-                {'x': mp_inner_edge_x_left, 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-                {'x': -mp_inner_edge_x_left, 'y': body_edge['bottom'] + configuration['silk_fab_offset']}
-            ]
-    kicad_mod.append(PolygoneLine(polygone=poly_silk_mp_side, layer='F.SilkS', width=configuration['silk_line_width']))
-
     ######################### Pin 1 marker ##############################
+
     if series_definition['pad1_position'] == 'bottom-left':
         poly_pin1_marker = [
             {'x':-dimension_A/2 - configuration['fap_pin1_marker_length']/2,'y': body_edge['bottom']},
             {'x':-dimension_A/2,'y': body_edge['bottom'] - configuration['fap_pin1_marker_length']/sqrt(2)},
             {'x':-dimension_A/2 + configuration['fap_pin1_marker_length']/2,'y': body_edge['bottom']}
+        ]
+        poly_pin1_marker_small = [
+            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy2 + configuration['fap_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2,'y': cy2},
+            {'x':-dimension_A/2+configuration['fap_pin1_marker_length']/4,'y': cy2 + configuration['fap_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy2 + configuration['fap_pin1_marker_length']/sqrt(8)}
         ]
     else:
         poly_pin1_marker = [
@@ -250,15 +311,23 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
             {'x':-dimension_A/2,'y': body_edge['top'] + configuration['fap_pin1_marker_length']/sqrt(2)},
             {'x':-dimension_A/2 + configuration['fap_pin1_marker_length']/2,'y': body_edge['top']}
         ]
-    kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.Fab', width=configuration['fab_line_width']))
+        poly_pin1_marker_small = [
+            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy1 - configuration['fap_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2,'y': cy1},
+            {'x':-dimension_A/2+configuration['fap_pin1_marker_length']/4,'y': cy1 - configuration['fap_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy1 - configuration['fap_pin1_marker_length']/sqrt(8)}
+        ]
 
-    ###################### Additional Drawing ###########################
-    if 'additional_drawing' in series_definition:
-        for drawing in series_definition['additional_drawing']:
-            parseAdditionalDrawing(kicad_mod, drawing, configuration, series_definition, body_edge, pincount)
+    if modified_pinside_x_inner < -dimension_A/2 - configuration['fap_pin1_marker_length']/2:
+        kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.Fab', width=configuration['fab_line_width']))
+    else:
+        kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker_small, layer='F.Fab', width=configuration['fab_line_width']))
+
+    if needs_additional_silk_pin1_marker:
+        kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker_small, layer='F.SilkS', width=configuration['silk_line_width']))
+
 
     ######################### Text Fields ###############################
-
     text_center = series_definition['ref_text_inside_pos']
     reference_fields = configuration['references']
     kicad_mod.append(Text(type='reference', text='REF**',

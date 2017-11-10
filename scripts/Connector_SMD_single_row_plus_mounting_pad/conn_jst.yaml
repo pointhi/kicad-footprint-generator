@@ -25,6 +25,13 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.6 #3.2/2
+        edge_modifier_mount_pad_side:
+            depth: 0.4 # > 0: cutout, < 0: protrusion
+            width_start: 1.6
+            # start_from_body_side
+            width_end: 0.8
+            # end_from_body_side
+
 
     ACH_top_entry_23:
         series: 'ACH'
@@ -49,6 +56,12 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
+        edge_modifier_mount_pad_side:
+            depth: 0.5 # > 0: cutout, < 0: protrusion
+            width_start: 1.8
+            # start_from_body_side
+            width_end: 1
+            # end_from_body_side
 
     ACH_top_entry_45:
         series: 'ACH'
@@ -73,6 +86,12 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
+        edge_modifier_mount_pad_side:
+            depth: 0.5 # > 0: cutout, < 0: protrusion
+            width_start: 1.8
+            # start_from_body_side
+            width_end: 1
+            # end_from_body_side
 
     GH_side_entry:
         series: 'GH'
@@ -159,10 +178,11 @@ device_definition:
         # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
         rel_body_edge_y: -0.2
         body_size_y: 6
-        body_fin_protrusion: 1.6
-        body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 2.95 #(7.9-2)/2
+        edge_modifier_pin_side:
+            length: 1.6 # > 0: fin, < 0: cutout
+            width: 0.8
 
     PH_top_entry:
         series: 'PH'
@@ -318,7 +338,10 @@ device_definition:
         # body_fin_protrusion: 1.6
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
-        rel_body_edge_x: 1
+        rel_body_edge_x: 1.5
+        edge_modifier_pin_side:
+            length: -0.3 # > 0: fin, < 0: cutout
+            width: 0.85
 
     SUR_top_entry:
         series: 'SUR'
@@ -342,7 +365,7 @@ device_definition:
         # body_fin_protrusion: 1.6
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
-        rel_body_edge_x: 1
+        rel_body_edge_x: 1.5
 
     ZE_side_entry:
         series: 'ZE'
