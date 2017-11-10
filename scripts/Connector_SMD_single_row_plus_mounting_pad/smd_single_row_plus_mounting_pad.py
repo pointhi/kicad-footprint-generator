@@ -251,6 +251,12 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
             {'x':-dimension_A/2 + configuration['fap_pin1_marker_length']/2,'y': body_edge['top']}
         ]
     kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.Fab', width=configuration['fab_line_width']))
+
+    ###################### Additional Drawing ###########################
+    if 'additional_drawing' in series_definition:
+        for drawing in series_definition['additional_drawing']:
+            parseAdditionalDrawing(kicad_mod, drawing, configuration, series_definition, body_edge, pincount)
+
     ######################### Text Fields ###############################
 
     text_center = series_definition['ref_text_inside_pos']

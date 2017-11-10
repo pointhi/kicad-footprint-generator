@@ -104,7 +104,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eGH.pdf'
         pinrange: ['range', [2, 16]]
-        ref_text_inside_pos: [0, 0]
+        ref_text_inside_pos: [0, -1.5]
         pitch: 1.25
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1, 2.8]
@@ -119,6 +119,23 @@ device_definition:
         body_size_y: 4.25
         # x body edge relative to nearest pin
         rel_body_edge_x: 2.25
+        additional_drawing:
+            -
+                layer: 'F.Fab'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['center', -0.25] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                rectangle:
+                    size: [0.5, 0.5] # centered around reference_point
+                    # start: [] #releative to reference_point
+                    # end: [] #relative to reference_point
+                #polygone:
+                #    - [x,y] # point1
+                #    - [x,y] # point2
+                repeat:
+                    spacing: ['pitch', 0] # x,y= 'pitch' | value
+                    reference_is: 'center' # 'center' | 'first' | 'last'
+                    count: 'pincount' # 'pincount' | value
+
 
     PH_side_entry:
         series: 'PH'
