@@ -1,5 +1,5 @@
 
-fp_name_format_string: 'JST_{series:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}_P{pitch:.2f}mm_{orientation:s}'
+fp_name_format_string: '{man:s}_{series:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}_P{pitch:.2f}mm_{orientation:s}'
 orientation_options:
     H: 'Horizontal'
     V: 'Vertical'
@@ -7,11 +7,12 @@ entry_direction:
     H: 'top entry'
     V: 'side entry'
 
-#keyword_fp_string: 'connector JST {series:s} {entry:s} {orientation:s}'
-keyword_fp_string: 'connector JST {series:s} {entry:s}'
+#keyword_fp_string: 'connector {man:s} {series:s} {mpn:s} {entry:s} {orientation:s}'
+keyword_fp_string: 'connector {man:s} {series:s} {entry:s}'
 
-#lib_name_format_string: 'Conn_JST_{series:s}'
-lib_name_format_string: 'Conn_JST'
+#lib_name_format_string: 'Conn_{man:s}_{series:s}'
+lib_name_format_string: 'Conn_{man:s}'
+
 3d_model_prefix: '${KISYS3DMOD}/'
 
 silk_line_width: 0.12

@@ -12,9 +12,9 @@ from helpers import *
 from KicadModTree import *
 from math import sqrt
 
-def generate_one_footprint(pincount, series_definition, configuration):
+def generate_one_footprint(pincount, series_definition, configuration, group_definition):
     has_fin = 'body_fin_protrusion' in series_definition and 'body_fin_width' in series_definition
-    jst_name = series_definition['mpn_format_string'].format(pincount=pincount)
+    mpn = series_definition['mpn_format_string'].format(pincount=pincount)
 
     pad_size = [series_definition['pad_size_x'],
         series_definition['rel_pad_y_outside_edge'] - series_definition['rel_pad_y_inside_edge']]
@@ -43,16 +43,17 @@ def generate_one_footprint(pincount, series_definition, configuration):
     body_edge['left'] = -body_edge['right']
 
     orientation = configuration['orientation_options'][series_definition['orientation']]
-    footprint_name = configuration['fp_name_format_string'].format(series=series_definition['series'],
-        mpn=jst_name, num_rows=1, pins_per_row=pincount,
+    footprint_name = configuration['fp_name_format_string'].format(man=group_definition['manufacturer'],
+        series=series_definition['series'],
+        mpn=mpn, num_rows=1, pins_per_row=pincount,
         pitch=series_definition['pitch'], orientation=orientation)
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s})".format(series_definition['series'],
-        jst_name, series_definition['datasheet']))
+        mpn, series_definition['datasheet']))
     kicad_mod.setAttribute('smd')
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series_definition['series'],
-        orientation=orientation,
+        orientation=orientation, man=group_definition['manufacturer'],
         entry=configuration['entry_direction'][series_definition['orientation']]))
 
 
@@ -273,7 +274,8 @@ def generate_one_footprint(pincount, series_definition, configuration):
     ########################### file names ###############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
-    lib_name = configuration['lib_name_format_string'].format(series=series_definition['series'])
+    lib_name = configuration['lib_name_format_string'].format(man=group_definition['manufacturer'],
+        series=series_definition['series'])
     model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
         model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
     kicad_mod.append(Model(filename=model_name))
@@ -286,7 +288,7 @@ def generate_one_footprint(pincount, series_definition, configuration):
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(filename)
 
-def generate_series(configuration, series_definition, id):
+def generate_series(configuration, series_definition, id, group_definition):
     pinrange_def_type, pinrange_def = series_definition['pinrange']
     if pinrange_def_type == 'range':
         pinrange = range(*pinrange_def)
@@ -297,8 +299,7 @@ def generate_series(configuration, series_definition, id):
         return
 
     for pincount in pinrange:
-        generate_one_footprint(pincount, series_definition, configuration)
-
+        generate_one_footprint(pincount, series_definition, configuration, group_definition)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
@@ -314,10 +315,13 @@ if __name__ == "__main__":
             print(exc)
 
     for filepath in args.files:
-        with open(filepath, 'r') as series_stream:
+        with open(filepath, 'r') as stream:
             try:
-                series_definitions = yaml.load(series_stream)
+                yaml_file = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
+        series_definitions = yaml_file['device_definition']
         for series_definition_id in series_definitions:
-            generate_series(configuration, series_definitions[series_definition_id], series_definition_id)
+            generate_series(configuration,
+                series_definitions[series_definition_id], series_definition_id,
+                yaml_file['group_definitions'])
