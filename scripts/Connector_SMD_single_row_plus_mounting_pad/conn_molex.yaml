@@ -47,7 +47,7 @@ device_definition:
         # y dimensions for pad given relative to mounting pad edge
         rel_pad_y_outside_edge: 4.6
         rel_pad_y_inside_edge: 3.75
-        pad_size_x: 0.8
+        pad_size_x: 0.6
         # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
         rel_body_edge_y: 0.22
         body_size_y: 4.5
@@ -202,7 +202,7 @@ device_definition:
                     - [1.5, 3.8]
                     - [0, 3.8]
 
-    PicoBlade_top_entry_1:
+    PicoClasp_top_entry_1:
         series: 'Pico-Clasp'
         mpn_format_string: '51331-{pincount:02d}07'
         orientation: 'V'
@@ -286,7 +286,7 @@ device_definition:
         series: 'Pico-Clasp'
         mpn_format_string: '202396-{pincount:02d}07'
         orientation: 'H'
-        datasheet: 'http://www.molex.com/pdm_docs/sd/5013310207_sd.pdf'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/2023960207_sd.pdf'
         pinrange: ['range', [2,16]]
         ref_text_inside_pos: [0, 0.75]
         pitch: 1
