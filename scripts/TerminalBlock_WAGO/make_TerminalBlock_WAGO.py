@@ -59,7 +59,7 @@ if __name__ == '__main__':
     for p in pins:
         name="804-{0}".format(300+p);
         webpage="";
-        classname_description="Terminal Block, WAGO {0}".format(name);
+        classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
         makeTerminalBlock45Degree(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     for p in pins:
         name="804-{0}".format(100+p);
         webpage="";
-        classname_description="Terminal Block, WAGO {0}".format(name);
+        classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
         makeTerminalBlock45Degree(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 
@@ -151,7 +151,7 @@ if __name__ == '__main__':
     for p in pins:
         name="236-{0}".format(100+p);
         webpage="";
-        classname_description="Terminal Block, WAGO {0}".format(name);
+        classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
         makeTerminalBlock45Degree(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 
@@ -190,7 +190,7 @@ if __name__ == '__main__':
     for p in pins:
         name="236-{0}".format(200+p);
         webpage="";
-        classname_description="Terminal Block, WAGO {0}".format(name);
+        classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
         makeTerminalBlock45Degree(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 
@@ -229,7 +229,7 @@ if __name__ == '__main__':
     for p in pins:
         name="236-{0}".format(300+p);
         webpage="";
-        classname_description="Terminal Block, WAGO {0}".format(name);
+        classname_description="Terminal Block WAGO {0}".format(name);
         footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
         makeTerminalBlock45Degree(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 

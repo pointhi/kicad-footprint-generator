@@ -49,7 +49,7 @@ if __name__ == '__main__':
         itemno=10691+p;
         name="{0}".format(itemno);
         webpage="http://www.4uconnector.com/online/object/4udrawing/{0}.pdf".format(itemno);
-        classname_description="Terminal Block, 4Ucon ItemNo. {0}".format(itemno);
+        classname_description="Terminal Block 4Ucon ItemNo. {0}".format(itemno);
         footprint_name="TerminalBlock_4Ucon_1x{2:02}_P{1:3.2f}mm_Vertical".format(name, rm, p)
         makeTerminalBlockVertical(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
         itemno=itemnos[pi];
         name="{0}".format(itemno);
         webpage="http://www.4uconnector.com/online/object/4udrawing/{0}.pdf".format(itemno);
-        classname_description="Terminal Block, 4Ucon ItemNo. {0}".format(itemno);
+        classname_description="Terminal Block 4Ucon ItemNo. {0}".format(itemno);
         footprint_name="TerminalBlock_4Ucon_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         makeTerminalBlockStd(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 

@@ -48,7 +48,7 @@ if __name__ == '__main__':
     for p in pins:
         name="TB13{0}".format(p);
         webpage="http://www.philmore-datak.com/mc/Page%20197.pdf";
-        classname_description="Terminal Block, Philmore ".format(name);
+        classname_description="Terminal Block Philmore ".format(name);
         footprint_name="TerminalBlock_Philmore_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
         makeTerminalBlockStd(footprint_name=footprint_name, 
                                   pins=p, rm=rm, 
