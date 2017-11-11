@@ -2,10 +2,10 @@ group_definitions:
     manufacturer: 'Molex'
 
 device_definition:
-    Panelmate_top_entry_1:
+    Panelmate_side_entry:
         series: 'Panelmate'
         mpn_format_string: '53780-{pincount:02d}70'
-        orientation: 'V'
+        orientation: 'H'
         datasheet: ''
         pinrange: ['list', [2,3,4,5,6,7,8,9,10,12,14,15,18,30]]
         ref_text_inside_pos: [0, 0]
@@ -204,7 +204,7 @@ device_definition:
 
     PicoClasp_top_entry_1:
         series: 'Pico-Clasp'
-        mpn_format_string: '51331-{pincount:02d}07'
+        mpn_format_string: '501331-{pincount:02d}07'
         orientation: 'V'
         datasheet: 'http://www.molex.com/pdm_docs/sd/5013310207_sd.pdf'
         pinrange: ['range', [2,6]]
@@ -241,7 +241,7 @@ device_definition:
 
     PicoClasp_top_entry_2:
         series: 'Pico-Clasp'
-        mpn_format_string: '51331-{pincount:02d}07'
+        mpn_format_string: '501331-{pincount:02d}07'
         orientation: 'V'
         datasheet: 'http://www.molex.com/pdm_docs/sd/5013310207_sd.pdf'
         pinrange: ['range', [6,16]]
@@ -305,3 +305,33 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
+
+    PicoLock_side_entry:
+        series: 'Pico-Lock'
+        mpn_format_string: '504050-{pincount:02d}91'
+        orientation: 'H'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/5040500891_sd.pdf'
+        pinrange: ['list', [4,5,6,7,8,10,12]]
+        ref_text_inside_pos: [0, -1]
+        pitch: 1.5
+        pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.25, 1.8]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.98
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 6.59
+        rel_pad_y_inside_edge: 5.59
+        pad_size_x: 0.6
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 0.02
+        body_size_y: 6.1
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 2.625
+        edge_modifier_mount_pad_side:
+            depth: 2 # > 0: cutout, < 0: protrusion
+            #width_start: 4.5
+            start_from_body_side: 1.95
+            #width_end: 4.5
+            end_from_body_side: 1.95
