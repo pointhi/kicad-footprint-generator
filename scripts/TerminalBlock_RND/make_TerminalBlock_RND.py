@@ -23,6 +23,34 @@ if __name__ == '__main__':
     script_generated_note="script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_RND";
     
     pins=range(2,12+1)
+    rm=5
+    package_height=10
+    leftbottom_offset=[rm/2,package_height-2.3]
+    ddrill=1.4
+    pad=[2.6,2.6]
+    bevel_height=[3.5]
+    opening=[4.1,5.4]
+    opening_yoffset=package_height-1-opening[1]
+    secondHoleDiameter=0
+    secondHoleOffset=[0,0]
+    thirdHoleDiameter=0
+    thirdHoleOffset=[0,0]
+    fourthHoleDiameter=0
+    fourthHoleOffset=[0,0]
+    fabref_offset=[0,3]
+    nibbleSize=[]
+    nibblePos=[]
+    for p in pins:
+        makeTerminalBlockVertical(footprint_name="TerminalBlock_RND_205-{0:05}_1x{2:02}_P{1:3.2f}mm_Vertical".format(274+p, rm, p), 
+                                  pins=p, rm=rm, 
+                                  package_height=package_height, leftbottom_offset=leftbottom_offset, 
+                                  ddrill=ddrill, pad=pad, 
+                                  opening=opening, opening_yoffset=opening_yoffset, 
+                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
+                                  nibbleSize=nibbleSize,nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                  tags_additional=[], lib_name="${KISYS3DMOD}/TerminalBlock_RND", classname="TerminalBlock_RND", classname_description="terminal block RND 205-{0:05}".format(76+p), webpage="http://cdn-reichelt.de/documents/datenblatt/C151/RND_205-00276_DB_EN.pdf", script_generated_note=script_generated_note)
+   
+    pins=range(2,12+1)
     rm=10
     package_height=10.3
     leftbottom_offset=[rm/4, 5]
