@@ -50,7 +50,7 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
         pitch=series_definition['pitch'], orientation=orientation)
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s})".format(series_definition['series'],
+    kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series_definition['series'],
         mpn, series_definition['datasheet']))
     kicad_mod.setAttribute('smd')
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series_definition['series'],
