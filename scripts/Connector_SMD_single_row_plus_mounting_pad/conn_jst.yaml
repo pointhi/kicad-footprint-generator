@@ -6,7 +6,7 @@ device_definition:
         series: 'ACH'
         mpn_format_string: 'BBM{pincount:02d}B-ACHSS-A-GAN-ETF'
         orientation: 'V'
-        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
+        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [1]]
         ref_text_inside_pos: [0, 0]
         pitch: 1.2
@@ -37,7 +37,7 @@ device_definition:
         series: 'ACH'
         mpn_format_string: 'BBM{pincount:02d}B-ACHSS-GAN-ETF'
         orientation: 'V'
-        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
+        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [2,3]]
         ref_text_inside_pos: [0, 0]
         pitch: 1.2
@@ -67,7 +67,7 @@ device_definition:
         series: 'ACH'
         mpn_format_string: 'BBM{pincount:02d}B-ACHSS-A-GAN-ETF'
         orientation: 'V'
-        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
+        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [4,5]]
         ref_text_inside_pos: [0, 0]
         pitch: 1.2
@@ -92,6 +92,69 @@ device_definition:
             # start_from_body_side
             width_end: 1
             # end_from_body_side
+
+    AUH_top_entry:
+        series: 'AUH'
+        mpn_format_string: 'BM{pincount:02d}B-AUHKS-GA-TB'
+        orientation: 'V'
+        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eAUH.pdf'
+        pinrange: ['list', [3,5]]
+        ref_text_inside_pos: [0, 0]
+        pitch: 1.5
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [0.6, 1.45]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.15
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 5.05
+        rel_pad_y_inside_edge: 4
+        pad_size_x: 0.6
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: -0.3
+        body_size_y: 4.3
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 1.775
+        edge_modifier_mount_pad_side:
+            depth: 1 # > 0: cutout, < 0: protrusion
+            #width_start: 1.6
+            start_from_body_side: 1
+            #width_end: 0.8
+            end_from_body_side: 1
+
+    LEA_top_entry:
+        series: 'LEA'
+        mpn_format_string: 'SM{pincount:02d}B-LEASS-TF'
+        orientation: 'H'
+        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eLEA.pdf'
+        pinrange: ['list', [2]]
+        ref_text_inside_pos: [0, 0]
+        pitch: 4.2
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [0.85, 1.75]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.15
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 6.45
+        rel_pad_y_inside_edge: 4.65
+        pad_size_x: 1.05
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 0.2
+        body_size_y: 6.3
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 1.95
+        edge_modifier_mount_pad_side:
+            depth: 0.4 # > 0: cutout, < 0: protrusion
+            #width_start: 1.6
+            start_from_body_side: 1.2
+            #width_end: 0.8
+            end_from_body_side: 1.2
+        edge_modifier_pin_side:
+            length: -1.6 # > 0: fin, < 0: cutout
+            width: 1.5
 
     GH_side_entry:
         series: 'GH'
@@ -119,7 +182,7 @@ device_definition:
 
     GH_top_entry:
         series: 'GH'
-        mpn_format_string: 'BM{pincount:02d}B-GHS-TBS'
+        mpn_format_string: 'BM{pincount:02d}B-GHS-TBT'
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eGH.pdf'
         pinrange: ['range', [2, 16]]
@@ -225,6 +288,60 @@ device_definition:
                     reference_is: 'center' # 'center' | 'first' | 'last'
                     count: 'pincount' # 'pincount' | value
 
+    SFH_side_entry:
+        series: 'SFH'
+        mpn_format_string: 'SM{pincount:02}B-SHLS-TF'
+        orientation: 'H'
+        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSFH.pdf'
+        pinrange: ['list', [2]]
+        ref_text_inside_pos: [0, 0.5]
+        pitch: 4.2
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [0.85, 1.75]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: -0.325
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 6.45
+        rel_pad_y_inside_edge: 4.65
+        pad_size_x: 1.05
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: -0.2
+        body_size_y: 5.9
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 0.5
+        no_automatic_silk_autline: 'True'
+        additional_drawing:
+            -
+                layer: 'F.SilkS'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['center', 'top'] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                polygone:
+                    - [-1.315, -0.11]
+                    - [1.315, -0.11]
+            -
+                layer: 'F.SilkS'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['center', 'bottom'] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                polygone:
+                    - [-1.515, 0.11]
+                    - [1.515, 0.11]
+            -
+                layer: 'F.SilkS'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['left', 0] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                polygone:
+                    - [-0.11, -1.165]
+                    - [-0.11, 1.215]
+            -
+                layer: 'F.SilkS'
+                # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
+                reference_point: ['right', 0] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                polygone:
+                    - [0.11, -1.165]
+                    - [0.11, 1.215]
+
     SHL_side_entry:
         series: 'SHL'
         mpn_format_string: 'SM{pincount:02}B-SHLS-TF'
@@ -251,7 +368,7 @@ device_definition:
 
     SH_side_entry:
         series: 'SH'
-        mpn_format_string: 'SM{pincount:02}B-SRSS-TF'
+        mpn_format_string: 'SM{pincount:02}B-SRSS-TB'
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSH.pdf'
         pinrange: ['list', [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20]]
@@ -275,7 +392,7 @@ device_definition:
 
     SH_top_entry:
         series: 'SH'
-        mpn_format_string: 'BM{pincount:02}B-SRSS-TF'
+        mpn_format_string: 'BM{pincount:02}B-SRSS-TB'
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSH.pdf'
         pinrange: ['range', [2,16]]
@@ -367,6 +484,33 @@ device_definition:
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
 
+    XAG_side_entry:
+        series: 'XAG'
+        mpn_format_string: 'SM{pincount:02d}B-XAGKS-BN-TB'
+        orientation: 'H'
+        datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eXAG.pdf'
+        pinrange: ['list', [5]]
+        ref_text_inside_pos: [0, 0]
+        pitch: 2.5
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.8, 3.9]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 4.7
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 12.6
+        rel_pad_y_inside_edge: 8.4
+        pad_size_x: 1.3
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: -0.2
+        body_size_y: 9.5
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 6.15
+        edge_modifier_pin_side:
+            length: 2.1 # > 0: fin, < 0: cutout
+            width: 4.6
+
     ZE_side_entry:
         series: 'ZE'
         mpn_format_string: 'SM{pincount:02}B-ZESS-TBT'
@@ -397,7 +541,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eZE.pdf'
         pinrange: ['range', [2, 17]]
-        ref_text_inside_pos: [0, -2]
+        ref_text_inside_pos: [0, -1.5]
         pitch: 1.5
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.8, 3.3]
