@@ -193,6 +193,7 @@ def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_of
     kicad_modg.append(
         Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=[0,0,0], scale=[1,1,1], rotate=[0,0,0]))
     
+    #debug_draw_keepouts(kicad_modg,keepouts)
    
     # write file
     file_handler = KicadFileHandler(kicad_mod)

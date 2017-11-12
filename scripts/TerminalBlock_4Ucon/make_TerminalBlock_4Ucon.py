@@ -29,7 +29,7 @@ if __name__ == '__main__':
     pins=[2,3,4,5,6,7,8,9,10,11,12,13,14,15]
     rm=3.5
     package_height=8.3
-    leftbottom_offset=[rm/2,package_height-3.7]
+    leftbottom_offset=[2.25,package_height-3.7]
     ddrill=1.3
     pad=[2.6,2.6]
     bevel_height=[3.5]
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     itemnos=[19963,20193,20001,20223,19964,10684,19965,10686,10687,10688,10689,10690,10691,10692]
     rm=3.5
     package_height=7
-    leftbottom_offset=[rm/2, package_height-3.4]
+    leftbottom_offset=[2.1, package_height-3.4]
     ddrill=1.2
     pad=[2.4,2.4]
     screw_diameter=2.75
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     thirdHoleOffset=[0,-4]
     fourthHoleDiameter=0
     fourthHoleOffset=[0,0]
-    fabref_offset=[0,2.5]
+    fabref_offset=[0,2.8]
     nibbleSize=[]
     nibblePos=[]
     for pi in range(0,len(pins)):
