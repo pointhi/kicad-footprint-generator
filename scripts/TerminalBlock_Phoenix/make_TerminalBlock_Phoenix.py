@@ -25,6 +25,80 @@ if __name__ == '__main__':
     
     
  
+    pins=range(2,8+1)
+    rm=2.5
+    package_height=5
+    leftbottom_offset=[3-0.65, 0.9, 0.65]
+    ddrill=1.2
+    pad=[2,2]
+    bevel_height=[]
+    opening=[2,1]
+    opening_xoffset=1
+    opening_yoffset=3.0
+    secondDrillDiameter=ddrill
+    secondDrillOffset=[0,-3.1]
+    secondDrillPad=pad
+    secondHoleDiameter=2
+    secondHoleOffset=[-1,-0.5]
+    thirdHoleDiameter=0
+    thirdHoleOffset=[-1,-1]
+    fourthHoleDiameter=0
+    fourthHoleOffset=[0,0]
+    fabref_offset=[0,-3.56]
+    nibbleSize=[]
+    nibblePos=[]
+    for p in pins:
+        name="PTSM-0,5-{0}-{1:1.2}-V-THR".format(p,rm);
+        webpage="http://www.produktinfo.conrad.com/datenblaetter/550000-574999/556444-da-01-de-LEITERPLATTENKL__PTSM_0_5__4_2_5_V_THR.pdf";
+        classname_description="Terminal Block Phoenix {0}".format(name);
+        footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Vertical".format(name, rm, p)
+        makeTerminalBlockVertical(footprint_name=footprint_name, 
+                                  pins=p, rm=rm, 
+                                  package_height=package_height, leftbottom_offset=leftbottom_offset, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, opening=opening,
+                                  ddrill=ddrill, pad=pad, bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
+                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                  tags_additional=[], lib_name='${KISYS3DMOD}/'+classname, classname=classname, classname_description=classname_description, 
+                                  webpage=webpage, script_generated_note=script_generated_note)
+   
+ 
+    pins=range(2,8+1)
+    rm=2.5
+    package_height=10
+    leftbottom_offset=[2.35, 2.8]
+    ddrill=1.2
+    pad=[1.8,3]
+    screw_diameter=0
+    bevel_height=[]
+    slit_screw=False
+    screw_pin_offset=[0,0]
+    secondDrillDiameter=ddrill
+    secondDrillOffset=[0,-5]
+    secondDrillPad=pad
+    secondHoleDiameter=[1,1]
+    secondHoleOffset=[0,6.5]
+    thirdHoleDiameter=0
+    thirdHoleOffset=[0,-4]
+    fourthHoleDiameter=0
+    fourthHoleOffset=[0,0]
+    fabref_offset=[0,0]
+    nibbleSize=[]
+    nibblePos=[]
+    for p in pins:
+        name="PTSM-0,5-{0}-{1:1.2}-H-THR".format(p,rm);
+        webpage="http://www.produktinfo.conrad.com/datenblaetter/550000-574999/556441-da-01-de-LEITERPLATTENKL__PTSM_0_5__8_2_5_H_THR.pdf";
+        classname_description="Terminal Block Phoenix {0}".format(name);
+        footprint_name="TerminalBlock_Phoenix_{0}_1x{2:02}_P{1:3.2f}mm_Horizontal".format(name, rm, p)
+        makeTerminalBlockStd(footprint_name=footprint_name, 
+                                  pins=p, rm=rm, 
+                                  package_height=package_height, leftbottom_offset=leftbottom_offset, 
+                                  ddrill=ddrill, pad=pad, screw_diameter=screw_diameter, bevel_height=bevel_height, slit_screw=slit_screw, screw_pin_offset=screw_pin_offset, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
+                                  secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
+                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                  tags_additional=[], lib_name='${KISYS3DMOD}/'+classname, classname=classname, classname_description=classname_description, 
+                                  webpage=webpage, script_generated_note=script_generated_note)
+   
+ 
     pins=range(2,16+1)
     rm=5.08
     package_height=9.8

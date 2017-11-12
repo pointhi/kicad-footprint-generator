@@ -136,7 +136,10 @@ def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_of
         x1=x1+rm
     
     # create Body
-    chamfer = min(h_fab/4, 2, bevel_height[0])
+    if len(bevel_height)>0:
+        chamfer = min(h_fab/4, 2, bevel_height[0])
+    else:
+        chamfer = min(h_fab/4, 2)
     bevelRectBL(kicad_modg,  [l_fab,t_fab], [w_fab,h_fab], 'F.Fab', lw_fab, bevel_size=chamfer)
     for bh in bevel_height:
         kicad_modg.append(Line(start=[l_fab, t_fab + h_fab-bh], end=[l_fab+w_fab, t_fab + h_fab-bh], layer='F.Fab', width=lw_fab))
@@ -215,7 +218,7 @@ def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_of
 #     <---------> opening[0]
 #
 #
-def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbottom_offset, ddrill, pad, opening, opening_yoffset, bevel_height, secondHoleDiameter=0, secondHoleOffset=[0,0], thirdHoleDiameter=0, thirdHoleOffset=[0,0], fourthHoleDiameter=0, fourthHoleOffset=[0,0],nibbleSize=[],nibblePos=[], fabref_offset=[0,0],
+def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbottom_offset, ddrill, pad, opening, opening_yoffset, bevel_height, opening_xoffset=0, secondHoleDiameter=0, secondHoleOffset=[0,0], thirdHoleDiameter=0, thirdHoleOffset=[0,0], fourthHoleDiameter=0, fourthHoleOffset=[0,0],secondDrillDiameter=0,secondDrillOffset=[0,0],secondDrillPad=[0,0],nibbleSize=[],nibblePos=[], fabref_offset=[0,0],
                         tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_Terminal_Blocks", classname="Connectors_Terminal_Blocks", classname_description="terminal block", webpage="", script_generated_note=""):
                         
     package_size=[2*leftbottom_offset[0]+(pins-1)*rm, package_height];
@@ -288,8 +291,13 @@ def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbott
     y1 = 0 
      
     pad_type = Pad.TYPE_THT 
+    extradrill1_type = Pad.TYPE_NPTH
+    if secondDrillPad[0]>0:
+        extradrill1_type = Pad.TYPE_THT
     pad_shape1 = Pad.SHAPE_RECT 
     pad_shapeother = Pad.SHAPE_CIRCLE 
+    if secondDrillPad[0]!=secondDrillPad[1]:
+        pad_shapeother = Pad.SHAPE_OVAL 
     pad_layers = Pad.LAYERS_THT
     keepouts=[];
     for p in range(1, pins + 1): 
@@ -297,14 +305,29 @@ def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbott
         if p == 1: 
             kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill, layers=pad_layers)) 
             keepouts=keepouts+addKeepoutRect(x1, y1, pad[0]+8*slk_offset, pad[1]+8*slk_offset)
+            if secondDrillDiameter>0:
+                kicad_modg.append(Pad(number=p, type=extradrill1_type, shape=pad_shape1, at=[x1+secondDrillOffset[0], y1+secondDrillOffset[1]], size=secondDrillPad, drill=secondDrillDiameter, layers=pad_layers)) 
+                keepouts=keepouts+addKeepoutRect(x1+secondDrillOffset[0], y1+secondDrillOffset[1], max(secondDrillPad[0],secondDrillDiameter)+8*slk_offset, max(secondDrillPad[0],secondDrillDiameter)+8*slk_offset)
         else:
             kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill, layers=pad_layers))
-            keepouts=keepouts+addKeepoutRound(x1, y1, pad[0]+8*slk_offset, pad[0]+8*slk_offset)
+            if pad[0]!=pad[1]:
+                keepouts=keepouts+addKeepoutRect(x1, y1, pad[0]+8*slk_offset, pad[1]+8*slk_offset)
+            else:
+                keepouts=keepouts+addKeepoutRound(x1, y1, pad[0]+8*slk_offset, pad[0]+8*slk_offset)
+            if secondDrillDiameter>0:
+                kicad_modg.append(Pad(number=p, type=extradrill1_type, shape=pad_shapeother, at=[x1+secondDrillOffset[0], y1+secondDrillOffset[1]], size=secondDrillPad, drill=secondDrillDiameter, layers=pad_layers)) 
+                if secondDrillPad[0]!=secondDrillPad[1]:
+                    keepouts=keepouts+addKeepoutRect(x1+secondDrillOffset[0], y1+secondDrillOffset[1], max(secondDrillPad[0],secondDrillDiameter)+8*slk_offset, max(secondDrillPad[0],secondDrillDiameter)+8*slk_offset)
+                else:
+                    keepouts=keepouts+addKeepoutRound(x1+secondDrillOffset[0], y1+secondDrillOffset[1], max(secondDrillPad[0],secondDrillDiameter)+8*slk_offset, max(secondDrillPad[0],secondDrillDiameter)+8*slk_offset)
         
         x1=x1+rm
     
     # create Body
-    chamfer = min(h_fab/4, 2, bevel_height[0])
+    if len(bevel_height)>0:
+        chamfer = min(h_fab/4, 2, bevel_height[0])
+    else:
+        chamfer = min(h_fab/4, 2)
     bevelRectBL(kicad_modg,  [l_fab,t_fab], [w_fab,h_fab], 'F.Fab', lw_fab, bevel_size=chamfer)
     for bh in bevel_height:
         kicad_modg.append(Line(start=[l_fab, t_fab + h_fab-bh], end=[l_fab+w_fab, t_fab + h_fab-bh], layer='F.Fab', width=lw_fab))
@@ -313,8 +336,8 @@ def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbott
     
     # opening + other repeated features
     for p in range(1,pins+1):
-        addRectWithKeepout(kicad_modg, (p-1)*rm-opening[0]/2, t_fab+h_fab-opening_yoffset-opening[1], opening[0], opening[1], 'F.SilkS', lw_slk, keepouts)
-        addRectWith(kicad_modg, (p-1)*rm-opening[0]/2, t_fab+h_fab-opening_yoffset-opening[1], opening[0], opening[1], 'F.Fab', lw_fab)
+        addRectWithKeepout(kicad_modg, (p-1)*rm-opening[0]/2-opening_xoffset, t_fab+h_fab-opening_yoffset-opening[1], opening[0], opening[1], 'F.SilkS', lw_slk, keepouts)
+        addRectWith(kicad_modg, (p-1)*rm-opening[0]/2-opening_xoffset, t_fab+h_fab-opening_yoffset-opening[1], opening[0], opening[1], 'F.Fab', lw_fab)
         
         if not (type(secondHoleDiameter) in (tuple, list)) and secondHoleDiameter>0 and (p-1)*rm+secondHoleOffset[0]<l_fab+w_fab:
             kicad_modg.append(Circle(center=[(p-1)*rm+secondHoleOffset[0], 0+secondHoleOffset[1]], radius=secondHoleDiameter/2, layer='F.Fab', width=lw_fab))
