@@ -571,3 +571,121 @@ def makeTerminalBlock45Degree(footprint_name, pins, rm, package_height, leftbott
     file_handler.writeFile(footprint_name + '.kicad_mod')
 
 
+
+    
+    
+    
+# pins [[x,y], [x,y], ...] location of pins (relative to center of block)
+# ddrill: drill diameter for pins
+# pad [padx,pady]:  size of pin-pad
+# screw_diameter: diameter of screw
+# screw_offset: offset of screw from package center
+# slit_screw=true|False: type of screw
+# block_size [w,h]: size of block
+def makeScrewTerminalSingleStd(footprint_name, block_size, block_offset, pins, ddrill, pad, screw_diameter, screw_offset, slit_screw=True,
+                        tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_Terminal_Blocks", classname="Connectors_Terminal_Blocks", classname_description="single screw terminal terminal block", webpage="", script_generated_note=""):
+                        
+    
+    h_fab = block_size[1]
+    w_fab = block_size[0]
+    l_fab = -block_size[0]/2+block_offset[0]
+    t_fab = -block_size[1]/2+block_offset[1]
+    
+    h_slk = h_fab + 2 * slk_offset
+    w_slk = w_fab + 2 * slk_offset
+    l_slk = l_fab - slk_offset
+    t_slk = t_fab - slk_offset
+    
+    h_crt = h_fab + 2 * crt_offset
+    w_crt = w_fab + 2 * crt_offset
+    l_crt = l_fab - crt_offset
+    t_crt = t_fab - crt_offset
+    
+    
+    text_size = w_fab*0.6
+    fab_text_size_max = 1.0
+    if text_size < fab_text_size_min:
+        text_size = fab_text_size_min
+    elif text_size > fab_text_size_max:
+        text_size = fab_text_size_max
+    text_size = round(text_size, 2)
+    text_size = [text_size,text_size]
+    text_t = text_size[0] * 0.15
+    txt_offset=text_size[1]
+    
+    
+    description = "{2}, block size {3}x{4}mm^2, drill diamater {5}mm, {1} pads, pad diameter {6}mm, see {7}".format(0, len(pins),classname_description, block_size[0], block_size[1], ddrill, max(pad), webpage)
+    tags = "THT {2} size {3}x{4}mm^2 drill {5}mm pad {6}mm".format(0, len(pins),classname_description, block_size[0], block_size[1], ddrill, max(pad))
+    
+    if len(script_generated_note)>0:
+        description=description+", "+script_generated_note
+    
+    if (len(tags_additional) > 0):
+        for t in tags_additional:
+            footprint_name = footprint_name + "_" + t
+            description = description + ", " + t
+            tags = tags + " " + t
+    
+    print(footprint_name)
+    
+    # init kicad footprint
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription(description)
+    kicad_mod.setTags(tags)
+    
+    # anchor for SMD-symbols is in the center, for THT-sybols at pin1
+    offset=pins[0]
+    kicad_modg = Translation(offset[0], offset[1])
+    kicad_mod.append(kicad_modg)
+    
+    # set general values
+    kicad_modg.append(Text(type='reference', text='REF**', at=[l_fab+w_fab/2, t_slk - txt_offset], layer='F.SilkS'))
+    kicad_modg.append(Text(type='user', text='%R', at=[l_fab+w_fab/2, t_slk - txt_offset], layer='F.Fab'))
+    kicad_modg.append(Text(type='value', text=footprint_name, at=[l_fab+w_fab/2, t_slk + h_slk + txt_offset], layer='F.Fab'))
+    
+    
+    # create pads
+    p1 = int(1)
+    x1 = 0
+    y1 = 0 
+     
+     # pins/pads
+    pad_type = Pad.TYPE_THT 
+    pad_shapeother = Pad.SHAPE_CIRCLE 
+    pad_layers = Pad.LAYERS_THT
+    keepouts=[];
+    for p in pins: 
+        kicad_modg.append(Pad(number=1, type=pad_type, shape=pad_shapeother, at=p, size=pad, drill=ddrill, layers=pad_layers))
+        keepouts=keepouts+addKeepoutRound(p[0], p[1], pad[0]+8*slk_offset, pad[0]+8*slk_offset)
+    
+    # screw
+    keepouts_screw=[];
+    if screw_diameter>0:
+        keepouts_screw=keepouts_screw+addKeepoutRound(screw_offset[0], screw_offset[1], screw_diameter, screw_diameter)
+        if slit_screw:
+            addSlitScrew(kicad_modg, screw_offset[0], screw_offset[1], screw_diameter/2, 'F.Fab', lw_fab)
+            addSlitScrewWithKeepouts(kicad_modg, screw_offset[0], screw_offset[1], screw_diameter/2+1*slk_offset, 'F.SilkS', lw_slk, keepouts)
+        else:
+            addCrossScrew(kicad_modg, screw_offset[0], screw_offset[1], screw_diameter/2, 'F.Fab', lw_fab)
+            addCrossScrewWithKeepouts(kicad_modg, screw_offset[0], screw_offset[1], screw_diameter/2+1*slk_offset, 'F.SilkS', lw_slk, keepouts)
+    
+    # create Body
+    addRectWithKeepout(kicad_modg, l_fab, t_fab, w_fab, h_fab, layer='F.Fab', width=lw_fab, keepouts=keepouts_screw)
+    addRectWithKeepout(kicad_modg, l_slk, t_slk, w_slk, h_slk, layer='F.SilkS', width=lw_slk, keepouts=keepouts+keepouts_screw)
+    
+    # create courtyard
+    kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
+                              end=[roundCrt(l_crt + offset[0] + w_crt), roundCrt(t_crt + offset[1] + h_crt)],
+                              layer='F.CrtYd', width=lw_crt))
+    
+    
+    # add model
+    kicad_modg.append(
+        Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=[0,0,0], scale=[1,1,1], rotate=[0,0,0]))
+    
+    #debug_draw_keepouts(kicad_modg,keepouts)
+   
+    # write file
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile(footprint_name + '.kicad_mod')
+    
