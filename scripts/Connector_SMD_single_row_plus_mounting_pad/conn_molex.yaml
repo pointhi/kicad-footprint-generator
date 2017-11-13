@@ -335,3 +335,57 @@ device_definition:
             start_from_body_side: 1.95
             #width_end: 4.5
             end_from_body_side: 1.95
+
+    CLIKmate_top_entry:
+        series: 'CLIK-Mate'
+        mpn_format_string: '502382-{pincount:02d}70'
+        orientation: 'V'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/5023820270_sd.pdf'
+        pinrange: ['range', [2,16]]
+        text_inside_pos: 'center'
+        pitch: 1.25
+        pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1, 2.8]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.35
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 5.6
+        rel_pad_y_inside_edge: 3.9
+        pad_size_x: 0.6
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 0.7
+        body_size_y: 5.45
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 2.3
+
+    CLIKmate_side_entry:
+        series: 'CLIK-Mate'
+        mpn_format_string: '502386-{pincount:02d}70'
+        orientation: 'H'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/5023860270_sd.pdf'
+        pinrange: ['range', [2,16]]
+        text_inside_pos: 'center'
+        pitch: 1.25
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1, 2.7]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.35
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 5.4
+        rel_pad_y_inside_edge: 3.7
+        pad_size_x: 0.6
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: -1.35
+        body_size_y: 3.15
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 2.3
+        edge_modifier_mount_pad_side:
+            depth: -1.25 # > 0: cutout, < 0: protrusion
+            #width_start: 4.5
+            start_from_body_side: 0.33
+            #width_end: 4.5
+            end_from_body_side: 0.33

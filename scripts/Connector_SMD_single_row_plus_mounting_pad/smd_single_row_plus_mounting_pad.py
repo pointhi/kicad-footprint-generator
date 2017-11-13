@@ -340,11 +340,8 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
 
     ######################### Text Fields ###############################
     text_center = series_definition.get('text_inside_pos', 'center')
-    
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
         courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position=text_center)
-
-
 
     ########################### file names ###############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}')
