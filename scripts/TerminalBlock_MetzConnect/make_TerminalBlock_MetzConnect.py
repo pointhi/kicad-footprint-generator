@@ -71,7 +71,7 @@ if __name__ == '__main__':
     pins=range(2,6+1)
     rm=3.81
     package_height=7.3
-    leftbottom_offset=[rm/2, 3.6]
+    leftbottom_offset=[1.85, 3.6]
     ddrill=0.7
     pad=[1.4,1.4]
     screw_diameter=2.5
