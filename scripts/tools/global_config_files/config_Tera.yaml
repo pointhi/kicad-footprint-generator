@@ -1,0 +1,35 @@
+3d_model_prefix: '${KISYS3DMOD}/'
+
+silk_line_width: 0.15
+silk_pad_clearence: 0.2
+silk_fab_offset: 0.11
+silk_line_lenght_min: 0.4
+allow_silk_below_part: 'tht' # tht | smd | all | none
+
+fab_line_width: 0.05
+fap_pin1_marker_length: 1
+
+courtyard_line_width: 0.05
+courtyard_grid: 0.01
+courtyard_distance: 0.5
+
+references:
+    -
+          layer: 'F.Fab'
+          position_y: 'inside' # outside_top | inside | outside_bottom
+          # size: [1,1]
+          # fontwidth: 0.15
+          size_max: [1,1]
+          size_min: [0.5, 0.5]
+          thickness_factor: 0.15
+    -
+          layer: 'F.SilkS'
+          position_y: 'outside_top' # outside_top | inside | outside_bottom
+          size: [1,1]
+          fontwidth: 0.15
+values:
+    -
+          layer: 'F.Fab'
+          position_y: 'outside_bottom' # outside_top | inside | outside_bottom
+          size: [0.6, 0.6]
+          fontwidth: 0.1

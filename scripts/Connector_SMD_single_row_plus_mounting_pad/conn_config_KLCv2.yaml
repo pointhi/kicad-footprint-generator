@@ -1,0 +1,13 @@
+fp_name_format_string: '{man:s}_{series:s}_{mpn:s}_{pins_per_row:02d}xPitch{pitch:.2f}mm_{orientation:s}'
+orientation_options:
+    H: 'Horizontal'
+    V: 'Vertical'
+entry_direction:
+    H: 'top entry'
+    V: 'side entry'
+
+#keyword_fp_string: 'connector {man:s} {series:s} {mpn:s} {entry:s} {orientation:s}'
+keyword_fp_string: 'connector {man:s} {series:s} {entry:s}'
+
+#lib_name_format_string: 'Conn_{man:s}_{series:s}'
+lib_name_format_string: 'Connectors_{man:s}'

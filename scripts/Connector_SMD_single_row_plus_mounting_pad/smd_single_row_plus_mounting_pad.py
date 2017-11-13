@@ -12,6 +12,9 @@ from helpers import *
 from KicadModTree import *
 from math import sqrt
 
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
+
 def generate_one_footprint(pincount, series_definition, configuration, group_definition):
     mpn = series_definition['mpn_format_string'].format(pincount=pincount)
     pins_toward_bottom = series_definition['pad1_position'] == 'bottom-left'
@@ -336,22 +339,11 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
 
 
     ######################### Text Fields ###############################
-    text_center = series_definition['ref_text_inside_pos']
-    reference_fields = configuration['references']
-    kicad_mod.append(Text(type='reference', text='REF**',
-        **getTextFieldDetails(reference_fields[0], cy1, cy2, text_center)))
+    text_center = series_definition.get('text_inside_pos', 'center')
+    
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position=text_center)
 
-    for additional_ref in reference_fields[1:]:
-        kicad_mod.append(Text(type='user', text='%R',
-        **getTextFieldDetails(additional_ref, cy1, cy2, text_center)))
-
-    value_fields = configuration['values']
-    kicad_mod.append(Text(type='value', text=footprint_name,
-        **getTextFieldDetails(value_fields[0], cy1, cy2, text_center)))
-
-    for additional_value in value_fields[1:]:
-        kicad_mod.append(Text(type='user', text='%V',
-            **getTextFieldDetails(additional_value, cy1, cy2, text_center)))
 
 
     ########################### file names ###############################
@@ -388,15 +380,21 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('files', metavar='file', type=str, nargs='+',
                         help='list of files holding information about what devices should be created.')
-    parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv3.0.yaml')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='conn_config_KLCv3.yaml')
     args = parser.parse_args()
 
-    with open(args.config, 'r') as config_stream:
+    with open(args.global_config, 'r') as config_stream:
         try:
             configuration = yaml.load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
+        except yaml.YAMLError as exc:
+            print(exc)
     for filepath in args.files:
         with open(filepath, 'r') as stream:
             try:

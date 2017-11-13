@@ -8,7 +8,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [1]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 1.2
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.75, 1.1]
@@ -39,7 +39,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [2,3]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 1.2
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.7, 0.8]
@@ -69,7 +69,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [4,5]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 1.2
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.75, 1.1]
@@ -99,7 +99,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eAUH.pdf'
         pinrange: ['list', [3,5]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 1.5
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.6, 1.45]
@@ -129,7 +129,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eLEA.pdf'
         pinrange: ['list', [2]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 4.2
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.85, 1.75]
@@ -162,7 +162,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eGH.pdf'
         pinrange: ['range', [2, 16]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 1.25
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1, 2.7]
@@ -186,7 +186,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eGH.pdf'
         pinrange: ['range', [2, 16]]
-        ref_text_inside_pos: [0, -1.5]
+        text_inside_pos: -1.5
         pitch: 1.25
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1, 2.8]
@@ -228,7 +228,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
         pinrange: ['range', [2, 16]]
-        ref_text_inside_pos: [0, 1.5]
+        text_inside_pos: 1.5
         pitch: 2
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.5, 3.4]
@@ -253,7 +253,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
         pinrange: ['range', [2, 17]]
-        ref_text_inside_pos: [0, -1]
+        text_inside_pos: -1
         pitch: 2
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.6, 3]
@@ -294,7 +294,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSFH.pdf'
         pinrange: ['list', [2]]
-        ref_text_inside_pos: [0, 0.5]
+        text_inside_pos: 0.5
         pitch: 4.2
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.85, 1.75]
@@ -348,7 +348,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSHL.pdf'
         pinrange: ['list', [2,5,6,7,8,10,11,12,14,16,20,22,26,30]]
-        ref_text_inside_pos: [0, 0.5]
+        text_inside_pos: 0.5
         pitch: 1
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [0.9, 1.7]
@@ -372,7 +372,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSH.pdf'
         pinrange: ['list', [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 1
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.2, 1.8]
@@ -396,7 +396,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSH.pdf'
         pinrange: ['range', [2,16]]
-        ref_text_inside_pos: [0, -0.25]
+        text_inside_pos: -0.25
         pitch: 1
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.2, 1.8]
@@ -439,7 +439,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSUR.pdf'
         pinrange: ['list', [2, 3, 4, 5, 6, 8, 10, 12, 14, 15, 16, 17, 20, 22]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 0.8
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.2, 1.7]
@@ -466,7 +466,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSUR.pdf'
         pinrange: ['list', [2, 3, 4, 5, 6, 8, 10, 12, 14, 15, 16, 17, 20]]
-        ref_text_inside_pos: [0, -0.4]
+        text_inside_pos: -0.4
         pitch: 0.8
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.2, 1.7]
@@ -490,7 +490,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eXAG.pdf'
         pinrange: ['list', [5]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 2.5
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.8, 3.9]
@@ -517,7 +517,7 @@ device_definition:
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eZE.pdf'
         pinrange: ['range', [2, 17]]
-        ref_text_inside_pos: [0, 0]
+        text_inside_pos: 0
         pitch: 1.5
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.8, 3.8]
@@ -541,7 +541,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eZE.pdf'
         pinrange: ['range', [2, 17]]
-        ref_text_inside_pos: [0, -1.5]
+        text_inside_pos: -1.5
         pitch: 1.5
         pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [1.8, 3.3]
