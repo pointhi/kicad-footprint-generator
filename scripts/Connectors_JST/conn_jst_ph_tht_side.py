@@ -11,7 +11,11 @@ import yaml
 from helpers import *
 from KicadModTree import *
 
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
+
 series = "PH"
+manufacturer = 'JST'
 orientation = 'Horizontal'
 number_of_rows = 1
 datasheet = 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
@@ -37,14 +41,15 @@ def generate_one_footprint(pincount, configuration):
     silk_y_min = y_min - configuration['silk_fab_offset']
     silk_y_main_min = y_main_min - configuration['silk_fab_offset']
     silk_y_max = y_max + configuration['silk_fab_offset']
-    
+
     x_mid = (pincount-1)*pitch/2.0
     x_max = (pincount-1)*pitch + 1.95
     silk_x_max = x_max + configuration['silk_fab_offset']
 
     # Through-hole type shrouded header, Side entry type
     part = "S{n}B-PH-K".format(n=pincount) #JST part number format string
-    footprint_name = configuration['fp_name_format_string'].format(series=series, mpn=part, num_rows=number_of_rows,
+    footprint_name = configuration['fp_name_format_string'].format(series=series,
+        man=manufacturer, mpn=part, num_rows=number_of_rows,
         pins_per_row=pincount, pitch=pitch, orientation=orientation)
 
     kicad_mod = Footprint(footprint_name)
@@ -126,14 +131,11 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
                         at=[0, 0], size=pad_size,
                         drill=drill_size, layers=Pad.LAYERS_THT))
-    for p in range(1, pincount):
-        Y = 0
-        X = p * pitch
-
-        num = p+1
-        kicad_mod.append(Pad(number=num, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-                            at=[X, Y], size=pad_size,
-                            drill=drill_size, layers=Pad.LAYERS_THT))
+                        
+    kicad_mod.append(PadArray(initial=2, start=[pitch, 0],
+        x_spacing=pitch, pincount=pincount-1,
+        size=pad_size, drill=drill_size,
+        type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
 
 
     # pin 1 marker
@@ -172,26 +174,16 @@ def generate_one_footprint(pincount, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker_type2, layer='F.Fab', width=configuration['fab_line_width']))
 
-    center = [(part_x_min + part_x_max)/2, 2.5]
-    reference_fields = configuration['references']
-    kicad_mod.append(Text(type='reference', text='REF**',
-        **getTextFieldDetails(reference_fields[0], cy1, cy2, center)))
+    ######################### Text Fields ###############################
+    text_center_y = 2.5
+    body_edge={'left':part_x_min, 'right':part_x_max, 'top':part_y_min, 'bottom':part_y_max}
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position=text_center_y)
 
-    for additional_ref in reference_fields[1:]:
-        kicad_mod.append(Text(type='user', text='%R',
-        **getTextFieldDetails(additional_ref, cy1, cy2, center)))
-
-    value_fields = configuration['values']
-    kicad_mod.append(Text(type='value', text=footprint_name,
-        **getTextFieldDetails(value_fields[0], cy1, cy2, center)))
-
-    for additional_value in value_fields[1:]:
-        kicad_mod.append(Text(type='user', text='%V',
-            **getTextFieldDetails(additional_value, cy1, cy2, center)))
 
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
-    lib_name = configuration['lib_name_format_string'].format(series=series)
+    lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
     model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
         model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
     kicad_mod.append(Model(filename=model_name))
@@ -206,12 +198,19 @@ def generate_one_footprint(pincount, configuration):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv3.0.yaml')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../Connector_SMD_single_row_plus_mounting_pad/conn_config_KLCv3.yaml')
     args = parser.parse_args()
 
-    with open(args.config, 'r') as config_stream:
+    with open(args.global_config, 'r') as config_stream:
         try:
             configuration = yaml.load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
 
