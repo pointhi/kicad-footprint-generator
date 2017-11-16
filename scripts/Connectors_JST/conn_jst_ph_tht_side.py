@@ -23,10 +23,13 @@ datasheet = 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
 silk_pin1_marker_type = 2
 fab_pin1_marker_type = 3
 
-pad_size=[1.2, 1.7]
-drill_size = 0.75 #Datasheet: 0.7 +0.1/-0.0 => It might be better to assume 0.75 +/-0.05mm
 
 pitch = 2.00
+#pad_size=[1.2, 1.7]
+drill_size = 0.75 #Datasheet: 0.7 +0.1/-0.0 => It might be better to assume 0.75 +/-0.05mm
+pad_to_pad_clearance = 0.8
+pad_copper_y = 0.5 #How much copper should be in y direction?
+min_annular_ring = 0.15
 
 # Connector Parameters
 x_min = -1.95
@@ -99,7 +102,7 @@ def generate_one_footprint(pincount, configuration):
         kicad_mod.append(Line(start=[-0.8, 4.1], end=[-0.8, silk_y_max],
             layer='F.SilkS', width=configuration['silk_line_width']))
 
-    # create Courtyard
+    ########################### CrtYd ################################
     part_x_min = x_min
     part_x_max = x_max
     part_y_min = y_min
@@ -115,7 +118,7 @@ def generate_one_footprint(pincount, configuration):
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
-    # Fab layer outline
+    ########################### Fab Outline ################################
     tmp_x1=x_min+body_back_protrusion_width
     tmp_x2=x_max-body_back_protrusion_width
     poly_fab_outline= [
@@ -131,8 +134,11 @@ def generate_one_footprint(pincount, configuration):
     ]
     kicad_mod.append(PolygoneLine(polygone=poly_fab_outline, layer='F.Fab', width=configuration['fab_line_width']))
 
-    # create pads
-    #add the pads
+    ############################# Pads ##################################
+    pad_size = [pitch - pad_to_pad_clearance, drill_size + 2*pad_copper_y]
+    if pad_size[0] - drill_size < 2*min_annular_ring:
+        pad_size[0] = drill_size + 2*min_annular_ring
+
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
                         at=[0, 0], size=pad_size,
                         drill=drill_size, layers=Pad.LAYERS_THT))
@@ -143,7 +149,7 @@ def generate_one_footprint(pincount, configuration):
         type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
 
 
-    # pin 1 marker
+    ########################### Pin 1 marker ################################
     poly_pin1_marker = [
         {'x':0, 'y':-1.2},
         {'x':-0.4, 'y':-1.6},

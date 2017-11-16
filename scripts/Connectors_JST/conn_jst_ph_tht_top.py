@@ -25,8 +25,11 @@ datasheet = 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
 fab_pin1_marker_type = 1
 pin1_marker_offset = 0.3
 pin1_marker_linelen = 1.25
-pad_size=[1.2, 1.7]
+
 drill_size = 0.75 #Datasheet: 0.7 +0.1/-0.0 => It might be better to assume 0.75 +/-0.05mm
+pad_to_pad_clearance = 0.8
+pad_copper_y = 0.5 #How much copper should be in y direction?
+min_annular_ring = 0.15
 
 
 
@@ -110,7 +113,7 @@ def generate_one_footprint(pincount, configuration):
             kicad_mod.append(PolygoneLine(polygone=poly_silk_inner_protrusion, layer='F.SilkS', width=configuration['silk_line_width']))
             kicad_mod.append(Line(start=[middle_x, 2.3], end=[middle_x, 1.8], layer='F.SilkS', width=configuration['silk_line_width']))
 
-    # Pin 1 Marker
+    ########################### Pin 1 marker ################################
     poly_pin1_marker = [
         {'x':silk_x_min-pin1_marker_offset+pin1_marker_linelen, 'y':silk_y_min-pin1_marker_offset},
         {'x':silk_x_min-pin1_marker_offset, 'y':silk_y_min-pin1_marker_offset},
@@ -128,10 +131,10 @@ def generate_one_footprint(pincount, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker_type2, layer='F.Fab', width=configuration['fab_line_width']))
 
-    # create Fab outline
+    ########################## Fab Outline ###############################
     kicad_mod.append(RectLine(start=[x_min,y_min], end=[x_max,y_max],
         layer='F.Fab', width=configuration['fab_line_width']))
-    # create Courtyard
+    ############################# CrtYd ##################################
     part_x_min = x_min
     part_x_max = x_max
     part_y_min = y_min
@@ -147,9 +150,12 @@ def generate_one_footprint(pincount, configuration):
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
-    # create pads
-    #createNumberedPadsTHT(kicad_mod, pincount, 2, 0.7, {'x':1.2, 'y':1.7})
-    #add the pads
+
+    ############################# Pads ##################################
+    pad_size = [pitch - pad_to_pad_clearance, drill_size + 2*pad_copper_y]
+    if pad_size[0] - drill_size < 2*min_annular_ring:
+        pad_size[0] = drill_size + 2*min_annular_ring
+
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
                         at=[0, 0], size=pad_size,
                         drill=drill_size, layers=Pad.LAYERS_THT))
