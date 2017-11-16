@@ -35,6 +35,7 @@ number_of_rows = 1
 datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eVH.pdf'
 
 pitch = 3.96
+drill = 1.7 # 1.65 +0.1/-0.0 -> 1.7 +/-0.05
 pad_to_pad_clearance = 0.8
 pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
@@ -131,8 +132,18 @@ def generate_one_footprint(pins, series_params, configuration):
     marker = [{'x': px,'y': 0},{'x': px-2*m,'y': m},{'x': px-2*m,'y': -m},{'x': px,'y': 0}]
     kicad_mod.append(PolygoneLine(polygone=marker, layer='F.SilkS', width=configuration['silk_line_width']))
 
-    #generate tht pads (1.65mm drill with 2.35x3mm oval pads)
-    pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, size=[2.35,3], drill=1.65, layers=Pad.LAYERS_THT)
+
+    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
+    if pad_size[0] - drill < 2*min_annular_ring:
+        pad_size[0] = drill + 2*min_annular_ring
+    if pad_size[0] - drill > 2*pad_copper_y_solder_length:
+        pad_size[0] = drill + 2*pad_copper_y_solder_length
+
+    shape=Pad.SHAPE_OVAL
+    if pad_size[1] == pad_size[0]:
+        shape=Pad.SHAPE_CIRCLE
+
+    pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT)
     kicad_mod.append(pa)
 
     ######################### Text Fields ###############################
