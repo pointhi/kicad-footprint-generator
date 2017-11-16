@@ -22,7 +22,7 @@ datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eEH.pdf'
 
 pitch = 2.50
 pad_to_pad_clearance = 0.8
-pad_copper_y = 0.5 #How much copper should be in y direction?
+pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 def generate_one_footprint(pincount, configuration):
@@ -52,7 +52,7 @@ def generate_one_footprint(pincount, configuration):
     else:
         drill = 0.95
 
-    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y]
+    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
     if pad_size[0] - drill < 2*min_annular_ring:
         pad_size[0] = drill + 2*min_annular_ring
 

@@ -28,7 +28,7 @@ pin1_marker_linelen = 1.25
 
 drill_size = 0.75 #Datasheet: 0.7 +0.1/-0.0 => It might be better to assume 0.75 +/-0.05mm
 pad_to_pad_clearance = 0.8
-pad_copper_y = 0.5 #How much copper should be in y direction?
+pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 
@@ -152,7 +152,7 @@ def generate_one_footprint(pincount, configuration):
 
 
     ############################# Pads ##################################
-    pad_size = [pitch - pad_to_pad_clearance, drill_size + 2*pad_copper_y]
+    pad_size = [pitch - pad_to_pad_clearance, drill_size + 2*pad_copper_y_solder_length]
     if pad_size[0] - drill_size < 2*min_annular_ring:
         pad_size[0] = drill_size + 2*min_annular_ring
 

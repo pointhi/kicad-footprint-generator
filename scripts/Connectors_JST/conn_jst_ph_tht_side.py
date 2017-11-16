@@ -28,7 +28,7 @@ pitch = 2.00
 #pad_size=[1.2, 1.7]
 drill_size = 0.75 #Datasheet: 0.7 +0.1/-0.0 => It might be better to assume 0.75 +/-0.05mm
 pad_to_pad_clearance = 0.8
-pad_copper_y = 0.5 #How much copper should be in y direction?
+pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 # Connector Parameters
@@ -48,6 +48,10 @@ def generate_one_footprint(pincount, configuration):
     x_mid = (pincount-1)*pitch/2.0
     x_max = (pincount-1)*pitch + 1.95
     silk_x_max = x_max + configuration['silk_fab_offset']
+
+    pad_size = [pitch - pad_to_pad_clearance, drill_size + 2*pad_copper_y_solder_length]
+    if pad_size[0] - drill_size < 2*min_annular_ring:
+        pad_size[0] = drill_size + 2*min_annular_ring
 
     # Through-hole type shrouded header, Side entry type
     mpn = "S{n}B-PH-K".format(n=pincount) #JST part number format string
@@ -135,10 +139,6 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.append(PolygoneLine(polygone=poly_fab_outline, layer='F.Fab', width=configuration['fab_line_width']))
 
     ############################# Pads ##################################
-    pad_size = [pitch - pad_to_pad_clearance, drill_size + 2*pad_copper_y]
-    if pad_size[0] - drill_size < 2*min_annular_ring:
-        pad_size[0] = drill_size + 2*min_annular_ring
-
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
                         at=[0, 0], size=pad_size,
                         drill=drill_size, layers=Pad.LAYERS_THT))
