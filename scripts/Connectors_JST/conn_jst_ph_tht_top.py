@@ -155,12 +155,12 @@ def generate_one_footprint(pincount, configuration):
     if pad_size[0] - drill_size < 2*min_annular_ring:
         pad_size[0] = drill_size + 2*min_annular_ring
 
-    kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                        at=[0, 0], size=pad_size,
-                        drill=drill_size, layers=Pad.LAYERS_THT))
+    # kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+    #                     at=[0, 0], size=pad_size,
+    #                     drill=drill_size, layers=Pad.LAYERS_THT))
 
-    kicad_mod.append(PadArray(initial=2, start=[pitch, 0],
-        x_spacing=pitch, pincount=pincount-1,
+    kicad_mod.append(PadArray(initial=1, start=[0, 0],
+        x_spacing=pitch, pincount=pincount,
         size=pad_size, drill=drill_size,
         type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
 

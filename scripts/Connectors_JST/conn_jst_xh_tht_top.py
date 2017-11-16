@@ -122,15 +122,19 @@ def generate_one_footprint(pins, variant, configuration):
 
     #generate the pads
     ############################# Pads ##################################
-    kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                        at=[0, 0], size=pad_size,
-                        drill=drill, layers=Pad.LAYERS_THT))
+    # kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+    #                     at=[0, 0], size=pad_size,
+    #                     drill=drill, layers=Pad.LAYERS_THT))
 
     if pins > 1:
-        kicad_mod.append(PadArray(initial=2, start=[pitch, 0],
-            x_spacing=pitch, pincount=pins-1,
+        kicad_mod.append(PadArray(initial=1, start=[0, 0],
+            x_spacing=pitch, pincount=pins,
             size=pad_size, drill=drill,
             type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
+    else:
+        kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+                             at=[0, 0], size=pad_size,
+                             drill=drill, layers=Pad.LAYERS_THT))
 
     if boss:
         # todo: NPTH pad for boss.
