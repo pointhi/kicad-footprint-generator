@@ -112,10 +112,18 @@ def generate_one_footprint(pins, configuration):
 
     #generate tht pads (1.65mm drill with 2.35x3mm oval pads)
     pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
+    if pad_size[0] - drill > 2*pad_copper_y_solder_length:
+        pad_size[0] = 2*pad_copper_y_solder_length + drill
+
     if pad_size[0] - drill < 2*min_annular_ring:
         pad_size[0] = drill + 2*min_annular_ring
 
-    pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, size=[2.35,3], drill=1.65, layers=['*.Cu','*.Mask'])
+    shape=Pad.SHAPE_OVAL
+    if pad_size[0] == pad_size[1]:
+        shape=Pad.SHAPE_CIRCLE
+
+    pa = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=shape,
+            size=pad_size, drill=drill, layers=Pad.LAYERS_THT)
     kicad_mod.append(pa)
 
     ######################### Text Fields ###############################
