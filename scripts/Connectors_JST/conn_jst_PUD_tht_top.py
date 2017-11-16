@@ -30,26 +30,24 @@ from footprint_text_fields import addTextFields
 
 series = "PUD"
 manufacturer = 'JST'
-orientation = 'H'
+orientation = 'V'
 number_of_rows = 2
 datasheet = 'http://www.jst-mfg.com/product/pdf/eng/ePUD.pdf'
 
 pitch = 2.0
+
+pin_range=range(4,21) #number of pins in each row
 row_pitch = 2
 drill = 0.75 # 0.7 +0.1/-0 -> 0.75+/-0.05
 pad_to_pad_clearance = 0.8
 pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
-mh_drill = 1.65
-mh_y = row_pitch + 7.7
-
-pin_range = range(4,21) #number of pins in each row
-
+mh_drill = 1.35
+mh_y = -3.4
 #FP name strings
-part_base = "S{n:02}B-PUDSS-1" #JST part number format string
+part_base = "B{n:02}B-PUDSS" #JST part number format string
 
-#FP description and tags
 
 def generate_one_footprint(pins, configuration):
     mpn = part_base.format(n=pins*number_of_rows) #JST part number format string
@@ -69,42 +67,26 @@ def generate_one_footprint(pins, configuration):
     A = (pins - 1) * pitch
     B = A + 4
 
-    #generate the pads (row 1)
-    size = [pitch - pad_to_pad_clearance, row_pitch - pad_to_pad_clearance]
-    if size[0] - drill < 2*min_annular_ring:
-        size[0] = drill + 2*min_annular_ring
-    if size[0] - drill > 2*pad_copper_y_solder_length:
-        size[0] = drill + 2*pad_copper_y_solder_length
-
-    if size[1] - drill < 2*min_annular_ring:
-        size[1] = drill + 2*min_annular_ring
-    if size[1] - drill > 2*pad_copper_y_solder_length:
-        size[1] = drill + 2*pad_copper_y_solder_length
-
-    pa1 = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-        increment=2, size=size, drill=drill, layers=Pad.LAYERS_THT)
-    pa2 = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-        start=[0,row_pitch], initial=2, increment=2, size=size, drill=drill, layers=Pad.LAYERS_THT)
-
-    kicad_mod.append(pa1)
-    kicad_mod.append(pa2)
-
     #draw the component outline
     x1 = A/2 - B/2
     x2 = x1 + B
-    y2 = row_pitch + 7.7 + 2.4
-    y1 = y2 - 12.7
+    y2 = 2 + 2.4
+    y1 = y2 - 8.3
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
 
     #draw simple outline on F.Fab layer
     kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
+
+    #wall thickness t
+    t = 0.75
+
+    #draw inside tab
+    T = A/2 + 0.5
+    kicad_mod.append(RectLine(start=[A/2-T/2,y1+t],end=[A/2+T/2,y1+2*t],width=configuration['silk_line_width'],layer='F.SilkS')) #,layer='F.Fab'))
+
     ########################### CrtYd #################################
     cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
-    if y1 < -size[1]/2:
-        cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
-    else:
-        cy1 = roundToBase(-size[1]/2-configuration['courtyard_distance'], configuration['courtyard_grid'])
-
+    cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
 
     cx2 = roundToBase(x2+configuration['courtyard_distance'], configuration['courtyard_grid'])
     cy2 = roundToBase(y2+configuration['courtyard_distance'], configuration['courtyard_grid'])
@@ -116,46 +98,67 @@ def generate_one_footprint(pins, configuration):
     #offset off
     off = configuration['silk_fab_offset']
 
+    #outline
+    side = [
+    {'x': A/2-T/2-t,'y': y1-off},
+    {'x': A/2-T/2-t,'y': y1 + 2 * t},
+    {'x': A/2-T/2-2*t,'y': y1 + 2 * t},
+    {'x': A/2-T/2-2*t,'y': y1 + t},
+    {'x': x1 + t,'y': y1 + t},
+    {'x': x1 + t,'y': y2 - t},
+    {'x': A/2,'y': y2 - t},
+    ]
+
+    kicad_mod.append(PolygoneLine(polygone=side,width=configuration['silk_line_width'],layer='F.SilkS')) #,  layer='F.Fab'))
+    kicad_mod.append(PolygoneLine(polygone=side,x_mirror=A/2,width=configuration['silk_line_width'],layer='F.SilkS'))# ,layer='F.Fab'))
+
+
     x1 -= off
     y1 -= off
     x2 += off
     y2 += off
 
-    #outline
-    side = [
-    {'x': -1,'y': y1},
-    {'x': x1,'y': y1},
-    {'x': x1,'y': y2},
-    {'x': A/2,'y': y2},
-    ]
-
-    kicad_mod.append(PolygoneLine(polygone=side, width=configuration['silk_line_width'], layer='F.SilkS'))
-    kicad_mod.append(PolygoneLine(polygone=side, x_mirror=A/2, width=configuration['silk_line_width'], layer='F.SilkS'))
-
-    #add mounting holes
-    m1 = Pad(at=[-0.9,mh_y],layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_NPTH,size=mh_drill, drill=mh_drill)
-    m2 = Pad(at=[A+0.9,mh_y],layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_NPTH,size=mh_drill, drill=mh_drill)
-
-    kicad_mod.append(m1)
-    kicad_mod.append(m2)
-
-    D = 0.3
-    L = 2.5
+    #draw outline
+    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],width=configuration['silk_line_width'],layer='F.SilkS'))
 
     #add p1 marker
+    px = x1 - 0.2
+    m = 0.3
+
     marker = [
-        {'x': pitch/2 , 'y': y1-D+0.25},
-        {'x': pitch/2 , 'y': y1-D},
-        {'x': x1-D,'y': y1-D},
-        {'x': x1-D,'y': y1-D+L},
+    {'x': px,'y': 0},
+    {'x': px-2*m,'y': m},
+    {'x': px-2*m,'y': -m},
+    {'x': px,'y': 0},
     ]
 
     kicad_mod.append(PolygoneLine(polygone=marker,width=configuration['silk_line_width'],layer='F.SilkS'))
     kicad_mod.append(PolygoneLine(polygone=marker,layer='F.Fab',width=configuration['fab_line_width']))
 
+    #generate the pads (row 1)
+
+    size = [pitch - pad_to_pad_clearance, row_pitch - pad_to_pad_clearance]
+    if size[0] - drill < 2*min_annular_ring:
+        size[0] = drill + 2*min_annular_ring
+    if size[0] - drill > 2*pad_copper_y_solder_length:
+        size[0] = drill + 2*pad_copper_y_solder_length
+
+    if size[1] - drill < 2*min_annular_ring:
+        size[1] = drill + 2*min_annular_ring
+    if size[1] - drill > 2*pad_copper_y_solder_length:
+        size[1] = drill + 2*pad_copper_y_solder_length
+
+    pa1 = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
+        increment=2, size=size, drill=drill, layers=Pad.LAYERS_THT)
+    pa2 = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
+        start=[0,row_pitch], initial=2, increment=2, size=size, drill=drill, layers=Pad.LAYERS_THT)
+
+    kicad_mod.append(pa1)
+    kicad_mod.append(pa2)
+
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='center')
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='top')
 
     ##################### Output and 3d model ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}')
