@@ -64,10 +64,10 @@ def generate_one_footprint(pins, configuration):
 
     mpn = part_base.format(n=number_of_rows*pins)
     orientation_str = configuration['orientation_options'][orientation]
-    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+    footprint_name = configuration['fp_name_dual_pitch_format_string'].format(man=manufacturer,
         series=series,
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins,
-        pitch=pitch, orientation=orientation_str)
+        pitch_x=pitch, pitch_y=row_pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series, mpn, datasheet))
