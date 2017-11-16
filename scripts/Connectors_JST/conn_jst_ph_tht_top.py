@@ -17,7 +17,7 @@ from footprint_text_fields import addTextFields
 
 series = "PH"
 manufacturer = 'JST'
-orientation = 'Vertical'
+orientation = 'V'
 number_of_rows = 1
 datasheet = 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
 
@@ -48,15 +48,19 @@ def generate_one_footprint(pincount, configuration):
     silk_x_max = x_max + configuration['silk_fab_offset']
 
     # Through-hole type shrouded header, Top entry type
-    part = "B{n}B-PH-K".format(n=pincount) #JST part number format string
-    footprint_name = configuration['fp_name_format_string'].format(series=series,
-        man=manufacturer, mpn=part, num_rows=number_of_rows,
-        pins_per_row=pincount, pitch=pitch, orientation=orientation)
+    mpn = "B{n}B-PH-K".format(n=pincount) #JST part number format string
+    orientation_str = configuration['orientation_options'][orientation]
+    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+        series=series,
+        mpn=mpn, num_rows=1, pins_per_row=pincount,
+        pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
-    description = "JST PH series connector, " + part + ", top entry type, through hole, Datasheet: http://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
-    kicad_mod.setDescription(description)
-    kicad_mod.setTags('connector jst ph')
+    kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series, mpn, datasheet))
+    kicad_mod.setAttribute('smd')
+    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
+        orientation=orientation_str, man=manufacturer,
+        entry=configuration['entry_direction'][orientation]))
 
     # create Silkscreen
     kicad_mod.append(RectLine(start=[silk_x_min,silk_y_min], end=[silk_x_max,silk_y_max],

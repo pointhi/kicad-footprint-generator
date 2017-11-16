@@ -16,7 +16,7 @@ from footprint_text_fields import addTextFields
 
 series = "PH"
 manufacturer = 'JST'
-orientation = 'Horizontal'
+orientation = 'H'
 number_of_rows = 1
 datasheet = 'http://www.jst-mfg.com/product/pdf/eng/ePH.pdf'
 
@@ -47,15 +47,20 @@ def generate_one_footprint(pincount, configuration):
     silk_x_max = x_max + configuration['silk_fab_offset']
 
     # Through-hole type shrouded header, Side entry type
-    part = "S{n}B-PH-K".format(n=pincount) #JST part number format string
-    footprint_name = configuration['fp_name_format_string'].format(series=series,
-        man=manufacturer, mpn=part, num_rows=number_of_rows,
-        pins_per_row=pincount, pitch=pitch, orientation=orientation)
+    mpn = "S{n}B-PH-K".format(n=pincount) #JST part number format string
+
+    orientation_str = configuration['orientation_options'][orientation]
+    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+        series=series,
+        mpn=mpn, num_rows=1, pins_per_row=pincount,
+        pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
-    description = "JST PH series connector, " + part + ", side entry type, through hole, Datasheet: http://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
-    kicad_mod.setDescription(description)
-    kicad_mod.setTags('connector jst ph')
+    kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series, mpn, datasheet))
+    kicad_mod.setAttribute('smd')
+    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
+        orientation=orientation_str, man=manufacturer,
+        entry=configuration['entry_direction'][orientation]))
 
     # create Silkscreen
     tmp_x1=x_min+body_back_protrusion_width+configuration['silk_fab_offset']
@@ -131,7 +136,7 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
                         at=[0, 0], size=pad_size,
                         drill=drill_size, layers=Pad.LAYERS_THT))
-                        
+
     kicad_mod.append(PadArray(initial=2, start=[pitch, 0],
         x_spacing=pitch, pincount=pincount-1,
         size=pad_size, drill=drill_size,
