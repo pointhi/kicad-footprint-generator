@@ -35,7 +35,6 @@ def generate_one_footprint(pincount, configuration):
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series, mpn, datasheet))
-    kicad_mod.setAttribute('smd')
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
