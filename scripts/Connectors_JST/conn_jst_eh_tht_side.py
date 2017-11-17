@@ -64,12 +64,27 @@ def generate_one_footprint(pincount, configuration):
     x1 = -2.5
     y1 = -6.7
     x2 = x1 + B
+    y21 = y1 + 6
     y2 = 1.5
+    x11 = x1+1
+    x21 = x2-1
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
 
     #draw the main outline around the footprint
-    kicad_mod.append(RectLine(start={'x':x1,'y':y1}, end={'x':x2,'y':y2}, layer='F.Fab', width=configuration['fab_line_width']))
-
+    # kicad_mod.append(RectLine(start={'x':x1,'y':y1}, end={'x':x2,'y':y2}, layer='F.Fab', width=configuration['fab_line_width']))
+    fab_outline=[
+        {'x': x11, 'y': y21},
+        {'x': x11, 'y': y2},
+        {'x': x1, 'y': y2},
+        {'x': x1, 'y': y1},
+        {'x': x2, 'y': y1},
+        {'x': x2, 'y': y2},
+        {'x': x21, 'y': y2},
+        {'x': x21, 'y': y21},
+        {'x': x11, 'y': y21}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=fab_outline,
+        layer='F.Fab', width=configuration['fab_line_width']))
     ########################### CrtYd #################################
     cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
     cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
@@ -93,9 +108,9 @@ def generate_one_footprint(pincount, configuration):
     y2 += off
 
 
-    T = 1.5
+    T = 1 + 2*configuration['silk_fab_offset']
 
-    y3 = y2 - 2.2
+    y3 = y21 + off
 
     kicad_mod.append(PolygoneLine(polygone=[{'x':x1+T,'y':y3},
                                {'x':x1+T,'y':y2},
@@ -124,12 +139,12 @@ def generate_one_footprint(pincount, configuration):
     w = 0.32
     l = 3.5
 
-    py = -2.5
+    py = y3-1
 
     kicad_mod.append(Line(start={'x':x1+T,'y':py},end={'x':x2-T,'y':py}, layer='F.SilkS', width=configuration['silk_line_width']))
 
-    kicad_mod.append(Line(start={'x':x1+T,'y':py+1},end={'x':x2-T,'y':py+1}, layer='F.SilkS', width=configuration['silk_line_width']))
-
+    # kicad_mod.append(Line(start={'x':x1+T,'y':py+1},end={'x':x2-T,'y':py+1}, layer='F.SilkS', width=configuration['silk_line_width']))
+    pcs_x = pad_size[0]/2 + configuration['silk_pad_clearance'] + configuration['silk_line_width']
     for p in range(pincount):
 
         px = p * pitch
@@ -141,6 +156,10 @@ def generate_one_footprint(pincount, configuration):
                                    {'x': px+w,'y': py-l+0.25*w},
                                    {'x': px+w,'y': py},
                                    {'x': px,'y': py}], layer='F.SilkS', width=configuration['silk_line_width']))
+
+        if p < pincount-1:
+            kicad_mod.append(Line(start=[px + pcs_x, y3], end=[px + pitch - pcs_x, y3],
+                layer='F.SilkS', width=configuration['silk_line_width']))
 
     ######################### Pin 1 marker ##############################
 
