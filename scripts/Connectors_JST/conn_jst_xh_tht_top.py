@@ -50,18 +50,17 @@ variant_params = {
         'back_protrusion': False,
         'pin_range': chain(range(2,17), [20])
     },
-    # Boss version not implemented! (Contratiction in Datasheet!)
-    # 'AM':{
-    #     'boss': True,
-    #     'back_protrusion': False,
-    #     'pin_range': range(1,13)
-    # }
+    'AM':{
+        'boss': True,
+        'back_protrusion': False,
+        'pin_range': range(1,13)
+    }
 }
 
 fab_first_marker_w = 1.25
 pin1_marker_linelen = 1.25
 fab_first_marker_h = 1
-fab_pin1_marker_type = 1
+fab_pin1_marker_type = 2
 pin1_marker_offset = 0.3
 
 #FP description and tags
@@ -137,8 +136,63 @@ def generate_one_footprint(pins, variant, configuration):
                              drill=drill, layers=Pad.LAYERS_THT))
 
     if boss:
-        # todo: NPTH pad for boss.
-        pass
+        if pins == 1:
+            boss_y = 4.35
+            boss_x = 0
+            boss_drill = 1.75
+            kicad_mod.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
+                                 at=[boss_x, boss_y], size=boss_drill,
+                                 drill=boss_drill, layers=Pad.LAYERS_NPTH))
+        else:
+            boss_y = 2
+            boss_x = -1.6
+            boss_drill = 1.2
+            kicad_mod.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
+                                 at=[boss_x, boss_y], size=boss_drill,
+                                 drill=boss_drill, layers=Pad.LAYERS_NPTH))
+
+    if boss and pins == 1:
+        boss_size_1pin = 1.5
+        off = configuration['silk_fab_offset']
+        x_boss_fab_off = boss_size_1pin/2 + off
+        x_boss_pad_off = boss_drill/2 + configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
+        x_boss = x_boss_fab_off
+        if x_boss_pad_off > x_boss:
+            x_boss=x_boss_pad_off
+        out_silk = PolygoneLine(polygone=[
+            {'x': -x_boss, 'y':boss_y},
+            {'x': -x_boss, 'y':y2+off},
+            {'x': x1-off, 'y':y2+off},
+            {'x': x1-off, 'y':y1-off},
+            {'x': x2+off, 'y':y1-off},
+            {'x': x2+off, 'y':y2+off},
+            {'x': x_boss, 'y':y2+off},
+            {'x': x_boss, 'y':boss_y}
+        ], layer='F.SilkS', width=configuration['silk_line_width'])
+        kicad_mod.append(out_silk)
+        kicad_mod.append(Arc(center=[0,boss_y], start=[-x_boss, boss_y], angle=-180,
+            layer="F.SilkS", width=configuration['silk_line_width']))
+
+        out_fab = PolygoneLine(polygone=[
+            {'x': -boss_size_1pin/2, 'y':boss_y},
+            {'x': -boss_size_1pin/2, 'y':y2},
+            {'x': x1, 'y':y2},
+            {'x': x1, 'y':y1},
+            {'x': x2, 'y':y1},
+            {'x': x2, 'y':y2},
+            {'x': boss_size_1pin/2, 'y':y2},
+            {'x': boss_size_1pin/2, 'y':boss_y}
+        ], layer='F.Fab', width=configuration['fab_line_width'])
+        kicad_mod.append(out_fab)
+        kicad_mod.append(Arc(center=[0,boss_y], start=[-boss_size_1pin/2, boss_y], angle=-180,
+            layer="F.Fab", width=configuration['fab_line_width']))
+
+
+    else:
+        out = RectLine(start=[x1,y1], end=[x2,y2], offset=configuration['silk_fab_offset'],
+            layer='F.SilkS', width=configuration['silk_line_width'])
+        kicad_mod.append(out)
+    body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
 
     #draw the courtyard
     cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
@@ -146,16 +200,15 @@ def generate_one_footprint(pins, variant, configuration):
 
     cx2 = roundToBase(x2+configuration['courtyard_distance'], configuration['courtyard_grid'])
     cy2 = roundToBase(y2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+    if boss and pins == 1:
+        cy2 = roundToBase(boss_y+boss_drill/2+configuration['courtyard_distance'], configuration['courtyard_grid'])
 
     kicad_mod.append(RectLine(
         start=[cx1, cy1], end=[cx2, cy2],
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     #draw the connector outline
-    out = RectLine(start=[x1,y1], end=[x2,y2], offset=configuration['silk_fab_offset'],
-        layer='F.SilkS', width=configuration['silk_line_width'])
-    kicad_mod.append(out)
-    body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
+
 
     if fab_pin1_marker_type == 2:
         fab_marker_left = -fab_first_marker_w/2.0
@@ -194,11 +247,19 @@ def generate_one_footprint(pins, variant, configuration):
     {'x': x1,'y': y1+w+g},
     {'x': x1+w,'y': y1+w+g},
     {'x': x1+w,'y': y2-w},
-    {'x': A/2,'y': y2-w},
+    {'x': A/2,'y': y2-w}
     ]
+    if boss and pins > 1:
+        line2 = line[:2]
+        line2.append({'x': x1+w,'y': boss_y - boss_drill/2 - configuration['silk_line_width']/2 - configuration['silk_pad_clearance']})
+        kicad_mod.append(PolygoneLine(polygone=line2, layer='F.SilkS', width=configuration['silk_line_width']))
 
-    kicad_mod.append(PolygoneLine(polygone=line, layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=line, x_mirror=A/2, layer='F.SilkS', width=configuration['silk_line_width']))
+        kicad_mod.append(Line(start=[A/2, y2-w],
+            end=[boss_x+boss_drill/2+ configuration['silk_line_width']/2 + configuration['silk_pad_clearance'], y2-w],
+            layer='F.SilkS', width=configuration['silk_line_width']))
+    else:
+        kicad_mod.append(PolygoneLine(polygone=line, layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=line, x_mirror=A/2 if pins > 1 else 0.00000000001, layer='F.SilkS', width=configuration['silk_line_width']))
 
     #pin-1 marker
     y =  -2.75
