@@ -42,7 +42,7 @@ min_annular_ring = 0.15
 #FP name strings
 part_base = "S{n:02}B-XH-{variant:s}" #JST part number format string
 
-fab_pin1_marker_type = 1
+fab_pin1_marker_type = 2
 fab_first_marker_w = 1.25
 fab_first_marker_h = 1
 

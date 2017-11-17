@@ -94,7 +94,7 @@ def generate_one_footprint(pins, configuration):
     x2 = x1 + B
     x3 = -0.9
     x4 = pitch * (pins - 1) + 0.9
-    y1 = 4.4
+    y1 = 14.9 - 7.7 - 3.2
     y2 = y1 + 3.2
     y3 = y1 + 9.4
     y4 = 14.9

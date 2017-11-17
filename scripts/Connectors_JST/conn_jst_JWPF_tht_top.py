@@ -208,7 +208,7 @@ def generate_one_footprint(pincount, configuration):
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='bottom')
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='left')
 
     ##################### Output and 3d model ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}')

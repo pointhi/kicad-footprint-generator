@@ -45,18 +45,29 @@ def _getTextFieldDetails(field_definition, body_edges, courtyard, text_y_inside_
         size = [1,1]
         fontwidth = 0.15
 
-    if position_y == 'inside' and text_y_inside_position == 'top':
-        position_y = 'inside_top'
-    elif position_y == 'inside' and text_y_inside_position == 'bottom':
-        position_y = 'inside_bottom'
-    elif position_y == 'inside' and (isinstance(text_y_inside_position,int) or isinstance(text_y_inside_position,float)):
-        at[1] = text_y_inside_position
+    if position_y == 'inside':
+        if text_y_inside_position == 'top':
+            position_y = 'inside_top'
+        elif text_y_inside_position == 'bottom':
+            position_y = 'inside_bottom'
+        elif text_y_inside_position == 'left':
+            position_y = 'inside_left'
+        elif text_y_inside_position == 'right':
+            position_y = 'inside_right'
+        elif isinstance(text_y_inside_position,int) or isinstance(text_y_inside_position,float):
+            at[1] = text_y_inside_position
 
     text_edge_offset = size[0]/2+0.2
     if position_y == 'outside_top':
         at = [body_center[0], courtyard['top']-text_edge_offset]
     elif position_y == 'inside_top':
         at = [body_center[0], body_edges['top']+text_edge_offset]
+    elif position_y == 'inside_left':
+        at = [body_edges['left'] + text_edge_offset, body_center[1]]
+        rotation = 1
+    elif position_y == 'inside_right':
+        at = [body_edges['right'] - text_edge_offset, body_center[1]]
+        rotation = 1
     elif position_y == 'outside_bottom':
         at = [body_center[0], courtyard['bottom']+text_edge_offset]
     elif position_y == 'inside_bottom':

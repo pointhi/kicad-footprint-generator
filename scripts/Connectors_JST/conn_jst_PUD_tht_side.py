@@ -24,6 +24,7 @@ import argparse
 import yaml
 from helpers import *
 from KicadModTree import *
+from math import sqrt
 
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
@@ -147,10 +148,16 @@ def generate_one_footprint(pins, configuration):
         {'x': pitch/2 , 'y': y1-D+0.25},
         {'x': pitch/2 , 'y': y1-D},
         {'x': x1-D,'y': y1-D},
-        {'x': x1-D,'y': y1-D+L},
+        {'x': x1-D,'y': y1-D+L}
     ]
 
     kicad_mod.append(PolygoneLine(polygone=marker,width=configuration['silk_line_width'],layer='F.SilkS'))
+    sl = 1
+    marker =[
+        {'x': sl/2 , 'y': body_edge['top']},
+        {'x': 0 , 'y': body_edge['top']+sl/sqrt(2)},
+        {'x': -sl/2 , 'y': body_edge['top']}
+    ]
     kicad_mod.append(PolygoneLine(polygone=marker,layer='F.Fab',width=configuration['fab_line_width']))
 
     ######################### Text Fields ###############################
