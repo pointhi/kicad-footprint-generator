@@ -33,7 +33,7 @@ min_annular_ring = 0.15
 tab_width = 7.0
 row_spacing = 4.0
 pad_drill = 1.0
-mount_hole_size = 1.1
+mount_hole_size = 1.15
 mount_hole_offset_x = 1.5
 
 # Width of connector
@@ -99,14 +99,14 @@ def generate_one_footprint(pincount, configuration):
 
     y_ref = -3 if number_of_rows == 1 else -4
 
-    pad_size = [drill + 2*pad_copper_x_solder_length, pitch - pad_to_pad_clearance]
+    pad_size = [pad_drill + 2*pad_copper_x_solder_length, pitch - pad_to_pad_clearance]
     if number_of_rows > 1:
-        if pad_size[0] - drill > 2*pad_copper_x_solder_length:
-            pad_size[0] = drill + 2*pad_copper_x_solder_length
-        if pad_size[0] - drill < 2*min_annular_ring:
-            pad_size[0] = drill + 2*min_annular_ring
-    if pad_size[1] - drill < 2*min_annular_ring:
-        pad_size[1] = drill + 2*min_annular_ring
+        if pad_size[0] - pad_drill > 2*pad_copper_x_solder_length:
+            pad_size[0] = pad_drill + 2*pad_copper_x_solder_length
+        if pad_size[0] - pad_drill < 2*min_annular_ring:
+            pad_size[0] = pad_drill + 2*min_annular_ring
+    if pad_size[1] - pad_drill < 2*min_annular_ring:
+        pad_size[1] = pad_drill + 2*min_annular_ring
 
     # Create pins
     for i in range(number_of_rows):
@@ -195,7 +195,7 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.append(PolygoneLine(polygone=p1, layer='F.SilkS', width=configuration['silk_line_width']))
 
     # Add pin-1 marker on F.Fab
-    D = -0.5 - pad_y / 2
+    D = -0.5 - pad_size[1] / 2
     M = 0.75
     p1 = [
         {'x': -M/2, 'y': D - M},
