@@ -50,7 +50,7 @@ part_base = "S{n}P-VH" #JST part number format string
 # DISCLAIMER: This generator uses many magic numbers for the silk screen details. These might break if some parameters are changed.
 
 def generate_one_footprint(pins, configuration):
-    silk_pad_clearance = configuration['silk_pad_clearence']+configuration['silk_line_width']/2
+    silk_pad_clearance = configuration['silk_pad_clearance']+configuration['silk_line_width']/2
     mpn = part_base.format(n=pins)
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,

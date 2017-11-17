@@ -166,8 +166,8 @@ def generate_one_footprint(pins, configuration):
                                             layer='F.SilkS', width=configuration['silk_line_width']))
 
     #add pin1 marker on F.FilkS
-    p1_y1 = -pad_size[1]/2 - configuration['silk_pad_clearence'] - configuration['silk_line_width']/2
-    p1_x1 = -pad_size[0]/2 - configuration['silk_pad_clearence'] - configuration['silk_line_width']/2
+    p1_y1 = -pad_size[1]/2 - configuration['silk_pad_clearance'] - configuration['silk_line_width']/2
+    p1_x1 = -pad_size[0]/2 - configuration['silk_pad_clearance'] - configuration['silk_line_width']/2
 
     kicad_mod.append(PolygoneLine(polygone=[{'x':0,'y':p1_y1},{'x':p1_x1,'y':p1_y1},{'x':p1_x1,'y':0}],
             layer='F.SilkS', width=configuration['silk_line_width']))

@@ -76,7 +76,7 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
                         layers=Pad.LAYERS_SMT))
 
     ######################### Body outline ###############################
-    pad_edge_silk_center_offset = configuration['silk_pad_clearence'] + configuration['silk_line_width']/2
+    pad_edge_silk_center_offset = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
     pad_1_x_outside_edge = -dimension_A/2 - pad_size[0]/2
 
     if pins_toward_bottom: #Man i wish there where a rotate footprint function available.

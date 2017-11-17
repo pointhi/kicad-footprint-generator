@@ -72,7 +72,7 @@ def generate_one_footprint(pincount, configuration):
     tmp_x1=x_min+body_back_protrusion_width+configuration['silk_fab_offset']
     tmp_x2=x_max-body_back_protrusion_width-configuration['silk_fab_offset']
     poly_silk_outline= [
-                    {'x':-pad_size[0]/2.0-configuration['silk_pad_clearence'], 'y':silk_y_main_min},
+                    {'x':-pad_size[0]/2.0-configuration['silk_pad_clearance'], 'y':silk_y_main_min},
                     {'x':tmp_x1, 'y':silk_y_main_min},
                     {'x':tmp_x1, 'y':silk_y_min},
                     {'x':silk_x_min, 'y':silk_y_min},
@@ -81,7 +81,7 @@ def generate_one_footprint(pincount, configuration):
                     {'x':silk_x_max, 'y':silk_y_min},
                     {'x':tmp_x2, 'y':silk_y_min},
                     {'x':tmp_x2, 'y':silk_y_main_min},
-                    {'x':(pincount-1)*pitch+pad_size[0]/2.0+configuration['silk_pad_clearence'], 'y':silk_y_main_min}
+                    {'x':(pincount-1)*pitch+pad_size[0]/2.0+configuration['silk_pad_clearance'], 'y':silk_y_main_min}
     ]
     kicad_mod.append(PolygoneLine(polygone=poly_silk_outline, layer='F.SilkS', width=configuration['silk_line_width']))
 
@@ -158,10 +158,10 @@ def generate_one_footprint(pincount, configuration):
     if silk_pin1_marker_type == 1:
         kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.SilkS', width=configuration['silk_line_width']))
     if silk_pin1_marker_type == 2:
-        silk_pin1_marker_t2_x = -pad_size[0]/2.0-configuration['silk_pad_clearence']
+        silk_pin1_marker_t2_x = -pad_size[0]/2.0-configuration['silk_pad_clearance']
 
         kicad_mod.append(Line(start=[silk_pin1_marker_t2_x, silk_y_main_min],
-            end=[silk_pin1_marker_t2_x, -pad_size[1]/2.0-configuration['silk_pad_clearence']],layer='F.SilkS', width=configuration['silk_line_width']))
+            end=[silk_pin1_marker_t2_x, -pad_size[1]/2.0-configuration['silk_pad_clearance']],layer='F.SilkS', width=configuration['silk_line_width']))
 
     if fab_pin1_marker_type == 1:
         kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.Fab', width=configuration['fab_line_width']))

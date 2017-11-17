@@ -2,28 +2,46 @@
 
 import sys
 import os
-sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod"))
 
+# export PYTHONPATH="${PYTHONPATH}<path to kicad-footprint-generator directory>"
+sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of KicadModTree
+import argparse
+import yaml
+from helpers import *
+from KicadModTree import *
+
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
 from math import floor,ceil
 
-from kicad_mod import KicadMod, createNumberedPadsTHT
-
-# http://www.jst-mfg.com/product/pdf/eng/eZE.pdf
+series = "ZE"
+manufacturer = 'JST'
+orientation = 'H'
+number_of_rows = 1
+datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eZE.pdf'
 
 pitch = 1.5
+y_spacing = 3.70
 
-for pincount in range(2,17):
+drill = 0.75 # 0.7 +0.1/-0.1 -> 0.75 +/-0.05
+pad_to_pad_clearance = 0.8
+pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
+min_annular_ring = 0.15
+mh_drill = 1.15
 
-    jst = "S{pincount:02}B-ZESK-2D".format(pincount=pincount)
+def generate_one_footprint(pincount, configuration):
+    mpn = "S{pincount:02}B-ZESK-2D".format(pincount=pincount)
+    orientation_str = configuration['orientation_options'][orientation]
+    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+        series=series,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pincount,
+        pitch=pitch, orientation=orientation_str)
 
-    # Through-hole type shrouded header, side entry type
-    footprint_name = "JST_ZE_" + jst + "_{pincount:02}x{pitch:02}mm_Angled".format(pincount=pincount, pitch=pitch)
-
-    print(footprint_name)
-    
-    kicad_mod = KicadMod(footprint_name)
-    kicad_mod.setDescription("JST ZE series connector, " + jst + ", 1.50mm pitch, side entry through hole")
-    kicad_mod.setTags('connector jst ze side horizontal angled tht through thru hole')
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series, mpn, datasheet))
+    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
+        orientation=orientation_str, man=manufacturer,
+        entry=configuration['entry_direction'][orientation]))
 
     #dimensions
     A = (pincount - 1) * 1.5
@@ -37,69 +55,96 @@ for pincount in range(2,17):
 
     y2 = 3.7 + 3.65
     y1 = y2 - 7.8 - 0.2
-    
+    body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
+
+    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
+    if pad_size[0] - drill < 2*min_annular_ring:
+        pad_size[0] = drill + 2*min_annular_ring
+
+    if y_spacing - pad_size[1] < pad_to_pad_clearance:
+        pad_size[1] = y_spacing - pad_to_pad_clearance
+    if pad_size[1] - drill < 2*min_annular_ring:
+        pad_size[1] = drill + 2*min_annular_ring
+
     #add outline to F.Fab
-    kicad_mod.addRectLine(
-        {'x': x1, 'y': y1},
-        {'x': x2, 'y': y2},
-        'F.Fab', 0.1
-        )
+    kicad_mod.append(RectLine(
+        start={'x': x1, 'y': y1},
+        end={'x': x2, 'y': y2},
+        layer='F.Fab', width=configuration['fab_line_width']
+        ))
+
+    ########################### CrtYd #################################
+    cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
+    if y1 < -pad_size[1]/2:
+        cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
+    else:
+        cy1 = roundToBase(-pad_size[1]/2-configuration['courtyard_distance'], configuration['courtyard_grid'])
+
+    cx2 = roundToBase(x2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cy2 = roundToBase(y2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+
+    kicad_mod.append(RectLine(
+        start=[cx1, cy1], end=[cx2, cy2],
+        layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     #expand the outline a little bit
-    out = 0.15
+    out = configuration['silk_fab_offset']
     x1 -= out
     x2 += out
     y1 -= out
     y2 += out
-
-    # set general values
-    kicad_mod.addText('reference', 'REF**', {'x':xMid, 'y':-2}, 'F.SilkS')
-    kicad_mod.addText('user', '%R', {'x':xMid, 'y':6}, 'F.Fab')
-    kicad_mod.addText('value', footprint_name, {'x':xMid, 'y':9}, 'F.Fab')
-
-    dia = 1.35
-    drill = 0.7
-
-    y_spacing = 3.70
-
+    silk_pad_offset = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
+    if y1 < -(pad_size[1]/2 + silk_pad_offset)
+    kicad_mod.append(RectLine(start={'x':x1,'y':y1}, end={'x':x2,'y':y2},
+        width=configuration['silk_line_width'], layer="F.SilkS"))
+    poly_silk = [
+        {'x': ,'y': },
+        {'x': ,'y': },
+        {'x': ,'y': },
+        {'x': ,'y': },
+        {'x': ,'y': },
+    ]
 
     # create odd numbered pads
-    createNumberedPadsTHT(kicad_mod, ceil(pincount/2), pitch * 2, drill, {'x':dia, 'y':dia},  increment=2)
+    #createNumberedPadsTHT(kicad_mod, ceil(pincount/2), pitch * 2, drill, pad_size,  increment=2)
+    kicad_mod.append(PadArray(initial=1, start=[0, 0],
+        x_spacing=pitch*2, pincount=ceil(pincount/2),
+        size=pad_size, drill=drill,
+        type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
     #create even numbered pads
-    createNumberedPadsTHT(kicad_mod, floor(pincount/2), pitch * 2, drill, {'x':dia, 'y':dia}, starting=2, increment=2, y_off=y_spacing, x_off=pitch)
+    #createNumberedPadsTHT(kicad_mod, floor(pincount/2), pitch * 2, drill, pad_size, starting=2, increment=2, y_off=y_spacing, x_off=pitch)
+    kicad_mod.append(PadArray(initial=2, start=[pitch, y_spacing],
+        x_spacing=pitch*2, pincount=floor(pincount/2),
+        size=pad_size, drill=drill,
+        type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
+
 
     #add mounting holes
-    kicad_mod.addMountingHole(
-        {'x': -1.55, 'y': 1.85},
-        1.1
-    )
-
-    kicad_mod.addMountingHole(
-        {'x': A+1.55    , 'y': 1.85},
-        1.1
-    )
-
-    #draw the courtyard
-    cy=0.5
-    kicad_mod.addRectLine(
-        {'x':x1-0.5,'y':y1-0.5},
-        {'x':x2+0.5,'y':y2+0.5},
-        "F.CrtYd", 0.05)
-
-    kicad_mod.addRectLine({'x':x1,'y':y1},
-                          {'x':x2,'y':y2}, width=0.12)
+    # kicad_mod.append(MountingHole(
+    #     {'x': -1.55, 'y': 1.85},
+    #     1.1
+    # ))
+    #
+    # kicad_mod.append(MountingHole(
+    #     {'x': A+1.55    , 'y': 1.85},
+    #     1.1
+    # )
+    kicad_mod.append(Pad(at={'x': -1.55, 'y': 1.85}, type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_NPTH,
+        drill=mh_drill, size=mh_drill))
+    kicad_mod.append(Pad(at={'x': A+1.55, 'y': 1.85}, type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_NPTH,
+        drill=mh_drill, size=mh_drill))
 
     #draw the line at the bottom
 
     xa = xMid - A/2 + out
     xb = xMid + A/2 - out
     y3 = y2 - 1
-    kicad_mod.addPolygoneLine([
+    kicad_mod.append(PolygoneLine(polygone=[
         {'x':xa,'y':y2},
         {'x':xa,'y':y3},
         {'x':xb,'y':y3},
         {'x':xb,'y':y2}
-    ], width=0.12)
+    ], width=configuration['silk_line_width'], layer="F.SilkS"))
 
     # add pin-1 marker
     D = 0.3
@@ -109,13 +154,47 @@ for pincount in range(2,17):
         {'x': x1-D,'y':  y1-D},
         {'x': x1-D + L,'y':  y1-D},
     ]
-    
-    kicad_mod.addPolygoneLine(pin_1, width=0.12)
-    kicad_mod.addPolygoneLine(pin_1,layer='F.Fab',width=0.1)
-    
-    # output kicad model
-    f = open(footprint_name + ".kicad_mod","w")
 
-    f.write(kicad_mod.__str__())
+    kicad_mod.append(PolygoneLine(polygone=pin_1, width=configuration['silk_line_width'], layer="F.SilkS"))
+    kicad_mod.append(PolygoneLine(polygone=pin_1, layer='F.Fab', width=configuration['fab_line_width']))
 
-    f.close()
+    ######################### Text Fields ###############################
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='center')
+
+    ##################### Output and 3d model ############################
+    model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}')
+
+    lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
+    model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+        model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
+    kicad_mod.append(Model(filename=model_name))
+
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
+    filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name)
+
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile(filename)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../Connector_SMD_single_row_plus_mounting_pad/conn_config_KLCv3.yaml')
+    args = parser.parse_args()
+
+    with open(args.global_config, 'r') as config_stream:
+        try:
+            configuration = yaml.load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    for pincount in range(2, 17):
+        generate_one_footprint(pincount, configuration)
