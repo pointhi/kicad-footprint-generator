@@ -93,17 +93,29 @@ def generate_one_footprint(pincount, configuration):
     x2 += out
     y1 -= out
     y2 += out
+
     silk_pad_offset = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
-    if y1 < -(pad_size[1]/2 + silk_pad_offset)
-    kicad_mod.append(RectLine(start={'x':x1,'y':y1}, end={'x':x2,'y':y2},
-        width=configuration['silk_line_width'], layer="F.SilkS"))
-    poly_silk = [
-        {'x': ,'y': },
-        {'x': ,'y': },
-        {'x': ,'y': },
-        {'x': ,'y': },
-        {'x': ,'y': },
-    ]
+    if y1 < -(pad_size[1]/2 + silk_pad_offset):
+        kicad_mod.append(RectLine(start={'x':x1,'y':y1}, end={'x':x2,'y':y2},
+            width=configuration['silk_line_width'], layer="F.SilkS"))
+    else:
+        num_odd_pins = ceil(pincount/2)
+        pos_last_odd_pad = (num_odd_pins-1) * 2*pitch
+        poly_silk = [
+            {'x': -(pad_size[0]/2 + silk_pad_offset), 'y': y1},
+            {'x': x1, 'y': y1},
+            {'x': x1, 'y': y2},
+            {'x': x2, 'y': y2},
+            {'x': x2, 'y': y1},
+            {'x': pos_last_odd_pad + (pad_size[0]/2 + silk_pad_offset), 'y': y1},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=poly_silk,
+            width=configuration['silk_line_width'], layer="F.SilkS"))
+        for i in range(num_odd_pins-1):
+            kicad_mod.append(Line(start=[i * 2*pitch + (pad_size[0]/2 + silk_pad_offset), y1],
+                end=[(i+1) * 2*pitch - (pad_size[0]/2 + silk_pad_offset), y1],
+                width=configuration['silk_line_width'], layer="F.SilkS"))
+
 
     # create odd numbered pads
     #createNumberedPadsTHT(kicad_mod, ceil(pincount/2), pitch * 2, drill, pad_size,  increment=2)
