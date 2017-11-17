@@ -121,13 +121,13 @@ def generate_one_footprint(pincount, configuration):
     #createNumberedPadsTHT(kicad_mod, ceil(pincount/2), pitch * 2, drill, pad_size,  increment=2)
     kicad_mod.append(PadArray(initial=1, start=[0, 0],
         x_spacing=pitch*2, pincount=ceil(pincount/2),
-        size=pad_size, drill=drill,
+        size=pad_size, drill=drill, increment=2,
         type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
     #create even numbered pads
     #createNumberedPadsTHT(kicad_mod, floor(pincount/2), pitch * 2, drill, pad_size, starting=2, increment=2, y_off=y_spacing, x_off=pitch)
     kicad_mod.append(PadArray(initial=2, start=[pitch, y_spacing],
         x_spacing=pitch*2, pincount=floor(pincount/2),
-        size=pad_size, drill=drill,
+        size=pad_size, drill=drill, increment=2,
         type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
 
 
