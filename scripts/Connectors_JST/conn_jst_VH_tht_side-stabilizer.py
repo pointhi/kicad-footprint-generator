@@ -28,7 +28,7 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = "EH"
+series = "VH"
 manufacturer = 'JST'
 orientation = 'V'
 number_of_rows = 1
