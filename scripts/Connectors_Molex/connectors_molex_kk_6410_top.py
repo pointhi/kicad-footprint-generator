@@ -17,42 +17,61 @@
 
 import sys
 import os
+#sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
+
+# export PYTHONPATH="${PYTHONPATH}<path to kicad-footprint-generator directory>"
+sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of KicadModTree
 import argparse
+import yaml
+from helpers import *
+from KicadModTree import *
 
-sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
 
-from KicadModTree import *  # NOQA
+series = "KK-254"
+manufacturer = 'Molex'
+orientation = 'V'
+number_of_rows = 1
+datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eEH.pdf'
 
+pitch = 2.54
+start_pos_x = 0 # Where should pin 1 be located.
+pad_to_pad_clearance = 0.8
+pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
+min_annular_ring = 0.15
 
-if __name__ == '__main__':
+def generate_one_footprint(pincount, configuration):
+
+    mpn = '0022272{n:02d}1'.format(n=pincount)
 
     # handle arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs=1)
-    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
-    args = parser.parse_args()
-    pincount = int(args.pincount[0])
-    footprint_name = 'Molex_KK-6410-{pc:02g}_{pc:02g}x2.54mm_Straight'.format(pc=pincount)
+    orientation_str = configuration['orientation_options'][orientation]
+    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+        series=series,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pincount,
+        pitch=pitch, orientation=orientation_str)
 
-    print('Building {:s} '.format(footprint_name))
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription("Molex {:s} series connector, {:s}, {:d}Pins ({:s}), generated with kicad-footprint-generator".format(series, mpn, pincount, datasheet))
+    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
+        orientation=orientation_str, man=manufacturer,
+        entry=configuration['entry_direction'][orientation]))
 
     # calculate working values
-    pad_spacing = 2.54
-    start_pos_x = 0
     end_pos_x = (pincount-1) * pad_spacing
     centre_x = (end_pos_x - start_pos_x) / 2.0
-    nudge = 0.1
-    silk_w = 0.12
+    nudge = configuration['silk_fab_offset']
+    silk_w = configuration['silk_line_width']
+    fab_w = configuration['fab_line_width']
 
-    # initialise footprint
-    kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription('Connector Headers with Friction Lock, 22-27-2{pincount:02g}1, http://www.molex.com/pdm_docs/sd/022272021_sd.pdf'.format(pincount=pincount))
-    kicad_mod.setTags('connector molex kk_6410 22-27-2{pincount:02g}1'.format(pincount=pincount))
 
-    # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[1, -4.5], layer='F.SilkS'))
-    kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[centre_x, 0], layer='F.Fab'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[centre_x, 4.5], layer='F.Fab'))
+    body_edge={
+        'left':start_pos_x - pitch/2,
+        'right':end_pos_x + pitch/2,
+        'bottom':1.88+1
+        }
+    body_edge['top'] = body_edge['bottom']-5.08
 
     # create pads
     kicad_mod.append(Pad(at=[0,0], number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, size=[2,2.6],\
@@ -63,7 +82,7 @@ if __name__ == '__main__':
 
     # create fab outline
     kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0, -5.8/2.0],\
-        end=[end_pos_x+pad_spacing/2.0, 5.8/2.0], layer='F.Fab', width=silk_w))
+        end=[end_pos_x+pad_spacing/2.0, 5.8/2.0], layer='F.Fab', width=fab_w))
 
     # create silkscreen
     kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0-nudge, -3.02],\
@@ -73,7 +92,7 @@ if __name__ == '__main__':
     kicad_mod.append(Line(start=[start_pos_x-pad_spacing/2.0-0.4, -2.0],\
         end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.SilkS', width=silk_w))
     kicad_mod.append(Line(start=[start_pos_x-pad_spacing/2.0-0.4, -2.0],\
-        end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.Fab', width=silk_w))
+        end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.Fab', width=fab_w))
 
     if pincount <= 6:
         # one ramp
@@ -116,14 +135,43 @@ if __name__ == '__main__':
 
     kicad_mod.append(RectLine(start=[round_to(start_pos_x-2.54/2-0.5-0.03-0.1, 0.05),2.98+0.5+0.02], end=[round_to(end_pos_x+2.54/2+0.5+0.03+0.1, 0.05),-3.02-0.5-0.03], layer='F.CrtYd', width=0.05))
 
-    # add model
-    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(footprint_name), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
+    ######################### Text Fields ###############################
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='bottom')
 
-    # print render tree
-    if args.verbose:
-        print(kicad_mod.getRenderTree())
+    ##################### Output and 3d model ############################
+    model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
 
-    # write file
+    lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
+    model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+        model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
+    kicad_mod.append(Model(filename=model_name))
+
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
+    filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name)
+
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile('{:s}.kicad_mod'.format(footprint_name))
+    file_handler.writeFile(filename)
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../Connector_SMD_single_row_plus_mounting_pad/conn_config_KLCv3.yaml')
+    args = parser.parse_args()
+
+    with open(args.global_config, 'r') as config_stream:
+        try:
+            configuration = yaml.load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    for pincount in range(2, 17):
+        generate_one_footprint(pincount, configuration)
