@@ -292,11 +292,11 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
         bounding_box_y2 = bounding_box_y_mount_pad_side
 
 
-    cx1 = roundToBase(bounding_box_x1 - configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cx2 = roundToBase(bounding_box_x2 + configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx1 = roundToBase(bounding_box_x1 - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cx2 = roundToBase(bounding_box_x2 + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    cy1 = roundToBase(bounding_box_y1 - configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy2 = roundToBase(bounding_box_y2 + configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cy1 = roundToBase(bounding_box_y1 - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy2 = roundToBase(bounding_box_y2 + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
     kicad_mod.append(RectLine(
         start=[cx1, cy1], end=[cx2, cy2],
