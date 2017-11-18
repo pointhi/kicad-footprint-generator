@@ -86,11 +86,11 @@ def generate_one_footprint(pins, configuration):
     kicad_mod.append(RectLine(start=[A/2-T/2,y1+t],end=[A/2+T/2,y1+2*t],width=configuration['silk_line_width'],layer='F.SilkS')) #,layer='F.Fab'))
 
     ########################### CrtYd #################################
-    cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx1 = roundToBase(x1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy1 = roundToBase(y1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    cx2 = roundToBase(x2+configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy2 = roundToBase(y2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx2 = roundToBase(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy2 = roundToBase(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
     kicad_mod.append(RectLine(
         start=[cx1, cy1], end=[cx2, cy2],

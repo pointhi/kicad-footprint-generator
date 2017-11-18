@@ -87,14 +87,14 @@ def generate_one_footprint(pincount, variant, configuration):
         ))
 
     ########################### CrtYd #################################
-    cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx1 = roundToBase(x1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     if y1 < -pad_size[1]/2:
-        cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
+        cy1 = roundToBase(y1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     else:
-        cy1 = roundToBase(-pad_size[1]/2-configuration['courtyard_distance'], configuration['courtyard_grid'])
+        cy1 = roundToBase(-pad_size[1]/2-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    cx2 = roundToBase(x2+configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy2 = roundToBase(y2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx2 = roundToBase(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy2 = roundToBase(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
     kicad_mod.append(RectLine(
         start=[cx1, cy1], end=[cx2, cy2],

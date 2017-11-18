@@ -36,6 +36,7 @@ number_of_rows = 1
 datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eEH.pdf'
 
 pitch = 2.54
+drill = 1.2 # square pins:0.64mm -> touching circle: ~0.9mm -> minimum drill accourding to KLC: 1.1mm
 start_pos_x = 0 # Where should pin 1 be located.
 pad_to_pad_clearance = 0.8
 pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
@@ -59,7 +60,7 @@ def generate_one_footprint(pincount, configuration):
         entry=configuration['entry_direction'][orientation]))
 
     # calculate working values
-    end_pos_x = (pincount-1) * pad_spacing
+    end_pos_x = (pincount-1) * pitch
     centre_x = (end_pos_x - start_pos_x) / 2.0
     nudge = configuration['silk_fab_offset']
     silk_w = configuration['silk_line_width']
@@ -73,26 +74,34 @@ def generate_one_footprint(pincount, configuration):
         }
     body_edge['top'] = body_edge['bottom']-5.08
 
+
+    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
+    if pad_size[0] - drill < 2*min_annular_ring:
+        pad_size[0] = drill + 2*min_annular_ring
+
     # create pads
-    kicad_mod.append(Pad(at=[0,0], number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, size=[2,2.6],\
-        drill=1.2, layers=Pad.LAYERS_THT))
-    kicad_mod.append(PadArray(pincount=pincount-1, spacing=[pad_spacing,0], start=[pad_spacing,0],\
-        initial=2, increment=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, size=[2,2.6],\
-        drill=1.2, layers=Pad.LAYERS_THT))
+    # kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+    #                     at=[0, 0], size=pad_size,
+    #                     drill=drill, layers=Pad.LAYERS_THT))
+
+    kicad_mod.append(PadArray(initial=1, start=[start_pos_x, 0],
+        x_spacing=pitch, pincount=pincount,
+        size=pad_size, drill=drill,
+        type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
 
     # create fab outline
-    kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0, -5.8/2.0],\
-        end=[end_pos_x+pad_spacing/2.0, 5.8/2.0], layer='F.Fab', width=fab_w))
+    kicad_mod.append(RectLine(start=[start_pos_x-pitch/2.0, -5.8/2.0],\
+        end=[end_pos_x+pitch/2.0, 5.8/2.0], layer='F.Fab', width=fab_w))
 
     # create silkscreen
-    kicad_mod.append(RectLine(start=[start_pos_x-pad_spacing/2.0-nudge, -3.02],\
-        end=[end_pos_x+pad_spacing/2.0+nudge, 2.98], layer='F.SilkS', width=silk_w))
+    kicad_mod.append(RectLine(start=[start_pos_x-pitch/2.0-nudge, -3.02],\
+        end=[end_pos_x+pitch/2.0+nudge, 2.98], layer='F.SilkS', width=silk_w))
 
     # pin 1 markers
-    kicad_mod.append(Line(start=[start_pos_x-pad_spacing/2.0-0.4, -2.0],\
-        end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.SilkS', width=silk_w))
-    kicad_mod.append(Line(start=[start_pos_x-pad_spacing/2.0-0.4, -2.0],\
-        end=[start_pos_x-pad_spacing/2.0-0.4, 2.0], layer='F.Fab', width=fab_w))
+    kicad_mod.append(Line(start=[start_pos_x-pitch/2.0-0.4, -2.0],\
+        end=[start_pos_x-pitch/2.0-0.4, 2.0], layer='F.SilkS', width=silk_w))
+    kicad_mod.append(Line(start=[start_pos_x-pitch/2.0-0.4, -2.0],\
+        end=[start_pos_x-pitch/2.0-0.4, 2.0], layer='F.Fab', width=fab_w))
 
     if pincount <= 6:
         # one ramp
@@ -108,32 +117,36 @@ def generate_one_footprint(pincount, configuration):
     else:
         # two ramps
         kicad_mod.append(PolygoneLine(polygone=[[start_pos_x, 2.98], [start_pos_x, 1.98],\
-            [start_pos_x+2*pad_spacing, 1.98], [start_pos_x+2*pad_spacing, 2.98]], layer='F.SilkS', width=silk_w))
+            [start_pos_x+2*pitch, 1.98], [start_pos_x+2*pitch, 2.98]], layer='F.SilkS', width=silk_w))
         kicad_mod.append(PolygoneLine(polygone=[[start_pos_x, 1.98], [start_pos_x+0.25, 1.55],\
-            [start_pos_x+2*pad_spacing, 1.55], [start_pos_x+2*pad_spacing, 1.98] ],layer='F.SilkS', width=silk_w))
+            [start_pos_x+2*pitch, 1.55], [start_pos_x+2*pitch, 1.98] ],layer='F.SilkS', width=silk_w))
         kicad_mod.append(PolygoneLine(polygone=[[start_pos_x+0.25, 2.98],\
             [start_pos_x+0.25, 1.98]], layer='F.SilkS', width=silk_w))
 
         kicad_mod.append(PolygoneLine(polygone=[[end_pos_x, 2.98], [end_pos_x, 1.98],\
-            [end_pos_x-2*pad_spacing, 1.98], [end_pos_x-2*pad_spacing, 2.98]], layer='F.SilkS', width=silk_w))
+            [end_pos_x-2*pitch, 1.98], [end_pos_x-2*pitch, 2.98]], layer='F.SilkS', width=silk_w))
         kicad_mod.append(PolygoneLine(polygone=[[end_pos_x, 1.98], [end_pos_x-0.25, 1.55],\
-            [end_pos_x-2*pad_spacing, 1.55], [end_pos_x-2*pad_spacing, 1.98] ],layer='F.SilkS', width=silk_w))
+            [end_pos_x-2*pitch, 1.55], [end_pos_x-2*pitch, 1.98] ],layer='F.SilkS', width=silk_w))
         kicad_mod.append(PolygoneLine(polygone=[[end_pos_x-0.25, 2.98],\
             [end_pos_x-0.25, 1.98]], layer='F.SilkS', width=silk_w))
 
     for i in range(0, pincount):
-        middle_x = start_pos_x + i * pad_spacing
+        middle_x = start_pos_x + i * pitch
         start_x = middle_x - 1.6/2
         end_x = middle_x + 1.6/2
         kicad_mod.append(PolygoneLine(polygone=[[start_x, -3.02], [start_x, -2.4],\
             [end_x, -2.4], [end_x, -3.02]], layer='F.SilkS', width=silk_w))
 
-    # create Courtyard
-    def round_to(n, precision):
-        correction = 0.5 if n >= 0 else -0.5
-        return int( n/precision+correction ) * precision
+    ########################### CrtYd #################################
+    cx1 = roundToBase(body_edge['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy1 = roundToBase(body_edge['top']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    kicad_mod.append(RectLine(start=[round_to(start_pos_x-2.54/2-0.5-0.03-0.1, 0.05),2.98+0.5+0.02], end=[round_to(end_pos_x+2.54/2+0.5+0.03+0.1, 0.05),-3.02-0.5-0.03], layer='F.CrtYd', width=0.05))
+    cx2 = roundToBase(body_edge['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy2 = roundToBase(body_edge['bottom']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+
+    kicad_mod.append(RectLine(
+        start=[cx1, cy1], end=[cx2, cy2],
+        layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,

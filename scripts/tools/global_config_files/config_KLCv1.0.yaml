@@ -11,7 +11,10 @@ fap_pin1_marker_length: 1
 
 courtyard_line_width: 0.05
 courtyard_grid: 0.01
-courtyard_distance: 0.5
+courtyard_offset:
+    default: 0.25
+    connector: 0.5
+    bga: 1
 
 references:
     -

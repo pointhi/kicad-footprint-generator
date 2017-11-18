@@ -195,13 +195,13 @@ def generate_one_footprint(pins, variant, configuration):
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
 
     #draw the courtyard
-    cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx1 = roundToBase(x1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy1 = roundToBase(y1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    cx2 = roundToBase(x2+configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy2 = roundToBase(y2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx2 = roundToBase(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy2 = roundToBase(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     if boss and pins == 1:
-        cy2 = roundToBase(boss_y+boss_drill/2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+        cy2 = roundToBase(boss_y+boss_drill/2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
     kicad_mod.append(RectLine(
         start=[cx1, cy1], end=[cx2, cy2],

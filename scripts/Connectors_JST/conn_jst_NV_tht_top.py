@@ -84,11 +84,11 @@ def generate_one_footprint(pins, configuration):
     kicad_mod.append(PolygoneLine(polygone=[{'x':x1,'y':1},{'x':(x1+1),'y':0}],layer='F.Fab',width=0.1))
 
     ########################### CrtYd #################################
-    cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy1 = roundToBase(y1-configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx1 = roundToBase(x1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy1 = roundToBase(y1-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    cx2 = roundToBase(x2+configuration['courtyard_distance'], configuration['courtyard_grid'])
-    cy2 = roundToBase(y2+configuration['courtyard_distance'], configuration['courtyard_grid'])
+    cx2 = roundToBase(x2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy2 = roundToBase(y2+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
     kicad_mod.append(RectLine(
         start=[cx1, cy1], end=[cx2, cy2],
