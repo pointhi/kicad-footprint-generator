@@ -29,9 +29,8 @@ y_spacing = 2.0
 
 drill = 0.75 # 0.7 +0.1/-0.0 -> 0.75 +/-0.05
 mh_drill = 0.85
-pad_to_pad_clearance = 0.8
-pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
-min_annular_ring = 0.15
+
+pad_size = [1.4, 1.75] # Measurements from freecad sketch (pad to pad clearance > 0.8 for a 45° trace.)
 
 variant_parameters = {
     '1D': {
@@ -87,15 +86,6 @@ def generate_one_footprint(pincount, variant, configuration):
         layer='F.Fab', width=configuration['fab_line_width']
         ))
 
-    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
-    if pad_size[0] - drill < 2*min_annular_ring:
-        pad_size[0] = drill + 2*min_annular_ring
-
-    if y_spacing - pad_size[1] < pad_to_pad_clearance:
-        pad_size[1] = y_spacing - pad_to_pad_clearance
-    if pad_size[1] - drill < 2*min_annular_ring:
-        pad_size[1] = drill + 2*min_annular_ring
-
     ########################### CrtYd #################################
     cx1 = roundToBase(x1-configuration['courtyard_distance'], configuration['courtyard_grid'])
     if y1 < -pad_size[1]/2:
@@ -113,10 +103,23 @@ def generate_one_footprint(pincount, variant, configuration):
 
     # create odd numbered pads
     # createNumberedPadsTHT(kicad_mod, ceil(pincount/2), pitch * 2, drill, {'x':dia, 'y':dia},  increment=2)
-    kicad_mod.append(PadArray(initial=1, start=[0, 0],
-        x_spacing=pitch*2, pincount=ceil(pincount/2),
-        size=pad_size, drill=drill, increment=2,
+    #special treatment for pin 1 (rectangular pad alone would reduce the clearance too much)
+    kicad_mod.append(Pad(number=1, at=[0, 0],
+        size=pad_size, drill=drill,
         type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
+
+    kicad_mod.append(Pad(number=1, at=[-pad_size[0]/4, 0],
+        size=[pad_size[0]/2,pad_size[1]],
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=['F.Cu', 'F.Mask']))
+    kicad_mod.append(Pad(number=1, at=[-pad_size[0]/4, 0],
+        size=[pad_size[0]/2,pad_size[1]],
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=['B.Cu', 'B.Mask']))
+
+    if pincount > 2:
+        kicad_mod.append(PadArray(initial=3, start=[2*pitch, 0],
+            x_spacing=pitch*2, pincount=ceil(pincount/2)-1,
+            size=pad_size, drill=drill, increment=2,
+            type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
 
     #create even numbered pads
     # createNumberedPadsTHT(kicad_mod, floor(pincount/2), pitch * 2, drill, {'x':dia, 'y':dia}, starting=2, increment=2, y_off=y_spacing, x_off=pitch)

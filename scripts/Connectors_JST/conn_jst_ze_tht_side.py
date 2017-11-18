@@ -24,9 +24,8 @@ pitch = 1.5
 y_spacing = 3.70
 
 drill = 0.75 # 0.7 +0.1/-0.1 -> 0.75 +/-0.05
-pad_to_pad_clearance = 0.8
-pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
-min_annular_ring = 0.15
+pad_size = [1.4, 1.75] # Using same pad size as top entry
+
 mh_drill = 1.15
 
 def generate_one_footprint(pincount, configuration):
@@ -54,17 +53,8 @@ def generate_one_footprint(pincount, configuration):
     xMid = x1 + B/2
 
     y2 = 3.7 + 3.65
-    y1 = y2 - 7.8 - 0.2
+    y1 = y2 - 7.8
     body_edge={'left':x1, 'right':x2, 'top':y1, 'bottom':y2}
-
-    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
-    if pad_size[0] - drill < 2*min_annular_ring:
-        pad_size[0] = drill + 2*min_annular_ring
-
-    if y_spacing - pad_size[1] < pad_to_pad_clearance:
-        pad_size[1] = y_spacing - pad_to_pad_clearance
-    if pad_size[1] - drill < 2*min_annular_ring:
-        pad_size[1] = drill + 2*min_annular_ring
 
     #add outline to F.Fab
     kicad_mod.append(RectLine(
