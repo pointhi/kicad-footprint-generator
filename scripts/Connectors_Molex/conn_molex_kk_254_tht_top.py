@@ -21,6 +21,7 @@ import os
 
 # export PYTHONPATH="${PYTHONPATH}<path to kicad-footprint-generator directory>"
 sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of KicadModTree
+from math import sqrt
 import argparse
 import yaml
 from helpers import *
@@ -30,10 +31,12 @@ sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of
 from footprint_text_fields import addTextFields
 
 series = "KK-254"
+series_long = 'KK-254 Interconnect System'
+old_series_name = '6410'
 manufacturer = 'Molex'
 orientation = 'V'
 number_of_rows = 1
-datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eEH.pdf'
+datasheet = 'http://www.molex.com/pdm_docs/sd/022272021_sd.pdf'
 
 pitch = 2.54
 drill = 1.2 # square pins:0.64mm -> touching circle: ~0.9mm -> minimum drill accourding to KLC: 1.1mm
@@ -54,7 +57,7 @@ def generate_one_footprint(pincount, configuration):
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("Molex {:s} series connector, {:s}, {:d}Pins ({:s}), generated with kicad-footprint-generator".format(series, mpn, pincount, datasheet))
+    kicad_mod.setDescription("Molex {:s} ({:s}), {:s}, {:d} Pins ({:s}), generated with kicad-footprint-generator".format(series_long, old_series_name, mpn, pincount, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
@@ -100,8 +103,14 @@ def generate_one_footprint(pincount, configuration):
     # pin 1 markers
     kicad_mod.append(Line(start=[body_edge['left']-0.4, -2.0],\
         end=[body_edge['left']-0.4, 2.0], layer='F.SilkS', width=silk_w))
-    kicad_mod.append(Line(start=[body_edge['left']-0.4, -2.0],\
-        end=[body_edge['left']-0.4, 2.0], layer='F.Fab', width=fab_w))
+
+    sl=1
+    poly_pin1_marker = [
+        {'x': body_edge['left'], 'y': -sl/2},
+        {'x': body_edge['left'] + sl/sqrt(2), 'y': 0},
+        {'x': body_edge['left'], 'y': sl/2}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.Fab', width=fab_w))
 
     yr1=body_edge['bottom']+nudge
     yr2 = yr1 - 1
@@ -166,7 +175,7 @@ def generate_one_footprint(pincount, configuration):
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='bottom')
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='top')
 
     ##################### Output and 3d model ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
