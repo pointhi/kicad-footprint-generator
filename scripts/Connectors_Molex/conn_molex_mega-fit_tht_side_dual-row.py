@@ -42,7 +42,7 @@ pins_per_row_range = [1, 2, 3, 4, 5, 6]
 
 #Molex part number
 #n = number of circuits per row
-part_code = "76829-00{n:02d}"
+part_code = "76825-00{n:02d}"
 
 alternative_codes = [
 "172064-00{n:02d}",
