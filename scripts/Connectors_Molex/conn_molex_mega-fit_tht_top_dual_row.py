@@ -30,6 +30,8 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
+draw_inner_details = False
+
 series = "Mega-Fit"
 series_long = 'Mega-Fit Power Connectors'
 manufacturer = 'Molex'
@@ -43,18 +45,18 @@ pins_per_row_range = [1, 2, 3, 4, 5, 6]
 #Molex part number
 #n = number of circuits per row
 variant_params = {
-    # 'boss':{
-    #     'mount_pins': False,
-    #     'datasheet': 'http://www.molex.com/pdm_docs/sd/768290102_sd.pdf'
-    #     'part_code': "76829-01{n:02d}",
-    #     'alternative_codes': [
-    #         "172065-02{n:02d}",
-    #         "172065-03{n:02d}"
-    #         ]
-    #     }
+    'boss':{
+        'mount_pins': False,
+        'datasheet': 'http://www.molex.com/pdm_docs/sd/768290102_sd.pdf',
+        'part_code': "76829-01{n:02d}",
+        'alternative_codes': [
+            "172065-02{n:02d}",
+            "172065-03{n:02d}"
+            ]
+        },
     'mount_pins':{
         'mount_pins': True,
-        'datasheet': 'http://www.molex.com/pdm_docs/sd/768290102_sd.pdf',
+        'datasheet': 'http://www.molex.com/pdm_docs/sd/768290004_sd.pdf',
         'part_code': "76829-00{n:02d}",
         'alternative_codes': [
             "172065-00{n:02d}",
@@ -106,14 +108,14 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     else:
         A = pins_per_row * pitch + 0.65
 
-    B = A + 7.05
+    B = A + 7.04
 
     #pin centers
     P = (pins_per_row - 1) * pitch
 
     #plasic pin-lock centre-distance
-    C = A + 4
-
+    C = A + 3.99
+    #print('A: {}, B: {}, C: {}'.format(A,B,C))
     #connector width
     W = 12.48
 
@@ -121,10 +123,8 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     x1 = -(A-P)/2
     x2 = x1 + A
 
-    y_off = 0.3
-
-    y1 = -(W-row) / 2 - 0.2 + y_off
-    y2 = y1 + W + 0.1
+    y2 = 3.47 + row
+    y1 = y2 -W
 
     #tab length
     tab_l = 3.4
@@ -150,7 +150,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     if variant_params[variant]['mount_pins']:
         #add PCB locators
         loc = 3.00
-        offset = -0.33
+        offset = -0.325
 
         lx1 = P/2 - C/2
         lx2 = P/2 + C/2
@@ -166,29 +166,76 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         bounding_box['left'] = P/2 - B/2
         bounding_box['right'] = P/2 + B/2
 
+        ######################## Fab ############################
+
         kicad_mod.append(Arc(center=[lx1,mounting_pin_y],
             start=[lx1,mounting_pin_y+mount_pin_radius], angle=180,
             layer='F.Fab', width=configuration['fab_line_width']))
+
+        kicad_mod.append(Line(start=[lx1,mounting_pin_y-mount_pin_radius],
+            end=[x1,mounting_pin_y-mount_pin_radius],
+            layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Line(start=[lx1,mounting_pin_y+mount_pin_radius],
+            end=[x1,mounting_pin_y+mount_pin_radius],
+            layer='F.Fab', width=configuration['fab_line_width']))
+
+
         kicad_mod.append(Arc(center=[lx2,mounting_pin_y],
             start=[lx2,mounting_pin_y-mount_pin_radius], angle=180,
             layer='F.Fab', width=configuration['fab_line_width']))
 
+        kicad_mod.append(Line(start=[lx2,mounting_pin_y-mount_pin_radius],
+            end=[x2,mounting_pin_y-mount_pin_radius],
+            layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Line(start=[lx2,mounting_pin_y+mount_pin_radius],
+            end=[x2,mounting_pin_y+mount_pin_radius],
+            layer='F.Fab', width=configuration['fab_line_width']))
+
+        ######################## Silk ############################
+        mount_pin_radius = loc/2 + silk_pad_off
+        kicad_mod.append(Arc(center=[lx1,mounting_pin_y],
+            start=[lx1,mounting_pin_y+mount_pin_radius], angle=180,
+            layer='F.SilkS', width=configuration['silk_line_width']))
+
         kicad_mod.append(Line(start=[lx1,mounting_pin_y-mount_pin_radius],
             end=[x1-off,mounting_pin_y-mount_pin_radius],
-            layer='F.Fab', width=configuration['fab_line_width']))
+            layer='F.SilkS', width=configuration['silk_line_width']))
         kicad_mod.append(Line(start=[lx1,mounting_pin_y+mount_pin_radius],
             end=[x1-off,mounting_pin_y+mount_pin_radius],
-            layer='F.Fab', width=configuration['fab_line_width']))
+            layer='F.SilkS', width=configuration['silk_line_width']))
+
+
+        kicad_mod.append(Arc(center=[lx2,mounting_pin_y],
+            start=[lx2,mounting_pin_y-mount_pin_radius], angle=180,
+            layer='F.SilkS', width=configuration['silk_line_width']))
 
         kicad_mod.append(Line(start=[lx2,mounting_pin_y-mount_pin_radius],
             end=[x2+off,mounting_pin_y-mount_pin_radius],
-            layer='F.Fab', width=configuration['fab_line_width']))
+            layer='F.SilkS', width=configuration['silk_line_width']))
         kicad_mod.append(Line(start=[lx2,mounting_pin_y+mount_pin_radius],
             end=[x2+off,mounting_pin_y+mount_pin_radius],
-            layer='F.Fab', width=configuration['fab_line_width']))
+            layer='F.SilkS', width=configuration['silk_line_width']))
+    else:
+        #add PCB locators
+        boss_drill = 1.8
+
+        boss_x = (pins_per_row-1) * pitch + (3.48 if pins_per_row == 1 else 2.48)
+        boss_y = row + 2.77
+
+        kicad_mod.append(Pad(at=[boss_x, boss_y],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
+            size=boss_drill, drill=boss_drill, layers=Pad.LAYERS_NPTH))
 
     #draw the outline of the shape
-    kicad_mod.append(RectLine(start=[x1,y1], end=[x2,y2], layer='F.Fab', width=configuration['fab_line_width']))
+    p1m_sl = 1
+    kicad_mod.append(PolygoneLine(polygone=[
+            {'x': body_edge['left'] + p1m_sl, 'y': body_edge['top']},
+            {'x': body_edge['left'], 'y': body_edge['top'] +p1m_sl},
+            {'x': body_edge['left'], 'y': body_edge['bottom']},
+            {'x': body_edge['right'], 'y': body_edge['bottom']},
+            {'x': body_edge['right'], 'y': body_edge['top']},
+            {'x': body_edge['left'] + p1m_sl, 'y': body_edge['top']}
+        ],
+        layer='F.Fab', width=configuration['fab_line_width']))
 
     #draw the outline of the tab
     kicad_mod.append(PolygoneLine(polygone=[
@@ -210,31 +257,42 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     {'x': P/2, 'y': y2 + off + tab_w},
     ]
 
-    kicad_mod.append(PolygoneLine(polygone=outline, layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=P/2 if P != 0 else 0.00000001, layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=outline,
+        layer='F.SilkS', width=configuration['silk_line_width']))
+    if variant_params[variant]['mount_pins']:
+        kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=P/2 if P != 0 else 0.00000001,
+            layer='F.SilkS', width=configuration['silk_line_width']))
+    else:
+        outline1 = outline[:2]
+        outline1.append({'x': outline[2]['x'], 'y': boss_y - boss_drill/2 - silk_pad_off})
+        kicad_mod.append(PolygoneLine(polygone=outline1, x_mirror=P/2 if P != 0 else 0.00000001,
+            layer='F.SilkS', width=configuration['silk_line_width']))
+
+        outline2 = outline[2:]
+        outline2[0]['x'] = P - boss_x + boss_drill/2 + silk_pad_off # outline contains the mirrored version
+        kicad_mod.append(PolygoneLine(polygone=outline2, x_mirror=P/2 if P != 0 else 0.00000001,
+            layer='F.SilkS', width=configuration['silk_line_width']))
 
 
     #draw square around each pin
-    for i in range(pins_per_row):
-        for j in range(2):
-            x = i * pitch
-            y = j * row
-            s = 0.4 * pitch
-            kicad_mod.append(RectLine(start=[x-s,y-s],end=[x+s,y+s], layer='F.Fab', width=configuration['fab_line_width']))
+    if draw_inner_details:
+        for i in range(pins_per_row):
+            for j in range(2):
+                x = i * pitch
+                y = j * row
+                s = 0.4 * pitch
+                kicad_mod.append(RectLine(start=[x-s,y-s],end=[x+s,y+s], layer='F.Fab', width=configuration['fab_line_width']))
 
     #pin-1 marker
-    x =  -(A-P)/2 - 0.5
-    m = 0.3
-
+    p1m_off = 0.3 + off
+    p1m_sl = 2
     pin = [
-    {'x': x,'y': 0},
-    {'x': x-2*m,'y': +m},
-    {'x': x-2*m,'y': -m},
-    {'x': x,'y': 0},
+        {'x': body_edge['left'] - p1m_off,'y': body_edge['top'] + p1m_sl},
+        {'x': body_edge['left'] - p1m_off,'y': body_edge['top'] - p1m_off},
+        {'x': body_edge['left'] + p1m_sl,'y': body_edge['top'] - p1m_off},
     ]
 
     kicad_mod.append(PolygoneLine(polygone=pin, layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=pin, width=configuration['fab_line_width'], layer='F.Fab'))
 
     ########################### CrtYd #################################
     cx1 = roundToBase(bounding_box['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
@@ -246,7 +304,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     if variant_params[variant]['mount_pins']:
         cx3 = roundToBase(body_edge['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
         cx4 = roundToBase(body_edge['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-
+        mount_pin_radius = (B/2 - C/2)
         cy3=roundToBase(mounting_pin_y - mount_pin_radius - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
         poly_crtyd = [
