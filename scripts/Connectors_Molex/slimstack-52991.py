@@ -50,7 +50,7 @@ if __name__ == '__main__':
     pad_x_span = (pad_x_spacing * ((pincount / 2) - 1))
 
     h_body_width = 4.3 / 2.0
-    h_body_length = (pad_x_span / 2.0) + 2.15 + 0.35
+    h_body_length = (pad_x_span / 2.0) + 2.15
 
     tab_width = 1.3
     tab_height = 0.5
@@ -127,4 +127,3 @@ if __name__ == '__main__':
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile('{:s}.kicad_mod'.format(footprint_name))
-
