@@ -45,6 +45,16 @@ pad_to_pad_clearance = 0.8
 pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
+pad_size = [pitch - pad_to_pad_clearance, drill + 2*max_annular_ring]
+if pad_size[0] - drill < 2*min_annular_ring:
+    pad_size[0] = drill + 2*min_annular_ring
+if pad_size[0] - drill > 2*max_annular_ring:
+    pad_size[0] = drill + 2*max_annular_ring
+
+pad_shape=Pad.SHAPE_OVAL
+if pad_size[1] == pad_size[0]:
+    pad_shape=Pad.SHAPE_CIRCLE
+
 def generate_one_footprint(pincount, configuration):
 
     mpn = '22-27-2{n:02d}1'.format(n=pincount)
@@ -76,11 +86,6 @@ def generate_one_footprint(pincount, configuration):
         'bottom':1.88+1
         }
     body_edge['top'] = body_edge['bottom']-5.8
-
-
-    pad_size = [pitch - pad_to_pad_clearance, drill + 2*pad_copper_y_solder_length]
-    if pad_size[0] - drill < 2*min_annular_ring:
-        pad_size[0] = drill + 2*min_annular_ring
 
     # create pads
     # kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
