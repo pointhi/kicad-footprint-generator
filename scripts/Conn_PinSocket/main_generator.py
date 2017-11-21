@@ -79,14 +79,14 @@ if __name__ == '__main__':
     # KiCad legacy : bw: 2.54;             pad: 1.7; drl: 1.0
     # Amphenol FCi : bw: 2.54; blo: -0.08;           drl: >0.75; psz: 0.6, 0.2;  pl: 2.5; bh: 7.0
 
-    # THT 2 rows vertical:
+    # THT 2 cols vertical:
     # KiCad legacy : bw: 5.08;             pad: 1.7; drl: 1.0
     # Amphenol FCi : bw: 5.08; blo: -0.08;           drl: >0.8;  psz: 0.6, 0.2; pl: 2.5; bh: 7.0
 
     # THT 1 row horizontal:
     # KiCad legacy : bw: 8.51; bo: 1.52; pad: 1.7; drl: 1.0
 
-    # THT 2 rows horizontal:
+    # THT 2 cols horizontal:
     # KiCad legacy : bw: 8.51; bo: 1.52; pad: 1.7; drl: 1.0
 
     # SMD 1 row:
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     # V FHC50    1RL: bw: 2.50; ow: 4.80; blo: 0.60;  pad: 2.10, 1.02;    lpo: 5.5;     psz: 0.5, 0.2; bh: 5.0
     # V HOYATO    1*: bw: 2.50; ow: 4.05,             pad: 1.91, 1.00;    lpo; 5.2;     psz: 0.5, 0.2; bh: 7.5
 
-    # SMD 2 rows vertical:
+    # SMD 2 cols vertical:
     # KiCad legacy   : bw: 5.08; ow: 8.04;             pad: 3.0, 1.0;                  psz: 1.38, 0.64
     # Amphenol FCi   : bw: 5.08; ow: 6.10; blo: -0.08; pad: t1.27, >4.2; lpo: 3.2±0.2; psz: 0.6;           bh: 7.0; Top entry
     # Amphenol FCi   : bw: 5.08; ow: 6.10; blo: -0.08; pad: t1.27, >1.4; lpo: 3.2±0.2; drl: 1.4; psz: 0.6; bh: 7.0; Dual entry
@@ -120,32 +120,32 @@ if __name__ == '__main__':
     smd_pin_length       = getPinLength(smd_overall_width, smd_packwidth_vert)
     smd_pad_offset       = getPadOffsets(smd_overall_lp_width, smd_pads)
 
-    for cols in [1, 2]:
+    for rows in [1, 2]:
 
         tht_overlen_top    = rm / 2.0
         tht_overlen_bottom = tht_overlen_top
         smd_overlen_top    = tht_overlen_top
         smd_overlen_bottom = tht_overlen_top
 
-        for rows in range(1, 41):
-            makePinHeadStraight(rows, cols, rm, rm, tht_packwidth_vert[cols-1] + tht_packoffset_vert[cols-1],
+        for cols in range(1, 41):
+            makePinHeadStraight(cols, rows, rm, rm, tht_packwidth_vert[rows-1] + tht_packoffset_vert[rows-1],
                                 tht_overlen_top, tht_overlen_bottom, ddrill, tht_pad, [],
                                 "Conn_PinSocket_2.54mm", "PinSocket", "socket strip", isSocket=True)
-            makeSocketStripAngled(rows, cols, rm, rm, tht_packwidth_horiz[cols-1], tht_packoffset_horiz[cols-1], tht_pin_width_horiz, ddrill, tht_pad, [],
+            makeSocketStripAngled(cols, rows, rm, rm, tht_packwidth_horiz[rows-1], tht_packoffset_horiz[rows-1], tht_pin_width_horiz, ddrill, tht_pad, [],
                                  "Conn_PinSocket_2.54mm",  "PinSocket", "socket strip")
-            if cols == 2:
-                makePinHeadStraightSMD(rows, cols, rm, rm, smd_pad_offset[cols-1], smd_pin_length[cols-1], smd_pin_width,
-                                       smd_packwidth_vert[cols-1] + smd_packoffset_vert[cols-1],
-                                       smd_overlen_top, tht_overlen_bottom, smd_pads[cols-1], False, [],
+            if rows == 2:
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       smd_overlen_top, tht_overlen_bottom, smd_pads[rows-1], False, [],
                                        "Conn_PinSocket_2.54mm", "PinSocket", "socket strip", isSocket=True)
-            elif rows > 2:
-                makePinHeadStraightSMD(rows, cols, rm, rm, smd_pad_offset[cols-1], smd_pin_length[cols-1], smd_pin_width,
-                                       smd_packwidth_vert[cols-1] + smd_packoffset_vert[cols-1],
-                                       smd_overlen_top, smd_overlen_bottom, smd_pads[cols-1], True, [],
+            elif cols > 1:
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], True, [],
                                        "Conn_PinSocket_2.54mm", "PinSocket", "socket strip", isSocket=True)
-                makePinHeadStraightSMD(rows, cols, rm, rm, smd_pad_offset[cols-1], smd_pin_length[cols-1], smd_pin_width,
-                                       smd_packwidth_vert[cols-1] + smd_packoffset_vert[cols-1],
-                                       smd_overlen_top, smd_overlen_bottom, smd_pads[cols-1], False, [],
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], False, [],
                                        "Conn_PinSocket_2.54mm", "PinSocket", "socket strip", isSocket=True)
 
     ######################
@@ -155,21 +155,21 @@ if __name__ == '__main__':
     # THT 1 row vertical:
     # KiCad legacy : bw: 2.00;            pad: 1.35; drl: 0.8
 
-    # THT 2 rows vertical:
+    # THT 2 cols vertical:
     # KiCad legacy : bw: 4.00;            pad: 1.35; drl: 0.8
     # Amphenol FCi : bw: 4.20; blo: 0.8;                       psz: 0.5, 0.2;  pl: 2.5; bh: 7.0
 
     # THT 1 row horizontal:
     # KiCad legacy : bw: 6.35; bo: 1.27; pad: 1.7; drl: 1.0
 
-    # THT 2 rows horizontal:
+    # THT 2 cols horizontal:
     # KiCad legacy : bw: 6.35; bo: 1.27; pad: 1.7; drl: 1.0
 
     # SMD 1 row LR:
     # 4601WVS-XX-6TV01 : bw: 2.5; ow: 4.2±0.15; blo: 0.6; pad: 2.0, 0.89; lpo: 5.2; psz: 0.5, 0.2; bh: 4.3
     #                  : bw: 2.4; ow: 4.2;      blo: 0.6; pad: 2.3, 0.90; lpo: 5.2; psz: 0.5, 0.2; bh: 4.3
 
-    # SMD 2 rows vertical:
+    # SMD 2 cols vertical:
     # KiCad legacy   : bw: 4.0; ow: 6.00;             pad:  2.75,  1.0; lpo:  9.0; psz: 0.50
     # Amphenol FCi   : bw: 4.0; ow: 6.00; blo: -0.08; pad: >1.50, t1.0; lpo: >6.5; psz: 0.44, NA;    bh: 4.5
     # HOYATO PSDSM20 : bw: 4.0; ow: 6.15; blo: -0.08; pad:  2.00,  1.0; lpo:  7.0; psz: 0.50, NA;    bh: 4.5
@@ -194,32 +194,33 @@ if __name__ == '__main__':
     smd_pin_length       = getPinLength(smd_overall_width, smd_packwidth_vert)
     smd_pad_offset       = getPadOffsets(smd_overall_lp_width, smd_pads)
 
-    for cols in [1, 2]:
+    for rows in [1, 2]:
 
         tht_overlen_top    = rm / 2.0
         tht_overlen_bottom = tht_overlen_top
         smd_overlen_top    = tht_overlen_top
         smd_overlen_bottom = tht_overlen_top
 
-        for rows in range(1, 41):
-            makePinHeadStraight(rows, cols, rm, rm, tht_packwidth_vert[cols-1] + tht_packoffset_vert[cols-1],
+        for cols in range(1, 41):
+            makePinHeadStraight(cols, rows, rm, rm, tht_packwidth_vert[rows-1] + tht_packoffset_vert[rows-1],
                                 tht_overlen_top, tht_overlen_top, ddrill, tht_pad, [],
                                 "Conn_PinSocket_2.00mm", "PinSocket", "socket strip", isSocket=True)
-            makeSocketStripAngled(rows, cols, rm, rm, tht_packwidth_horiz[cols-1], tht_packoffset_horiz[cols-1],
+            makeSocketStripAngled(cols, rows, rm, rm, tht_packwidth_horiz[rows-1], tht_packoffset_horiz[rows-1],
                               tht_pin_width_horiz, ddrill, tht_pad, [],
                               "Conn_PinSocket_2.00mm", "PinSocket", "socket strip")
-            if cols == 2:
-                makePinHeadStraightSMD(rows, cols, rm, rm, smd_pad_offset[cols-1], smd_pin_length[cols-1], smd_pin_width,
-                                       smd_packwidth_vert[cols-1] + smd_packoffset_vert[cols-1],
-                                       smd_overlen_top, tht_overlen_top, smd_pads[cols-1], False, [],
+            if rows == 2:
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       smd_overlen_top, tht_overlen_top, smd_pads[rows-1], False, [],
                                        "Conn_PinSocket_2.00mm", "PinSocket", "socket strip", isSocket=True)
-            elif rows > 2:
-                makePinHeadStraightSMD(rows, cols, rm, rm, smd_pad_offset[cols-1], smd_pin_length[cols-1], smd_pin_width,
-                                       smd_packwidth_vert[cols-1] + smd_packoffset_vert[cols-1],
-                                       rm / 2.0 + tht_packoffset_vert[cols-1], rm / 2.0 + tht_packoffset_vert[cols-1], smd_pads[cols-1], True, [],
+            elif cols > 1:
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       rm / 2.0 + tht_packoffset_vert[rows-1], rm / 2.0 + tht_packoffset_vert[rows-1], smd_pads[rows-1], True, [],
                                        "Conn_PinSocket_2.00mm", "PinSocket", "socket strip", isSocket=True)
-                makePinHeadStraightSMD(rows, cols, rm, rm, smd_pad_offset[cols-1], smd_pin_length[cols-1], smd_pin_width,
-                                       smd_packwidth_vert[cols-1] + tht_packoffset_vert[cols-1], smd_overlen_top, smd_overlen_bottom, smd_pads[cols-1], False, [], "Conn_PinSocket_2.00mm", "PinSocket", "socket strip", isSocket=True)
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + tht_packoffset_vert[rows-1], smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], False, [],
+                                      "Conn_PinSocket_2.00mm", "PinSocket", "socket strip", isSocket=True)
 
     ######################
     # 1.27mm pin sockets #
@@ -229,7 +230,7 @@ if __name__ == '__main__':
     # KiCad legacy : bw: 2.00;            pad: 1.00; drl: 0.7
     # InterContact : bw: 2.20; blo: NA;              drl: 0.6; pl: 2.45; bh: 4.1
 
-    # THT 2 rows vertical:
+    # THT 2 cols vertical:
     # KiCad legacy : bw: 3.05;            pad: 1.00; drl: 0.7
     # Amphenol FCi : bw: 3.00; blo: 0.46;            drl: 0.65; psz: 0.2, 0.4; pl: 2.4±0.3; bh: 4.4
     # InterContact : bw: 3.05;                       drl: 0.60;                pl: 2.45;    bh: 4.1,
@@ -237,7 +238,7 @@ if __name__ == '__main__':
     # THT 1 row horizontal:
     # InterContact : bw: 4.1, po: 1.2; drl: 0.60; pl: 3.00; bh: 2.2
 
-    # THT 2 rows horizontal:
+    # THT 2 cols horizontal:
     # InterContact : bw: 4.1, po: 1.2;  drl: 0.60;                  pl: 3.00; bh: 3.05
     # GCT BD091    : bw: 4.4, po: 0.07; drl: 0.65; psz: 0.42, 0.15; pl: 2.00; bh: 3.10
 
@@ -245,10 +246,13 @@ if __name__ == '__main__':
     # GCT BD074         : bw: 1.8; ow: 3.6; blo: 0.35; pad: 2.30, 0.70; lpo: 4.6; psz: 0.42, 0.15; bh: 2.2
     # GCT BD075         : bw: 1.8; ow: 3.6; blo: 0.35; pad: 1.80, 0.65; lpo: 3.5; psz: 0.42, 0.15; bh: 4.6
 
-    # SMD 2 rows vertical:
+    # SMD 2 cols vertical:
     # KiCad legacy : bw: 2.54; ow: 5.11;                pad: 2.10, 0.75;      lpo: 5.7; psz: 0.40
     # Amphenol FCi : bw: 3.00; ow: 4.50±0.5; blo: 1.73; pad: 2.05, 0.76±0.05; lpo: 5.6; psz: 0.40, NA;   bh: 4.4
     # GCT BD064    : bw: 3.10; ow: 4.80±0.3; blo: 1.73; pad: 2.15, 0.65;      lpo: 5.8; psz: 0.42, 0.15; bh: 4.6
+    
+    # SMD 1 cols vertical:
+    # GCT BD075    : bw: 1.80; ow: 3.50;     blo: 0.81; pad: 1.80, 0.65;      lpo: 4.5; psz: 0.42, 0.15; bh: 4.6
 
     rm = 1.27
     ddrill = 0.7
@@ -258,29 +262,97 @@ if __name__ == '__main__':
     tht_packoffset_vert = [0.0, 0.0]
 
     smd_pin_width        = 0.4
-    smd_packwidth_vert   = [2.54, 2.54]
-    smd_overall_width    = [3.27, 5.11]
+    smd_packwidth_vert   = [1.80, 2.54]
+    smd_overall_width    = [3.5, 5.11]
     smd_packoffset_vert  = [0.0, 0.0]
-    smd_pads             = [[2.1, 1.0], [2.1, 0.75]]
-    smd_overall_lp_width = [5.2, 5.7] # land pattern width
+    smd_pads             = [[1.8, 0.65], [2.1, 0.75]]
+    smd_overall_lp_width = [4.5, 5.7] # land pattern width
     smd_pin_length       = getPinLength(smd_overall_width, smd_packwidth_vert)
     smd_pad_offset       = getPadOffsets(smd_overall_lp_width, smd_pads)
 
-    for cols in [1, 2]:
+    for rows in [1, 2]:
 
-        tht_overlen_top    = rm / 2.0 # tht_packwidth_vert[cols-1] / 2.0 # + tht_packoffset_vert[cols-1]
+        tht_overlen_top    = rm / 2.0 # tht_packwidth_vert[rows-1] / 2.0 # + tht_packoffset_vert[rows-1]
         tht_overlen_bottom = tht_overlen_top
         smd_overlen_top    = tht_overlen_top
         smd_overlen_bottom = tht_overlen_top
 
-        for rows in range(1, 41):
-            makePinHeadStraight(rows, cols, rm, rm, tht_packwidth_vert[cols-1],
+        for cols in range(1, 41):
+            makePinHeadStraight(cols, rows, rm, rm, tht_packwidth_vert[rows-1],
                                 tht_overlen_top, tht_overlen_bottom, ddrill, tht_pad, [],
                                 "Conn_PinSocket_1.27mm", "PinSocket", "socket strip", isSocket=True)
-            if cols == 2:
-                makePinHeadStraightSMD(rows, cols, rm, rm, smd_pad_offset[cols-1], smd_pin_length[cols-1], smd_pin_width,
-                                       smd_packwidth_vert[cols-1],
-                                       smd_overlen_top, smd_overlen_bottom, smd_pads[cols-1], False, [],
+            if rows == 2:
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1],
+                                       smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], False, [],
                                        "Conn_PinSocket_1.27mm", "PinSocket", "socket strip", isSocket=True)
+            elif cols > 1:
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       rm / 2.0 + tht_packoffset_vert[rows-1], rm / 2.0 + tht_packoffset_vert[rows-1], smd_pads[rows-1], True, [],
+                                       "Conn_PinSocket_1.27mm", "PinSocket", "socket strip", isSocket=True)
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + tht_packoffset_vert[rows-1], smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], False, [],
+                                       "Conn_PinSocket_1.27mm", "PinSocket", "socket strip", isSocket=True)
+
+    ######################
+    # 1.00mm pin sockets #
+    ######################
+
+    # THT 1 row vertical:
+    # GHC BC065    : bw: 1.50; blo: 0.75;              drl: 0.5; pl: 1.8; bh: 2.1
+
+    # THT 2 cols vertical:
+
+    # SMD 1 row LR:
+    # GCT BC070    : bw: 1.5; ow: 2.9; blo: 0.75; pad: 1.95, 0.50; lpo: 3.9; psz: 0.30, 0.10; bh: 2.25
+
+    # SMD 2 cols vertical:
+    # GCT BC085    : bw: 2.5; ow: 3.90±0.25; blo: 0.25; pad: 1.85, 0.50;      lpo: 4.9; psz: 0.30, 0.10; bh: 2.25
+
+    rm = 1.00
+    ddrill = 0.5
+
+    tht_pad             = [0.85, 0.85]
+    tht_packwidth_vert  = [1.50, 3.05]
+    tht_packoffset_vert = [0.75, 0.0]
+    tht_overlen         = 0.75
+    tht_pad_offset      = 0.29
+    
+    smd_pin_width        = 0.3
+    smd_packwidth_vert   = [1.50, 2.5]
+    smd_overall_width    = [2.9, 3.9]
+    smd_packoffset_vert  = [0.0, 0.0]
+    smd_overlen          = 0.75
+    smd_pads             = [[1.95, 0.50], [1.85, 0.50]]
+    smd_overall_lp_width = [3.9, 4.9] # land pattern width
+    smd_pin_length       = getPinLength(smd_overall_width, smd_packwidth_vert)
+    smd_pad_offset       = getPadOffsets(smd_overall_lp_width, smd_pads)
+
+    for rows in [1, 2]:
+
+        tht_overlen_top    = tht_overlen
+        tht_overlen_bottom = tht_overlen
+        smd_overlen_top    = smd_overlen
+        smd_overlen_bottom = smd_overlen
+
+        for cols in range(1, 41):
+            if rows == 2:
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1],
+                                       smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], False, [],
+                                       "Conn_PinSocket_1.00mm", "PinSocket", "socket strip", isSocket=True)
+            elif cols > 1:
+                makePinHeadStraight(cols, rows, rm, rm, tht_packwidth_vert[rows-1],
+                                    tht_overlen_top, tht_overlen_bottom, ddrill, tht_pad, [],
+                                    "Conn_PinSocket_1.00mm", "PinSocket", "socket strip", isSocket=True, pad_offset=tht_pad_offset)
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], True, [],
+                                       "Conn_PinSocket_1.00mm", "PinSocket", "socket strip", isSocket=True)
+                makePinHeadStraightSMD(cols, rows, rm, rm, smd_pad_offset[rows-1], smd_pin_length[rows-1], smd_pin_width,
+                                       smd_packwidth_vert[rows-1] + smd_packoffset_vert[rows-1],
+                                       smd_overlen_top, smd_overlen_bottom, smd_pads[rows-1], False, [],
+                                       "Conn_PinSocket_1.00mm", "PinSocket", "socket strip", isSocket=True)
 
 ### EOF ###
