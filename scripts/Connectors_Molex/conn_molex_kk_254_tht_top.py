@@ -32,7 +32,6 @@ from footprint_text_fields import addTextFields
 
 series = "KK-254"
 series_long = 'KK-254 Interconnect System'
-old_series_name = '6410'
 manufacturer = 'Molex'
 orientation = 'V'
 number_of_rows = 1
@@ -42,7 +41,7 @@ pitch = 2.54
 drill = 1.2 # square pins:0.64mm -> touching circle: ~0.9mm -> minimum drill accourding to KLC: 1.1mm
 start_pos_x = 0 # Where should pin 1 be located.
 pad_to_pad_clearance = 0.8
-pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
+max_annular_ring = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 pad_size = [pitch - pad_to_pad_clearance, drill + 2*max_annular_ring]
@@ -55,9 +54,13 @@ pad_shape=Pad.SHAPE_OVAL
 if pad_size[1] == pad_size[0]:
     pad_shape=Pad.SHAPE_CIRCLE
 
+eng_mpn = 'AE-6410-{n:02d}A'
+new_mpn_example = '22-27-2{n:02d}1'
+
 def generate_one_footprint(pincount, configuration):
 
-    mpn = '22-27-2{n:02d}1'.format(n=pincount)
+    mpn = eng_mpn.format(n=pincount)
+    new_mpn = new_mpn_example.format(n=pincount)
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
@@ -67,7 +70,8 @@ def generate_one_footprint(pincount, configuration):
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("Molex {:s} ({:s}), {:s}, {:d} Pins ({:s}), generated with kicad-footprint-generator".format(series_long, old_series_name, mpn, pincount, datasheet))
+    descr_format_str = "Molex {:s}, old/engineering part number: {:s} example for new part number: {:s}, {:d} Pins ({:s}), generated with kicad-footprint-generator"
+    kicad_mod.setDescription(descr_format_str.format(series_long, mpn, new_mpn, pincount, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))

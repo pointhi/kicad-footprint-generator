@@ -32,104 +32,111 @@ from footprint_text_fields import addTextFields
 
 draw_inner_details = False
 
-series = "Mega-Fit"
-series_long = 'Mega-Fit Power Connectors'
+series = "Mini-Fit_Jr"
+series_long = 'Mini-Fit Jr. Power Connectors'
 manufacturer = 'Molex'
 orientation = 'V'
 number_of_rows = 2
 
 
 #pins_per_row_per_row per row
-pins_per_row_range = [1, 2, 3, 4, 5, 6]
+pins_per_row_range = range(1,13)
 
 #Molex part number
 #n = number of circuits per row
 variant_params = {
-    'boss':{
-        'mount_pins': False,
-        'datasheet': 'http://www.molex.com/pdm_docs/sd/768290102_sd.pdf',
-        'part_code': "76829-01{n:02d}",
-        'alternative_codes': [
-            "172065-02{n:02d}",
-            "172065-03{n:02d}"
-            ]
+    'peg':{
+        'mount_pins': 'plastic_peg',
+        'descriptive_name': 'Snap-in Plastic Peg PCB Lock',
+        'datasheet': 'http://www.molex.com/pdm_docs/sd/039289068_sd.pdf',
+        'part_code': {'mpn':"39-28-9{n:02d}x",'eng_num':"5566-{n:02}A2"},
         },
-    'mount_pins':{
-        'mount_pins': True,
-        'datasheet': 'http://www.molex.com/pdm_docs/sd/768290004_sd.pdf',
-        'part_code': "76829-00{n:02d}",
-        'alternative_codes': [
-            "172065-00{n:02d}",
-            "172065-10{n:02d}"
-            ]
+    'no-peg':{
+        'mount_pins': '',
+        'descriptive_name': '',
+        'datasheet': 'http://www.molex.com/pdm_docs/sd/039281043_sd.pdf',
+        'part_code': {'mpn':"39-28-x{n:02d}x",'eng_num':"5566-{n:02}A"},
         }
 }
 
-pitch = 5.7
-drill = 1.8
+pitch = 4.2
+drill = 1.4
 start_pos_x = 0 # Where should pin 1 be located.
-pad_to_pad_clearance = 1.75
-max_annular_ring = 0.95 #How much copper should be in y direction?
+pad_to_pad_clearance = 1.5
+max_annular_ring = 0.95
 min_annular_ring = 0.15
 
 
-row = 5.7
+row = 5.5
 
-size = row - pad_to_pad_clearance
-if size - drill < 2*min_annular_ring:
-    size = drill + 2*min_annular_ring
-if size - drill > 2*max_annular_ring:
-    size = drill + 2*max_annular_ring
+pad_size = [pitch - pad_to_pad_clearance, row - pad_to_pad_clearance]
+if pad_size[0] - drill < 2*min_annular_ring:
+    pad_size[0] = drill + 2*min_annular_ring
+if pad_size[0] - drill > 2*max_annular_ring:
+    pad_size[0] = drill + 2*max_annular_ring
 
+if pad_size[1] - drill < 2*min_annular_ring:
+    pad_size[1] = drill + 2*min_annular_ring
+if pad_size[1] - drill > 2*max_annular_ring:
+    pad_size[1] = drill + 2*max_annular_ring
+
+pad_shape = Pad.SHAPE_OVAL
+if pad_size[0] == pad_size[1]:
+    pad_shape = Pad.SHAPE_CIRCLE
 
 
 def generate_one_footprint(pins_per_row, variant, configuration):
-    mpn = variant_params[variant]['part_code'].format(n=pins_per_row*2)
-    alt_mpn = [code.format(n=pins_per_row*2) for code in variant_params[variant]['alternative_codes']]
+    peg = variant_params[variant]['mount_pins'] == 'plastic_peg'
+
+    silk_pad_off = configuration['silk_pad_clearance']+configuration['silk_line_width']/2
+
+    mpn = variant_params[variant]['part_code']['mpn'].format(n=pins_per_row*2)
+    old_mpn = variant_params[variant]['part_code']['eng_num'].format(n=pins_per_row*2)
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
+        mpn=old_mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("Molex {:s}, {:s} (compatible alternatives: {:s}), {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, ', '.join(alt_mpn), pins_per_row, variant_params[variant]['datasheet']))
-    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
+    descr_format_str = "Molex {:s}, old mpn/engineering number: {:s}, example for new mpn: {:s}, {:d} Pins per row, Mounting: {:s} ({:s}), generated with kicad-footprint-generator"
+    kicad_mod.setDescription(descr_format_str.format(
+        series_long, old_mpn, mpn, pins_per_row,
+        variant_params[variant]['descriptive_name'], variant_params[variant]['datasheet']))
+    tags = configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
-        entry=configuration['entry_direction'][orientation]))
+        entry=configuration['entry_direction'][orientation])
+    tags += variant_params[variant]['mount_pins']
+    kicad_mod.setTags(tags)
+
 
     #calculate fp dimensions
 
     #connector length
-    if pins_per_row == 1:
-        A = 8.35
-    else:
-        A = pins_per_row * pitch + 0.65
-
-    B = A + 7.04
+    A = pins_per_row * pitch + 1.2
 
     #pin centers
-    P = (pins_per_row - 1) * pitch
+    B = (pins_per_row - 1) * pitch
 
-    #plasic pin-lock centre-distance
-    C = A + 3.99
-    #print('A: {}, B: {}, C: {}'.format(A,B,C))
+    #plasic pin-lock
+    C = A + 4
+
     #connector width
-    W = 12.48
+    W = 9.6
 
     #corner positions
-    x1 = -(A-P)/2
+    x1 = -(A-B)/2
     x2 = x1 + A
 
-    y2 = 3.47 + row
-    y1 = y2 -W
+    y2 = row + 1.85
+    y1 = y2 - W
 
     #tab length
     tab_l = 3.4
     #tab width
-    tab_w = 1.55
+    tab_w = 1.4
 
     body_edge={
         'left':x1,
@@ -138,35 +145,32 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         'top': y1
         }
     bounding_box = body_edge.copy()
-    bounding_box['bottom'] = y2 + tab_w
-
-    #generate the pads
-    kicad_mod.append(PadArray(pincount=pins_per_row, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
-    kicad_mod.append(PadArray(pincount=pins_per_row, initial=pins_per_row+1, start=[0, row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
+    bounding_box['bottom'] = body_edge['bottom'] + tab_w
 
     off = configuration['silk_fab_offset']
-    silk_pad_off = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
 
-    if variant_params[variant]['mount_pins']:
-        #add PCB locators
+
+    #generate the pads
+    kicad_mod.append(PadArray(pincount=pins_per_row, x_spacing=pitch, type=Pad.TYPE_THT,
+        shape=pad_shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
+    kicad_mod.append(PadArray(pincount=pins_per_row, initial=pins_per_row+1, start=[0, row],
+        x_spacing=pitch, type=Pad.TYPE_THT, shape=pad_shape,
+        size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
+
+    #add PCB locators if needed
+    pad_silk_offset = configuration['silk_pad_clearance']+configuration['silk_line_width']/2
+    if peg:
         loc = 3.00
-        offset = -0.325
-
-        lx1 = P/2 - C/2
-        lx2 = P/2 + C/2
-
-        mounting_pin_y = row - offset
-
+        mounting_pin_y = row - 0.46
+        lx1 = B/2-C/2
+        lx2 = B/2+C/2
         kicad_mod.append(Pad(at=[lx1, mounting_pin_y],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=Pad.LAYERS_NPTH))
         kicad_mod.append(Pad(at=[lx2, mounting_pin_y],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=Pad.LAYERS_NPTH))
 
-        #draw outline around the PCB locators
-        #arc distance from pin
-        mount_pin_radius = (B/2 - C/2)
-        bounding_box['left'] = P/2 - B/2
-        bounding_box['right'] = P/2 + B/2
-
+        bounding_box['left'] = lx1-loc/2
+        bounding_box['right'] = lx2+loc/2
         ######################## Fab ############################
+        mount_pin_radius = loc/2
 
         kicad_mod.append(Arc(center=[lx1,mounting_pin_y],
             start=[lx1,mounting_pin_y+mount_pin_radius], angle=180,
@@ -215,96 +219,99 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         kicad_mod.append(Line(start=[lx2,mounting_pin_y+mount_pin_radius],
             end=[x2+off,mounting_pin_y+mount_pin_radius],
             layer='F.SilkS', width=configuration['silk_line_width']))
-    else:
-        #add PCB locators
-        boss_drill = 1.8
-
-        boss_x = (pins_per_row-1) * pitch + (3.48 if pins_per_row == 1 else 2.48)
-        boss_y = row + 2.77
-
-        kicad_mod.append(Pad(at=[boss_x, boss_y],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-            size=boss_drill, drill=boss_drill, layers=Pad.LAYERS_NPTH))
 
     #draw the outline of the shape
-    p1m_sl = 1
-    kicad_mod.append(PolygoneLine(polygone=[
-            {'x': body_edge['left'] + p1m_sl, 'y': body_edge['top']},
-            {'x': body_edge['left'], 'y': body_edge['top'] +p1m_sl},
-            {'x': body_edge['left'], 'y': body_edge['bottom']},
-            {'x': body_edge['right'], 'y': body_edge['bottom']},
-            {'x': body_edge['right'], 'y': body_edge['top']},
-            {'x': body_edge['left'] + p1m_sl, 'y': body_edge['top']}
-        ],
-        layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
 
     #draw the outline of the tab
     kicad_mod.append(PolygoneLine(polygone=[
-        {'x': P/2 - tab_l/2,'y': y2},
-        {'x': P/2 - tab_l/2,'y': y2 + tab_w},
-        {'x': P/2 + tab_l/2,'y': y2 + tab_w},
-        {'x': P/2 + tab_l/2,'y': y2},
+        {'x': B/2 - tab_l/2,'y': y2},
+        {'x': B/2 - tab_l/2,'y': y2 + tab_w},
+        {'x': B/2 + tab_l/2,'y': y2 + tab_w},
+        {'x': B/2 + tab_l/2,'y': y2},
     ], layer='F.Fab', width=configuration['fab_line_width']))
+
+    #draw the outline of each pin slot (alternating shapes)
+    #slot size
+    S = 3.3
+
+    def square_slot(x,y):
+        kicad_mod.append(RectLine(start=[x-S/2,y-S/2], end=[x+S/2,y+S/2],
+            layer='F.Fab', width=configuration['fab_line_width']))
+
+    def notch_slot(x,y):
+        kicad_mod.append(PolygoneLine(polygone=[
+        {'x': x-S/2, 'y': y+S/2},
+        {'x': x-S/2, 'y': y-S/4},
+        {'x': x-S/4, 'y': y-S/2},
+        {'x': x+S/4, 'y': y-S/2},
+        {'x': x+S/2, 'y': y-S/4},
+        {'x': x+S/2, 'y': y+S/2},
+        {'x': x-S/2, 'y': y+S/2},
+        ], layer='F.Fab', width=configuration['fab_line_width']))
+
+    q = 1
+    notch = True
+    for i in range(pins_per_row):
+        if notch:
+            y_square = row/2 - 4.2/2
+            y_notch = row/2 + 4.2/2
+        else:
+            y_square = row/2 + 4.2/2
+            y_notch = row/2 - 4.2/2
+
+        square_slot(i * pitch, y_square)
+        notch_slot(i*pitch, y_notch)
+
+        q -= 1
+
+        if (q == 0):
+            q = 2
+            notch = not notch
 
 
     #draw the outline of the connector on the silkscreen
-
     outline = [
-    {'x': P/2,'y': y1-off},
+    {'x': B/2,'y': y1-off},
     {'x': x1-off,'y': y1-off},
     {'x': x1-off,'y': y2+off},
-    {'x': P/2 - tab_l/2 - off,'y': y2+off},
-    {'x': P/2 - tab_l/2 - off,'y': y2 + off + tab_w},
-    {'x': P/2, 'y': y2 + off + tab_w},
+    {'x': B/2 - tab_l/2 - off,'y': y2+off},
+    {'x': B/2 - tab_l/2 - off,'y': y2 + off + tab_w},
+    {'x': B/2, 'y': y2 + off + tab_w},
     ]
 
-    kicad_mod.append(PolygoneLine(polygone=outline,
-        layer='F.SilkS', width=configuration['silk_line_width']))
-    if variant_params[variant]['mount_pins']:
-        kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=P/2 if P != 0 else 0.00000001,
-            layer='F.SilkS', width=configuration['silk_line_width']))
-    else:
-        outline1 = outline[:2]
-        outline1.append({'x': outline[2]['x'], 'y': boss_y - boss_drill/2 - silk_pad_off})
-        kicad_mod.append(PolygoneLine(polygone=outline1, x_mirror=P/2 if P != 0 else 0.00000001,
-            layer='F.SilkS', width=configuration['silk_line_width']))
-
-        outline2 = outline[2:]
-        outline2[0]['x'] = P - boss_x + boss_drill/2 + silk_pad_off # outline contains the mirrored version
-        kicad_mod.append(PolygoneLine(polygone=outline2, x_mirror=P/2 if P != 0 else 0.00000001,
-            layer='F.SilkS', width=configuration['silk_line_width']))
-
-
-    #draw square around each pin
-    if draw_inner_details:
-        for i in range(pins_per_row):
-            for j in range(2):
-                x = i * pitch
-                y = j * row
-                s = 0.4 * pitch
-                kicad_mod.append(RectLine(start=[x-s,y-s],end=[x+s,y+s], layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=outline, layer="F.SilkS", width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=B/2 if B/2 != 0 else 0.00000001, layer="F.SilkS", width=configuration['silk_line_width']))
 
     #pin-1 marker
-    p1m_off = 0.3 + off
-    p1m_sl = 2
+
+    L = 2.5
+    O = 0.35
+
     pin = [
-        {'x': body_edge['left'] - p1m_off,'y': body_edge['top'] + p1m_sl},
-        {'x': body_edge['left'] - p1m_off,'y': body_edge['top'] - p1m_off},
-        {'x': body_edge['left'] + p1m_sl,'y': body_edge['top'] - p1m_off},
+        {'x': x1 + L,'y': y1 - O},
+        {'x': x1 - O,'y': y1 - O},
+        {'x': x1 - O,'y': y1 + L},
     ]
 
-    kicad_mod.append(PolygoneLine(polygone=pin, layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=pin, layer="F.SilkS", width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=pin, width=configuration['fab_line_width'], layer='F.Fab'))
 
     ########################### CrtYd #################################
-    cx1 = roundToBase(bounding_box['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-    cy1 = roundToBase(bounding_box['top']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    CrtYd_offset = configuration['courtyard_offset']['connector']
+    CrtYd_grid = configuration['courtyard_grid']
 
-    cx2 = roundToBase(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-    cy2 = roundToBase(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cx1 = roundToBase(bounding_box['left'] - CrtYd_offset, CrtYd_grid)
+    cy1 = roundToBase(bounding_box['top'] - CrtYd_offset, CrtYd_grid)
 
-    if variant_params[variant]['mount_pins']:
+    cx2 = roundToBase(bounding_box['right'] + CrtYd_offset, CrtYd_grid)
+    cy2 = roundToBase(bounding_box['bottom'] + CrtYd_offset, CrtYd_grid)
+
+
+    if peg:
         cx3 = roundToBase(body_edge['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
         cx4 = roundToBase(body_edge['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-        mount_pin_radius = (B/2 - C/2)
+        mount_pin_radius = loc/2
         cy3=roundToBase(mounting_pin_y - mount_pin_radius - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
         poly_crtyd = [
@@ -362,6 +369,7 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
     for variant in variant_params:
         for pins_per_row in pins_per_row_range:
             generate_one_footprint(pins_per_row, variant, configuration)

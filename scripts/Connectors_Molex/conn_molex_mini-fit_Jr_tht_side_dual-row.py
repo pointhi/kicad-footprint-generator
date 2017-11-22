@@ -32,10 +32,10 @@ from footprint_text_fields import addTextFields
 
 draw_inner_details = False
 
-series = "Mega-Fit"
-series_long = 'Mega-Fit Power Connectors'
+series = "Mini-Fit_Jr"
+series_long = 'Mini-Fit Jr. Power Connectors'
 manufacturer = 'Molex'
-orientation = 'V'
+orientation = 'H'
 number_of_rows = 2
 
 
@@ -48,14 +48,14 @@ variant_params = {
     'peg':{
         'mount_pins': 'plastic_peg',
         'descriptive_name': 'Snap-in Plastic Peg PCB Lock',
-        'datasheet': 'http://www.molex.com/pdm_docs/sd/768290102_sd.pdf',
-        'part_code': {'mpn':"39-30-x{n:02d}x",'eng_num':"5569-{n:02}A2"},
+        'datasheet': 'http://www.molex.com/pdm_docs/sd/039300020_sd.pdf',
+        'part_code': {'mpn':"39-30-0{n:02d}0",'eng_num':"5569-{n:02}A2"},
         },
     'flange':{
         'mount_pins': 'screw_flange',
         'descriptive_name': 'PCB Mounting Flange',
-        'datasheet': 'http://www.molex.com/pdm_docs/sd/768290004_sd.pdf',
-        'part_code': {'mpn':"39-29-x{n:02d}x",'eng_num':"5569-{n:02}A1"},
+        'datasheet': 'http://www.molex.com/pdm_docs/sd/039291047_sd.pdf',
+        'part_code': {'mpn':"39-29-4{n:02d}9",'eng_num':"5569-{n:02}A1"},
         }
 }
 
@@ -72,12 +72,12 @@ row = 5.5
 pad_size = [pitch - pad_to_pad_clearance, row - pad_to_pad_clearance]
 if pad_size[0] - drill < 2*min_annular_ring:
     pad_size[0] = drill + 2*min_annular_ring
-if pad_size[0] - drill > max_annular_ring:
+if pad_size[0] - drill > 2*max_annular_ring:
     pad_size[0] = drill + 2*max_annular_ring
 
 if pad_size[1] - drill < 2*min_annular_ring:
     pad_size[1] = drill + 2*min_annular_ring
-if pad_size[1] - drill > max_annular_ring:
+if pad_size[1] - drill > 2*max_annular_ring:
     pad_size[1] = drill + 2*max_annular_ring
 
 pad_shape = Pad.SHAPE_OVAL
@@ -95,13 +95,13 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
+        mpn=old_mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
-    descr_format_str = "Molex {:s}, {:s} (old mpn/engineering number: {:s}), {:d} Pins per row, Mounting: {:s} ({:s}), generated with kicad-footprint-generator"
+    descr_format_str = "Molex {:s}, old mpn/engineering number: {:s}, example for new mpn: {:s}, {:d} Pins per row, Mounting: {:s} ({:s}), generated with kicad-footprint-generator"
     kicad_mod.setDescription(descr_format_str.format(
-        series_long, mpn, old_mpn, pins_per_row,
+        series_long, old_mpn, mpn, pins_per_row,
         variant_params[variant]['descriptive_name'], variant_params[variant]['datasheet']))
     tags = configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
