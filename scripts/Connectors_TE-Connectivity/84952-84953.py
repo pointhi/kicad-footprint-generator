@@ -45,23 +45,23 @@ if __name__ == '__main__':
 
     # handle arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('pincount', help='number of pins of the connector', type=int, action='append', nargs='?')
-    parser.add_argument('partnumber', help='suffix of 502426 series number (e.g. 0810)', type=str, action='append', nargs='?')
+    parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs='?')
+    parser.add_argument('partnumber', help='suffix of 502426 series number (e.g. 0810)', nargs='?', choices=['84952', '84953'])
     parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
     args = parser.parse_args()
     
     # determine if the user entered valid arguments
-    if ((args.pincount == [None]) and (args.partnumber == [None])):
+    if ((args.pincount == None) and (args.partnumber == None)):
         # no arguments provided, so generate all footprints
         pincounts = range(4, 31)
         partnumbers = ["84952","84953"]
-    elif ((args.pincount == [None]) or (args.partnumber == [None])):
+    elif ((args.pincount == None) or (args.partnumber == None)):
         # only one argument, so bail
-        sys.exit("Error: enter zero or two arguments")
+        sys.exit("Error: too few arguments")
     else:
         # both arguments provided, so generate on that one footprint
-        pincounts = args.pincount
-        partnumbers = args.partnumber
+        pincounts = [args.pincount]
+        partnumbers = [args.partnumber]
     
     # with pincount(s) and partnumber(s) to be generated, build them all in a nested loop
     for partnumber in partnumbers:
