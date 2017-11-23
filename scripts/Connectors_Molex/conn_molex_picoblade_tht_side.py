@@ -30,10 +30,10 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = "Micro-Latch"
-series_long = 'Micro-Latch Wire-to-Board Connector System'
+series = "PicoBlade"
+series_long = 'PicoBlade Connector System'
 manufacturer = 'Molex'
-orientation = 'V'
+orientation = 'H'
 number_of_rows = 1
 datasheet = 'http://www.molex.com/pdm_docs/sd/532530770_sd.pdf'
 
@@ -42,17 +42,13 @@ pins_per_row_range = range(2,16)
 
 #Molex part number
 #n = number of circuits per row
-part_code = "53253-{n:02d}70"
+part_code = "53048-{n:02}10"
 
-alternative_codes = [
-"53253-{n:02d}50"
-]
+pitch = 1.25
+drill = 0.5
 
-pitch = 2
-drill = 0.8
-start_pos_x = 0 # Where should pin 1 be located.
 pad_to_pad_clearance = 0.8
-max_annular_ring = 0.5
+max_annular_ring = 0.4
 min_annular_ring = 0.15
 
 
@@ -69,39 +65,43 @@ if pad_size[1] == pad_size[0]:
 
 
 
-def generate_one_footprint(pins_per_row, configuration):
-    mpn = part_code.format(n=pins_per_row*2)
-    alt_mpn = [code.format(n=pins_per_row*2) for code in alternative_codes]
+def generate_one_footprint(pins, configuration):
+    mpn = part_code.format(n=pins*2)
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins,
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("Molex {:s}, {:s} (compatible alternatives: {:s}), {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, ', '.join(alt_mpn), pins_per_row, datasheet))
+    kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
 
     #calculate fp dimensions
-    A = (pins_per_row - 1) * pitch
-    B = A + 3.1
-    C = A + 4
 
-    #connector thickness
-    T = 5.75
+    B = (pins - 1) * pitch
+    C = B + 1.8
+    A = B + 3
 
-    #corners
-    x1 = -2
-    x2 = x1 + C
+    #connector width
+    W = 5.5
 
-    T = 3.65
+    #corner positions
+    x1 = (B-A) / 2
+    x2 = x1 + A
 
-    y1 = -1.5
-    y2 = y1 + T
+    y1 = -1.05
+    y2 = y1 + W
+
+    # distance from pins in y dir
+    P = 0.75
+
+    # thickness of end bosses
+    T = 0.85
 
     off = configuration['silk_fab_offset']
     pad_silk_off = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
@@ -110,92 +110,81 @@ def generate_one_footprint(pins_per_row, configuration):
         'left':x1,
         'right':x2,
         'bottom':y2,
-        'top': y1
+        'top': -P
         }
     bounding_box = body_edge.copy()
 
-    #add simple outline to F.Fab layer
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab', width=configuration['fab_line_width']))
-
-    #wall-thickness W
-    w = 0.4
-
-    #offset
-    o = configuration['silk_fab_offset']
-    x1 -= o
-    y1 -= o
-    x2 += o
-    y2 += o
-
-    #generate the pads
-    kicad_mod.append(PadArray(pincount=pins_per_row, x_spacing=pitch, type=Pad.TYPE_THT,
-        shape=pad_shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
-
-    #draw the courtyard
-
-    #draw the connector outline
-    out = RectLine(start=[x1,y1], end=[x2,y2],
-        width=configuration['silk_line_width'], layer="F.SilkS")
-    kicad_mod.append(out)
+    # generate the pads
+    kicad_mod.append(PadArray(start=[0,0], pincount=pins, x_spacing=pitch,
+        type=Pad.TYPE_THT, shape=pad_shape, size=pad_size,
+        drill=drill, layers=Pad.LAYERS_THT))
 
     #pin-1 marker
-    y =  -2
-    m = 0.3
+    o = 0.4
+    pin1 = [
+    {'x': x1 + T + o,'y': -P - o},
+    {'x': x1 + T + o,'y': y1 - o},
+    {'x': x1 + T + o - 0.5,'y': y1 - o},
+    ]
 
-    O = 0.3
-    L = 2
+    kicad_mod.append(PolygoneLine(polygone=pin1,
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    sl=1
     pin = [
-        {'x': x1 + L, 'y': y1 - O},
-        {'x': x1 - O, 'y': y1 - O},
-        {'x': x1 - O, 'y': y1 + L},
+        {'y': body_edge['top'], 'x': -sl/2},
+        {'y': body_edge['top'] + sl/sqrt(2), 'x': 0},
+        {'y': body_edge['top'], 'x': sl/2}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=pin,
+        width=configuration['fab_line_width'], layer='F.Fab'))
+
+    #component outline (configurable offset)
+    def outline(off = 0, grid = 0):
+
+
+        out = [
+        {'x': roundToBase(B/2, grid),
+         'y': roundToBase(-P - off, grid)},
+        {'x': roundToBase(x1 + T + off, grid),
+         'y': roundToBase(-P  - off, grid)},
+        {'x': roundToBase(x1 + T + off, grid),
+         'y': roundToBase(y1 - off, grid)},
+        {'x': roundToBase(x1 - off, grid),
+         'y': roundToBase(y1 - off, grid)},
+        {'x': roundToBase(x1 - off, grid),
+         'y': roundToBase(y2 + off, grid)},
+        {'x': roundToBase(B/2, grid),
+         'y': roundToBase(y2 + off, grid)},
         ]
 
-    kicad_mod.append(PolygoneLine(polygone=pin,
-        width=configuration['silk_line_width'], layer="F.SilkS"))
+        return out
 
-    p1m_sl = 1
-    pin =[
-        {'x': -p1m_sl/2, 'y': body_edge['top']},
-        {'x': 0, 'y': body_edge['top'] + p1m_sl/sqrt(2)},
-        {'x': p1m_sl/2, 'y': body_edge['top']}
-    ]
-    kicad_mod.append(PolygoneLine(polygone=pin, width=configuration['fab_line_width'], layer='F.Fab'))
-
-    kicad_mod.append(Line(start=[x1,2*w],end=[x1+w,2*w],
-        width=configuration['silk_line_width'], layer="F.SilkS"))
-    kicad_mod.append(Line(start=[x2,2*w],end=[x2-w,2*w],
-        width=configuration['silk_line_width'], layer="F.SilkS"))
-
-    #add the 'wall'
-    wall = [
-    {'x': A/2,'y': y1+w},
-    {'x': x1+w,'y': y1+w},
-    {'x': x1+w,'y': 0},
-    {'x': x1+2*w,'y': 0},
-    {'x': x1+2*w,'y': w},
-    {'x': x1+w,'y': w},
-    {'x': x1+w,'y': y2},
-    ]
-
-    kicad_mod.append(PolygoneLine(polygone=wall,
-        width=configuration['silk_line_width'], layer="F.SilkS"))
-    kicad_mod.append(PolygoneLine(polygone=wall,x_mirror=A/2,
-        width=configuration['silk_line_width'], layer="F.SilkS"))
-
-    ########################### CrtYd #################################
-    cx1 = roundToBase(bounding_box['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-    cy1 = roundToBase(bounding_box['top']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-
-    cx2 = roundToBase(bounding_box['right']+configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-    cy2 = roundToBase(bounding_box['bottom'] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-
-    kicad_mod.append(RectLine(
-        start=[cx1, cy1], end=[cx2, cy2],
+    #courtyard
+    CrtYd_off = configuration['courtyard_offset']['connector']
+    grid = configuration['courtyard_grid']
+    kicad_mod.append(PolygoneLine(polygone=outline(off=CrtYd_off, grid=grid),
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=outline(off=CrtYd_off, grid=grid),
+        layer='F.CrtYd', width=configuration['courtyard_line_width'], x_mirror=B/2))
+
+    #outline F.Fab
+    kicad_mod.append(PolygoneLine(polygone=outline(),
+        layer='F.Fab', width=configuration['fab_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=outline(),
+        layer='F.Fab', width=configuration['fab_line_width'], x_mirror=B/2))
+
+    #outline F.SilkS
+    kicad_mod.append(PolygoneLine(polygone=outline(off=off),
+        layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=outline(off=off), x_mirror=B/2,
+        layer='F.SilkS', width=configuration['silk_line_width']))
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='bottom')
+        courtyard={'top':bounding_box['top']-CrtYd_off,
+            'bottom':bounding_box['bottom']+CrtYd_off},
+        fp_name=footprint_name, text_y_inside_position='bottom')
 
     ##################### Output and 3d model ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')

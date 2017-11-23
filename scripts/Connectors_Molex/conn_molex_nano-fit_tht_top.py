@@ -220,7 +220,8 @@ def generate_one_footprint(pins, params, configuration):
         {'y': body_edge['top'] + sl/sqrt(2), 'x': 0},
         {'y': body_edge['top'], 'x': sl/2}
     ]
-    kicad_mod.append(PolygoneLine(polygone=pin, width=configuration['fab_line_width'], layer='F.Fab'))
+    kicad_mod.append(PolygoneLine(polygone=pin,
+        width=configuration['fab_line_width'], layer='F.Fab'))
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
