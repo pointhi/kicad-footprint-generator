@@ -14,6 +14,8 @@ from KicadModTree import *  # NOQA
 from drawing_tools import *
 from footprint_global_properties import *
 
+slk_offset=lw_slk
+
 
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
 # optionally with additional shunt leads: hasShuntPins=True, shuntPinsRM=DISTANCE
@@ -174,6 +176,8 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         addPlusWithKeepout(kicad_mod, polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3], 'F.Fab', lw_fab, [], 0.05)
     if deco=="diode":
         kicad_mod.append(Line(start=[l_dbar_fab, t_fab], end=[l_dbar_fab, t_fab+h_fab], layer='F.Fab', width=lw_fab))
+        kicad_mod.append(Line(start=[l_dbar_fab+lw_fab, t_fab], end=[l_dbar_fab+lw_fab, t_fab+h_fab], layer='F.Fab', width=lw_fab))
+        kicad_mod.append(Line(start=[l_dbar_fab-lw_fab, t_fab], end=[l_dbar_fab-lw_fab, t_fab+h_fab], layer='F.Fab', width=lw_fab))
 
     # create SILKSCREEN-layer
     if len(polsign_slk)==4:
@@ -207,6 +211,10 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
     if deco=="diode":
         kicad_mod.append(Line(start=[l_dbar_slk, t_slk], end=[l_dbar_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
+        kicad_mod.append(Line(start=[l_dbar_slk+lw_slk, t_slk], end=[l_dbar_slk+lw_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
+        kicad_mod.append(Line(start=[l_dbar_slk-lw_slk, t_slk], end=[l_dbar_slk-lw_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
+        kicad_mod.append(Text(type='user', text="K", at=[0,-pady/2-1], layer='F.Fab'))
+        kicad_mod.append(Text(type='user', text="K", at=[0,-pady/2-1], layer='F.SilkS'))
 
     # create courtyard
     kicad_mod.append(RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt+w_crt), roundCrt(t_crt+h_crt)], layer='F.CrtYd', width=lw_crt))
@@ -375,9 +383,12 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
         kicad_mod.append(RectLine(start=[-d/2, -d2/2], end=[d/2,d2/2], layer='F.Fab', width=lw_fab))
     kicad_mod.append(Line(start=[0, 0], end=[rm,0], layer='F.Fab', width=lw_fab))
     if deco=="diode":
-        kicad_mod.append(Text(type='user', text="K", at=[-max(padx/2,d_slk*0.5)-0.7 ,0], layer='F.Fab'))
+        ddx=max(padx,d_slk)/2+0.05;
+        kicad_mod.append(Text(type='user', text="K", at=[-ddx ,-ddx], layer='F.Fab'))
+        kicad_mod.append(Text(type='user', text="K", at=[-ddx ,-ddx], layer='F.SilkS'))
     elif deco=="diode_KUP":
-        kicad_mod.append(Text(type='user', text="K", at=[-(padx/2+0.7) ,0], layer='F.Fab'))
+        kicad_mod.append(Text(type='user', text="K", at=[0,-(pady/2+1)], layer='F.Fab'))
+        kicad_mod.append(Text(type='user', text="K", at=[0,-(pady/2+1)], layer='F.SilkS'))
 
     # create SILKSCREEN-layer
     xs1 = d_slk / 2
@@ -391,7 +402,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
                 kicad_mod.append(Circle(center=[0, 0], radius=d_slk / 2, layer='F.SilkS', width=lw_slk))
         else:
             kicad_mod.append(RectLine(start=[-d_slk/2, -d2_slk/2], end=[d_slk/2,d2_slk/2], layer='F.SilkS', width=lw_slk))
-        kicad_mod.append(Line(start=[xs1, 0], end=[xs2, 0], layer='F.SilkS', width=lw_slk))
+        #kicad_mod.append(Line(start=[xs1, 0], end=[xs2, 0], layer='F.SilkS', width=lw_slk))
     else:
         xx=math.sqrt(d_slk*d_slk/4-(pady+slk_offset+lw_slk)*(pady+slk_offset+lw_slk)/4)
         if pad1style==Pad.SHAPE_RECT:
@@ -408,12 +419,12 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
                                                     [-d_slk / 2, -d2_slk / 2],
                                                     [d_slk / 2, -d2_slk / 2],
                                                     [d_slk / 2, +pady / 2 + slk_offset]], layer='F.SilkS', width=lw_slk))
-    if deco=="diode" or deco=="diode_KUP":
-        kicad_mod.append(Line(start=[d_x-d_size/3, d_y-0.5*d_size], end=[d_x-d_size/3, d_y+0.5*d_size], layer='F.SilkS', width=lw_slk))
-        kicad_mod.append(PolygoneLine(polygone=[[d_x-d_size/3, d_y],
-                                                [d_x+d_size/3, d_y-0.5*d_size],
-                                                [d_x+d_size/3, d_y+0.5*d_size],
-                                                [d_x-d_size/3, d_y]], layer='F.SilkS', width=lw_slk))
+#    if deco=="diode" or deco=="diode_KUP":
+#        kicad_mod.append(Line(start=[d_x-d_size/3, d_y-0.5*d_size], end=[d_x-d_size/3, d_y+0.5*d_size], layer='F.SilkS', width=lw_slk))
+#        kicad_mod.append(PolygoneLine(polygone=[[d_x-d_size/3, d_y],
+#                                                [d_x+d_size/3, d_y-0.5*d_size],
+#                                                [d_x+d_size/3, d_y+0.5*d_size],
+#                                                [d_x-d_size/3, d_y]], layer='F.SilkS', width=lw_slk))
 
 
     # create courtyard
