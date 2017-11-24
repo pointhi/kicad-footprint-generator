@@ -29,135 +29,162 @@ http://www.molex.com/pdm_docs/sd/5024261430_sd.pdf
 
 import sys
 import os
+#sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
+
+# export PYTHONPATH="${PYTHONPATH}<path to kicad-footprint-generator directory>"
+sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of KicadModTree
+from math import sqrt
 import argparse
+import yaml
+from helpers import *
+from KicadModTree import *
 
-sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
 
-from KicadModTree import *  # NOQA
+series = "SlimStack"
+series_long = 'SlimStack Fine-Pitch SMT Board-to-Board Connectors'
+manufacturer = 'Molex'
+orientation = 'V'
+number_of_rows = 2
 
+#pins_per_row per row
+valid_pns = [
+    "0810","1410","2010","2210","2410","2610","3010","3210","3410","4010","4410","5010","6010","6410","8010",
+    "1430","2030","2230","2430","2630","3030","3230","4030","5030","6030","7030","8030"
+]
 
-def round_to(n, precision):
-    correction = 0.5 if n >= 0 else -0.5
-    return int( n/precision+correction ) * precision
+#Molex part number
+#n = number of circuits per row
+part_code = "502426-{pn:s}"
 
+pitch = 0.4
 
-if __name__ == '__main__':
+def generate_one_footprint(partnumber, configuration):
+    pincount = int(partnumber[:2])
+    if partnumber[2:3] == "1":
+        datasheet = "http://www.molex.com/pdm_docs/sd/5024260810_sd.pdf"
+    elif partnumber[2:3] == "3":
+        datasheet = "http://www.molex.com/pdm_docs/sd/5024261430_sd.pdf"
+    mpn = part_code.format(pn=partnumber)
 
     # handle arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('gen_pn', help='suffix of 502426 series number (e.g. 0810)', type=str, nargs='*')
-    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
+    orientation_str = configuration['orientation_options'][orientation]
+    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+        series=series,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pincount//2,
+        pitch=pitch, orientation=orientation_str)
+
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pincount, datasheet))
+    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
+        orientation=orientation_str, man=manufacturer,
+        entry=configuration['entry_direction'][orientation]))
+
+    kicad_mod.setAttribute('smd')
+
+    # calculate working values
+    pad_x_spacing = pitch
+    pad_y_spacing = 1.95 + 0.475
+    pad_width = 0.22
+    pad_height = 0.475
+    pad_x_span = pad_x_spacing * ((pincount / 2) - 1)
+
+    nail_x = pad_x_span / 2.0 + 0.95
+    nail_y = 1.085
+    nail_width = 0.32
+    nail_height = 0.65
+
+    half_body_width = 2.6 / 2.0
+    half_body_length = (pad_x_span / 2.0) + 1.75
+
+    fab_width = configuration['fab_line_width']
+
+    outline_x = half_body_length - (pad_x_span / 2.0) - pad_width/2 - (configuration['silk_pad_clearance'] + configuration['silk_line_width']/2)
+    marker_y = 0.2
+    silk_width = configuration['silk_line_width']
+    nudge = configuration['silk_fab_offset']
+
+    courtyard_width = configuration['courtyard_line_width']
+    courtyard_precision = configuration['courtyard_grid']
+    courtyard_clearance = configuration['courtyard_offset']['connector']
+    courtyard_x = roundToBase(half_body_length + courtyard_clearance, courtyard_precision)
+    courtyard_y = roundToBase((pad_y_spacing + pad_height) / 2.0 + courtyard_clearance, courtyard_precision)
+
+    # create pads
+    kicad_mod.append(PadArray(pincount=pincount//2, x_spacing=-pad_x_spacing, y_spacing=0,center=[0,-pad_y_spacing/2.0],\
+        initial=1, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[pad_width, pad_height],layers=Pad.LAYERS_SMT))
+    kicad_mod.append(PadArray(pincount=pincount//2, x_spacing=-pad_x_spacing, y_spacing=0,center=[0,pad_y_spacing/2.0],\
+        initial=2, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[pad_width, pad_height],layers=Pad.LAYERS_SMT))
+
+    # create "fitting nail" (npth mounting) holes
+    #kicad_mod.append(Pad(at=[-nail_x, 0], type=Pad.TYPE_NPTH, shape=Pad.SHAPE_RECT, size=[0.35, 0.44], drill=[0.35, 0.44], layers=['*.Cu', '*.Mask']))
+    #kicad_mod.append(Pad(at=[nail_x, 0], type=Pad.TYPE_NPTH, shape=Pad.SHAPE_RECT, size=[0.35, 0.44], drill=[0.35, 0.44], layers=['*.Cu', '*.Mask']))
+    kicad_mod.append(RectLine(start=[-nail_x - nail_width / 2.0, -nail_y - nail_height / 2.0], end=[-nail_x + nail_width / 2.0, -nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
+    kicad_mod.append(RectLine(start=[-nail_x - nail_width / 2.0, nail_y - nail_height / 2.0], end=[-nail_x + nail_width / 2.0, nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
+    kicad_mod.append(RectLine(start=[nail_x - nail_width / 2.0, -nail_y - nail_height / 2.0], end=[nail_x + nail_width / 2.0, -nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
+    kicad_mod.append(RectLine(start=[nail_x - nail_width / 2.0, nail_y - nail_height / 2.0], end=[nail_x + nail_width / 2.0, nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
+
+    # create fab outline and pin 1 marker
+    kicad_mod.append(RectLine(start=[-half_body_length, -half_body_width], end=[half_body_length, half_body_width], layer='F.Fab', width=fab_width))
+    body_edge={
+        'left':-half_body_length,
+        'top':-half_body_width
+    }
+    body_edge['right'] = -body_edge['left']
+    body_edge['bottom'] = -body_edge['top']
+    kicad_mod.append(Line(start=[half_body_length-outline_x, -half_body_width], end=[half_body_length-outline_x, -half_body_width-marker_y], layer='F.Fab', width=fab_width))
+
+    # create silkscreen outline and pin 1 marker
+    left_outline = [[-half_body_length+outline_x, half_body_width+nudge], [-half_body_length-nudge, half_body_width+nudge], [-half_body_length-nudge, -half_body_width-nudge],\
+                    [-half_body_length+outline_x, -half_body_width-nudge]]
+    right_outline = [[half_body_length-outline_x, half_body_width+nudge], [half_body_length+nudge, half_body_width+nudge], [half_body_length+nudge, -half_body_width-nudge],\
+                     [half_body_length-outline_x, -half_body_width-nudge], [half_body_length-outline_x, -half_body_width-marker_y]]
+    kicad_mod.append(PolygoneLine(polygone=left_outline, layer='F.SilkS', width=silk_width))
+    kicad_mod.append(PolygoneLine(polygone=right_outline, layer='F.SilkS', width=silk_width))
+
+    # create courtyard
+    kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
+
+    ######################### Text Fields ###############################
+
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':-courtyard_y, 'bottom':+courtyard_y},
+        fp_name=footprint_name, text_y_inside_position='center')
+
+    ##################### Output and 3d model ############################
+    model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
+
+    lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
+    model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+        model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
+    kicad_mod.append(Model(filename=model_name))
+
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
+    filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name)
+
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile(filename)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../Connector_SMD_single_row_plus_mounting_pad/conn_config_KLCv3.yaml')
     args = parser.parse_args()
-    gen_pn = args.gen_pn # input argument in a list
 
-    # list of valid partnumber suffixes from all datasheets
-    valid_pns = ["0810","1410","2010","2210","2410","2610","3010","3210","3410","4010","4410","5010","6010","6410","8010","1430","2030","2230","2430","2630","3030","3230","4030","5030","6030","7030","8030"]
-    
-    # if user did not supply an argument we will get an empty list and generate all footprints (PN validation is later)
-    if gen_pn:
-        partnumbers = gen_pn
-    else:
-        partnumbers = valid_pns
-    
-    for partnumber in partnumbers:
-        
-        # do not proceed if pin count or PN are not valid
-        #if not ((partnumber.isdigit()) and (len(partnumber) == 4) and (int(partnumber[:2]) % 2.0 == 0) and (partnumber[2:4] in ["10","20","30"])):
-        if partnumber not in valid_pns:
-            sys.exit("Partnumber is not valid!")
-        
-        # the first two digits of the PN suffix are the pin count
-        pincount = int(partnumber[:2])
-        
-        footprint_name = 'Molex_SlimStack-502426-{pn:s}_2x{pc:02g}_P0.4mm_Vertical'.format(pc=pincount/2, pn=partnumber)
-        
-        print('Building {:s} '.format(footprint_name))
-        
-        # calculate working values
-        pad_x_spacing = 0.4
-        pad_y_spacing = 1.95 + 0.475
-        pad_width = 0.22
-        pad_height = 0.475
-        pad_x_span = pad_x_spacing * ((pincount / 2) - 1)
-        
-        nail_x = pad_x_span / 2.0 + 0.95
-        nail_y = 1.085
-        nail_width = 0.32
-        nail_height = 0.65
+    with open(args.global_config, 'r') as config_stream:
+        try:
+            configuration = yaml.load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
 
-        half_body_width = 2.6 / 2.0
-        half_body_length = (pad_x_span / 2.0) + 1.75
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
+        except yaml.YAMLError as exc:
+            print(exc)
 
-        fab_width = 0.1
-
-        outline_x = half_body_length - (pad_x_span / 2.0) - 0.45
-        marker_y = 0.2
-        silk_width = 0.12
-        nudge = 0.12
-
-        courtyard_width = 0.05
-        courtyard_precision = 0.01
-        courtyard_clearance = 0.5
-        courtyard_x = round_to(half_body_length + courtyard_clearance, courtyard_precision)
-        courtyard_y = round_to((pad_y_spacing + pad_height) / 2.0 + courtyard_clearance, courtyard_precision)
-
-        label_x_offset = 0
-        label_y_offset = courtyard_y + 0.7
-
-        # select correct datasheet URL depending on part number
-        if partnumber[2:3] == "1":
-            datasheet = "http://www.molex.com/pdm_docs/sd/5024260810_sd.pdf"
-        elif partnumber[2:3] == "3":
-            datasheet = "http://www.molex.com/pdm_docs/sd/5024261430_sd.pdf"
-        
-        # initialise footprint
-        kicad_mod = Footprint(footprint_name)
-        kicad_mod.setDescription('Molex SlimStack receptacle, 02x{pc:02g} contacts, 0.4mm pitch, 1.0mm height, SMT, {ds}'.format(pc=pincount/2, ds=datasheet))
-        kicad_mod.setTags('connector molex slimstack 502426-{:s}'.format(partnumber))
-        kicad_mod.setAttribute('smd')
-
-        # set general values
-        kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[label_x_offset, -label_y_offset], layer='F.SilkS'))
-        kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[0, 0], layer='F.Fab'))
-        kicad_mod.append(Text(type='value', text=footprint_name, at=[label_x_offset, label_y_offset], layer='F.Fab'))
-
-        # create pads
-        kicad_mod.append(PadArray(pincount=pincount//2, x_spacing=-pad_x_spacing, y_spacing=0,center=[0,-pad_y_spacing/2.0],\
-            initial=1, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[pad_width, pad_height],layers=Pad.LAYERS_SMT))
-        kicad_mod.append(PadArray(pincount=pincount//2, x_spacing=-pad_x_spacing, y_spacing=0,center=[0,pad_y_spacing/2.0],\
-            initial=2, increment=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[pad_width, pad_height],layers=Pad.LAYERS_SMT))
-        
-        # create "fitting nail" (npth mounting) holes
-        #kicad_mod.append(Pad(at=[-nail_x, 0], type=Pad.TYPE_NPTH, shape=Pad.SHAPE_RECT, size=[0.35, 0.44], drill=[0.35, 0.44], layers=['*.Cu', '*.Mask']))
-        #kicad_mod.append(Pad(at=[nail_x, 0], type=Pad.TYPE_NPTH, shape=Pad.SHAPE_RECT, size=[0.35, 0.44], drill=[0.35, 0.44], layers=['*.Cu', '*.Mask']))
-        kicad_mod.append(RectLine(start=[-nail_x - nail_width / 2.0, -nail_y - nail_height / 2.0], end=[-nail_x + nail_width / 2.0, -nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
-        kicad_mod.append(RectLine(start=[-nail_x - nail_width / 2.0, nail_y - nail_height / 2.0], end=[-nail_x + nail_width / 2.0, nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
-        kicad_mod.append(RectLine(start=[nail_x - nail_width / 2.0, -nail_y - nail_height / 2.0], end=[nail_x + nail_width / 2.0, -nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
-        kicad_mod.append(RectLine(start=[nail_x - nail_width / 2.0, nail_y - nail_height / 2.0], end=[nail_x + nail_width / 2.0, nail_y + nail_height / 2.0], layer='Edge.Cuts', width=fab_width))
-
-        # create fab outline and pin 1 marker
-        kicad_mod.append(RectLine(start=[-half_body_length, -half_body_width], end=[half_body_length, half_body_width], layer='F.Fab', width=fab_width))
-        kicad_mod.append(Line(start=[half_body_length-outline_x, -half_body_width], end=[half_body_length-outline_x, -half_body_width-marker_y], layer='F.Fab', width=fab_width))
-
-        # create silkscreen outline and pin 1 marker
-        left_outline = [[-half_body_length+outline_x, half_body_width+nudge], [-half_body_length-nudge, half_body_width+nudge], [-half_body_length-nudge, -half_body_width-nudge],\
-                        [-half_body_length+outline_x, -half_body_width-nudge]]
-        right_outline = [[half_body_length-outline_x, half_body_width+nudge], [half_body_length+nudge, half_body_width+nudge], [half_body_length+nudge, -half_body_width-nudge],\
-                         [half_body_length-outline_x, -half_body_width-nudge], [half_body_length-outline_x, -half_body_width-marker_y]]
-        kicad_mod.append(PolygoneLine(polygone=left_outline, layer='F.SilkS', width=silk_width))
-        kicad_mod.append(PolygoneLine(polygone=right_outline, layer='F.SilkS', width=silk_width))
-
-        # create courtyard
-        kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
-
-        # add model
-        kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(footprint_name), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
-
-        # print render tree
-        if args.verbose:
-            print(kicad_mod.getRenderTree())
-
-        # write file
-        file_handler = KicadFileHandler(kicad_mod)
-        file_handler.writeFile('{:s}.kicad_mod'.format(footprint_name))
-
+    for partnumber in valid_pns:
+        generate_one_footprint(partnumber, configuration)
