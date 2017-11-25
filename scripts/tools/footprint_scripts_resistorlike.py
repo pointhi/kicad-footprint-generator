@@ -242,7 +242,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
     # add model
     if (has3d!=0):
-        kicad_mod.append(Model(filename=lib_name + ".3dshapes/"+footprint_name+".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+        kicad_mod.append(Model(filename='${KISYS3DMOD}/'+lib_name + ".3dshapes/"+footprint_name+".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
 
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -491,7 +491,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     # add model
     if (has3d != 0):
         kicad_mod.append(
-            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+            Model(filename='${KISYS3DMOD}/'+lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
 
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -938,7 +938,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
 
     # add model
     if (has3d != 0):
-        kicad_modg.append(Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+        kicad_modg.append(Model(filename='${KISYS3DMOD}/'+lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
 
     # print render tree
     # print(kicad_mod.getRenderTree())
