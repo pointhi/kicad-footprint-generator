@@ -1,22 +1,26 @@
 #!/usr/bin/env python
 
-# KicadModTree is free software: you can redistribute it and/or
+#
+# Generic extension module for KicadModTree in the kicad-footprint-generator framework
+#
+# This module requires the kicad-footprint-generator framework
+# by Thomas Pointhuber, https://github.com/pointhi/kicad-footprint-generator
+#
+# This module is free software: you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# KicadModTree is distributed in the hope that it will be useful,
+# This module is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-#
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 #
-# This module (canvas.py) contains wrapper classes and methods for parts
+# This module contains wrapper classes and methods for parts
 # of the KicadModTree primitives.
 # They provide "turtle style" drawing using relative moves in order
 # to simplify the math involved in calculating and keeping track of vertex coordinates.
@@ -30,14 +34,15 @@
 
 #
 # NOTE:
-# The code for the the Keepout class is based on code from drawing_tools.py
-# Currently circular and (rounded) rectangular keepout zones are respected
+# The code for the the Keepout class is loosely based on code from drawing_tools.py
+# Currently oval and rectangular keepout zones are respected
 # for horizontal and vertical lines, only basic support (bounding box only) for diagonal lines.
 # Arcs and circles are not yet handled. On TODO: list.
 # More testing needs to be done for edge cases, such as for lines inside
-# the bounding box but extending outside the keepout area.
-# Preferably the private _Keepout class should encapsulate all the line processing?
+# the bounding box but outside the keepout area proper.
 #
+
+# 2017-11-25
 
 import sys
 import os
@@ -61,13 +66,13 @@ class Layer:
                             'F.CrtYd': 0.05,
                             'B.CrtYd': 0.05}
 
-    _DEFAULT_LINE_WIDTH       = 0.15
-    _DEFAULT_TEXT_OFFSET      = 1.0
-    _DEFAULT_TEXT_SIZE_MIN    = 0.25
-    _DEFAULT_TEXT_SIZE_MAX    = 2.00
-    _DEFAULT_GRID_CRT         = 0.05
-    _DEFAULT_OFFSET_CRT       = 0.25
-    _DEFAULT_MIN_PAD_DISTANCE = 0.2 # clearance?
+    _DEFAULT_LINE_WIDTH        = 0.15
+    _DEFAULT_TEXT_OFFSET       = 1.0
+    _DEFAULT_TEXT_SIZE_MIN     = 0.25
+    _DEFAULT_TEXT_SIZE_MAX     = 2.00
+    _DEFAULT_GRID_CRT          = 0.05
+    _DEFAULT_OFFSET_CRT        = 0.25
+    _DEFAULT_SOLDERMASK_MARGIN = 0.2 # clearance?
 
     def __init__(self, footprint, layer='F.Fab', origin=(0,0), line_width=None, offset=None):
         self.footprint = footprint
@@ -110,8 +115,8 @@ class Layer:
             self.offset = self.line_width / 2.0
         return self
 
-    def getMinPadDistance(self):
-        return self._DEFAULT_MIN_PAD_DISTANCE
+    def getSoldermaskMargin(self):
+        return self._DEFAULT_SOLDERMASK_MARGIN
 
     def setTextDefaults(self, max_size=None, min_size=None):
         if max_size == None and min_size == None:
@@ -137,12 +142,6 @@ class Layer:
             self.alignToGrid()
         return self
 
-    def getPadOffsetH(self, pad, offset=None):
-        return (pad[0] + self.line_width) / 2.0 + (self._DEFAULT_MIN_PAD_DISTANCE if offset == None else offset)
-
-    def getPadOffsetV(self, pad, offset=None):
-        return (pad[1] + self.line_width) / 2.0 + (self._DEFAULT_MIN_PAD_DISTANCE if offset == None else offset)
-
     def goHome(self):
         self.x = self.origin[0]
         self.y = self.origin[1]
@@ -167,7 +166,7 @@ class Layer:
         return self
 
     def _align(self, value):
-        return value if self.gridspacing == None\
+        return round(value, 6) if self.gridspacing == None\
                       else (math.ceil(value / self.gridspacing) * self.gridspacing if value > 0.0 else math.floor(value / self.gridspacing) * self.gridspacing)
 
     def alignToGrid(self):
@@ -265,13 +264,24 @@ class Layer:
             self.footprint.append(Circle(center=[self.x, self.y], radius=radius, layer=self.layer, width=line_width))
         return self
    
-    def fillrect(self, w, h):
+    def fillrect(self, w, h): #TODO: add origin handling
         x = self.x
         y = self.y
         w = self._align(w)
-        h = self._align(h)
-        self.jump(self._align(-w / 2.0), self._align(-h / 2.0))
-        self.footprint.append(RectFill(start=[x, y], end=[w + x, h + y], layer=self.layer))
+        h = self._align(h - self.line_width)
+        
+        #self.jump(self._align(-w / 2.0), self._align(-h / 2.0))
+        
+        l = math.ceil(h / self.line_width)
+        h = h / l
+
+        self.jump(0.0, self.line_width / 2.0)
+
+        while(l > 0):
+            self._line(w, 0.0)
+            self.jump(0.0, h)
+            l -= 1   
+
         self.x = x
         self.y = y
         return self
@@ -448,10 +458,10 @@ class _Line:
 
     def _add_points(self, a, b, normalize):
         if normalize:  
-            self.x0 = min(a.x, b.x)
-            self.x1 = max(a.x, b.x)
-            self.y0 = min(a.y, b.y)
-            self.y1 = max(a.y, b.y)
+            self.x0 = round(min(a.x, b.x), 8)
+            self.x1 = round(max(a.x, b.x), 8)
+            self.y0 = round(min(a.y, b.y), 8)
+            self.y1 = round(max(a.y, b.y), 8)
         elif a.y < b.y:
             self.x0 = a.x
             self.x1 = b.x
@@ -545,29 +555,72 @@ class _Keepout:
         return y > self.y0 and y < self.y1
 
     def VlineIntersects(self, x):
-        return x > self.x0 and x < self.x1
+        return round(x, 8) > self.x0 and round(x, 8) < self.x1
 
-    def HLineTrim(self, x0, y, x1):
+    def _HLineTrim(self, y, r):
+        h = (self.y0 + r - y if y < self.y0 + r else y - self.y1 + r)
+        return r - math.sqrt(r * r - h * h)
+        
+    def _VLineTrim(self, x, r):
+        h = (self.x0 + r - x if x < self.x0 + r else x - self.x1 + r)
+        return r - math.sqrt(r * r - h * h)
+
+    def HLineTrim(self, l):
+
+        line = _Line(l[0], l[1], l[2], l[3], normalize=True)
+
+        # check if line is outside rectangular bounding box and exit if so
+        if line.x1 < self.x0 or line.x0 > self.x1:
+            return False
+
+        # check if line completely inside rectangular bounding box and exit with no segments if so
+        if self.radius == 0.0 and line.x0 >= self.x0 and line.x1 <= self.x1:
+            return []
+
         r = self.radius
-        yi = 0 if y >= self.y0 + r else 1
-        yi += 0 if y <= self.y1 - r else 2
-        if yi == 0:
-            return x0
-        else:
-            h = (self.y0 + r - y if yi == 1 else y - self.y1 + r)
-            l = math.sqrt(r * r - h * h)
-            return min(x0 + r - l, x1) if x1 > x0 else max(x0 + -(r - l), x1)
-            
-    def VLineTrim(self, x, y0, y1):
+        segments = []
+
+        if r == 0.0 or (line.y0 >= self.y0 + r and line.y0 <= self.y1 - r):
+            if line.x0 < self.x0:
+                segments.append([line.x0, line.y0, self.x0, line.y1])
+            if line.x1 > self.x1:
+                segments.append([self.x1, line.y0, line.x1, line.y1])
+        elif line.x1 > self.x0 and line.x0 < self.x1:
+            h = self._HLineTrim(line.y0, r) 
+            if line.x0 < self.x0 + r:
+                segments.append([line.x0, line.y0, min(line.x1, self.x0 + h), line.y1])
+            if line.x1 > self.x1 - r:
+                segments.append([max(line.x0, self.x1 - h), line.y0, line.x1, line.y1])
+        return False if len(segments) == 0 else segments
+
+    def VLineTrim(self, l):
+
+        line = _Line(l[0], l[1], l[2], l[3], normalize=True)
+
+        # check if line is outside
+        if line.y1 <= self.y0 or line.y0 >= self.y1:
+            return False
+
+        # check if line completely inside rectangular bounding box and exit with no segments if so
+        if self.radius == 0.0 and line.y0 >= self.y0 and line.y1 <= self.y1:
+            return []
+
         r = self.radius
-        xi = 0 if x >= self.x0 + r else 1
-        xi += 0 if x <= self.x1 - r else 2
-        if xi == 0:
-            return y0
-        else:
-            h = (self.x0 + r - x if xi == 1 else x - self.x1 + r)
-            l = math.sqrt(r * r - h * h)
-            return min(y0 + r - l, y1) if y1 > y0 else max(y0 + -(r - l), y1)
+        segments = []
+
+        if r == 0.0 or (line.x0 >= self.x0 + r and line.x0 <= self.x1 - r):
+            if line.y0 < self.y0:
+                segments.append([line.x0, line.y0, line.x1, self.y0])
+            if line.y1 > self.y1:
+                segments.append([line.x0, self.y1, line.x1, line.y1])
+        elif line.y1 > self.y0 and line.y0 < self.y1:
+            h = self._VLineTrim(line.x0, r) 
+            if line.y0 < self.y0 + r:
+                segments.append([line.x0, line.y0, line.x1, min(line.y1, self.y0 + h)])
+            if line.y1 > self.y1 - r:
+                segments.append([line.x0, max(self.y1 - h, line.y0), line.x1, line.y1])
+
+        return False if len(segments) == 0 else segments
 
     def __repr__(self):
         return "(x0={x0}, y0={y0}, x1={x1}, y1={y1}, r={r})".format(x0=formatFloat(self.x0), y0=formatFloat(self.y0),
@@ -595,31 +648,35 @@ class Keepout():
 
     def __getattr__(self, name):
         if name == "offset":
-            return self.layer.line_width / 2.0 + self.layer.getMinPadDistance()
+            return self.layer.line_width / 2.0 + self.layer.getSoldermaskMargin()
         else:
             raise AttributeError
 
     def _align(self, value):
         return self.layer._align(value)
 
-    def _add(self, x0, y0, x1, y1, radius=None):
+    def _add(self, x0, y0, x1, y1, radius=0.0):
         self.keepouts.append(_Keepout(self._align(x0), self._align(y0), self._align(x1), self._align(y1), radius))
 
     # add keepout area for rectangle
     def addRect(self, x, y, w, h, offset=None):
         if offset == None:
-            offset = self.offset
+            offset = 0.0
         w = w / 2.0 + offset
         h = h / 2.0 + offset
-        self._add(x - w, y - h, x + w, y + h, offset)
+        self._add(x - w, y - h, x + w, y + h)
         return self
 
     # add keepout area for circular or oval object
     def addRound(self, x, y, w, h, offset=None):
         if offset == None:
             offset = self.offset
-        d = w - h         
-        self.addRect(x, y, d if d > 0.0 else 0.0, -d if d < 0.0 else 0.0, min(h, w) / 2.0 + offset)
+#        d = w - h         
+        r = min(h, w) / 2.0 + offset
+        w = w / 2.0 + offset
+        h = h / 2.0 + offset
+        self._add(x - w, y - h, x + w, y + h, r)
+#        self.addRect(x - w, y - w, d if d > 0.0 else 0.0, -d if d < 0.0 else 0.0, r)
         return self
     
     def addPads(self):
@@ -643,57 +700,36 @@ class Keepout():
         return bb
 
     # internal method for keepout-processing
-    def _processHVLine(self, x0, y0, x1, y1):
+    def _processHVLine(self, line):
         
         def add_segment(x0, y0, x1, y1):
             length = x1 - x0 + y1 - y0 
             if length >= self.min_length:
                 segments.append([x0, y0, x1, y1])
 
-        vertical = x0 == x1
-        segments = [[x0, min(y0, y1), x1, max(y0, y1)]] if vertical else [[min(x0, x1), y0, max(x0, x1), y1]]
-        changes = True
+        vertical = line.x0 == line.x1
+        segments = [[line.x0, line.y0, line.x1, line.y1]]
 
         if self.DEBUG & 2:
-            print "S", segments[0][0], segments[0][1], segments[0][2], segments[0][3] 
+            print "S", line
 
-        while changes:
+        changes = len(self.keepouts) > 0
+        while changes != False:
             changes = False
             for keepout in self.keepouts:
-                if keepout.VlineIntersects(x0) if vertical else keepout.HlineIntersects(y0):
-                    for li in reversed(range(0, len(segments))):
-                        l = segments[li]
-                        p = (1 if keepout.pointIsInside(l[0], l[1]) else 0)
-                        p |= (2 if keepout.pointIsInside(l[2], l[3]) else 0)
-                        if p == 3 : # Line completely inside -> remove
-                            segments.pop(li)
-                            p = 0
-                            changes = True
-                        elif p == 0: # is line intersecting keepout rectangle?
-                            if vertical: 
-                                if l[1] < keepout.y0 and l[3] > keepout.y1:
-                                    p = 3
-                            else:
-                                if l[0] < keepout.x0 and l[2] > keepout.x1:
-                                    p = 3
-
+                if keepout.VlineIntersects(line.x0) if vertical else keepout.HlineIntersects(line.y0):
+                    for i in reversed(range(0, len(segments))):
+                        segment = segments[i]
+                        changes = keepout.VLineTrim(segment) if vertical else keepout.HLineTrim(segment)
+                        if changes != False:
+                            segments.pop(i)
+                            for segment in changes:
+                                add_segment(segment[0], segment[1], segment[2], segment[3])
+                            
                         if self.DEBUG & 2:
-                            print "CHOP", p, "line:", l[0], l[1], l[2], l[3], "keepout:", keepout
-                               
-                        if p > 0:  # Line needs to be broken up
-                            changes = True
-                            segments.pop(li)
-                            if vertical:
-                                if p & 1:
-                                    add_segment(l[0], keepout.VLineTrim(l[0], keepout.y1, l[1]), l[2], l[3])
-                                if p & 2:
-                                    add_segment(l[0], l[1], l[2], keepout.VLineTrim(l[0], keepout.y0, l[3]))
-                            else:
-                                if p & 1:
-                                    add_segment(keepout.HLineTrim(keepout.x1, l[1], l[0]), l[1], l[2], l[3])
-                                if p & 2:
-                                    add_segment(l[0], l[1], keepout.HLineTrim(keepout.x0, l[1], l[2]), l[3])
-            if changes:
+                            print "CHOP - line:", segment[0], segment[1], segment[2], segment[3], "keepout:", keepout
+
+            if changes != False:
                 break
 
         if self.DEBUG & 2:
@@ -704,36 +740,42 @@ class Keepout():
     # split an arbitrary line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
     def processLine(self, x0, y0, x1, y1):
 
-        if x0 == x1 or y0 == y1: # use simpler and faster algorithm for horizontal and vertical lines
-            return self._processHVLine(x0, y0, x1, y1)
+        line = _Line(x0, y0, x1, y1, normalize=True)
+
+        if line.x0 == line.x1 or line.y0 == line.y1: # use simpler and faster algorithm for horizontal and vertical lines
+            return self._processHVLine(line)
     
         # TODO: update to handle keepout area proper, now only respects the bounding box.
         
-        line = _Line(x0, y0, x1, y1)
         segments=[[line.x0, line.y0, line.x1, line.y1]]
         for keepout in self.keepouts:
-            for li in reversed(range(0, len(segments))):
-                l = segments[li]
-                chop = keepout.lineIntersects(_Line(l[0], l[1], l[2], l[3]))
-                if chop != False:
-                    segments.pop(li)
-                    segments.append([l[0], l[1], chop[0][0], chop[0][1]])
-                    if len(chop) == 2:
-                        segments.append([chop[1][0], chop[1][1], l[2], l[3]])
+            for i in reversed(range(0, len(segments))):
+                segment = segments[i]
+                changes = keepout.lineIntersects(_Line(segment[0], segment[1], segment[2], segment[3]))
+                if changes != False:
+                    segments.pop(i)
+                    segments.append([segment[0], segment[1], changes[0][0], changes[0][1]])
+                    if len(changes) == 2:
+                        segments.append([changes[1][0], changes[1][1], segment[2], segment[3]])
         return segments       
 
     # draws the keepouts
     def debug_draw(self):
         if self.DEBUG & 1:
+            x = self.layer.x
+            y = self.layer.y
             lw = self.layer.line_width
             self.layer.line_width = 0.01
             self.layer.keepout = None
             for keepout in self.keepouts:
                 self.layer.goto(keepout.x0, keepout.y0)
-                self.layer.rrect(keepout.x1 - keepout.x0, keepout.y1 - keepout.y0, keepout.radius, origin="topLeft")
+                if(keepout.radius > 0.0):
+                    self.layer.rrect(keepout.x1 - keepout.x0, keepout.y1 - keepout.y0, keepout.radius, origin="topLeft")
                 self.layer.rect(keepout.x1 - keepout.x0, keepout.y1 - keepout.y0, origin="topLeft")
             self.layer.line_width = lw
             self.layer.keepout = self
+            self.layer.x = x
+            self.layer.y = y
 
 
 class OutDir:
