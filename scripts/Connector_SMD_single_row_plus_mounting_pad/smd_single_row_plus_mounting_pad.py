@@ -15,8 +15,13 @@ from math import sqrt
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-def generate_one_footprint(pincount, series_definition, configuration, group_definition):
-    mpn = series_definition['mpn_format_string'].format(pincount=pincount)
+def generate_one_footprint(idx, pincount, series_definition, configuration, group_definition):
+    if 'mpn_param_1' in series_definition:
+        mpn_param_1 = series_definition['mpn_param_1']
+        mpn = series_definition['mpn_format_string'].format(pincount=pincount, param_1=mpn_param_1[idx])
+    else:
+        mpn = series_definition['mpn_format_string'].format(pincount=pincount)
+
     pins_toward_bottom = series_definition['pad1_position'] == 'bottom-left'
     needs_additional_silk_pin1_marker = False
 
@@ -51,6 +56,7 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
         series=series_definition['series'],
         mpn=mpn, num_rows=1, pins_per_row=pincount,
         pitch=series_definition['pitch'], orientation=orientation)
+    footprint_name = footprint_name.replace('__', '_')
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series_definition['series'],
@@ -361,6 +367,7 @@ def generate_one_footprint(pincount, series_definition, configuration, group_def
     file_handler.writeFile(filename)
 
 def generate_series(configuration, series_definition, id, group_definition):
+    idx = 0
     pinrange_def_type, pinrange_def = series_definition['pinrange']
     if pinrange_def_type == 'range':
         pinrange = range(*pinrange_def)
@@ -371,7 +378,8 @@ def generate_series(configuration, series_definition, id, group_definition):
         return
 
     for pincount in pinrange:
-        generate_one_footprint(pincount, series_definition, configuration, group_definition)
+        generate_one_footprint(idx, pincount, series_definition, configuration, group_definition)
+        idx += 1
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')

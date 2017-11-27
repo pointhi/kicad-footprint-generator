@@ -1,0 +1,98 @@
+group_definitions:
+    manufacturer: 'Hirose'
+
+device_definition:
+    DF13C:
+        series: 'DF13C'
+        mpn_format_string: 'CL535-04{pincount:02d}-{param_1:s}-51'
+        mpn_param_1: ['2','5','8','0','3','6','9','1','4','3','6','1','4']
+        orientation: 'V'
+        datasheet: 'https://www.hirose.com/product/en/products/DF13/DF13C-10P-1.25V%2851%29/'
+        pinrange: ['list', [2,3,4,5,6,7,8,9,10,11,12,14,15]]
+        text_inside_pos: 'center'
+        pitch: 1.25
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.6, 2.2]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.45
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 4.7
+        rel_pad_y_inside_edge: 2.9
+        pad_size_x: 0.7
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 0.6
+        body_size_y: 3.4
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 2.2
+        # todo: keepout
+    DF52:
+        series: ''
+        mpn_format_string: 'DF52-{pincount:d}S-0.8H'
+        orientation: 'H'
+        datasheet: 'https://www.hirose.com/product/en/products/DF52/DF52-3S-0.8H%2821%29/'
+        pinrange: ['list', [2,3,4,5,6,7,8,9,10,11,12,14,15]]
+        text_inside_pos: 'bottom'
+        pitch: 0.8
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [0.9, 1.6]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 0.8
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 3.22
+        rel_pad_y_inside_edge: 2.22
+        pad_size_x: 0.5
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: -0.1
+        body_size_y: 2.77
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 1.5
+    FH12_34:
+        series: ''
+        mpn_format_string: 'FH12-{pincount:d}S-0.8H'
+        orientation: 'H'
+        datasheet: 'https://www.hirose.com/product/en/products/FH12/FH12-24S-0.5SH(55)/'
+        pinrange: ['list', [6,8,10,11,12,13,14,15,16,17,18,19,20,22,24,25,26,28,30,32,33,34]]
+        text_inside_pos: 'bottom'
+        pitch: 0.5
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.8, 2.2]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 5
+        rel_pad_y_inside_edge: 3.7
+        pad_size_x: 0.3
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 1.9
+        body_size_y: 5.6
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 1.8
+    FH12_35: # I could not find a difference between the <=34 section and the >= 35 pin section.
+        series: ''
+        mpn_format_string: 'FH12-{pincount:d}S-0.8H'
+        orientation: 'H'
+        datasheet: 'https://www.hirose.com/product/en/products/FH12/FH12-24S-0.5SH(55)/'
+        pinrange: ['list', [35,36,40,45,50,53]]
+        text_inside_pos: 'bottom'
+        pitch: 0.5
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.8, 2.2]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 5
+        rel_pad_y_inside_edge: 3.7
+        pad_size_x: 0.3
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 1.9
+        body_size_y: 5.6
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 1.8
