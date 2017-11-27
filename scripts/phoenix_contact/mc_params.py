@@ -18,7 +18,7 @@ class seriesParams():
     plug_trapezoid_width = 1
     plug_seperator_distance = 1.5
 
-    silk_pad_clearence = 0.15
+    silk_pad_clearance = 0.15
     mount_screw_info = "ISO 1481-ST 2.2x4.5 C or ISO 7049-ST 2.2x4.5 C (http://www.fasteners.eu/standards/ISO/7049/)"
 
     # Connector voltage ratings:

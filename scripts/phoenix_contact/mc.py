@@ -75,7 +75,7 @@ def generate_one_footprint(motel, params, configuration):
 
     if params.angled:
         #kicad_mod.append(RectLine(start=silk_top_left, end=silk_bottom_right, layer='F.SilkS'))
-        silkGab = params.pin_Sx/2.0+seriesParams.silk_pad_clearence
+        silkGab = params.pin_Sx/2.0+seriesParams.silk_pad_clearance
         kicad_mod.append(Line(start=silk_top_left, end=[silk_top_left[0], silk_bottom_right[1]], layer='F.SilkS', width=configuration['silk_line_width']))
         kicad_mod.append(Line(start=[silk_top_left[0], silk_bottom_right[1]], end=silk_bottom_right, layer='F.SilkS', width=configuration['silk_line_width']))
         kicad_mod.append(Line(start=silk_bottom_right, end=[silk_bottom_right[0], silk_top_left[1]], layer='F.SilkS', width=configuration['silk_line_width']))

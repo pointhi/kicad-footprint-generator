@@ -17,33 +17,55 @@
 
 import sys
 import os
+#sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
+
+# export PYTHONPATH="${PYTHONPATH}<path to kicad-footprint-generator directory>"
+sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of KicadModTree
+from math import sqrt
 import argparse
+import yaml
+from helpers import *
+from KicadModTree import *
 
-sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
 
-from KicadModTree import *  # NOQA
+series = "SlimStack"
+series_long = 'SlimStack Fine-Pitch SMT Board-to-Board Connectors'
+manufacturer = 'Molex'
+orientation = 'V'
+number_of_rows = 2
+datasheet = 'http://www.molex.com/pdm_docs/sd/555600207_sd.pdf'
 
+#pins_per_row per row
+pins_range = [16,20,22,24,30,34,40,50,60,80]
 
-def round_to(n, precision):
-    correction = 0.5 if n >= 0 else -0.5
-    return int( n/precision+correction ) * precision
+#Molex part number
+#n = number of circuits per row
+part_code = "55560-0{n:02}1"
 
+pitch = 0.5
 
-if __name__ == '__main__':
+def generate_one_footprint(pincount, configuration):
+    mpn = part_code.format(n=pincount)
 
     # handle arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('pincount', help='number of pins of the connector', type=int, nargs=1)
-    parser.add_argument('partnumber', help='suffix to 55560 series number (e.g. 0161)', type=str, nargs=1)
-    parser.add_argument('-v', '--verbose', help='show extra information while generating the footprint', action='store_true')
-    args = parser.parse_args()
-    pincount = int(args.pincount[0])
-    partnumber = str(args.partnumber[0])
-    footprint_name = 'Molex_SlimStack_Plug_2x{pc:02g}_Pitch0.5mm_55560-{pn:s}'.format(pc=pincount/2, pn=partnumber)
-    print('Building {:s} '.format(footprint_name))
+    orientation_str = configuration['orientation_options'][orientation]
+    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+        series=series,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pincount//2,
+        pitch=pitch, orientation=orientation_str)
+
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pincount, datasheet))
+    kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
+        orientation=orientation_str, man=manufacturer,
+        entry=configuration['entry_direction'][orientation]))
+
+    kicad_mod.setAttribute('smd')
 
     # calculate working values
-    pad_x_spacing = 0.5
+    pad_x_spacing = pitch
     pad_y_spacing = 2.9 + 1.0
     pad_width = 0.3
     pad_height = 1.0
@@ -52,32 +74,21 @@ if __name__ == '__main__':
     h_body_width = 2.83 / 2.0
     h_body_length = (pad_x_span / 2.0) + 0.45 + 0.525
 
-    fab_width = 0.1
+    fab_width = configuration['fab_line_width']
 
-    outline_x = 0.6
+    #outline_x = 0.6
+    outline_x = h_body_length - (pad_x_span / 2.0) - pad_width/2 - (configuration['silk_pad_clearance'] + configuration['silk_line_width']/2)
     marker_y = 0.8
-    silk_width = 0.12
-    nudge = 0.15
+    silk_width = configuration['silk_line_width']
+    nudge = configuration['silk_fab_offset']
 
-    courtyard_width = 0.05
-    courtyard_precision = 0.01
-    courtyard_clearance = 0.5
-    courtyard_x = round_to(h_body_length + courtyard_clearance, courtyard_precision)
-    courtyard_y = round_to((pad_y_spacing + pad_height) / 2.0 + courtyard_clearance, courtyard_precision)
+    courtyard_width = configuration['courtyard_line_width']
+    courtyard_precision = configuration['courtyard_grid']
+    courtyard_clearance = configuration['courtyard_offset']['connector']
+    courtyard_x = roundToBase(h_body_length + courtyard_clearance, courtyard_precision)
+    courtyard_y = roundToBase((pad_y_spacing + pad_height) / 2.0 + courtyard_clearance, courtyard_precision)
 
-    label_x_offset = 0
-    label_y_offset = courtyard_y + 0.7
 
-    # initialise footprint
-    kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription('Molex SlimStack plug, 02x{pc:02g} contacts 0.5mm pitch 1.5mm height, http://www.molex.com/pdm_docs/sd/555600307_sd.pdf'.format(pc=pincount/2))
-    kicad_mod.setTags('connector molex slimstack 55560-{:s}'.format(partnumber))
-    kicad_mod.setAttribute('smd')
-
-    # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[label_x_offset, -label_y_offset], layer='F.SilkS'))
-    kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[0, 0], layer='F.Fab'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[label_x_offset, label_y_offset], layer='F.Fab'))
 
     # create pads
     kicad_mod.append(PadArray(pincount=pincount//2, x_spacing=pad_x_spacing, y_spacing=0,\
@@ -89,6 +100,12 @@ if __name__ == '__main__':
 
     # create fab outline and pin 1 marker
     kicad_mod.append(RectLine(start=[-h_body_length, -h_body_width], end=[h_body_length, h_body_width], layer='F.Fab', width=fab_width))
+    body_edge={
+        'left':-h_body_length,
+        'top':-h_body_width
+    }
+    body_edge['right'] = -body_edge['left']
+    body_edge['bottom'] = -body_edge['top']
     kicad_mod.append(Line(start=[-h_body_length+outline_x, -h_body_width-nudge], end=[-h_body_length+outline_x, -h_body_width-marker_y], layer='F.Fab', width=fab_width))
 
     # create silkscreen outline and pin 1 marker
@@ -102,14 +119,45 @@ if __name__ == '__main__':
     # create courtyard
     kicad_mod.append(RectLine(start=[-courtyard_x, -courtyard_y], end=[courtyard_x, courtyard_y], layer='F.CrtYd', width=courtyard_width))
 
-    # add model
-    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_Molex.3dshapes/{:s}.wrl".format(footprint_name), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
+    ######################### Text Fields ###############################
 
-    # print render tree
-    if args.verbose:
-        print(kicad_mod.getRenderTree())
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':-courtyard_y, 'bottom':+courtyard_y},
+        fp_name=footprint_name, text_y_inside_position='center')
 
-    # write file
+    ##################### Output and 3d model ############################
+    model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
+
+    lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
+    model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+        model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
+    kicad_mod.append(Model(filename=model_name))
+
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
+    filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name)
+
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile('{:s}.kicad_mod'.format(footprint_name))
+    file_handler.writeFile(filename)
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../Connector_SMD_single_row_plus_mounting_pad/conn_config_KLCv3.yaml')
+    args = parser.parse_args()
+
+    with open(args.global_config, 'r') as config_stream:
+        try:
+            configuration = yaml.load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    for pins in pins_range:
+        generate_one_footprint(pins, configuration)
