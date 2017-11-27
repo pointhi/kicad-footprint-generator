@@ -23,7 +23,7 @@ output_dir = os.getcwd()
 #if specified as an argument, extract the target directory for output footprints
 if len(sys.argv) > 1:
     out_dir = sys.argv[1]
-    
+
     if os.path.isabs(out_dir) and os.path.isdir(out_dir):
         output_dir = out_dir
     else:
@@ -33,7 +33,7 @@ if len(sys.argv) > 1:
 
 if output_dir and not output_dir.endswith(os.sep):
     output_dir += os.sep
-        
+
 #import KicadModTree files
 sys.path.append("..\\..")
 from KicadModTree import *
@@ -76,7 +76,7 @@ pins = [2,3]
 for pincount in pins:
 
     part = "DF63-{pincount}P-3.96DS".format(series=series,pincount=pincount)
-    
+
     footprint_name = "{manu}_{pn}_{n:02}x{pitch:.2f}mm_Angled".format(
         manu = manu,
         pn = part,
@@ -85,21 +85,21 @@ for pincount in pins:
     )
 
     print(footprint_name)
-    
+
     fp = Footprint(footprint_name)
-    
+
     #description
     fp.setDescription(desc.format(manu=manu, series=series, p=pitch, code=part))
     fp.setTags(tags)
-    
+
     # text
     fp.append(Text(type='reference', text='REF**', at=[0, -5.2], layer='F.SilkS'))
     fp.append(Text(type='value', text=footprint_name, at=[0,5.4 ], layer='F.Fab'))
-    
+
     #Major dimensions
     B = ( pincount - 1 ) * pitch
     A = B + 4.7
-    
+
     #pins
     fp.append(
         PadArray(
@@ -114,24 +114,24 @@ for pincount in pins:
                 drill = drill,
                 )
     )
-    
+
     #calculate major dimensions
     x1 = (B - A) / 2
     x2 = x1 + A
-    
+
     #courtyard
     fp.append(RectLine(start=[x1,yt],end=[x2,y2],layer='F.CrtYd',width=0.05,grid=0.05,offset=0.5))
-    
+
     #mounting hole
     if pincount > 1:
         fp.append(Pad(at=[-1.5,3.25],type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
-    
+
     #connector outline
-    
+
     #tab thickness
     t = 1.2
-    
-    def outline(offset=0):    
+
+    def outline(offset=0):
         outline = [
         {'x': B/2, 'y': y2 + offset},
         {'x': x1 - offset, 'y': y2 + offset},
@@ -140,23 +140,23 @@ for pincount in pins:
         {'x': x1 + t + offset, 'y': y1 - offset},
         {'x': B/2, 'y': y1 - offset},
         ]
-        
+
         return outline
-    
+
     fp.append(PolygoneLine(polygone=outline(),layer='F.Fab'))
     fp.append(PolygoneLine(polygone=outline(),layer='F.Fab',x_mirror=B/2))
-    
+
     fp.append(PolygoneLine(polygone=outline(offset=0.15)))
     fp.append(PolygoneLine(polygone=outline(offset=0.15),x_mirror=B/2))
-    
+
     #draw lines between pads on F.Fab
     for i in range(pincount - 1):
         x = (i + 0.5) * pitch
-        
+
         fp.append(Line(start=[x,y1],end=[x,y2],layer='F.Fab'))
-    
+
     """
-    
+
     #connector outline (f.fab layer)
     #y-top
     yt = yp - ph / 2 + 0.3
@@ -164,7 +164,7 @@ for pincount in pins:
     yb = yt + 2.77
     #y-notch
     yn = 0.5
-    
+
     outline = [
     {'x': 0,'y': yt},
     {'x': -B/2 - pitch,'y': yt},
@@ -174,10 +174,10 @@ for pincount in pins:
     {'x': -A/2,'y': yb},
     {'x': 0,'y': yb},
     ]
-    
+
     fp.append(PolygoneLine(polygone=outline,layer='F.Fab'))
     fp.append(PolygoneLine(polygone=outline,layer='F.Fab',x_mirror=0))
-    
+
     #draw pin-1 indicator on F.Fab
     #size of arrow a
     a = 0.6
@@ -186,7 +186,7 @@ for pincount in pins:
         {'x': -B/2 - a/2, 'y': yt},
         {'x': -B/2 + a/2, 'y': yt},
         {'x': -B/2, 'y': yt + a}], layer='F.Fab'))
-        
+
     #draw pin-1 indicator on Silk.S
     ya = -2
     fp.append(PolygoneLine(polygone=[
@@ -195,13 +195,13 @@ for pincount in pins:
         {'x': -B/2 + a/2, 'y': ya - a},
         {'x': -B/2, 'y': ya},
         ]))
-    
+
     #silkscreen
     #offset from pads
     op = 0.3
     #offset from F.fab
     of = 0.15
-    
+
     #Sides
     silk = [
     {'x': -B/2 - pw/2 - op, 'y': yt - of},
@@ -210,34 +210,29 @@ for pincount in pins:
     {'x': -A/2 - of, 'y': yt - of + yn},
     {'x': -A/2 - of, 'y': ym - mh / 2 - op},
     ]
-    
+
     fp.append(PolygoneLine(polygone = silk))
     fp.append(PolygoneLine(polygone = silk, x_mirror = 0))
-    
+
     #bottom line
     fp.append(Line(
         start=[-xm + mw/2 + op, yb + of],
         end  =[ xm - mw/2 - op, yb + of]))
-        
+
     #courtyard
     y1 = yp - ph / 2
     y2 = ym + mh / 2
     x1 = xm + mw / 2
-    
+
     fp.append(RectLine(start=[-x1,y1],end=[x1,y2],layer='F.CrtYd',width=0.05,grid=0.05,offset=0.5))
-    
+
     """
-        
+
     #add a 3D model reference
     fp.append(Model(filename="Connectors_Hirose.3dshapes/" + footprint_name + ".wrl"))
-            
+
     #filename
     filename = output_dir + footprint_name + ".kicad_mod"
 
     file_handler = KicadFileHandler(fp)
     file_handler.writeFile(filename)
-    
-    
-    
-    
-    
