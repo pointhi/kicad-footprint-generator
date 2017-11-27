@@ -1,0 +1,571 @@
+#
+# Pin Sockets - footprint and 3D dimensions
+# NOTE for SMD parts: pins.length is overall length (tip to tip)
+#                     pads.lp_width is overall land pattern width
+# 2017-11-25
+#
+series: THT-1x1.00mm_Vertical
+body:
+    width: 1.5
+    height: 2.1
+    overlength: 0.5
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.3
+    thickness: 0.1
+    drill: 0.5
+    length: 1.8
+    offset: 0.29
+pads:
+    length: 0.85
+    width: 0.85
+    lp_width: 0
+datasheet: https://gct.co/files/drawings/bc065.pdf
+---
+series: THT-1x1.27mm_Vertical
+body:
+    width: 2.54
+    height: 4.4
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.5
+    thickness: 0.2
+    drill: 0.7
+    length: 2.4
+    offset: 0.0
+pads:
+    length: 1.0
+    width: 1.0
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-1x2.00mm_Vertical
+body:
+    width: 2.0
+    height: 5.6
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 0.8
+    length: 2.5
+    offset: 0.0
+pads:
+    length: 1.35
+    width: 1.35
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-1x2.54mm_Vertical
+body:
+    width: 2.54
+    height: 7.0
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 1.0
+    length: 2.9
+    offset: 0.0
+pads:
+    length: 1.7
+    width: 1.7
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-2x1.00mm_Vertical N/A
+body:
+    width: 1.5
+    height: 2.1
+    overlength: 0.75
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.3
+    thickness: 0.1
+    drill: 0.5
+    length: 1.8
+    offset: 0.29
+pads:
+    length: 0
+    width: 0
+    lp_width: 0
+datasheet:
+---
+series: THT-2x1.27mm_Vertical
+body:
+    width: 3.05
+    height: 4.4
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.5
+    thickness: 0.2
+    drill: 0.7
+    length: 2.4
+    offset: 0.0
+pads:
+    length: 1.0
+    width: 1.0
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-2x2.00mm_Vertical
+body:
+    width: 4.0
+    height: 5.6
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 0.8
+    length: 2.5
+    offset: 0.0
+pads:
+    length: 1.35
+    width: 1.35
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-2x2.54mm_Vertical
+body:
+    width: 5.08
+    height: 7.0
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 1.0
+    length: 2.9
+    offset: 0.0
+pads:
+    length: 1.7
+    width: 1.7
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+#
+# Horizontal THT parts
+#
+series: THT-1x1.00mm_Horizontal N/A
+body:
+    width: 1.5
+    height: 2.1
+    overlength: 0.75
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.3
+    thickness: 0.1
+    drill: 0.5
+    length: 1.8
+    offset: 0.29
+pads:
+    length: 0
+    width: 0
+    lp_width: 0
+datasheet:
+---
+series: THT-1x1.27mm_Horizontal
+body:
+    width: 4.3
+    height: 1.8
+    overlength: 0.35
+    offset: 0.15
+pins:
+    min: 3
+    max: 40
+    width: 0.42
+    thickness: 0.15
+    drill: 0.65
+    length: 2.0
+    offset: 0.0
+pads:
+    length: 1.0
+    width: 1.0
+    lp_width: 0
+datasheet: https://gct.co/pdfjs/web/viewer.html?file=/Files/Drawings/BD090.pdf&t=1511593690632
+---
+series: THT-1x2.00mm_Horizontal
+body:
+    width: 6.35
+    height: 2.0
+    overlength: 0.0
+    offset: 1.27
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 0.8
+    length: 2.5
+    offset: 0.2
+pads:
+    length: 1.35
+    width: 1.35
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-1x2.54mm_Horizontal
+body:
+    width: 8.51
+    height: 2.54
+    overlength: 0.0
+    offset: 1.52
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 1.0
+    length: 2.9
+    offset: 0.2
+pads:
+    length: 1.7
+    width: 1.7
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-2x1.00mm_Horizontal N/A
+body:
+    width: 1.5
+    height: 2.1
+    overlength: 0.75
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.3
+    thickness: 0.1
+    drill: 0.5
+    length: 1.8
+    offset: 0.29
+pads:
+    length: 0
+    width: 0
+    lp_width: 0
+datasheet:
+---
+series: THT-2x1.27mm_Horizontal
+body:
+    width: 4.4
+    height: 3.10
+    overlength: 0.35
+    offset: 0.15
+pins:
+    min: 3
+    max: 50
+    width: 0.5
+    thickness: 0.15
+    drill: 0.65
+    length: 2.0
+    offset: 0.15
+pads:
+    length: 1.0
+    width: 1.0
+    lp_width: 0
+datasheet: https://gct.co/pdfjs/web/viewer.html?file=/Files/Drawings/BD091.pdf&t=1511594177220
+---
+series: THT-2x2.00mm_Horizontal
+body:
+    width: 6.35
+    height: 4.0
+    overlength: 0.0
+    offset: 1.27
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 0.8
+    length: 2.5
+    offset: 0.2
+pads:
+    length: 1.35
+    width: 1.35
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+series: THT-2x2.54mm_Horizontal
+body:
+    width: 8.51
+    height: 5.08
+    overlength: 0.0
+    offset: 1.52
+pins:
+    min: 1
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: 1.0
+    length: 2.5
+    offset: 0.2
+pads:
+    length: 1.7
+    width: 1.7
+    lp_width: 0
+datasheet: from Kicad 4.0.7
+---
+#
+# SMD parts
+#
+series: SMD-1x1.00mm_Vertical_Right
+body:
+    width: 1.5
+    height: 2.25
+    overlength: 0.5
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.3
+    thickness: 0.1
+    drill: None
+    length: 2.9
+    offset: 0.0
+pads:
+    length: 1.95
+    width: 0.50
+    lp_width: 3.9
+datasheet: https://gct.co/files/drawings/bc070.pdf
+---
+series: SMD-1x1.00mm_Vertical_Left
+body:
+    width: 1.5
+    height: 2.25
+    overlength: 0.5
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.3
+    thickness: 0.1
+    drill: None
+    length: 2.9
+    offset: 0.0
+pads:
+    length: 1.95
+    width: 0.50
+    lp_width: 3.9
+datasheet: https://gct.co/files/drawings/bc070.pdf
+---
+series: SMD-1x1.27mm_Vertical_Right
+body:
+    width: 1.8
+    height: 4.6
+    overlength: 0.35
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.42
+    thickness: 0.15
+    drill: None
+    length: 3.5
+    offset: 0.0
+pads:
+    length: 1.8
+    width: 0.65
+    lp_width: 4.5
+datasheet: https://gct.co/pdfjs/web/viewer.html?file=/Files/Drawings/BD075.pdf&t=1511594726925
+---
+series: SMD-1x1.27mm_Vertical_Left
+body:
+    width: 1.8
+    height: 4.6
+    overlength: 0.35
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.42
+    thickness: 0.15
+    drill: None
+    length: 3.5
+    offset: 0.0
+pads:
+    length: 1.8
+    width: 0.65
+    lp_width: 4.5
+datasheet: https://gct.co/pdfjs/web/viewer.html?file=/Files/Drawings/BD075.pdf&t=1511594726925
+---
+series: SMD-1x2.00mm_Vertical_Right
+body:
+    width: 2.5
+    height: 4.3
+    overlength: 0.6
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.5
+    thickness: 0.2
+    drill: None
+    length: 4.2
+    offset: 0.0
+pads:
+    length: 2.0
+    width: 0.9
+    lp_width: 5.2
+datasheet: https://www.jayconsystems.com/fileuploader/download/download/?d=1&file=custom%2Fupload%2FFile-1375728122.pdf
+---
+series: SMD-1x2.00mm_Vertical_Left
+body:
+    width: 2.5
+    height: 4.3
+    overlength: 0.6
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.5
+    thickness: 0.2
+    drill: None
+    length: 4.2
+    offset: 0.0
+pads:
+    length: 2.0
+    width: 0.9
+    lp_width: 5.2
+datasheet: https://www.jayconsystems.com/fileuploader/download/download/?d=1&file=custom%2Fupload%2FFile-1375728122.pdf
+---
+series: SMD-1x2.54mm_Vertical_Right
+body:
+    width: 2.54
+    height: 7.1
+    overlength: 0.2
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: None
+    length: 4.54
+    offset: 0.0
+pads:
+    length: 1.9
+    width: 1.0
+    lp_width: 5.2
+datasheet: https://cdn.harwin.com/pdfs/M20-786.pdf
+---
+series: SMD-1x2.54mm_Vertical_Left
+body:
+    width: 2.54
+    height: 7.1
+    overlength: 0.2
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.6
+    thickness: 0.2
+    drill: None
+    length: 4.54
+    offset: 0.0
+pads:
+    length: 1.9
+    width: 1.0
+    lp_width: 5.2
+datasheet: https://cdn.harwin.com/pdfs/M20-786.pdf
+---
+series: SMD-2x1.00mm_Vertical
+body:
+    width: 2.5
+    height: 2.25
+    overlength: 0.5
+    offset: 0.0
+pins:
+    min: 2
+    max: 40
+    width: 0.3
+    thickness: 0.1
+    drill: None
+    length: 3.9
+    offset: 0.0
+pads:
+    length: 1.85
+    width: 0.50
+    lp_width: 4.9
+datasheet: https://gct.co/files/drawings/bc085.pdf
+---
+series: SMD-2x1.27mm_Vertical
+body:
+    width: 2.54
+    height: 4.6
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.4
+    thickness: 0.15
+    drill: None
+    length: 5.11
+    offset: 0.0
+pads:
+    length: 2.1
+    width: 0.75
+    lp_width: 5.7
+datasheet: from Kicad 4.0.7!
+---
+series: SMD-2x2.00mm_Vertical
+body:
+    width: 4.0
+    height: 4.5
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.5
+    thickness: 0.2
+    drill: None
+    length: 6.0
+    offset: 0.0
+pads:
+    length: 2.75
+    width: 1.0
+    lp_width: 9.0
+datasheet: from Kicad 4.0.7
+---
+series: SMD-2x2.54mm_Vertical
+body:
+    width: 5.08
+    height: 7.0
+    overlength: 0.0
+    offset: 0.0
+pins:
+    min: 1
+    max: 40
+    width: 0.64
+    thickness: 0.2
+    drill: None
+    length: 7.84
+    offset: 0.0
+pads:
+    length: 3.0
+    width: 1.0
+    lp_width: 8.04
+datasheet: from Kicad 4.0.7
