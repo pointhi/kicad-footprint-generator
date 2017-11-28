@@ -1,5 +1,6 @@
 # This holds the configuration information
 # using this config file will create KLCv2.x compatible footprints.
+
 lib_name_format_str: "Connectors_Phoenix"
 #lib_name_format_str: "Conn_Phoenix_{series:s}-{style:%s}_{pitch:.2f}"
 manufacturer: "PhoenixContact"
@@ -21,31 +22,6 @@ mount_hole_str: ['', '_MountHole']
 pin_layers: ['*.Cu', '*.Mask'] #, '*.Paste' through hole: no paste!
 mount_hole_layers: ['*.Cu', '*.Mask']
 
-courtyard_distance :  0.5
-courtyard_grid :  0.05
-courtyard_line_width :  0.05
-courtyard_for_mountscrews :  True
-
-silk_body_offset :  0.08
-fab_line_width :  0.1
-silk_line_width :  0.12
-
-with_fab_layer :  True
-inner_details_on_fab :  False
-
-pad_silk_clearance: 0.2
-silk_line_lenght_min: 0.4
-
-references:
-    -
-          layer: 'F.Fab'
-          position: 'top'
-          size: [2,2]
-          fontwidth: 0.2
-values:
-    -
-          layer: 'F.Fab'
-          position: 'bottom'
-          #position: 'inside_bottom'
-          size: [1,1]
-          fontwidth: 0.15
+with_fab_layer :  False
+inner_details_on_fab : False
+courtyard_for_mountscrews : True

@@ -8,11 +8,13 @@ import fnmatch
 import argparse
 import yaml
 
-from options_manager import OptionManager
-
 #sys.path.append(os.path.join(sys.path[0],"..","..")) # load KicadModTree path
 #add KicadModTree to searchpath using export PYTHONPATH="${PYTHONPATH}<absolute path>/kicad-footprint-generator/"
+sys.path.append(os.path.join(sys.path[0], "..", "..", ".."))
 from KicadModTree import *
+
+sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
 
 
 from mstb_params import seriesParams, dimensions, generate_description, all_params
@@ -41,8 +43,15 @@ def generate_one_footprint(model, params, configuration):
     body_top_left=[left_to_pin,upper_to_pin]
     body_bottom_right=v_add(body_top_left,[length,width])
 
-    silk_top_left=v_offset(body_top_left, configuration['silk_body_offset'])
-    silk_bottom_right=v_offset(body_bottom_right, configuration['silk_body_offset'])
+    body_edge={
+        'left': body_top_left[0],
+        'top': body_top_left[1],
+        'right': body_bottom_right[0],
+        'bottom': body_bottom_right[1],
+    }
+
+    silk_top_left=v_offset(body_top_left, configuration['silk_fab_offset'])
+    silk_bottom_right=v_offset(body_bottom_right, configuration['silk_fab_offset'])
 
     center_x = (params.num_pins-1)/2.0*params.pin_pitch
     kicad_mod = Footprint(footprint_name)
@@ -88,11 +97,11 @@ def generate_one_footprint(model, params, configuration):
             {'x':-1, 'y':0}
         ]
         lock_poly_fab=[
-            {'x':-1, 'y':-configuration['silk_body_offset']},
-            {'x':1, 'y':-configuration['silk_body_offset']},
+            {'x':-1, 'y':-configuration['silk_fab_offset']},
+            {'x':1, 'y':-configuration['silk_fab_offset']},
             {'x':1.5/2, 'y':-1.5},
             {'x':-1.5/2, 'y':-1.5},
-            {'x':-1, 'y':-configuration['silk_body_offset']}
+            {'x':-1, 'y':-configuration['silk_fab_offset']}
         ]
         kicad_mod.append(RectLine(start=[silk_top_left[0],silk_bottom_right[1]-1.5], end=[silk_bottom_right[0], silk_bottom_right[1]-1.5-1.8], layer='F.SilkS', width=configuration['silk_line_width']))
         if configuration['inner_details_on_fab']:
@@ -142,7 +151,7 @@ def generate_one_footprint(model, params, configuration):
 
         flanged_line_left = (mount_hole_left[0]+1)
         lock_rect_silk={'start':[-1,0], 'end':[1,-top_thickness], 'layer':'F.SilkS', 'width':configuration['silk_line_width']}
-        lock_rect_fab={'start':[-1,0], 'end':[1,-top_thickness+configuration['silk_body_offset']], 'layer':'F.Fab', 'width':configuration['fab_line_width']}
+        lock_rect_fab={'start':[-1,0], 'end':[1,-top_thickness+configuration['silk_fab_offset']], 'layer':'F.Fab', 'width':configuration['fab_line_width']}
         if params.flanged:
             lock_translation = Translation(mount_hole_left[0], pi1[1])
             lock_translation.append(RectLine(**lock_rect_silk))
@@ -218,8 +227,8 @@ def generate_one_footprint(model, params, configuration):
 
 
     if params.mount_hole:
-        kicad_mod.append(Circle(center=mount_hole_left, radius=seriesParams.mount_screw_head_r+configuration['silk_body_offset'], layer='B.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(Circle(center=mount_hole_right, radius=seriesParams.mount_screw_head_r+configuration['silk_body_offset'], layer='B.SilkS', width=configuration['silk_line_width']))
+        kicad_mod.append(Circle(center=mount_hole_left, radius=seriesParams.mount_screw_head_r+configuration['silk_fab_offset'], layer='B.SilkS', width=configuration['silk_line_width']))
+        kicad_mod.append(Circle(center=mount_hole_right, radius=seriesParams.mount_screw_head_r+configuration['silk_fab_offset'], layer='B.SilkS', width=configuration['silk_line_width']))
 
         kicad_mod.append(Circle(center=mount_hole_right, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=configuration['fab_line_width']))
         kicad_mod.append(Circle(center=mount_hole_left, radius=seriesParams.mount_screw_head_r, layer='B.Fab', width=configuration['fab_line_width']))
@@ -227,31 +236,17 @@ def generate_one_footprint(model, params, configuration):
     ################################################## Courtyard ##################################################
     #if params.angled:
         #p1=[p1[0],-seriesParams.pin_Sy/2]
-    crtyd_top_left=v_offset(body_top_left, configuration['courtyard_distance'])
-    crtyd_bottom_right=v_offset(body_bottom_right, configuration['courtyard_distance'])
+    crtyd_top_left=v_offset(body_top_left, configuration['courtyard_offset']['connector'])
+    crtyd_bottom_right=v_offset(body_bottom_right, configuration['courtyard_offset']['connector'])
     kicad_mod.append(RectLine(start=round_crty_point(crtyd_top_left, configuration['courtyard_grid']), end=round_crty_point(crtyd_bottom_right, configuration['courtyard_grid']), layer='F.CrtYd'))
 
     if params.mount_hole and configuration['courtyard_for_mountscrews']:
-        kicad_mod.append(Circle(center=mount_hole_right, radius=seriesParams.mount_screw_head_r+configuration['courtyard_distance'], layer='B.CrtYd', width=configuration['courtyard_line_width']))
-        kicad_mod.append(Circle(center=mount_hole_left, radius=seriesParams.mount_screw_head_r+configuration['courtyard_distance'], layer='B.CrtYd', width=configuration['courtyard_line_width']))
+        kicad_mod.append(Circle(center=mount_hole_right, radius=seriesParams.mount_screw_head_r+configuration['courtyard_offset']['connector'], layer='B.CrtYd', width=configuration['courtyard_line_width']))
+        kicad_mod.append(Circle(center=mount_hole_left, radius=seriesParams.mount_screw_head_r+configuration['courtyard_offset']['connector'], layer='B.CrtYd', width=configuration['courtyard_line_width']))
 
     ################################################# Text Fields #################################################
-    #getTextFieldDetails(field_definition, crtyd_top, crtyd_bottom, center_x, params)
-    reference_fields = configuration['references']
-    kicad_mod.append(Text(type='reference', text='REF**',
-        **getTextFieldDetails(reference_fields[0], crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
-
-    for additional_ref in reference_fields[1:]:
-        kicad_mod.append(Text(type='user', text='%R',
-        **getTextFieldDetails(additional_ref, crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
-
-    value_fields = configuration['values']
-    kicad_mod.append(Text(type='value', text=footprint_name,
-        **getTextFieldDetails(value_fields[0], crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
-
-    for additional_value in value_fields[1:]:
-        kicad_mod.append(Text(type='user', text='%V',
-            **getTextFieldDetails(additional_value, crtyd_top_left[1], crtyd_bottom_right[1], center_x, params)))
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':crtyd_top_left[1], 'bottom':crtyd_bottom_right[1]}, fp_name=footprint_name, text_y_inside_position='top')
 
     ################################################# Pin 1 Marker #################################################
     if not params.angled:
@@ -286,14 +281,20 @@ def generate_one_footprint(model, params, configuration):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
-    parser.add_argument('--model_filter', type=str, nargs='?',
-                        help='define a filter for what should be generated.', default="*")
-    parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv3.0.yaml')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='config_phoenix_KLCv3.0.yaml')
+    parser.add_argument('--model_filter', type=str, nargs='?', help='define a filter for what should be generated.', default="*")
     args = parser.parse_args()
 
-    with open(args.config, 'r') as config_stream:
+    with open(args.global_config, 'r') as config_stream:
         try:
             configuration = yaml.load(config_stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
 
