@@ -12,7 +12,7 @@ from math import sqrt
 KEEPOUT_DEFAULT_CONFIG={
     'graphical_layer':'Dwgs.User',
     'line_width': 0.1,
-    'hatching_spacing': 1,
+    'hatching_spacing': 2,
     'text':{
         'size':[1,1],
         'fontwidth':0.15,
@@ -34,13 +34,24 @@ def addRectangularKeepout(kicad_mod, center, size, text='KEEPOUT', config=KEEPOU
 
     if size[0] >= size[1]:
         rot = 0
+        longer_size = size[0]
     else:
+        longer_size = size[1]
         rot = 90
+
+    fs = round(longer_size/len(text), 2)
+    if fs > config['text']['size'][0]:
+        size = config['text']['size']
+        thickness = config['text']['fontwidth']
+    else:
+        size = [fs, fs]
+        thickness = config['text']['fontwidth'] * fs
+
 
     kicad_mod.append(Text(type='user', text=text,
         at=center, rotation=rot,
-        layer=config['text']['layer'], size=config['text']['size'],
-        thickness=config['text']['fontwidth']))
+        layer=config['text']['layer'], size=size,
+        thickness=thickness))
 
 
     p1 = {'x':keepout_edges['left'], 'y':keepout_edges['top']}
