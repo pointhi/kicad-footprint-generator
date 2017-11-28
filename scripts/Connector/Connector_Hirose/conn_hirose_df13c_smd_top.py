@@ -118,13 +118,39 @@ def generate_one_footprint(idx, pins, configuration):
     y2 += off
 
     #draw the main outline around the footprint
-    kicad_mod.append(RectLine(start={'x':x1,'y':y1},end={'x':x2,'y':y2},
+    silk_pad_x_left = -A/2 - pad_size[0]/2 - pad_silk_off
+    silk_mp_top = mpad_y - mp_size[1]/2 - pad_silk_off
+    silk_mp_bottom = mpad_y + mp_size[1]/2 + pad_silk_off
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            {'x': silk_pad_x_left,'y':y1},
+            {'x': x1,'y':y1},
+            {'x': x1,'y':silk_mp_top}
+        ],
         layer='F.SilkS', width=configuration['silk_line_width']))
 
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            {'x': -silk_pad_x_left,'y':y1},
+            {'x': x2,'y':y1},
+            {'x': x2,'y':silk_mp_top}
+        ],
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            {'x': x1,'y':silk_mp_bottom},
+            {'x': x1,'y':y2},
+            {'x': x2,'y':y2},
+            {'x': x2,'y':silk_mp_bottom}
+        ],
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+
     #add pin-1 marker
-    p1m_x = -A/2 - pad_size[0]/2 - pad_silk_off
+
     kicad_mod.append(Line(
-        start=[p1m_x, y1], end=[p1m_x, pad_y - pad_size[1]/2],
+        start=[silk_pad_x_left, y1], end=[silk_pad_x_left, pad_y - pad_size[1]/2],
                 layer='F.SilkS', width=configuration['silk_line_width']))
 
     sl=1
