@@ -26,10 +26,10 @@ lib_name_category = 'PCBEdge'
 pinrange = ['05', '08', '20', '30', '40', '50', '60', '70']
 
 pad_size = [0.56,4.00]
-layers_top=['F.Cu', 'F.Mask', 'F.Paste']
-layers_bottom=['B.Cu', 'B.Mask', 'B.Paste']
+layers_top = ['F.Cu', 'F.Mask', 'F.Paste'] #['F.Cu', 'F.Mask']
+layers_bottom = ['B.Cu', 'B.Mask', 'B.Paste'] #['B.Cu', 'B.Mask']
 
-pad_type=Pad.TYPE_SMT
+pad_type = Pad.TYPE_SMT #TYPE_CONNECT
 
 
 K = {   '05': 8.10,
