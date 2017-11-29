@@ -20,17 +20,6 @@ resistor_smaller_0603:
     pad_length_addition: 0
     suffix: ""
 
-resistor_smaller_0603:
-    fp_lib_name: 'Resistor_SMD'
-    size_definitions: ['size_default_chip_devices_smaller_0603.yaml']
-    ipc_reference: "ipc_spec_smaller_0603"
-    prefix: 'R'
-    description: 'Resistor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
-    keywords: 'resistor'
-    ipc_density: 'nominal'
-    pad_length_addition: 0
-    suffix: ""
-
 resistor_smaller_0402:
     fp_lib_name: 'Resistor_SMD'
     size_definitions: ['size_default_chip_devices_smaller_0402.yaml']
@@ -313,3 +302,52 @@ led_castellated:
     pad_length_addition: 0
     polarization_mark: 'True'
     suffix: "_Castellated"
+
+###############################################################################
+fuse:
+    fp_lib_name: 'Fuse'
+    size_definitions: ['size_default_chip_devices.yaml', 'size_fuse.yaml']
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    prefix: 'Fuse'
+    description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'resistor'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: ""
+
+fuse_smaller_0603:
+    fp_lib_name: 'Fuse'
+    size_definitions: ['size_default_chip_devices_smaller_0603.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'Fuse'
+    description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'resistor'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: ""
+
+fuse_smaller_0402:
+    fp_lib_name: 'Fuse'
+    size_definitions: ['size_default_chip_devices_smaller_0402.yaml']
+    ipc_reference: "ipc_spec_smaller_0603"
+    prefix: 'Fuse'
+    description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'resistor'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: ""
+    paste_pad:
+        all_sides_rel: 0.9 #-10%
+        heel_abs: -0.05 # additional heel reduction
+
+fuse_handsolder:
+    fp_lib_name: 'Fuse'
+    size_definitions: ['size_default_chip_devices.yaml', 'size_fuse.yaml']
+    ipc_reference: "ipc_spec_larger_or_equal_0603"
+    prefix: 'Fuse'
+    description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'resistor handsolder'
+    ipc_density: 'nominal'
+    pad_length_addition: 0.35
+    suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
+    include_suffix_in_3dpath: 'False'
