@@ -101,14 +101,19 @@ def generate_one_footprint(weld, pol, pcb_thickness, n, configuration):
     off = configuration['silk_fab_offset']
     CrtYd_offset = configuration['courtyard_offset']['connector']
 
-    fp_name = 'MECF-' + n + '-' + pcb_thickness + '-'
+    fp_name = 'Samtec_MECF-' + n + '-' + pcb_thickness + '-'
     if pol == False:
         fp_name = fp_name + 'NP-'
     fp_name = fp_name + 'L-DV'
     if weld == True:
         fp_name = fp_name + '-WT'
 
+    fp_name += '_{:d}x{:02d}'.format(2,int(n))
+    if pol:
+        fp_name += '_Polarized'
+
     fp_name = fp_name + '_Socket'
+    fp_name = fp_name + '_Horizontal'
 
     kicad_mod = Footprint(fp_name)
 

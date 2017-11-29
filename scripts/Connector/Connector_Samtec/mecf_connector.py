@@ -69,13 +69,15 @@ POL = { '05': [ 3],
 def generate_one_footprint(pol, n, configuration):
     off = configuration['silk_fab_offset']
     CrtYd_offset = configuration['courtyard_offset']['default']
-    fp_name = 'MECF-' + n + '-0_-'
+    fp_name = 'Samtec_MECF-' + n + '-0_-'
     if pol == False:
         fp_name = fp_name + 'NP-'
-    fp_name = fp_name + 'L-DV'
+    fp_name += 'L-DV'
 
-
-    fp_name = fp_name + '_Edge'
+    fp_name += '_{:d}x{:02d}'.format(2,int(n))
+    if pol:
+        fp_name += '_Polarized'
+    fp_name += '_Edge'
 
     kicad_mod = Footprint(fp_name)
 
