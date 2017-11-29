@@ -42,6 +42,11 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
+manufacturer = "TE-Connectivity"
+conn_category = "FFC-FPC"
+
+lib_by_conn_category = True
+
 partnumbers = ["84952","84953"]
 pincounts = range(4, 31)
 
@@ -76,15 +81,22 @@ def generate_one_footprint(partnumber, pincount, configuration):
     half_actuator_width = pad_x_span / 2.0 + 4.46
     ear_height = 0.89
 
-    silk_clearance = 0.36
-    marker_y = 1.8
-    nudge = 0.12
+    body_edge = {
+        'left': -half_body_width,
+        'right': half_body_width,
+        'top': body_y1,
+        'bottom': actuator_y1
+    }
 
-    courtyard_precision = 0.01
-    courtyard_clearance = 0.5
-    courtyard_x = round_to(half_actuator_width + courtyard_clearance, courtyard_precision)
-    courtyard_y1 = round_to(pad_y - pad_height / 2.0 - courtyard_clearance, courtyard_precision)
-    courtyard_y2 = round_to(actuator_y2 + courtyard_clearance, courtyard_precision)
+    silk_clearance = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
+    marker_y = 1.8
+    nudge = configuration['silk_fab_offset']
+
+    courtyard_precision = configuration['courtyard_grid']
+    courtyard_clearance = configuration['courtyard_offset']['connector']
+    courtyard_x = roundToBase(half_actuator_width + courtyard_clearance, courtyard_precision)
+    courtyard_y1 = roundToBase(pad_y - pad_height / 2.0 - courtyard_clearance, courtyard_precision)
+    courtyard_y2 = roundToBase(actuator_y2 + courtyard_clearance, courtyard_precision)
 
     label_y_offset = 0.7
 
@@ -102,51 +114,107 @@ def generate_one_footprint(partnumber, pincount, configuration):
     kicad_mod.setTags('te fpc {:s}'.format(partnumber))
     kicad_mod.setAttribute('smd')
 
-    # set general values
-    kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[0, courtyard_y1 - label_y_offset], layer='F.SilkS'))
-    kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[0, tab_y], layer='F.Fab'))
-    kicad_mod.append(Text(type='value', text=footprint_name, at=[0, courtyard_y2 + label_y_offset], layer='F.Fab'))
 
     # create pads
-    kicad_mod.append(PadArray(pincount=pincount, x_spacing=pitch, center=[0,pad_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[pad_width, pad_height], layers=Pad.LAYERS_SMT))
+    kicad_mod.append(PadArray(pincount=pincount, x_spacing=pitch, center=[0,pad_y],
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+        size=[pad_width, pad_height], layers=Pad.LAYERS_SMT))
 
     # create tab (smt mounting) pads
-    kicad_mod.append(Pad(at=[-tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[tab_width, tab_height], layers=Pad.LAYERS_SMT))
-    kicad_mod.append(Pad(at=[tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=[tab_width, tab_height], layers=Pad.LAYERS_SMT))
+    kicad_mod.append(Pad(at=[-tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+        size=[tab_width, tab_height], layers=Pad.LAYERS_SMT))
+    kicad_mod.append(Pad(at=[tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+        size=[tab_width, tab_height], layers=Pad.LAYERS_SMT))
 
     # create fab outline and pin 1 marker
-    kicad_mod.append(PolygoneLine(polygone=[[-half_body_width, body_y1],[half_body_width, body_y1],[half_body_width, actuator_y1-ear_height],\
-            [half_actuator_width, actuator_y1-ear_height],[half_actuator_width, actuator_y1],[-half_actuator_width, actuator_y1],\
-            [-half_actuator_width, actuator_y1-ear_height],[-half_body_width, actuator_y1-ear_height],[-half_body_width, body_y1]], layer='F.Fab'))
-    kicad_mod.append(PolygoneLine(polygone=[[-pad1_x-0.5, body_y1],[-pad1_x, body_y1+1],[-pad1_x+0.5, body_y1]], layer='F.Fab'))
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            [-half_body_width, body_y1],
+            [half_body_width, body_y1],
+            [half_body_width, actuator_y1-ear_height],
+            [half_actuator_width, actuator_y1-ear_height],
+            [half_actuator_width, actuator_y1],
+            [-half_actuator_width, actuator_y1],
+            [-half_actuator_width, actuator_y1-ear_height],
+            [-half_body_width, actuator_y1-ear_height],
+            [-half_body_width, body_y1]],
+        layer='F.Fab', width=configuration['fab_line_width']))
+
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            [-pad1_x-0.5, body_y1],
+            [-pad1_x, body_y1+1],
+            [-pad1_x+0.5, body_y1]],
+        layer='F.Fab', width=configuration['fab_line_width']))
 
     # create open actuator outline
-    kicad_mod.append(PolygoneLine(polygone=[[half_body_width, actuator_y1],[half_body_width, actuator_y2-ear_height],\
-            [half_actuator_width, actuator_y2-ear_height],[half_actuator_width, actuator_y2],[-half_actuator_width, actuator_y2],\
-            [-half_actuator_width, actuator_y2-ear_height],[-half_body_width, actuator_y2-ear_height],[-half_body_width, actuator_y1]], layer='F.Fab', width=0.1))
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            [half_body_width, actuator_y1],
+            [half_body_width, actuator_y2-ear_height],
+            [half_actuator_width, actuator_y2-ear_height],
+            [half_actuator_width, actuator_y2],
+            [-half_actuator_width, actuator_y2],
+            [-half_actuator_width, actuator_y2-ear_height],
+            [-half_body_width, actuator_y2-ear_height],
+            [-half_body_width, actuator_y1]],
+        layer='F.Fab', width=configuration['fab_line_width']))
 
     # create silkscreen outline and pin 1 marker
-    kicad_mod.append(PolygoneLine(polygone=[[half_body_width+nudge, tab_y+tab_height/2.0+silk_clearance],[half_body_width+nudge, actuator_y1-ear_height-nudge],\
-            [half_actuator_width+nudge, actuator_y1-ear_height-nudge],[half_actuator_width+nudge, actuator_y1+nudge],[-half_actuator_width-nudge, actuator_y1+nudge],\
-            [-half_actuator_width-nudge, actuator_y1-ear_height-nudge],[-half_body_width-nudge, actuator_y1-ear_height-nudge],\
-            [-half_body_width-nudge, tab_y+tab_height/2.0+silk_clearance]], layer='F.SilkS'))
-    kicad_mod.append(PolygoneLine(polygone=[[-tab_x+tab_width/2.0+silk_clearance, body_y1-nudge],[-pad1_x-pad_width/2.0-silk_clearance, body_y1-nudge],\
-            [-pad1_x-pad_width/2.0-silk_clearance, body_y1-nudge-marker_y]], layer='F.SilkS'))
-    kicad_mod.append(Line(start=[pad1_x+pad_width/2.0+silk_clearance, body_y1-nudge], end=[tab_x-tab_width/2.0-silk_clearance, body_y1-nudge], layer='F.SilkS'))
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            [half_body_width+nudge, tab_y+tab_height/2.0+silk_clearance],
+            [half_body_width+nudge, actuator_y1-ear_height-nudge],
+            [half_actuator_width+nudge, actuator_y1-ear_height-nudge],
+            [half_actuator_width+nudge, actuator_y1+nudge],
+            [-half_actuator_width-nudge, actuator_y1+nudge],
+            [-half_actuator_width-nudge, actuator_y1-ear_height-nudge],
+            [-half_body_width-nudge, actuator_y1-ear_height-nudge],
+            [-half_body_width-nudge, tab_y+tab_height/2.0+silk_clearance]],
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            [-tab_x+tab_width/2.0+silk_clearance, body_y1-nudge],
+            [-pad1_x-pad_width/2.0-silk_clearance, body_y1-nudge],
+            [-pad1_x-pad_width/2.0-silk_clearance, body_y1-nudge-marker_y]],
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    kicad_mod.append(Line(
+        start=[pad1_x+pad_width/2.0+silk_clearance, body_y1-nudge],
+        end=[tab_x-tab_width/2.0-silk_clearance, body_y1-nudge],
+        layer='F.SilkS', width=configuration['silk_line_width']))
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[-courtyard_x, courtyard_y1], end=[courtyard_x, courtyard_y2], layer='F.CrtYd'))
+    kicad_mod.append(RectLine(start=[-courtyard_x, courtyard_y1], end=[courtyard_x, courtyard_y2],
+        layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    # kicad_mod.append(Text(type='reference', text='REF**', size=[1,1], at=[0, courtyard_y1 - label_y_offset], layer='F.SilkS'))
+    # kicad_mod.append(Text(type='user', text='%R', size=[1,1], at=[0, tab_y], layer='F.Fab'))
+    # kicad_mod.append(Text(type='value', text=footprint_name, at=[0, courtyard_y2 + label_y_offset], layer='F.Fab'))
 
-    # add model
-    kicad_mod.append(Model(filename="${{KISYS3DMOD}}/Connectors_TE-Connectivity.3dshapes/{:s}.wrl".format(footprint_name), at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
+    ######################### Text Fields ###############################
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
+        courtyard={'top':courtyard_y1, 'bottom':courtyard_y2}, fp_name=footprint_name, text_y_inside_position=[0, tab_y])
 
-    # print render tree
-    if args.verbose:
-        print(kicad_mod.getRenderTree())
+    ##################### Output and 3d model ############################
+    model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
 
-    # write file
+    if lib_by_conn_category:
+        lib_name = configuration['lib_name_specific_function_format_string'].format(category=conn_category)
+    else:
+        lib_name = configuration['lib_name_format_string'].format(man=manufacturer)
+
+    model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+        model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
+    kicad_mod.append(Model(filename=model_name))
+
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
+    filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name)
+
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile('{:s}.kicad_mod'.format(footprint_name))
+    file_handler.writeFile(filename)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
