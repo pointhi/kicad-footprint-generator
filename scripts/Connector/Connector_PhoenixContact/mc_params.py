@@ -28,7 +28,7 @@ class seriesParams():
     # Rated surge voltage (III/3) 2.5 kV
     # Rated surge voltage (III/2) 2.5 kV
     # Rated surge voltage (II/2) 2.5 kV
-    # VDE 0110-1/4.97 4kV -> 3mm clearance
+    # VDE 0110-1/4.97 2.5kV -> 1.5mm clearance
     min_pad_to_pad_clearance = 1.5
 
     # Connector voltage ratings:
