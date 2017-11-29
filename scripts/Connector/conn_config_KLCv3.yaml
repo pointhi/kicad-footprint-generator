@@ -12,3 +12,4 @@ keyword_fp_string: 'connector {man:s} {series:s} {entry:s}'
 
 #lib_name_format_string: 'Conn_{man:s}_{series:s}'
 lib_name_format_string: 'Connector_{man:s}'
+lib_name_specific_function_format_string: 'Connector_{category:s}'

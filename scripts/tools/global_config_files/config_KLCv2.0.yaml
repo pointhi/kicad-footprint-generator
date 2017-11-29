@@ -16,6 +16,8 @@ courtyard_offset:
     connector: 0.5
     bga: 1
 
+edge_cuts_line_width: 0.12
+
 references:
     -
           layer: 'F.SilkS'
