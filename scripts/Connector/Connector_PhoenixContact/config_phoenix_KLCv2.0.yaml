@@ -1,0 +1,27 @@
+# This holds the configuration information
+# using this config file will create KLCv2.x compatible footprints.
+
+lib_name_format_str: "Connectors_Phoenix"
+#lib_name_format_str: "Conn_Phoenix_{series:s}-{style:%s}_{pitch:.2f}"
+manufacturer: "PhoenixContact"
+
+
+#fp_name_format_string: '{man:s}_{series:s}_{mpn:s}_{num_pins:02d}x{pitch:.2f}mm_{orientation:s}{flanged:s}{mount_hole:s}'
+fp_name_format_string: '{man:s}_{mpn:s}_{num_pins:02d}x{pitch:.2f}mm_{orientation:s}{flanged:s}{mount_hole:s}'
+#mpn_format_string: '{subseries:s}_{rating:s}_{num_pins:s}-{style:s}{pitch:s}'
+mpn_format_string: '{subseries:s}-{style:s}'
+mpn_format_string_description: '{subseries:s}_{rating:s}/{num_pins:d}-{style:s}{pitch:s}'
+3d_model_prefix: '${KISYS3DMOD}/'
+#keywords_format_string: 'phoenix_contact connector {mpn:s}{param_name:s}{order_info:s}'
+keywords_format_string: 'phoenix_contact connector {param_name:s}'
+
+orientation_str: ['Vertical', 'Angled']
+flanged_str: ['', '_ThreadedFlange']
+mount_hole_str: ['', '_MountHole']
+
+pin_layers: ['*.Cu', '*.Mask'] #, '*.Paste' through hole: no paste!
+mount_hole_layers: ['*.Cu', '*.Mask']
+
+with_fab_layer :  True
+inner_details_on_fab : False
+courtyard_for_mountscrews : True
