@@ -74,7 +74,7 @@ def generate_one_footprint(pol, n, configuration):
         fp_name = fp_name + 'NP-'
     fp_name += 'L-DV'
 
-    fp_name += '_{:d}x{:02d}'.format(2,int(n))
+    fp_name += '_{:d}x{:02d}_P{:.2f}mm'.format(2,int(n),1.27)
     if pol:
         fp_name += '_Polarized'
     fp_name += '_Edge'

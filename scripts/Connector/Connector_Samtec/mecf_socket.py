@@ -108,7 +108,7 @@ def generate_one_footprint(weld, pol, pcb_thickness, n, configuration):
     if weld == True:
         fp_name = fp_name + '-WT'
 
-    fp_name += '_{:d}x{:02d}'.format(2,int(n))
+    fp_name += '_{:d}x{:02d}_P{:.2f}mm'.format(2,int(n),1.27)
     if pol:
         fp_name += '_Polarized'
 
