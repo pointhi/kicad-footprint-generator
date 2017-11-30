@@ -65,6 +65,8 @@ boss_drill = 1.45
 shield_pad_drill = 1
 shield_pad_size = 1.5
 
+pin_number_shield = 0 #"SH"
+
 def generate_one_footprint(pins_per_row, params, configuration):
     mpn = part_code.format(n=pins_per_row, shield=params['mpn_option'])
 
@@ -86,6 +88,7 @@ def generate_one_footprint(pins_per_row, params, configuration):
     footprint_name += params['fp_name_suffix']
 
     kicad_mod = Footprint(footprint_name)
+    kicad_mod.setAttribute('smd')
     kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
@@ -139,11 +142,13 @@ def generate_one_footprint(pins_per_row, params, configuration):
                         layers=Pad.LAYERS_NPTH))
 
     if params['shield_pad']:
-        kicad_mod.append(Pad(number = 0, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
+        kicad_mod.append(Pad(number = pin_number_shield,
+                            type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
                             at=[shield_pad_x, shield_pad_y],
                             size=shield_pad_size, drill=shield_pad_drill,
                             layers=Pad.LAYERS_THT))
-        kicad_mod.append(Pad(number = 0, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
+        kicad_mod.append(Pad(number = pin_number_shield,
+                            type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
                             at=[-shield_pad_x, shield_pad_y],
                             size=shield_pad_size, drill=shield_pad_drill,
                             layers=Pad.LAYERS_THT))
