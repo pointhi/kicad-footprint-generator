@@ -21,11 +21,11 @@ pins_per_row_range = range(2,23)
 series = ""
 series_long = 'LY 20 series connector'
 manufacturer = 'JAE'
-orientation = 'V'
+orientation = 'H'
 number_of_rows = 2
-datasheet='http://www.jae.com/z-en/pdf_download_exec.cfm?param=SJ103130.pdf'
+datasheet='http://www.jae.com/z-en/pdf_download_exec.cfm?param=SJ038187.pdf'
 
-part_code = "LY20-{:d}P-DT1"
+part_code = "LY20-{:d}P-DLT1"
 
 # def get_name(pin_count):
 #     return 'Molex-502250-{0}91_2Rows-{0}Pins_P0.3mm_Horizontal'.format(pin_count)
@@ -71,12 +71,14 @@ def make_module(pins_per_row, configuration):
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
 
-    W = 5.3
-    Wi = 4.2
+    Wi = 4.8
+    T = 2.8
+    W = Wi + T
+
 
     body_edge = {}
-    body_edge['left'] = -(W - pitch_row)/2
-    body_edge['right'] = body_edge['left'] + W
+    body_edge['right'] = pitch_row + 2.2 + T
+    body_edge['left'] = body_edge['right'] - W
 
     A = (pins_per_row-1)*pitch
     B = (A - 8) if A >= 8 else 0
@@ -108,62 +110,85 @@ def make_module(pins_per_row, configuration):
         layer="F.Fab", width=configuration['fab_line_width']
     ))
 
-    kicad_mod.append(RectLine(
-        start=[body_edge['left'], body_edge['top']],
-        end=[body_edge['right'], body_edge['bottom']],
-        layer="F.SilkS", width=configuration['silk_line_width'],
-        offset=off
-    ))
+    r_no_silk = max(pad_size)/2 + pad_silk_off
+    dx = abs(body_edge['left']) + off
+    pin_center_silk_y = 0 if dx >= r_no_silk else sqrt(r_no_silk**2-dx**2)
 
-    # inside
-    CW = 1
-    xil = body_edge['left'] + (W - Wi)/2
-    xir =xil + Wi
-    yit = body_edge['top'] + (E-D)/2
-    yt1 = A/2-C/2
-    yb1 = A/2+C/2
-    yt2 = A/2-B/2
+    YCb = A/2+C/2
+    YCt = A/2-C/2
+    YBb = A/2+B/2
 
-    poly_left_t = [
-        {'x': pitch_row-CW/2, 'y': body_edge['top'] - off},
-        {'x': pitch_row-CW/2, 'y': yit},
-        {'x': xil, 'y': yit},
-        {'x': xil, 'y': yt1},
-        {'x': body_edge['left']-off, 'y': yt1},
+
+    poly_silk_b = [
+        {'x': body_edge['left']-off, 'y': A+pin_center_silk_y},
+        {'x': body_edge['left']-off, 'y': body_edge['bottom']+off},
+        {'x': body_edge['right']+off, 'y': body_edge['bottom']+off},
+        {'x': body_edge['right']+off, 'y': YCb},
     ]
-    if C == 0:
-        del poly_left_t[-1]
-
-    kicad_mod.append(PolygoneLine(polygone=poly_left_t,
+    if C > 0:
+        poly_silk_b.extend([
+            {'x': body_edge['right']-T, 'y': YCb},
+            {'x': body_edge['right']-T, 'y': A/2},
+        ])
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_b,
         layer="F.SilkS", width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=poly_left_t, y_mirror=A/2,
+    kicad_mod.append(PolygoneLine(polygone=poly_silk_b, y_mirror=A/2,
         layer="F.SilkS", width=configuration['silk_line_width']))
 
-    poly_right_t = [
-        {'x': pitch_row+CW/2, 'y': body_edge['top'] - off},
-        {'x': pitch_row+CW/2, 'y': yit},
-        {'x': xir, 'y': yit},
-        {'x': xir, 'y': yt2},
-        {'x': body_edge['right']+off, 'y': yt2},
-    ]
-    if B == 0:
-        del poly_right_t[-1]
+
+    if pin_center_silk_y == 0:
+        kicad_mod.append(Line(
+            start=[body_edge['left']-off, 0],
+            end=[body_edge['left']-off, A],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
     else:
-        kicad_mod.append(Line(
-            start={'x': body_edge['right']+off, 'y': yt1},
-            end={'x': xir, 'y': yt1},
-            layer="F.SilkS", width=configuration['silk_line_width']
-        ))
-        kicad_mod.append(Line(
-            start={'x': body_edge['right']+off, 'y': yb1},
-            end={'x': xir, 'y': yb1},
-            layer="F.SilkS", width=configuration['silk_line_width']
-        ))
+        for i in range(pins_per_row-1):
+            yt = i*pitch + pin_center_silk_y
+            yb = (i+1)*pitch - pin_center_silk_y
+            kicad_mod.append(Line(
+                start=[body_edge['left']-off, yt],
+                end=[body_edge['left']-off, yb],
+                layer="F.SilkS", width=configuration['silk_line_width']
+            ))
 
-    kicad_mod.append(PolygoneLine(polygone=poly_right_t,
-        layer="F.SilkS", width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=poly_right_t, y_mirror=A/2,
-        layer="F.SilkS", width=configuration['silk_line_width']))
+    x1 = body_edge['right']-T
+
+    pin_w = 0.5
+    pin_L = 2.7
+    pin_chamfer_x = pin_w/3
+
+
+    if B>0:
+        x2 = x1 + 2 # estimated from drawing
+        poly = [
+            {'x': x2, 'y':YCb},
+            {'x': x2, 'y':YBb+pin_w/2}
+        ]
+        kicad_mod.append(PolygoneLine(polygone=poly,
+            layer="F.SilkS", width=configuration['silk_line_width']))
+        kicad_mod.append(PolygoneLine(polygone=poly, y_mirror=A/2,
+            layer="F.SilkS", width=configuration['silk_line_width']))
+
+
+    #pins
+    if C>0:
+        for i in range(pins_per_row):
+            ypc = i*pitch
+
+            x3 = x1 + pin_L
+            x2 = x3 - pin_chamfer_x
+
+            if ypc - pin_w/2 >= YCt and ypc + pin_w/2 <= YCb:
+                pin_poly = [
+                    {'x': x1, 'y': ypc-pin_w/2},
+                    {'x': x2, 'y': ypc-pin_w/2},
+                    {'x': x3, 'y': ypc},
+                    {'x': x2, 'y': ypc+pin_w/2},
+                    {'x': x1, 'y': ypc+pin_w/2}
+                ]
+                kicad_mod.append(PolygoneLine(polygone=pin_poly,
+                    layer="F.SilkS", width=configuration['silk_line_width']))
 
     ########################### Pin 1 #################################
 
@@ -197,7 +222,7 @@ def make_module(pins_per_row, configuration):
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='right')
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='bottom')
 
     ##################### Output and 3d model ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
