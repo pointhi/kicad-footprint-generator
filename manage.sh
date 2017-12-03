@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-BASE_DIR=$(dirname `readlink -f $0`)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+command -v greadlink >/dev/null 2>&1 || { echo >&2 "greadlink not found. Install using 'brew install coreutils'"; exit 1; }
+BASE_DIR="$(dirname "$(greadlink -f "$0")")"
+else
+BASE_DIR="$(dirname "$(readlink -f "$0")")"
+fi
+
 PYTHONPATH=$BASE_DIR
 KICADMODTREE_DIR="$BASE_DIR/KicadModTree"
 ACTION=$1
