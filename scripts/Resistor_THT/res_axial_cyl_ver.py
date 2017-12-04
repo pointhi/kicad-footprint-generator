@@ -4,7 +4,7 @@
 
 
 
- # R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical
+ # Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -29,12 +29,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical.FCStd")
-print("created R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical")
 
 
- # R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical
+ # Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -59,12 +59,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.FCStd")
-print("created R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical")
 
 
- # R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -89,12 +89,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical
+ # Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -119,12 +119,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical.FCStd")
-print("created R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical")
 
 
- # R_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -149,12 +149,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical
+ # Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -179,12 +179,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical.FCStd")
-print("created R_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P2.54mm_Vertical")
 
 
- # R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -209,12 +209,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -239,12 +239,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical
+ # Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -269,12 +269,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical.FCStd")
-print("created R_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0411_L9.9mm_D3.6mm_P7.62mm_Vertical")
 
 
- # R_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -299,12 +299,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical
+ # Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -329,12 +329,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical.FCStd")
-print("created R_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0414_L11.9mm_D4.5mm_P7.62mm_Vertical")
 
 
- # R_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -359,12 +359,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical
+ # Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -389,12 +389,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical.FCStd")
-print("created R_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0516_L15.5mm_D5.0mm_P7.62mm_Vertical")
 
 
- # R_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -419,12 +419,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical
+ # Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -449,12 +449,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical.FCStd")
-print("created R_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0614_L14.3mm_D5.7mm_P7.62mm_Vertical")
 
 
- # R_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical
+ # Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -479,12 +479,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical.FCStd")
-print("created R_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P5.08mm_Vertical")
 
 
- # R_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical
+ # Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -509,12 +509,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical.FCStd")
-print("created R_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0617_L17.0mm_D6.0mm_P7.62mm_Vertical")
 
 
- # R_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical
+ # Resistor_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -539,12 +539,12 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical.FCStd")
-print("created R_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0918_L18.0mm_D9.0mm_P7.62mm_Vertical")
 
 
- # R_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical
+ # Resistor_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical
 import FreeCAD
 import os
 import os.path
@@ -569,6 +569,6 @@ for obj in doc.Objects:
     if obj.ViewObject.Visibility:
         __objs__.append(obj)
 
-FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical.wrl")
-doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"R_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical.FCStd")
-print("created R_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical")
+FreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical.wrl")
+doc.saveCopy(os.path.split(doc.FileName)[0]+os.sep+"Resistor_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical.FCStd")
+print("created Resistor_Axial_DIN0922_L20.0mm_D9.0mm_P7.62mm_Vertical")
