@@ -206,11 +206,11 @@ if __name__ == '__main__':
     # radial resistors, simple
     rm2=0; w2=0
     type = "simple"; seriesname = "Radial_Power"; add_description = "http://www.vishay.com/docs/30218/cpcx.pdf"; name_additions=[]
-    w = 11; w2=w-2; h = 7; ddrill = 1.2; rm=5; rm2=0; R_POW=2
+    w = 11.0; w2=w-2.0; h = 7.0; ddrill = 1.2; rm=5.0; rm2=0; R_POW=2
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=20.5)
-    w = 12; w2=w-2; h = 8; ddrill = 1.2; rm=5; rm2=0; R_POW=3
+    w = 12.0; w2=w-2.0; h = 8.0; ddrill = 1.2; rm=5.0; rm2=0; R_POW=3
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=24.99)
-    w = 13; w2=w-2; h = 9; ddrill = 1.2; rm=5; rm2=0; R_POW=7
+    w = 13.0; w2=w-2.0; h = 9.0; ddrill = 1.2; rm=5.0; rm2=0; R_POW=7
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=39)
     w = 16.1; w2=w-3; h = 9; ddrill = 1.4; rm=7.37; rm2=0; R_POW=10
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=True, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=34.85)
