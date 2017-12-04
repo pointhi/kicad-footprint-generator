@@ -34,19 +34,19 @@ if __name__ == '__main__':
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
     d2=0
-    seriesname = "Axial_DIN0204"; w=3.6; d=1.6; ddrill=0.7; R_POW=1/6; add_description="http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf"; name_additions=[]
+    seriesname = "Axial_DIN0204"; w=3.6; d=1.6; ddrill=0.7; R_POW=1.0/6.0; add_description="http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf"; name_additions=[]
     for rm in [5.08, 7.62]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2,  x_3d=[0,0,0], s_3d=[1,1,1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3d)
     for rm in [1.9,2.54, 5.08]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
 
-    seriesname = "Axial_DIN0207"; w = 6.3; d = 2.5; ddrill = 0.8; R_POW = 1 / 4; add_description="http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf"; name_additions=[]
+    seriesname = "Axial_DIN0207"; w = 6.3; d = 2.5; ddrill = 0.8; R_POW = 0.25; add_description="http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf"; name_additions=[]
     for rm in [7.62, 10.16, 15.24]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0,0,0], s_3d=[1,1,1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3d)
     for rm in [2.54, 5.08]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3dv)
 
-    seriesname="Axial_DIN0309"; w = 9; d = 3.2; ddrill = 0.8; R_POW = 1 / 2; add_description="http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf"; name_additions=[]
+    seriesname="Axial_DIN0309"; w = 9; d = 3.2; ddrill = 0.8; R_POW = 0.5; add_description="http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf"; name_additions=[]
     for rm in [12.7, 15.24, 20.32, 25.4]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0,0,0], s_3d=[1,1,1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[],script3d=script3d)
     for rm in [2.54, 5.08]:
