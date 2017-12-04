@@ -16,6 +16,18 @@ from footprint_global_properties import *
 
 slk_offset=lw_slk
 
+# classnamefancy -> long form of class name for description field
+# part names uses short/ordinary classname
+def getFancyClassName(classname="R"):
+    if (classname == "R"):
+        classnamefancy = "Resistor"
+    elif (classname == "D"):
+        classnamefancy = "Diode"
+    elif (classname == "L"):
+        classnamefancy == "Inductor"
+    else:
+        classnamefancy = classname
+    return classnamefancy
 
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
 # optionally with additional shunt leads: hasShuntPins=True, shuntPinsRM=DISTANCE
@@ -75,6 +87,8 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         if (1/R_POW==int(1/R_POW)) and (R_POW<1.0):
             pow_rat=pow_rat+" = 1/{0}W".format(int(1/R_POW))
 
+    classnamefancy = getFancyClassName(classname)
+        
     fnpins="_P{0:0.2f}mm".format(rmdisp)
     if hasShuntPins:
         fnpins = "_PS{0:0.2f}mm_P{1:0.2f}mm".format(shuntPinsRM,rmdisp)
@@ -84,18 +98,22 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         footprint_name=classname+snfp+fnpins+"_Horizontal"
     else:
         footprint_name=classname+"{3}_L{1:0.1f}mm_D{2:0.1f}mm{0}_Horizontal".format(fnpins,w,d,snfp)
-    description=classname+"{3}, Axial, Horizontal, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc,sn)
-    tags=classname+"{3} Axial Horizontal pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
+
     if type=="box":
         footprint_name = classname+"{4}_L{3:0.1f}mm_W{1:0.1f}mm{0}".format(fnpins, d,d2,w, snfp)
         dimdesc = "length*width*height={0}*{1}*{1}mm^3".format(w,d, d2)
         dimdesct = "length {0}mm width {1}mm height {1}mm".format(w, d, d2)
+        description=classnamefancy+"{3}, Box, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc,sn)
+        tags=classnamefancy+"{3} Box pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
     elif type=="bridge":
         footprint_name = classname+"{3}_L{2:0.1f}mm_W{1:0.1f}mm{0}".format(fnpins, d,w, snfp)
         dimdesc = "length*width={0}*{1}mm^2".format(w,d)
         dimdesct = "length {0}mm width {1}mm ".format(w, d)
-        description=classname+"{3}, Bare Metal Strip/Wire, Horizontal, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc,sn)
-        tags=classname+"{3} Bare Metal Strip Wire Horizontal pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
+        description=classnamefancy+"{3}, Bare Metal Strip/Wire, Horizontal, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc,sn)
+        tags=classnamefancy+"{3} Bare Metal Strip Wire Horizontal pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
+    else:
+        description=classnamefancy+"{3}, Axial, Horizontal, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc,sn)
+        tags=classnamefancy+"{3} Axial Horizontal pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
 
 
     if hasShuntPins:
@@ -328,6 +346,8 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     dimdesc = "length*diameter={0}*{1}mm^2".format(l, d)
     dimdesct = "length {0}mm diameter {1}mm".format(l, d)
 
+    classnamefancy = getFancyClassName(classname)
+    
     if deco=="diode":
         footprint_name = classname+"{1}_P{0:0.2f}mm_Vertical_AnodeUp".format(rmdisp, snfp)
     elif deco=="diode_KUP":
@@ -336,12 +356,12 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
         footprint_name = classname+"{3}_L{1:0.1f}mm_D{2:0.1f}mm_P{0:0.2f}mm_Vertical".format(rmdisp, l, d, snfp)
 
     if type == "box":
-        footprint_name = classname+"{4}_L{3:0.1f}mm_W{1:0.1f}mm_P{0:0.2f}mm_Vertical".format(rmdisp, d, d2,
-                                                                                                         l, snfp)
+        footprint_name = classname+"{4}_L{3:0.1f}mm_W{1:0.1f}mm_P{0:0.2f}mm_Vertical".format(rmdisp, d, d2, l, snfp)
         dimdesc = "length*width*height={0}*{1}*{1}mm^3".format(l, d, d2)
         dimdesct = "length {0}mm width {1}mm height {1}mm".format(l, d, d2)
-    description = classname+"{3}, Axial, Vertical, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc, sn)
-    tags = classname+"{3} Axial Vertical pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
+        
+    description = classnamefancy+"{3}, Axial, Vertical, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc, sn)
+    tags = classnamefancy+"{3} Axial Vertical pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
 
     for t in specialtags:
         description = description + ", " + t
@@ -723,6 +743,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
         dimdesc = "diameter*width={0}*{1}mm^2".format(w, h)
         dimdesct = "diameter {0}mm width {1}mm".format(w, h)
 
+    classnamefancy = getFancyClassName(classname)
+        
     if type=="round" or type == "concentric":
         if w==h:
             dimdesc = "diameter={0}mm".format(w)
@@ -735,8 +757,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
         footprint_name = classname+"{3}_D{1:0.1f}mm_W{2:0.1f}mm{0}".format(fnpins, w, h, snfp)
     else:
         footprint_name = classname+"{3}_L{1:0.1f}mm_W{2:0.1f}mm{0}".format(fnpins, w, h, snfp)
-    description = classname+"{3}, Radial, pin pitch={0}, {1}, {2}".format(pind, pow_rat, dimdesc, sn)
-    tags = classname+"{3} Radial pin pitch {0} {1} {2}".format(pind, pow_rat, dimdesct, snt)
+    description = classnamefancy+"{3}, Radial, pin pitch={0}, {1}, {2}".format(pind, pow_rat, dimdesc, sn)
+    tags = classnamefancy+"{3} Radial pin pitch {0} {1} {2}".format(pind, pow_rat, dimdesct, snt)
 
 
     for t in specialtags:
