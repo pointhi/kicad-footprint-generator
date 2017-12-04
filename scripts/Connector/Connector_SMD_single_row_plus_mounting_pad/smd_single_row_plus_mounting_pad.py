@@ -31,6 +31,9 @@ def generate_one_footprint(idx, pincount, series_definition, configuration, grou
 
     mounting_pad_size = series_definition['mounting_pad_size']
     mount_pad_y_pos = series_definition['rel_pad_y_outside_edge']/2 - mounting_pad_size[1]/2
+    if 'center_shift_y' in series_definition:
+        mount_pad_y_pos -= series_definition['center_shift_y']
+        pad_pos_y -= series_definition['center_shift_y']
     mount_pad_center_x_to_pin = series_definition['center_pad_to_mounting_pad_edge'] + mounting_pad_size[0]/2.0
 
     # center pin 1 to center pin n
@@ -59,8 +62,8 @@ def generate_one_footprint(idx, pincount, series_definition, configuration, grou
     footprint_name = footprint_name.replace('__', '_')
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series_definition['series'],
-        mpn, series_definition['datasheet']))
+    kicad_mod.setDescription("{:s} {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(group_definition['manufacturer'],
+        series_definition['series'], mpn, series_definition['datasheet']))
     kicad_mod.setAttribute('smd')
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series_definition['series'],
         orientation=orientation, man=group_definition['manufacturer'],

@@ -98,7 +98,7 @@ device_definition:
         orientation: 'V'
         datasheet: 'http://www.molex.com/pdm_docs/sd/533980271_sd.pdf'
         pinrange: ['range', [2,16]]
-        text_inside_pos: 'bottom'
+        text_inside_pos: 0.4
         pitch: 1.25
         pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
         mounting_pad_size: [2.1, 3]
@@ -115,11 +115,13 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
+        # amount to shift y position of center for pick-and-place (positive -> shift whole footprint up)
+        center_shift_y: -0.55
         additional_drawing:
             -
                 layer: 'F.Fab'
                 # thickness: 0.1 #optional parameter. If not given: take fab_line_width and silk_line_width from config file. Needed if layer not silk or fab!
-                reference_point: ['center', -0.525] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
+                reference_point: ['center', 1.525] # [x,y]: x = 'left' | 'center' | 'right' | value; y = 'top' | 'center' | 'bottom' | value; named values are relative to body
                 rectangle:
                     size: [0.3, 0.6] # centered around reference_point
                     # start: [-0.25, -0.25] #releative to reference_point
@@ -176,6 +178,8 @@ device_definition:
         # body_fin_width: 0.8
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
+        # amount to shift y position of center for pick-and-place (positive -> shift whole footprint up)
+        center_shift_y: 1
         additional_drawing:
             -
                 layer: 'F.Fab'
