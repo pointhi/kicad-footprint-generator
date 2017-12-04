@@ -178,7 +178,7 @@ if __name__ == '__main__':
     rm = 20.3; w=rm+1; R_POW=5
     makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type,d2=d2,  x_3d=[0,0,0], s_3d=[1/2.54,1/2.54,1/2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=[])
     
-    # radial resistors, 45° wires
+    # radial resistors, 45deg wires
     script3dv = "res_radial_power_ver.py"
     with open(script3dv, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")

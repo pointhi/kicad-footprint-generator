@@ -393,18 +393,16 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', at=[rm / 2, t_slk - txt_offset], layer='F.SilkS'))
     kicad_mod.append(Text(type='value', text=footprint_name, at=[rm / 2, d_slk / 2 + txt_offset+valoffset], layer='F.Fab'))
-    if deco=="diode":
-        if d/2-pady/2>2*fabtxt_size:
-            kicad_mod.append(Text(type='user', text='%R', at=[0, -pady/2-fabtxt_size/2], layer='F.Fab', size=[fabtxt_size, fabtxt_size], thickness=fabtxt_thick))
-        else:
-            kicad_mod.append(Text(type='user', text='%R', at=[rm / 2, t_slk - txt_offset], layer='F.Fab'))
-    elif deco=="diode_KUP":
-        if d/2-pady/2>2*fabtxt_size:
+    if deco=="diode_KUP":
+        if d/2-pady/2>1.5*fabtxt_size:
             kicad_mod.append(Text(type='user', text='%R', at=[rm, -pady/2-fabtxt_size/2], layer='F.Fab', size=[fabtxt_size, fabtxt_size], thickness=fabtxt_thick))
         else:
             kicad_mod.append(Text(type='user', text='%R', at=[rm / 2, t_slk - txt_offset], layer='F.Fab'))
-    else:
-        kicad_mod.append(Text(type='user', text='%R', at=[rm/2, 0], layer='F.Fab', size=[fabtxt_size, fabtxt_size], thickness=fabtxt_thick))
+    else: # diode, resistor, etc.
+        if d/2-pady/2>1.5*fabtxt_size:
+            kicad_mod.append(Text(type='user', text='%R', at=[0, -pady/2-fabtxt_size/2], layer='F.Fab', size=[fabtxt_size, fabtxt_size], thickness=fabtxt_thick))
+        else:
+            kicad_mod.append(Text(type='user', text='%R', at=[rm / 2, t_slk - txt_offset], layer='F.Fab'))
 
     # create FAB-layer
     if type=="cyl":
