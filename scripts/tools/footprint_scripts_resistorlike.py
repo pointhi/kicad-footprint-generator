@@ -29,6 +29,18 @@ def getFancyClassName(classname="R"):
         classnamefancy = classname
     return classnamefancy
 
+# returns a string for the description for the power rating
+def getPowRat(R_POW=0.0):
+    pow_rat = ""
+    if R_POW > 0.0:
+        if (R_POW<1.0):
+            pow_rat="{0:.3f}W".format(R_POW)
+            if (1.0/R_POW==int(1.0/R_POW)):
+                pow_rat=pow_rat+" = 1/{0}W".format(int(1.0/R_POW))
+        else:
+            pow_rat="{0}W".format(R_POW)
+    return pow_rat
+
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
 # optionally with additional shunt leads: hasShuntPins=True, shuntPinsRM=DISTANCE
 # deco="none"/"elco"/"diode"
@@ -81,11 +93,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         sn=", "+seriesname+" series"
         snt = " " + seriesname + " series"
 
-    pow_rat = ""
-    if R_POW > 0:
-        pow_rat="{0}W".format(R_POW)
-        if (1/R_POW==int(1/R_POW)) and (R_POW<1.0):
-            pow_rat=pow_rat+" = 1/{0}W".format(int(1/R_POW))
+    pow_rat = getPowRat(R_POW)
 
     classnamefancy = getFancyClassName(classname)
         
@@ -338,11 +346,8 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
         sn = ", " + seriesname + " series"
         snt = " " + seriesname + " series"
 
-    pow_rat =""
-    if R_POW > 0:
-        pow_rat = "{0}W".format(R_POW)
-        if (1 / R_POW == int(1 / R_POW)) and (R_POW < 1.0):
-            pow_rat = pow_rat + " = 1/{0}W".format(int(1 / R_POW))
+    pow_rat = getPowRat(R_POW)
+    
     dimdesc = "length*diameter={0}*{1}mm^2".format(l, d)
     dimdesct = "length {0}mm diameter {1}mm".format(l, d)
 
@@ -720,12 +725,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
         sn = ", " + seriesname + " series"
         snt = " " + seriesname + " series"
 
-    pow_rat = ""
-    if R_POW > 0:
-        pow_rat = "{0}W".format(R_POW)
-        if (1 / R_POW == int(1 / R_POW)) and (R_POW < 1.0):
-            pow_rat = pow_rat + " = 1/{0}W".format(int(1 / R_POW))
-
+    pow_rat = getPowRat(R_POW)
+    
     fnpins = "_P{0:0.2f}mm".format(rm)
     pind="{0:0.2f}mm".format(rm)
     if secondPitch:
