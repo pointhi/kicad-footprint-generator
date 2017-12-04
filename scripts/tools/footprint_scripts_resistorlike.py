@@ -20,7 +20,7 @@ slk_offset=lw_slk
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
 # optionally with additional shunt leads: hasShuntPins=True, shuntPinsRM=DISTANCE
 # deco="none"/"elco"/"diode"
-def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, type="cyl", d2=0, hasShuntPins=False, shuntPinsRM=0, x_3d=[0,0,0], s_3d=[1, 1, 1], has3d=1, specialfpname="", specialtags=[], add_description="", classname="Resistor", lib_name="Resistor_THT", name_additions=[], deco="none", script3d=""):
+def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, type="cyl", d2=0, hasShuntPins=False, shuntPinsRM=0, x_3d=[0,0,0], s_3d=[1, 1, 1], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistor_THT", name_additions=[], deco="none", script3d=""):
     padx=2*ddrill
     pady=padx
 
@@ -255,7 +255,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
 # simple axial round (type="cyl")/ box (type="box") resistor, vertically mounted
 # deco="none"/"elco"/"cp"/"tantal"/"diode"/"diode_KUP"
-def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="Resistor", lib_name="Resistor_THT", name_additions=[],deco="none",script3d=""):
+def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="R", lib_name="Resistor_THT", name_additions=[],deco="none",script3d=""):
     padx = 2 * ddrill
     if padx>rm-0.3:
         padx=max(ddrill+0.3, rm-0.3)
@@ -572,7 +572,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 #
 #
 # deco="none","elco" (round),"tantal" (simple),"chokewire" (concentric)
-def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm2=0, pins=2, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="Resistor", lib_name="Resistor_THT", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
+def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm2=0, pins=2, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistor_THT", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
     if innerw<=0:
         innerw=w
     if innerh<=0:
