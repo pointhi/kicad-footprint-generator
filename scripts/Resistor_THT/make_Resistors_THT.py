@@ -196,11 +196,11 @@ if __name__ == '__main__':
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=6.62)
 
     add_description = "http://www.produktinfo.conrad.com/datenblaetter/425000-449999/443860-da-01-de-METALLBAND_WIDERSTAND_0_1_OHM_5W_5Pr.pdf"; name_additions=[]
-    w = 13; h = 4; ddrill = 1; rm=9; rm2=0; R_POW=2
+    w = 13.0; h = 4.0; ddrill = 1.0; rm=9.0; rm2=0; R_POW=2
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=8)
-    w = 14; h = 5; ddrill = 1; rm=9; rm2=0; R_POW=5
+    w = 14.0; h = 5.0; ddrill = 1.0; rm=9.0; rm2=0; R_POW=5
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=18)
-    w = 26; h = 5; ddrill = 1.4; rm=20; rm2=0; R_POW=10
+    w = 26.0; h = 5.0; ddrill = 1.4; rm=20; rm2=0; R_POW=10
     makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=h, ddrill=ddrill, R_POW=R_POW, rm2=rm2, vlines=False, w2=w2, type=type, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", name_additions=name_additions, specialtags=[], add_description=add_description,script3d=script3dv,height3d=18)
 
     # radial resistors, simple
