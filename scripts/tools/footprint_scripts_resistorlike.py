@@ -32,11 +32,12 @@ def getFancyClassName(classname="R"):
 # returns a string for the description for the power rating
 def getPowRat(R_POW=0.0):
     pow_rat = ""
+    if not (R_POW==int(R_POW)):
+        R_POW = round(R_POW, 3)
     if R_POW > 0.0:
-        if (R_POW<1.0):
-            pow_rat="{0:.3f}W".format(R_POW)
-            if (1.0/R_POW==int(1.0/R_POW)):
-                pow_rat=pow_rat+" = 1/{0}W".format(int(1.0/R_POW))
+        pow_rat="{0}W".format(R_POW)
+        if (1.0/R_POW==int(1.0/R_POW)) and (R_POW<1.0):
+            pow_rat=pow_rat+" = 1/{0}W".format(int(1.0/R_POW))
         else:
             pow_rat="{0}W".format(R_POW)
     return pow_rat
