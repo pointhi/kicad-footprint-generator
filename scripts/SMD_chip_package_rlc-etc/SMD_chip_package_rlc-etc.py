@@ -210,7 +210,7 @@ class TwoTerminalSMDchip():
 
                     kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                         layers=['F.Paste'], **paste_details))
-                    paste_details['at'][0] *= (-1)                        
+                    paste_details['at'][0] *= (-1)
                     kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                         layers=['F.Paste'], **paste_details))
                 else:

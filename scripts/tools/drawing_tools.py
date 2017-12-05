@@ -307,7 +307,7 @@ def addDCircle(kicad_mod, x, y, radius, layer, width, roun=0.001):
                              angle=dalpha / 2 / 3.1415 + 180, layer=layer, width=width))
         a = a + dalpha
 
-# draw a circle wit a screw slit under 45째
+# draw a circle with a screw slit under 45 degrees
 def addSlitScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
     kicad_mod.append(Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
     da = 5
@@ -325,7 +325,7 @@ def addSlitScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
     kicad_mod.append(Line(start=[roundG(x + dx2, roun), roundG(y + dy2, roun)],
                           end=[roundG(x + dx3, roun), roundG(y + dy3, roun)], layer=layer, width=width))
 
-# draw a circle wit a screw slit under 45째
+# draw a circle with a screw slit under 45 degrees
 def addSlitScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts, roun=0.001):
     addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts, roun)
     da = 5
@@ -342,7 +342,7 @@ def addSlitScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts, ro
     addLineWithKeepout(kicad_mod, x + dx2, y + dy2, x + dx3, y + dy3, layer, width, keepouts)
 
 
-# draw a circle with a cross-screw under 45째
+# draw a circle with a cross-screw under 45�
 def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
     kicad_mod.append(Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
     
@@ -365,7 +365,7 @@ def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
                                       [roundG(-dw, roun), roundG(-dd, roun)]], layer=layer, width=width))
 
 
-# draw a circle wit a cross-screw under 45째
+# draw a circle with a cross-screw under 45�
 def addCrossScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
     addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts, roun)
     
