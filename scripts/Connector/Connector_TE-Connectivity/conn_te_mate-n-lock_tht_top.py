@@ -179,7 +179,6 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         }
     bounding_box = {}
     if variant_param['style'] != 'in_line':
-        print(peg_pos)
         bounding_box['top'] = peg_pos[0][1]-peg_drill/2
         bounding_box['left'] = body_edge['left'] - TL
         bounding_box['right'] = body_edge['right'] + BL
@@ -274,13 +273,63 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
     #draw the outline of the shape
     kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
     #
-    # #draw the outline of the tab
-    # kicad_mod.append(PolygoneLine(polygone=[
-    #     {'x': B/2 - tab_l/2,'y': y2},
-    #     {'x': B/2 - tab_l/2,'y': y2 + tab_w},
-    #     {'x': B/2 + tab_l/2,'y': y2 + tab_w},
-    #     {'x': B/2 + tab_l/2,'y': y2},
-    # ], layer='F.Fab', width=configuration['fab_line_width']))
+    #draw the outline of the tab
+    if variant_param['style'] == 'in_line':
+        tab_poly = [
+            {'x': -TW/2,'y': body_edge['top']},
+            {'x': -TW/2,'y': body_edge['top']-TL},
+            {'x': TW/2,'y': body_edge['top']-TL},
+            {'x': TW/2,'y': body_edge['top']},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=tab_poly,
+            layer='F.Fab', width=configuration['fab_line_width']))
+        b_poly = [
+            {'x': body_edge['left'],'y': body_edge['top']},
+            {'x': body_edge['left']-BL,'y': body_edge['top']},
+            {'x': body_edge['left']-BL,'y': body_edge['top']+BW},
+            {'x': body_edge['left'],'y': body_edge['top']+BW},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=b_poly,
+            layer='F.Fab', width=configuration['fab_line_width']))
+        for i in range(pins_per_row):
+            yc = i*pitch+pitch/2
+            b_poly = [
+                {'x': body_edge['left'],'y': yc - BW/2},
+                {'x': body_edge['left']-BL,'y': yc - BW/2},
+                {'x': body_edge['left']-BL,'y': yc + BW/2},
+                {'x': body_edge['left'],'y': yc + BW/2},
+            ]
+            kicad_mod.append(PolygoneLine(polygone=b_poly,
+                layer='F.Fab', width=configuration['fab_line_width']))
+    else:
+        cy = first_to_last_pad_y/2
+        tab_poly = [
+            {'x': body_edge['left'],'y': cy-TW/2},
+            {'x': body_edge['left']-TL,'y': cy-TW/2},
+            {'x': body_edge['left']-TL,'y': cy+TW/2},
+            {'x': body_edge['left'],'y': cy+TW/2},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=tab_poly,
+            layer='F.Fab', width=configuration['fab_line_width']))
+
+        b_poly = [
+            {'x': body_edge['right'],'y': body_edge['top']},
+            {'x': body_edge['right']+BL,'y': body_edge['top']},
+            {'x': body_edge['right']+BL,'y': body_edge['top']+BW},
+            {'x': body_edge['right'],'y': body_edge['top']+BW},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=b_poly,
+            layer='F.Fab', width=configuration['fab_line_width']))
+        for i in range(pins_per_row):
+            yc = i*pitch+pitch/2
+            b_poly = [
+                {'x': body_edge['right'],'y': yc - BW/2},
+                {'x': body_edge['right']+BL,'y': yc - BW/2},
+                {'x': body_edge['right']+BL,'y': yc + BW/2},
+                {'x': body_edge['right'],'y': yc + BW/2},
+            ]
+            kicad_mod.append(PolygoneLine(polygone=b_poly,
+                layer='F.Fab', width=configuration['fab_line_width']))
     #
     # #draw the outline of each pin slot (alternating shapes)
     # #slot size
