@@ -1,8 +1,8 @@
 SMD_1608-08:
     code_metric: '1608-08'
     # size   | 1,6 x 0,8 x 0,8 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_J'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-J'
     body_length: 1.6
     body_length_min: 1.4
     body_length_max: 1.8
@@ -19,8 +19,8 @@ SMD_1608-08:
 SMD_1608-10:
     code_metric: '1608-10'
     # size   | 1,6 x 0,85 x 1,05 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_L'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-L'
     body_length: 1.6
     body_length_min: 1.4
     body_length_max: 1.8
@@ -37,8 +37,8 @@ SMD_1608-10:
 SMD_2012-12:
     code_metric: '2012-12'
     # size   | 2,05 x 1,35 x 1,2 mm
-    code_letter: 'Kemet_R'
-    #code_letter: 'AVX_R'
+    code_letter: 'Kemet-R'
+    #code_letter: 'AVX-R'
     body_length: 2.0
     body_length_min: 1.8
     body_length_max: 2.2
@@ -57,8 +57,8 @@ SMD_2012-12:
 SMD_2012-15:
     code_metric: '2012-15'
     # size   | 2,05 x 1,35 x 1,5 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_P'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-P'
     body_length: 2.0
     body_length_min: 1.8
     body_length_max: 2.2
@@ -77,8 +77,8 @@ SMD_2012-15:
 SMD_3216-10:
     code_metric: '3216-10'
     # size   | 3,2 x 1,6 x 1,0 mm
-    code_letter: 'Kemet_I'
-    #code_letter: 'AVX_K'
+    code_letter: 'Kemet-I'
+    #code_letter: 'AVX-K'
     body_length: 3.2
     body_length_min: 3.0
     body_length_max: 3.4
@@ -97,8 +97,8 @@ SMD_3216-10:
 SMD_3216-12:
     code_metric: '3216-12'
     # size   | 3,2 x 1,6 x 1,2 mm
-    code_letter: 'Kemet_S'
-    #code_letter: 'AVX_S'
+    code_letter: 'Kemet-S'
+    #code_letter: 'AVX-S'
     body_length: 3.2
     body_length_min: 3.0
     body_length_max: 3.4
@@ -117,8 +117,8 @@ SMD_3216-12:
 SMD_3216-18:
     code_metric: '3216-18'
     # size   | 3,2 x 1,6 x 1,8 mm
-    code_letter: 'Kemet_A'
-    #code_letter: 'AVX_A'
+    code_letter: 'Kemet-A'
+    #code_letter: 'AVX-A'
     body_length: 3.2
     body_length_min: 3.0
     body_length_max: 3.4
@@ -137,8 +137,8 @@ SMD_3216-18:
 SMD_3528-12:
     code_metric: '3528-12'
     # size   | 3,5 x 2,8 x 1,2 mm
-    code_letter: 'Kemet_T'
-    #code_letter: 'AVX_T'
+    code_letter: 'Kemet-T'
+    #code_letter: 'AVX-T'
     body_length: 3.5
     body_length_min: 3.3
     body_length_max: 3.7
@@ -157,8 +157,8 @@ SMD_3528-12:
 SMD_3528-15:
     code_metric: '3528-15'
     # size   | 3,5 x 2,8 x 1,5 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_H'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-H'
     body_length: 3.5
     body_length_min: 3.3
     body_length_max: 3.7
@@ -177,8 +177,8 @@ SMD_3528-15:
 SMD_3528-21:
     code_metric: '3528-21'
     # size   | 3,5 x 2,8 x 2,1 mm
-    code_letter: 'Kemet_B'
-    #code_letter: 'AVX_B'
+    code_letter: 'Kemet-B'
+    #code_letter: 'AVX-B'
     body_length: 3.5
     body_length_min: 3.3
     body_length_max: 3.7
@@ -197,8 +197,8 @@ SMD_3528-21:
 SMD_6032-15:
     code_metric: '6032-15'
     # size   | 6,0 x 3,2 x 1,5 mm
-    code_letter: 'Kemet_U'
-    #code_letter: 'AVX_W'
+    code_letter: 'Kemet-U'
+    #code_letter: 'AVX-W'
     body_length: 6.0
     body_length_min: 5.7
     body_length_max: 6.3
@@ -217,8 +217,8 @@ SMD_6032-15:
 SMD_6032-20:
     code_metric: '6032-20'
     # size   | 6,0 x 3,2 x 2,0 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_F'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-F'
     body_length: 6.0
     body_length_min: 5.7
     body_length_max: 6.3
@@ -237,8 +237,8 @@ SMD_6032-20:
 SMD_6032-28:
     code_metric: '6032-28'
     # size   | 6,0 x 3,2 x 2,8 mm
-    code_letter: 'Kemet_C'
-    #code_letter: 'AVX_C'
+    code_letter: 'Kemet-C'
+    #code_letter: 'AVX-C'
     body_length: 6.0
     body_length_min: 5.7
     body_length_max: 6.3
@@ -257,8 +257,8 @@ SMD_6032-28:
 SMD_7343-15:
     code_metric: '7343-15'
     # size   | 7,3 x 4,3 x 1,5 mm
-    code_letter: 'Kemet_W'
-    #code_letter: 'AVX_X'
+    code_letter: 'Kemet-W'
+    #code_letter: 'AVX-X'
     body_length: 7.3
     body_length_min: 7.0
     body_length_max: 7.6
@@ -277,8 +277,8 @@ SMD_7343-15:
 SMD_7343-20:
     code_metric: '7343-20'
     # size   | 7,3 x 4,3 x 2,0 mm
-    code_letter: 'Kemet_V'
-    #code_letter: 'AVX_Y'
+    code_letter: 'Kemet-V'
+    #code_letter: 'AVX-Y'
     body_length: 7.3
     body_length_min: 7.0
     body_length_max: 7.6
@@ -297,8 +297,8 @@ SMD_7343-20:
 SMD_7343-30:
     code_metric: '7343-30'
     # size   | 7,3 x 4,3 x 3,0 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_N'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-N'
     body_length: 7.3
     body_length_min: 7.0
     body_length_max: 7.6
@@ -317,8 +317,8 @@ SMD_7343-30:
 SMD_7343-31:
     code_metric: '7343-31'
     # size   | 7,3 x 4,3 x 3,1 mm
-    code_letter: 'Kemet_D'
-    #code_letter: 'AVX_D'
+    code_letter: 'Kemet-D'
+    #code_letter: 'AVX-D'
     body_length: 7.3
     body_length_min: 7.0
     body_length_max: 7.6
@@ -337,8 +337,8 @@ SMD_7343-31:
 SMD_7343-40:
     code_metric: '7343-40'
     # size   | 7,3 x 4,3 x 4,0 mm
-    code_letter: 'Kemet_Y'
-    #code_letter: 'AVX_—'
+    code_letter: 'Kemet-Y'
+    #code_letter: 'AVX-—'
     body_length: 7.3
     body_length_min: 7.0
     body_length_max: 7.6
@@ -357,8 +357,8 @@ SMD_7343-40:
 SMD_7343-43:
     code_metric: '7343-43'
     # size   | 7,3 x 4,3 x 4,3 mm
-    code_letter: 'Kemet_X'
-    #code_letter: 'AVX_E'
+    code_letter: 'Kemet-X'
+    #code_letter: 'AVX-E'
     body_length: 7.3
     body_length_min: 7.0
     body_length_max: 7.6
@@ -377,8 +377,8 @@ SMD_7343-43:
 SMD_7360-38:
     code_metric: '7360-38'
     # size   | 7,3 x 6,0 x 3,8 mm
-    code_letter: 'Kemet_E'
-    #code_letter: 'AVX_—'
+    code_letter: 'Kemet-E'
+    #code_letter: 'AVX-—'
     body_length: 7.3
     body_length_min: 7.0
     body_length_max: 7.6
@@ -397,8 +397,8 @@ SMD_7360-38:
 SMD_7361-38:
     code_metric: '7361-38'
     # size   | 7,3 x 6,1 x 3,8 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_V'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-V'
     body_length: 7.3
     body_length_min: 7.1
     body_length_max: 7.5
@@ -417,8 +417,8 @@ SMD_7361-38:
 SMD_7361-438:
     code_metric: '7361-438'
     # size | 7,3 x 6,1 x 4,3 mm
-    #code_letter: 'Kemet_—'
-    code_letter: 'AVX_U'
+    #code_letter: 'Kemet-—'
+    code_letter: 'AVX-U'
     body_length: 7.3
     body_length_min: 7.1
     body_length_max: 7.5

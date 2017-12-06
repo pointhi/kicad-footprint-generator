@@ -10,6 +10,8 @@ sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of Ki
 
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+from footprint_text_fields import addTextFields
 
 size_definition_path = "size_definitions/"
 def roundToBase(value, base):
@@ -88,50 +90,6 @@ class TwoTerminalSMDchip():
             Paste = {'at':[-(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax]}
 
         return Pad, Paste
-
-    def getTextFieldDetails(self, field_definition, body_size):
-        position_y = field_definition['position'][0]
-        at = [0,0]
-
-
-        if body_size[0] < body_size[1] and position_y == 'center':
-            rotation = 1
-        else:
-            rotation = 0
-
-        if 'size' in field_definition:
-            size = field_definition['size']
-            rotation = 0
-        elif 'size_min' in field_definition and 'size_max' in field_definition:
-            # We want at least 3 char reference designators space. If we can't fit these we move the reverence to the outside.
-            size_max = field_definition['size_max']
-            size_min = field_definition['size_min']
-            if body_size[rotation] >= 4*size_max[1]:
-                if body_size[0] >= 4*size_max[1]:
-                    rotation = 0
-                size = size_max
-            elif body_size[rotation] < 4*size_min[1]:
-                size = size_min
-                if body_size[rotation] < 3*size_min[1]:
-                    if position_y == 'center':
-                        rotation = 0
-                        position_y = 'top'
-            else:
-                fs = roundToBase(body_size[rotation]/4, 0.01)
-                size = [fs, fs]
-        else:
-            rotation = 0
-            position_y = 'top'
-            size = [1,1]
-
-        text_outside_y_pos = fs = roundToBase(body_size[1]/2+5/4.0*size[0], 0.01)
-        if position_y == 'top':
-            at = [0, -text_outside_y_pos]
-        elif position_y == 'bottom':
-            at = [0, text_outside_y_pos]
-
-        fontwidth = roundToBase(field_definition['thickness_factor']*size[0], 0.01)
-        return {'at': at, 'size': size, 'layer': field_definition['layer'], 'thickness': fontwidth, 'rotation': rotation*90}
 
     def generateFootprints(self):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
@@ -244,9 +202,9 @@ class TwoTerminalSMDchip():
                         polararity_marker_size = polarity_min_size
 
                     silk_x_left = -abs(pad_details['at'][0]) - pad_details['size'][0]/2 - \
-                        self.configuration['pad_silk_clearance'] - silk_line_width/2
+                        self.configuration['silk_pad_clearance'] - silk_line_width/2
 
-                    silk_y_bottom = self.configuration['pad_silk_clearance'] + silk_line_width/2 + \
+                    silk_y_bottom = self.configuration['silk_pad_clearance'] + silk_line_width/2 + \
                         (outline_size[1] if outline_size[1]> pad_details['size'][1] else pad_details['size'][1])/2
 
                     if polarity_marker_thick_line:
@@ -289,9 +247,9 @@ class TwoTerminalSMDchip():
                         layer='F.Fab', width=fab_line_width))
 
                     pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
-                    if pad_spacing > 2*self.configuration['pad_silk_clearance'] + \
+                    if pad_spacing > 2*self.configuration['silk_pad_clearance'] + \
                             self.configuration['silk_line_lenght_min'] + self.configuration['silk_line_width']:
-                        silk_outline_x = pad_spacing/2 - silk_line_width - self.configuration['pad_silk_clearance']
+                        silk_outline_x = pad_spacing/2 - silk_line_width - self.configuration['silk_pad_clearance']
                         silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
 
                         kicad_mod.append(Line(start=[-silk_outline_x, -silk_outline_y],
@@ -313,21 +271,12 @@ class TwoTerminalSMDchip():
                     end=[CrtYd_rect[0]/2, -CrtYd_rect[1]/2],
                     layer='F.CrtYd', width=self.configuration['courtyard_line_width']))
 
-                reference_fields = self.configuration['references']
-                kicad_mod.append(Text(type='reference', text='REF**',
-                    **self.getTextFieldDetails(reference_fields[0], outline_size)))
+                ######################### Text Fields ###############################
 
-                for additional_ref in reference_fields[1:]:
-                    kicad_mod.append(Text(type='user', text='%R',
-                    **self.getTextFieldDetails(additional_ref, outline_size)))
-
-                value_fields = self.configuration['values']
-                kicad_mod.append(Text(type='value', text=fp_name,
-                    **self.getTextFieldDetails(value_fields[0], outline_size)))
-
-                for additional_value in value_fields[1:]:
-                    kicad_mod.append(Text(type='user', text='%V',
-                        **self.getTextFieldDetails(additional_value, outline_size)))
+                addTextFields(kicad_mod=kicad_mod, configuration=configuration,
+                    body_edges={'left':-outline_size[0]/2,'right':outline_size[0]/2,
+                                'top':-outline_size[1]/2,'bottom':outline_size[1]/2},
+                    courtyard={'top':-CrtYd_rect[1]/2, 'bottom':CrtYd_rect[1]/2}, fp_name=fp_name, text_y_inside_position='center')
 
                 kicad_mod.append(Model(filename=model_name))
                 output_dir = '{lib_name:s}.pretty/'.format(lib_name=footprint_group_data['fp_lib_name'])
@@ -342,15 +291,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('files', metavar='file', type=str, nargs='+',
                         help='list of files holding information about what devices should be created.')
-    parser.add_argument('-c', '--config', type=str, nargs='?', help='the config file defining how the footprint will look like.', default='config_KLCv3.0.yaml')
-
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='config_KLCv3.0.yaml')
     args = parser.parse_args()
 
-    with open(args.config, 'r') as config_stream:
+    with open(args.global_config, 'r') as config_stream:
         try:
             configuration = yaml.load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
+
+    with open(args.series_config, 'r') as config_stream:
+        try:
+            configuration.update(yaml.load(config_stream))
+        except yaml.YAMLError as exc:
+            print(exc)
+    args = parser.parse_args()
 
     for filepath in args.files:
         two_terminal_smd =TwoTerminalSMDchip(filepath, configuration)
