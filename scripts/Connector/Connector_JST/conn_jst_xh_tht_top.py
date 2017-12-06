@@ -32,7 +32,7 @@ from itertools import chain
 
 series = "XH"
 manufacturer = 'JST'
-orientation = 'H'
+orientation = 'V'
 number_of_rows = 1
 datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eXH.pdf'
 
