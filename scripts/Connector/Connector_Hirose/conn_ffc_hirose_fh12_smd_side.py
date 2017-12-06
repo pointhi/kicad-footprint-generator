@@ -23,6 +23,10 @@ orientation = 'H'
 number_of_rows = 1
 datasheet = 'https://www.hirose.com/product/en/products/FH12/FH12-24S-0.5SH(55)/'
 
+conn_category = "FFC-FPC"
+
+lib_by_conn_category = True
+
 #pins_per_row per row
 pins_per_row_range = [6,8,10,11,12,13,14,15,16,17,18,19,20,22,24,25,26,28,30,32,33,34,35,36,40,45,50,53]
 
@@ -206,7 +210,12 @@ def generate_one_footprint(pins, configuration):
     ##################### Output and 3d model ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
 
-    lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
+
+    if lib_by_conn_category:
+        lib_name = configuration['lib_name_specific_function_format_string'].format(category=conn_category)
+    else:
+        lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
+
     model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
         model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
     kicad_mod.append(Model(filename=model_name))
