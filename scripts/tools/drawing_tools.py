@@ -26,6 +26,10 @@ def roundG(x, g):
     else:
         return math.floor(x / g) * g
 
+# round for grid g
+def sqr(x):
+    return x*x
+
 
 # round for courtyard grid
 def roundCrt(x):
@@ -58,7 +62,7 @@ def addKeepoutRound(x, y, w, h):
         return addKeepoutRect(x, y, w, h)
     else:
         res = []
-        Nrects = 4
+        Nrects = 16
         r = max(h, w) / 2
         yysum = 0
         for ya in frange(0, r, r / Nrects):
@@ -175,6 +179,70 @@ def addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts=[], rou
     elif hasToDraw and math.fabs(a - start) > 0:
         kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(startx, roun), roundG(starty, roun)], angle=-1*(a - start)/3.1415*180, layer=layer, width=width))
 
+# draw an arc
+def addArcByAngles(kicad_mod, x, y, radius, angle_start, angle_end, layer, width, roun=0.001):
+    startx = x + radius * math.sin(angle_start/180*3.1415)
+    starty = y + radius * math.cos(angle_start/180*3.1415)
+    kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(startx, roun), roundG(starty, roun)], angle=-(angle_end-angle_start), layer=layer, width=width))
+    
+# draw an arc minding the keepouts
+def addArcByAnglesWithKeepout(kicad_mod, x, y, radius, angle_start, angle_end, layer, width, keepouts=[], roun=0.001):
+    startx = x + radius * math.sin(angle_start/180*3.1415)
+    starty = y + radius * math.cos(angle_start/180*3.1415)
+    addArcWithKeepout(kicad_mod, x, y, startx, starty, -(angle_end-angle_start), layer, width, keepouts, roun)
+
+# draw an arc minding the keepouts
+def addArcWithKeepout(kicad_mod, x, y, startx, starty, angle, layer, width, keepouts=[], roun=0.001):
+    dalpha = angle/180*3.1415 / (360)
+    radius=math.sqrt(sqr(x-startx)+sqr(y-starty));
+    a = math.asin((startx-x)/radius)
+    if starty<0:
+        a=a+3.1415/2
+    astart=a;
+    aend=astart+angle/180*3.1415
+    start=astart
+    #print(radius, astart/3.1415*180, aend/3.1415*180)    
+    istartx=x + radius * math.sin(a)
+    istarty=y + radius * math.cos(a)
+    hasToDraw=False
+    noneUsed=True
+    while a < aend:
+        x1 = x + radius * math.sin(a)
+        y1 = y + radius * math.cos(a)
+        
+        if containedInAnyKeepout(x1,y1, keepouts):
+            if hasToDraw and math.fabs(a-start)>0:
+                #print('DRAW ',x1,y1)
+                kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(istartx, roun), roundG(istarty, roun)], angle=-1*(a - start)/3.1415*180, layer=layer, width=width))
+            hasToDraw = False
+            istartx=x1; istarty=y1; start=a
+            noneUsed = False
+        else:
+            hasToDraw = True
+        #print(a, dalpha, hasToDraw, noneUsed)
+        a = a + dalpha
+    if noneUsed:
+        kicad_mod.append(
+            Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(startx, roun), roundG(starty, roun)], angle=angle, layer=layer, width=width))
+    elif hasToDraw and math.fabs(a - start) > 0:
+        kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(istartx, roun), roundG(istarty, roun)], angle=-1*(a - start)/3.1415*180, layer=layer, width=width))
+
+# draw an ellipse with one axis along x-axis and one axis along y-axis and given width/height
+def addEllipse(kicad_mod, x, y, w, h, layer, width, roun=0.001):
+    factor=h/w
+    alpha=math.atan(h/w)*2
+    radius=w/2/math.sin(alpha)
+    addArcByAngles(kicad_mod=kicad_mod, x=x, y=y+radius*math.cos(alpha), radius=radius, angle_start=180-alpha/3.1415*180, angle_end=180+alpha/3.1415*180, layer=layer, width=width, roun=roun);
+    addArcByAngles(kicad_mod=kicad_mod, x=x, y=y-radius*math.cos(alpha), radius=radius, angle_start=alpha/3.1415*180, angle_end=-alpha/3.1415*180, layer=layer, width=width, roun=roun);
+
+# draw an ellipse with one axis along x-axis and one axis along y-axis and given width/height
+def addEllipseWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun=0.001):
+    factor=h/w
+    alpha=math.atan(h/w)*2
+    radius=w/2/math.sin(alpha)
+    addArcByAnglesWithKeepout(kicad_mod=kicad_mod, x=x, y=y+radius*math.cos(alpha), radius=radius, angle_start=180-alpha/3.1415*180, angle_end=180+alpha/3.1415*180, keepouts=keepouts, layer=layer, width=width, roun=roun);
+    addArcByAnglesWithKeepout(kicad_mod=kicad_mod, x=x, y=y-radius*math.cos(alpha), radius=radius, angle_start=alpha/3.1415*180, angle_end=-alpha/3.1415*180, keepouts=keepouts, layer=layer, width=width, roun=roun);
+
 # split a circle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
 def addDCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
     dalpha = 2 * 3.1415 / (2 * 3.1415 * radius / (6 * width))
@@ -225,7 +293,8 @@ def addPolyLineWithKeepout(kicad_mod, poly, layer, width, keepouts=[], roun=0.00
             addLineWithKeepout(kicad_mod, poly[p][0], poly[p][1], poly[p+1][0], poly[p+1][1], layer, width, keepouts, roun)
 
 
-# split a vertical line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+
+# add a dashed circle
 def addDCircle(kicad_mod, x, y, radius, layer, width, roun=0.001):
     dalpha = 2 * 3.1415 / (2 * 3.1415 * radius / (6 * width))
     a = 0
@@ -273,7 +342,7 @@ def addSlitScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts, ro
     addLineWithKeepout(kicad_mod, x + dx2, y + dy2, x + dx3, y + dy3, layer, width, keepouts)
 
 
-# draw a circle with a screw slit under 45 degrees
+# draw a circle with a cross-screw under 45°
 def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
     kicad_mod.append(Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
     
@@ -296,7 +365,7 @@ def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
                                       [roundG(-dw, roun), roundG(-dd, roun)]], layer=layer, width=width))
 
 
-# draw a circle with a screw slit under 45 degrees
+# draw a circle with a cross-screw under 45°
 def addCrossScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
     addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts, roun)
     
@@ -348,6 +417,11 @@ def addVDLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts=[], roun=0
         addVLineWithKeepout(kicad_mod, x, y, min(y1,y+dy), layer, width, keepouts, roun)
         y = y + dy * 2
 
+
+
+# split a rectangle 
+def addRectWith(kicad_mod, x, y, w, h, layer, width, roun=0.001):
+	kicad_mod.append(RectLine(start=[roundG(x, roun),roundG(y, roun)], end=[roundG(x+w, roun),roundG(y+h, roun)], layer=layer, width=width))
 
 
 # split a rectangle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
@@ -423,7 +497,7 @@ def allTrapezoid(model, x, size, angle, layer, width):
 
 # draw a downward equal-sided triangle
 def allEqualSidedDownTriangle(model, xcenter, side_length, layer, width):
-    h=math.sqrt(3)/6*side_length
+    h=sqrt(3)/6*side_length
     model.append(PolygoneLine(polygone=[[xcenter[0]-side_length/2, xcenter[1]-h],
                                         [xcenter[0]+side_length/2, xcenter[1]-h],
                                         [xcenter[0], xcenter[1]+2*h],
