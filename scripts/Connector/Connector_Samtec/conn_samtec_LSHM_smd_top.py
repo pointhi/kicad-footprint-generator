@@ -65,7 +65,7 @@ boss_drill = 1.45
 shield_pad_drill = 1
 shield_pad_size = 1.5
 
-pin_number_shield = 0 #"SH"
+pin_number_shield = "SH"
 
 def generate_one_footprint(pins_per_row, params, configuration):
     mpn = part_code.format(n=pins_per_row, shield=params['mpn_option'])
