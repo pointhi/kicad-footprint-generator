@@ -193,9 +193,6 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         bounding_box['right'] = body_edge['right']
 
 
-    off = configuration['silk_fab_offset']
-
-
     #generate the pads
     for row_idx in range(variant_param['number_of_rows']):
         initial = row_idx*pins_per_row + 1
