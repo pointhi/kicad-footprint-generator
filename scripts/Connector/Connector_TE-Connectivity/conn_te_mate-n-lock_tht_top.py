@@ -21,7 +21,7 @@ import os
 
 # export PYTHONPATH="${PYTHONPATH}<path to kicad-footprint-generator directory>"
 sys.path.append(os.path.join(sys.path[0], "..", "..", ".."))  # load parent path of KicadModTree
-from math import sqrt
+from math import sqrt, asin, degrees
 import argparse
 import yaml
 from helpers import *
@@ -207,71 +207,77 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         kicad_mod.append(Pad(at=peg, type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
             size=peg_drill, drill=peg_drill, layers=Pad.LAYERS_NPTH))
 
-    #add PCB locators if needed
-    # pad_silk_offset = configuration['silk_pad_clearance']+configuration['silk_line_width']/2
-    # if peg:
-    #     loc = 3.00
-    #     mounting_pin_y = row - 0.46
-    #     lx1 = B/2-C/2
-    #     lx2 = B/2+C/2
-    #     kicad_mod.append(Pad(at=[lx1, mounting_pin_y],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=Pad.LAYERS_NPTH))
-    #     kicad_mod.append(Pad(at=[lx2, mounting_pin_y],type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=loc,drill=loc, layers=Pad.LAYERS_NPTH))
-    #
-    #     bounding_box['left'] = lx1-loc/2
-    #     bounding_box['right'] = lx2+loc/2
-    #     ######################## Fab ############################
-    #     mount_pin_radius = loc/2
-    #
-    #     kicad_mod.append(Arc(center=[lx1,mounting_pin_y],
-    #         start=[lx1,mounting_pin_y+mount_pin_radius], angle=180,
-    #         layer='F.Fab', width=configuration['fab_line_width']))
-    #
-    #     kicad_mod.append(Line(start=[lx1,mounting_pin_y-mount_pin_radius],
-    #         end=[x1,mounting_pin_y-mount_pin_radius],
-    #         layer='F.Fab', width=configuration['fab_line_width']))
-    #     kicad_mod.append(Line(start=[lx1,mounting_pin_y+mount_pin_radius],
-    #         end=[x1,mounting_pin_y+mount_pin_radius],
-    #         layer='F.Fab', width=configuration['fab_line_width']))
-    #
-    #
-    #     kicad_mod.append(Arc(center=[lx2,mounting_pin_y],
-    #         start=[lx2,mounting_pin_y-mount_pin_radius], angle=180,
-    #         layer='F.Fab', width=configuration['fab_line_width']))
-    #
-    #     kicad_mod.append(Line(start=[lx2,mounting_pin_y-mount_pin_radius],
-    #         end=[x2,mounting_pin_y-mount_pin_radius],
-    #         layer='F.Fab', width=configuration['fab_line_width']))
-    #     kicad_mod.append(Line(start=[lx2,mounting_pin_y+mount_pin_radius],
-    #         end=[x2,mounting_pin_y+mount_pin_radius],
-    #         layer='F.Fab', width=configuration['fab_line_width']))
-    #
-    #     ######################## Silk ############################
-    #     mount_pin_radius = loc/2 + silk_pad_off
-    #     kicad_mod.append(Arc(center=[lx1,mounting_pin_y],
-    #         start=[lx1,mounting_pin_y+mount_pin_radius], angle=180,
-    #         layer='F.SilkS', width=configuration['silk_line_width']))
-    #
-    #     kicad_mod.append(Line(start=[lx1,mounting_pin_y-mount_pin_radius],
-    #         end=[x1-off,mounting_pin_y-mount_pin_radius],
-    #         layer='F.SilkS', width=configuration['silk_line_width']))
-    #     kicad_mod.append(Line(start=[lx1,mounting_pin_y+mount_pin_radius],
-    #         end=[x1-off,mounting_pin_y+mount_pin_radius],
-    #         layer='F.SilkS', width=configuration['silk_line_width']))
-    #
-    #
-    #     kicad_mod.append(Arc(center=[lx2,mounting_pin_y],
-    #         start=[lx2,mounting_pin_y-mount_pin_radius], angle=180,
-    #         layer='F.SilkS', width=configuration['silk_line_width']))
-    #
-    #     kicad_mod.append(Line(start=[lx2,mounting_pin_y-mount_pin_radius],
-    #         end=[x2+off,mounting_pin_y-mount_pin_radius],
-    #         layer='F.SilkS', width=configuration['silk_line_width']))
-    #     kicad_mod.append(Line(start=[lx2,mounting_pin_y+mount_pin_radius],
-    #         end=[x2+off,mounting_pin_y+mount_pin_radius],
-    #         layer='F.SilkS', width=configuration['silk_line_width']))
-    #
+
     #draw the outline of the shape
-    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],layer='F.Fab',width=configuration['fab_line_width']))
+    kicad_mod.append(RectLine(start=[x1,y1],end=[x2,y2],
+        layer='F.Fab',width=configuration['fab_line_width']))
+
+    dy = peg_to_nearest_pin + body_edge['top'] - off
+    if dy < (peg_drill/2 + silk_pad_off):
+        dx = sqrt((peg_drill/2 + silk_pad_off)**2-dy**2)
+    else:
+        dx = 0
+
+    sl_poly=[
+        {'x': 0, 'y': body_edge['top']-off},
+        {'x': body_edge['left']-off, 'y': body_edge['top']-off},
+        {'x': body_edge['left']-off, 'y': body_edge['bottom']+off},
+        {'x': 0, 'y': body_edge['bottom']+off},
+    ]
+    sr_poly=[
+        {'x': 0, 'y': body_edge['top']-off},
+        {'x': body_edge['right']+off, 'y': body_edge['top']-off},
+        {'x': body_edge['right']+off, 'y': body_edge['bottom']+off},
+        {'x': 0, 'y': body_edge['bottom']+off},
+    ]
+    if variant_param['style'] == 'in_line' or variant_param['number_pegs'] == 2:
+        sl_poly[3]['x']=-dx
+        sr_poly[3]['x']=dx
+    if variant_param['style'] != 'in_line':
+        sl_poly[0]['x']=-dx
+        sr_poly[0]['x']=dx
+
+    kicad_mod.append(PolygoneLine(polygone=sl_poly,
+        layer='F.SilkS', width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=sr_poly,
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    def peg_outline(kicad_mod, center_y):
+        edge = body_edge['top'] if center_y < 0 else body_edge['bottom']
+        dir = -1 if center_y < 0 else 1
+        sy=edge + dir*peg_from_body
+        y3 = edge +dir*peg_predrusion
+        kicad_mod.append(Line(
+            start=[peg_conn_w/2, edge],
+            end=[peg_conn_w/2, sy],
+            layer='F.Fab',width=configuration['fab_line_width']
+        ))
+        kicad_mod.append(Line(
+            start=[-peg_conn_w/2, edge],
+            end=[-peg_conn_w/2, sy],
+            layer='F.Fab',width=configuration['fab_line_width']
+        ))
+        dy = center_y - sy
+        sx = sqrt((peg_d/2)**2-dy**2)
+        dy2 = y3 - center_y
+        ex = sqrt((peg_d/2)**2-dy2**2)
+        a1 = degrees(asin(abs(dy2)/(peg_d/2)))
+        a2 = degrees(asin(abs(dy)/(peg_d/2)))
+        a = a1+a2
+        kicad_mod.append(Line(
+            start=[sx, sy], end=[-sx, sy],
+            layer='F.Fab',width=configuration['fab_line_width']
+        ))
+        kicad_mod.append(Line(
+            start=[ex, y3], end=[-ex, y3],
+            layer='F.Fab',width=configuration['fab_line_width']
+        ))
+        kicad_mod.append(Arc(center=[0,center_y],
+            start=[sx,sy], angle=dir*a,
+            layer='F.Fab', width=configuration['fab_line_width']))
+        kicad_mod.append(Arc(center=[0,center_y],
+            start=[-sx,sy], angle=-a*dir,
+            layer='F.Fab', width=configuration['fab_line_width']))
     #
     #draw the outline of the tab
     if variant_param['style'] == 'in_line':
@@ -283,6 +289,14 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=tab_poly,
             layer='F.Fab', width=configuration['fab_line_width']))
+        tab_poly = [
+            {'x': -TW/2-off,'y': body_edge['top']-off},
+            {'x': -TW/2-off,'y': body_edge['top']-TL-off},
+            {'x': TW/2+off,'y': body_edge['top']-TL-off},
+            {'x': TW/2+off,'y': body_edge['top']-off},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=tab_poly,
+            layer='F.SilkS', width=configuration['silk_line_width']))
         b_poly = [
             {'x': body_edge['left'],'y': body_edge['top']},
             {'x': body_edge['left']-BL,'y': body_edge['top']},
@@ -291,6 +305,14 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=b_poly,
             layer='F.Fab', width=configuration['fab_line_width']))
+        b_poly = [
+            {'x': body_edge['left']-off,'y': body_edge['top']-off},
+            {'x': body_edge['left']-BL-off,'y': body_edge['top']-off},
+            {'x': body_edge['left']-BL-off,'y': body_edge['top']+BW+off},
+            {'x': body_edge['left']-off,'y': body_edge['top']+BW+off},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=b_poly,
+            layer='F.SilkS', width=configuration['silk_line_width']))
         for i in range(pins_per_row):
             yc = i*pitch+pitch/2
             b_poly = [
@@ -301,6 +323,14 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
             ]
             kicad_mod.append(PolygoneLine(polygone=b_poly,
                 layer='F.Fab', width=configuration['fab_line_width']))
+            b_poly = [
+                {'x': body_edge['left']-off,'y': yc - BW/2-off},
+                {'x': body_edge['left']-BL-off,'y': yc - BW/2-off},
+                {'x': body_edge['left']-BL-off,'y': yc + BW/2+off},
+                {'x': body_edge['left']-off,'y': yc + BW/2+off},
+            ]
+            kicad_mod.append(PolygoneLine(polygone=b_poly,
+                layer='F.SilkS', width=configuration['silk_line_width']))
     else:
         cy = first_to_last_pad_y/2
         tab_poly = [
@@ -312,6 +342,15 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         kicad_mod.append(PolygoneLine(polygone=tab_poly,
             layer='F.Fab', width=configuration['fab_line_width']))
 
+        tab_poly = [
+            {'x': body_edge['left']-off,'y': cy-TW/2-off},
+            {'x': body_edge['left']-TL-off,'y': cy-TW/2-off},
+            {'x': body_edge['left']-TL-off,'y': cy+TW/2+off},
+            {'x': body_edge['left']-off,'y': cy+TW/2+off},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=tab_poly,
+            layer='F.SilkS', width=configuration['silk_line_width']))
+
         b_poly = [
             {'x': body_edge['right'],'y': body_edge['top']},
             {'x': body_edge['right']+BL,'y': body_edge['top']},
@@ -320,6 +359,15 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=b_poly,
             layer='F.Fab', width=configuration['fab_line_width']))
+
+        b_poly = [
+            {'x': body_edge['right']+off,'y': body_edge['top']-off},
+            {'x': body_edge['right']+BL+off,'y': body_edge['top']-off},
+            {'x': body_edge['right']+BL+off,'y': body_edge['top']+BW+off},
+            {'x': body_edge['right']+off,'y': body_edge['top']+BW+off},
+        ]
+        kicad_mod.append(PolygoneLine(polygone=b_poly,
+            layer='F.SilkS', width=configuration['silk_line_width']))
         for i in range(pins_per_row):
             yc = i*pitch+pitch/2
             b_poly = [
@@ -330,7 +378,18 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
             ]
             kicad_mod.append(PolygoneLine(polygone=b_poly,
                 layer='F.Fab', width=configuration['fab_line_width']))
-    #
+
+            b_poly = [
+                {'x': body_edge['right']+off,'y': yc - BW/2-off},
+                {'x': body_edge['right']+BL+off,'y': yc - BW/2-off},
+                {'x': body_edge['right']+BL+off,'y': yc + BW/2+off},
+                {'x': body_edge['right']+off,'y': yc + BW/2+off},
+            ]
+            kicad_mod.append(PolygoneLine(polygone=b_poly,
+                layer='F.SilkS', width=configuration['silk_line_width']))
+
+    for peg in peg_pos:
+            peg_outline(kicad_mod, peg[1])
     # #draw the outline of each pin slot (alternating shapes)
     # #slot size
     # S = 3.3
