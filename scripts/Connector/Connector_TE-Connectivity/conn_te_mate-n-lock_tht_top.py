@@ -390,71 +390,41 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
 
     for peg in peg_pos:
             peg_outline(kicad_mod, peg[1])
-    # #draw the outline of each pin slot (alternating shapes)
-    # #slot size
-    # S = 3.3
-    #
-    # def square_slot(x,y):
-    #     kicad_mod.append(RectLine(start=[x-S/2,y-S/2], end=[x+S/2,y+S/2],
-    #         layer='F.Fab', width=configuration['fab_line_width']))
-    #
-    # def notch_slot(x,y):
-    #     kicad_mod.append(PolygoneLine(polygone=[
-    #     {'x': x-S/2, 'y': y+S/2},
-    #     {'x': x-S/2, 'y': y-S/4},
-    #     {'x': x-S/4, 'y': y-S/2},
-    #     {'x': x+S/4, 'y': y-S/2},
-    #     {'x': x+S/2, 'y': y-S/4},
-    #     {'x': x+S/2, 'y': y+S/2},
-    #     {'x': x-S/2, 'y': y+S/2},
-    #     ], layer='F.Fab', width=configuration['fab_line_width']))
-    #
-    # q = 1
-    # notch = True
-    # for i in range(pins_per_row):
-    #     if notch:
-    #         y_square = row/2 - 4.2/2
-    #         y_notch = row/2 + 4.2/2
-    #     else:
-    #         y_square = row/2 + 4.2/2
-    #         y_notch = row/2 - 4.2/2
-    #
-    #     square_slot(i * pitch, y_square)
-    #     notch_slot(i*pitch, y_notch)
-    #
-    #     q -= 1
-    #
-    #     if (q == 0):
-    #         q = 2
-    #         notch = not notch
-    #
-    #
-    # #draw the outline of the connector on the silkscreen
-    # outline = [
-    # {'x': B/2,'y': y1-off},
-    # {'x': x1-off,'y': y1-off},
-    # {'x': x1-off,'y': y2+off},
-    # {'x': B/2 - tab_l/2 - off,'y': y2+off},
-    # {'x': B/2 - tab_l/2 - off,'y': y2 + off + tab_w},
-    # {'x': B/2, 'y': y2 + off + tab_w},
-    # ]
-    #
-    # kicad_mod.append(PolygoneLine(polygone=outline, layer="F.SilkS", width=configuration['silk_line_width']))
-    # kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=B/2 if B/2 != 0 else 0.00000001, layer="F.SilkS", width=configuration['silk_line_width']))
-    #
-    # #pin-1 marker
-    #
-    # L = 2.5
-    # O = 0.35
-    #
-    # pin = [
-    #     {'x': x1 + L,'y': y1 - O},
-    #     {'x': x1 - O,'y': y1 - O},
-    #     {'x': x1 - O,'y': y1 + L},
-    # ]
-    #
-    # kicad_mod.append(PolygoneLine(polygone=pin, layer="F.SilkS", width=configuration['silk_line_width']))
-    # kicad_mod.append(PolygoneLine(polygone=pin, width=configuration['fab_line_width'], layer='F.Fab'))
+
+
+
+    if variant_param['style'] != 'in_line':
+        L = 2.5
+        O = off + 0.3
+        dy = peg_to_nearest_pin + body_edge['top'] - O
+        if dy < (peg_drill/2 + silk_pad_off):
+            dx = sqrt((peg_drill/2 + silk_pad_off)**2-dy**2)
+
+        pin = [
+            {'x': -dx,'y': body_edge['top'] - O},
+            {'x': body_edge['left'] - O,'y': body_edge['top'] - O},
+            {'x': body_edge['left'] - O,'y': body_edge['top'] + L}
+        ]
+    else:
+        sl = 0.6
+        xs = body_edge['left']-(off + 0.3)
+        pin = [
+            {'x': xs,'y': 0},
+            {'x': xs - sl/sqrt(2),'y': sl/2},
+            {'x': xs - sl/sqrt(2),'y': -sl/2},
+            {'x': xs,'y': 0}
+        ]
+
+
+    kicad_mod.append(PolygoneLine(polygone=pin, layer="F.SilkS", width=configuration['silk_line_width']))
+
+    sl = 2
+    pin = [
+        {'x': body_edge['left'],'y': -sl/2},
+        {'x': body_edge['left'] +sl/sqrt(2),'y': 0},
+        {'x': body_edge['left'],'y': sl/2}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=pin, width=configuration['fab_line_width'], layer='F.Fab'))
 
     ########################### CrtYd #################################
     CrtYd_offset = configuration['courtyard_offset']['connector']
