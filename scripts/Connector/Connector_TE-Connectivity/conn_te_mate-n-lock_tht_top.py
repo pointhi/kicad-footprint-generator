@@ -165,6 +165,8 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
     peg_d = 3.94 # from 3d model, rounded
     peg_from_body = 0.66 # from 3d model
     peg_conn_w = 1.6 # from 3d model, rounded
+    stabalizer_width = 2.54 # from 3d model
+    stabalizer_len = 2.591 # from 3d model
     TW = 3 # from 3d model, rounded
     TL = 1.3 # from 3d model, rounded
     BW = 1.14 # from 3d model, rounded
@@ -365,6 +367,28 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=b_poly,
             layer='F.SilkS', width=configuration['silk_line_width']))
+        if len(peg_pos) == 1:
+            center_stabalizer = (number_of_rows-1)*row
+            stab_x1 = center_stabalizer - stabalizer_width/2
+            stab_x2 = center_stabalizer + stabalizer_width/2
+            stab_y1 = body_edge['bottom'] + stabalizer_len
+            stab_poly = [
+                {'x': stab_x1,'y': body_edge['bottom']},
+                {'x': stab_x1,'y': stab_y1},
+                {'x': stab_x2,'y': stab_y1},
+                {'x': stab_x2,'y': body_edge['bottom']}
+            ]
+            kicad_mod.append(PolygoneLine(polygone=stab_poly,
+                layer='F.Fab', width=configuration['fab_line_width']))
+            stab_poly = [
+                {'x': stab_x1-off,'y': body_edge['bottom']+off},
+                {'x': stab_x1-off,'y': stab_y1+off},
+                {'x': stab_x2+off,'y': stab_y1+off},
+                {'x': stab_x2+off,'y': body_edge['bottom']+off}
+            ]
+            kicad_mod.append(PolygoneLine(polygone=stab_poly,
+                layer='F.SilkS', width=configuration['silk_line_width']))
+
         for i in range(pins_per_row):
             yc = i*pitch+pitch/2
             b_poly = [
@@ -386,7 +410,7 @@ def generate_one_footprint(pins_per_row, variant_param, configuration):
                 layer='F.SilkS', width=configuration['silk_line_width']))
 
     for peg in peg_pos:
-            peg_outline(kicad_mod, peg[1])
+        peg_outline(kicad_mod, peg[1])
 
 
 
