@@ -179,7 +179,7 @@ device_definition:
         # x body edge relative to nearest pin
         rel_body_edge_x: 1.5
         # amount to shift y position of center for pick-and-place (positive -> shift whole footprint up)
-        center_shift_y: 1
+        center_shift_y: 0.6
         additional_drawing:
             -
                 layer: 'F.Fab'
