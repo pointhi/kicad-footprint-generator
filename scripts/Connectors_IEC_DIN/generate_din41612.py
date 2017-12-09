@@ -45,14 +45,18 @@ def AllPins(row, col):
 def EvenColPins(row, col):
 	return not bool(col % 2)
 
-def OptionalPin(kicad_mod, row, col, row_step, col_step, pin_pad, pin_drill, opt_cb):
+def OptionalPin(kicad_mod, row, col, row_step, col_step, pin_pad, pin_drill, opt_cb, rotate = False):
 	if not opt_cb(row, col):
 		return
 	shape = Pad.SHAPE_CIRCLE
 	if col == 1 and row == 'A':
 		shape = Pad.SHAPE_RECT
-	y = row_step * (ord(row) - ord('A'))
-	x = col_step*(col-1)
+	if rotate:
+		x = row_step * (ord(row) - ord('A'))
+		y = -col_step*(col-1)
+	else:
+		x = col_step*(col-1)
+		y = row_step * (ord(row) - ord('A'))
 	kicad_mod.append(Pad(number= row + str(col), type=Pad.TYPE_THT, shape=shape,
 		     at=[x, y], size=pin_pad, drill=pin_drill, layers=Pad.LAYERS_THT))
 	# don't know if KLC allows 3d compositing at all
@@ -63,9 +67,11 @@ def OptionalPin(kicad_mod, row, col, row_step, col_step, pin_pad, pin_drill, opt
 
 
 def BFemale(size, pin_cb, more_description):
+	# This footprint is rotated by 90° counter clockwise
+	# so columns are in x-direction and rows are in y-direction
 	colss = [32, 16, 10]
 	cols = colss[size]
-	npth_b_offset_y = -0.3 # ERNI and ept
+	npth_b_offset_x = -0.3 # ERNI and ept
 	npth_steps = [90, 50, 34.76] # ERNI and ept
 	npth_step = npth_steps[size]
 	npth_drill = 2.8 # ERNI and ept
@@ -82,8 +88,8 @@ def BFemale(size, pin_cb, more_description):
 	notch_depth = 1 # ERNI and ept
 	notch_bottom_offset = -3 # ERNI and ept
 
-	mid_x = 0.5 * col_step * (cols - 1)
-	mid_y = 0.5 * row_step
+	mid_x =  0.5 * row_step
+	mid_y = -0.5 * col_step * (cols - 1)
 	
 	# ------ Init ------
 	pin_count = 0;
@@ -101,42 +107,42 @@ def BFemale(size, pin_cb, more_description):
 
 	# ------ Pins and holes ------
 	for col in range(1, cols + 1):
-		OptionalPin(kicad_mod, 'A', col, row_step, col_step, pin_pad, pin_drill, pin_cb)
-		OptionalPin(kicad_mod, 'B', col, row_step, col_step, pin_pad, pin_drill, pin_cb)
+		OptionalPin(kicad_mod, 'A', col, row_step, col_step, pin_pad, pin_drill, pin_cb, True)
+		OptionalPin(kicad_mod, 'B', col, row_step, col_step, pin_pad, pin_drill, pin_cb, True)
 
 	# non-plated drill holes, assumed to be equally distant to pins
-	npth_x_left  = mid_x - npth_step * 0.5
-	npth_x_right = mid_x + npth_step * 0.5
-	npth_y = row_step + npth_b_offset_y
+	npth_x = row_step + npth_b_offset_x
+	npth_y_left  = mid_y - npth_step * 0.5
+	npth_y_right = mid_y + npth_step * 0.5
 	kicad_mod.append(Pad(number="", type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-		             at=[npth_x_left, npth_y], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
+		             at=[npth_x, npth_y_left], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
 	kicad_mod.append(Pad(number="", type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-		             at=[npth_x_right, npth_y], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
+		             at=[npth_x, npth_y_right], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
 
 
 	# ------ Courtyard ------
 	# KLC: connectors should have 0.5mm clearance
 	kicad_mod.append(RectLine(
-		start=[mid_x - outer_length/2 - 0.5, mid_y - outer_width/2 - 0.5],
-		end=[mid_x + outer_length/2 + 0.5, mid_y + outer_width/2 + 0.5],
+		start=[mid_x - outer_width/2 - 0.5, mid_y - outer_length/2 - 0.5],
+		end=[mid_x + outer_width/2 + 0.5, mid_y + outer_length/2 + 0.5],
 		layer='F.CrtYd'))
 
 	# ------ Fabrication layer ------
-	j_l_x = mid_x - jack_length * 0.5 # jack left
-	j_r_x = mid_x + jack_length * 0.5 # jack right
-	j_t_y = mid_y - jack_width * 0.5 # jack top
-	j_b_y = mid_y + jack_width * 0.5 # jack bottom
-	n_y  = j_b_y + notch_bottom_offset # notch
-	n_l_x = j_l_x + notch_depth # notch left
-	n_r_x = j_r_x - notch_depth # notch right
+	j_t_x = mid_x - jack_width * 0.5 # jack top
+	j_b_x = mid_x + jack_width * 0.5 # jack bottom
+	j_l_y = mid_y - jack_length * 0.5 # jack left
+	j_r_y = mid_y + jack_length * 0.5 # jack right
+	n_x  = j_b_x + notch_bottom_offset # notch
+	n_l_y = j_l_y + notch_depth # notch left
+	n_r_y = j_r_y - notch_depth # notch right
 
-	jack_notch_left  = [[n_l_x, j_t_y], [j_l_x, j_t_y], [j_l_x, n_y], [n_l_x, n_y], [n_l_x, j_b_y]]
-	jack_notch_right = [[n_r_x, j_b_y], [n_r_x, n_y], [j_r_x, n_y], [j_r_x, j_t_y], [n_r_x, j_t_y]]
+	jack_notch_left  = [[j_t_x, n_l_y], [j_t_x, j_l_y], [n_x, j_l_y], [n_x, n_l_y], [j_b_x, n_l_y]]
+	jack_notch_right = [[j_b_x, n_r_y], [n_x, n_r_y], [n_x, j_r_y], [j_t_x, j_r_y], [j_t_x, n_r_y]]
 	pin_a1_arrow = [ # form taken from module Connectors_Molex
-		[ 0.0, mid_y - outer_width/2 - 0.2],
-		[-0.3, mid_y - outer_width/2 - 0.8],
-		[ 0.3, mid_y - outer_width/2 - 0.8],
-		[ 0.0, mid_y - outer_width/2 - 0.2],
+		[mid_x - outer_width/2 - 0.2,  0.0],
+		[mid_x - outer_width/2 - 0.8, -0.3],
+		[mid_x - outer_width/2 - 0.8,  0.3],
+		[mid_x - outer_width/2 - 0.2,  0.0],
 	]
 
 	kicad_mod.append(PolygoneLine(
@@ -148,12 +154,12 @@ def BFemale(size, pin_cb, more_description):
 		layer='F.Fab'))
 	kicad_mod.append(Text(
 		type='value', text=footprint_name,
-		at=[mid_x, mid_y + outer_width/2 + 1.3],
+		at=[mid_x + outer_width/2 + 1.3, mid_y],
 		layer='F.Fab'))
 	# Very small Reference Designator to fit between the pins.
 	kicad_mod.append(Text(
 		type='user', text='%R',
-		at=[mid_x, mid_y + 0],
+		at=[mid_x + 0, mid_y],
 		size=[0.6, 0.6], thickness=0.07,
 		layer='F.Fab'))
 
@@ -161,8 +167,8 @@ def BFemale(size, pin_cb, more_description):
 	# assume plastic part to be centered around the pins
 	# silk screen must be visible, so add 0.1 mm
 	kicad_mod.append(RectLine(
-		start=[mid_x - outer_length/2 - 0.1, mid_y - outer_width/2 - 0.1],
-		end=[mid_x + outer_length/2 + 0.1, mid_y + outer_width/2 + 0.1],
+		start=[mid_x - outer_width/2 - 0.1, mid_y - outer_length/2 - 0.1],
+		end=[mid_x + outer_width/2 + 0.1, mid_y + outer_length/2 + 0.1],
 		width=0.15,
 		layer='F.SilkS'))
 	kicad_mod.append(PolygoneLine(
@@ -179,7 +185,7 @@ def BFemale(size, pin_cb, more_description):
 		layer='F.SilkS'))
 	kicad_mod.append(Text(
 		type='reference', text='REF**',
-		at=[mid_x, mid_y - outer_width/2 - 1.0],
+		at=[mid_x - outer_width/2 - 1.0, mid_y],
 		layer='F.SilkS'))
 	
 	# ------ 3D reference ------
