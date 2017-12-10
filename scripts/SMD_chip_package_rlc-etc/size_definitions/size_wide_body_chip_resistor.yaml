@@ -28,7 +28,7 @@ SMD_0815:
 
 SMD_1020:
     code_imperial: "1020"
-    code_metric: "1632"
+    code_metric: "2550"
     body_length: 2.5
     body_length_min: 2.3
     body_length_max: 2.7
