@@ -154,12 +154,12 @@ def BFemale(size, pin_cb, more_description):
 		layer='F.Fab'))
 	kicad_mod.append(Text(
 		type='value', text=footprint_name,
-		at=[mid_x + outer_width/2 + 1.3, mid_y],
+		at=[mid_x, mid_y + outer_length/2 + 1.3],
 		layer='F.Fab'))
 	# Very small Reference Designator to fit between the pins.
 	kicad_mod.append(Text(
 		type='user', text='%R',
-		at=[mid_x + 0, mid_y],
+		at=[mid_x, mid_y],
 		size=[0.6, 0.6], thickness=0.07,
 		layer='F.Fab'))
 
@@ -185,7 +185,7 @@ def BFemale(size, pin_cb, more_description):
 		layer='F.SilkS'))
 	kicad_mod.append(Text(
 		type='reference', text='REF**',
-		at=[mid_x - outer_width/2 - 1.0, mid_y],
+		at=[mid_x, mid_y - outer_length/2 - 1],
 		layer='F.SilkS'))
 	
 	# ------ 3D reference ------
