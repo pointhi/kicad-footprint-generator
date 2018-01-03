@@ -8,6 +8,8 @@ allow_silk_below_part: 'tht' # tht | smd | all | none
 
 fab_line_width: 0.1
 fap_pin1_marker_length: 1
+fab_bevel_size_absolute: 1 # Bevel size of footprints in mm
+fab_bevel_size_relative: 0.25 # Bevel size of footprints relative to package size
 
 courtyard_line_width: 0.05
 courtyard_grid: 0.01
