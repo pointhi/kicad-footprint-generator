@@ -152,5 +152,45 @@ if __name__ == '__main__':
         makeDIPSwitch(p, rm, pinrow_distanceB, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
                       switch_height, 'Slide', True,["SMD"], "Button_Switch_SMD", [0, 0, 0], [1, 1, 1],
                       [0, 0, 0], "", True, webpage="http://www.nidec-copal-electronics.com/e/catalog/switch/chs.pdf", device_name="Copal_CHS-{0:02}B".format(int(p/2)),switchtype=switchtype)
+
+
+    # KingTek DSHPxxTS DIP-switches (http://www.kingtek.net.cn/pic/201601201417455112.pdf):
+    pins = [4,6,8,10,12,14,16,18,20]
+    rm = 1.27
+    pinrow_distance = (8.89+6.35)/2
+    package_width = 5.4
+    switch_width = 2
+    switch_height = 0.8
+    overlen_top = (9.22-(5*1.27))/2
+    overlen_bottom = overlen_top
+    ddrill = 0
+    pad_smd = [(8.89-6.35)/2, 0.76]
+    
+    os.chdir(cwd)
+    os.chdir("SMD")
+    for p in pins:
+        makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
+                      switch_height, 'Slide', True, [], "Button_Switch_SMD", [0, 0, 0], [1, 1, 1],
+                      [0, 0, 0], "", True, webpage="http://www.kingtek.net.cn/pic/201601201417455112.pdf", device_name="KingTek_DSHP{0:02}TS".format(int(p/2)),switchtype=switchtype)
+
+
+    # KingTek DSHPxxTJ DIP-switches (http://www.kingtek.net.cn/pic/201601201446313350.pdf):
+    pins = [4,6,8,10,12,14,16,18,20]
+    rm = 1.27
+    pinrow_distance = (7.9+2.6)/2
+    package_width = 5.4
+    switch_width = 2
+    switch_height = 0.8
+    overlen_top = (6.88-(3*1.27))/2
+    overlen_bottom = overlen_top
+    ddrill = 0
+    pad_smd = [(7.9-2.6)/2, 0.76]
+    
+    os.chdir(cwd)
+    os.chdir("SMD")
+    for p in pins:
+        makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
+                      switch_height, 'Slide', True, ["JPin"], "Button_Switch_SMD", [0, 0, 0], [1, 1, 1],
+                      [0, 0, 0], "", True, webpage="http://www.kingtek.net.cn/pic/201601201446313350.pdf", device_name="KingTek_DSHP{0:02}TJ".format(int(p/2)),switchtype=switchtype)
     
     os.chdir(cwd)
