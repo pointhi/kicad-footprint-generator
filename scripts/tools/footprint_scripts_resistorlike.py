@@ -54,8 +54,10 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
     fabtxt_size=max(0.25,fabtxt_size)
     fabtxt_thick=max(0.15/4,fabtxt_thick)
     
+    add_plus_sign_slk = False
     if deco=="elco" or deco=="cp" or deco=="tantal":
         polsign_slk=[l_slk+padx*0.75,-pady*0.75/2,padx*0.75,pady*0.75]
+        add_plus_sign_slk = True
 
     if deco=="diode":
         l_dbar_fab=l_fab+w_fab*0.15
@@ -191,8 +193,13 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         kicad_mod.append(Line(start=[l_dbar_fab-lw_fab, t_fab], end=[l_dbar_fab-lw_fab, t_fab+h_fab], layer='F.Fab', width=lw_fab))
 
     # create SILKSCREEN-layer
-    if len(polsign_slk)==4:
-        addPlusWithKeepout(kicad_mod, polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3], 'F.SilkS', lw_slk, [], 0.05)
+    if add_plus_sign_slk:
+        polsign_size = padx*0.75
+        # (((d_fab-polsign_size)/2.0-polsign_size/10.0)
+        polsign_pos_x = l_slk-padx/2.
+        polsign_pos_y = -pady-min_pad_distance
+        kicad_mod.append(Line(start=[polsign_pos_x-polsign_size/2., polsign_pos_y], end=[polsign_pos_x+polsign_size/2.,polsign_pos_y], layer='F.SilkS', width=lw_slk))
+        kicad_mod.append(Line(start=[polsign_pos_x, polsign_pos_y-polsign_size/2.], end=[polsign_pos_x,polsign_pos_y+polsign_size/2.], layer='F.SilkS', width=lw_slk))
     if deco=="elco" or deco=="cp" or deco=="tantal":
         kicad_mod.append(Line(start=[l_slk, t_slk], end=[l_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
         kicad_mod.append(Line(start=[l_slk+w_slk, t_slk], end=[l_slk+w_slk, t_slk+h_slk], layer='F.SilkS', width=lw_slk))
@@ -242,7 +249,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
     # add model
     if (has3d!=0):
-        kicad_mod.append(Model(filename='${KISYS3DMOD}/'+lib_name + ".3dshapes/"+footprint_name+".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+        kicad_mod.append(Model(filename=lib_name + ".3dshapes/"+footprint_name+".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
 
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -491,7 +498,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     # add model
     if (has3d != 0):
         kicad_mod.append(
-            Model(filename='${KISYS3DMOD}/'+lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+            Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
 
     # print render tree
     # print(kicad_mod.getRenderTree())
@@ -583,9 +590,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
     padx = 2 * ddrill
     pady = padx
     txtoffset=txt_offset
-
+    add_pol_sign = False
     pad1style=Pad.SHAPE_CIRCLE
-    polsign_slk=[]
 
     if deco=="elco" or deco=="cp" or deco=="tantal":
         pad1style=Pad.SHAPE_RECT
@@ -639,7 +645,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
                 x=min(x, p[1])
                 y=min(y, p[2])
         #print(x,y)
-        polsign_slk=[x-padx/2-padx*0.75-slk_offset-lw_slk,y-pady*0.75/2,padx*0.75,pady*0.75]
+        add_pol_sign = True
 
     rmm2=0
     secondPitch=False
@@ -680,6 +686,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
     iw_fab = innerw
     ih_fab = innerh
     d_fab = max(w, h)
+    r_fab = d_fab/2.
     d2_fab=w2
     h_slk = h_fab + 2 * slk_offset
     w_slk = w_fab + 2 * slk_offset
@@ -688,11 +695,20 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
     lvl1_slk=lvl1_fab
     lvl2_slk = lvl2_fab
     d_slk=d_fab+lw_slk+slk_offset
+    r_slk = d_slk/2.
     d2_slk=d2_fab-lw_slk-slk_offset
     w_crt = max(w_slk, rm+padx) + 2 * crt_offset
     h_crt = max(h_slk, rmm2+pady) + 2 * crt_offset
     l_crt = -w_crt/2
     t_crt = -h_crt/2
+
+    fabtxt_size=1;
+    fabtxt_thick=0.15
+    if w_fab<=5 or h_fab<=1:
+        fabtxt_size=min(h_fab*0.8, w_fab/5)
+        fabtxt_thick=0.15*fabtxt_size
+    fabtxt_size=max(0.25,fabtxt_size)
+    fabtxt_thick=max(0.15/4,fabtxt_thick)
 
     snfp = ""
     sn = ""
@@ -755,9 +771,6 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
             footprint_name=footprint_name+"_"+n
 
     print(footprint_name)
-
-
-
 
 
     if script3d!="":
@@ -830,7 +843,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
     # set general values
     kicad_modg.append(Text(type='reference', text='REF**', at=[0, t_crt - txtoffset], layer='F.SilkS'))
     kicad_modg.append(Text(type='value', text=footprint_name, at=[0, t_crt+h_crt + txtoffset], layer='F.Fab'))
-    kicad_modg.append(Text(type='user', text='%R', at=[0, 0], layer='F.Fab'))
+    kicad_mod.append(Text(type='user', text='%R', at=[rm/2, 0], layer='F.Fab', size=[fabtxt_size, fabtxt_size], thickness=fabtxt_thick))
 
     # create FAB-layer
     if type=="round" or type=="concentric":
@@ -867,8 +880,15 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
                 kicad_modg.append(Line(start=[x1,tt], end=[x2,tt+hh], layer='F.Fab', width=lw_fab))
                 x1=x1+0.1*ww
                 x2=x2+0.1*ww
-    if len(polsign_slk)==4:
-        addPlusWithKeepout(kicad_modg, polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3], 'F.Fab', lw_fab, [], 0.05)
+
+        
+    if add_pol_sign:
+        polsign_size = d_fab/10.0
+        # (((d_fab-polsign_size)/2.0-polsign_size/10.0)
+        polsign_pos_x = -(((d_fab-lw_fab/2.-polsign_size)/2.0-polsign_size/10.0)*math.cos(math.radians(30)))
+        polsign_pos_y = -(((d_fab-lw_fab/2.-polsign_size)/2.0-polsign_size/10.0)*math.sin(math.radians(30)))
+        kicad_modg.append(Line(start=[polsign_pos_x-polsign_size/2., polsign_pos_y], end=[polsign_pos_x+polsign_size/2.,polsign_pos_y], layer='F.Fab', width=lw_fab))
+        kicad_modg.append(Line(start=[polsign_pos_x, polsign_pos_y-polsign_size/2.], end=[polsign_pos_x,polsign_pos_y+polsign_size/2.], layer='F.Fab', width=lw_fab))
 
 
     # build keepeout for SilkScreen
@@ -878,26 +898,38 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
             keepouts=keepouts+addKeepoutRect(p[1],p[2],p[4]+2*lw_slk+2*slk_offset,p[5]+2*lw_slk+2*slk_offset)
         else:
             keepouts=keepouts+addKeepoutRound(p[1],p[2],p[4]+2*lw_slk+2*slk_offset,p[5]+2*lw_slk+2*slk_offset)
-    if len(polsign_slk)==4:
-        keepouts=keepouts+addKeepoutRect(polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3])
 
     # create SILKSCREEN-layer
     if type=="round" or type=="concentric":
-        maxd=rm+padx+2*min_pad_distance+lw_slk
-        mind=rm-padx-2*min_pad_distance-lw_slk
-        dxs=d_slk/2
-        dys=pady/2+min_pad_distance+lw_slk+slk_offset
-        if len(polsign_slk)==4:
-            maxd=max(maxd,2*math.fabs(polsign_slk[0]))
-            dxs=math.sqrt(d_slk*d_slk/4-dys*dys)
-        if d_slk<maxd and d_slk>mind:
-            alphain=math.fabs(180 / 3.1415 * math.atan(math.fabs(dys) / math.fabs(dxs)))
-            alpha = 2 * (90 - alphain)
-            kicad_modg.append(Arc(center=[0,0], start=[-dxs,-dys], angle=alpha, layer='F.SilkS', width=lw_slk))
-            kicad_modg.append(Arc(center=[0,0], start=[-dxs, dys], angle=-alpha, layer='F.SilkS', width=lw_slk))
-            #print(dxs,dys,d_slk)
-            if len(polsign_slk)==4 and d_slk>rm+padx+slk_offset*2+lw_slk:
-                kicad_modg.append(Arc(center=[0, 0], start=[dxs, -dys], angle=2*alphain, layer='F.SilkS', width=lw_slk))
+        sq_pad_x_max = rm/2+padx/2.+min_pad_distance+lw_slk/2.
+        sq_pad_y_min = pady/2.+min_pad_distance+lw_slk/2
+        if rm2 > 0:
+            pad_pos_x_max= 0
+            pad_pos_y_max= 0
+            for p in padpos:
+                pad_pos_x_max=max(pad_pos_x_max, abs(p[1]))
+                pad_pos_y_max=max(pad_pos_y_max, abs(p[2]))
+            sq_pad_x_max = pad_pos_x_max+padx/2.+min_pad_distance+lw_slk/2.
+            sq_pad_y_min = pad_pos_y_max+pady/2.+min_pad_distance+lw_slk/2
+
+        #check if silkscreen will hit the pad or pad clearance
+        slk_x_test = math.sqrt((r_slk*r_slk)-(sq_pad_y_min * sq_pad_y_min))
+        if sq_pad_x_max > slk_x_test:
+            #test circular pad clearance
+            round_pad_x_max = sq_pad_x_max
+            if round_pad_x_max < r_slk:
+                if rm2 == 0:
+                    start_angle = math.degrees(math.asin(sq_pad_y_min/r_slk))
+                    arc_angle = 360-(start_angle*2.)
+                else:
+                    arc_angle = 340
+                kicad_modg.append(Arc(center=[0,0], start=[-slk_x_test, -sq_pad_y_min], angle=arc_angle, layer='F.SilkS', width=lw_slk))
+            else:
+                start_angle = math.degrees(math.asin(sq_pad_y_min/r_slk))
+                arc_angle = 180-(start_angle*2.)
+                kicad_modg.append(Arc(center=[0,0], start=[-slk_x_test, -sq_pad_y_min], angle=arc_angle, layer='F.SilkS', width=lw_slk))
+                kicad_modg.append(Arc(center=[0,0], start=[-slk_x_test, sq_pad_y_min], angle=-arc_angle, layer='F.SilkS', width=lw_slk))
+
         else:
             kicad_modg.append(Circle(center=[l_slk + w_slk / 2, t_slk + h_slk / 2], radius=d_slk/2, layer='F.SilkS', width=lw_slk))
 
@@ -917,13 +949,25 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
             addVLineWithKeepout(kicad_modg, lvl1_slk, t_slk, t_slk+h_slk, 'F.SilkS', lw_slk, keepouts, 0.001)
             addVLineWithKeepout(kicad_modg, lvl2_slk, t_slk, t_slk + h_slk, 'F.SilkS', lw_slk, keepouts, 0.001)
 
-    if len(polsign_slk)==4:
-        addPlusWithKeepout(kicad_modg, polsign_slk[0],polsign_slk[1], polsign_slk[2],polsign_slk[3], 'F.SilkS', lw_slk, [], 0.05)
+    if add_pol_sign:
+        polsign_size = d_fab/10.0
+        polsign_pos_x = -(((d_slk+lw_slk/2.+polsign_size)/2.0+polsign_size/10.0)*math.cos(math.radians(30)))
+        polsign_pos_y = -(((d_slk+lw_slk/2.+polsign_size)/2.0+polsign_size/10.0)*math.sin(math.radians(30)))
+        kicad_modg.append(Line(start=[polsign_pos_x-polsign_size/2., polsign_pos_y], end=[polsign_pos_x+polsign_size/2.,polsign_pos_y], layer='F.SilkS', width=lw_slk))
+        kicad_modg.append(Line(start=[polsign_pos_x, polsign_pos_y-polsign_size/2.], end=[polsign_pos_x,polsign_pos_y+polsign_size/2.], layer='F.SilkS', width=lw_slk))
 
 
 
     # create courtyard
-    kicad_mod.append(RectLine(start=[roundCrt(l_crt+offset[0]), roundCrt(t_crt+offset[1])], end=[roundCrt(l_crt + w_crt+offset[0]), roundCrt(t_crt + h_crt+offset[1])],layer='F.CrtYd', width=lw_crt))
+
+    if type=="round":
+        #check if pads are further out than the calculated courtyard
+        sq_pad_x_max = sq_pad_x_max - min_pad_distance
+        sq_pad_y_min = sq_pad_y_min - min_pad_distance
+        r_crt = max(r_fab+crt_offset, math.sqrt(sq_pad_x_max * sq_pad_x_max + sq_pad_y_min * sq_pad_y_min)+crt_offset)
+        kicad_mod.append(Circle(center=[rm/2.,0], radius=roundCrt(r_crt),layer='F.CrtYd', width=lw_crt))
+    else:
+        kicad_mod.append(RectLine(start=[roundCrt(l_crt+offset[0]), roundCrt(t_crt+offset[1])], end=[roundCrt(l_crt + w_crt+offset[0]), roundCrt(t_crt + h_crt+offset[1])],layer='F.CrtYd', width=lw_crt))
 
     # create pads
     pn=1
@@ -938,7 +982,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
 
     # add model
     if (has3d != 0):
-        kicad_modg.append(Model(filename='${KISYS3DMOD}/'+lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
+        kicad_modg.append(Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
 
     # print render tree
     # print(kicad_mod.getRenderTree())
