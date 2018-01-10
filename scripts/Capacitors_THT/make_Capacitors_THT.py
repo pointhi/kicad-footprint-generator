@@ -181,7 +181,7 @@ if __name__ == '__main__':
         makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scr, height3d=h3d)
+                                    specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scr, height3d=h3d)
 
 
     ###########################################################
@@ -208,7 +208,7 @@ if __name__ == '__main__':
         makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scr, height3d=10)
+                                    specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scr, height3d=10)
 
 
 
@@ -276,7 +276,7 @@ if __name__ == '__main__':
         makeResistorRadial(seriesname=seriesname, rm=rm, w=w, h=d, ddrill=ddrill, R_POW=R_POW,
                            type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=script3mkt)
+                           specialtags=specialtags, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=script3mkt)
 
 
 
@@ -301,14 +301,14 @@ if __name__ == '__main__':
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scriptaxh)
 
     seriesname = "Axial"; w = 5.1; d = 3.1; ddrill = 0.8; R_POW = 0; add_description = "http://www.vishay.com/docs/45231/arseries.pdf"; name_additions = []
     for rm in [7.5, 10, 12.5, 15]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scriptaxh)
     for w in [12,17,19,22]:
         if w == 12:
             rms = [15, 20]
@@ -328,31 +328,31 @@ if __name__ == '__main__':
                 makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                             type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                             specialfpname="", add_description=add_description, name_additions=name_additions,
-                                            specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
+                                            specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 6.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 7.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 8.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scriptaxh)
     seriesname = "Axial"; w = 12; d = 9.5; ddrill = 0.8; R_POW = 0; add_description = "http://cdn-reichelt.de/documents/datenblatt/B300/STYROFLEX.pdf"; name_additions = []
     for rm in [15,20]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW,
                                     type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                                     specialfpname="", add_description=add_description, name_additions=name_additions,
-                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitors_THT", script3d=scriptaxh)
+                                    specialtags=name_additions, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT", script3d=scriptaxh)
 
 
 
@@ -404,7 +404,7 @@ if __name__ == '__main__':
         makeResistorRadial(seriesname=seriesname, rm=rm, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
                            type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=specialtags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco, script3d=scripttan)
+                           specialtags=specialtags, classname="CP", lib_name="${KISYS3DMOD}/Capacitor_THT", deco=deco, script3d=scripttan)
 
     ###########################################################
     # radial electrolytic capacitors
@@ -469,7 +469,7 @@ if __name__ == '__main__':
         makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
                            type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco,
+                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitor_THT", deco=deco,
                            script3d=scriptcprad, height3d=h3d)
 
     ###########################################################
@@ -510,7 +510,7 @@ if __name__ == '__main__':
         makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
                            type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco,
+                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitor_THT", deco=deco,
                            script3d=scriptcprad3p, height3d=h3d, additionalPins=ap)
 
 
@@ -595,4 +595,4 @@ if __name__ == '__main__':
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=l, d=d, ddrill=ddrill, R_POW=R_POW,
                            type=type, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
                            specialfpname="", add_description=add_description, name_additions=name_additions,
-                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitors_THT", deco=deco, script3d=scriptcpax)
+                           specialtags=special_tags, classname="CP", lib_name="${KISYS3DMOD}/Capacitor_THT", deco=deco, script3d=scriptcpax)
