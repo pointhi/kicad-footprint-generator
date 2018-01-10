@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 '''
 kicad-footprint-generator is free software: you can redistribute it and/or
@@ -70,8 +70,8 @@ if pad_size[1] == pad_size[0]:
 
 
 def generate_one_footprint(pins_per_row, configuration):
-    mpn = part_code.format(n=pins_per_row*2)
-    alt_mpn = [code.format(n=pins_per_row*2) for code in alternative_codes]
+    mpn = part_code.format(n=pins_per_row*number_of_rows)
+    alt_mpn = [code.format(n=pins_per_row*number_of_rows) for code in alternative_codes]
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]

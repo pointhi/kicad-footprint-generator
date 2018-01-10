@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
 # Generator for jst smd connectors (single row with two mounting pads)
 
 import sys

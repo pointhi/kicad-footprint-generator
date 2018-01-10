@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 '''
 kicad-footprint-generator is free software: you can redistribute it and/or
