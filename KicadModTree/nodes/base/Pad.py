@@ -43,6 +43,8 @@ class Pad(Node):
           drill-size of the pad
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)
+        * *solder_mask_margin* (``float``) --
+          solder mask margin of the pad (default: 0)
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
 
@@ -80,6 +82,7 @@ class Pad(Node):
         self._initOffset(**kwargs)
         self._initDrill(**kwargs)  # requires pad type and offset
         self._initSolderPasteMargin(**kwargs)
+        self._initSolderMaskMargin(**kwargs)
         self._initLayers(**kwargs)
 
     def _initNumber(self, **kwargs):
@@ -136,6 +139,9 @@ class Pad(Node):
 
     def _initSolderPasteMargin(self, **kwargs):
         self.solder_paste_margin_ratio = kwargs.get('solder_paste_margin_ratio', 0)
+
+    def _initSolderMaskMargin(self, **kwargs):
+        self.solder_mask_margin = kwargs.get('solder_mask_margin', 0)
 
     def _initLayers(self, **kwargs):
         if not kwargs.get('layers'):

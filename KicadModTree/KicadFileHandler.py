@@ -243,8 +243,11 @@ class KicadFileHandler(FileHandler):
 
         sexpr.append(['layers'] + node.layers)
 
-        if node.solder_paste_margin_ratio != 0:
+        if node.solder_paste_margin_ratio != 0 or node.solder_mask_margin != 0:
             sexpr.append(SexprSerializer.NEW_LINE)
-            sexpr.append(['solder_paste_margin_ratio', node.solder_paste_margin_ratio])
+            if node.solder_mask_margin != 0:
+                sexpr.append(['solder_mask_margin', node.solder_mask_margin])
+            if node.solder_paste_margin_ratio != 0:
+                sexpr.append(['solder_paste_margin_ratio', node.solder_paste_margin_ratio])
 
         return sexpr
