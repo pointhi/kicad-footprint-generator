@@ -32,7 +32,7 @@ def lispString(string):
         string = str(string)
 
     if len(string) == 0 or re.match(".*\s.*", string):
-        return '"{}"'.format(string.replace('"', '/"'))  # escape text
+        return '"{}"'.format(string.replace('"', '\\"'))  # escape text
 
     return string
 
