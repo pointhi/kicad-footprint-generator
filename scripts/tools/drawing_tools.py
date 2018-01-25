@@ -431,6 +431,15 @@ def addRectWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun=0.
     addVLineWithKeepout(kicad_mod, x, y, y+h, layer, width, keepouts, roun)
     addVLineWithKeepout(kicad_mod, x+w, y, y + h, layer, width, keepouts, roun)
 
+# split a rectangle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
+def addRectAndTLMarkWithKeepout(kicad_mod, x, y, w, h, mark_len, layer, width, keepouts=[], roun=0.001):
+    addHLineWithKeepout(kicad_mod, x, x+w, y, layer,width,keepouts,roun)
+    addHLineWithKeepout(kicad_mod, x, x + w, y+h, layer, width, keepouts, roun)
+    addVLineWithKeepout(kicad_mod, x, y, y+h, layer, width, keepouts, roun)
+    addVLineWithKeepout(kicad_mod, x+w, y, y + h, layer, width, keepouts, roun)
+    addHLineWithKeepout(kicad_mod, x-2*width, x+mark_len, y-2*width, layer,width,keepouts,roun)
+    addVLineWithKeepout(kicad_mod, x-2*width, y-2*width, y+mark_len, layer,width,keepouts,roun)
+
 
 # split a dashed rectangle so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
 def addDRectWithKeepout(kicad_mod, x, y, w, h, layer, width, keepouts=[], roun=0.001):
