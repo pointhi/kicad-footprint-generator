@@ -196,8 +196,8 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
 #
 def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad, switch_width,
                   switch_height, mode='Piano', smd_pads=False, tags_additional=[],
-                  lib_name="Buttons_Switches_ThroughHole", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 90],
-                  specialFPName="", SOICStyleSilk=False, cornerPads=[], cornerPadOffsetX=0, cornerPadOffsetY=0):
+                  lib_name="Button_Switch_THT", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 90],
+                  specialFPName="", SOICStyleSilk=False, cornerPads=[], cornerPadOffsetX=0, cornerPadOffsetY=0, webpage="", device_name="", switchtype="SPST"):
     switches = int(pins / 2)
     
     h_fab = (pins / 2 - 1) * rm + overlen_top + overlen_bottom
@@ -206,10 +206,11 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     t_fab = -overlen_top
     
     h_slk = h_fab + 2 * slk_offset
-    if (package_width > pinrow_distance):
-        w_slk = max(w_fab + 2 * slk_offset, pinrow_distance + pad[0] + 2 * slk_offset)
-    else:
-        w_slk = min(w_fab + 2 * slk_offset, pinrow_distance - pad[0] - 4 * slk_offset)
+    w_slk = w_fab + 2 * slk_offset
+    #if (package_width > pinrow_distance):
+    #    w_slk = max(w_fab + 2 * slk_offset, pinrow_distance + pad[0] + 2 * slk_offset)
+    #else:
+    #    w_slk = min(w_fab + 2 * slk_offset, pinrow_distance - pad[0] - 4 * slk_offset)
     l_slk = (pinrow_distance - w_slk) / 2
     t_slk = -overlen_top - slk_offset
     
@@ -226,10 +227,29 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
         l_crt = l_crt - switch_width
         w_crt = w_crt + switch_width
     
-    footprint_name = "SW_DIP_x{0}_W{1}mm_{2}".format(switches, round(pinrow_distance, 2), mode)
-    description = "{0}x-dip-switch, {3}, row spacing {1} mm ({2} mils)".format(switches, round(pinrow_distance, 2),
-                                                                               int(pinrow_distance / 2.54 * 100), mode)
-    tags = "DIP Switch {0} {1}mm {2}mil".format(mode, pinrow_distance, int(pinrow_distance / 2.54 * 100))
+    smdtext=''
+    smddescription=''
+    if smd_pads:
+        #smdtext='_SMD';
+        smddescription='SMD '
+    
+    add_type=""
+    bodysize="{0}x{1}mm".format(round(package_width,2), round(overlen_top+overlen_bottom+(pins/2-1)*rm,2))
+    if len(device_name)>0:
+        add_type="_"+device_name
+        bodysize=""
+    
+    bodysizefp="";
+    if len(bodysize)>0:
+        bodysizefp=bodysize+"_"
+    
+    footprint_name = "SW_DIP_{6}x{0:02}_{4}{5}_{7}W{1}mm_P{2}mm{3}".format(switches, round(pinrow_distance, 2), round(rm, 2), smdtext, mode,add_type,switchtype,bodysizefp)
+    description = "{4}{0}x-dip-switch {6} {5}, {3}, row spacing {1} mm ({2} mils), body size {7}".format(switches, round(pinrow_distance, 2),
+                                                                               int(pinrow_distance / 2.54 * 100), mode,smddescription,device_name,switchtype,bodysize)
+
+    if len(webpage)>0:
+      description=description+" (see "+webpage+")"
+    tags = "{3}DIP Switch {4} {0} {1}mm {2}mil".format(mode, pinrow_distance, int(pinrow_distance / 2.54 * 100),smddescription,switchtype)
     if (len(tags_additional) > 0):
         for t in tags_additional:
             if t != "SMD":  # suppress "SMD" in file name since this is already part of folder name
@@ -257,18 +277,78 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     else:
         kicad_modg = kicad_mod
     
-    # set general values
-    kicad_modg.append(
-        Text(type='reference', text='REF**', at=[pinrow_distance / 2, t_slk - txt_offset], layer='F.SilkS'))
+    # add texts
     if pins == 2:
         fab_ref_size = [0.6, 0.6]
     else:
-        fab_ref_size = [0.8, 0.8]
-    kicad_modg.append(
-        Text(type='user', text='%R', at=[pinrow_distance/2 + (package_width+switch_width)/4, t_fab + h_fab /2], rotation=90, size=fab_ref_size, layer='F.Fab'))
-    kicad_modg.append(
-        Text(type='value', text=footprint_name, at=[pinrow_distance / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
-
+        ss=max(0.25, min((package_width-switch_width)*0.35, 0.8))
+        fab_ref_size = [ss, ss]
+        
+    kicad_modg.append(Text(type='reference', text='REF**', at=[pinrow_distance / 2, t_slk - txt_offset], layer='F.SilkS'))
+    kicad_modg.append(Text(type='value', text=footprint_name, at=[pinrow_distance / 2, t_slk + h_slk + txt_offset], layer='F.Fab'))
+    if (mode == 'Piano'):
+        kicad_modg.append(Text(type='user', text='%R', at=[pinrow_distance/2, t_fab + h_fab /2], size=fab_ref_size, layer='F.Fab', thickness=fab_ref_size[0]*0.15))
+    else:
+        kicad_modg.append(Text(type='user', text='%R', at=[pinrow_distance/2 + (package_width+switch_width)/4, t_fab + h_fab /2], rotation=90, size=fab_ref_size, layer='F.Fab', thickness=fab_ref_size[0]*0.15))
+        kicad_modg.append(Text(type='user', text='on', at=[pinrow_distance/2 + (package_width+switch_width)/4-pinrow_distance/4, t_fab + (overlen_top-switch_height/2)/2], rotation=0, size=fab_ref_size, layer='F.Fab', thickness=fab_ref_size[0]*0.15))
+        
+    
+    # create pads
+    p1 = int(1)
+    x1 = 0
+    y1 = 0
+    p2 = int(pins / 2 + 1)
+    x2 = pinrow_distance
+    y2 = (pins / 2 - 1) * rm
+    keepouts=[];
+    
+    if smd_pads:
+        pad_type = Pad.TYPE_SMT
+        pad_shape1 = Pad.SHAPE_RECT
+        pad_shapeother = Pad.SHAPE_RECT
+        pad_layers = ['F.Cu', 'F.Mask', 'F.Paste']
+    else:
+        pad_type = Pad.TYPE_THT
+        pad_shape1 = Pad.SHAPE_RECT
+        pad_shapeother = Pad.SHAPE_OVAL
+        pad_layers = ['*.Cu', '*.Mask']
+    
+    keepout_addsize=4*max(slk_offset, lw_slk)
+    for p in range(1, int(pins / 2 + 1)):
+        if p == 1:
+            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill, layers=pad_layers))
+            keepouts=keepouts+addKeepoutRect(x1, y1, pad[0]+keepout_addsize, pad[1]+keepout_addsize)
+        else:
+            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill, layers=pad_layers))
+            keepouts=keepouts+addKeepoutRound(x1, y1, pad[0]+keepout_addsize, pad[1]+keepout_addsize)
+        
+        kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill, layers=pad_layers))
+        keepouts=keepouts+addKeepoutRound(x2, y2, pad[0]+keepout_addsize, pad[1]+keepout_addsize)
+        
+        p1 = p1 + 1
+        p2 = p2 + 1
+        y1 = y1 + rm
+        y2 = y2 - rm
+    
+    if len(cornerPads) == 2:
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                              at=[l_fab + cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
+                              layers=pad_layers))
+        keepouts=keepouts+addKeepoutRect(l_fab + cornerPadOffsetX, t_fab + cornerPadOffsetY, cornerPads[0]+keepout_addsize, cornerPads[1]+keepout_addsize)                              
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                              at=[l_fab + w_fab - cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
+                              layers=pad_layers))
+        keepouts=keepouts+addKeepoutRect(l_fab + w_fab - cornerPadOffsetX, t_fab + cornerPadOffsetY, cornerPads[0]+keepout_addsize, cornerPads[1]+keepout_addsize)                              
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                              at=[l_fab + cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads, drill=0,
+                              layers=pad_layers))
+        keepouts=keepouts+addKeepoutRect(l_fab + cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY, cornerPads[0]+keepout_addsize, cornerPads[1]+keepout_addsize)                              
+        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                              at=[l_fab + w_fab - cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads,
+                              drill=0, layers=pad_layers))        
+        keepouts=keepouts+addKeepoutRect(l_fab + w_fab - cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY, cornerPads[0]+keepout_addsize, cornerPads[1]+keepout_addsize)                              
+        
+        
 
     # create FAB-layer
     bevelRectTL(kicad_modg, [l_fab, t_fab], [w_fab, h_fab], 'F.Fab', lw_fab)
@@ -282,93 +362,47 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
         else:
             kicad_modg.append(RectLine(start=[x - switch_width / 2, y - switch_height / 2],
                                        end=[x + switch_width / 2, y + switch_height / 2], layer='F.Fab', width=lw_fab))
-            kicad_modg.append(
-                Line(start=[x, y - switch_height / 2], end=[x, y + switch_height / 2], layer='F.Fab', width=lw_fab))
+            kicad_modg.append(RectFill(start=[x - switch_width / 2, y - switch_height / 2], end=[x - switch_width / 6, y + switch_height / 2], layer='F.Fab', width=lw_fab))
+            kicad_modg.append(Line(start=[x - switch_width / 6, y - switch_height / 2], end=[x - switch_width / 6, y + switch_height / 2], layer='F.Fab', width=lw_fab))
     
     # create SILKSCREEN-layer
     if SOICStyleSilk and smd_pads:
-        kicad_modg.append(Line(start=[-pad[0] / 2, t_slk], end=[l_fab + w_fab, t_slk], layer='F.SilkS', width=lw_slk))
-        kicad_modg.append(
-            Line(start=[l_fab, t_slk + h_slk], end=[l_fab + w_fab, t_slk + h_slk], layer='F.SilkS', width=lw_slk))
-    else:
-        if (mode == 'Piano'):
-            kicad_modg.append(PolygoneLine(
-                polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk + h_slk],
-                          [l_slk, t_slk + h_slk],
-                          [l_slk, t_slk]], layer='F.SilkS', width=lw_slk))
+        addHLineWithKeepout(kicad_modg, l_fab-slk_offset, l_fab + w_fab+slk_offset, t_slk + h_slk, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+        if (overlen_top>0.5):
+            addHLineWithKeepout(kicad_modg,-pad[0] / 2, l_fab-slk_offset, -pad[1] / 2-lw_slk-3*slk_offset, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+            addVLineWithKeepout(kicad_modg, l_fab-slk_offset, t_slk, -pad[1] / 2-lw_slk-3*slk_offset, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+            addHLineWithKeepout(kicad_modg, l_fab-slk_offset, l_fab + w_fab+slk_offset, t_slk, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+            addVLineWithKeepout(kicad_modg, l_fab + w_fab+slk_offset, t_slk, t_slk+overlen_top, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
         else:
-            kicad_modg.append(PolygoneLine(
-                polygone=[[l_slk, t_slk], [l_slk + w_slk, t_slk], [l_slk + w_slk, t_slk + h_slk],
-                          [l_slk, t_slk + h_slk],
-                          [l_slk, rm / 2]], layer='F.SilkS', width=lw_slk))
+            addHLineWithKeepout(kicad_modg, -pad[0] / 2, l_fab + w_fab+slk_offset, t_slk, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+            
+        if overlen_bottom>0.5:
+            addVLineWithKeepout(kicad_modg, l_fab -slk_offset, t_slk+h_slk, t_slk+h_slk-overlen_bottom, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+            addVLineWithKeepout(kicad_modg, l_fab + w_fab+slk_offset, t_slk+h_slk, t_slk+h_slk-overlen_bottom, layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+    else:
+        addRectAndTLMarkWithKeepout(kicad_modg, l_slk, t_slk, w_slk, h_slk, min(max(0.5, pad[0]), rm*0.45), layer='F.SilkS', width=lw_slk, keepouts=keepouts)
+        
         for sw in range(0, switches):
             x = pinrow_distance / 2
             y = sw * rm
             if (mode == 'Piano'):
-                kicad_modg.append(
-                    RectLine(start=[l_slk - switch_height - 2 * slk_offset, y - switch_height / 2 - slk_offset],
-                             end=[l_slk, y + switch_height / 2 + slk_offset], layer='F.SilkS', width=lw_slk))
+                addRectWithKeepout(kicad_modg, l_slk - switch_width - slk_offset, y - switch_height / 2 - slk_offset, switch_width + slk_offset, switch_height+2*slk_offset, layer='F.SilkS', width=lw_slk)
             else:
                 kicad_modg.append(RectLine(start=[x - switch_width / 2, y - switch_height / 2],
                                            end=[x + switch_width / 2, y + switch_height / 2], layer='F.SilkS',
                                            width=lw_slk))
                 kicad_modg.append(
-                    Line(start=[x, y - switch_height / 2], end=[x, y + switch_height / 2], layer='F.SilkS',
+                    RectFill(start=[x - switch_width / 2, y - switch_height / 2], end=[x - switch_width / 6, y + switch_height / 2], layer='F.SilkS',
+                         width=lw_slk))
+                kicad_modg.append(
+                    Line(start=[x - switch_width / 6, y - switch_height / 2], end=[x - switch_width / 6, y + switch_height / 2], layer='F.SilkS',
                          width=lw_slk))
     
     # create courtyard
     kicad_mod.append(RectLine(start=[roundCrt(l_crt + offset[0]), roundCrt(t_crt + offset[1])],
                               end=[roundCrt(l_crt + offset[0] + w_crt), roundCrt(t_crt + offset[1] + h_crt)],
                               layer='F.CrtYd', width=lw_crt))
-    
-    # create pads
-    p1 = int(1)
-    x1 = 0
-    y1 = 0
-    p2 = int(pins / 2 + 1)
-    x2 = pinrow_distance
-    y2 = (pins / 2 - 1) * rm
-    
-    if smd_pads:
-        pad_type = Pad.TYPE_SMT
-        pad_shape1 = Pad.SHAPE_RECT
-        pad_shapeother = Pad.SHAPE_RECT
-        pad_layers = ['F.Cu', 'F.Mask', 'F.Paste']
-    else:
-        pad_type = Pad.TYPE_THT
-        pad_shape1 = Pad.SHAPE_RECT
-        pad_shapeother = Pad.SHAPE_OVAL
-        pad_layers = ['*.Cu', '*.Mask']
-    
-    for p in range(1, int(pins / 2 + 1)):
-        if p == 1:
-            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=pad_layers))
-        else:
-            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=pad_layers))
-        
-        kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
-                              layers=pad_layers))
-        
-        p1 = p1 + 1
-        p2 = p2 + 1
-        y1 = y1 + rm
-        y2 = y2 - rm
-    
-    if len(cornerPads) == 2:
-        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                              at=[l_fab + cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=pad_layers))
-        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                              at=[l_fab + w_fab - cornerPadOffsetX, t_fab + cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=pad_layers))
-        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                              at=[l_fab + cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads, drill=0,
-                              layers=pad_layers))
-        kicad_modg.append(Pad(number=pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                              at=[l_fab + w_fab - cornerPadOffsetX, t_fab + h_fab - cornerPadOffsetY], size=cornerPads,
-                              drill=0, layers=pad_layers))
+
     
     # add model
     kicad_modg.append(

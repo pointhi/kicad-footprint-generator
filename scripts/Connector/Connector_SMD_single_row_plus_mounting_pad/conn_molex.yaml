@@ -364,6 +364,50 @@ device_definition:
         # x body edge relative to nearest pin
         rel_body_edge_x: 2.3
 
+    CLIKmate_top_entry_15:
+        series: 'CLIK-Mate'
+        mpn_format_string: '505405-{pincount:02d}70'
+        orientation: 'V'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/5054050270_sd.pdf'
+        pinrange: ['range', [2,16]]
+        text_inside_pos: 'center'
+        pitch: 1.5
+        pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.8, 3.3]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.7
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 7.9
+        rel_pad_y_inside_edge: 5.5
+        pad_size_x: 0.8
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 0.27
+        body_size_y: 6.35
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 2.9
+
+    CLIKmate_top_entry_20:
+        series: 'CLIK-Mate'
+        mpn_format_string: '502443-{pincount:02d}70'
+        orientation: 'V'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/5024430270_sd.pdf'
+        pinrange: ['list', [2,3,4,5,6,7,8,9,12,13,14,15]]
+        text_inside_pos: 'center'
+        pitch: 2.0
+        pad1_position: 'bottom-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.8, 3.6]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.45
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 7.9
+        rel_pad_y_inside_edge: 5.0
+        pad_size_x: 1.0
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 0.45
+        body_size_y: 6.85
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 3.0
+
     CLIKmate_side_entry:
         series: 'CLIK-Mate'
         mpn_format_string: '502386-{pincount:02d}70'
@@ -392,4 +436,60 @@ device_definition:
             #width_start: 4.5
             start_from_body_side: 0.33
             #width_end: 4.5
+            end_from_body_side: 0.33
+
+    CLIKmate_side_entry_15:
+        series: 'CLIK-Mate'
+        mpn_format_string: '502585-{pincount:02d}70'
+        orientation: 'H'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/5025850270_sd.pdf'
+        pinrange: ['range', [2,16]]
+        text_inside_pos: 'center'
+        pitch: 1.5
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.8, 3.8]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.7
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 8.05
+        rel_pad_y_inside_edge: 5.15
+        pad_size_x: 0.8
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: -1.35
+        body_size_y: 4.35
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 2.9
+        edge_modifier_mount_pad_side:
+            depth: -2.6 # > 0: cutout, < 0: protrusion
+            start_from_body_side: 0.33
+            end_from_body_side: 0.33
+
+    CLIKmate_side_entry_20:
+        series: 'CLIK-Mate'
+        mpn_format_string: '502494-{pincount:02d}70'
+        orientation: 'H'
+        datasheet: 'http://www.molex.com/pdm_docs/sd/5024940270_sd.pdf'
+        pinrange: ['list', [2,3,4,6,8,10,12,13,14,15]]
+        text_inside_pos: 'center'
+        pitch: 2.0
+        pad1_position: 'top-left' # 'top-left' | 'bottom-left' -> pin 2 always to the right of pin 1
+        mounting_pad_size: [1.8, 3.8]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 1.45
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 7.7
+        rel_pad_y_inside_edge: 5.0
+        pad_size_x: 1.0
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: -1.3
+        body_size_y: 4.35
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 3.0
+        edge_modifier_mount_pad_side:
+            depth: -2.6 # > 0: cutout, < 0: protrusion
+            start_from_body_side: 0.33
             end_from_body_side: 0.33

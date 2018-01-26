@@ -1,0 +1,3 @@
+fp_name_format_string: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}_{size_x:.1f}x{size_y:.1f}mm_P{pitch:.2f}mm'
+keyword_fp_string: 'connector {man:s} {package:s} {category:s}'
+lib_name_format_string: 'Package_{category:s}'

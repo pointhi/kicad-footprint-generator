@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 '''
 kicad-footprint-generator is free software: you can redistribute it and/or
@@ -38,42 +38,44 @@ number_of_rows = 2
 
 variant_params = {
     'solder_mounting':{
-        'mount_pins': 'solder',
-        'datasheet': 'http://www.molex.com/pdm_docs/sd/430450218_sd.pdf',
-        'C_minus_B': 11.2,
-        'part_code': "43045-{n:02}18",
+        'mount_pins': 'solder', # remove this
+        'datasheet': 'http://www.molex.com/pdm_docs/sd/430450212_sd.pdf',
+        'C_minus_B': 6,
+        'part_code': "43045-{n:02}12",
         'alternative_codes': [
-            "43045-{n:02}19",
-            "43045-{n:02}20"
+            "43045-{n:02}13",
+            "43045-{n:02}24"
             ]
         },
-    'retention_pin':{
-        'mount_pins': 'npth',
-        'datasheet': 'http://www.molex.com/pdm_docs/sd/430450217_sd.pdf',
-        'C_minus_B': 4.3,
-        'part_code': "43045-{n:02}15",
-        'alternative_codes': [
-            "43045-{n:02}16",
-            "43045-{n:02}17"
-            ]
-        }
 }
 
 pins_per_row_range = range(1,13)
 pitch = 3.0
+drill = 1.0
+peg_drill = 1.0
+pad_to_pad_clearance = 1.5 # Voltage rating is up to 600V (http://www.molex.com/pdm_docs/ps/PS-43045.pdf)
+max_annular_ring = 0.5 
+min_annular_ring = 0.15
 
+pad_size = [pitch - pad_to_pad_clearance, pitch - pad_to_pad_clearance]
 
-pad_size = [1.27, 2.54]
-pitch_y = 6.86 + pad_size[1]
+if pad_size[0] - drill < 2*min_annular_ring:
+    pad_size[0] = drill + 2*min_annular_ring
+if pad_size[0] - drill > 2*max_annular_ring:
+    pad_size[0] = drill + 2*max_annular_ring
 
-mount_pad_size = [3.43, 1.65]
-mount_drill = 2.41
+if pad_size[1] - drill < 2*min_annular_ring:
+    pad_size[1] = drill + 2*min_annular_ring
+if pad_size[1] - drill > 2*max_annular_ring:
+    pad_size[1] = drill + 2*max_annular_ring
+
+pad_shape=Pad.SHAPE_OVAL
+if pad_size[1] == pad_size[0]:
+    pad_shape=Pad.SHAPE_CIRCLE
 
 def generate_one_footprint(pins_per_row, variant, configuration):
-    is_solder_mp = variant_params[variant]['mount_pins'] == 'solder'
-
-    mpn = variant_params[variant]['part_code'].format(n=pins_per_row*2)
-    alt_mpn = [code.format(n=pins_per_row*2) for code in variant_params[variant]['alternative_codes']]
+    mpn = variant_params[variant]['part_code'].format(n=pins_per_row*number_of_rows)
+    alt_mpn = [code.format(n=pins_per_row*number_of_rows) for code in variant_params[variant]['alternative_codes']]
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
@@ -88,69 +90,55 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
 
-    kicad_mod.setAttribute('smd')
+    #kicad_mod.setAttribute('smd')
 
     ########################## Dimensions ##############################
     B = (pins_per_row-1)*pitch
     A = B + 6.65
     C = B + variant_params[variant]['C_minus_B']
 
-    pad_row_1_y = -pitch_y/2
-    pad_row_2_y = pad_row_1_y + pitch_y
-    pad1_x = -B/2
+    pad_row_1_y = 0
+    pad_row_2_y = pad_row_1_y + pitch
+    pad1_x = 0
 
-    mount_pad_x = C/2 - (mount_pad_size[0]/2 if is_solder_mp else 0)
-    mount_pad_y = pad_row_1_y + pitch_y/2
+    peg1_x = (B-C)/2
+    peg2_x = (B+C)/2
+    peg_y = pad_row_2_y + 0.94
 
     tab_w = 1.4
     tab_l = 1.4
 
     body_edge={
-        'left': -A/2,
-        'right': A/2,
-        'bottom': 3.43
+        'left':  (B-A)/2,
+        'right': (A+B)/2,
+        'top': -2.47+0.5
         }
-    body_edge['top'] = body_edge['bottom'] - 6.87
+    body_edge['bottom'] = body_edge['top'] + (7.37-0.5)
 
+    y_top_min = -2.47
     chamfer={'x': 1.2, 'y': 0.63}
-    y_top_min = body_edge['bottom'] - 7.37
-
-    bounding_box={
-        'left': -C/2 if is_solder_mp else body_edge['left'],
-        'right': C/2 if is_solder_mp else body_edge['right'],
-        'top': pad_row_1_y - pad_size[1]/2,
-        'bottom': pad_row_2_y + pad_size[1]/2
-    }
 
     ############################# Pads ##################################
-    if is_solder_mp:
-        #
-        # Add solder nails
-        #
-        kicad_mod.append(Pad(at=[-mount_pad_x, mount_pad_y], number="",
-            type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=mount_pad_size,
-            layers=Pad.LAYERS_SMT))
-        kicad_mod.append(Pad(at=[mount_pad_x, mount_pad_y], number="",
-            type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=mount_pad_size,
-            layers=Pad.LAYERS_SMT))
-    else:
-        kicad_mod.append(Pad(at=[-mount_pad_x, mount_pad_y], number="",
-            type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=mount_drill,
-            drill=mount_drill, layers=Pad.LAYERS_NPTH))
-        kicad_mod.append(Pad(at=[mount_pad_x, mount_pad_y], number="",
-            type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=mount_drill,
-            drill=mount_drill, layers=Pad.LAYERS_NPTH))
+    #
+    # Pegs
+    #
+    kicad_mod.append(Pad(at=[peg1_x, peg_y], number="",
+        type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=peg_drill,
+        drill=peg_drill, layers=Pad.LAYERS_NPTH))
+    kicad_mod.append(Pad(at=[peg2_x, peg_y], number="",
+        type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=peg_drill,
+        drill=peg_drill, layers=Pad.LAYERS_NPTH))
 
     #
     # Add pads
     #
     kicad_mod.append(PadArray(start=[pad1_x, pad_row_1_y], initial=1,
         pincount=pins_per_row, increment=1,  x_spacing=pitch, size=pad_size,
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
+        type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT, drill=drill))
+
     kicad_mod.append(PadArray(start=[pad1_x, pad_row_2_y], initial=pins_per_row+1,
         pincount=pins_per_row, increment=1, x_spacing=pitch, size=pad_size,
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
-
+        type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT, drill=drill))
 
     ######################## Fabrication Layer ###########################
     main_body_poly= [
@@ -193,10 +181,10 @@ def generate_one_footprint(pins_per_row, variant, configuration):
 
 
     tab_poly = [
-        {'x': -tab_l/2, 'y': body_edge['bottom']},
-        {'x': -tab_l/2, 'y': body_edge['bottom'] + tab_w},
-        {'x': tab_l/2, 'y': body_edge['bottom'] + tab_w},
-        {'x': tab_l/2, 'y': body_edge['bottom']},
+        {'x': B/2-tab_l/2, 'y': body_edge['bottom']},
+        {'x': B/2-tab_l/2, 'y': body_edge['bottom'] + tab_w},
+        {'x': B/2+tab_l/2, 'y': body_edge['bottom'] + tab_w},
+        {'x': B/2+tab_l/2, 'y': body_edge['bottom']},
     ]
     kicad_mod.append(PolygoneLine(polygone=tab_poly,
         width=configuration['fab_line_width'], layer="F.Fab"))
@@ -215,98 +203,53 @@ def generate_one_footprint(pins_per_row, variant, configuration):
 
     silk_pad_off = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
 
-    xp1_left = pad1_x - pad_size[0]/2 - silk_pad_off
-    ymp_top = mount_pad_y - mount_pad_size[1]/2 - silk_pad_off
-    ymp_bottom = mount_pad_y + mount_pad_size[1]/2 + silk_pad_off
-    xpn_right = pad1_x + B + pad_size[0]/2 + silk_pad_off
+    ymp_top = peg_y - peg_drill/2 - silk_pad_off
+    ymp_bottom = peg_y + peg_drill/2 + silk_pad_off
     off = configuration['silk_fab_offset']
 
-    poly_s_bl = [
+    poly_s_b = [
         {'x': body_edge['left'] - off, 'y': ymp_bottom},
         {'x': body_edge['left'] - off, 'y': body_edge['bottom'] + off},
-        {'x': xp1_left, 'y': body_edge['bottom'] + off}
-    ]
-    kicad_mod.append(PolygoneLine(polygone=poly_s_bl,
-        width=configuration['silk_line_width'], layer="F.SilkS"))
-
-    poly_s_br = [
-        {'x': body_edge['right'] + off, 'y': ymp_bottom},
         {'x': body_edge['right'] + off, 'y': body_edge['bottom'] + off},
-        {'x': xpn_right, 'y': body_edge['bottom'] + off}
+        {'x': body_edge['right'] + off, 'y': ymp_bottom},
     ]
-    kicad_mod.append(PolygoneLine(polygone=poly_s_br,
+    kicad_mod.append(PolygoneLine(polygone=poly_s_b,
         width=configuration['silk_line_width'], layer="F.SilkS"))
 
-    poly_s_tl = [
+    poly_s_t = [
         {'x': body_edge['left'] - off, 'y': ymp_top},
         {'x': body_edge['left'] - off, 'y': y_top_min - off},
         {'x': body_edge['left'] + chamfer['x'] + off, 'y': y_top_min - off},
         {'x': body_edge['left'] + chamfer['x'] + off, 'y': body_edge['top'] - off},
-        {'x': xp1_left, 'y': body_edge['top'] - off},
-        {'x': xp1_left, 'y': bounding_box['top']}
-    ]
-    kicad_mod.append(PolygoneLine(polygone=poly_s_tl,
-        width=configuration['silk_line_width'], layer="F.SilkS"))
-
-    poly_s_br = [
-        {'x': body_edge['right'] + off, 'y': ymp_top},
-        {'x': body_edge['right'] + off, 'y': y_top_min - off},
-        {'x': body_edge['right'] - chamfer['x'] - off, 'y': y_top_min - off},
         {'x': body_edge['right'] - chamfer['x'] - off, 'y': body_edge['top'] - off},
-        {'x': xpn_right, 'y': body_edge['top'] - off}
+        {'x': body_edge['right'] - chamfer['x'] - off, 'y': y_top_min - off},
+        {'x': body_edge['right'] + off, 'y': y_top_min - off},
+        {'x': body_edge['right'] + off, 'y': ymp_top},
     ]
-    kicad_mod.append(PolygoneLine(polygone=poly_s_br,
+    kicad_mod.append(PolygoneLine(polygone=poly_s_t,
         width=configuration['silk_line_width'], layer="F.SilkS"))
 
     ############################ CrtYd ##################################
     CrtYd_offset = configuration['courtyard_offset']['connector']
     CrtYd_grid = configuration['courtyard_grid']
 
-    cy_top = roundToBase(bounding_box['top'] - CrtYd_offset, CrtYd_grid)
-    cy_body_top = roundToBase(y_top_min - CrtYd_offset, CrtYd_grid)
-    cy_mp_top = roundToBase(mount_pad_y - mount_pad_size[1]/2 - CrtYd_offset, CrtYd_grid)
-    cy_mp_bottom = roundToBase(mount_pad_y + mount_pad_size[1]/2 + CrtYd_offset, CrtYd_grid)
-    cy_body_bottom = roundToBase(body_edge['bottom'] + CrtYd_offset, CrtYd_grid)
-    cy_bottom = roundToBase(bounding_box['bottom'] + CrtYd_offset, CrtYd_grid)
+    cy_top = roundToBase(y_top_min - CrtYd_offset, CrtYd_grid)
+    cy_bottom = roundToBase(body_edge['bottom'] + tab_w + CrtYd_offset, CrtYd_grid)
+    cy_left = roundToBase(body_edge['left'] - CrtYd_offset, CrtYd_grid)
+    cy_right = roundToBase(body_edge['right'] + CrtYd_offset, CrtYd_grid)
 
-    cy_left = roundToBase(bounding_box['left'] - CrtYd_offset, CrtYd_grid)
-    cy_body_left = roundToBase(body_edge['left'] - CrtYd_offset, CrtYd_grid)
-    cy_pad_left = roundToBase(pad1_x - pad_size[0]/2 - CrtYd_offset, CrtYd_grid)
-    cy_pad_right = roundToBase(pad1_x + B + pad_size[0]/2 + CrtYd_offset, CrtYd_grid)
-    cy_body_right = roundToBase(body_edge['right'] + CrtYd_offset, CrtYd_grid)
-    cy_right = roundToBase(bounding_box['right'] + CrtYd_offset, CrtYd_grid)
-
-    CrtYd_poly_t = [
-        {'x': pad1_x + B/2, 'y':cy_top},
-        {'x': cy_pad_left, 'y':cy_top},
-        {'x': cy_pad_left, 'y':cy_body_top},
-        {'x': cy_body_left, 'y':cy_body_top}
-        ]
-    CrtYd_poly_m = [
-        {'x': cy_body_left, 'y':cy_mp_top},
-        {'x': cy_left, 'y':cy_mp_top},
-        {'x': cy_left, 'y':cy_mp_bottom},
-        {'x': cy_body_left, 'y':cy_mp_bottom}
-        ]
-    CrtYd_poly_b = [
-        {'x': cy_body_left, 'y':cy_body_bottom},
-        {'x': cy_pad_left, 'y':cy_body_bottom},
-        {'x': cy_pad_left, 'y':cy_bottom},
-        {'x': pad1_x+B/2, 'y':cy_bottom}
+    poly_cy = [
+        {'x': cy_left, 'y':cy_top},
+        {'x': cy_right, 'y':cy_top},
+        {'x': cy_right, 'y':cy_bottom},
+        {'x': cy_left, 'y':cy_bottom},
+        {'x': cy_left, 'y':cy_top},
     ]
-    CrtYd_poly = CrtYd_poly_t
-    if is_solder_mp:
-        CrtYd_poly.extend(CrtYd_poly_m)
-    CrtYd_poly.extend(CrtYd_poly_b)
 
-    kicad_mod.append(PolygoneLine(polygone=CrtYd_poly,
+    kicad_mod.append(PolygoneLine(polygone=poly_cy,
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
-    kicad_mod.append(PolygoneLine(polygone=CrtYd_poly,
-        layer='F.CrtYd', width=configuration['courtyard_line_width'],
-        x_mirror= 0.00000001 if pad1_x+B/2 == 0 else pad1_x+B/2))
     ######################### Text Fields ###############################
-
 
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
         courtyard={'top':cy_top, 'bottom':cy_bottom}, fp_name=footprint_name, text_y_inside_position='bottom')
