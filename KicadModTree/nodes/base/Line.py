@@ -36,7 +36,7 @@ class Line(Node):
     :Example:
 
     >>> from KicadModTree import *
-    >>> Line(start=[-1, 0], end=[-1, 0], layer='F.SilkS')
+    >>> Line(start=[1, 0], end=[-1, 0], layer='F.SilkS')
     """
 
     def __init__(self, **kwargs):
