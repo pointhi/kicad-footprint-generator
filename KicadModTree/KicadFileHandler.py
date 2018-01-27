@@ -153,7 +153,7 @@ class KicadFileHandler(FileHandler):
         sexpr = ['fp_arc',
                  ['start', center_pos.x, center_pos.y],
                  ['end', end_pos.x, end_pos.y],
-                 ['angle', '{:1f}'.format(node.angle)],
+                 ['angle', node.angle],
                  ['layer', node.layer],
                  ['width', _get_layer_width(node.layer, node.width)]
                 ]  # NOQA
