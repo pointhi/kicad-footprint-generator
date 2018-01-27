@@ -53,7 +53,7 @@ RESULT_SIMPLE_FOOTPRINT = """(module test (layer F.Cu) (tedit 0)
   )
 )"""
 
-RESULT_BASIC_NODES ="""(module test (layer F.Cu) (tedit 0)
+RESULT_BASIC_NODES = """(module test (layer F.Cu) (tedit 0)
   (fp_text reference REF** (at 0 -3) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
   )
@@ -125,5 +125,4 @@ class SimpleFootprintTests(unittest.TestCase):
                              at=[0, 0], size=[2, 2], drill=1.2, layers=Pad.LAYERS_THT))
 
         file_handler = KicadFileHandler(kicad_mod)
-        print(file_handler.serialize(timestamp=0))
         self.assertEqual(file_handler.serialize(timestamp=0), RESULT_BASIC_NODES)
