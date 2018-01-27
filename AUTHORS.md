@@ -18,3 +18,12 @@ People who have submitted patches, reported bugs, consulted features or generall
 * Dominik Baack, @matyro
 * Jordi Orlando, @0xdec
 * @evanshultz
+* George, @grob6000
+* Tobias Müller, @twam
+* Terje Io, @terjeio
+* Frank Severinsen, @Shackmeister
+* @robertlong13
+* Julien Cassette, @jcassette
+* Trevor Vannoy,  @tvannoy
+* Kari Hautio, @kh4
+* Stefan, @Misca1234
