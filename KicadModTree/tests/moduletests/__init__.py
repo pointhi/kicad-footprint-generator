@@ -11,21 +11,6 @@
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-import os
-import sys
-import unittest
-
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../"))
-
-from nodes import *  # NOQA
-from datatypes import *  # NOQA
-from moduletests import *  # NOQA
-
-
-def run_tests():
-    unittest.main()
-
-if __name__ == '__main__':
-    run_tests()
+from .test_simple_footprints import SimpleFootprintTests
