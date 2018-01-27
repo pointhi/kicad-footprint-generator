@@ -52,11 +52,11 @@ class Text(Node):
         Node.__init__(self)
         self.type = kwargs['type']
         self.text = kwargs['text']
-        self.at = Point(kwargs['at'])
+        self.at = Point2D(kwargs['at'])
         self.rotation = kwargs.get('rotation', 0)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.size = Point(kwargs.get('size', [1, 1]))
+        self.size = Point2D(kwargs.get('size', [1, 1]))
         self.thickness = kwargs.get('thickness', 0.15)
 
         self.hide = kwargs.get('hide', False)
@@ -65,12 +65,12 @@ class Text(Node):
         width = len(self.text)*self.size['x']
         height = self.size['y']
 
-        min_x = self.at[x]-width/2.
-        min_y = self.at[y]-height/2.
-        max_x = self.at[x]+width/2.
-        max_y = self.at[y]+height/2.
+        min_x = self.at['x']-width/2.
+        min_y = self.at['y']-height/2.
+        max_x = self.at['x']+width/2.
+        max_y = self.at['y']+height/2.
 
-        return Node.calculateBoundingBox({'min': Point(min_x, min_y), 'max': Point(max_x, max_y)})
+        return Node.calculateBoundingBox({'min': Point2D(min_x, min_y), 'max': Point2D(max_x, max_y)})
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)

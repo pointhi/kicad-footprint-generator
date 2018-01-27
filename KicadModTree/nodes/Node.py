@@ -148,9 +148,10 @@ class Node(object):
         '''
         if not self._parent:
             if rotation is None:
-                return Point(coordinate)
+                # TODO: most of the points are 2D Nodes
+                return Point3D(coordinate)
             else:
-                return Point(coordinate), rotation
+                return Point3D(coordinate), rotation
 
         return self._parent.getRealPosition(coordinate, rotation)
 
@@ -172,7 +173,7 @@ class Node(object):
             max_x = max([max_x, child_outline['max']['x']])
             max_y = max([max_y, child_outline['max']['y']])
 
-        return {'min': Point(min_x, min_y), 'max': Point(max_x, max_y)}
+        return {'min': Point2D(min_x, min_y), 'max': Point2D(max_x, max_y)}
 
     def _getRenderTreeText(self):
         '''

@@ -43,9 +43,9 @@ class Model(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.filename = kwargs['filename']
-        self.at = Point(kwargs.get('at', [0, 0, 0]))
-        self.scale = Point(kwargs.get('scale', [1, 1, 1]))
-        self.rotate = Point(kwargs.get('rotate', [0, 0, 0]))
+        self.at = Point3D(kwargs.get('at', [0, 0, 0]))
+        self.scale = Point3D(kwargs.get('scale', [1, 1, 1]))
+        self.rotate = Point3D(kwargs.get('rotate', [0, 0, 0]))
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)

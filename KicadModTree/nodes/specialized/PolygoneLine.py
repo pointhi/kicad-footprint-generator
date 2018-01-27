@@ -86,7 +86,7 @@ class PolygoneLine(Node):
 
         node_strings = []
         for node in self.polygone_line:
-            node_position = Point(node)
+            node_position = Point2D(node)
             node_strings.append("[x: {x}, y: {y}]".format(x=node_position.x,
                                                           y=node_position.y))
 

@@ -45,8 +45,8 @@ class FilledRect(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Point(kwargs['start'])
-        self.end_pos = Point(kwargs['end'])
+        self.start_pos = Point2D(kwargs['start'])
+        self.end_pos = Point2D(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width', 0.12)  # TODO: better variation to get line width

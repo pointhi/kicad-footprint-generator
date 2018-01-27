@@ -38,7 +38,7 @@ class Translation(Node):
         self.offset_y = y
 
     def getRealPosition(self, coordinate, rotation=None):
-        parsed_coordinate = Point(coordinate)
+        parsed_coordinate = Point2D(coordinate)
 
         # calculate translation
         translation_coordinate = {'x': parsed_coordinate.x + self.offset_x,

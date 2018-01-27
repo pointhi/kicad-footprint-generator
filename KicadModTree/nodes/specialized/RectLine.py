@@ -43,8 +43,8 @@ class RectLine(PolygoneLine):
     """
 
     def __init__(self, **kwargs):
-        self.start_pos = Point(kwargs['start'])
-        self.end_pos = Point(kwargs['end'])
+        self.start_pos = Point2D(kwargs['start'])
+        self.end_pos = Point2D(kwargs['end'])
 
         # If specifed, an 'offset' can be applied to the RectLine.
         # For example, creating a border around a given Rect of a specified size

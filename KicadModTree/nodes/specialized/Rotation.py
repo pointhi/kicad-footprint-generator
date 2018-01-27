@@ -39,7 +39,7 @@ class Rotation(Node):
         if rotation is None:
             rotation = 0
 
-        parsed_coordinate = Point(coordinate)
+        parsed_coordinate = Point2D(coordinate)
 
         phi = self.rotation*math.pi/180
         rotation_coordinate = {'x': parsed_coordinate.x*math.cos(phi) + parsed_coordinate.y*math.sin(phi),

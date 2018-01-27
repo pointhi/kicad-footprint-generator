@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 import warnings
 
@@ -60,7 +60,7 @@ class Point2D(object):
 
         raise TypeError('invalid parameters given')
 
-    def roundTo(self, base):
+    def round_to(self, base):
         r"""Round to a specific base (like it's required for a grid)
 
         :param base: base we want to round to
@@ -187,7 +187,7 @@ class Point3D(Point2D):
         else:
             raise TypeError('dict or list type required')
 
-    def roundTo(self, base):
+    def round_to(self, base):
         r"""Round to a specific base (like it's required for a grid)
 
         :param base: base we want to round to

@@ -11,6 +11,7 @@
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from .test_Point import PointTests
+from .test_Point2D import Point2DTests
+from .test_Point3D import Point3DTests

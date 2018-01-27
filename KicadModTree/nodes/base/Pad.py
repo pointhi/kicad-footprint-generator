@@ -105,7 +105,7 @@ class Pad(Node):
     def _initPosition(self, **kwargs):
         if not kwargs.get('at'):
             raise KeyError('center position not declared (like "at=[0,0]")')
-        self.at = Point(kwargs.get('at'))
+        self.at = Point2D(kwargs.get('at'))
 
         self.rotation = kwargs.get('rotation', 0)
 
@@ -114,12 +114,12 @@ class Pad(Node):
             raise KeyError('pad size not declared (like "size=[1,1]")')
         if type(kwargs.get('size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.size = Point([kwargs.get('size'), kwargs.get('size')])
+            self.size = Point2D([kwargs.get('size'), kwargs.get('size')])
         else:
-            self.size = Point(kwargs.get('size'))
+            self.size = Point2D(kwargs.get('size'))
 
     def _initOffset(self, **kwargs):
-        self.offset = Point(kwargs.get('offset', [0, 0]))
+        self.offset = Point2D(kwargs.get('offset', [0, 0]))
 
     def _initDrill(self, **kwargs):
         if self.type in [Pad.TYPE_THT, Pad.TYPE_NPTH]:
@@ -127,9 +127,9 @@ class Pad(Node):
                 raise KeyError('drill size required (like "drill=1")')
             if type(kwargs.get('drill')) in [int, float]:
                 # when the attribute is a simple number, use it for x and y
-                self.drill = Point([kwargs.get('drill'), kwargs.get('drill')])
+                self.drill = Point2D([kwargs.get('drill'), kwargs.get('drill')])
             else:
-                self.drill = Point(kwargs.get('drill'))
+                self.drill = Point2D(kwargs.get('drill'))
             if self.drill.x < 0 or self.drill.y < 0:
                 raise ValueError("negative drill size not allowed")
         else:

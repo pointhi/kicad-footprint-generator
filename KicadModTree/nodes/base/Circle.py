@@ -41,10 +41,10 @@ class Circle(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = Point(kwargs['center'])
+        self.center_pos = Point2D(kwargs['center'])
         self.radius = kwargs['radius']
 
-        self.end_pos = Point([self.center_pos.x+self.radius, self.center_pos.y])
+        self.end_pos = Point2D([self.center_pos.x+self.radius, self.center_pos.y])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
