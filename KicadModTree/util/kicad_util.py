@@ -81,7 +81,7 @@ def lispTokenizer(input):
     if in_string:
         raise RuntimeError("missing closing quotation mark")
 
-    # TOOD: remove invalid spaces from qotation (when having brackets inside)
+    # TOOD: remove invalid spaces from quotation (when having brackets inside)
 
     return tokens
 
@@ -149,7 +149,7 @@ class SexprSerializer(object):
         # see: https://stackoverflow.com/questions/3190706/nonlocal-keyword-in-python-2-x
         loop_ctrl = {'first': True, 'indentation': False}
 
-        def get_seperator():
+        def get_separator():
             if loop_ctrl['first']:
                 loop_ctrl['first'] = False
                 return_str = ""
@@ -168,7 +168,7 @@ class SexprSerializer(object):
 
                 if loop_ctrl['indentation']:
                     return_string = return_string.replace('\n', '\n ')
-                serial_string += get_seperator()
+                serial_string += get_separator()
 
                 serial_string += return_string
             elif attr == SexprSerializer.NEW_LINE:
@@ -176,7 +176,7 @@ class SexprSerializer(object):
                 serial_string += prefix
                 loop_ctrl['indentation'] = True
             else:
-                serial_string += get_seperator()
+                serial_string += get_separator()
                 serial_string += self.primitive_to_string(attr)
 
         serial_string += ")"
