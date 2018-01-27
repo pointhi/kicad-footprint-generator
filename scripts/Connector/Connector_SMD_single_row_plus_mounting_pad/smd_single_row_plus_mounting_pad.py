@@ -316,30 +316,30 @@ def generate_one_footprint(idx, pincount, series_definition, configuration, grou
 
     if series_definition['pad1_position'] == 'bottom-left':
         poly_pin1_marker = [
-            {'x':-dimension_A/2 - configuration['fap_pin1_marker_length']/2,'y': body_edge['bottom']},
-            {'x':-dimension_A/2,'y': body_edge['bottom'] - configuration['fap_pin1_marker_length']/sqrt(2)},
-            {'x':-dimension_A/2 + configuration['fap_pin1_marker_length']/2,'y': body_edge['bottom']}
+            {'x':-dimension_A/2 - configuration['fab_pin1_marker_length']/2,'y': body_edge['bottom']},
+            {'x':-dimension_A/2,'y': body_edge['bottom'] - configuration['fab_pin1_marker_length']/sqrt(2)},
+            {'x':-dimension_A/2 + configuration['fab_pin1_marker_length']/2,'y': body_edge['bottom']}
         ]
         poly_pin1_marker_small = [
-            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy2 + configuration['fap_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2-configuration['fab_pin1_marker_length']/4,'y': cy2 + configuration['fab_pin1_marker_length']/sqrt(8)},
             {'x':-dimension_A/2,'y': cy2},
-            {'x':-dimension_A/2+configuration['fap_pin1_marker_length']/4,'y': cy2 + configuration['fap_pin1_marker_length']/sqrt(8)},
-            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy2 + configuration['fap_pin1_marker_length']/sqrt(8)}
+            {'x':-dimension_A/2+configuration['fab_pin1_marker_length']/4,'y': cy2 + configuration['fab_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2-configuration['fab_pin1_marker_length']/4,'y': cy2 + configuration['fab_pin1_marker_length']/sqrt(8)}
         ]
     else:
         poly_pin1_marker = [
-            {'x':-dimension_A/2 - configuration['fap_pin1_marker_length']/2,'y': body_edge['top']},
-            {'x':-dimension_A/2,'y': body_edge['top'] + configuration['fap_pin1_marker_length']/sqrt(2)},
-            {'x':-dimension_A/2 + configuration['fap_pin1_marker_length']/2,'y': body_edge['top']}
+            {'x':-dimension_A/2 - configuration['fab_pin1_marker_length']/2,'y': body_edge['top']},
+            {'x':-dimension_A/2,'y': body_edge['top'] + configuration['fab_pin1_marker_length']/sqrt(2)},
+            {'x':-dimension_A/2 + configuration['fab_pin1_marker_length']/2,'y': body_edge['top']}
         ]
         poly_pin1_marker_small = [
-            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy1 - configuration['fap_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2-configuration['fab_pin1_marker_length']/4,'y': cy1 - configuration['fab_pin1_marker_length']/sqrt(8)},
             {'x':-dimension_A/2,'y': cy1},
-            {'x':-dimension_A/2+configuration['fap_pin1_marker_length']/4,'y': cy1 - configuration['fap_pin1_marker_length']/sqrt(8)},
-            {'x':-dimension_A/2-configuration['fap_pin1_marker_length']/4,'y': cy1 - configuration['fap_pin1_marker_length']/sqrt(8)}
+            {'x':-dimension_A/2+configuration['fab_pin1_marker_length']/4,'y': cy1 - configuration['fab_pin1_marker_length']/sqrt(8)},
+            {'x':-dimension_A/2-configuration['fab_pin1_marker_length']/4,'y': cy1 - configuration['fab_pin1_marker_length']/sqrt(8)}
         ]
 
-    if modified_pinside_x_inner < -dimension_A/2 - configuration['fap_pin1_marker_length']/2:
+    if modified_pinside_x_inner < -dimension_A/2 - configuration['fab_pin1_marker_length']/2:
         kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.Fab', width=configuration['fab_line_width']))
     else:
         kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker_small, layer='F.Fab', width=configuration['fab_line_width']))
