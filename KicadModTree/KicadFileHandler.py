@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.FileHandler import FileHandler
 from KicadModTree.util.kicad_util import *
@@ -53,7 +53,7 @@ class KicadFileHandler(FileHandler):
     def __init__(self, kicad_mod):
         FileHandler.__init__(self, kicad_mod)
 
-    def serialize(self):
+    def serialize(self, **kwargs):
         r"""Get a valid string representation of the footprint in the .kicad_mod format
 
         :Example:
@@ -66,7 +66,7 @@ class KicadFileHandler(FileHandler):
 
         sexpr = ['module', self.kicad_mod.name,
                  ['layer', 'F.Cu'],
-                 ['tedit', formatTimestamp()],
+                 ['tedit', formatTimestamp(kwargs.get('timestamp'))],
                  SexprSerializer.NEW_LINE
                 ]  # NOQA
 

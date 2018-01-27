@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 import time
 import re
@@ -195,7 +195,7 @@ def parseTimestamp(timestamp):
 
 
 def formatTimestamp(timestamp=None):
-    if not timestamp:
+    if timestamp is None:
         timestamp = time.time()
 
     return "{timestamp:X}".format(timestamp=int(timestamp))

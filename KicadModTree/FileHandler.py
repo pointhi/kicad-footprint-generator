@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 import sys
 import io
@@ -35,7 +35,7 @@ class FileHandler(object):
     def __init__(self, kicad_mod):
         self.kicad_mod = kicad_mod
 
-    def writeFile(self, filename):
+    def writeFile(self, filename, **kwargs):
         r"""Write the output of FileHandler.serialize to a file
 
         :param filename:
@@ -51,7 +51,7 @@ class FileHandler(object):
         """
 
         with io.open(filename, "w", newline='\n') as f:
-            output = self.serialize()
+            output = self.serialize(**kwargs)
 
             # convert to unicode if running python2
             if sys.version_info[0] == 2 and type(output) != unicode:
@@ -61,7 +61,7 @@ class FileHandler(object):
 
             f.close()
 
-    def serialize(self):
+    def serialize(self, **kwargs):
         r"""Get a valid string representation of the footprint in the specified format
 
         :Example:
