@@ -67,7 +67,7 @@ class Point2D(object):
         :return: rounded point
 
         >>> from KicadModTree import *
-        >>> p = Point2D(0.1234, 0.5678).roundTo(0.01)
+        >>> Point2D(0.1234, 0.5678).round_to(0.01)
         """
         if base == 0:
             return self
@@ -194,7 +194,7 @@ class Point3D(Point2D):
         :return: rounded point
 
         >>> from KicadModTree import *
-        >>> p = Point3D(0.123, 0.456, 0.789).roundTo(0.01)
+        >>> Point3D(0.123, 0.456, 0.789).round_to(0.01)
         """
         if base == 0:
             return self
