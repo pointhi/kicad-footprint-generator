@@ -12,7 +12,7 @@ import yaml
 from KicadModTree import *
 
 series = ''
-series_long = 'Male Horizontal Surface Mount Single Row 2.54mm (0.1") Pitch PCB Connector'
+series_long = 'Male Horizontal Surface Mount Single Row 2.54mm (0.1 inch) Pitch PCB Connector'
 manufacturer = 'Harwin'
 orientation = 'H'
 pitch = 2.54
