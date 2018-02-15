@@ -83,7 +83,7 @@ def gen_footprint(pinnum, manpart, configuration):
 	kicad_mod.setDescription("{manufacturer} {series}, {mpn}{alt_mpn}, {pins_per_row} Pins per row ({datasheet}), generated with kicad-footprint-generator".format(
 		manufacturer = manufacturer,
 		series = series_long,
-		mpn = mpn, 
+		mpn = manpart, 
 		alt_mpn = '', 
 		pins_per_row = pinnum,
 		datasheet = datasheet))
