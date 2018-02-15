@@ -11,7 +11,7 @@ import argparse
 import yaml
 from KicadModTree import *
 
-series = ''
+series = 'M20-890'
 series_long = 'Male Horizontal Surface Mount Single Row 2.54mm (0.1 inch) Pitch PCB Connector'
 manufacturer = 'Harwin'
 orientation = 'H'
