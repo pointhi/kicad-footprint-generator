@@ -71,7 +71,7 @@ def gen_footprint(pinnum, manpart, configuration):
 	orientation_str = configuration['orientation_options'][orientation]
 	footprint_name = configuration['fp_name_format_string'].format(
 		man=manufacturer,
-		series=series,
+		series='',
 		mpn=manpart,
 		num_rows=1,
 		pins_per_row=pinnum,
