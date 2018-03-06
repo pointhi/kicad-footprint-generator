@@ -84,6 +84,14 @@ class Point2D(object):
         else:
             return Point2D(value)
 
+    def __eq__(self, other):
+        if not isinstance(self, other.__class__):
+            return False
+        return self.x == other.x and self.y == other.y
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __add__(self, value):
         other = Point2D.__arithmetic_parse(value)
 
@@ -211,6 +219,14 @@ class Point3D(Point2D):
             return Point3D([value, value, value])
         else:
             return Point3D(value)
+
+    def __eq__(self, other):
+        if not isinstance(self, other.__class__):
+            return False
+        return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def __add__(self, value):
         other = Point3D.__arithmetic_parse(value)
