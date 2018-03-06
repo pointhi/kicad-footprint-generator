@@ -254,9 +254,16 @@ class KicadFileHandler(FileHandler):
 
     def _serialize_Polygon(self, node):
         node_points = ['pts']
+        points_appended = 0
         for n in node.nodes:
+            if points_appended >= 4:
+                points_appended = 0
+                node_points.append(SexprSerializer.NEW_LINE)
+            points_appended += 1
+
             n_pos = node.getRealPosition(n)
             node_points.append(['xy', n_pos.x, n_pos.y])
+
 
         sexpr = ['fp_poly',
                  node_points,
