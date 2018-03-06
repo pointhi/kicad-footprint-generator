@@ -36,10 +36,10 @@ if __name__ == '__main__':
     kicad_mod.append(Text(type='value', text=footprint_name, at=[1.5, 3], layer='F.Fab'))
 
     # create polygon
-    kicad_mod.append(Polygon(nodes=[[-2, 0], [0, 2], [4, 0], [0, 2]], layer='F.SilkS'))
+    kicad_mod.append(Polygon(nodes=[[-2, 0], [0, -2], [4, 0], [0, 2], [-2, 0], [0, -2], [4, 0], [0, 2]],
+                             layer='F.SilkS'))
 
     # print render tree
-    print(kicad_mod.getRenderTree())
     print(kicad_mod.getCompleteRenderTree())
 
     # write file

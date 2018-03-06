@@ -264,7 +264,6 @@ class KicadFileHandler(FileHandler):
             n_pos = node.getRealPosition(n)
             node_points.append(['xy', n_pos.x, n_pos.y])
 
-
         sexpr = ['fp_poly',
                  node_points,
                  ['layer', node.layer],
