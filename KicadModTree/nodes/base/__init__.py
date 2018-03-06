@@ -11,9 +11,10 @@
 # You should have received a copy of the GNU General Public License
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
-# (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from .Arc import Arc
+
 from .Circle import Circle
 
 from .Line import Line
@@ -21,5 +22,7 @@ from .Line import Line
 from .Model import Model
 
 from .Pad import Pad
+
+from .Polygon import Polygon
 
 from .Text import Text

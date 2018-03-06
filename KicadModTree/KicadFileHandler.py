@@ -117,7 +117,7 @@ class KicadFileHandler(FileHandler):
 
         for key, value in sorted(grouped_nodes.items()):
             # check if key is a base node, except Model
-            if key not in {'Arc', 'Circle', 'Line', 'Pad', 'Text'}:
+            if key not in {'Arc', 'Circle', 'Line', 'Pad', 'Polygon', 'Text'}:
                 continue
 
             # render base nodes
@@ -249,5 +249,19 @@ class KicadFileHandler(FileHandler):
                 sexpr.append(['solder_mask_margin', node.solder_mask_margin])
             if node.solder_paste_margin_ratio != 0:
                 sexpr.append(['solder_paste_margin_ratio', node.solder_paste_margin_ratio])
+
+        return sexpr
+
+    def _serialize_Polygon(self, node):
+        node_points = ['pts']
+        for n in node.nodes:
+            n_pos = node.getRealPosition(n)
+            node_points.append(['xy', n_pos.x, n_pos.y])
+
+        sexpr = ['fp_poly',
+                 node_points,
+                 ['layer', node.layer],
+                 ['width', _get_layer_width(node.layer, node.width)]
+                ]  # NOQA
 
         return sexpr
