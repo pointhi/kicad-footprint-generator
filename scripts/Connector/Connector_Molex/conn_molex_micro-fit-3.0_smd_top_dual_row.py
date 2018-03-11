@@ -76,10 +76,13 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     alt_mpn = [code.format(n=pins_per_row*2) for code in variant_params[variant]['alternative_codes']]
 
     # handle arguments
+    mp_name = ""
+    if is_solder_mp:
+        mp_name = "-1MP"
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = mp_name,
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
@@ -127,10 +130,10 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         #
         # Add solder nails
         #
-        kicad_mod.append(Pad(at=[-mount_pad_x, mount_pad_y], number="",
+        kicad_mod.append(Pad(at=[-mount_pad_x, mount_pad_y], number=configuration['mounting_pad_number'],
             type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=mount_pad_size,
             layers=Pad.LAYERS_SMT))
-        kicad_mod.append(Pad(at=[mount_pad_x, mount_pad_y], number="",
+        kicad_mod.append(Pad(at=[mount_pad_x, mount_pad_y], number=configuration['mounting_pad_number'],
             type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, size=mount_pad_size,
             layers=Pad.LAYERS_SMT))
     else:

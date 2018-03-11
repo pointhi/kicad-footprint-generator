@@ -49,7 +49,7 @@ def make_module(pin_count, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_unequal_row_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins=pin_count,
+        mpn=mpn, num_rows=number_of_rows, pins=pin_count, mounting_pad = "",
         pitch=cable_pitch*2, orientation=orientation_str)
 
     footprint_name = footprint_name.replace("__",'_')

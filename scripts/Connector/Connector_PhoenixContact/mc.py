@@ -30,7 +30,7 @@ def generate_one_footprint(motel, params, configuration):
         rating=series[1], num_pins=params.num_pins, pitch=pitch_mpn)
     footprint_name = configuration['fp_name_format_string'].format(man = configuration['manufacturer'],
         series = series[0], mpn = mpn, num_rows = 1,
-        num_pins = params.num_pins, pitch = params.pin_pitch,
+        num_pins = params.num_pins, mounting_pad = "", pitch = params.pin_pitch,
         orientation = configuration['orientation_str'][1] if params.angled else configuration['orientation_str'][0],
         flanged = configuration['flanged_str'][1] if params.flanged else configuration['flanged_str'][0],
         mount_hole = configuration['mount_hole_str'][1] if params.mount_hole else configuration['mount_hole_str'][0])

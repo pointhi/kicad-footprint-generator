@@ -66,7 +66,7 @@ def generate_one_footprint(pincount, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pincount,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pincount, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
