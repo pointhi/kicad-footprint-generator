@@ -48,12 +48,10 @@ variant_params = {
     'shileded': {
         'mpn_option': 'S',
         'shield_pad': True,
-        'fp_name_suffix': '_Shielded'
     },
     'plain': {
         'mpn_option': 'N',
         'shield_pad': False,
-        'fp_name_suffix': ''
     }
 }
 
@@ -79,13 +77,18 @@ def generate_one_footprint(pins_per_row, params, configuration):
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
-    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
-        series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
-        pitch=pitch, orientation=orientation_str)
+    if params['shield_pad']:
+        footprint_name = configuration['fp_name_format_string_shielded'].format(man=manufacturer,
+            series=series,
+            mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
+            pitch=pitch, orientation=orientation_str, shield_pins=1)
+    else:
+        footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+            series=series,
+            mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row,
+            pitch=pitch, orientation=orientation_str)
 
     footprint_name = footprint_name.replace('__','_')
-    footprint_name += params['fp_name_suffix']
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setAttribute('smd')
