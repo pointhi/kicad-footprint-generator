@@ -42,7 +42,7 @@ if __name__ == '__main__':
     d2=0
     R_POW = 0
     clname="D"
-    lbname="Diode_THT"
+    lbname="${KISYS3DMOD}/Diode_THT"
     deco="diode"
     deco_kup="diode_KUP"
 
@@ -85,6 +85,12 @@ if __name__ == '__main__':
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco_kup, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3dvkup)
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3dv)
     seriesname = "DO-201AD"; w=9.5; d=5.2; ddrill=1.6; add_description=", http://www.diodes.com/_files/packages/DO-201AD.pdf"; name_additions=[]
+    for rm in [12.7, 15.24]:
+        makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco, d2=d2,  x_3d=[0,0,0], s_3d=[1,1,1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3d)
+    for rm in [5.08]:
+        makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco_kup, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3dvkup)
+        makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3dv)
+    seriesname = "DO-201AE"; w=9; d=5.3; ddrill=1.3; add_description=", http://www.farnell.com/datasheets/529758.pdf"; name_additions=[]
     for rm in [12.7, 15.24]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco, d2=d2,  x_3d=[0,0,0], s_3d=[1,1,1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3d)
     for rm in [5.08]:
