@@ -48,7 +48,7 @@ ipc_spec_smaller_0402:
     most:
         toe: 0.2
         heel: -0.05
-        side: 0.5
+        side: 0.05
         courtyard: 0.2
     round_base:
         toe: 0.05
@@ -71,7 +71,7 @@ ipc_spec_larger_or_equal_0603:
     least:
         toe: 0.15
         heel: -0.05
-        -side: 0.05
+        side: -0.05
         courtyard: 0.1
     nominal:
         toe: 0.35
