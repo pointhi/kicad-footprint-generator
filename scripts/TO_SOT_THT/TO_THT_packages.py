@@ -378,8 +378,8 @@ class pack:
             self.metal = [self.plastic[0], 15.65, 1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
             self.rm = 2.54  # pin distance
-            self.pad = [1.8, 1.8]  # width/height of pads
-            self.drill = 1  # diameter of pad drills
+            self.pad = [2,2]  # width/height of pads
+            self.drill = 1.1  # diameter of pad drills
             self.name = name  # name of package
             self.mounting_hole_pos = [self.plastic[0] / 2,
                                       self.metal[1] - 2.8]  # position of mounting hole from bottom-left
@@ -388,7 +388,7 @@ class pack:
             self.pin_minlength = 3.81  # min. elongation of pins before 90° bend
             self.pinw = [0.75, 0.5];  # width,height of pins
             self.tags = []  # description/keywords
-            self.pin_offset_z = 2.5
+            self.pin_offset_z = 3.15
             self.staggered_rm = [3.7,3.8]# y-distance between pins
             self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
             self.staggered_pin_minlength = 2.05  # y-offset of back-pins in staggered mode
@@ -396,8 +396,8 @@ class pack:
             if pins == 5:
                 self.tags.append("Pentawatt")
                 self.tags.append("Multiwatt-5")
-                self.more_packnames.append("Pentawatt")
-                self.more_packnames.append("Multiwatt-5")
+                #self.more_packnames.append("Pentawatt")
+                #self.more_packnames.append("Multiwatt-5")
                 self.staggered_pin_minlength = 2.05+1.28  # y-offset of back-pins in staggered mode
                 self.rm = 1.7
                 self.pad = [1.3, 1.8]
@@ -408,12 +408,38 @@ class pack:
                 self.staggered_pad = [1.5, 1.5]  # width/height of pads
             if pins >5:
                 self.tags.append("Multiwatt-{0}".format(pins))
-                self.more_packnames.append("Multiwatt-{0}".format(pins))
+                #self.more_packnames.append("Multiwatt-{0}".format(pins))
             if largepads:
                 self.tags.append("large pads")
                 self.pad = [2, 3.5]
                 self.largepads = True
 
+        elif (name == "TO-220F"):
+            self.plastic = [10.26, 15.87-6.68, 4.7]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [self.plastic[0], 15.87, 2.52]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.pins = 3  # number of pins
+            self.rm = 2.54  # pin distance
+            self.pad = [2, 2]  # width/height of pads
+            self.drill = 1.2  # diameter of pad drills
+            self.name = name  # name of package
+            self.mounting_hole_pos = [self.plastic[0] / 2,
+                                      self.metal[1] - 3.3]  # position of mounting hole from bottom-left
+            self.mounting_hole_diameter = 3.7  # diameter of mounting hole in package
+            self.mounting_hole_drill = 3.5  # diameter of mounting hole drill
+            self.pin_minlength = 3.23  # min. elongation of pins before 90° bend
+            self.pinw = [0.6, 0.7];  # width,height of pins
+            self.tags = []  # description/keywords
+            self.pin_offset_z = 2.76+0.575/2
+            self.staggered_rm = [3.7,3.8]# y-distance between pins
+            self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
+            self.staggered_pin_minlength = 2.05  # y-offset of back-pins in staggered mode
+            self.staggered_pad = [1.8, 1.8]  # width/height of pads
+            if largepads:
+                self.tags.append("large pads")
+                self.pad = [2, 3.5]
+                self.largepads = True
+                
+                
         elif (name == "Multiwatt"):
             self.plastic = [20.2, 10.7, 5]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [self.plastic[0], 17.5,1.6]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
@@ -552,9 +578,9 @@ class pack:
         
         if rm > 0:
             self.rm = rm
+        if self.addpinstext:
+            self.name = "{0}-{1}".format(self.name, pins)
         if pins != 3:
-            if self.addpinstext:
-                self.name = "{0}-{1}".format(self.name, pins)
             self.pins = pins
             if rm <= 0:
                 self.rm = 2 * self.rm / (pins - 1)

@@ -17,7 +17,7 @@ from TO_THT_packages import *
 
 
 # vertical symbols for rectangular transistors
-def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     padsize=pck.pad
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_offset_z
@@ -219,7 +219,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
 
 
 # horizontal symbols for rectangular transistors
-def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     padsize = pck.pad
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_minlength
@@ -438,7 +438,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
 
 
 # vertical, mounted-from-Lowerside symbols for rectangular transistors
-def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_offset_z
     w_fabp = pck.plastic[0]
@@ -610,7 +610,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal, mounted-from-Lowerside symbols for rectangular transistors
-def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_minlength
     w_fabp = pck.plastic[0]
@@ -814,7 +814,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal reversed symbols for rectangular transistors
-def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = pck.pin_minlength
     w_fabp = pck.plastic[0]
@@ -973,7 +973,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal symbols for rectangular transistors
-def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads"):
     padsize = pck.pad
     d_fab=pck.diameter_outer
     d_slk=pck.diameter_outer+2*slk_offset
@@ -1115,23 +1115,11 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
 if __name__ == '__main__':
     # make standard packages
-    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK","TO-3PB"]
-    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3]]
-    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0]]
-    has3dv = [[True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
-              [True, True, True, True], [True], [True], [True], [True], ]
-    has3dh = [ [True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
-              [True, True, True, True], [True], [True], [True], [True], ]
-    off3d = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[], [0.1,0,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], [[]], ]
-    off3dh = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[0.1,0.2,0], [0.1,0.2,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], [[]], ]
-    off3dls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, -4 / 25.4], [0.1, 0, -4 / 25.4], [], [0, 0, -4 / 25.4]],
-             [[]], [[]], [[]], [[]], ]
-    off3dvls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[-0.1, 0, -2 / 25.4], [-0.1, 0, -2 / 25.4], [], [-0, 0, -2 / 25.4]],
-             [[]], [[]], [[]], [[]], ]
-
-    scale3d = [ [[], [], []], [[], [1,1,1], [], []], [[], [1,1,1]], [[], []], [[], [1,1,1]], [[], [], [], []], [[]], [[]], [[]], [[]],  ]
+    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK","TO-3PB", "TO-220F"]
+    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3], [2, 3]]
+    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0], [0, 0]]
     
-    #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
+    #makeVERTLS("${KISYS3DMOD}/Package_TO_SOT_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
     #exit()
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
@@ -1139,65 +1127,44 @@ if __name__ == '__main__':
             o3dh = [0, 0, 0]
             o3dls = [0, 0, 0]
             o3dvls = [0, 0, 0]
-            s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
+            s3d = [1,1,1]
             r3d=[0,0,0]
-            if len(off3d[p][pidx]) > 0:
-                o3d = off3d[p][pidx]
-            if len(off3dh[p][pidx]) > 0:
-                o3dh = off3dh[p][pidx]
-                print(o3dh)
-            if len(off3dls[p][pidx]) > 0:
-                o3dls = off3dls[p][pidx]
-            if len(off3dvls[p][pidx]) > 0:
-                o3dvls = off3dvls[p][pidx]
-            if len(scale3d[p][pidx]) > 0:
-                s3d = scale3d[p][pidx]
             r3dr=r3d
-            if packs[p]=="TO-220":
-                r3dr = [0, 0, 180]
             
             pack_norm = pack(packs[p], pins[p][pidx], rms[p][pidx], 0, False)
-            libn = "TO_SOT_Packages_THT"
-            makeVERT(libn, pack_norm, has3dv[p][pidx], o3d, s3d, "_LargePads", r3d)
-            makeVERTLS(libn, pack_norm, has3dv[p][pidx], o3dvls, s3d, "_LargePads", r3d)
-            makeHOR(libn, pack_norm, has3dh[p][pidx], o3dh, s3d, "_LargePads", r3d)
+            libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
+            makeVERT(libn, pack_norm, True, o3d, s3d, "_LargePads", r3d)
+            #makeVERTLS(libn, pack_norm, True, o3dvls, s3d, "_LargePads", r3d)
+            makeHOR(libn, pack_norm, True, o3dh, s3d, "_LargePads", r3d)
             if (len(pack_norm.additional_pin_pad) <= 0):
-                makeHORLS(libn, pack_norm, has3dh[p][pidx], o3dls, s3d, "_LargePads", r3d)
-                makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3dr)
+                #makeHORLS(libn, pack_norm, True, o3dls, s3d, "_LargePads", r3d)
+                makeHORREV(libn, pack_norm, True, o3d, s3d, "_LargePads", r3dr)
             
 
     # make staggered packages
     packs =   [ "TO-220",                 "Multiwatt"]
     pins =    [ [5      ,     7,     9 ], [11,       15,    ]]
     rms =     [ [1.7    ,  1.27,  0.97 ], [1.7,    1.27,    ]]
-    has3dv =  [ [True   , True, True ], [False,  True,    ]]
-    has3dh =  [ [True   , True, True ], [False,  True,    ]]
-    off3d =   [ [[]     , []   , []    ], [[],       [],    ]]
-    scale3d = [ [[]     , []   , []    ], [[],  [1,1,1],    ]]
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
-            s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
-            if len(off3d[p][pidx]) > 0:
-                o3d = off3d[p][pidx]
-            if len(scale3d[p][pidx]) > 0:
-                s3d = scale3d[p][pidx]
+            s3d = [1,1,1]
 
             pack_norm1 = pack(packs[p], pins[p][pidx], rms[p][pidx], 1, False)
             pack_norm2 = pack(packs[p], pins[p][pidx], rms[p][pidx], 2, False)
-            libn = "TO_SOT_Packages_THT"
-            makeVERT(libn, pack_norm1, has3dv[p][pidx], o3d, s3d)
-            makeVERT(libn, pack_norm2, has3dv[p][pidx], o3d, s3d)
-            makeHOR(libn, pack_norm1, has3dh[p][pidx], o3d, s3d)
-            makeHOR(libn, pack_norm2, has3dh[p][pidx], o3d, s3d)
+            libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
+            makeVERT(libn, pack_norm1, True, o3d, s3d)
+            makeVERT(libn, pack_norm2, True, o3d, s3d)
+            makeHOR(libn, pack_norm1, True, o3d, s3d)
+            makeHOR(libn, pack_norm2, True, o3d, s3d)
 
             
             
                             #pack_largepins=pack(packs[p], pins[p][pidx], rms[p][pidx], True)
-            #makeVERT("TO_SOT_Packages_THT", pack_largepins, has3dv[p][pidx], o3d, s3d)
-            #makeHOR("TO_SOT_Packages_THT", pack_largepins, has3dh[p][pidx], o3d, s3d)
+            #makeVERT("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
+            #makeHOR("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
             #if (len(pack_largepins.additional_pin_pad) <= 0):
-            #    makeHORREV("TO_SOT_Packages_THT", pack_largepins, has3dh[p][pidx], o3d, s3d)
+            #    makeHORREV("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
 
     # make round packages
     packs=[]
@@ -1336,15 +1303,9 @@ if __name__ == '__main__':
             for pidx in range(0, len(pins[p])):
 
                 o3d = [0, 0, 0]
-                s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
-                if len(off3d[p])>0:
-                    if len(off3d[p][pidx]) > 0:
-                        o3d = off3d[p][pidx]
-                if len(scale3d[p])>0:
-                    if len(scale3d[p][pidx]) > 0:
-                        s3d = scale3d[p][pidx]
+                s3d = [1,1,1]
                 
                 pack = pack_round(packs[p], pins[p][pidx], m, False)
-                libn = "TO_SOT_Packages_THT"
+                libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
                 makeTORound(libn, pack, has3d[p][pidx], o3d, s3d)
             mi=mi+1
