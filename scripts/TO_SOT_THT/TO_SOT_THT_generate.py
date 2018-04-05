@@ -305,7 +305,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
         footprint_name = footprint_name + "-1EP"
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
-    footprint_name = footprint_name + "_Horizontal"
+    footprint_name = footprint_name + "_Horizontal_TabDown"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
     if pck.largepads:
@@ -662,7 +662,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
     footprint_name = footprint_name + "_Horizontal"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
-    footprint_name = footprint_name + "_Reversed_MountFromLS"
+    footprint_name = footprint_name + "_TabUp_MountFromLS"
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
@@ -853,7 +853,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
     footprint_name = pck.name
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
-    footprint_name = footprint_name + "_Horizontal" + "_Reversed"
+    footprint_name = footprint_name + "_Horizontal" + "_TabUp"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
     if pck.largepads:

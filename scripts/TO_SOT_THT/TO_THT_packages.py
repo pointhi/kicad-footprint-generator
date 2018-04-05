@@ -300,8 +300,8 @@ class pack:
             self.metal_angled=[1.8,1.8]
             self.plastic_angled = [3, 4]
             self.tags = [""]  # description/keywords
-            self.more_packnames.append("")
             self.pin_offset_z = 1.4
+            self.addpinstext=False
                 
         elif (name == "TO-264"):
             self.plastic = [20, 26, 5]  # width,heigth,depth of plastic package, starting at bottom-left
@@ -535,6 +535,7 @@ class pack:
             self.pinw = [0.9, 0.5];  # width,height of pins
             self.tags = []   # description/keywords
             self.pin_offset_z = 1.17+0.25
+            self.addpinstext=False
             self.additional_pin_pad_size = [5.5, 6.2]  # Größe des Zusatz-SMD-Pads
             self.metal_offset_x = (self.plastic[0] - self.metal[0]) / 2  # offset of metal from left
             if largepads:
