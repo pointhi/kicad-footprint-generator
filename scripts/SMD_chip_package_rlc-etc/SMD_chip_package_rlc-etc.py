@@ -66,8 +66,6 @@ class TwoTerminalSMDchip():
             Stol_RMS = math.sqrt(Ltol**2+2*(Ttol**2))
             Smax_RMS = device_params['terminator_spacing_min'] + Stol_RMS
             Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
-            if device_params['body_length_min'] == 6.15:
-                print(Gmin)
 
         else:
             Ttol = (device_params['terminal_length_max'] - device_params['terminal_length_min'])
