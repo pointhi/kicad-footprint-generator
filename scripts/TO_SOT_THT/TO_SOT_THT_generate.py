@@ -95,6 +95,8 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
     footprint_name = footprint_name + "_Vertical"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
+    if pck.staggered_type>0:
+        footprint_name = footprint_name + "_Py{0}mm".format(pck.staggered_rm[0],3)
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
@@ -308,6 +310,10 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     footprint_name = footprint_name + "_Horizontal_TabDown"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
+        
+    if pck.staggered_type>0:
+        footprint_name = footprint_name + "_Py{0}mm".format(pck.staggered_rm[1],3)
+        
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
@@ -1116,8 +1122,8 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
 if __name__ == '__main__':
     # make standard packages
     packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK","TO-3PB", "TO-220F"]
-    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3], [2, 3]]
-    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0], [0, 0]]
+    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3], [2, 3, 4, 5, ]]
+    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0], [0, 0, 2.54,1.7]]
     
     #makeVERTLS("${KISYS3DMOD}/Package_TO_SOT_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
     #exit()
@@ -1142,16 +1148,21 @@ if __name__ == '__main__':
             
 
     # make staggered packages
-    packs =   [ "TO-220",                 "Multiwatt"]
-    pins =    [ [5      ,     7,     9 ], [11,       15,    ]]
-    rms =     [ [1.7    ,  1.27,  0.97 ], [1.7,    1.27,    ]]
+    packs =   [ "TO-220",                                         "TO-220F",                              ]
+    pins =    [ [4,      5,     7,     9,     11,       15,    ], [ 4,    4,      5,      7,    9,  11,   15 ], ]
+    rms =     [ [2.54, 1.7,  1.27,  0.97,    1.7,    1.27,     ], [ 2.54, 2.54, 1.7,   1.27,  0.9, 1.7, 1.27 ], ]
+    pitchys = [ [],                                               [    0, 2.05,   0,      0,    0,   0,    0 ], ]
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
             s3d = [1,1,1]
+            pitchy=0
+            if p<len(pitchys):
+                if pidx<len(pitchys[p]):
+                    pitchy=pitchys[p][pidx]
 
-            pack_norm1 = pack(packs[p], pins[p][pidx], rms[p][pidx], 1, False)
-            pack_norm2 = pack(packs[p], pins[p][pidx], rms[p][pidx], 2, False)
+            pack_norm1 = pack(packs[p], pins[p][pidx], rms[p][pidx], 1, False, pitchy)
+            pack_norm2 = pack(packs[p], pins[p][pidx], rms[p][pidx], 2, False, pitchy)
             libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
             makeVERT(libn, pack_norm1, True, o3d, s3d)
             makeVERT(libn, pack_norm2, True, o3d, s3d)

@@ -246,7 +246,7 @@ class pack:
         self.rm_list = []
         self.more_packnames = []  # additional package names, e.g. "I2PAK" for TO-262
 
-    def __init__(self ,name ,pins=3 ,rm=0, staggered_type=0,largepads=False):
+    def __init__(self ,name ,pins=3 ,rm=0, staggered_type=0,largepads=False,pitchy=0):
         self. additional_pin_pad =[] # Position des Zusatz-SMD-Pads
         self.additional_pin_pad_size = [] # Größe des Zusatz-SMD-Pads
         self.largepads =largepads
@@ -277,8 +277,8 @@ class pack:
             self.mounting_hole_drill = 4  # diameter of mounting hole drill
             self.pin_minlength = 5.08  # min. elongation of pins before 90° bend
             self.pinw = [1.15, 0.4];  # width,height of pins
-            self.tags = ["SOT93"]  # description/keywords
-            self.more_packnames.append("SOT93")
+            self.tags = ["SOT-93"]  # description/keywords
+            self.more_packnames.append("SOT-93")
             self.pin_offset_z = 3
             if largepads:
                 self.pad = [3.5, 4.5]
@@ -409,6 +409,27 @@ class pack:
             if pins >5:
                 self.tags.append("Multiwatt-{0}".format(pins))
                 #self.more_packnames.append("Multiwatt-{0}".format(pins))
+            if pins>9:
+                self.plastic = [20.2, 10.7, 5]  # width,heigth,depth of plastic package, starting at bottom-left
+                self.metal = [self.plastic[0], 17.5,1.6]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+                self.metal_angled = [2.25,2.25]
+                self.pins = 15  # number of pins
+                self.rm = 1.3  # pin distance
+                self.pad = [1.8, 1.8]  # width/height of pads
+                self.drill = 1  # diameter of pad drills
+                self.name = name+"-{0}".format(pins)  # name of package
+                self.addpinstext=False
+                self.mounting_hole_pos = [self.plastic[0] / 2, 17.5-2.8]  # position of mounting hole from bottom-left
+                self.mounting_hole_diameter = 3.7  # diameter of mounting hole in package
+                self.mounting_hole_drill = 3.5  # diameter of mounting hole drill
+                self.pin_minlength = 3.81  # min. elongation of pins before 90° bend
+                self.pinw = [0.7, 0.5];  # width,height of pins
+                self.tags = []  # description/keywords
+                self.pin_offset_z = 4.55
+                self.staggered_rm = [5.08,2.54]  # y-distance between pins
+                self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
+                self.staggered_pin_minlength= 3.3  # y-offset of back-pins in staggered mode
+                self.staggered_pad = [1.8, 1.8]  # width/height of pads            if largepads:
             if largepads:
                 self.tags.append("large pads")
                 self.pad = [2, 3.5]
@@ -434,6 +455,42 @@ class pack:
             self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
             self.staggered_pin_minlength = 2.05  # y-offset of back-pins in staggered mode
             self.staggered_pad = [1.8, 1.8]  # width/height of pads
+            if pins == 5:
+                self.tags.append("PentawattF-")
+                self.tags.append("MultiwattF-5")
+                #self.more_packnames.append("Pentawatt")
+                #self.more_packnames.append("Multiwatt-5")
+                self.staggered_pin_minlength = 2.05+1.28  # y-offset of back-pins in staggered mode
+                self.rm = 1.7
+                self.pad = [1.3, 1.8]
+            if pins == 9:
+                self.pinw = [0.5, 0.38];
+                self.drill = 0.7
+                self.pad = [1.3, 1.3]
+                self.staggered_pad = [1.5, 1.5]  # width/height of pads
+            if pins >9:
+                self.plastic = [20.02, 10.64, 4.5]  # width,heigth,depth of plastic package, starting at bottom-left
+                self.metal = [self.plastic[0], 19.58,3.3]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+                self.metal_angled = [2.84,2.84]
+                self.pins = pins  # number of pins
+                self.rm = 1.7  # pin distance
+                self.pad = [1.8, 1.8]  # width/height of pads
+                self.drill = 1  # diameter of pad drills
+                self.name = name+"-{0}".format(pins)  # name of package
+                self.addpinstext=False
+                self.mounting_hole_pos = [self.plastic[0] / 2, 17.5-2.8]  # position of mounting hole from bottom-left
+                self.mounting_hole_diameter = 3.7  # diameter of mounting hole in package
+                self.mounting_hole_drill = 3.5  # diameter of mounting hole drill
+                self.pin_minlength = 3.81  # min. elongation of pins before 90° bend
+                self.pinw = [0.7, 0.5];  # width,height of pins
+                self.tags = []  # description/keywords
+                self.pin_offset_z = 4.29
+                self.staggered_rm = [5.08,2.54]  # y-distance between pins
+                self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
+                self.staggered_pin_minlength= 3.3  # y-offset of back-pins in staggered mode
+                self.staggered_pad = [1.8, 1.8]  # width/height of pads
+                self.tags.append("MultiwattF-{0}".format(pins))
+                #self.more_packnames.append("Multiwatt-{0}".format(pins))
             if largepads:
                 self.tags.append("large pads")
                 self.pad = [2, 3.5]
@@ -602,6 +659,9 @@ class pack:
         if self.staggered_type==2:
             self.tags.append("staggered type-2")
             self.fpnametags=["StaggeredType2"] + self.fpnametags
+            
+        if pitchy>0:
+            self.staggered_rm = [pitchy,pitchy]  # y-distance between pins
 
 
 crt_offset = 0.25
