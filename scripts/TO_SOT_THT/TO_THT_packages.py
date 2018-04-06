@@ -246,7 +246,7 @@ class pack:
         self.rm_list = []
         self.more_packnames = []  # additional package names, e.g. "I2PAK" for TO-262
 
-    def __init__(self ,name ,pins=3 ,rm=0, staggered_type=0,largepads=False,pitchy=0):
+    def __init__(self ,name ,pins=3 ,rm=0, staggered_type=0,largepads=False,pitchy=0,ypinoffset=0):
         self. additional_pin_pad =[] # Position des Zusatz-SMD-Pads
         self.additional_pin_pad_size = [] # Größe des Zusatz-SMD-Pads
         self.largepads =largepads
@@ -425,7 +425,7 @@ class pack:
                 self.pin_minlength = 3.81  # min. elongation of pins before 90° bend
                 self.pinw = [0.7, 0.5];  # width,height of pins
                 self.tags = []  # description/keywords
-                self.pin_offset_z = 4.55
+                self.pin_offset_z = 4.55 
                 self.staggered_rm = [5.08,2.54]  # y-distance between pins
                 self.staggered_pin_offset_z = 4.5  # z-offset of back-pins in staggered mode
                 self.staggered_pin_minlength= 3.3  # y-offset of back-pins in staggered mode
@@ -663,6 +663,8 @@ class pack:
         if pitchy>0:
             self.staggered_rm = [pitchy,pitchy]  # y-distance between pins
 
+        if ypinoffset!=0:
+            self.pin_offset_z = ypinoffset
 
 crt_offset = 0.25
 slk_offset = 0.12

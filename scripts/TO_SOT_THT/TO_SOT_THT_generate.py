@@ -1148,10 +1148,11 @@ if __name__ == '__main__':
             
 
     # make staggered packages
-    packs =   [ "TO-220",                                         "TO-220F",                              ]
-    pins =    [ [4,      5,     7,     9,     11,       15,    ], [ 4,    4,      5,      7,    9,  11,   15 ], ]
-    rms =     [ [2.54, 1.7,  1.27,  0.97,    1.7,    1.27,     ], [ 2.54, 2.54, 1.7,   1.27,  0.9, 1.7, 1.27 ], ]
-    pitchys = [ [],                                               [    0, 2.05,   0,      0,    0,   0,    0 ], ]
+    packs =       [ "TO-220",                                         "TO-220F",                              ]
+    pins =        [ [4,      5,     7,     9,     11,       15,    ], [ 4,    4,      5,     5,      7,    9,  11,   15 ], ]
+    rms =         [ [2.54, 1.7,  1.27,  0.97,    1.7,    1.27,     ], [ 2.54, 2.54, 1.7,   1.7,   1.27,  0.9, 1.7, 1.27 ], ]
+    pitchys =     [ [],                                               [    0, 2.05,   0,  2.06,      0,    0,   0,    0 ], ]
+    ypinoffsets = [ [],                                               [    0,    0,   0,   4.5,      0,    0,   0,    0 ], ]
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
@@ -1160,9 +1161,13 @@ if __name__ == '__main__':
             if p<len(pitchys):
                 if pidx<len(pitchys[p]):
                     pitchy=pitchys[p][pidx]
+            ypinoffset=0
+            if p<len(ypinoffsets):
+                if pidx<len(ypinoffsets[p]):
+                    ypinoffset=ypinoffsets[p][pidx]
 
-            pack_norm1 = pack(packs[p], pins[p][pidx], rms[p][pidx], 1, False, pitchy)
-            pack_norm2 = pack(packs[p], pins[p][pidx], rms[p][pidx], 2, False, pitchy)
+            pack_norm1 = pack(packs[p], pins[p][pidx], rms[p][pidx], 1, False, pitchy,ypinoffset)
+            pack_norm2 = pack(packs[p], pins[p][pidx], rms[p][pidx], 2, False, pitchy,ypinoffset)
             libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
             makeVERT(libn, pack_norm1, True, o3d, s3d)
             makeVERT(libn, pack_norm2, True, o3d, s3d)
