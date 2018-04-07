@@ -111,6 +111,8 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -124,7 +126,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
     kicad_modt.append(Text(type='reference', text='REF**', at=[txt_x, t_slkp - txt_offset], layer='F.SilkS'))
     kicad_modt.append(Text(type='user', text='%R', at=[txt_x, t_slkp - txt_offset], layer='F.Fab'))
     kicad_modt.append(
-        Text(type='value', text=footprint_name, at=[txt_x, t_slkp + max(h_slkm, h_slkp, h_slkp+maxpiny + padsize[1] / 2) + txt_offset], layer='F.Fab'))
+        Text(type='value', text=footprint_name, at=[txt_x, t_slkp + max(h_slkm, h_slkp, -t_slkp+h_crt+t_crt) + txt_offset], layer='F.Fab'))
     
     # create FAB-layer
     kicad_modt.append(
@@ -327,6 +329,8 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -498,6 +502,8 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -682,6 +688,8 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -875,6 +883,8 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -1024,6 +1034,8 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -1121,7 +1133,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
 
 if __name__ == '__main__':
     # make standard packages
-    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK","TO-3PB", "TO-220F"]
+    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-3P", "TO-262", "SIPAK","TO-3PB", "TO-220F"]
     pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3], [2, 3, 4, 5, ]]
     rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0], [0, 0, 2.54,1.7]]
     
