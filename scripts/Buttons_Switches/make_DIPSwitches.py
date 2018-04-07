@@ -130,6 +130,27 @@ if __name__ == '__main__':
                       switch_height, 'Slide', True, [], "Button_Switch_SMD", [0, 0, 0], [1, 1, 1],
                       [0, 0, 0], "", True, webpage="https://www.omron.com/ecb/products/pdf/en-a6h.pdf", device_name="Omron_A6H-{0}101".format(int(p/2)),switchtype=switchtype)
 
+
+    # Omron A6S DIP-switches (http://omronfs.omron.com/en_US/ecb/products/pdf/en-a6s.pdf):
+    pins = [2,4,6,8,10,12,14,16,18,20]
+    rm = 2.54
+    pinrow_distance = 8.9
+    package_width = 6.2
+    switch_width = 3
+    switch_height = 1.1
+    overlen_top = 1.74
+    overlen_bottom = 1.74
+    ddrill = 0
+    pad_smd = [1.5, 1.1]
+
+    os.chdir(cwd)
+    os.chdir("SMD")
+    for p in pins:
+        makeDIPSwitch(p, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
+                      switch_height, 'Slide', True, [], "Button_Switch_SMD", [0, 0, 0], [1, 1, 1],
+                      [0, 0, 0], "", True, webpage="http://omronfs.omron.com/en_US/ecb/products/pdf/en-a6s.pdf", device_name="Omron_A6S-{0}10x".format(int(p/2)),switchtype=switchtype)
+
+
     # Copal CHS DIP-switches (http://www.nidec-copal-electronics.com/e/catalog/switch/chs.pdf):
     pins = [2, 4, 8, 12, 16, 20]
     rm = 1.27
