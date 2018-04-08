@@ -585,23 +585,23 @@ class pack:
                 self.largepads = True
 
         elif (name == "TO-251"):
-            self.webpage="https://www.diodes.com/assets/Package-Files/TO251.pdf"
-            self.plastic = [6.5, 5.5, 2.3]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [5, 7, 0.5]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.webpage="http://www.icbank.com/icbank_data/semi_package/to251_dim.pdf"
+            self.plastic = [6.58, 6.1, 2.3]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [5.34, 7, 0.5]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
-            self.rm = 2.3  # pin distance
-            self.pad = [1.4, 1.4]  # width/height of pads
-            self.drill = 0.8  # diameter of pad drills
+            self.rm = 2.29  # pin distance
+            self.pad = [1.8, 1.8]  # width/height of pads
+            self.drill = 1.1  # diameter of pad drills
             self.name = name  # name of package
             self.mounting_hole_pos = [self.plastic[0] / 2,
                                       self.plastic[1] - 3.9]  # position of mounting hole from bottom-left
             self.mounting_hole_diameter = 0  # diameter of mounting hole in package
             self.mounting_hole_drill = 0  # diameter of mounting hole drill
-            self.pin_minlength = 2  # min. elongation of pins before 90° bend
-            self.pinw = [0.5, 0.5];  # width,height of pins
+            self.pin_minlength = 2.5  # min. elongation of pins before 90° bend
+            self.pinw = [0.75, 0.5];  # width,height of pins
             self.tags = ["IPAK"]  # description/keywords
             #self.more_packnames.append("IPAK")
-            self.pin_offset_z = 1
+            self.pin_offset_z = 1.27
             self.additional_pin_pad_size = [5.7, 6.2]  # Größe des Zusatz-SMD-Pads
             self.metal_offset_x = (self.plastic[0] - self.metal[0]) / 2  # offset of metal from left
             if largepads:
