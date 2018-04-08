@@ -641,23 +641,25 @@ class pack:
 
 
         elif (name == "TO-262"):
-            self.webpage="https://www.diodes.com/assets/Package-Files/TO262.pdf"
-            self.plastic = [10, 9.25, 4.4]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [9.8, 9.75, 1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
+            self.webpage="http://www.onsemi.com/pub/Collateral/EN8586-D.PDF"
+            if pins==5:
+                self.webpage="http://pdf.datasheetcatalog.com/datasheet/irf/iris4011.pdf"
+            self.plastic = [10, 9.2, 4.5]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [10, 10.4, 1.3]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
             self.rm = 2.54  # pin distance
-            self.pad = [2.2, 2.2]  # width/height of pads
-            self.drill = 1.2  # diameter of pad drills
+            self.pad = [2, 2]  # width/height of pads
+            self.drill = 1.1  # diameter of pad drills
             self.name = name  # name of package
             self.mounting_hole_pos = [self.plastic[0] / 2,
                                       self.plastic[1] - 3.9]  # position of mounting hole from bottom-left
             self.mounting_hole_diameter = 0  # diameter of mounting hole in package
             self.mounting_hole_drill = 0  # diameter of mounting hole drill
-            self.pin_minlength = 13.5-4.55  # min. elongation of pins before 90° bend
-            self.pinw = [1.05, 0.5];  # width,height of pins
-            self.tags = ["IIPAK", "I2PAK", "I²PAK"]  # description/keywords
+            self.pin_minlength = 3.25  # min. elongation of pins before 90° bend
+            self.pinw = [0.8, 0.5];  # width,height of pins
+            self.tags = ["IIPAK", "I2PAK"]  # description/keywords
             #self.more_packnames.append("I2PAK")
-            self.pin_offset_z = 2.4+0.25
+            self.pin_offset_z = 2.65
             self.additional_pin_pad_size = [10, 8]  # Größe des Zusatz-SMD-Pads
             self.metal_offset_x = (self.plastic[0] - self.metal[0]) / 2  # offset of metal from left
             if largepads:
