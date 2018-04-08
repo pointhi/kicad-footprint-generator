@@ -342,6 +342,8 @@ class pack:
                 
         elif (name == "TO-264"):
             self.webpage="https://www.fairchildsemi.com/package-drawings/TO/TO264A03.pdf"
+            if (pins==5):
+                self.webpage="https://www.onsemi.com/pub/Collateral/NJL3281D-D.PDF"
             self.plastic = [20, 26, 5]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [self.plastic[0], 0,
                           2]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
