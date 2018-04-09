@@ -269,22 +269,22 @@ class pack:
 
         if (name == "TO-218"):
             self.webpage="https://www.vishay.com/docs/95214/fto218.pdf"
-            self.plastic = [15.92, 12.7, 5.08]  # width,heigth,depth of plastic package, starting at bottom-left
-            self.metal = [self.plastic[0], 20.72,
+            self.plastic = [14.94, 12.19, 4.8]  # width,heigth,depth of plastic package, starting at bottom-left
+            self.metal = [self.plastic[0], 12.19+7.79,
                           1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
-            self.rm = 5.47  # pin distance
+            self.rm = 5.475  # pin distance
             self.pad = [2.5, 3.5]  # width/height of pads
             self.drill = 1.5  # diameter of pad drills
             self.name = name  # name of package
-            self.mounting_hole_pos = [15.2 / 2, 16.2]  # position of mounting hole from bottom-left
+            self.mounting_hole_pos = [self.plastic[0] / 2, 16.2]  # position of mounting hole from bottom-left
             self.mounting_hole_diameter = 4.23  # diameter of mounting hole in package
-            self.mounting_hole_drill = 4  # diameter of mounting hole drill
-            self.pin_minlength = 5.08  # min. elongation of pins before 90° bend
+            self.mounting_hole_drill = 4.04  # diameter of mounting hole drill
+            self.pin_minlength = 2.35  # min. elongation of pins before 90° bend
             self.pinw = [1.15, 0.4];  # width,height of pins
             self.tags = ["SOT-93"]  # description/keywords
             #self.more_packnames.append("SOT-93")
-            self.pin_offset_z = 3
+            self.pin_offset_z = 3.17
             if largepads:
                 self.pad = [3.5, 4.5]
                 self.largepads = True
