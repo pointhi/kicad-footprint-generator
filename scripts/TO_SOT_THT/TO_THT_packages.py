@@ -400,7 +400,9 @@ class pack:
             #if (pins==4):
             #    self.webpage="https://www.centralsemi.com/PDFS/CASE/TO-220-2PD.PDF"
             if (pins==5):
-                self.webpage="http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-to-220/to-220_5_05-08-1421.pdf?domain=www.linear.com, http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-to-220/to-220_5_05-08-1491.pdf, https://www.diodes.com/assets/Package-Files/TO220-5.pdf"
+                self.webpage="http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-to-220/to-220_5_05-08-1421.pdf?domain=www.linear.com, https://www.diodes.com/assets/Package-Files/TO220-5.pdf"
+                if staggered_type!=0:
+                    self.webpage="http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-to-220/to-220_5_05-08-1421_straight_lead.pdf"
             self.plastic = [10, 9.25, 4.4]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [self.plastic[0], 15.65, 1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins
@@ -440,7 +442,7 @@ class pack:
                 if pins==11:
                     self.webpage="http://www.st.com/resource/en/datasheet/tda7391lv.pdf"
                 if pins==15:
-                    self.webpage="https://www.sparkfun.com/datasheets/Robotics/L298_H_Bridge.pdf"
+                    self.webpage="http://www.st.com/resource/en/datasheet/l298.pdf"
                 self.plastic = [20.2, 10.7, 5]  # width,heigth,depth of plastic package, starting at bottom-left
                 self.metal = [self.plastic[0], 17.5,1.6]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
                 self.metal_angled = [2.25,2.25]
@@ -587,7 +589,7 @@ class pack:
                 self.largepads = True
 
         elif (name == "TO-251"):
-            self.webpage="http://www.icbank.com/icbank_data/semi_package/to251_dim.pdf"
+            self.webpage="https://www.diodes.com/assets/Package-Files/TO251.pdf"
             self.plastic = [6.58, 6.1, 2.3]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [5.34, 7, 0.5]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
             self.pins = 3  # number of pins

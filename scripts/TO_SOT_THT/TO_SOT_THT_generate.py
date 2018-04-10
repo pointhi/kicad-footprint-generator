@@ -419,7 +419,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     
     if len(pck.additional_pin_pad_size) > 0:
         kicad_modt.append(Pad(number=pck.pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[addpadx, addpady],
-                             size=pck.additional_pin_pad_size, drill=0, layers=['F.Cu', 'F.Mask']))
+                             size=pck.additional_pin_pad_size, drill=0, layers=['F.Cu', 'F.Mask', 'F.Paste']))
     
     # create pads
     for p in range(0,len(pads)):
@@ -795,7 +795,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
     
     if len(pck.additional_pin_pad_size) > 0:
         kicad_modt.append(Pad(number=pck.pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[addpadx, addpady],
-                             size=pck.additional_pin_pad_size, drill=0, layers=['B.Cu', 'F.Mask']))
+                             size=pck.additional_pin_pad_size, drill=0, layers=['B.Cu', 'F.Mask', 'B.Paste']))
     
     # create pads
     x = 0
