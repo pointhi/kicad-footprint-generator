@@ -394,7 +394,8 @@ class pack:
 
 
         elif (name == "TO-220"):
-            self.webpage="https://www.vishay.com/docs/66542/to-220-1.pdf"
+            if pins==3:
+                self.webpage="https://www.vishay.com/docs/66542/to-220-1.pdf"
             if (pins==2):
                 self.webpage="https://www.centralsemi.com/PDFS/CASE/TO-220-2PD.PDF"
             #if (pins==4):
@@ -469,7 +470,10 @@ class pack:
                 self.largepads = True
 
         elif (name == "TO-220F"):
-            self.webpage="http://www.st.com/resource/en/datasheet/stp20nm60.pdf"
+            if pins==2:
+                self.webpage="http://www.onsemi.com/pub/Collateral/FFPF10F150S-D.pdf"
+            if pins==3:
+                self.webpage="http://www.st.com/resource/en/datasheet/stp20nm60.pdf"
             if pins==4:
                 self.webpage="https://www.njr.com/semicon/PDF/package/TO-220F-4_E.pdf"
             self.plastic = [10.26, 15.87-6.68, 4.7]  # width,heigth,depth of plastic package, starting at bottom-left
