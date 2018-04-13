@@ -402,7 +402,7 @@ class pack:
             #    self.webpage="https://www.centralsemi.com/PDFS/CASE/TO-220-2PD.PDF"
             if (pins==5):
                 self.webpage="http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-to-220/to-220_5_05-08-1421.pdf?domain=www.linear.com, https://www.diodes.com/assets/Package-Files/TO220-5.pdf"
-                if staggered_type!=0:
+                if staggered_type==0:
                     self.webpage="http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-to-220/to-220_5_05-08-1421_straight_lead.pdf"
             self.plastic = [10, 9.25, 4.4]  # width,heigth,depth of plastic package, starting at bottom-left
             self.metal = [self.plastic[0], 15.65, 1.27]  # width,heigth,thickness of metal plate, starting at metal_offset from bottom-left
