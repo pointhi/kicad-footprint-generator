@@ -44,7 +44,7 @@ def gen_fab_pins(origx, origy, kicad_mod, configuration):
 	kicad_mod.append(PolygoneLine(polygone=poly_f_front,
        width=configuration['fab_line_width'], layer="F.Fab"))
 
-def gen_silk_pins(origx, origy, kicad_mod, configuration):
+def gen_silk_pins(origx, origy, kicad_mod, configuration, fill):
 	poly_s_back1 = [
         {'x': origx+2.5/2+configuration['silk_pad_clearance']+configuration['silk_line_width']/2, 'y': origy-0.64/2-configuration['silk_line_width']/2},
         {'x': origx+3.5-configuration['silk_line_width']/2, 'y': origy-0.64/2-configuration['silk_line_width']/2},
@@ -65,6 +65,11 @@ def gen_silk_pins(origx, origy, kicad_mod, configuration):
         width=configuration['silk_line_width'], layer="F.SilkS"))
 	kicad_mod.append(PolygoneLine(polygone=poly_s_front,
         width=configuration['silk_line_width'], layer="F.SilkS"))
+	if fill:
+		for x in range(0, 6):
+			kicad_mod.append(RectLine(start={'x': origx+6+configuration['silk_line_width']/2, 'y': origy-0.64/2+(x+0.5)*configuration['silk_line_width']},
+				end={'x': origx+12+configuration['silk_line_width']/2, 'y': origy-0.64/2+(x+0.5)*configuration['silk_line_width']},
+				width=configuration['silk_line_width'], layer="F.SilkS"))
 
 def gen_footprint(pinnum, manpart, configuration):
 	orientation_str = configuration['orientation_options']['H']
@@ -124,8 +129,7 @@ def gen_footprint(pinnum, manpart, configuration):
 	kicad_mod.append(PolygoneLine(polygone=s_body,
             width=configuration['silk_line_width'], layer="F.SilkS"))
 	for y in range(0, pinnum):
-		gen_silk_pins(0, (pinnum-1)*pitch/2+(y-1)*2.54, kicad_mod, configuration)
-	
+		gen_silk_pins(0, (pinnum-1)*pitch/2+(y-1)*2.54, kicad_mod, configuration, y==0)
 	s_pin1 = [
         {'x': -(2.5/2+configuration['silk_pad_clearance']+configuration['silk_line_width']/2), 'y': 0},
         {'x': -(2.5/2+configuration['silk_pad_clearance']+configuration['silk_line_width']/2), 'y': 2.54-(pinnum-1)*pitch/2-1/2-configuration['silk_line_width']/2-configuration['silk_pad_clearance']},
@@ -133,6 +137,7 @@ def gen_footprint(pinnum, manpart, configuration):
 	]
 	kicad_mod.append(PolygoneLine(polygone=s_pin1,
             width=configuration['silk_line_width'], layer="F.SilkS"))
+	
 	
 	# CrtYd
 	cy_offset = configuration['courtyard_offset']['connector']
