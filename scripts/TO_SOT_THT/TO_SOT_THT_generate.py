@@ -17,7 +17,7 @@ from TO_THT_packages import *
 
 
 # vertical symbols for rectangular transistors
-def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     padsize=pck.pad
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_offset_z
@@ -95,6 +95,8 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
     footprint_name = footprint_name + "_Vertical"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
+    if pck.staggered_type>0:
+        footprint_name = footprint_name + "_Py{0}mm".format(pck.staggered_rm[0],3)
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
@@ -109,6 +111,8 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -122,7 +126,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
     kicad_modt.append(Text(type='reference', text='REF**', at=[txt_x, t_slkp - txt_offset], layer='F.SilkS'))
     kicad_modt.append(Text(type='user', text='%R', at=[txt_x, t_slkp - txt_offset], layer='F.Fab'))
     kicad_modt.append(
-        Text(type='value', text=footprint_name, at=[txt_x, t_slkp + max(h_slkm, h_slkp, h_slkp+maxpiny + padsize[1] / 2) + txt_offset], layer='F.Fab'))
+        Text(type='value', text=footprint_name, at=[txt_x, t_slkp + max(h_slkm, h_slkp, -t_slkp+h_crt+t_crt) + txt_offset], layer='F.Fab'))
     
     # create FAB-layer
     kicad_modt.append(
@@ -219,7 +223,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.5
 
 
 # horizontal symbols for rectangular transistors
-def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     padsize = pck.pad
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_minlength
@@ -305,9 +309,13 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
         footprint_name = footprint_name + "-1EP"
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
-    footprint_name = footprint_name + "_Horizontal"
+    footprint_name = footprint_name + "_Horizontal_TabDown"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
+        
+    if pck.staggered_type>0:
+        footprint_name = footprint_name + "_Py{0}mm".format(pck.staggered_rm[1],3)
+        
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
@@ -321,6 +329,8 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -409,7 +419,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
     
     if len(pck.additional_pin_pad_size) > 0:
         kicad_modt.append(Pad(number=pck.pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[addpadx, addpady],
-                             size=pck.additional_pin_pad_size, drill=0, layers=['F.Cu', 'F.Mask']))
+                             size=pck.additional_pin_pad_size, drill=0, layers=['F.Cu', 'F.Mask', 'F.Paste']))
     
     # create pads
     for p in range(0,len(pads)):
@@ -438,7 +448,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54
 
 
 # vertical, mounted-from-Lowerside symbols for rectangular transistors
-def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_offset_z
     w_fabp = pck.plastic[0]
@@ -492,6 +502,8 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -610,7 +622,7 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal, mounted-from-Lowerside symbols for rectangular transistors
-def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = -pck.pin_minlength
     w_fabp = pck.plastic[0]
@@ -662,7 +674,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2
     footprint_name = footprint_name + "_Horizontal"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
-    footprint_name = footprint_name + "_Reversed_MountFromLS"
+    footprint_name = footprint_name + "_TabUp_MountFromLS"
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
@@ -676,6 +688,8 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -781,7 +795,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2
     
     if len(pck.additional_pin_pad_size) > 0:
         kicad_modt.append(Pad(number=pck.pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[addpadx, addpady],
-                             size=pck.additional_pin_pad_size, drill=0, layers=['B.Cu', 'F.Mask']))
+                             size=pck.additional_pin_pad_size, drill=0, layers=['B.Cu', 'F.Mask', 'B.Paste']))
     
     # create pads
     x = 0
@@ -814,7 +828,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, -2], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal reversed symbols for rectangular transistors
-def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads", r_3d=[0, 0, 0]):
+def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext="_LargePads", r_3d=[0, 0, 0]):
     l_fabp = -pck.pin_offset_x
     t_fabp = pck.pin_minlength
     w_fabp = pck.plastic[0]
@@ -853,7 +867,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     footprint_name = pck.name
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
-    footprint_name = footprint_name + "_Horizontal" + "_Reversed"
+    footprint_name = footprint_name + "_Horizontal" + "_TabUp"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
     if pck.largepads:
@@ -869,6 +883,8 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -973,7 +989,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2
 
 
 # horizontal symbols for rectangular transistors
-def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], lptext="_LargePads"):
+def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_LargePads"):
     padsize = pck.pad
     d_fab=pck.diameter_outer
     d_slk=pck.diameter_outer+2*slk_offset
@@ -1018,6 +1034,8 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
     for t in pck.tags:
         description = description + ", " + t
         tags = tags + " " + t
+    if len(pck.webpage)>0:
+        description = description + ", see " + pck.webpage
     
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
@@ -1115,23 +1133,11 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 
 
 if __name__ == '__main__':
     # make standard packages
-    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-280", "TO-262", "SIPAK","TO-3PB"]
-    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3], [3],  [3]]
-    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0], [0],  [0]]
-    has3dv = [[True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
-              [True, True, True, True], [True], [True], [True], [True], ]
-    has3dh = [ [True, True, True], [True, True, True, True], [True, True], [True, True], [True, True],
-              [True, True, True, True], [True], [True], [True], [True], ]
-    off3d = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[], [0.1,0,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], [[]], ]
-    off3dh = [ [[], [], []], [[5.4/25.4,0,0], [5.4/25.4,0,0], [], []], [[5.2/25.4,0,0], [5.2/25.4,0,0]], [[], []], [[0.1,0.2,0], [0.1,0.2,0]], [[0.1, 0, 0], [0.1, 0, 0], [], [0,0,0]], [[]], [[]], [[]], [[]], ]
-    off3dls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[0.1, 0, -4 / 25.4], [0.1, 0, -4 / 25.4], [], [0, 0, -4 / 25.4]],
-             [[]], [[]], [[]], [[]], ]
-    off3dvls = [[[], [], []], [[], [], [], []], [[], []], [[], []], [[], []], [[-0.1, 0, -2 / 25.4], [-0.1, 0, -2 / 25.4], [], [-0, 0, -2 / 25.4]],
-             [[]], [[]], [[]], [[]], ]
-
-    scale3d = [ [[], [], []], [[], [1,1,1], [], []], [[], [1,1,1]], [[], []], [[], [1,1,1]], [[], [], [], []], [[]], [[]], [[]], [[]],  ]
+    packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-3P", "TO-262", "SIPAK","TO-3PB", "TO-220F"]
+    pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3,5], [3],  [3], [2, 3, 4, 5, ]]
+    rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0,1.7], [0],  [0], [0, 0, 2.54,1.7]]
     
-    #makeVERTLS("TO_SOT_Packages_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
+    #makeVERTLS("${KISYS3DMOD}/Package_TO_SOT_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
     #exit()
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
@@ -1139,65 +1145,54 @@ if __name__ == '__main__':
             o3dh = [0, 0, 0]
             o3dls = [0, 0, 0]
             o3dvls = [0, 0, 0]
-            s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
+            s3d = [1,1,1]
             r3d=[0,0,0]
-            if len(off3d[p][pidx]) > 0:
-                o3d = off3d[p][pidx]
-            if len(off3dh[p][pidx]) > 0:
-                o3dh = off3dh[p][pidx]
-                print(o3dh)
-            if len(off3dls[p][pidx]) > 0:
-                o3dls = off3dls[p][pidx]
-            if len(off3dvls[p][pidx]) > 0:
-                o3dvls = off3dvls[p][pidx]
-            if len(scale3d[p][pidx]) > 0:
-                s3d = scale3d[p][pidx]
             r3dr=r3d
-            if packs[p]=="TO-220":
-                r3dr = [0, 0, 180]
             
             pack_norm = pack(packs[p], pins[p][pidx], rms[p][pidx], 0, False)
-            libn = "TO_SOT_Packages_THT"
-            makeVERT(libn, pack_norm, has3dv[p][pidx], o3d, s3d, "_LargePads", r3d)
-            makeVERTLS(libn, pack_norm, has3dv[p][pidx], o3dvls, s3d, "_LargePads", r3d)
-            makeHOR(libn, pack_norm, has3dh[p][pidx], o3dh, s3d, "_LargePads", r3d)
+            libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
+            makeVERT(libn, pack_norm, True, o3d, s3d, "_LargePads", r3d)
+            #makeVERTLS(libn, pack_norm, True, o3dvls, s3d, "_LargePads", r3d)
+            makeHOR(libn, pack_norm, True, o3dh, s3d, "_LargePads", r3d)
             if (len(pack_norm.additional_pin_pad) <= 0):
-                makeHORLS(libn, pack_norm, has3dh[p][pidx], o3dls, s3d, "_LargePads", r3d)
-                makeHORREV(libn, pack_norm, has3dh[p][pidx], o3d, s3d, "_LargePads", r3dr)
+                #makeHORLS(libn, pack_norm, True, o3dls, s3d, "_LargePads", r3d)
+                makeHORREV(libn, pack_norm, True, o3d, s3d, "_LargePads", r3dr)
             
 
     # make staggered packages
-    packs =   [ "TO-220",                 "Multiwatt"]
-    pins =    [ [5      ,     7,     9 ], [11,       15,    ]]
-    rms =     [ [1.7    ,  1.27,  0.97 ], [1.7,    1.27,    ]]
-    has3dv =  [ [True   , True, True ], [False,  True,    ]]
-    has3dh =  [ [True   , True, True ], [False,  True,    ]]
-    off3d =   [ [[]     , []   , []    ], [[],       [],    ]]
-    scale3d = [ [[]     , []   , []    ], [[],  [1,1,1],    ]]
+    packs =       [ "TO-220",                                         "TO-220F",                              ]
+    pins =        [ [4,      5,     7,     9,     11,       15,    ], [ 4,    4,      5,     5,      7,    9,  11,   15 ], ]
+    rms =         [ [2.54, 1.7,  1.27,  0.97,    1.7,    1.27,     ], [ 2.54, 2.54, 1.7,   1.7,   1.27,  0.9, 1.7, 1.27 ], ]
+    pitchys =     [ [],                                               [    0, 2.05,   0,  2.06,      0,    0,   0,    0 ], ]
+    ypinoffsets = [ [],                                               [    0,    0,   0,   4.5,      0,    0,   0,    0 ], ]
     for p in range(0, len(packs)):
         for pidx in range(0, len(pins[p])):
             o3d = [0, 0, 0]
-            s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
-            if len(off3d[p][pidx]) > 0:
-                o3d = off3d[p][pidx]
-            if len(scale3d[p][pidx]) > 0:
-                s3d = scale3d[p][pidx]
+            s3d = [1,1,1]
+            pitchy=0
+            if p<len(pitchys):
+                if pidx<len(pitchys[p]):
+                    pitchy=pitchys[p][pidx]
+            ypinoffset=0
+            if p<len(ypinoffsets):
+                if pidx<len(ypinoffsets[p]):
+                    ypinoffset=ypinoffsets[p][pidx]
 
-            pack_norm1 = pack(packs[p], pins[p][pidx], rms[p][pidx], 1, False)
-            pack_norm2 = pack(packs[p], pins[p][pidx], rms[p][pidx], 2, False)
-            libn = "TO_SOT_Packages_THT"
-            makeVERT(libn, pack_norm1, has3dv[p][pidx], o3d, s3d)
-            makeVERT(libn, pack_norm2, has3dv[p][pidx], o3d, s3d)
-            makeHOR(libn, pack_norm1, has3dh[p][pidx], o3d, s3d)
-            makeHOR(libn, pack_norm2, has3dh[p][pidx], o3d, s3d)
+            pack_norm1 = pack(packs[p], pins[p][pidx], rms[p][pidx], 1, False, pitchy,ypinoffset)
+            pack_norm2 = pack(packs[p], pins[p][pidx], rms[p][pidx], 2, False, pitchy,ypinoffset)
+            libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
+            makeVERT(libn, pack_norm1, True, o3d, s3d)
+            makeVERT(libn, pack_norm2, True, o3d, s3d)
+            makeHOR(libn, pack_norm1, True, o3d, s3d)
+            makeHOR(libn, pack_norm2, True, o3d, s3d)
 
             
             
                             #pack_largepins=pack(packs[p], pins[p][pidx], rms[p][pidx], True)
-            #makeVERT("TO_SOT_Packages_THT", pack_largepins, has3dv[p][pidx], o3d, s3d)
-            #makeHOR("TO_SOT_Packages_THT", pack_largepins, has3dh[p][pidx], o3d, s3d)
+            #makeVERT("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
+            #makeHOR("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
             #if (len(pack_largepins.additional_pin_pad) <= 0):
-            #    makeHORREV("TO_SOT_Packages_THT", pack_largepins, has3dh[p][pidx], o3d, s3d)
+            #    makeHORREV("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
 
     # make round packages
     packs=[]
@@ -1336,15 +1331,9 @@ if __name__ == '__main__':
             for pidx in range(0, len(pins[p])):
 
                 o3d = [0, 0, 0]
-                s3d = [1 / 2.54, 1 / 2.54, 1 / 2.54]
-                if len(off3d[p])>0:
-                    if len(off3d[p][pidx]) > 0:
-                        o3d = off3d[p][pidx]
-                if len(scale3d[p])>0:
-                    if len(scale3d[p][pidx]) > 0:
-                        s3d = scale3d[p][pidx]
+                s3d = [1,1,1]
                 
                 pack = pack_round(packs[p], pins[p][pidx], m, False)
-                libn = "TO_SOT_Packages_THT"
+                libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
                 makeTORound(libn, pack, has3d[p][pidx], o3d, s3d)
             mi=mi+1
