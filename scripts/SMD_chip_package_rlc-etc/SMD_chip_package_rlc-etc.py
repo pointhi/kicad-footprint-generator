@@ -41,14 +41,14 @@ class TwoTerminalSMDchip():
 
         # Some manufacturers do not list the terminal spacing (S) in their datasheet but list the terminal lenght (T)
         # Then one can calculate
-        # Stol(RMS) = √(Ltol^2 + 2*Ttol^2)
+        # Stol(RMS) = √(Ltol^2 + 2*^2)
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
         F = self.configuration.get('manufacturing_tolerance', 0.1)
         P = self.configuration.get('placement_tolerance', 0.05)
 
-        length_tolerance = device_params['body_length_max']-device_params['body_length_min']
+        Ltol = device_params['body_length_max']-device_params['body_length_min']
 
         if 'terminal_width_min' in device_params:
             terminal_width_min = device_params['terminal_width_min']
@@ -60,17 +60,22 @@ class TwoTerminalSMDchip():
         width_tolerance = terminal_width_max - terminal_width_min
 
         if 'terminator_spacing_max' in device_params:
-            spacing_tolerance = device_params['terminator_spacing_max']-device_params['terminator_spacing_min']
-            Gmin = device_params['terminator_spacing_max'] - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
+            Tmin = (device_params['body_length_max'] - device_params['terminator_spacing_max'])/2
+            Tmax = (device_params['body_length_min'] - device_params['terminator_spacing_min'])/2
+            Ttol = (Tmax-Tmin)
+            Stol_RMS = math.sqrt(Ltol**2+2*(Ttol**2))
+            Smax_RMS = device_params['terminator_spacing_min'] + Stol_RMS
+            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
+
         else:
-            terminal_tolerance = device_params['terminal_length_max'] - device_params['terminal_length_min']
-            spacing_tolerance = math.sqrt(length_tolerance**2+terminal_tolerance**2)
+            Ttol = (device_params['terminal_length_max'] - device_params['terminal_length_min'])
+            Stol_RMS = math.sqrt(Ltol**2+2*(Ttol**2))
             Smin = device_params['body_length_min'] - 2*device_params['terminal_length_max']
-            Smax = Smin + spacing_tolerance
+            Smax_RMS = Smin + Stol_RMS
 
-            Gmin = Smax - 2*ipc_data['heel'] - math.sqrt(spacing_tolerance**2 + F**2 + P**2)
+            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
 
-        Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(length_tolerance**2 + F**2 + P**2)
+        Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(Ltol**2 + F**2 + P**2)
         Xmax = terminal_width_min + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
 
         Zmax = roundToBase(Zmax, ipc_round_base['toe'])
