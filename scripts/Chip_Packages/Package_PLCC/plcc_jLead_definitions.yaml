@@ -1,0 +1,104 @@
+PLCC_44:
+  device_type: 'PLCC'
+  units: 'inches'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  overall_size_x: 0.69
+  overall_size_x_min: 0.685
+  overall_size_x_max: 0.695
+  overall_size_y: 0.69
+  overall_size_y_min: 0.685
+  overall_size_y_max: 0.695
+  body_size_x: 0.653
+  body_size_x_min: 0.65
+  body_size_x_max: 0.656
+  body_size_y: 0.653
+  body_size_y_min: 0.65
+  body_size_y_max: 0.656
+  lead_width_min: 0.013
+  lead_width_max: 0.021
+  # lead_len_min: 0.45
+  # lead_len_max: 0.75
+  lead_inside_x: 0.61
+  lead_inside_x_min: 0.59
+  lead_inside_x_max: 0.63
+  lead_inside_y: 0.61
+  lead_inside_y_min: 0.59
+  lead_inside_y_max: 0.63
+  pitch: 0.05
+  num_pins_x: 11
+  num_pins_y: 11
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+PLCC_68:
+  device_type: 'PLCC'
+  units: 'inches'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  overall_size_x: 0.99
+  overall_size_x_min: 0.985
+  overall_size_x_max: 0.995
+  overall_size_y: 0.99
+  overall_size_y_min: 0.985
+  overall_size_y_max: 0.995
+  body_size_x: 0.954
+  body_size_x_min: 0.95
+  body_size_x_max: 0.958
+  body_size_y: 0.954
+  body_size_y_min: 0.95
+  body_size_y_max: 0.958
+  lead_width_min: 0.013
+  lead_width_max: 0.021
+  # lead_len_min: 0.45
+  # lead_len_max: 0.75
+  lead_inside_x: 0.91
+  lead_inside_x_min: 0.89
+  lead_inside_x_max: 0.93
+  lead_inside_y: 0.91
+  lead_inside_y_min: 0.89
+  lead_inside_y_max: 0.93
+  pitch: 0.05
+  num_pins_x: 17
+  num_pins_y: 17
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+PLCC_84:
+  device_type: 'PLCC'
+  units: 'inches'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  overall_size_x: 1.19
+  overall_size_x_min: 1.185
+  overall_size_x_max: 1.195
+  overall_size_y: 1.19
+  overall_size_y_min: 1.185
+  overall_size_y_max: 1.195
+  body_size_x: 1.154
+  body_size_x_min: 1.15
+  body_size_x_max: 1.158
+  body_size_y: 1.154
+  body_size_y_min: 1.15
+  body_size_y_max: 1.158
+  lead_width_min: 0.013
+  lead_width_max: 0.021
+  # lead_len_min: 0.45
+  # lead_len_max: 0.75
+  lead_inside_x: 1.11
+  lead_inside_x_min: 1.09
+  lead_inside_x_max: 1.13
+  lead_inside_y: 1.11
+  lead_inside_y_min: 1.09
+  lead_inside_y_max: 1.13
+  pitch: 0.05
+  num_pins_x: 21
+  num_pins_y: 21
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'

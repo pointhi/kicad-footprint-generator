@@ -64,3 +64,35 @@ ipc_spec_gw_small_pitch:
         toe: 0.2
         heel: 0.1
         side: 0.05
+
+# J Lead
+#           | Minimum | Median    | Maximum |
+#           | (Least) | (Nominal) | (Most)  |
+#           | Density | Density   | Density | round
+# Lead Part | Level C | Level B   | Level A |  to
+# ----------+---------+-----------+---------+-
+# Toe       | -0.3    | -0.2      | -0.1
+# Heel      | 0.15    | 0.35      | 0.55
+# Side      | 0.01    | 0.03      | 0.05
+# Courtyard | 0.1     | 0.25      | 0.5
+
+ipc_spec_j_lead:
+    least:
+        toe: -0.3
+        heel: 0.15
+        side: 0.01
+        courtyard: 0.1
+    nominal:
+        toe: -0.2
+        heel: 0.35
+        side: 0.03
+        courtyard: 0.25
+    most:
+        toe: -0.1
+        heel: 0.25
+        side: 0.05
+        courtyard: 0.5
+    round_base:
+        toe: 0.2
+        heel: 0.2
+        side: 0.05
