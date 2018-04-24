@@ -1,0 +1,72 @@
+VQFP_80:
+  device_type: 'VQFP'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  #body_size_x_min: 14
+  #body_size_x_max: 14
+  body_size_y: 14
+  #body_size_y_min: 14
+  #body_size_y_max: 14
+  overall_size_x: 16
+  #overall_size_x_min: 16
+  #overall_size_x_max: 16
+  overall_size_y: 16
+  #overall_size_y_min: 16
+  #overall_size_y_max: 16
+  lead_width_min: 0.22
+  lead_width_max: 0.38
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.65
+  num_pins_x: 20
+  num_pins_y: 20
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+VQFP_100:
+  device_type: 'VQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  body_size_y: 14
+  overall_size_x: 16
+  overall_size_y: 16
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 25
+  num_pins_y: 25
+
+VQFP_128:
+  device_type: 'VQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  body_size_y: 14
+  overall_size_x: 16
+  overall_size_y: 16
+  lead_width_min: 0.13
+  lead_width_max: 0.23
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.4
+  num_pins_x: 32
+  num_pins_y: 32
+
+VQFP_176:
+  device_type: 'VQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 20
+  body_size_y: 20
+  overall_size_x: 22
+  overall_size_y: 22
+  lead_width_min: 0.13
+  lead_width_max: 0.23
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.4
+  num_pins_x: 44
+  num_pins_y: 44

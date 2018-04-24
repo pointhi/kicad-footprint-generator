@@ -1,0 +1,66 @@
+# IPC IPC-7351 http://pcbget.ru/Files/Standarts/IPC_7351.pdf
+# Page 23
+
+# Gull-Wing (L-Lead) pitch > 0.625
+#           | Minimum | Median    | Maximum |
+#           | (Least) | (Nominal) | (Most)  |
+#           | Density | Density   | Density | round
+# Lead Part | Level C | Level B   | Level A |  to
+# ----------+---------+-----------+---------+-
+# Toe       | 0.15    | 0.35      | 0.55
+# Heel      | 0.25    | 0.35      | 0.45
+# Side      | 0.01    | 0.03      | 0.05
+# Courtyard | 0.1     | 0.25      | 0.5
+
+ipc_spec_gw_large_pitch:
+    least:
+        toe: 0.15
+        heel: 0.25
+        side: 0.01
+        courtyard: 0.1
+    nominal:
+        toe: 0.35
+        heel: 0.35
+        side: 0.03
+        courtyard: 0.25
+    most:
+        toe: 0.55
+        heel: 0.45
+        side: 0.05
+        courtyard: 0.5
+    round_base:
+        toe: 0.2
+        heel: 0.2
+        side: 0.05
+
+# Gull-Wing (L-Lead) pitch <= 0.625
+#           | Minimum | Median    | Maximum |
+#           | (Least) | (Nominal) | (Most)  |
+#           | Density | Density   | Density | round
+# Lead Part | Level C | Level B   | Level A |  to
+# ----------+---------+-----------+---------+-
+# Toe       | 0.15    | 0.35      | 0.55
+# Heel      | 0.25    | 0.35      | 0.45
+# Side      | -0.04   | -0.02     | 0.01
+# Courtyard | 0.1     | 0.25      | 0.5
+
+ipc_spec_gw_small_pitch:
+    least:
+        toe: 0.15
+        heel: 0.25
+        side: -0.04
+        courtyard: 0.1
+    nominal:
+        toe: 0.35
+        heel: 0.35
+        side: -0.02
+        courtyard: 0.25
+    most:
+        toe: 0.55
+        heel: 0.45
+        side: 0.01
+        courtyard: 0.5
+    round_base:
+        toe: 0.2
+        heel: 0.1
+        side: 0.05
