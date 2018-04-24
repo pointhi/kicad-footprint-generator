@@ -52,9 +52,10 @@ class PolygoneLine(Node):
 
     def _initMirror(self, **kwargs):
         self.mirror = [None, None]
-        if kwargs.get('x_mirror') and type(kwargs['x_mirror']) in [float, int]:
+        if kwargs.get('x_mirror') is not None and type(kwargs['x_mirror']) in [float, int]:
             self.mirror[0] = kwargs['x_mirror']
-        if kwargs.get('y_mirror') and type(kwargs['y_mirror']) in [float, int]:
+
+        if kwargs.get('y_mirror') is not None and type(kwargs['y_mirror']) in [float, int]:
             self.mirror[1] = kwargs['y_mirror']
 
     def _initPolygone(self, **kwargs):
