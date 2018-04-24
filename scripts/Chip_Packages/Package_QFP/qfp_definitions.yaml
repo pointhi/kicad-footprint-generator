@@ -145,3 +145,63 @@ PQFP_240:
   pitch: 0.5
   num_pins_x: 60
   num_pins_y: 60
+
+TQFP_64:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 10
+  body_size_y: 10
+  overall_size_x: 12
+  overall_size_y: 12
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+
+TQFP_100:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  body_size_y: 14
+  overall_size_x: 16
+  overall_size_y: 16
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 25
+  num_pins_y: 25
+
+TQFP_144:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 20
+  body_size_y: 20
+  overall_size_x: 22
+  overall_size_y: 22
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+TQFP_176:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 24
+  body_size_y: 24
+  overall_size_x: 26
+  overall_size_y: 26
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 44
+  num_pins_y: 44
