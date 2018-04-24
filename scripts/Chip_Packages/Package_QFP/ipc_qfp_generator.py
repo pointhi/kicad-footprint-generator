@@ -124,7 +124,7 @@ class QFP():
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
 
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
-        name_format = self.configuration['fp_name_format_string']
+        name_format = self.configuration['fp_name_format_string_no_trailing_zero']
 
         fp_name = name_format.format(
             man=device_params.get('manufacturer',''),
@@ -336,6 +336,8 @@ class QFP():
             courtyard={'top': cy1, 'bottom': -cy1}, fp_name=fp_name, text_y_inside_position='center')
 
         ##################### Output and 3d model ############################
+
+        kicad_mod.append(Model(filename=model_name))
 
         output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
         if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)

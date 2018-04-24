@@ -2,3 +2,5 @@ fp_name_format_string: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}_{size_x:.1f}x{size_
 keyword_fp_string: '{man:s} {package:s} {category:s}'
 
 lib_name_format_string: 'Package_{category:s}'
+
+fp_name_format_string_no_trailing_zero: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}'
