@@ -42,8 +42,10 @@ def bga(args):
                        rotate=[0.0, 0.0, 0.0]))
 
     s1 = [1.0, 1.0]
+    s2 = [min(1.0, round(pkgWidth / 4.3, 2))] * 2
 
-    t1 = 0.15
+    t1 = 0.15 * s1[0]
+    t2 = 0.15 * s2[0]
 
     padShape = Pad.SHAPE_CIRCLE
 
@@ -98,7 +100,7 @@ def bga(args):
     f.append(Text(type="value", text=footprint_name, at=[xCenter, yValue],
                   layer="F.Fab", size=s1, thickness=t1))
     f.append(Text(type="user", text="%R", at=[xCenter, yCenter],
-                  layer="F.Fab", size=s1, thickness=t1))
+                  layer="F.Fab", size=s2, thickness=t2))
 
     # Fab
     f.append(PolygoneLine(polygone=[[xRightFab, yBottomFab],
