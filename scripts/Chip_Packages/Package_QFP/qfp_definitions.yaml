@@ -16,7 +16,7 @@ VQFP_80:
   #overall_size_y_min: 16
   #overall_size_y_max: 16
   lead_width_min: 0.22
-  lead_width_max: 0.38
+  lead_width_max: 0.379
   lead_len_min: 0.45
   lead_len_max: 0.75
   pitch: 0.65

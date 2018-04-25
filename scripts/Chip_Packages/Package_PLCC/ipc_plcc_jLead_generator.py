@@ -192,14 +192,14 @@ class QFP():
                 pincount = pincount,
                 datasheet = device_params['size_source'],
                 scriptname = os.path.basename(__file__).replace("  ", " ")
-                ))
+                ).lstrip())
 
         kicad_mod.setTags(self.configuration['keyword_fp_string']\
             .format(
                 man=device_params.get('manufacturer',''),
                 package=device_params['device_type'],
                 category=category
-            ))
+            ).lstrip())
         kicad_mod.setAttribute('smd')
 
         init = 1
