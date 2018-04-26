@@ -12,7 +12,7 @@ ST_WLCSP-25_Die444:
   pkg_height: 2.325
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 5
   layout_y: 5
 ST_WLCSP-25_Die457:
@@ -21,7 +21,7 @@ ST_WLCSP-25_Die457:
   pkg_height: 2.070
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 5
   layout_y: 5
 ST_WLCSP-36_Die417:
@@ -54,7 +54,7 @@ ST_WLCSP-36_Die458:
   pkg_height: 2.579
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 6
   layout_y: 6
 ST_WLCSP-49_Die423:
@@ -74,9 +74,9 @@ ST_WLCSP-49_Die431:
   layout_x: 7
   layout_y: 7
 ST_WLCSP-49_Die433:
-  description: "WLCSP-49, 7x7 raster, 3.06x3.06mm package, pitch 0.4mm; see section 7.1.1 of http://www.st.com/resource/en/datasheet/stm32f401ce.pdf"
-  pkg_width: 3.06
-  pkg_height: 3.06
+  description: "WLCSP-49, 7x7 raster, 3.029x3.029mm package, pitch 0.4mm; see section 7.1.1 of http://www.st.com/resource/en/datasheet/stm32f401ce.pdf"
+  pkg_width: 3.029
+  pkg_height: 3.029
   pitch: 0.4
   pad_diameter: 0.22
   layout_x: 7
@@ -87,7 +87,7 @@ ST_WLCSP-49_Die435:
   pkg_height: 3.127
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 7
   layout_y: 7
 ST_WLCSP-49_Die438:
@@ -96,7 +96,7 @@ ST_WLCSP-49_Die438:
   pkg_height: 3.74
   pitch: 0.5
   pad_diameter: 0.29
-  paste_ratio: 0.0345
+  paste_diameter: 0.31
   layout_x: 7
   layout_y: 7
 ST_WLCSP-49_Die439:
@@ -128,7 +128,7 @@ ST_WLCSP-63_Die427:
   pkg_width: 3.228
   pkg_height: 4.164
   pitch: 0.4
-  pad_diameter: 0.22
+  pad_diameter: 0.24
   layout_x: 7
   layout_y: 9
 ST_WLCSP-64_Die414:
@@ -137,7 +137,7 @@ ST_WLCSP-64_Die414:
   pkg_height: 4.395
   pitch: 0.5
   pad_diameter: 0.25
-  paste_ratio: 0.14
+  paste_diameter: 0.32
   layout_x: 8
   layout_y: 8
 ST_WLCSP-64_Die427:
@@ -154,7 +154,7 @@ ST_WLCSP-64_Die435:
   pkg_height: 3.127
   pitch: 0.35
   pad_diameter: 0.21
-  paste_ratio: 0.0595
+  paste_diameter: 0.235
   layout_x: 8
   layout_y: 8
 ST_WLCSP-64_Die436:
@@ -166,12 +166,12 @@ ST_WLCSP-64_Die436:
   layout_x: 8
   layout_y: 8
 ST_WLCSP-64_Die441:
-  description: "WLCSP-64, 8x8 raster, 3.658x3.686mm package, pitch 0.4mm; see section 7.1 of http://www.st.com/resource/en/datasheet/DM00213872.pdf"
-  pkg_width: 3.658
-  pkg_height: 3.686
+  description: "WLCSP-64, 8x8 raster, 3.623x3.651mm package, pitch 0.4mm; see section 7.1 of http://www.st.com/resource/en/datasheet/DM00213872.pdf"
+  pkg_width: 3.623
+  pkg_height: 3.651
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 8
   layout_y: 8
 ST_WLCSP-64_Die442:
@@ -188,7 +188,7 @@ ST_WLCSP-64_Die462:
   pkg_height: 3.657
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 8
   layout_y: 8
 ST_WLCSP-66_Die411:
@@ -197,7 +197,7 @@ ST_WLCSP-66_Die411:
   pkg_height: 3.971
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 9
   layout_y: 9
   row_skips: [[], [], [[4, 7]], [[4, 7]], [[4, 7]], [[4, 7]], [[4, 7]], [], []]
@@ -206,8 +206,7 @@ ST_WLCSP-66_Die432:
   pkg_width: 3.767
   pkg_height: 4.229
   pitch: 0.4
-  pad_diameter: 0.225
-  paste_ratio: 0.0555
+  pad_diameter: 0.24
   layout_x: 8
   layout_y: 9
   row_skips: [[], [], [], [4, 5], [4, 5], [4, 5], [], [], []]
@@ -217,7 +216,7 @@ ST_WLCSP-72_Die415:
   pkg_height: 3.7594
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 9
   layout_y: 9
   row_skips: [[], [], [], [[4, 7]], [[4, 7]], [[4, 7]], [], [], []]
@@ -227,7 +226,7 @@ ST_WLCSP-81_Die415:
   pkg_height: 3.7594
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 9
   layout_y: 9
 ST_WLCSP-81_Die421:
@@ -236,7 +235,7 @@ ST_WLCSP-81_Die421:
   pkg_height: 3.815
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 9
   layout_y: 9
 ST_WLCSP-81_Die463:
@@ -245,7 +244,7 @@ ST_WLCSP-81_Die463:
   pkg_height: 3.951
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 9
   layout_y: 9
 ST_WLCSP-90_Die413:
@@ -257,9 +256,9 @@ ST_WLCSP-90_Die413:
   layout_x: 10
   layout_y: 9
 ST_WLCSP-100_Die422:
-  description: "WLCSP-100, 10x10 raster, 4.166x4.628mm package, pitch 0.4mm; see section 7.4 of http://www.st.com/resource/en/datasheet/stm32f302vc.pdf"
-  pkg_width: 4.166
-  pkg_height: 4.628
+  description: "WLCSP-100, 10x10 raster, 4.201x4.663mm package, pitch 0.4mm; see section 7.4 of http://www.st.com/resource/en/datasheet/stm32f302vc.pdf"
+  pkg_width: 4.201
+  pkg_height: 4.663
   pitch: 0.4
   pad_diameter: 0.225
   layout_x: 10
@@ -273,17 +272,17 @@ ST_WLCSP-100_Die446:
   layout_x: 10
   layout_y: 10
 ST_WLCSP-100_Die452:
-  description: "WLCSP-100, 10x10 raster, 4.166x4.628mm package, pitch 0.4mm; see section 7.7 of http://www.st.com/resource/en/datasheet/DM00330506.pdf"
-  pkg_width: 4.166
-  pkg_height: 4.628
+  description: "WLCSP-100, 10x10 raster, 4.201x4.663mm package, pitch 0.4mm; see section 7.7 of http://www.st.com/resource/en/datasheet/DM00330506.pdf"
+  pkg_width: 4.201
+  pkg_height: 4.663
   pitch: 0.4
   pad_diameter: 0.225
   layout_x: 10
   layout_y: 10
 ST_WLCSP-100_Die461:
   description: "WLCSP-100, 10x10 raster, 4.618x4.142mm package, pitch 0.4mm; see section 7.5 of http://www.st.com/resource/en/datasheet/DM00284211.pdf"
-  pkg_width: 4.166
-  pkg_height: 4.628
+  pkg_width: 4.618
+  pkg_height: 4.142
   pitch: 0.4
   pad_diameter: 0.225
   layout_x: 10
@@ -311,7 +310,7 @@ ST_WLCSP-143_Die449:
   pkg_height: 5.849
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 11
   layout_y: 13
 ST_WLCSP-144_Die470:
@@ -320,7 +319,7 @@ ST_WLCSP-144_Die470:
   pkg_height: 5.24
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 12
   layout_y: 12
 ST_WLCSP-168_Die434:
@@ -328,8 +327,7 @@ ST_WLCSP-168_Die434:
   pkg_width: 4.891
   pkg_height: 5.692
   pitch: 0.4
-  pad_diameter: 0.225
-  paste_ratio: 0.0555
+  pad_diameter: 0.22
   layout_x: 12
   layout_y: 14
 ST_WLCSP-180_Die451:
@@ -338,7 +336,7 @@ ST_WLCSP-180_Die451:
   pkg_height: 6.095
   pitch: 0.4
   pad_diameter: 0.225
-  paste_ratio: 0.0555
+  paste_diameter: 0.25
   layout_x: 13
   layout_y: 14
   row_skips: [[], [], [], [], [], [], [7], [7], [], [], [], [], [], []]

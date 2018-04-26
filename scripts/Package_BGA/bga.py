@@ -19,6 +19,7 @@ def bga(args):
     pitch = args["pitch"]
     padDiameter = args["pad_diameter"]
     pasteRatio = args["paste_ratio"]
+    pasteDiameter = args["paste_diameter"]
     layoutX = args["layout_x"]
     layoutY = args["layout_y"]
     rowNames = args["row_names"]
@@ -52,6 +53,9 @@ def bga(args):
     chamfer = min(1.0, min(pkgWidth, pkgHeight)*0.25)
     silkOffset = 0.125
     crtYd = 1.0
+
+    if pasteDiameter:
+        pasteRatio = (pasteDiameter / padDiameter - 1) / 2
 
     def crtYdRound(x):
         # Round away from zero for proper courtyard calculation
@@ -163,6 +167,7 @@ if __name__ == '__main__':
     parser.add_parameter("pitch", type=float, required=True)
     parser.add_parameter("pad_diameter", type=float, required=True)
     parser.add_parameter("paste_ratio", type=float, required=False, default=0)
+    parser.add_parameter("paste_diameter", type=float, required=False, default=0)
     parser.add_parameter("layout_x", type=int, required=True)
     parser.add_parameter("layout_y", type=int, required=True)
     parser.add_parameter("row_names", type=list, required=False, default=[
