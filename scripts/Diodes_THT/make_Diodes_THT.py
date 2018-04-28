@@ -61,7 +61,7 @@ if __name__ == '__main__':
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco_kup, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3dvkup)
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco, d2=d2, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3dv)
 
-    seriesname = "DO-34_SOD68"; w=3.04; d=1.6; ddrill=0.6; add_description=", https://www.nxp.com/docs/en/data-sheet/KTY83_SER.pdf"; name_additions=[]
+    seriesname = "DO-34_SOD68"; w=3.04; d=1.6; ddrill=0.75; add_description=", https://www.nxp.com/docs/en/data-sheet/KTY83_SER.pdf"; name_additions=[]
     for rm in [7.62, 10.16, 12.7]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, deco=deco, d2=d2,  x_3d=[0,0,0], s_3d=[1,1,1], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, classname=clname, lib_name=lbname, specialtags=[],script3d=script3d)
     for rm in [2.54, 5.08]:
