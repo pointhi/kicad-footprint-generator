@@ -1,0 +1,124 @@
+LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lis331hh.pdf'
+  body_size_x_min: 2.85
+  body_size_x: 3.0
+  body_size_x_max: 3.15
+  body_size_y_min: 2.85
+  body_size_y: 3.0
+  body_size_y_max: 3.15
+  lead_width_min: 0.19
+  lead_width_max: 0.31
+  lead_to_edge_min: 0.04
+  lead_to_edge_max: 0.16
+  lead_len_min: 0.29
+  lead_len_max: 0.41
+  pitch: 0.5
+  num_pins_x: 3
+  num_pins_y: 5
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lis2dh.pdf'
+  body_size_x_min: 1.85
+  body_size_x: 2.0
+  body_size_x_max: 2.15
+  body_size_y_min: 1.85
+  body_size_y: 2.0
+  body_size_y_max: 2.15
+  lead_width_min: 0.2
+  lead_width_max: 0.2
+  lead_to_edge_min: 0.1
+  lead_to_edge_max: 0.1
+  lead_len_min: 0.275
+  lead_len_max: 0.275
+  pitch: 0.35
+  num_pins_x: 3
+  num_pins_y: 4
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lsm6ds3.pdf'
+  body_size_x_min: 2.9
+  body_size_x: 3.0
+  body_size_x_max: 3.1
+  body_size_y_min: 2.4
+  body_size_y: 2.5
+  body_size_y_max: 2.6
+  lead_width_min: 0.15
+  lead_width_max: 0.35
+  lead_to_edge_min: 0.1
+  lead_to_edge_max: 0.1
+  lead_len_min: 0.35
+  lead_len_max: 0.55
+  pitch: 0.5
+  num_pins_x: 3
+  num_pins_y: 4
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-14_3x5mm_P0.8mm_LayoutBorder1x5y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf'
+  body_size_x_min: 2.85
+  body_size_x: 3.0
+  body_size_x_max: 3.15
+  body_size_y_min: 4.85
+  body_size_y: 5.0
+  body_size_y_max: 5.15
+  lead_width_min: 0.5
+  lead_width_max: 0.5
+  lead_to_edge_min: 0.1
+  lead_to_edge_max: 0.1
+  lead_len_min: 0.8
+  lead_len_max: 0.8
+  pitch: 0.8
+  num_pins_x: 1
+  num_pins_y: 5
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
+  body_size_x_min: 3.85
+  body_size_x: 4.0
+  body_size_x_max: 4.15
+  body_size_y_min: 3.85
+  body_size_y: 4.0
+  body_size_y_max: 4.15
+  lead_width_min: 0.3
+  lead_width_max: 0.3
+  lead_to_edge_min: 0.1
+  lead_to_edge_max: 0.1
+  lead_len_min: 0.4
+  lead_len_max: 0.4
+  pitch: 0.65
+  num_pins_x: 4
+  num_pins_y: 4
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'

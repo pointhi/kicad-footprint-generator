@@ -7,10 +7,10 @@
 #           | Density | Density   | Density | round
 # Lead Part | Level C | Level B   | Level A |  to
 # ----------+---------+-----------+---------+-
-# Toe       | 0.15    | 0.35      | 0.55
-# Heel      | 0.25    | 0.35      | 0.45
-# Side      | 0.01    | 0.03      | 0.05
-# Courtyard | 0.1     | 0.25      | 0.5
+# Toe       | 0.15    | 0.35      | 0.55    | 0.2
+# Heel      | 0.25    | 0.35      | 0.45    | 0.2
+# Side      | 0.01    | 0.03      | 0.05    | 0.05
+# Courtyard | 0.1     | 0.25      | 0.5     |
 
 ipc_spec_gw_large_pitch:
     least:
@@ -39,10 +39,10 @@ ipc_spec_gw_large_pitch:
 #           | Density | Density   | Density | round
 # Lead Part | Level C | Level B   | Level A |  to
 # ----------+---------+-----------+---------+-
-# Toe       | 0.15    | 0.35      | 0.55
-# Heel      | 0.25    | 0.35      | 0.45
-# Side      | -0.04   | -0.02     | 0.01
-# Courtyard | 0.1     | 0.25      | 0.5
+# Toe       | 0.15    | 0.35      | 0.55    | 0.2
+# Heel      | 0.25    | 0.35      | 0.45    | 0.1
+# Side      | -0.04   | -0.02     | 0.01    | 0.05
+# Courtyard | 0.1     | 0.25      | 0.5     |
 
 ipc_spec_gw_small_pitch:
     least:
@@ -71,10 +71,10 @@ ipc_spec_gw_small_pitch:
 #           | Density | Density   | Density | round
 # Lead Part | Level C | Level B   | Level A |  to
 # ----------+---------+-----------+---------+-
-# Toe       | -0.3    | -0.2      | -0.1
-# Heel      | 0.15    | 0.35      | 0.55
-# Side      | 0.01    | 0.03      | 0.05
-# Courtyard | 0.1     | 0.25      | 0.5
+# Toe       | -0.3    | -0.2      | -0.1    | 0.2
+# Heel      | 0.15    | 0.35      | 0.55    | 0.2
+# Side      | 0.01    | 0.03      | 0.05    | 0.05
+# Courtyard | 0.1     | 0.25      | 0.5     |
 
 ipc_spec_j_lead:
     least:
@@ -95,4 +95,70 @@ ipc_spec_j_lead:
     round_base:
         toe: 0.2
         heel: 0.2
+        side: 0.05
+
+# Flat No Lead (DFN/QFN) with toe fillet
+#           | Minimum | Median    | Maximum |
+#           | (Least) | (Nominal) | (Most)  |
+#           | Density | Density   | Density | round
+# Lead Part | Level C | Level B   | Level A |  to
+# ----------+---------+-----------+---------+-
+# Toe       | 0.2     | 0.3       | 0.4     | 0.05
+# Heel      | 0.0     | 0.0       | 0.0     | 0.05
+# Side      | -0.04   | -0.04     | -0.04   | 0.05
+# Courtyard | 0.1     | 0.25      | 0.5     |
+
+ipc_spec_flat_no_lead_toe:
+    least:
+        toe: 0.2
+        heel: 0.0
+        side: -0.04
+        courtyard: 0.1
+    nominal:
+        toe: 0.3
+        heel: 0.0
+        side: -0.04
+        courtyard: 0.25
+    most:
+        toe: 0.4
+        heel: 0.0
+        side: -0.04
+        courtyard: 0.5
+    round_base:
+        toe: 0.05
+        heel: 0.05
+        side: 0.05
+
+# Flat No Lead without toe fillet
+# LGA packages do not form a toe fillet.
+# some DFN/QFN packages also do not form toe fillets.
+#           | Minimum | Median    | Maximum |
+#           | (Least) | (Nominal) | (Most)  |
+#           | Density | Density   | Density | round
+# Lead Part | Level C | Level B   | Level A |  to
+# ----------+---------+-----------+---------+-
+# Toe       | 0.0     | 0.0       | 0.0     | 0.05
+# Heel      | 0.0     | 0.0       | 0.0     | 0.05
+# Side      | -0.04   | -0.04     | -0.04   | 0.05
+# Courtyard | 0.1     | 0.25      | 0.5     |
+
+ipc_spec_flat_no_lead_without_toe:
+    least:
+        toe: 0.0
+        heel: 0.0
+        side: -0.04
+        courtyard: 0.1
+    nominal:
+        toe: 0.0
+        heel: 0.0
+        side: -0.04
+        courtyard: 0.25
+    most:
+        toe: 0.0
+        heel: 0.0
+        side: -0.04
+        courtyard: 0.5
+    round_base:
+        toe: 0.05
+        heel: 0.05
         side: 0.05
