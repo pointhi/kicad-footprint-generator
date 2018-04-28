@@ -119,9 +119,10 @@ class LGA():
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
-        ipc_reference = 'ipc_spec_flat_no_lead_without_toe'
+        ipc_reference = 'ipc_spec_flat_no_lead_pull_back'
 
-        ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
+        used_density = device_params.get('ipc_density', ipc_density)
+        ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
         pad_details = self.calcPadDetails(device_params, ipc_data_set, ipc_round_base)
