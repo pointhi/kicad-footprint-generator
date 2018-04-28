@@ -193,6 +193,7 @@ class LGA():
             ).lstrip())
         kicad_mod.setAttribute('smd')
 
+        init = 1
         if device_params['num_pins_x'] == 0:
             kicad_mod.append(PadArray(
                 initial= init,
@@ -211,13 +212,12 @@ class LGA():
                 **pad_details['right']))
         elif device_params['num_pins_y'] == 0:
             #for devices with clockwise numbering
-            init = 1
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
-                x_spacing=0, y_spacing=device_params['pitch'],
+                y_spacing=0, x_spacing=device_params['pitch'],
                 **pad_details['top']))
             init += device_params['num_pins_x']
             kicad_mod.append(PadArray(
@@ -225,10 +225,9 @@ class LGA():
                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
-                x_spacing=0, y_spacing=-device_params['pitch'],
+                y_spacing=0, x_spacing=-device_params['pitch'],
                 **pad_details['bottom']))
         else:
-            init = 1
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
@@ -280,30 +279,60 @@ class LGA():
 
         silk_pad_offset = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
         silk_offset = configuration['silk_fab_offset']
+        if device_params['num_pins_x'] == 0:
+            kicad_mod.append(Line(
+                start={'x':0,
+                    'y':body_edge['top']-silk_offset},
+                end={'x':body_edge['right'],
+                    'y':body_edge['top']-silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
+            kicad_mod.append(Line(
+                start={'x':body_edge['left'],
+                    'y':body_edge['bottom']+silk_offset},
+                end={'x':body_edge['right'],
+                    'y':body_edge['bottom']+silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
+        elif device_params['num_pins_y'] == 0:
+            kicad_mod.append(Line(
+                start={'y':0,
+                    'x':body_edge['left']-silk_offset},
+                end={'y':body_edge['bottom'],
+                    'x':body_edge['left']-silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
+            kicad_mod.append(Line(
+                start={'y':body_edge['top'],
+                    'x':body_edge['right']+silk_offset},
+                end={'y':body_edge['bottom'],
+                    'x':body_edge['right']+silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
+        else:
+            sx1 = -(device_params['pitch']*(device_params['num_pins_x']-1)/2.0
+                + pad_width/2.0 + silk_pad_offset)
 
-        sx1 = -(device_params['pitch']*(device_params['num_pins_x']-1)/2.0
-            + pad_width/2.0 + silk_pad_offset)
+            sy1 = -(device_params['pitch']*(device_params['num_pins_y']-1)/2.0
+                + pad_width/2.0 + silk_pad_offset)
 
-        sy1 = -(device_params['pitch']*(device_params['num_pins_y']-1)/2.0
-            + pad_width/2.0 + silk_pad_offset)
-
-        poly_silk = [
-            {'x': sx1, 'y': body_edge['top']-silk_offset},
-            {'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
-            {'x': body_edge['left']-silk_offset, 'y': sy1}
-        ]
-        kicad_mod.append(PolygoneLine(
-            polygone=poly_silk,
-            width=configuration['silk_line_width'],
-            layer="F.SilkS", x_mirror=0))
-        kicad_mod.append(PolygoneLine(
-            polygone=poly_silk,
-            width=configuration['silk_line_width'],
-            layer="F.SilkS", y_mirror=0))
-        kicad_mod.append(PolygoneLine(
-            polygone=poly_silk,
-            width=configuration['silk_line_width'],
-            layer="F.SilkS", x_mirror=0))
+            poly_silk = [
+                {'x': sx1, 'y': body_edge['top']-silk_offset},
+                {'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
+                {'x': body_edge['left']-silk_offset, 'y': sy1}
+            ]
+            kicad_mod.append(PolygoneLine(
+                polygone=poly_silk,
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
+            kicad_mod.append(PolygoneLine(
+                polygone=poly_silk,
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", y_mirror=0))
+            kicad_mod.append(PolygoneLine(
+                polygone=poly_silk,
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
 
         # # ######################## Fabrication Layer ###########################
 
