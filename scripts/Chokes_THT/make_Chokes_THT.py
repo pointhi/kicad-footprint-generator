@@ -143,27 +143,27 @@ if __name__ == '__main__':
     for rm in [7.62]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3dv)
     seriesname = "Axial"; w = 20.32; d = 12.07; ddrill = 1.2; R_POW = 0; add_description="http://www.vishay.com/docs/34014/iha.pdf"; name_additions=["Vishay","IHA-101"]
-    for rm in [25.4]:
+    for rm in [28.5]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3d)
     for rm in [7.62]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3dv)
     seriesname = "Axial"; w = 26.67; d = 12.07; ddrill = 1.2; R_POW = 0; add_description="http://www.vishay.com/docs/34014/iha.pdf"; name_additions=["Vishay","IHA-103"]
-    for rm in [25.4]:
+    for rm in [35]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3d)
     for rm in [7.62]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3dv)
     seriesname = "Axial"; w = 26.67; d = 13.97; ddrill = 1.2; R_POW = 0; add_description="http://www.vishay.com/docs/34014/iha.pdf"; name_additions=["Vishay","IHA-104"]
-    for rm in [25.4]:
+    for rm in [35]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3d)
     for rm in [7.62]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3dv)
     seriesname = "Axial"; w = 29.85; d = 13.97; ddrill = 1.2; R_POW = 0; add_description="http://www.vishay.com/docs/34014/iha.pdf"; name_additions=["Vishay","IHA-105"]
-    for rm in [25.4]:
+    for rm in [38]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3d)
     for rm in [7.62]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3dv)
     seriesname = "Axial"; w = 23.37; d = 12.7; ddrill = 1.2; R_POW = 0; add_description="http://www.vishay.com/docs/34014/iha.pdf"; name_additions=["Vishay","IHA-203"]
-    for rm in [25.4]:
+    for rm in [32]:
         makeResistorAxialHorizontal(seriesname=seriesname, rm=rm, rmdisp=rm, w=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3d)
     for rm in [7.62]:
         makeResistorAxialVertical(seriesname=seriesname, rm=rm, rmdisp=rm, l=w, d=d, ddrill=ddrill, R_POW=R_POW, type=type, d2=d2, x_3d=[0, 0, 0], s_3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, add_description=add_description, name_additions=name_additions, specialtags=name_additions, classname=classname, lib_name=libname, script3d=script3dv)
