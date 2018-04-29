@@ -82,7 +82,7 @@ class DFN():
         grid_y = roundToBase(paste_size_y + dy, paste_rd_base)
 
         EP_Paste = {'inner_array':{
-            'solder_paste_margin_ratio': 1e-8,
+            'solder_paste_margin_ratio': 1e-6,
             'solder_paste_margin': 1e-6,
             'layers':['F.Paste'],
             'size':[paste_size_x, paste_size_y],
