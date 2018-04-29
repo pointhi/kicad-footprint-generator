@@ -24,7 +24,7 @@ def getFancyClassName(classname="R"):
     elif (classname == "D"):
         classnamefancy = "Diode"
     elif (classname == "L"):
-        classnamefancy == "Inductor"
+        classnamefancy = "Inductor"
     else:
         classnamefancy = classname
     return classnamefancy
@@ -610,6 +610,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 #
 #
 # deco="none","elco" (round),"tantal" (simple),"chokewire" (concentric)
+
 def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm2=0, pins=2, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistor_THT", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
     if innerw<=0:
         innerw=w
@@ -726,8 +727,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
     d_slk=d_fab+lw_slk+slk_offset
     r_slk = d_slk/2.
     d2_slk=d2_fab-lw_slk-slk_offset
-    w_crt = max(w_slk, rm+padx) + 2 * crt_offset
-    h_crt = max(h_slk, rmm2+pady) + 2 * crt_offset
+    w_crt = max(w_fab, rm+padx) + 2 * crt_offset
+    h_crt = max(h_fab, rmm2+pady) + 2 * crt_offset
     l_crt = -w_crt/2
     t_crt = -h_crt/2
 
