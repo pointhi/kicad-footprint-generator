@@ -53,7 +53,7 @@ class LGA():
             outside_x_min = device_params['body_size_x_min'] - 2*device_params['lead_to_edge_max']
             outside_x_tol = sqrt(2*Mtol**2+body_x_tol**2)
         else:
-            outside_x_min = device_params['overall_size_x']
+            outside_x_min = device_params['body_size_x']- 2*device_params['lead_to_edge_max']
             outside_x_tol = Mtol
 
         if 'body_size_y_max' in device_params:
@@ -62,7 +62,7 @@ class LGA():
             outside_y_tol = sqrt(2*Mtol**2+body_y_tol**2)
         else:
             outside_y_tol = Mtol
-            outside_y_min = device_params['overall_size_y']
+            outside_x_min = device_params['body_size_y']- 2*device_params['lead_to_edge_max']
 
         lead_len_tol = device_params['lead_len_max'] - device_params['lead_len_min']
 
