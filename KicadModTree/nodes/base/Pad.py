@@ -82,6 +82,7 @@ class Pad(Node):
         self._initOffset(**kwargs)
         self._initDrill(**kwargs)  # requires pad type and offset
         self._initSolderPasteMargin(**kwargs)
+        self._initSolderPasteMarginRatio(**kwargs)
         self._initSolderMaskMargin(**kwargs)
         self._initLayers(**kwargs)
 
@@ -137,8 +138,11 @@ class Pad(Node):
             if kwargs.get('drill'):
                 pass  # TODO: throw warning because drill is not supported
 
-    def _initSolderPasteMargin(self, **kwargs):
+    def _initSolderPasteMarginRatio(self, **kwargs):
         self.solder_paste_margin_ratio = kwargs.get('solder_paste_margin_ratio', 0)
+
+    def _initSolderPasteMargin(self, **kwargs):
+        self.solder_paste_margin = kwargs.get('solder_paste_margin', 0)
 
     def _initSolderMaskMargin(self, **kwargs):
         self.solder_mask_margin = kwargs.get('solder_mask_margin', 0)
