@@ -9,3 +9,5 @@ fp_name_lga_format_string_no_trailing_zero: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d
 
 lga_layout_grid: '_LayoutGrid{nx:d}x{ny:d}'
 lga_layout_border: '_LayoutBorder{nx:d}x{ny:d}y'
+
+fp_name_EP_format_string_no_trailing_zero: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}-1EP_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}_EP{ep_size_x:g}x{ep_size_y:g}mm'
