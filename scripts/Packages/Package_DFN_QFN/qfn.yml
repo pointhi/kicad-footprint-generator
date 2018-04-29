@@ -82,6 +82,25 @@ QFN-48-1EP_6x6mm_Pitch0.4mm:
   center_pad_v_div: 3
   paste_margin_ratio: -0.2
   thermal_vias: false
+QFN-48-1EP_7x7mm_P0.5mm_EP5.6x5.6mm:
+  description: "48-Lead Plastic Quad Flat, No Lead Package - 7x7 mm Body [QFN]; see figure 37 of http://www.st.com/resource/en/datasheet/stm32f042k6.pdf"
+  pkg_width: 7.0
+  pkg_height: 7.0
+  pitch: 0.5
+  n_horz_pads: 12
+  n_vert_pads: 12
+  pad_width: 0.55
+  pad_height: 0.3
+  pad_h_distance: 6.75
+  pad_v_distance: 6.75
+  corner_pads: false
+  center_pad: true
+  center_pad_width: 5.6
+  center_pad_height: 5.6
+  center_pad_h_div: 4
+  center_pad_v_div: 4
+  paste_margin_ratio: -0.1
+  thermal_vias: false
 QFN-44-1EP_9x9mm_Pitch0.65mm:
   description: "44-Lead Plastic Quad Flat, No Lead Package - 9x9 mm Body [QFN]; see section 10.3 of https://www.parallax.com/sites/default/files/downloads/P8X32A-Propeller-Datasheet-v1.4.0_0.pdf"
   pkg_width: 9.0
@@ -121,3 +140,22 @@ QFN-44-1EP_9x9mm_Pitch0.65mm_ThermalVias:
   paste_margin_ratio: -0.14666666666666667
   thermal_vias: true
   via_size: 0.3
+QFN-36-1EP_6x6mm_P0.5mm_EP4.1x4.1mm:
+  description: "36-Lead Plastic Quad Flat, No Lead Package - 6x6 mm Body [QFN]; see figure 36 of http://www.st.com/resource/en/datasheet/stm32f101t6.pdf"
+  pkg_width: 6.0
+  pkg_height: 6.0
+  pitch: 0.5
+  n_horz_pads: 9
+  n_vert_pads: 9
+  pad_width: 0.75
+  pad_height: 0.3
+  pad_h_distance: 5.55
+  pad_v_distance: 5.55
+  corner_pads: false
+  center_pad: true
+  center_pad_width: 4.1
+  center_pad_height: 4.1
+  center_pad_h_div: 4
+  center_pad_v_div: 4
+  paste_margin_ratio: -0.1
+  thermal_vias: false
