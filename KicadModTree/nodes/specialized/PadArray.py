@@ -72,8 +72,8 @@ class PadArray(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
         self._initPincount(**kwargs)
-        self._initInitialNumber(**kwargs)
         self._initIncrement(**kwargs)
+        self._initInitialNumber(**kwargs)
         self._initSpacing(**kwargs)
         self._initStartingPosition(**kwargs)
         self.virtual_childs = self._createPads(**kwargs)
@@ -116,12 +116,11 @@ class PadArray(Node):
 
     # What number to start with?
     def _initInitialNumber(self, **kwargs):
-        if not kwargs.get('initial'):
-            self.initialPin = 1
-        else:
-            self.initialPin = kwargs.get('initial')
-            if type(self.initialPin) is not int or self.initialPin < 1:
-                raise ValueError('{pn} is not a valid starting pin number'.format(pn=self.initialPin))
+        self.initialPin = kwargs.get('initial', 1)
+        if self.initialPin == "":
+            self.increment = 0
+        elif type(self.initialPin) is not int or self.initialPin < 1:
+            raise ValueError('{pn} is not a valid starting pin number'.format(pn=self.initialPin))
 
     # Pin incrementing
     def _initIncrement(self, **kwargs):
