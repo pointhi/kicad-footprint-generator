@@ -66,6 +66,12 @@ class DFN():
             'type':Pad.TYPE_SMT, 'shape':Pad.SHAPE_RECT
             }
 
+        if 'EP_size_limit_x' in device_params:
+            if EP_Pad['size']['x'] > device_params['EP_size_limit_x']:
+                EP_Pad['size']['x'] = device_params['EP_size_limit_x']
+            if EP_Pad['size']['y'] > device_params['EP_size_limit_y']:
+                EP_Pad['size']['y'] = device_params['EP_size_limit_y']
+
         c = sqrt(device_params.get('EP_paste_coverage', 0.65))
         nx = device_params.get('EP_num_paste_pads_x', 1)
         ny = device_params.get('EP_num_paste_pads_y', 1)
@@ -136,7 +142,9 @@ class DFN():
             Smin = outside_min - 2*device_params['lead_len_max']
             Smax_RMS = Smin + Stol_RMS
 
-            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
+            Gmin = Smax_RMS - 2*ipc_data['heel']\
+                + 2*device_params.get('heel_reduction',0)\
+                - math.sqrt(Stol_RMS**2 + F**2 + P**2)
 
             Zmax = outside_min + 2*ipc_data['toe'] + math.sqrt(outside_tol**2 + F**2 + P**2)
 
@@ -207,6 +215,9 @@ class DFN():
         else:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
             EP_params = {'size':{'x':0, 'y':0}}
+
+        if 'custom_name_format' in device_params:
+            name_format = device_params['custom_name_format']
 
         fp_name = name_format.format(
             man=device_params.get('manufacturer',''),
