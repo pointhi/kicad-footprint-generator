@@ -161,6 +161,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         num_rows=number_of_rows,
         pins_per_row=pins_per_row,
         pitch=pitch,
+        mounting_pad = "",
         orientation=orientation_str)
     footprint_name = footprint_name.replace('__','_')
 

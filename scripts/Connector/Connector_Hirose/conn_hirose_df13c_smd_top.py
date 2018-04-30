@@ -56,7 +56,7 @@ def generate_one_footprint(idx, pins, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins,
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "-1MP",
         pitch=pitch, orientation=orientation_str)
 
     footprint_name = footprint_name.replace("__",'_')
@@ -74,9 +74,9 @@ def generate_one_footprint(idx, pins, configuration):
     mpad_y = rel_pad_y_outside_edge/2 - mp_size[1]/2
     mpad_x = A/2 + center_pad_to_mounting_pad_edge + mp_size[0]/2
 
-    kicad_mod.append(Pad(number ='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+    kicad_mod.append(Pad(number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                         at=[mpad_x, mpad_y], size=mp_size, layers=Pad.LAYERS_SMT))
-    kicad_mod.append(Pad(number ='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+    kicad_mod.append(Pad(number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                         at=[-mpad_x, mpad_y], size=mp_size, layers=Pad.LAYERS_SMT))
 
     # create pads

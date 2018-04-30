@@ -58,7 +58,7 @@ def generate_one_footprint(idx, pincount, series_definition, configuration, grou
     orientation = configuration['orientation_options'][series_definition['orientation']]
     footprint_name = configuration['fp_name_format_string'].format(man=group_definition['manufacturer'],
         series=series_definition['series'],
-        mpn=mpn, num_rows=1, pins_per_row=pincount,
+        mpn=mpn, num_rows=1, pins_per_row=pincount, mounting_pad = "-1MP",
         pitch=series_definition['pitch'], orientation=orientation)
     footprint_name = footprint_name.replace('__', '_')
 
@@ -76,11 +76,11 @@ def generate_one_footprint(idx, pincount, series_definition, configuration, grou
         size=pad_size, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
 
     mount_pad_left_x_pos = -dimension_A/2 - mount_pad_center_x_to_pin
-    kicad_mod.append(Pad(number ='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+    kicad_mod.append(Pad(number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                         at=[mount_pad_left_x_pos, mount_pad_y_pos],
                         size=mounting_pad_size,
                         layers=Pad.LAYERS_SMT))
-    kicad_mod.append(Pad(number ='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+    kicad_mod.append(Pad(number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                         at=[-mount_pad_left_x_pos, mount_pad_y_pos],
                         size=mounting_pad_size,
                         layers=Pad.LAYERS_SMT))
