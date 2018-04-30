@@ -13,7 +13,7 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.PolyPoint import *
+from KicadModTree.PolygonPoints import *
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
 
@@ -40,7 +40,7 @@ class Polygon(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.nodes = PolyPoint(**kwargs)
+        self.nodes = PolygonPoints(**kwargs)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')

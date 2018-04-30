@@ -17,7 +17,7 @@ from KicadModTree.Point import Point2D
 from KicadModTree.nodes.Node import Node
 
 
-class PolyPoint(object):
+class PolygonPoints(object):
     r"""Representation of multiple points for creating polygons
 
     :Keyword Arguments:

@@ -14,7 +14,7 @@
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.Point import *
-from KicadModTree.PolyPoint import *
+from KicadModTree.PolygonPoints import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.base.Line import Line
 
@@ -47,10 +47,10 @@ class PolygoneLine(Node):
 
         self._initPolyPoint(**kwargs)
 
-        self.virtual_childs = self._createChildNodes(self.poly_point)
+        self.virtual_childs = self._createChildNodes(self.nodes)
 
     def _initPolyPoint(self, **kwargs):
-        self.poly_point = PolyPoint(**kwargs)
+        self.nodes = PolygonPoints(**kwargs)
 
     def _createChildNodes(self, polygone_line):
         nodes = []
@@ -70,7 +70,7 @@ class PolygoneLine(Node):
         render_text += " ["
 
         node_strings = []
-        for node in self.poly_point:
+        for node in self.nodes:
             node_position = Point2D(node)
             node_strings.append("[x: {x}, y: {y}]".format(x=node_position.x,
                                                           y=node_position.y))
