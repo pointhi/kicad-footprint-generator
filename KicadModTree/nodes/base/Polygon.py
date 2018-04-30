@@ -13,6 +13,7 @@
 #
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from KicadModTree.PolyPoint import *
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
 
@@ -39,23 +40,13 @@ class Polygon(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.nodes = []
-        for n in kwargs['nodes']:
-            self.nodes.append(Point2D(n))
+        self.nodes = PolyPoint(**kwargs)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
     def calculateBoundingBox(self):
-        min = max = self.getRealPosition(self.nodes[0])
-
-        for n in self.nodes:
-            min.x = min([min.x, n.x])
-            min.y = min([min.y, n.y])
-            max.x = max([max.x, n.x])
-            max.y = max([max.y, n.y])
-
-        return Node.calculateBoundingBox({'min': min, 'max': max})
+        return nodes.calculateBoundingBox()
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
