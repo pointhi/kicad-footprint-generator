@@ -244,7 +244,7 @@ class KicadFileHandler(FileHandler):
         sexpr.append(['layers'] + node.layers)
         if node.shape == Pad.SHAPE_ROUNDRECT:
             sexpr.append(['roundrect_rratio', node.radius_ratio])
-        
+
         if node.solder_paste_margin_ratio != 0 or node.solder_mask_margin != 0:
             sexpr.append(SexprSerializer.NEW_LINE)
             if node.solder_mask_margin != 0:
