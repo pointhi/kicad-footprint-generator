@@ -14,6 +14,7 @@
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.Point import *
+from KicadModTree.PolyPoint import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.base.Line import Line
 
@@ -44,28 +45,12 @@ class PolygoneLine(Node):
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
-        self._initMirror(**kwargs)
+        self._initPolyPoint(**kwargs)
 
-        self._initPolygone(**kwargs)
+        self.virtual_childs = self._createChildNodes(self.poly_point)
 
-        self.virtual_childs = self._createChildNodes(self.polygone_line)
-
-    def _initMirror(self, **kwargs):
-        self.mirror = [None, None]
-        if kwargs.get('x_mirror') and type(kwargs['x_mirror']) in [float, int]:
-            self.mirror[0] = kwargs['x_mirror']
-        if kwargs.get('y_mirror') and type(kwargs['y_mirror']) in [float, int]:
-            self.mirror[1] = kwargs['y_mirror']
-
-    def _initPolygone(self, **kwargs):
-        self.polygone_line = kwargs['polygone']
-
-        for point in self.polygone_line:
-
-            if self.mirror[0] is not None:
-                point['x'] = 2 * self.mirror[0] - point['x']
-            if self.mirror[1] is not None:
-                point['y'] = 2 * self.mirror[1] - point['y']
+    def _initPolyPoint(self, **kwargs):
+        self.poly_point = PolyPoint(**kwargs)
 
     def _createChildNodes(self, polygone_line):
         nodes = []
@@ -85,7 +70,7 @@ class PolygoneLine(Node):
         render_text += " ["
 
         node_strings = []
-        for node in self.polygone_line:
+        for node in self.poly_point:
             node_position = Point2D(node)
             node_strings.append("[x: {x}, y: {y}]".format(x=node_position.x,
                                                           y=node_position.y))
