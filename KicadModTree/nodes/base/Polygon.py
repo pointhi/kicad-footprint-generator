@@ -67,3 +67,6 @@ class Polygon(Node):
         render_text += "]"
 
         return render_text
+
+    def cut(self, other):
+        self.nodes.cut(other.nodes)

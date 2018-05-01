@@ -16,6 +16,7 @@
 import warnings
 
 from KicadModTree.util.kicad_util import formatFloat
+from math import sqrt
 
 
 class Point2D(object):
@@ -135,6 +136,9 @@ class Point2D(object):
 
     def __str__(self):
         return "(x={x}, y={y})".format(**self.__dict__())
+
+    def distanceTo(self, other):
+        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2)
 
 
 class Point3D(Point2D):

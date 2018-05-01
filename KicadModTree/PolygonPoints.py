@@ -92,3 +92,35 @@ class PolygonPoints(object):
 
     def __len__(self):
         return len(self.nodes)
+
+    def findNearestPoints(self, other):
+        min_distance = self[0].distanceTo(other[0])
+        pi = 0
+        pj = 0
+        for i in range(len(self)):
+            for j in range(len(other)):
+                d = self[i].distanceTo(other[j])
+                if d < min_distance:
+                    pi = i
+                    pj = j
+                    min_distance = d
+
+        return (pi, pj)
+
+    def getPoints(self):
+        return self.nodes
+
+    def cut(self, other):
+        warnings.warn(
+            "No geometry checks are implement for cutting polygons.\n"\
+            "Make sure the second polygon is fully inside the main polygon\n"
+            "Check resulting polygon carefully.",
+            Warning
+        )
+        idx_self, idx_other = self.findNearestPoints(other)
+
+        self.nodes.insert(idx_self+1, self[idx_self])
+        for i in range(len(other)):
+            self.nodes.insert(idx_self+1, other[(i+idx_other)%len(other)])
+
+        self.nodes.insert(idx_self+1, other[idx_other])

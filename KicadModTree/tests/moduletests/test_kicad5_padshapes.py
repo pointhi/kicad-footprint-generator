@@ -80,6 +80,24 @@ RESULT_SIMPLE_OTHER_CUSTOM_PAD = """(module round_rect_test (layer F.Cu) (tedit 
     ))
 )"""
 
+RESULT_CUT_POLYGON = """(module round_rect_test (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value round_rect_test (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 1 smd custom (at 0 0) (size 0.5 0.5) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -2 -2) (xy 2 -2) (xy 2 2) (xy 1 1)
+         (xy 1 0) (xy 0 0) (xy 0 1) (xy 1 1)
+         (xy 2 2) (xy -2 2)) (width 0))
+    ))
+)"""
 
 class Kicad5PadsTests(unittest.TestCase):
 
@@ -167,5 +185,28 @@ class Kicad5PadsTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        file_handler.writeFile('test.kicad_mod')
+        #file_handler.writeFile('test.kicad_mod')
         self.assertEqual(result, RESULT_SIMPLE_OTHER_CUSTOM_PAD)
+
+    def testCutPolygon(self):
+        kicad_mod = Footprint("round_rect_test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="round_rect_test", at=[0, 0], layer='F.Fab'))
+
+        p1 = Polygon(nodes=[(0, 0), (1, 0), (1, 1), (0, 1)])
+        p2 = Polygon(nodes=[(-2, -2), (2, -2), (2, 2), (-2, 2)])
+        p2.cut(p1)
+
+        kicad_mod.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
+                             at=[0, 0], size=[0.5, 0.5], layers=Pad.LAYERS_SMT,
+                             primitives=[p2]
+                             ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        file_handler.writeFile('test.kicad_mod')
+        self.assertEqual(result, RESULT_CUT_POLYGON)
