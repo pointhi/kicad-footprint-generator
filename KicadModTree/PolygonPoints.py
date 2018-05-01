@@ -112,7 +112,7 @@ class PolygonPoints(object):
 
     def cut(self, other):
         warnings.warn(
-            "No geometry checks are implement for cutting polygons.\n"\
+            "No geometry checks are implement for cutting polygons.\n"
             "Make sure the second polygon is fully inside the main polygon\n"
             "Check resulting polygon carefully.",
             Warning
@@ -121,6 +121,6 @@ class PolygonPoints(object):
 
         self.nodes.insert(idx_self+1, self[idx_self])
         for i in range(len(other)):
-            self.nodes.insert(idx_self+1, other[(i+idx_other)%len(other)])
+            self.nodes.insert(idx_self+1, other[(i+idx_other) % len(other)])
 
         self.nodes.insert(idx_self+1, other[idx_other])

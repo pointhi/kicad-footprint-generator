@@ -99,6 +99,7 @@ RESULT_CUT_POLYGON = """(module round_rect_test (layer F.Cu) (tedit 0)
     ))
 )"""
 
+
 class Kicad5PadsTests(unittest.TestCase):
 
     def testRoundRectPad(self):
@@ -185,7 +186,7 @@ class Kicad5PadsTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        #file_handler.writeFile('test.kicad_mod')
+        # file_handler.writeFile('test.kicad_mod')
         self.assertEqual(result, RESULT_SIMPLE_OTHER_CUSTOM_PAD)
 
     def testCutPolygon(self):
@@ -208,5 +209,5 @@ class Kicad5PadsTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        file_handler.writeFile('test.kicad_mod')
+        # file_handler.writeFile('test.kicad_mod')
         self.assertEqual(result, RESULT_CUT_POLYGON)
