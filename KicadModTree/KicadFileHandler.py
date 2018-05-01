@@ -16,6 +16,10 @@
 from KicadModTree.FileHandler import FileHandler
 from KicadModTree.util.kicad_util import *
 from KicadModTree.nodes.base.Pad import Pad  # TODO: why .KicadModTree is not enough?
+from KicadModTree.nodes.base.Arc import Arc
+from KicadModTree.nodes.base.Circle import Circle
+from KicadModTree.nodes.base.Line import Line
+from KicadModTree.nodes.base.Polygon import Polygon
 
 
 DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.12,
@@ -24,6 +28,8 @@ DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.12,
                        'B.Fab': 0.10,
                        'F.CrtYd': 0.05,
                        'B.CrtYd': 0.05}
+
+DEFAULT_WIDTH_POLYGON_PAD = 0
 
 DEFAULT_WIDTH = 0.15
 
@@ -245,6 +251,32 @@ class KicadFileHandler(FileHandler):
         if node.shape == Pad.SHAPE_ROUNDRECT:
             sexpr.append(['roundrect_rratio', node.radius_ratio])
 
+        if node.shape == Pad.SHAPE_CUSTOM:
+            # gr_line, gr_arc, gr_circle or gr_poly
+            sexpr.append(SexprSerializer.NEW_LINE)
+            sexpr.append(['options',
+                ['clearance', node.shape_in_zone],
+                ['anchor', node.anchor_shape]
+                ])
+            sexpr.append(SexprSerializer.NEW_LINE)
+            sexpr_primitives = []
+            for p in node.primitives:
+                if isinstance(p, Polygon):
+                    sexpr_primitives.append(['gr_poly',
+                        self._serialize_PolygonPoints(p, newline_after_pts=True),
+                        ['width', DEFAULT_WIDTH_POLYGON_PAD if p.width is None else p.width]
+                        ])
+                elif isinstance(p, Line):
+                    raise NotImplementedError('Primitive "Line" not yet implemented for custom pads')
+                elif isinstance(p, Circle):
+                    raise NotImplementedError('Primitive "Circle" not yet implemented for custom pads')
+                elif isinstance(p, Arc):
+                    raise NotImplementedError('Primitive "Arc" not yet implemented for custom pads')
+                else:
+                    raise TypeError('Unsuported type of primitive for custom pad.')
+
+            sexpr.append(['primitives', SexprSerializer.NEW_LINE] + sexpr_primitives)
+
         if node.solder_paste_margin_ratio != 0 or node.solder_mask_margin != 0:
             sexpr.append(SexprSerializer.NEW_LINE)
             if node.solder_mask_margin != 0:
@@ -254,8 +286,10 @@ class KicadFileHandler(FileHandler):
 
         return sexpr
 
-    def _serialize_PolygonPoints(self, node):
+    def _serialize_PolygonPoints(self, node, newline_after_pts = False):
         node_points = ['pts']
+        if newline_after_pts:
+            node_points.append(SexprSerializer.NEW_LINE)
         points_appended = 0
         for n in node.nodes:
             if points_appended >= 4:

@@ -59,3 +59,23 @@ class Kicad5PadsTests(unittest.TestCase):
         result = file_handler.serialize(timestamp=0)
         # file_handler.writeFile('test.kicad_mod')
         self.assertEqual(result, RESULT_ROUNDRECT_FP)
+
+    def testPolygonPad(self):
+        kicad_mod = Footprint("round_rect_test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="round_rect_test", at=[0, 0], layer='F.Fab'))
+
+
+        kicad_mod.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
+                             at=[0, 0], size=[1, 1], layers=Pad.LAYERS_SMT,
+                             primitives=[Polygon(nodes=[(-1, -1), (2, -1), (1, 1), (-1, 2)])]
+                             ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        file_handler.writeFile('test.kicad_mod')
+        # self.assertEqual(result, RESULT_ROUNDRECT_FP)
