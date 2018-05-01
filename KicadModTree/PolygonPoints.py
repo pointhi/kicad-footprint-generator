@@ -13,6 +13,8 @@
 #
 # (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+import warnings
+
 from KicadModTree.Point import Point2D
 from KicadModTree.nodes.Node import Node
 
@@ -48,6 +50,10 @@ class PolygonPoints(object):
             if 'polygone' in kwargs:
                 raise KeyError('Use of "nodes" and "polygone" parameter at the same time is not supported.')
         elif 'polygone' in kwargs:
+            warnings.warn(
+                "polygone argument is deprecated, use nodes instead",
+                DeprecationWarning
+            )
             for n in kwargs['polygone']:
                 self.nodes.append(Point2D(n))
         else:
