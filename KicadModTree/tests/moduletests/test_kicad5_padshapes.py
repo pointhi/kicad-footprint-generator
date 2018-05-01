@@ -118,7 +118,6 @@ class Kicad5PadsTests(unittest.TestCase):
         kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
         kicad_mod.append(Text(type='value', text="round_rect_test", at=[0, 0], layer='F.Fab'))
 
-
         kicad_mod.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
                              at=[0, 0], size=[1, 1], layers=Pad.LAYERS_SMT,
                              primitives=[Polygon(nodes=[(-1, -1), (2, -1), (1, 1), (-1, 2)])]
@@ -138,33 +137,35 @@ class Kicad5PadsTests(unittest.TestCase):
         kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
         kicad_mod.append(Text(type='value', text="round_rect_test", at=[0, 0], layer='F.Fab'))
 
+        kicad_mod.append(
+            Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
+                at=[0, 0], size=[1, 1], layers=Pad.LAYERS_SMT,
+                primitives=[
+                     Arc(center=(-1, 0), start=(-1, -0.5), angle=-180, width=0.15),
+                     Line(start=(-1, -0.5), end=(1.25, -0.5), width=0.15),
+                     Line(start=(1.25, 0.5), end=(-1, 0.5), width=0.15),
+                     Line(start=(1.25, -0.5), end=(1.25, 0.5), width=0.15)
+                     ]
+                ))
 
-        kicad_mod.append(Pad(number=1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
-                         at=[0, 0], size=[1, 1], layers=Pad.LAYERS_SMT,
-                         primitives=[
-                             Arc(center=(-1, 0), start=(-1, -0.5), angle=-180, width=0.15),
-                             Line(start=(-1, -0.5), end=(1.25, -0.5), width=0.15),
-                             Line(start=(1.25, 0.5), end=(-1, 0.5), width=0.15),
-                             Line(start=(1.25, -0.5), end=(1.25, 0.5), width=0.15)
-                             ]
-                         ))
+        kicad_mod.append(
+            Pad(number=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
+                at=[0, 3], size=[1, 1], layers=Pad.LAYERS_SMT,
+                primitives=[
+                     Arc(center=(-1, 0), start=(-1, -0.5), angle=-180, width=0.15),
+                     Line(start=(-1, -0.5), end=(1.25, -0.5), width=0.15),
+                     Line(start=(1.25, 0.5), end=(-1, 0.5), width=0.15),
+                     Line(start=(1.25, -0.5), end=(1.25, 0.5), width=0.15)
+                     ]
+                ))
 
-        kicad_mod.append(Pad(number=2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
-                         at=[0, 3], size=[1, 1], layers=Pad.LAYERS_SMT,
-                         primitives=[
-                             Arc(center=(-1, 0), start=(-1, -0.5), angle=-180, width=0.15),
-                             Line(start=(-1, -0.5), end=(1.25, -0.5), width=0.15),
-                             Line(start=(1.25, 0.5), end=(-1, 0.5), width=0.15),
-                             Line(start=(1.25, -0.5), end=(1.25, 0.5), width=0.15)
-                             ]
-                         ))
-
-        kicad_mod.append(Pad(number=3, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
-                         at=[0, -3], size=[1, 1], layers=Pad.LAYERS_SMT,
-                         primitives=[
-                                Circle(center=(0.5, 0.5), radius=0.5, width=0.15)
-                             ]
-                         ))
+        kicad_mod.append(
+            Pad(number=3, type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
+                at=[0, -3], size=[1, 1], layers=Pad.LAYERS_SMT,
+                primitives=[
+                        Circle(center=(0.5, 0.5), radius=0.5, width=0.15)
+                     ]
+                ))
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)

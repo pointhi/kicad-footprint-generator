@@ -195,7 +195,8 @@ class Pad(Node):
     def _initShapeInZone(self, **kwargs):
         self.shape_in_zone = kwargs.get('shape_in_zone', Pad.SHAPE_IN_ZONE_OUTLINE)
         if self.shape_in_zone not in Pad._SHAPE_IN_ZONE:
-            raise ValueError('{shape} is an illegal specifier for the shape in zone option'.format(shape=self.shape_in_zone))
+            raise ValueError('{shape} is an illegal specifier for the shape in zone option'
+                             .format(shape=self.shape_in_zone))
 
     # calculate the outline of a pad
     def calculateBoundingBox(self):
@@ -218,7 +219,7 @@ class Pad(Node):
 
     def addPrimitive(self, p):
         if isinstance(p, Polygon) or isinstance(p, Line)\
-            or isinstance(p, Circle) or isinstance(p, Arc):
+                or isinstance(p, Circle) or isinstance(p, Arc):
             self.primitives.append(p)
         else:
             raise TypeError('Unsuported type of primitive for custom pad.')

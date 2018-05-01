@@ -198,6 +198,7 @@ class KicadFileHandler(FileHandler):
                 ['start', start_pos.x, start_pos.y],
                 ['end', end_pos.x, end_pos.y]
                ]
+
     def _serialize_Line(self, node):
         start_pos = node.getRealPosition(node.start_pos)
         end_pos = node.getRealPosition(node.end_pos)
@@ -274,16 +275,16 @@ class KicadFileHandler(FileHandler):
             # gr_line, gr_arc, gr_circle or gr_poly
             sexpr.append(SexprSerializer.NEW_LINE)
             sexpr.append(['options',
-                ['clearance', node.shape_in_zone],
-                ['anchor', node.anchor_shape]
-                ])
+                         ['clearance', node.shape_in_zone],
+                         ['anchor', node.anchor_shape]
+                        ])  # NOQA
             sexpr.append(SexprSerializer.NEW_LINE)
             sexpr_primitives = []
             for p in node.primitives:
                 if isinstance(p, Polygon):
                     sp = ['gr_poly',
-                        self._serialize_PolygonPoints(p, newline_after_pts=True)
-                        ]
+                          self._serialize_PolygonPoints(p, newline_after_pts=True)
+                         ]  # NOQA
                 elif isinstance(p, Line):
                     sp = ['gr_line'] + self._serialize_LinePoints(p)
                 elif isinstance(p, Circle):
@@ -307,7 +308,7 @@ class KicadFileHandler(FileHandler):
 
         return sexpr
 
-    def _serialize_PolygonPoints(self, node, newline_after_pts = False):
+    def _serialize_PolygonPoints(self, node, newline_after_pts=False):
         node_points = ['pts']
         if newline_after_pts:
             node_points.append(SexprSerializer.NEW_LINE)
