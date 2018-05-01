@@ -151,42 +151,61 @@ class KicadFileHandler(FileHandler):
             exception_string = "{name} (node) not found, cannot serialized the node of type {type}"
             raise NotImplementedError(exception_string.format(name=method_name, type=method_type))
 
-    def _serialize_Arc(self, node):
+    def _serialize_ArcPoints(self, node):
         # in KiCAD, some file attributes of Arc are named not in the way of their real meaning
         center_pos = node.getRealPosition(node.center_pos)
         end_pos = node.getRealPosition(node.start_pos)
 
-        sexpr = ['fp_arc',
-                 ['start', center_pos.x, center_pos.y],
-                 ['end', end_pos.x, end_pos.y],
-                 ['angle', node.angle],
-                 ['layer', node.layer],
-                 ['width', _get_layer_width(node.layer, node.width)]
-                ]  # NOQA
+        return [
+                ['start', center_pos.x, center_pos.y],
+                ['end', end_pos.x, end_pos.y],
+                ['angle', node.angle]
+               ]
+
+    def _serialize_Arc(self, node):
+        sexpr = ['fp_arc']
+        sexpr += self._serialize_ArcPoints(node)
+        sexpr += [
+                  ['layer', node.layer],
+                  ['width', _get_layer_width(node.layer, node.width)]
+                 ]  # NOQA
 
         return sexpr
 
-    def _serialize_Circle(self, node):
+    def _serialize_CirclePoints(self, node):
         center_pos = node.getRealPosition(node.center_pos)
         end_pos = node.getRealPosition(node.end_pos)
 
-        sexpr = ['fp_circle',
-                 ['center', center_pos.x, center_pos.y],
-                 ['end', end_pos.x, end_pos.y],
-                 ['layer', node.layer],
-                 ['width', _get_layer_width(node.layer, node.width)]
-                ]  # NOQA
+        return [
+                ['center', center_pos.x, center_pos.y],
+                ['end', end_pos.x, end_pos.y]
+               ]
+
+    def _serialize_Circle(self, node):
+        sexpr = ['fp_circle']
+        sexpr += self._serialize_CirclePoints(node)
+        sexpr += [
+                  ['layer', node.layer],
+                  ['width', _get_layer_width(node.layer, node.width)]
+                 ]  # NOQA
 
         return sexpr
 
+    def _serialize_LinePoints(self, node):
+        start_pos = node.getRealPosition(node.start_pos)
+        end_pos = node.getRealPosition(node.end_pos)
+        return [
+                ['start', start_pos.x, start_pos.y],
+                ['end', end_pos.x, end_pos.y]
+               ]
     def _serialize_Line(self, node):
         start_pos = node.getRealPosition(node.start_pos)
         end_pos = node.getRealPosition(node.end_pos)
 
-        sexpr = ['fp_line',
-                 ['start', start_pos.x, start_pos.y],
-                 ['end', end_pos.x, end_pos.y],
-                 ['layer', node.layer],
+        sexpr = ['fp_line']
+        sexpr += self._serialize_LinePoints(node)
+        sexpr += [
+                ['layer', node.layer],
                  ['width', _get_layer_width(node.layer, node.width)]
                 ]  # NOQA
 
@@ -262,18 +281,20 @@ class KicadFileHandler(FileHandler):
             sexpr_primitives = []
             for p in node.primitives:
                 if isinstance(p, Polygon):
-                    sexpr_primitives.append(['gr_poly',
-                        self._serialize_PolygonPoints(p, newline_after_pts=True),
-                        ['width', DEFAULT_WIDTH_POLYGON_PAD if p.width is None else p.width]
-                        ])
+                    sp = ['gr_poly',
+                        self._serialize_PolygonPoints(p, newline_after_pts=True)
+                        ]
                 elif isinstance(p, Line):
-                    raise NotImplementedError('Primitive "Line" not yet implemented for custom pads')
+                    sp = ['gr_line'] + self._serialize_LinePoints(p)
                 elif isinstance(p, Circle):
-                    raise NotImplementedError('Primitive "Circle" not yet implemented for custom pads')
+                    sp = ['gr_circle'] + self._serialize_CirclePoints(p)
                 elif isinstance(p, Arc):
-                    raise NotImplementedError('Primitive "Arc" not yet implemented for custom pads')
+                    sp = ['gr_arc'] + self._serialize_ArcPoints(p)
                 else:
                     raise TypeError('Unsuported type of primitive for custom pad.')
+                sp.append(['width', DEFAULT_WIDTH_POLYGON_PAD if p.width is None else p.width])
+                sexpr_primitives.append(sp)
+                sexpr_primitives.append(SexprSerializer.NEW_LINE)
 
             sexpr.append(['primitives', SexprSerializer.NEW_LINE] + sexpr_primitives)
 
