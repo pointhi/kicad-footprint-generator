@@ -250,6 +250,48 @@ class KicadFileHandler(FileHandler):
 
         return sexpr
 
+    def _serialize_CustomPadPrimitives(self, pad):
+        all_primitives = []
+        for p in pad.primitives:
+            all_primitives.extend(p.serialize())
+
+        grouped_nodes = {}
+
+        for single_node in all_primitives:
+            node_type = single_node.__class__.__name__
+
+            current_nodes = grouped_nodes.get(node_type, [])
+            current_nodes.append(single_node)
+
+            grouped_nodes[node_type] = current_nodes
+
+        sexpr_primitives = []
+
+        for key, value in sorted(grouped_nodes.items()):
+            # check if key is a base node, except Model
+            if key not in {'Arc', 'Circle', 'Line', 'Pad', 'Polygon', 'Text'}:
+                continue
+
+            # render base nodes
+            for p in value:
+                if isinstance(p, Polygon):
+                    sp = ['gr_poly',
+                          self._serialize_PolygonPoints(p, newline_after_pts=True)
+                         ]  # NOQA
+                elif isinstance(p, Line):
+                    sp = ['gr_line'] + self._serialize_LinePoints(p)
+                elif isinstance(p, Circle):
+                    sp = ['gr_circle'] + self._serialize_CirclePoints(p)
+                elif isinstance(p, Arc):
+                    sp = ['gr_arc'] + self._serialize_ArcPoints(p)
+                else:
+                    raise TypeError('Unsuported type of primitive for custom pad.')
+                sp.append(['width', DEFAULT_WIDTH_POLYGON_PAD if p.width is None else p.width])
+                sexpr_primitives.append(sp)
+                sexpr_primitives.append(SexprSerializer.NEW_LINE)
+
+        return sexpr_primitives
+
     def _serialize_Pad(self, node):
         sexpr = ['pad', node.number, node.type, node.shape]
 
@@ -279,24 +321,7 @@ class KicadFileHandler(FileHandler):
                          ['anchor', node.anchor_shape]
                         ])  # NOQA
             sexpr.append(SexprSerializer.NEW_LINE)
-            sexpr_primitives = []
-            for p in node.primitives:
-                if isinstance(p, Polygon):
-                    sp = ['gr_poly',
-                          self._serialize_PolygonPoints(p, newline_after_pts=True)
-                         ]  # NOQA
-                elif isinstance(p, Line):
-                    sp = ['gr_line'] + self._serialize_LinePoints(p)
-                elif isinstance(p, Circle):
-                    sp = ['gr_circle'] + self._serialize_CirclePoints(p)
-                elif isinstance(p, Arc):
-                    sp = ['gr_arc'] + self._serialize_ArcPoints(p)
-                else:
-                    raise TypeError('Unsuported type of primitive for custom pad.')
-                sp.append(['width', DEFAULT_WIDTH_POLYGON_PAD if p.width is None else p.width])
-                sexpr_primitives.append(sp)
-                sexpr_primitives.append(SexprSerializer.NEW_LINE)
-
+            sexpr_primitives = self._serialize_CustomPadPrimitives(node)
             sexpr.append(['primitives', SexprSerializer.NEW_LINE] + sexpr_primitives)
 
         if node.solder_paste_margin_ratio != 0 or node.solder_mask_margin != 0:

@@ -62,16 +62,16 @@ RESULT_SIMPLE_OTHER_CUSTOM_PAD = """(module round_rect_test (layer F.Cu) (tedit 
     (primitives
       (gr_arc (start -1 0) (end -1 -0.5) (angle -180) (width 0.15))
       (gr_line (start -1 -0.5) (end 1.25 -0.5) (width 0.15))
-      (gr_line (start 1.25 0.5) (end -1 0.5) (width 0.15))
       (gr_line (start 1.25 -0.5) (end 1.25 0.5) (width 0.15))
+      (gr_line (start 1.25 0.5) (end -1 0.5) (width 0.15))
     ))
   (pad 2 smd custom (at 0 3) (size 1 1) (layers F.Cu F.Mask F.Paste)
     (options (clearance outline) (anchor circle))
     (primitives
       (gr_arc (start -1 0) (end -1 -0.5) (angle -180) (width 0.15))
       (gr_line (start -1 -0.5) (end 1.25 -0.5) (width 0.15))
-      (gr_line (start 1.25 0.5) (end -1 0.5) (width 0.15))
       (gr_line (start 1.25 -0.5) (end 1.25 0.5) (width 0.15))
+      (gr_line (start 1.25 0.5) (end -1 0.5) (width 0.15))
     ))
   (pad 3 smd custom (at 0 -3) (size 1 1) (layers F.Cu F.Mask F.Paste)
     (options (clearance outline) (anchor circle))
@@ -143,8 +143,8 @@ class Kicad5PadsTests(unittest.TestCase):
                 primitives=[
                      Arc(center=(-1, 0), start=(-1, -0.5), angle=-180, width=0.15),
                      Line(start=(-1, -0.5), end=(1.25, -0.5), width=0.15),
-                     Line(start=(1.25, 0.5), end=(-1, 0.5), width=0.15),
-                     Line(start=(1.25, -0.5), end=(1.25, 0.5), width=0.15)
+                     Line(start=(1.25, -0.5), end=(1.25, 0.5), width=0.15),
+                     Line(start=(1.25, 0.5), end=(-1, 0.5), width=0.15)
                      ]
                 ))
 
@@ -153,9 +153,7 @@ class Kicad5PadsTests(unittest.TestCase):
                 at=[0, 3], size=[1, 1], layers=Pad.LAYERS_SMT,
                 primitives=[
                      Arc(center=(-1, 0), start=(-1, -0.5), angle=-180, width=0.15),
-                     Line(start=(-1, -0.5), end=(1.25, -0.5), width=0.15),
-                     Line(start=(1.25, 0.5), end=(-1, 0.5), width=0.15),
-                     Line(start=(1.25, -0.5), end=(1.25, 0.5), width=0.15)
+                     PolygoneLine(nodes=[(-1, -0.5), (1.25, -0.5), (1.25, 0.5), (-1, 0.5)], width=0.15)
                      ]
                 ))
 

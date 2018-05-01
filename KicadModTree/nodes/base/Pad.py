@@ -218,8 +218,4 @@ class Pad(Node):
         return render_text
 
     def addPrimitive(self, p):
-        if isinstance(p, Polygon) or isinstance(p, Line)\
-                or isinstance(p, Circle) or isinstance(p, Arc):
-            self.primitives.append(p)
-        else:
-            raise TypeError('Unsuported type of primitive for custom pad.')
+        self.primitives.append(p)
