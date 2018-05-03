@@ -2,7 +2,7 @@
 # using this config file will create KLCv2.x compatible footprints.
 
 #lib_name_format_str: "Conn_Phoenix_{series:s}-{style:%s}_{pitch:.2f}"
-lib_name_format_str: "Connector_Phoenix_{series:s}"
+lib_name_format_str: "Connector_Phoenix_{series:s}{suffix:s}"
 manufacturer: "PhoenixContact"
 
 

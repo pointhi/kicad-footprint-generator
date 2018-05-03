@@ -25,7 +25,9 @@ def generate_one_footprint(motel, params, configuration):
     # Through-hole type shrouded header, Top entry type
     subseries, connector_style = params.series_name.split('-')
     pitch_mpn = '-{:g}'.format(params.pin_pitch)
-    lib_name = configuration['lib_name_format_str'].format(series=series[0], style=series[1], pitch=params.pin_pitch)
+    suffix = '_HighVoltage' if params.pin_pitch >= 5.08 else ''
+    lib_name = configuration['lib_name_format_str'].format(series=series[0],
+        style=series[1], pitch=params.pin_pitch, suffix=suffix)
     mpn = configuration['mpn_format_string'].format(subseries=subseries, style = connector_style,
         rating=series[1], num_pins=params.num_pins, pitch=pitch_mpn)
     footprint_name = configuration['fp_name_format_string'].format(man = configuration['manufacturer'],
