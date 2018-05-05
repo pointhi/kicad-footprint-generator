@@ -57,8 +57,8 @@ def generate_one_footprint(partnumber, pincount, configuration):
     else:
         pn_prefix = ""
 
-    footprint_name = 'TE_{pnp}{pn:s}-{pns}_1x{pc:02g}_P1.0mm_Horizontal'.format(pnp=pn_prefix, pn=partnumber, pns=str(pincount)[-1], pc=pincount)
-
+    footprint_name = 'TE_{pnp}{pn:s}-{pns}_1x{pc:02g}-1MP_P1.0mm_Horizontal'\
+        .format(pnp=pn_prefix, pn=partnumber, pns=str(pincount)[-1], pc=pincount)
     print('Building {:s}'.format(footprint_name))
 
     # calculate working values
@@ -121,9 +121,11 @@ def generate_one_footprint(partnumber, pincount, configuration):
         size=[pad_width, pad_height], layers=Pad.LAYERS_SMT))
 
     # create tab (smt mounting) pads
-    kicad_mod.append(Pad(at=[-tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+    kicad_mod.append(Pad(number=configuration['mounting_pad_number'],
+        at=[-tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
         size=[tab_width, tab_height], layers=Pad.LAYERS_SMT))
-    kicad_mod.append(Pad(at=[tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+    kicad_mod.append(Pad(number=configuration['mounting_pad_number'],
+        at=[tab_x, tab_y], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
         size=[tab_width, tab_height], layers=Pad.LAYERS_SMT))
 
     # create fab outline and pin 1 marker
