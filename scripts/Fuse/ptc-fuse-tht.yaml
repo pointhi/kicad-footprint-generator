@@ -1,0 +1,134 @@
+Fuse_Bourns_MF-RG300:
+  ihold: 3.0A
+  itrip: 5.1A
+  width: 7.1
+Fuse_Bourns_MF-RG400:
+  ihold: 4.0A
+  itrip: 6.8A
+  width: 9.9
+Fuse_Bourns_MF-RG500:
+  ihold: 5.0A
+  itrip: 8.5A
+  width: 10.4
+Fuse_Bourns_MF-RG600:
+  ihold: 6.0A
+  itrip: 10.2A
+  width: 10.7
+Fuse_Bourns_MF-RG650:
+  ihold: 6.5A
+  itrip: 11.1A
+  width: 11.2
+Fuse_Bourns_MF-RG700:
+  ihold: 7.0A
+  itrip: 11.9A
+  width: 11.2
+Fuse_Bourns_MF-RG800:
+  ihold: 8.0A
+  itrip: 13.6A
+  width: 12.7
+Fuse_Bourns_MF-RG900:
+  ihold: 9.0A
+  itrip: 15.3A
+  width: 14.0
+Fuse_Bourns_MF-RG1000:
+  ihold: 10.0A
+  itrip: 17.0A
+  width: 16.5
+Fuse_Bourns_MF-RG1100:
+  ihold: 11.0A
+  itrip: 18.7A
+  width: 17.5
+Fuse_Bourns_MF-RHT050:
+  ihold: 0.5A
+  itrip: 0.92A
+  width: 7.4
+  drill: 0.71
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT070:
+  ihold: 0.7A
+  itrip: 1.4A
+  width: 6.86
+  drill: 0.71
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT100:
+  ihold: 1.0A
+  itrip: 1.8A
+  width: 9.7
+  drill: 0.71
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT200:
+  ihold: 2.0A
+  itrip: 3.8A
+  width: 9.4
+  drill: 0.71
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT300:
+  ihold: 3.0A
+  itrip: 6.0A
+  width: 8.8
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT400:
+  ihold: 4.0A
+  itrip: 7.5A
+  width: 10.0
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT500:
+  ihold: 5.0A
+  itrip: 9.0A
+  width: 11.2
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT550:
+  ihold: 5.5A
+  itrip: 10.0A
+  width: 11.2
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT600:
+  ihold: 6.0A
+  itrip: 10.8A
+  width: 11.2
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT650:
+  ihold: 6.5A
+  itrip: 12.0A
+  width: 12.7
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT700:
+  ihold: 7.0A
+  itrip: 13.0A
+  width: 14.0
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT750:
+  ihold: 7.5A
+  itrip: 13.1A
+  width: 14.0
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT800:
+  ihold: 8.0A
+  itrip: 15.0A
+  width: 16.5
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT900:
+  ihold: 9.0A
+  itrip: 16.5A
+  width: 16.5
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT1000:
+  ihold: 10.0A
+  itrip: 18.5A
+  width: 17.5
+  pitch: 10.2
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT1100:
+  ihold: 11.0A
+  itrip: 20.0A
+  width: 21.0
+  pitch: 10.2
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
+Fuse_Bourns_MF-RHT1300:
+  ihold: 13.0A
+  itrip: 24.0A
+  width: 23.5
+  height: 3.6
+  pitch: 10.2
+  drill: 1.2
+  datasheet: http://www.bourns.com/docs/product-datasheets/mfrht.pdf
