@@ -13,13 +13,24 @@ def roundCrtYd(x):
     return int((x + 0.0001 * sign) * 100) / 100.0
 
 def textool(args):
-    footprint_name = args["name"]
+    name = args["name"]
     nPads = args["n_pads"]
     dimA = args["a"]
     dimB = args["b"]
     dimC = args["c"]
     mils = args["c_mils"]
     lever = args["lever"]
+    minWidth = args["min"]
+    maxWidth = args["max"]
+
+    widths = "_W" + str(minWidth)
+    for i in range(0, 15):
+        w = i * 2.54
+        if w > minWidth and w < maxWidth:
+            widths = widths + "_W" + str(w)
+    widths = widths + "_W" + str(maxWidth)
+
+    footprint_name = "DIP_Socket-" + str(nPads) + widths + "_3M_" + name
 
     f = Footprint(footprint_name)
     f.setDescription("3M " + str(nPads) + "-pin zero insertion force socket, through-hole, row spacing " + str(dimC) + " mm (" + str(mils) + " mils), http://multimedia.3m.com/mws/media/494546O/3mtm-dip-sockets-100-2-54-mm-ts0365.pdf")
@@ -192,6 +203,8 @@ if __name__ == '__main__':
     parser.add_parameter("c", type=float, required=True)
     parser.add_parameter("c_mils", type=int, required=True)
     parser.add_parameter("lever", type=float, required=False, default=12.3)
+    parser.add_parameter("min", type=float, required=True)
+    parser.add_parameter("max", type=float, required=True)
 
     # now run our script which handles the whole part of parsing the files
     parser.run()
