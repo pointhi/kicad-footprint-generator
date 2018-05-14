@@ -83,17 +83,17 @@ class PolygonPoints(object):
 
         return Node.calculateBoundingBox({'min': min, 'max': max})
 
-    def __iter__(self):
-        for n in self.nodes:
-            yield n
-
-    def __getitem__(self, idx):
-        return self.nodes[idx]
-
-    def __len__(self):
-        return len(self.nodes)
-
     def findNearestPoints(self, other):
+        r""" Find the nearest points for two polygons
+
+        Find the two points for both polygons that are nearest to each other.
+
+
+        :param other: the polygon points of the other polygon
+        :return: a tuble with the indexes of the two points
+                 (pint in self, point in other)
+        """
+
         min_distance = self[0].distance_to(other[0])
         pi = 0
         pj = 0
@@ -108,9 +108,26 @@ class PolygonPoints(object):
         return (pi, pj)
 
     def getPoints(self):
+        r""" get the points contained within self
+
+        :return: the array of points contained within this instance
+        """
         return self.nodes
 
     def cut(self, other):
+        r""" Cut other polygon points from self
+
+        As kicad has no native support for cuting one polygon from the other,
+        the cut is done by connecting the nearest points of the two polygons
+        with two lines on top of each other.
+
+        This function assumes that the other polygon is fully within this one.
+        It also assumes that connecting the two nearest points creates a valid
+        polygon. (There are no geomtry checks)
+
+        :param other: the polygon points that are cut from this polygon
+        """
+
         warnings.warn(
             "No geometry checks are implement for cutting polygons.\n"
             "Make sure the second polygon is fully inside the main polygon\n"
@@ -124,3 +141,13 @@ class PolygonPoints(object):
             self.nodes.insert(idx_self+1, other[(i+idx_other) % len(other)])
 
         self.nodes.insert(idx_self+1, other[idx_other])
+
+    def __iter__(self):
+        for n in self.nodes:
+            yield n
+
+    def __getitem__(self, idx):
+        return self.nodes[idx]
+
+    def __len__(self):
+        return len(self.nodes)

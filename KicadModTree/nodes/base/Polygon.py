@@ -69,4 +69,10 @@ class Polygon(Node):
         return render_text
 
     def cut(self, other):
+        r""" Cut other polygon from this polygon
+
+        More details see PolygonPoints.cut docstring.
+
+        :param other: the other polygon
+        """
         self.nodes.cut(other.nodes)
