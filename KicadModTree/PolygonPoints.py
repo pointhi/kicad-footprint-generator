@@ -94,12 +94,12 @@ class PolygonPoints(object):
         return len(self.nodes)
 
     def findNearestPoints(self, other):
-        min_distance = self[0].distanceTo(other[0])
+        min_distance = self[0].distance_to(other[0])
         pi = 0
         pj = 0
         for i in range(len(self)):
             for j in range(len(other)):
-                d = self[i].distanceTo(other[j])
+                d = self[i].distance_to(other[j])
                 if d < min_distance:
                     pi = i
                     pj = j

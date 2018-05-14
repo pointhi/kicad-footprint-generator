@@ -76,6 +76,15 @@ class Point2D(object):
         return Point2D({'x': round(self.x / base) * base,
                         'y': round(self.y / base) * base})
 
+    def distance_to(self, value):
+        r"""Distance between selfe and another point
+
+        :param value: the other point
+        :return: distance between self and other point
+        """
+        other = Point2D.__arithmetic_parse(value)
+        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2)
+
     @staticmethod
     def __arithmetic_parse(value):
         if isinstance(value, Point2D):
@@ -136,9 +145,6 @@ class Point2D(object):
 
     def __str__(self):
         return "(x={x}, y={y})".format(**self.__dict__())
-
-    def distanceTo(self, other):
-        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2)
 
 
 class Point3D(Point2D):
