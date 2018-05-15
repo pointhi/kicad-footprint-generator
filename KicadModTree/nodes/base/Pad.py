@@ -16,6 +16,10 @@
 from KicadModTree.Point import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.util.kicad_util import lispString
+from KicadModTree.nodes.base.Arc import Arc
+from KicadModTree.nodes.base.Circle import Circle
+from KicadModTree.nodes.base.Line import Line
+from KicadModTree.nodes.base.Polygon import Polygon
 
 
 class Pad(Node):
@@ -64,12 +68,22 @@ class Pad(Node):
     SHAPE_CIRCLE = 'circle'
     SHAPE_OVAL = 'oval'
     SHAPE_RECT = 'rect'
+    SHAPE_ROUNDRECT = 'roundrect'
     SHAPE_TRAPEZE = 'trapezoid'
-    _SHAPES = [SHAPE_CIRCLE, SHAPE_OVAL, SHAPE_RECT, SHAPE_TRAPEZE]
+    SHAPE_CUSTOM = 'custom'
+    _SHAPES = [SHAPE_CIRCLE, SHAPE_OVAL, SHAPE_RECT, SHAPE_ROUNDRECT, SHAPE_TRAPEZE, SHAPE_CUSTOM]
 
     LAYERS_SMT = ['F.Cu', 'F.Mask', 'F.Paste']
     LAYERS_THT = ['*.Cu', '*.Mask']
     LAYERS_NPTH = ['*.Cu', '*.Mask']
+
+    ANCHOR_CIRCLE = 'circle'
+    ANCHOR_RECT = 'rect'
+    _ANCHOR_SHAPE = [ANCHOR_CIRCLE, ANCHOR_RECT]
+
+    SHAPE_IN_ZONE_CONVEX = 'convexhull'
+    SHAPE_IN_ZONE_OUTLINE = 'outline'
+    _SHAPE_IN_ZONE = [SHAPE_IN_ZONE_CONVEX, SHAPE_IN_ZONE_OUTLINE]
 
     def __init__(self, **kwargs):
         Node.__init__(self)
@@ -84,6 +98,20 @@ class Pad(Node):
         self._initSolderPasteMargin(**kwargs)
         self._initSolderMaskMargin(**kwargs)
         self._initLayers(**kwargs)
+
+        if self.shape == Pad.SHAPE_ROUNDRECT:
+            self._initRadiusRatio(**kwargs)
+
+        if self.shape == Pad.SHAPE_CUSTOM:
+            self._initAnchorShape(**kwargs)
+            self._initShapeInZone(**kwargs)
+
+            self.primitives = []
+            if 'primitives' not in kwargs:
+                raise KeyError('primitives must be declared for custom pads')
+
+            for p in kwargs['primitives']:
+                self.addPrimitive(p)
 
     def _initNumber(self, **kwargs):
         self.number = kwargs.get('number', "")  # default to an un-numbered pad
@@ -148,6 +176,28 @@ class Pad(Node):
             raise KeyError('layers not declared (like "layers=[\'*.Cu\', \'*.Mask\', \'F.SilkS\']")')
         self.layers = kwargs.get('layers')
 
+    def _initRadiusRatio(self, **kwargs):
+        if kwargs.get('radius_ratio') is None:
+            raise KeyError('radius ratio not declared for rounded rectangle pad.')
+        radius_ratio = kwargs.get('radius_ratio')
+        if type(radius_ratio) not in [int, float]:
+            raise TypeError('radius ratio needs to be of type int or float')
+        if radius_ratio >= 0 and radius_ratio <= 0.5:
+            self.radius_ratio = radius_ratio
+        else:
+            raise ValueError('radius ratio out of allowed range (0 < rr <= 0.5)')
+
+    def _initAnchorShape(self, **kwargs):
+        self.anchor_shape = kwargs.get('anchor_shape', Pad.ANCHOR_CIRCLE)
+        if self.anchor_shape not in Pad._ANCHOR_SHAPE:
+            raise ValueError('{shape} is an illegal anchor shape'.format(shape=self.anchor_shape))
+
+    def _initShapeInZone(self, **kwargs):
+        self.shape_in_zone = kwargs.get('shape_in_zone', Pad.SHAPE_IN_ZONE_OUTLINE)
+        if self.shape_in_zone not in Pad._SHAPE_IN_ZONE:
+            raise ValueError('{shape} is an illegal specifier for the shape in zone option'
+                             .format(shape=self.shape_in_zone))
+
     # calculate the outline of a pad
     def calculateBoundingBox(self):
         return Node.calculateBoundingBox(self)
@@ -166,3 +216,10 @@ class Pad(Node):
         render_text += '({})'.format(' '.join(render_strings))
 
         return render_text
+
+    def addPrimitive(self, p):
+        r""" add a primitve to a custom pad
+
+        :param p: the primitive to add
+        """
+        self.primitives.append(p)
