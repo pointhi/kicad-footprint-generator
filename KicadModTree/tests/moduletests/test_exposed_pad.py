@@ -17,7 +17,7 @@ import unittest
 
 from KicadModTree import *
 
-RESULT_ROUNDRECT_FP = """(module round_rect_test (layer F.Cu) (tedit 0)
+RESULT_SIMPLE_EP_FP = """(module round_rect_test (layer F.Cu) (tedit 0)
   (descr "A example footprint")
   (tags example)
   (fp_text reference REF** (at 0 0) (layer F.SilkS)
@@ -34,6 +34,32 @@ RESULT_ROUNDRECT_FP = """(module round_rect_test (layer F.Cu) (tedit 0)
   (pad "" smd rect (at 0.49 1) (size 0.85 0.56) (layers F.Paste))
   (pad "" smd rect (at -0.49 1.66) (size 0.85 0.56) (layers F.Paste))
   (pad "" smd rect (at 0.49 1.66) (size 0.85 0.56) (layers F.Paste))
+  (pad 3 thru_hole circle (at -0.75 -0.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0 -0.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0.75 -0.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at -0.75 2.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0 2.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0.75 2.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at 0 1) (size 2.1 3) (layers B.Cu))
+)"""
+
+RESULT_SIMPLE_EP_NO_ROUNDING_FP = """(module round_rect_test (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value round_rect_test (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad "" smd rect (at 0 1) (size 2.1 2.1) (layers F.Mask))
+  (pad 3 smd rect (at 0 1) (size 2.1 3) (layers F.Cu))
+  (pad "" smd rect (at -0.49109 0.33391) (size 0.846537 0.564358) (layers F.Paste))
+  (pad "" smd rect (at 0.49109 0.33391) (size 0.846537 0.564358) (layers F.Paste))
+  (pad "" smd rect (at -0.49109 1) (size 0.846537 0.564358) (layers F.Paste))
+  (pad "" smd rect (at 0.49109 1) (size 0.846537 0.564358) (layers F.Paste))
+  (pad "" smd rect (at -0.49109 1.66609) (size 0.846537 0.564358) (layers F.Paste))
+  (pad "" smd rect (at 0.49109 1.66609) (size 0.846537 0.564358) (layers F.Paste))
   (pad 3 thru_hole circle (at -0.75 -0.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
   (pad 3 thru_hole circle (at 0 -0.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
   (pad 3 thru_hole circle (at 0.75 -0.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
@@ -63,4 +89,24 @@ class ExposedPadTests(unittest.TestCase):
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
         # file_handler.writeFile('test.kicad_mod')
-        self.assertEqual(result, RESULT_ROUNDRECT_FP)
+        self.assertEqual(result, RESULT_SIMPLE_EP_FP)
+
+    def testSimpleExposedPadNoRounding(self):
+        kicad_mod = Footprint("round_rect_test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="round_rect_test", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(ExposedPad(
+            number=3, at=[0, 1], size=[2.1, 3],
+            mask_size=[2.1, 2.1], paste_layout=[2, 3], via_layout=[3, 2],
+            grid_round_base=None, size_round_base=0
+            ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('test.kicad_mod')
+        self.assertEqual(result, RESULT_SIMPLE_EP_NO_ROUNDING_FP)

@@ -22,6 +22,7 @@ from KicadModTree.nodes.base.Pad import *
 from KicadModTree.nodes.specialized.PadArray import *
 from KicadModTree.nodes.Node import Node
 from math import sqrt
+from builtins import round
 
 
 class ExposedPad(Node):
