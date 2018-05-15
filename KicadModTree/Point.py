@@ -77,7 +77,7 @@ class Point2D(object):
                         'y': round(self.y / base) * base})
 
     def distance_to(self, value):
-        r"""Distance between selfe and another point
+        r"""Distance between this and another point
 
         :param value: the other point
         :return: distance between self and other point

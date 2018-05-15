@@ -123,7 +123,7 @@ class PolygonPoints(object):
 
         This function assumes that the other polygon is fully within this one.
         It also assumes that connecting the two nearest points creates a valid
-        polygon. (There are no geomtry checks)
+        polygon. (There are no geometry checks)
 
         :param other: the polygon points that are cut from this polygon
         """
