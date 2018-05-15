@@ -30,7 +30,7 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = ''
+series = 'HLE'
 series_long = 'HLE .100" Tiger Beam Cost-effective Single Beam Socket Strip'
 manufacturer = 'Samtec'
 orientation = 'H'
@@ -59,7 +59,7 @@ pad_pitch_y_smd_be = 5.44
 pad_pitch_y_pe = 7.62
 
 pad_to_pad_clearance = 1.2
-max_annular_ring = 0.3 
+max_annular_ring = 0.3
 min_annular_ring = 0.15
 
 variant_params = {
@@ -156,11 +156,12 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(
         man=manufacturer,
-        series=series,
+        series='',
         mpn=mpn,
         num_rows=number_of_rows,
         pins_per_row=pins_per_row,
         pitch=pitch,
+        mounting_pad = "",
         orientation=orientation_str)
     footprint_name = footprint_name.replace('__','_')
 
@@ -168,8 +169,8 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     kicad_mod.setDescription("{manufacturer} {series}, {mpn}{alt_mpn}, {pins_per_row} Pins per row ({datasheet}), generated with kicad-footprint-generator".format(
         manufacturer = manufacturer,
         series = series_long,
-        mpn = mpn, 
-        alt_mpn = ' (compatible alternatives: {})'.format(', '.join(alt_mpn)) if len(alt_mpn) > 0 else "", 
+        mpn = mpn,
+        alt_mpn = ' (compatible alternatives: {})'.format(', '.join(alt_mpn)) if len(alt_mpn) > 0 else "",
         pins_per_row = pins_per_row,
         datasheet = ', '.join(variant_params[variant]['datasheets'])))
 
@@ -181,7 +182,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         kicad_mod.setAttribute('smd')
 
     ########################## Dimensions ##############################
-    
+
     # Solder pads pitch
     pad_pitch_x = pitch
     pad_pitch_y = variant_params[variant].get('pad_pitch_y', pitch)
@@ -221,13 +222,13 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         pad_layer = Pad.LAYERS_THT
         pad_drill = variant_params[variant].get('pad_drill', None)
         pad_type = Pad.TYPE_THT
-      
+
         pad_size = [pitch - pad_to_pad_clearance, pad_drill + 2*max_annular_ring]
         if pad_size[0] - pad_drill < 2*min_annular_ring:
             pad_size[0] = pad_drill + 2*min_annular_ring
         if pad_size[0] - pad_drill > 2*max_annular_ring:
             pad_size[0] = pad_drill + 2*max_annular_ring
-        
+
         if pad_size[1] - pad_drill < 2*min_annular_ring:
             pad_size[1] = pad_drill + 2*min_annular_ring
         if pad_size[1] - pad_drill > 2*max_annular_ring:
@@ -276,7 +277,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
                 kicad_mod.append(Pad(at=[pin1_x+x*pitch, pin_row1_y+y*pitch], number="",
                     type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=npth_drill,
                     drill=npth_drill, layers=Pad.LAYERS_NPTH))
-        
+
     # Pads
     kicad_mod.append(PadArray(start=[pad1_x, pad_row1_y], initial=1,
         pincount=pins_per_row, increment=2,  x_spacing=pitch, size=pad_size,
@@ -363,7 +364,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
             {'x': body_edge['left'] - s_offset, 'y': body_edge['top'] - s_offset},
         ]
         kicad_mod.append(PolygoneLine(polygone=poly_s,
-            width=configuration['silk_line_width'], layer="F.SilkS"))        
+            width=configuration['silk_line_width'], layer="F.SilkS"))
 
     # ############################ CrtYd ##################################
 
@@ -393,8 +394,10 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     ##################### Output and 3d model ############################
 
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
+    lib_name_suffix = '_SMD' if is_smd else '_THT'
 
-    lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
+    lib_name = configuration['lib_name_format_string_full'].format(series=series, man=manufacturer, suffix=lib_name_suffix)
+
     model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
         model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
     kicad_mod.append(Model(filename=model_name))

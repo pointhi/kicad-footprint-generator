@@ -24,7 +24,7 @@ def getFancyClassName(classname="R"):
     elif (classname == "D"):
         classnamefancy = "Diode"
     elif (classname == "L"):
-        classnamefancy == "Inductor"
+        classnamefancy = "Inductor"
     else:
         classnamefancy = classname
     return classnamefancy
@@ -45,6 +45,7 @@ def getPowRat(R_POW=0.0):
 # simple axial round (type="cyl") / box (type="box") / bare metal wire (type="bridge") resistor, horizontally mounted
 # optionally with additional shunt leads: hasShuntPins=True, shuntPinsRM=DISTANCE
 # deco="none"/"elco"/"diode"
+
 def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, type="cyl", d2=0, hasShuntPins=False, shuntPinsRM=0, x_3d=[0,0,0], s_3d=[1, 1, 1], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistor_THT", name_additions=[], deco="none", script3d=""):
     padx=2*ddrill
     pady=padx
@@ -67,10 +68,13 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
     r_slk=l_slk+w_slk
     t_slk=-h_slk/2
     w_crt=rm+padx+2*crt_offset
-    h_crt=max(h_slk, pady)+2*crt_offset
-    l_crt=min(l_slk, -padx/2)-crt_offset
-    t_crt=min(t_slk, -pady/2)-crt_offset
-    
+    h_crt=max(d, pady)+2*crt_offset
+    l_crt=min(l_fab, -padx/2)-crt_offset
+    t_crt=min(-d/2, -pady/2)-crt_offset
+
+    # if seriesname == "DO-34_SOD68":
+    #     print ("w{}, h{}, l{}, t{}".format(w_crt, h_crt, l_crt, t_crt))
+
     fabtxt_size=1;
     fabtxt_thick=0.15
     if w_fab<=5 or h_fab<=1:
@@ -78,7 +82,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
         fabtxt_thick=0.15*fabtxt_size
     fabtxt_size=max(0.25,fabtxt_size)
     fabtxt_thick=max(0.15/4,fabtxt_thick)
-    
+
     add_plus_sign_slk = False
     if deco=="elco" or deco=="cp" or deco=="tantal":
         polsign_slk=[l_slk+padx*0.75,-pady*0.75/2,padx*0.75,pady*0.75]
@@ -99,7 +103,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
     pow_rat = getPowRat(R_POW)
 
     classnamefancy = getFancyClassName(classname)
-        
+
     fnpins="_P{0:0.2f}mm".format(rmdisp)
     if hasShuntPins:
         fnpins = "_PS{0:0.2f}mm_P{1:0.2f}mm".format(shuntPinsRM,rmdisp)
@@ -289,6 +293,7 @@ def makeResistorAxialHorizontal(seriesname, rm, rmdisp, w, d, ddrill, R_POW, typ
 
 # simple axial round (type="cyl")/ box (type="box") resistor, vertically mounted
 # deco="none"/"elco"/"cp"/"tantal"/"diode"/"diode_KUP"
+
 def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="cyl", d2=0, x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", largepadsx=0, largepadsy=0, specialtags=[], add_description="", classname="R", lib_name="Resistor_THT", name_additions=[],deco="none",script3d=""):
     padx = 2 * ddrill
     if padx>rm-0.3:
@@ -318,12 +323,12 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
     r_slk = l_slk + w_slk
     t_slk = -d_slk / 2
 
-    w_crt = w_slk + 2 * crt_offset
-    h_crt = d_slk + 2 * crt_offset
-    l_crt = l_slk - crt_offset
-    t_crt = t_slk - crt_offset
+    w_crt = rm + d / 2 + padx / 2 + 2 * crt_offset
+    h_crt = max(pady, d) + 2 * crt_offset
+    l_crt = l_fab - crt_offset
+    t_crt = t_fab - crt_offset
 
-    
+
     fabtxt_size=1;
     fabtxt_thick=0.15
     if d<=5:
@@ -355,12 +360,12 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
         snt = " " + seriesname + " series"
 
     pow_rat = getPowRat(R_POW)
-    
+
     dimdesc = "length*diameter={0}*{1}mm^2".format(l, d)
     dimdesct = "length {0}mm diameter {1}mm".format(l, d)
 
     classnamefancy = getFancyClassName(classname)
-    
+
     if deco=="diode":
         footprint_name = classname+"{1}_P{0:0.2f}mm_Vertical_AnodeUp".format(rmdisp, snfp)
     elif deco=="diode_KUP":
@@ -372,7 +377,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
         footprint_name = classname+"{4}_L{3:0.1f}mm_W{1:0.1f}mm_P{0:0.2f}mm_Vertical".format(rmdisp, d, d2, l, snfp)
         dimdesc = "length*width*height={0}*{1}*{1}mm^3".format(l, d, d2)
         dimdesct = "length {0}mm width {1}mm height {1}mm".format(l, d, d2)
-        
+
     description = classnamefancy+"{3}, Axial, Vertical, pin pitch={0}mm, {1}, {2}".format(rm, pow_rat, dimdesc, sn)
     tags = classnamefancy+"{3} Axial Vertical pin pitch {0}mm {1} {2}".format(rm, pow_rat, dimdesct, snt)
 
@@ -605,6 +610,7 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
 #
 #
 # deco="none","elco" (round),"tantal" (simple),"chokewire" (concentric)
+
 def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm2=0, pins=2, vlines=False,w2=0, type="simple", x_3d=[0, 0, 0], s_3d=[1,1,1], has3d=1, specialfpname="", specialtags=[], add_description="", classname="R", lib_name="Resistor_THT", name_additions=[], deco="none",script3d="",height3d=10, additionalPins=[]):
     if innerw<=0:
         innerw=w
@@ -721,8 +727,8 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
     d_slk=d_fab+lw_slk+slk_offset
     r_slk = d_slk/2.
     d2_slk=d2_fab-lw_slk-slk_offset
-    w_crt = max(w_slk, rm+padx) + 2 * crt_offset
-    h_crt = max(h_slk, rmm2+pady) + 2 * crt_offset
+    w_crt = max(w_fab, rm+padx) + 2 * crt_offset
+    h_crt = max(h_fab, rmm2+pady) + 2 * crt_offset
     l_crt = -w_crt/2
     t_crt = -h_crt/2
 
@@ -743,7 +749,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
         snt = " " + seriesname + " series"
 
     pow_rat = getPowRat(R_POW)
-    
+
     fnpins = "_P{0:0.2f}mm".format(rm)
     pind="{0:0.2f}mm".format(rm)
     if secondPitch:
@@ -762,7 +768,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
         dimdesct = "diameter {0}mm width {1}mm".format(w, h)
 
     classnamefancy = getFancyClassName(classname)
-        
+
     if type=="round" or type == "concentric":
         if w==h:
             dimdesc = "diameter={0}mm".format(w)
@@ -821,31 +827,31 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
             myfile.write("    ),\n")
             # Jan's Script
             '''
-            myfile.write("\n\n # {0}\n".format(footprint_name)) 
-            myfile.write("import FreeCAD\n") 
-            myfile.write("import os\n") 
+            myfile.write("\n\n # {0}\n".format(footprint_name))
+            myfile.write("import FreeCAD\n")
+            myfile.write("import os\n")
             myfile.write("import os.path\n\n")
             myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '0.02')\n")
-            myfile.write("App.ActiveDocument.recompute()\n") 
-            myfile.write("# Wx\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(innerw) ) 
-            myfile.write("# iWx\nApp.ActiveDocument.Spreadsheet.set('D1', '{0}')\n".format(w) ) 
-            myfile.write("# W2\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(w2) ) 
-            myfile.write("# Wy\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(innerh) ) 
-            myfile.write("# iWy\nApp.ActiveDocument.Spreadsheet.set('D2', '{0}')\n".format(h) ) 
-            myfile.write("# RMx\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(rm) ) 
-            myfile.write("# RMy\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(rm2) ) 
-            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(height3d) ) 
-            myfile.write("# offsetx\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(-(l_fab+offset[0])) ) 
-            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(ddrill-0.3)) 
-            if len(additionalPins)>0: 
-                ep=additionalPins[0] 
-                myfile.write("# d_wire_pin3\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(ep[3]-0.3)) 
-                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ep[1])) 
-                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(ep[2])) 
-            myfile.write("App.ActiveDocument.recompute()\n") 
-            myfile.write("doc = FreeCAD.activeDocument()\n") 
-            myfile.write("__objs__=[]\n") 
-            myfile.write("for obj in doc.Objects:  \n") 
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("# Wx\nApp.ActiveDocument.Spreadsheet.set('B1', '{0}')\n".format(innerw) )
+            myfile.write("# iWx\nApp.ActiveDocument.Spreadsheet.set('D1', '{0}')\n".format(w) )
+            myfile.write("# W2\nApp.ActiveDocument.Spreadsheet.set('C1', '{0}')\n".format(w2) )
+            myfile.write("# Wy\nApp.ActiveDocument.Spreadsheet.set('B2', '{0}')\n".format(innerh) )
+            myfile.write("# iWy\nApp.ActiveDocument.Spreadsheet.set('D2', '{0}')\n".format(h) )
+            myfile.write("# RMx\nApp.ActiveDocument.Spreadsheet.set('B3', '{0}')\n".format(rm) )
+            myfile.write("# RMy\nApp.ActiveDocument.Spreadsheet.set('C3', '{0}')\n".format(rm2) )
+            myfile.write("# H\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(height3d) )
+            myfile.write("# offsetx\nApp.ActiveDocument.Spreadsheet.set('B6', '{0}')\n".format(-(l_fab+offset[0])) )
+            myfile.write("# d_wire\nApp.ActiveDocument.Spreadsheet.set('B4', '{0}')\n".format(ddrill-0.3))
+            if len(additionalPins)>0:
+                ep=additionalPins[0]
+                myfile.write("# d_wire_pin3\nApp.ActiveDocument.Spreadsheet.set('C4', '{0}')\n".format(ep[3]-0.3))
+                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('B5', '{0}')\n".format(ep[1]))
+                myfile.write("# pin3x\nApp.ActiveDocument.Spreadsheet.set('C5', '{0}')\n".format(ep[2]))
+            myfile.write("App.ActiveDocument.recompute()\n")
+            myfile.write("doc = FreeCAD.activeDocument()\n")
+            myfile.write("__objs__=[]\n")
+            myfile.write("for obj in doc.Objects:  \n")
             myfile.write("    if obj.ViewObject.Visibility:\n")
             myfile.write("        __objs__.append(obj)\n")
             myfile.write("\nFreeCADGui.export(__objs__,os.path.split(doc.FileName)[0]+os.sep+\"{0}.wrl\")\n".format(footprint_name))
@@ -903,7 +909,7 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
                 x1=x1+0.1*ww
                 x2=x2+0.1*ww
 
-        
+
     if add_pol_sign:
         polsign_size = d_fab/10.0
         # (((d_fab-polsign_size)/2.0-polsign_size/10.0)
@@ -1013,4 +1019,3 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
-

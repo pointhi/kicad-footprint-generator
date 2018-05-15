@@ -49,7 +49,7 @@ def make_module(pin_count, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_unequal_row_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins=pin_count,
+        mpn=mpn, num_rows=number_of_rows, pins=pin_count, mounting_pad = "-1MP",
         pitch=cable_pitch*2, orientation=orientation_str)
 
     footprint_name = footprint_name.replace("__",'_')
@@ -173,7 +173,7 @@ def make_module(pin_count, configuration):
         #             x=anchor_pad_spacing / 2 * direction,
         #             y=0.325 - row_spacing/2 + y_offset,
         #             pad_size=anchor_pad_size))
-        kicad_mod.append(Pad(number ='""', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+        kicad_mod.append(Pad(number=configuration['mounting_pad_number'], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                         at=[anchor_pad_x, anchor_pad_spacing / 2 * direction],
                         size=anchor_pad_size, layers=Pad.LAYERS_SMT))
     anchor_pad(-1)

@@ -16,6 +16,10 @@
 from KicadModTree.FileHandler import FileHandler
 from KicadModTree.util.kicad_util import *
 from KicadModTree.nodes.base.Pad import Pad  # TODO: why .KicadModTree is not enough?
+from KicadModTree.nodes.base.Arc import Arc
+from KicadModTree.nodes.base.Circle import Circle
+from KicadModTree.nodes.base.Line import Line
+from KicadModTree.nodes.base.Polygon import Polygon
 
 
 DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.12,
@@ -24,6 +28,8 @@ DEFAULT_LAYER_WIDTH = {'F.SilkS': 0.12,
                        'B.Fab': 0.10,
                        'F.CrtYd': 0.05,
                        'B.CrtYd': 0.05}
+
+DEFAULT_WIDTH_POLYGON_PAD = 0
 
 DEFAULT_WIDTH = 0.15
 
@@ -145,42 +151,62 @@ class KicadFileHandler(FileHandler):
             exception_string = "{name} (node) not found, cannot serialized the node of type {type}"
             raise NotImplementedError(exception_string.format(name=method_name, type=method_type))
 
-    def _serialize_Arc(self, node):
+    def _serialize_ArcPoints(self, node):
         # in KiCAD, some file attributes of Arc are named not in the way of their real meaning
         center_pos = node.getRealPosition(node.center_pos)
         end_pos = node.getRealPosition(node.start_pos)
 
-        sexpr = ['fp_arc',
-                 ['start', center_pos.x, center_pos.y],
-                 ['end', end_pos.x, end_pos.y],
-                 ['angle', node.angle],
-                 ['layer', node.layer],
-                 ['width', _get_layer_width(node.layer, node.width)]
-                ]  # NOQA
+        return [
+                ['start', center_pos.x, center_pos.y],
+                ['end', end_pos.x, end_pos.y],
+                ['angle', node.angle]
+               ]
+
+    def _serialize_Arc(self, node):
+        sexpr = ['fp_arc']
+        sexpr += self._serialize_ArcPoints(node)
+        sexpr += [
+                  ['layer', node.layer],
+                  ['width', _get_layer_width(node.layer, node.width)]
+                 ]  # NOQA
 
         return sexpr
 
-    def _serialize_Circle(self, node):
+    def _serialize_CirclePoints(self, node):
         center_pos = node.getRealPosition(node.center_pos)
         end_pos = node.getRealPosition(node.end_pos)
 
-        sexpr = ['fp_circle',
-                 ['center', center_pos.x, center_pos.y],
-                 ['end', end_pos.x, end_pos.y],
-                 ['layer', node.layer],
-                 ['width', _get_layer_width(node.layer, node.width)]
-                ]  # NOQA
+        return [
+                ['center', center_pos.x, center_pos.y],
+                ['end', end_pos.x, end_pos.y]
+               ]
+
+    def _serialize_Circle(self, node):
+        sexpr = ['fp_circle']
+        sexpr += self._serialize_CirclePoints(node)
+        sexpr += [
+                  ['layer', node.layer],
+                  ['width', _get_layer_width(node.layer, node.width)]
+                 ]  # NOQA
 
         return sexpr
+
+    def _serialize_LinePoints(self, node):
+        start_pos = node.getRealPosition(node.start_pos)
+        end_pos = node.getRealPosition(node.end_pos)
+        return [
+                ['start', start_pos.x, start_pos.y],
+                ['end', end_pos.x, end_pos.y]
+               ]
 
     def _serialize_Line(self, node):
         start_pos = node.getRealPosition(node.start_pos)
         end_pos = node.getRealPosition(node.end_pos)
 
-        sexpr = ['fp_line',
-                 ['start', start_pos.x, start_pos.y],
-                 ['end', end_pos.x, end_pos.y],
-                 ['layer', node.layer],
+        sexpr = ['fp_line']
+        sexpr += self._serialize_LinePoints(node)
+        sexpr += [
+                ['layer', node.layer],
                  ['width', _get_layer_width(node.layer, node.width)]
                 ]  # NOQA
 
@@ -224,6 +250,48 @@ class KicadFileHandler(FileHandler):
 
         return sexpr
 
+    def _serialize_CustomPadPrimitives(self, pad):
+        all_primitives = []
+        for p in pad.primitives:
+            all_primitives.extend(p.serialize())
+
+        grouped_nodes = {}
+
+        for single_node in all_primitives:
+            node_type = single_node.__class__.__name__
+
+            current_nodes = grouped_nodes.get(node_type, [])
+            current_nodes.append(single_node)
+
+            grouped_nodes[node_type] = current_nodes
+
+        sexpr_primitives = []
+
+        for key, value in sorted(grouped_nodes.items()):
+            # check if key is a base node, except Model
+            if key not in {'Arc', 'Circle', 'Line', 'Pad', 'Polygon', 'Text'}:
+                continue
+
+            # render base nodes
+            for p in value:
+                if isinstance(p, Polygon):
+                    sp = ['gr_poly',
+                          self._serialize_PolygonPoints(p, newline_after_pts=True)
+                         ]  # NOQA
+                elif isinstance(p, Line):
+                    sp = ['gr_line'] + self._serialize_LinePoints(p)
+                elif isinstance(p, Circle):
+                    sp = ['gr_circle'] + self._serialize_CirclePoints(p)
+                elif isinstance(p, Arc):
+                    sp = ['gr_arc'] + self._serialize_ArcPoints(p)
+                else:
+                    raise TypeError('Unsuported type of primitive for custom pad.')
+                sp.append(['width', DEFAULT_WIDTH_POLYGON_PAD if p.width is None else p.width])
+                sexpr_primitives.append(sp)
+                sexpr_primitives.append(SexprSerializer.NEW_LINE)
+
+        return sexpr_primitives
+
     def _serialize_Pad(self, node):
         sexpr = ['pad', node.number, node.type, node.shape]
 
@@ -242,6 +310,19 @@ class KicadFileHandler(FileHandler):
                 sexpr.append(['drill', 'oval', node.drill.x, node.drill.y])
 
         sexpr.append(['layers'] + node.layers)
+        if node.shape == Pad.SHAPE_ROUNDRECT:
+            sexpr.append(['roundrect_rratio', node.radius_ratio])
+
+        if node.shape == Pad.SHAPE_CUSTOM:
+            # gr_line, gr_arc, gr_circle or gr_poly
+            sexpr.append(SexprSerializer.NEW_LINE)
+            sexpr.append(['options',
+                         ['clearance', node.shape_in_zone],
+                         ['anchor', node.anchor_shape]
+                        ])  # NOQA
+            sexpr.append(SexprSerializer.NEW_LINE)
+            sexpr_primitives = self._serialize_CustomPadPrimitives(node)
+            sexpr.append(['primitives', SexprSerializer.NEW_LINE] + sexpr_primitives)
 
         if node.solder_paste_margin_ratio != 0 or node.solder_mask_margin != 0 or node.solder_paste_margin != 0:
             sexpr.append(SexprSerializer.NEW_LINE)
@@ -254,8 +335,10 @@ class KicadFileHandler(FileHandler):
 
         return sexpr
 
-    def _serialize_Polygon(self, node):
+    def _serialize_PolygonPoints(self, node, newline_after_pts=False):
         node_points = ['pts']
+        if newline_after_pts:
+            node_points.append(SexprSerializer.NEW_LINE)
         points_appended = 0
         for n in node.nodes:
             if points_appended >= 4:
@@ -265,6 +348,11 @@ class KicadFileHandler(FileHandler):
 
             n_pos = node.getRealPosition(n)
             node_points.append(['xy', n_pos.x, n_pos.y])
+
+        return node_points
+
+    def _serialize_Polygon(self, node):
+        node_points = self._serialize_PolygonPoints(node)
 
         sexpr = ['fp_poly',
                  node_points,
