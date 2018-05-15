@@ -29,7 +29,9 @@ def generate_one_footprint(model, params, configuration):
         pitch_mpn = '-5,08'
     elif params.pin_pitch == 7.62:
         pitch_mpn = '-7,62'
-    lib_name = configuration['lib_name_format_str'].format(series=series[0], style=series[1], pitch=params.pin_pitch)
+    lib_series = 'GMSTB' if params.pin_pitch >= 7.5 else 'MSTB'
+    lib_name = configuration['lib_name_format_str'].format(series=lib_series,
+        style=series[1], pitch=params.pin_pitch, suffix='')
     mpn = configuration['mpn_format_string'].format(subseries=subseries, style = connector_style,
         rating=series[1], num_pins=params.num_pins, pitch=pitch_mpn)
     footprint_name = configuration['fp_name_format_string'].format(man = configuration['manufacturer'], series = series[0], mpn = mpn, num_rows = 1,
