@@ -8,8 +8,8 @@ import time
 # ensure that the kicad-footprint-generator directory is available
 #sys.path.append(os.environ.get('KIFOOTPRINTGENERATOR'))  # enable package import from parent directory
 #sys.path.append("D:\hardware\KiCAD\kicad-footprint-generator")  # enable package import from parent directory
-sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
-sys.path.append(os.path.join(sys.path[0],"..","..")) # load kicad_mod path
+sys.path.append(os.path.join(sys.path[0],"..","..","..","kicad_mod")) # load kicad_mod path
+sys.path.append(os.path.join(sys.path[0],"..","..","..")) # load kicad_mod path
 
 from KicadModTree import *  # NOQA
 from tools import *
@@ -23,24 +23,24 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
     t_fabp = -pck.pin_offset_z
     if pck.staggered_type >0:
         t_fabp=-pck.staggered_pin_offset_z
-        
+
     w_fabp = pck.plastic[0]
     h_fabp = pck.plastic[2]
-    
+
     w_fabm = pck.metal[0]
     h_fabm = pck.metal[2]
-    
+
     l_slkp = l_fabp - slk_offset
     t_slkp = t_fabp - slk_offset
     w_slkp = w_fabp + 2 * slk_offset
     h_slkp = h_fabp + 2 * slk_offset
     w_slkm = w_fabm + 2 * slk_offset
     h_slkm = h_fabm + 2 * slk_offset
-    
+
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
-    
+
     txt_x = l_slkp + max(w_slkp, w_slkm) / 2
-    
+
     # calculate pad positions
     pads=[]
     yshift=0
@@ -85,10 +85,10 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
             x = x + pck.rm_list[p-1]
         else:
             x = x + pck.rm
-            
+
 
     tag_items = ["Vertical", "RM {0}mm".format(pck.rm)]
-    
+
     footprint_name = pck.name
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
@@ -100,9 +100,9 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
-    
+
     print(footprint_name)
-    
+
     description = pck.name
     tags = pck.name
     for t in tag_items:
@@ -113,7 +113,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
         tags = tags + " " + t
     if len(pck.webpage)>0:
         description = description + ", see " + pck.webpage
-    
+
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription(description)
@@ -127,7 +127,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
     kicad_modt.append(Text(type='user', text='%R', at=[txt_x, t_slkp - txt_offset], layer='F.Fab'))
     kicad_modt.append(
         Text(type='value', text=footprint_name, at=[txt_x, t_slkp + max(h_slkm, h_slkp, -t_slkp+h_crt+t_crt) + txt_offset], layer='F.Fab'))
-    
+
     # create FAB-layer
     kicad_modt.append(
         RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp + h_fabp], layer='F.Fab', width=lw_fab))
@@ -154,7 +154,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
         yl2=pads[p][1]
         if yl2>yl1:
             kicad_modt.append(Line(start=[pads[p][0], yl1], end=[pads[p][0], yl2], layer='F.Fab', width=lw_fab))
-    
+
     # create SILKSCREEN-layer
     keepouts = []
     for p in range(0,len(pads)):
@@ -162,11 +162,11 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
             keepouts=keepouts+addKeepoutRect(pads[p][0],pads[p][1],padsize[0]+2*slk_dist,padsize[1]+2*slk_dist)
         else:
             keepouts=keepouts+addKeepoutRound(pads[p][0],pads[p][1],padsize[0]+2*slk_dist,padsize[1]+2*slk_dist)
-    
+
     #for ko in keepouts:
     #    kicad_modt.append(
     #        RectLine(start=[ko[0],ko[2]], end=[ko[1],ko[3]], layer='B.Fab', width=lw_fab))
-    
+
     addHLineWithKeepout(kicad_modt, l_slkp, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
     addHLineWithKeepout(kicad_modt, l_slkp, l_slkp + w_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
     addVLineWithKeepout(kicad_modt, l_slkp, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
@@ -194,7 +194,7 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
     kicad_mod.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt+yshift)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt+yshift)],
                  layer='F.CrtYd', width=lw_crt))
-    
+
     # create pads
     for p in range(0,len(pads)):
         if p==0:
@@ -206,16 +206,16 @@ def makeVERT(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_
                 Pad(number=p+1, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=pads[p], size=padsize, drill=pck.drill,
                     layers=['*.Cu', '*.Mask']))
 
-    
+
     # add model
     if (has3d):
         kicad_modt.append(
             Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
-    
+
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
-    
+
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
@@ -231,10 +231,10 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
         t_fabp=-pck.staggered_pin_minlength
     w_fabp = pck.plastic[0]
     h_fabp = pck.plastic[1]
-    
+
     w_fabm = pck.metal[0]
     h_fabm = pck.metal[1]
-    
+
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp - pck.mounting_hole_pos[1]
 
@@ -303,7 +303,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     if len(pck.additional_pin_pad_size) > 0:
         txt_t = txt_t - (pck.additional_pin_pad[1] + pck.additional_pin_pad_size[1] / 2 - h_fabm)
     tag_items = ["Horizontal", "RM {0}mm".format(pck.rm)]
-    
+
     footprint_name = pck.name
     if len(pck.additional_pin_pad_size) > 0:
         footprint_name = footprint_name + "-1EP"
@@ -312,15 +312,15 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     footprint_name = footprint_name + "_Horizontal_TabDown"
     for t in pck.fpnametags:
         footprint_name = footprint_name + "_" + t
-        
+
     if pck.staggered_type>0:
         footprint_name = footprint_name + "_Py{0}mm".format(pck.staggered_rm[1],3)
-        
+
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
     print(footprint_name)
-    
+
     description = pck.name
     tags = pck.name
     for t in tag_items:
@@ -331,7 +331,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
         tags = tags + " " + t
     if len(pck.webpage)>0:
         description = description + ", see " + pck.webpage
-    
+
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription(description)
@@ -344,7 +344,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     kicad_modt.append(Text(type='reference', text='REF**', at=[txt_x, txt_t], layer='F.SilkS'))
     kicad_modt.append(Text(type='user', text='%R', at=[txt_x, txt_t], layer='F.Fab'))
     kicad_modt.append(Text(type='value', text=footprint_name, at=[txt_x, txt_b], layer='F.Fab'))
-    
+
     # create FAB-layer
     if (h_fabm > 0):
         if len(pck.plastic_angled)>0:
@@ -363,7 +363,7 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
                 kicad_modt.append(RectLine(start=[l_fabp + pck.metal_offset_x, t_fabp - h_fabp],
                                       end=[l_fabp + pck.metal_offset_x + w_fabm, t_fabp - h_fabm], layer='F.Fab',
                                       width=lw_fab))
-            
+
     if len(pck.plastic_angled)>0:
          addRectAngledTop(kicad_modt, [l_fabp, t_fabp],
                          [l_fabp + w_fabp, t_fabp - h_fabp], pck.plastic_angled, 'F.Fab', lw_fab)
@@ -373,10 +373,10 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     if pck.mounting_hole_diameter > 0:
         kicad_modt.append(
             Circle(center=[l_mounth, t_mounth], radius=pck.mounting_hole_diameter / 2, layer='F.Fab', width=lw_fab))
-   
+
     for p in range(0, len(pads)):
         kicad_modt.append(Line(start=[pads[p][0], t_fabp], end=[pads[p][0], pads[p][1]], layer='F.Fab', width=lw_fab))
-    
+
     # create SILKSCREEN-layer
     keepouts = []
     for p in range(0,len(pads)):
@@ -384,13 +384,13 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
             keepouts=keepouts+addKeepoutRect(pads[p][0],pads[p][1],padsize[0]+2*slk_dist,padsize[1]+2*slk_dist)
         else:
             keepouts=keepouts+addKeepoutRound(pads[p][0],pads[p][1],padsize[0]+2*slk_dist,padsize[1]+2*slk_dist)
-    
+
     if len(pck.additional_pin_pad_size) > 0:
         keepouts.append([addpadx - pck.additional_pin_pad_size[0] / 2 - slk_dist,
                          addpadx + pck.additional_pin_pad_size[0] / 2 + slk_dist,
                          addpady - pck.additional_pin_pad_size[1] / 2 - slk_dist,
                          addpady + pck.additional_pin_pad_size[1] / 2 + slk_dist])
-    
+
     addHLineWithKeepout(kicad_modt, l_slkp, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
     if h_fabm > 0:
         addHLineWithKeepout(kicad_modt, l_slkp, l_slkp + w_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
@@ -410,17 +410,17 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
     kicad_mod.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt+yshift)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt+yshift)],
                  layer='F.CrtYd', width=lw_crt))
-    
+
     # create mounting hole
     if pck.mounting_hole_drill > 0:
         kicad_modt.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_OVAL, at=[l_mounth, t_mounth],
                              size=[pck.mounting_hole_drill, pck.mounting_hole_drill], drill=pck.mounting_hole_drill,
                              layers=['*.Cu', '*.Mask']))
-    
+
     if len(pck.additional_pin_pad_size) > 0:
         kicad_modt.append(Pad(number=pck.pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[addpadx, addpady],
                              size=pck.additional_pin_pad_size, drill=0, layers=['F.Cu', 'F.Mask', 'F.Paste']))
-    
+
     # create pads
     for p in range(0,len(pads)):
         if p==0:
@@ -432,16 +432,16 @@ def makeHOR(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="_L
                 Pad(number=p+1, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=pads[p], size=padsize, drill=pck.drill,
                     layers=['*.Cu', '*.Mask']))
 
-    
+
     # add model
     if (has3d):
         kicad_modt.append(
             Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
-    
+
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
-    
+
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
@@ -453,34 +453,34 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
     t_fabp = -pck.pin_offset_z
     w_fabp = pck.plastic[0]
     h_fabp = pck.plastic[2]
-    
+
     w_fabm = pck.metal[0]
     h_fabm = pck.metal[2]
-    
+
     pinwid=(pck.pins - 1) * pck.rm
     if len(pck.rm_list)>0:
         pinwid=0
         for rm in pck.rm_list:
             pinwid=pinwid+rm
-    
+
     l_slkp = l_fabp - slk_offset
     t_slkp = t_fabp - slk_offset
     w_slkp = w_fabp + 2 * slk_offset
     h_slkp = h_fabp + 2 * slk_offset
     w_slkm = w_fabm + 2 * slk_offset
     h_slkm = h_fabm + 2 * slk_offset
-    
+
     l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
     t_crt = min(-pck.pad[1] / 2, t_fabp) - crt_offset
     w_crt = max(max(w_fabp, w_fabm), pinwid + pck.pad[0]) + 2 * crt_offset
     h_crt = max(t_fabp+max(h_fabp, h_fabm) +  crt_offset-t_crt, -t_crt + pck.pad[1] / 2+crt_offset)
-    
+
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
-    
+
     txt_x = l_slkp + max(w_slkp, w_slkm) / 2
-    
+
     tag_items = ["Vertical", "RM {0}mm".format(pck.rm), "mount on lower-side of PCB"]
-    
+
     footprint_name = pck.name
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
@@ -491,9 +491,9 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
     if pck.largepads:
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
-    
+
     print(footprint_name)
-    
+
     description = pck.name
     tags = pck.name
     for t in tag_items:
@@ -504,21 +504,21 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
         tags = tags + " " + t
     if len(pck.webpage)>0:
         description = description + ", see " + pck.webpage
-    
+
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription(description)
     kicad_mod.setTags(tags)
-    
+
     kicad_modt = Translation(-pinwid, 0)
     kicad_mod.append(kicad_modt)
-    
+
     # set general values
     kicad_modt.append(Text(type='reference', text='REF**', at=[txt_x, t_slkp - txt_offset], layer='F.SilkS'))
     kicad_modt.append(Text(type='user', text='%R', at=[txt_x, t_slkp - txt_offset], layer='B.Fab'))
     kicad_modt.append(
         Text(type='value', text=footprint_name, at=[txt_x, t_slkp + max(h_slkm, h_slkp) + txt_offset], layer='B.Fab'))
-    
+
     # create FAB-layer
     kicad_modt.append(
         RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp + h_fabp], layer='B.Fab', width=lw_fab))
@@ -540,11 +540,11 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
             kicad_modt.append(Line(start=[l_mounth + pck.mounting_hole_diameter / 2, t_fabp],
                                    end=[l_mounth + pck.mounting_hole_diameter / 2, t_fabp + h_fabp], layer='B.Fab',
                                    width=lw_fab))
-    
+
     # create SILKSCREEN-layer
     keepouts = []
     x = pinwid
-    
+
     for p in range(1, pck.pins + 1):
         if p == 1:
             keepouts = keepouts + addKeepoutRect(x, 0, pck.pad[0] + 2 * slk_dist, pck.pad[1] + 2 * slk_dist)
@@ -555,13 +555,13 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
         else:
             x = x - pck.rm
 
-    
+
     #for ko in keepouts:
     #    kicad_modt.append(
     #        RectLine(start=[ko[0], ko[2]],
     #                 end=[ko[1], ko[3]],
     #                 layer='F.CrtYd', width=0.01))
-    
+
     addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
     addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
     addVDLineWithKeepout(kicad_modt, l_slkp, t_slkp, 3 * lw_slk, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
@@ -584,12 +584,12 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
             addVDLineWithKeepout(kicad_modt, l_mounth + pck.mounting_hole_diameter / 2, t_slkp, 3 * lw_slk,
                                  t_slkp + h_slkp,
                                  'F.SilkS', lw_slk, keepouts)
-    
+
     # create courtyard
     kicad_mod.append(
         RectLine(start=[roundCrt(l_crt-pinwid), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt-pinwid), roundCrt(t_crt + h_crt)],
                  layer='B.CrtYd', width=lw_crt))
-    
+
     # create pads
     x = pinwid
     for p in range(1, pck.pins + 1):
@@ -606,16 +606,16 @@ def makeVERTLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext=
         else:
             x = x - pck.rm
 
-    
+
     # add model
     if (has3d):
         kicad_modt.append(
             Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
-    
+
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
-    
+
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
@@ -627,10 +627,10 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
     t_fabp = -pck.pin_minlength
     w_fabp = pck.plastic[0]
     h_fabp = pck.plastic[1]
-    
+
     w_fabm = pck.metal[0]
     h_fabm = pck.metal[1]
-    
+
     l_slkp = l_fabp - slk_offset
     t_slkp = t_fabp + slk_offset
     w_slkp = w_fabp + 2 * slk_offset
@@ -643,7 +643,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
         pinwid = 0
         for rm in pck.rm_list:
             pinwid = pinwid + rm
-    
+
     l_crt = min(-pck.pad[0] / 2, l_fabp) - crt_offset
     t_crt = t_fabp - max(h_fabp, h_fabm) - crt_offset
     h_crt = (-t_crt + pck.pad[1] / 2) + crt_offset
@@ -655,17 +655,17 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
         addpadx = l_fabp + pck.additional_pin_pad[0]
         addpady = t_fabp - pck.additional_pin_pad[1]
     w_crt = max(max(max(w_fabp, w_fabm), pinwid + pck.pad[0]), addpad) + 2 * crt_offset
-    
+
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp - pck.mounting_hole_pos[1]
-    
+
     txt_x = l_slkp + max(w_slkp, w_slkm) / 2
     txt_t = (t_slkp - max(h_slkm, h_slkp)) - txt_offset
     txt_b = pck.pad[1] / 2 + txt_offset
     if len(pck.additional_pin_pad_size) > 0:
         txt_t = txt_t - (pck.additional_pin_pad[1] + pck.additional_pin_pad_size[1] / 2 - h_fabm)
     tag_items = ["Horizontal", "RM {0}mm".format(pck.rm), "mount on lower-side of PCB", "mount with cooling pad pointing away from PCB", "Reversed"]
-    
+
     footprint_name = pck.name
     if len(pck.additional_pin_pad_size) > 0:
         footprint_name = footprint_name + "-1EP"
@@ -679,7 +679,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
     print(footprint_name)
-    
+
     description = pck.name
     tags = pck.name
     for t in tag_items:
@@ -690,7 +690,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
         tags = tags + " " + t
     if len(pck.webpage)>0:
         description = description + ", see " + pck.webpage
-    
+
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription(description)
@@ -703,7 +703,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
     kicad_modt.append(Text(type='reference', text='REF**', at=[txt_x, txt_t], layer='F.SilkS'))
     kicad_modt.append(Text(type='user', text='%R', at=[txt_x, txt_t], layer='B.Fab'))
     kicad_modt.append(Text(type='value', text=footprint_name, at=[txt_x, txt_b], layer='B.Fab'))
-    
+
     # create FAB-layer
 
     if (h_fabm > 0):
@@ -741,7 +741,7 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
         else:
             x = x + pck.rm
 
-    
+
     # create SILKSCREEN-layer
     keepouts = []
     x = 0
@@ -755,13 +755,13 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
         else:
             x = x + pck.rm
 
-    
+
     if len(pck.additional_pin_pad_size) > 0:
         keepouts.append([addpadx - pck.additional_pin_pad_size[0] / 2 - slk_dist,
                          addpadx + pck.additional_pin_pad_size[0] / 2 + slk_dist,
                          addpady - pck.additional_pin_pad_size[1] / 2 - slk_dist,
                          addpady + pck.additional_pin_pad_size[1] / 2 + slk_dist])
-    
+
     addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
     if h_fabm > 0:
         addHDLineWithKeepout(kicad_modt, l_slkp, 3 * lw_slk, l_slkp + w_slkp, t_slkp - h_slkm, 'F.SilkS', lw_slk, keepouts)
@@ -786,17 +786,17 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
     kicad_modt.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
                  layer='B.CrtYd', width=lw_crt))
-    
+
     # create mounting hole
     if pck.mounting_hole_drill > 0:
         kicad_modt.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_OVAL, at=[l_mounth, t_mounth],
                              size=[pck.mounting_hole_drill, pck.mounting_hole_drill], drill=pck.mounting_hole_drill,
                              layers=['*.Cu', '*.Mask']))
-    
+
     if len(pck.additional_pin_pad_size) > 0:
         kicad_modt.append(Pad(number=pck.pins + 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[addpadx, addpady],
                              size=pck.additional_pin_pad_size, drill=0, layers=['B.Cu', 'F.Mask', 'B.Paste']))
-    
+
     # create pads
     x = 0
     for p in range(1, pck.pins + 1):
@@ -812,16 +812,16 @@ def makeHORLS(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext="
             x = x + pck.rm_list[p-1]
         else:
             x = x + pck.rm
-    
+
     # add model
     if (has3d):
         kicad_modt.append(
             Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
-    
+
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
-    
+
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
@@ -833,10 +833,10 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
     t_fabp = pck.pin_minlength
     w_fabp = pck.plastic[0]
     h_fabp = pck.plastic[1]
-    
+
     w_fabm = pck.metal[0]
     h_fabm = pck.metal[1]
-    
+
     l_slkp = l_fabp - slk_offset
     t_slkp = t_fabp - slk_offset
     w_slkp = w_fabp + 2 * slk_offset
@@ -854,16 +854,16 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
     t_crt = -pck.pad[1]/2- crt_offset
     w_crt = max(max(w_fabp, w_fabm), pinwid + pck.pad[0]) + 2 * crt_offset
     h_crt = -t_crt + t_fabp+max(h_fabp, h_fabm) +  crt_offset
-    
+
     l_mounth = l_fabp + pck.mounting_hole_pos[0]
     t_mounth = t_fabp + pck.mounting_hole_pos[1]
-    
+
     txt_x = l_slkp + max(w_slkp, w_slkm) / 2
     txt_t = (t_slkp + max(h_slkm, h_slkp)) + txt_offset
     txt_b = -pck.pad[1] / 2 - txt_offset
-    
+
     tag_items = ["Horizontal", "RM {0}mm".format(pck.rm)]
-    
+
     footprint_name = pck.name
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
@@ -874,7 +874,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
     print(footprint_name)
-    
+
     description = pck.name
     tags = pck.name
     for t in tag_items:
@@ -885,17 +885,17 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
         tags = tags + " " + t
     if len(pck.webpage)>0:
         description = description + ", see " + pck.webpage
-    
+
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription(description)
     kicad_mod.setTags(tags)
-    
+
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', at=[txt_x, txt_t], layer='F.SilkS'))
     kicad_mod.append(Text(type='user', text='%R', at=[txt_x, txt_t], layer='F.Fab'))
     kicad_mod.append(Text(type='value', text=footprint_name, at=[txt_x, txt_b], layer='F.Fab'))
-    
+
 
     if (h_fabm > 0):
         if len(pck.metal_angled) > 0:
@@ -912,7 +912,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
     else:
         kicad_mod.append(
             RectLine(start=[l_fabp, t_fabp], end=[l_fabp + w_fabp, t_fabp + h_fabp], layer='F.Fab', width=lw_fab))
- 
+
     if pck.mounting_hole_diameter > 0:
         kicad_mod.append(Circle(center=[l_mounth, t_mounth], radius=pck.mounting_hole_diameter / 2, layer='F.Fab', width=lw_fab))
     x = 0
@@ -923,7 +923,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
         else:
             x = x + pck.rm
 
-    
+
     # create SILKSCREEN-layer
     keepouts = []
     x = 0
@@ -933,7 +933,7 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
         else:
             keepouts=keepouts+addKeepoutRound(x,0,pck.pad[0]+2*slk_dist,pck.pad[1]+2*slk_dist)
         x = x + pck.rm
-    
+
     addHLineWithKeepout(kicad_mod, l_slkp, l_slkp + w_slkp, t_slkp, 'F.SilkS', lw_slk, keepouts)
     addHLineWithKeepout(kicad_mod, l_slkp, l_slkp + w_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
     addVLineWithKeepout(kicad_mod, l_slkp, t_slkp, t_slkp + h_slkp, 'F.SilkS', lw_slk, keepouts)
@@ -954,13 +954,13 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
     kicad_mod.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
                  layer='F.CrtYd', width=lw_crt))
-    
+
     # create mounting hole
     if pck.mounting_hole_drill > 0:
         kicad_mod.append(Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_OVAL, at=[l_mounth, t_mounth],
                          size=[pck.mounting_hole_drill, pck.mounting_hole_drill], drill=pck.mounting_hole_drill,
                          layers=['*.Cu', '*.Mask']))
-    
+
     # create pads
     x = 0
     for p in range(1, pck.pins + 1):
@@ -973,16 +973,16 @@ def makeHORREV(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1 ,1,1], lptext
         else:
             x = x + pck.rm
 
-    
+
     # add model
     if (has3d):
         kicad_mod.append(
             Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=r_3d))
-    
+
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
-    
+
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
@@ -1010,12 +1010,12 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
                 xshift=-x
                 yshift=-y
                 firstPin=False
-                
+
 
     txt_t = -d_slk/2 - txt_offset
     txt_b = d_slk/2 + txt_offset
     tag_items = []
-    
+
     footprint_name = pck.name
     for t in pck.more_packnames:
         footprint_name = footprint_name + "_" + t
@@ -1025,7 +1025,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
         tag_items.append("large Pads")
         footprint_name = footprint_name + lptext
     print(footprint_name)
-    
+
     description = pck.name
     tags = pck.name
     for t in tag_items:
@@ -1036,20 +1036,20 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
         tags = tags + " " + t
     if len(pck.webpage)>0:
         description = description + ", see " + pck.webpage
-    
+
     # init kicad footprint
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription(description)
     kicad_mod.setTags(tags)
-    
+
     kicad_modt = Translation(xshift, yshift)
     kicad_mod.append(kicad_modt)
-    
+
     # set general values
     kicad_modt.append(Text(type='reference', text='REF**', at=[0, txt_t], layer='F.SilkS'))
     kicad_modt.append(Text(type='user', text='%R', at=[0, txt_t], layer='F.Fab'))
     kicad_modt.append(Text(type='value', text=footprint_name, at=[0, txt_b], layer='F.Fab'))
-    
+
     # create FAB-layer
     kicad_modt.append(Circle(center=[0, 0], radius=pck.diameter_inner / 2, layer='F.Fab', width=lw_fab))
     if pck.mark_width > 0 and pck.mark_len > 0:
@@ -1074,7 +1074,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
     if pck.window_diameter>0:
         addCircleLF(kicad_modt, [0,0], pck.window_diameter/2, 'F.Fab', lw_fab, 4*lw_fab)
 
-    
+
     # create SILKSCREEN-layer
     if pck.mark_width>0 and pck.mark_len>0:
         a=pck.mark_angle
@@ -1096,7 +1096,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
     else:
         kicad_modt.append(Circle(center=[0, 0], radius=d_slk/2, layer='F.SilkS', width=lw_slk))
 
-    
+
 
     if pck.mark_width > 0 and pck.mark_len > 0:
         kicad_mod.append(
@@ -1105,7 +1105,7 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
     else:
         kicad_mod.append(Circle(center=[roundCrt(xshift), roundCrt(yshift)], radius=roundCrt(d_fab / 2+crt_offset), layer='F.CrtYd', width=lw_crt))
 
-        
+
     # create pads
     for p in range(0, len(pads)):
         if p == 0:
@@ -1116,16 +1116,16 @@ def makeTORound(lib_name, pck, has3d=False, x_3d=[0, 0, 0], s_3d=[1,1,1], lptext
             kicad_modt.append(
                 Pad(number=p + 1, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=pads[p], size=padsize, drill=pck.drill,
                     layers=['*.Cu', '*.Mask']))
-    
+
     # add model
     if (has3d):
         kicad_modt.append(
             Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=x_3d, scale=s_3d, rotate=[0, 0, 0]))
-    
+
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
-    
+
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
@@ -1136,7 +1136,7 @@ if __name__ == '__main__':
     packs = ["TO-264", "TO-247", "TO-218", "TO-251", "TO-126", "TO-220", "TO-3P", "TO-262", "SIPAK","TO-3PB", "TO-220F"]
     pins = [[2, 3,5], [2, 3,4,5], [2, 3], [2, 3], [2, 3], [2, 3, 4,5], [3], [3,5], [3],  [3], [2, 3, 4, 5, ]]
     rms = [ [0, 0,3.81], [0, 0,2.54,2.54], [0, 0], [0, 0], [0, 0], [0, 0, 2.54,1.7], [0], [0,1.7], [0],  [0], [0, 0, 2.54,1.7]]
-    
+
     #makeVERTLS("${KISYS3DMOD}/Package_TO_SOT_THT", pack("SOT93", 2, 0, 0, False),False, [0, 0, 0], [0, 0, 0])
     #exit()
     for p in range(0, len(packs)):
@@ -1148,7 +1148,7 @@ if __name__ == '__main__':
             s3d = [1,1,1]
             r3d=[0,0,0]
             r3dr=r3d
-            
+
             pack_norm = pack(packs[p], pins[p][pidx], rms[p][pidx], 0, False)
             libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
             makeVERT(libn, pack_norm, True, o3d, s3d, "_LargePads", r3d)
@@ -1157,7 +1157,7 @@ if __name__ == '__main__':
             if (len(pack_norm.additional_pin_pad) <= 0):
                 #makeHORLS(libn, pack_norm, True, o3dls, s3d, "_LargePads", r3d)
                 makeHORREV(libn, pack_norm, True, o3d, s3d, "_LargePads", r3dr)
-            
+
 
     # make staggered packages
     packs =       [ "TO-220",                                         "TO-220F",                              ]
@@ -1186,8 +1186,8 @@ if __name__ == '__main__':
             makeHOR(libn, pack_norm1, True, o3d, s3d)
             makeHOR(libn, pack_norm2, True, o3d, s3d)
 
-            
-            
+
+
                             #pack_largepins=pack(packs[p], pins[p][pidx], rms[p][pidx], True)
             #makeVERT("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
             #makeHOR("${KISYS3DMOD}/Package_TO_SOT_THT", pack_largepins, True, o3d, s3d)
@@ -1332,7 +1332,7 @@ if __name__ == '__main__':
 
                 o3d = [0, 0, 0]
                 s3d = [1,1,1]
-                
+
                 pack = pack_round(packs[p], pins[p][pidx], m, False)
                 libn = "${KISYS3DMOD}/Package_TO_SOT_THT"
                 makeTORound(libn, pack, has3d[p][pidx], o3d, s3d)

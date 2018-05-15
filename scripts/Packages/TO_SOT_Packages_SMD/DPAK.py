@@ -4,7 +4,7 @@ import argparse
 import yaml
 import pprint
 
-sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
+sys.path.append(os.path.join(sys.path[0], "../../.."))  # enable package import from parent directory
 
 from KicadModTree import *  # NOQA
 
@@ -22,7 +22,7 @@ class Dimensions(object):
         # PIN NUMBERING
         self.centre_pin = 1 + variant['pins'] // 2
         self.tab_pin_number= self.centre_pin if (tab_linked or cut_pin) else variant['pins'] + 1
-        
+
         # NAME
         self.name = self.footprint_name(base['series'], (variant['pins'] - 1) if cut_pin else variant['pins'],
                                         not cut_pin, self.tab_pin_number)
@@ -40,7 +40,7 @@ class Dimensions(object):
         self.body_x_mm = base['device']['body']['x_mm']
         self.body_offset_y_mm = base['device']['body']['y_mm'] / 2.0  # y coordinate of bottom of body
         self.corner_mm = 1.0  #  x and y size of chamfered corner on top left of body -- from KLC
-        
+
         # COURTYARD
         self.biggest_x_mm = base['footprint']['x_mm']
         self.biggest_y_mm = max(base['footprint']['tab']['y_mm'], base['device']['body']['y_mm'],
@@ -282,6 +282,3 @@ class ATPAK(DPAK):
     def __init__(self, config_file):
         self.SERIES = 'ATPAK'
         self.config = self.load_config(config_file)
-
-
-
