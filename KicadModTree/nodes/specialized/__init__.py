@@ -23,3 +23,4 @@ from .FilledRect import FilledRect
 
 from .PadArray import PadArray
 from .ExposedPad import ExposedPad
+from .ChamferedPad import ChamferedPad

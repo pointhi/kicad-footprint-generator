@@ -99,6 +99,24 @@ RESULT_CUT_POLYGON = """(module round_rect_test (layer F.Cu) (tedit 0)
     ))
 )"""
 
+RESULT_CHAMFERED_PAD = """(module test (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value test (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 1 smd custom (at 0 0) (size 1 1) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.75) (xy -0.25 -1) (xy 0.25 -1) (xy 0.5 -0.75)
+         (xy 0.5 0.75) (xy 0.25 1) (xy -0.25 1) (xy -0.5 0.75)) (width 0))
+    ))
+)"""
+
 
 class Kicad5PadsTests(unittest.TestCase):
 
@@ -211,3 +229,23 @@ class Kicad5PadsTests(unittest.TestCase):
         result = file_handler.serialize(timestamp=0)
         # file_handler.writeFile('test.kicad_mod')
         self.assertEqual(result, RESULT_CUT_POLYGON)
+
+    def testChamferedPad(self):
+        kicad_mod = Footprint("test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="test", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(
+            ChamferedPad(number=1, type=Pad.TYPE_SMT,
+                         at=[0, 0], size=[1, 2], layers=Pad.LAYERS_SMT, chamfer_size=[0.25, 0.25],
+                         corner_selection=[1, 1, 1, 1]
+                         ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('test.kicad_mod')
+        self.assertEqual(result, RESULT_CHAMFERED_PAD)
