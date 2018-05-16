@@ -59,7 +59,8 @@ class ChamferedPad(Node):
 
         primitives = [self.__generatePoints(**kwargs)]
         kwargs['size'] = min(self.size.x, self.size.y)
-        self.pad = Pad(shape=Pad.SHAPE_CUSTOM, primitives=primitives, **kwargs)
+        kwargs['shape'] = Pad.SHAPE_CUSTOM
+        self.pad = Pad(primitives=primitives, **kwargs)
 
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):

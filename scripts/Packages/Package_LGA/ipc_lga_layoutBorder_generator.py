@@ -229,39 +229,61 @@ class LGA():
                 y_spacing=0, x_spacing=-device_params['pitch'],
                 **pad_details['bottom']))
         else:
+            chamfer_size = device_params.get('chamfer_edge_pins')
+            corner_first = [0, 1, 0, 0]
+            corner_last = [0, 0, 1, 0]
+
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_y'],
                 x_spacing=0, y_spacing=device_params['pitch'],
+                chamfer_size=chamfer_size,
+                chamfer_corner_selection_first=corner_first,
+                chamfer_corner_selection_last=corner_last,
                 **pad_details['left']))
 
             init += device_params['num_pins_y']
+            corner_first = [1, 0, 0, 0]
+            corner_last = [0, 1, 0, 0]
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
                 y_spacing=0, x_spacing=device_params['pitch'],
+                chamfer_size=chamfer_size,
+                chamfer_corner_selection_first=corner_first,
+                chamfer_corner_selection_last=corner_last,
                 **pad_details['bottom']))
 
             init += device_params['num_pins_x']
+            corner_first = [0, 0, 0, 1]
+            corner_last = [1, 0, 0, 0]
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_y'],
                 x_spacing=0, y_spacing=-device_params['pitch'],
+                chamfer_size=chamfer_size,
+                chamfer_corner_selection_first=corner_first,
+                chamfer_corner_selection_last=corner_last,
                 **pad_details['right']))
 
             init += device_params['num_pins_y']
+            corner_first = [0, 0, 1, 0]
+            corner_last = [0, 0, 0, 1]
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
                 y_spacing=0, x_spacing=-device_params['pitch'],
+                chamfer_size=chamfer_size,
+                chamfer_corner_selection_first=corner_first,
+                chamfer_corner_selection_last=corner_last,
                 **pad_details['top']))
 
 

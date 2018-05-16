@@ -17,6 +17,7 @@
 # (C) 2017 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.nodes.base.Pad import *
+from KicadModTree.nodes.specialized.ChamferedPad import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -61,6 +62,12 @@ class PadArray(Node):
           solder paste margin ratio of the pad
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
+        * *chamfer_corner_selection_first* (``[bool, bool, bool, bool]``)
+          Select which corner should be chamfered for the first pad. (default: None)
+        * *chamfer_corner_selection_last* (``[bool, bool, bool, bool]``)
+          Select which corner should be chamfered for the last pad. (default: None)
+        * *chamfer_size* (``float``, ``Point``) --
+          size for the chamfer used for the end pads. (default: None)
 
     :Example:
 
@@ -192,7 +199,25 @@ class PadArray(Node):
             else:
                 kwargs['shape'] = padShape
 
-            pads.append(Pad(number=number, at=[x_pad, y_pad], **kwargs))
+            if i == 0 and kwargs.get('chamfer_corner_selection_first') is not None\
+                    and kwargs.get('chamfer_size') is not None:
+                pads.append(
+                    ChamferedPad(
+                        number=number, at=[x_pad, y_pad],
+                        corner_selection=kwargs.get('chamfer_corner_selection_first'),
+                        **kwargs
+                        ))
+            elif i == len(pad_numbers)-1\
+                    and kwargs.get('chamfer_corner_selection_last') is not None\
+                    and kwargs.get('chamfer_size') is not None:
+                pads.append(
+                    ChamferedPad(
+                        number=number, at=[x_pad, y_pad],
+                        corner_selection=kwargs.get('chamfer_corner_selection_last'),
+                        **kwargs
+                        ))
+            else:
+                pads.append(Pad(number=number, at=[x_pad, y_pad], **kwargs))
         return pads
 
     def getVirtualChilds(self):
