@@ -69,6 +69,32 @@ RESULT_SIMPLE_EP_NO_ROUNDING_FP = """(module round_rect_test (layer F.Cu) (tedit
   (pad 3 smd rect (at 0 1) (size 2.1 3) (layers B.Cu))
 )"""
 
+RESULT_MINIMAL_EP_SPECIFICATION = """(module round_rect_test (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value round_rect_test (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 3 smd rect (at 0 0) (size 2.1 3) (layers F.Cu F.Mask))
+  (pad "" smd rect (at -0.49 -0.7) (size 0.85 1.21) (layers F.Paste))
+  (pad "" smd rect (at 0.49 -0.7) (size 0.85 1.21) (layers F.Paste))
+  (pad "" smd rect (at -0.49 0.7) (size 0.85 1.21) (layers F.Paste))
+  (pad "" smd rect (at 0.49 0.7) (size 0.85 1.21) (layers F.Paste))
+  (pad 3 thru_hole circle (at -0.75 -1.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0 -1.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0.75 -1.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at -0.75 0) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0 0) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0.75 0) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at -0.75 1.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0 1.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 0.75 1.2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at 0 0) (size 2.1 3) (layers B.Cu))
+)"""
+
 
 class ExposedPadTests(unittest.TestCase):
 
@@ -88,7 +114,7 @@ class ExposedPadTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        # file_handler.writeFile('test.kicad_mod')
+        file_handler.writeFile('test1.kicad_mod')
         self.assertEqual(result, RESULT_SIMPLE_EP_FP)
 
     def testSimpleExposedPadNoRounding(self):
@@ -110,3 +136,21 @@ class ExposedPadTests(unittest.TestCase):
         result = file_handler.serialize(timestamp=0)
         # file_handler.writeFile('test.kicad_mod')
         self.assertEqual(result, RESULT_SIMPLE_EP_NO_ROUNDING_FP)
+
+    def testSimpleExposedMinimal(self):
+        kicad_mod = Footprint("round_rect_test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="round_rect_test", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[2.1, 3], paste_layout=2, via_layout=3
+            ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('test.kicad_mod')
+        self.assertEqual(result, RESULT_MINIMAL_EP_SPECIFICATION)

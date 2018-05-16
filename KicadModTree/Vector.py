@@ -13,6 +13,9 @@
 #
 # (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from __future__ import division
+from builtins import round
+
 import warnings
 
 from KicadModTree.util.kicad_util import formatFloat
@@ -70,7 +73,7 @@ class Vector2D(object):
         >>> from KicadModTree import *
         >>> Vector2D(0.1234, 0.5678).round_to(0.01)
         """
-        if base == 0:
+        if base == 0 or base is None:
             return self.__copy__()
 
         return Vector2D([round(v / base) * base for v in self])
@@ -231,7 +234,7 @@ class Vector3D(Vector2D):
         >>> from KicadModTree import *
         >>> Vector3D(0.123, 0.456, 0.789).round_to(0.01)
         """
-        if base == 0:
+        if base == 0 or base is None:
             return self.__copy__()
 
         return Vector3D([round(v / base) * base for v in self])

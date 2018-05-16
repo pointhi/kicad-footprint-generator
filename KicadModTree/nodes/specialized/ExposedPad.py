@@ -22,7 +22,6 @@ from KicadModTree.nodes.base.Pad import *
 from KicadModTree.nodes.specialized.PadArray import *
 from KicadModTree.nodes.Node import Node
 from math import sqrt
-from builtins import round
 
 
 class ExposedPad(Node):
@@ -45,18 +44,18 @@ class ExposedPad(Node):
           Only used if mask_size is not specified.
         * *mask_size* (``float``, ``Vector``) --
           size of the mask cutout (If not given, mask will be part of the main pad)
-        * *paste_layout* (``int``, [``int``, ``int``]) --
+        * *paste_layout* (``int``, ``[int, int]``) --
           paste layout specification.
           How many pads in x and y direction.
           If only a single integer given, x and y direction use the same count.
         * *paste_coverage* (``float``) --
           how much of the mask free area is covered with paste. (default: 0.65)
-        * *via_layout* (``int``, [``int``, ``int``]) --
+        * *via_layout* (``int``, ``[int, int]``) --
           thermal via layout specification.
           How many vias in x and y direction.
           If only a single integer given, x and y direction use the same count.
           default: no vias added
-        * *via_grid* (``int``, [``int``, ``int``]) --
+        * *via_grid* (``int``, ``Vector``) --
           thermal via grid specification.
           Grid used for thermal vias in x and y direction.
           If only a single integer given, x and y direction use the same count.
@@ -120,11 +119,11 @@ class ExposedPad(Node):
 
         self.has_vias = True
 
-        if type(kwargs.get('via_layout')) is int:
+        if type(kwargs.get('via_layout')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.via_layout = [kwargs.get('via_layout'), kwargs.get('via_layout')]
+            self.via_layout = [int(kwargs.get('via_layout'))]*2
         else:
-            self.via_layout = kwargs.get('via_layout')
+            self.via_layout = [int(x) for x in kwargs.get('via_layout')]
 
         self.via_drill = kwargs.get('via_drill', 0.3)
         self.via_size = self.via_drill + 2*kwargs.get('min_annular_ring', 0.15)
@@ -134,18 +133,16 @@ class ExposedPad(Node):
         if 'via_grid' in kwargs:
             if type(kwargs.get('via_grid')) is int:
                 # when the attribute is a simple number, use it for x and y
-                self.via_grid = [kwargs.get('via_grid'), kwargs.get('via_grid')]
+                self.via_grid = Vector2D([kwargs.get('via_grid'), kwargs.get('via_grid')])
             else:
-                self.via_grid = kwargs.get('via_grid')
+                self.via_grid = Vector2D(kwargs.get('via_grid'))
         else:
-            self.via_grid = [
+            self.via_grid = Vector2D([
                     (self.size.x-self.via_size)/(nx if nx > 0 else 1),
                     (self.size.y-self.via_size)/(ny if ny > 0 else 1)
-                ]
+                ])
 
-        self.via_grid = ExposedPad.__roundToBase(
-            self.via_grid, kwargs.get('grid_round_base', 0.01)
-            )
+        self.via_grid = self.via_grid.round_to(kwargs.get('grid_round_base', 0.01))
 
         self.bottom_pad_Layers = kwargs.get('bottom_pad_Layers', ['B.Cu'])
 
@@ -170,9 +167,9 @@ class ExposedPad(Node):
             self.paste_layout = [1, 1]
         if type(kwargs.get('paste_layout')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.paste_layout = [kwargs.get('paste_layout'), kwargs.get('paste_layout')]
+            self.paste_layout = [int(kwargs.get('paste_layout'))]*2
         else:
-            self.paste_layout = kwargs.get('paste_layout')
+            self.paste_layout = [int(x) for x in kwargs.get('paste_layout')]
 
         nx = self.paste_layout[0]
         ny = self.paste_layout[1]
@@ -180,18 +177,15 @@ class ExposedPad(Node):
         sx = self.mask_size.x
         sy = self.mask_size.y
 
-        self.paste_size = ExposedPad.__roundToBase(
-                [sx*c/nx, sy*c/ny],
-                kwargs.get('size_round_base', 0.01)
-            )
+        self.paste_size = Vector2D([sx*c/nx, sy*c/ny])\
+            .round_to(kwargs.get('size_round_base', 0.01))
 
         dx = (sx - self.paste_size[0]*nx)/(nx+1)
         dy = (sy - self.paste_size[1]*ny)/(ny+1)
 
-        self.paste_grid = ExposedPad.__roundToBase(
-                [self.paste_size[0]+dx, self.paste_size[1]+dy],
-                kwargs.get('grid_round_base', 0.01)
-            )
+        self.paste_grid = Vector2D(
+                    [self.paste_size[0]+dx, self.paste_size[1]+dy]
+                ).round_to(kwargs.get('grid_round_base', 0.01))
 
     def _createPads(self, **kwargs):
         pads = []
@@ -240,16 +234,6 @@ class ExposedPad(Node):
                 ))
 
         return pads
-
-    @staticmethod
-    def __roundToBase(value, base):
-        if base is None or base == 0:
-            return value
-
-        if type(value) in [float, int]:
-            return round(value/base)*base
-
-        return [round(x/base)*base for x in value]
 
     def getVirtualChilds(self):
         return self.virtual_childs
