@@ -13,5 +13,5 @@
 #
 # (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from .test_Point2D import Point2DTests
-from .test_Point3D import Point3DTests
+from .test_Vector2D import Vector2DTests
+from .test_Vector3D import Vector3DTests

@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 import math
 
@@ -44,8 +44,8 @@ class Arc(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = Point2D(kwargs['center'])
-        self.start_pos = Point2D(kwargs['start'])
+        self.center_pos = Vector2D(kwargs['center'])
+        self.start_pos = Vector2D(kwargs['start'])
         self.angle = kwargs['angle']
 
         self.layer = kwargs.get('layer', 'F.SilkS')
@@ -74,14 +74,14 @@ class Arc(Node):
             print("TODO: add angle side: {1}".format(float_angle))
         '''
 
-        return Node.calculateBoundingBox({'min': Point2D((min_x, min_y)), 'max': Point2D((max_x, max_y))})
+        return Node.calculateBoundingBox({'min': Vector2D((min_x, min_y)), 'max': Vector2D((max_x, max_y))})
 
     def _calulateEndPos(self):
         radius = self._calculateRadius()
 
         angle = self._calculateStartAngle() + math.radians(self.angle)
 
-        return Point2D(math.sin(angle)*radius, math.cos(angle)*radius)
+        return Vector2D(math.sin(angle)*radius, math.cos(angle)*radius)
 
     def _calculateRadius(self):
         x_size = self.start_pos.x - self.center_pos.x

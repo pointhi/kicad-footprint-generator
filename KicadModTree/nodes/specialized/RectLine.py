@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 from .PolygoneLine import PolygoneLine
 
@@ -43,8 +43,8 @@ class RectLine(PolygoneLine):
     """
 
     def __init__(self, **kwargs):
-        self.start_pos = Point2D(kwargs['start'])
-        self.end_pos = Point2D(kwargs['end'])
+        self.start_pos = Vector2D(kwargs['start'])
+        self.end_pos = Vector2D(kwargs['end'])
 
         # If specifed, an 'offset' can be applied to the RectLine.
         # For example, creating a border around a given Rect of a specified size

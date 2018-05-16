@@ -15,7 +15,7 @@
 
 import warnings
 
-from KicadModTree.Point import Point2D
+from KicadModTree.Vector import Vector2D
 from KicadModTree.nodes.Node import Node
 
 
@@ -46,7 +46,7 @@ class PolygonPoints(object):
         self.nodes = []
         if 'nodes' in kwargs:
             for n in kwargs['nodes']:
-                self.nodes.append(Point2D(n))
+                self.nodes.append(Vector2D(n))
             if 'polygone' in kwargs:
                 raise KeyError('Use of "nodes" and "polygone" parameter at the same time is not supported.')
         elif 'polygone' in kwargs:
@@ -55,7 +55,7 @@ class PolygonPoints(object):
                 DeprecationWarning
             )
             for n in kwargs['polygone']:
-                self.nodes.append(Point2D(n))
+                self.nodes.append(Vector2D(n))
         else:
             raise KeyError('Either "nodes" or "polygone" parameter is required for creating a PolyPoint instance.')
 

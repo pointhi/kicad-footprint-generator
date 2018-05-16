@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 from __future__ import division
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.base.Polygon import *
 from KicadModTree.nodes.base.Pad import Pad
 
@@ -67,9 +67,9 @@ class ChamferedPad(Node):
             raise KeyError('pad size not declared (like "size=[1,1]")')
         if type(kwargs.get('size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.size = Point2D([kwargs.get('size'), kwargs.get('size')])
+            self.size = Vector2D([kwargs.get('size'), kwargs.get('size')])
         else:
-            self.size = Point2D(kwargs.get('size'))
+            self.size = Vector2D(kwargs.get('size'))
 
     def __generatePoints(self, **kwargs):
         if 'chamfer_size' not in kwargs:
@@ -83,19 +83,19 @@ class ChamferedPad(Node):
 
         if type(kwargs.get('chamfer_size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            chamfer_size = Point2D([kwargs.get('chamfer_size'), kwargs.get('chamfer_size')])
+            chamfer_size = Vector2D([kwargs.get('chamfer_size'), kwargs.get('chamfer_size')])
         else:
-            chamfer_size = Point2D(kwargs.get('chamfer_size'))
+            chamfer_size = Vector2D(kwargs.get('chamfer_size'))
 
-        outside = Point2D(self.size.x/2, self.size.y/2)
+        outside = Vector2D(self.size.x/2, self.size.y/2)
 
-        inside = [Point2D(outside.x, outside.y-chamfer_size.y),
-                  Point2D(outside.x-chamfer_size.x, outside.y)
+        inside = [Vector2D(outside.x, outside.y-chamfer_size.y),
+                  Vector2D(outside.x-chamfer_size.x, outside.y)
                   ]
 
         points = []
         corner_vectors = [
-            Point2D(-1, -1), Point2D(1, -1), Point2D(1, 1), Point2D(-1, 1)
+            Vector2D(-1, -1), Vector2D(1, -1), Vector2D(1, 1), Vector2D(-1, 1)
             ]
         for i in range(4):
             if corner_selection[i]:

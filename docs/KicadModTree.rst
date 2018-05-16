@@ -32,10 +32,10 @@ KicadModTree.ModArgparser module
     :undoc-members:
     :show-inheritance:
 
-KicadModTree.Point module
+KicadModTree.Vector module
 -------------------------
 
-.. automodule:: KicadModTree.Point
+.. automodule:: KicadModTree.Vector
     :members:
     :undoc-members:
     :special-members:

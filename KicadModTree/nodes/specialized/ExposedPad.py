@@ -82,7 +82,7 @@ class ExposedPad(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.at = Point2D(kwargs.get('at', [0, 0]))
+        self.at = Vector2D(kwargs.get('at', [0, 0]))
 
         self._initNumber(**kwargs)
         self._initSize(**kwargs)
@@ -101,17 +101,17 @@ class ExposedPad(Node):
             raise KeyError('pad size not declared (like "size=[1,1]")')
         if type(kwargs.get('size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.size = Point2D([kwargs.get('size'), kwargs.get('size')])
+            self.size = Vector2D([kwargs.get('size'), kwargs.get('size')])
         else:
-            self.size = Point2D(kwargs.get('size'))
+            self.size = Vector2D(kwargs.get('size'))
 
         if not kwargs.get('mask_size'):
             self.mask_size = self.size
         elif type(kwargs.get('mask_size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.mask_size = Point2D([kwargs.get('mask_size'), kwargs.get('mask_size')])
+            self.mask_size = Vector2D([kwargs.get('mask_size'), kwargs.get('mask_size')])
         else:
-            self.mask_size = Point2D(kwargs.get('mask_size'))
+            self.mask_size = Vector2D(kwargs.get('mask_size'))
 
     def _initThermalVias(self, **kwargs):
         if 'via_layout' not in kwargs:

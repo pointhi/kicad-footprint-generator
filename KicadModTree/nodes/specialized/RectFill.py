@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.base import Line
 
@@ -44,8 +44,8 @@ class RectFill(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Point2D(kwargs['start'])
-        self.end_pos = Point2D(kwargs['end'])
+        self.start_pos = Vector2D(kwargs['start'])
+        self.end_pos = Vector2D(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width', 0.12)  # TODO: auto detection
@@ -60,8 +60,8 @@ class RectFill(Node):
 
         while (cur_y_pos + width) < max_y_pos:
             cur_y_pos += width
-            new_node = Line(start=Point2D(start_pos.x, cur_y_pos),
-                            end=Point2D(end_pos.x, cur_y_pos),
+            new_node = Line(start=Vector2D(start_pos.x, cur_y_pos),
+                            end=Vector2D(end_pos.x, cur_y_pos),
                             layer=layer,
                             width=width)
             new_node._parent = self

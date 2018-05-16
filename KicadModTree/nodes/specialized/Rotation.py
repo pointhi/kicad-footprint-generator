@@ -15,7 +15,7 @@
 
 import math
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -39,7 +39,7 @@ class Rotation(Node):
         if rotation is None:
             rotation = 0
 
-        parsed_coordinate = Point2D(coordinate)
+        parsed_coordinate = Vector2D(coordinate)
 
         phi = self.rotation*math.pi/180
         rotation_coordinate = {'x': parsed_coordinate.x*math.cos(phi) + parsed_coordinate.y*math.sin(phi),
