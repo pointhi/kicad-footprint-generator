@@ -146,6 +146,21 @@ class Vector2D(object):
     def __str__(self):
         return "(x={x}, y={y})".format(**self.__dict__())
 
+    def __getitem__(self, item):
+        if item == 0 or item == 'x':
+            return self.x
+        if item == 1 or item == 'y':
+            return self.y
+
+        raise IndexError('Index {} is out of range'.format(item))
+
+    def __len__(self):
+        return 2
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+
 
 class Vector3D(Vector2D):
     r"""Representation of a 3D Vector in space
@@ -286,3 +301,21 @@ class Vector3D(Vector2D):
 
     def __str__(self):
         return "(x={x}, y={y}, z={z})".format(**self.__dict__())
+
+    def __getitem__(self, item):
+        if item == 0 or item == 'x':
+            return self.x
+        if item == 1 or item == 'y':
+            return self.y
+        if item == 2 or item == 'z':
+            return self.z
+
+        raise IndexError('Index {} is out of range'.format(item))
+
+    def __len__(self):
+        return 3
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+        yield self.z
