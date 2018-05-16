@@ -101,17 +101,17 @@ class ExposedPad(Node):
             raise KeyError('pad size not declared (like "size=[1,1]")')
         if type(kwargs.get('size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.size = [kwargs.get('size'), kwargs.get('size')]
+            self.size = Point2D([kwargs.get('size'), kwargs.get('size')])
         else:
-            self.size = kwargs.get('size')
+            self.size = Point2D(kwargs.get('size'))
 
         if not kwargs.get('mask_size'):
             self.mask_size = self.size
-        if type(kwargs.get('mask_size')) in [int, float]:
+        elif type(kwargs.get('mask_size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            self.mask_size = [kwargs.get('mask_size'), kwargs.get('mask_size')]
+            self.mask_size = Point2D([kwargs.get('mask_size'), kwargs.get('mask_size')])
         else:
-            self.mask_size = kwargs.get('mask_size')
+            self.mask_size = Point2D(kwargs.get('mask_size'))
 
     def _initThermalVias(self, **kwargs):
         if 'via_layout' not in kwargs:
@@ -139,8 +139,8 @@ class ExposedPad(Node):
                 self.via_grid = kwargs.get('via_grid')
         else:
             self.via_grid = [
-                    (self.size[0]-self.via_size)/(nx if nx > 0 else 1),
-                    (self.size[1]-self.via_size)/(ny if ny > 0 else 1)
+                    (self.size.x-self.via_size)/(nx if nx > 0 else 1),
+                    (self.size.y-self.via_size)/(ny if ny > 0 else 1)
                 ]
 
         self.via_grid = ExposedPad.__roundToBase(
@@ -177,8 +177,8 @@ class ExposedPad(Node):
         nx = self.paste_layout[0]
         ny = self.paste_layout[1]
 
-        sx = self.mask_size[0]
-        sy = self.mask_size[1]
+        sx = self.mask_size.x
+        sy = self.mask_size.y
 
         self.paste_size = ExposedPad.__roundToBase(
                 [sx*c/nx, sy*c/ny],
