@@ -24,9 +24,9 @@ class Line(Node):
         See below
 
     :Keyword Arguments:
-        * *start* (``Point``) --
+        * *start* (``Vector``) --
           start point of the line
-        * *end* (``Point``) --
+        * *end* (``Vector``) --
           end point of the line
         * *layer* (``str``) --
           layer on which the line is drawn (default: 'F.SilkS')

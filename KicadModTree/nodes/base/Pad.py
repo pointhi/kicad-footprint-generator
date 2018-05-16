@@ -35,15 +35,15 @@ class Pad(Node):
           type of the pad
         * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``) --
           shape of the pad
-        * *at* (``Point``) --
+        * *at* (``Vector``) --
           center position of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *size* (``float``, ``Point``) --
+        * *size* (``float``, ``Vector``) --
           size of the pad
-        * *offset* (``Point``) --
+        * *offset* (``Vector``) --
           offset of the pad
-        * *drill* (``float``, ``Point``) --
+        * *drill* (``float``, ``Vector``) --
           drill-size of the pad
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)

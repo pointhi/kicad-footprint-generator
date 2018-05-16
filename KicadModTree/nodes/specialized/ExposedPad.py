@@ -36,14 +36,14 @@ class ExposedPad(Node):
     :Keyword Arguments:
         * *number* (``int``, ``str``) --
           number/name of the pad
-        * *at* (``Point``) --
+        * *at* (``Vector``) --
           center the exposed pad around this point (default: 0,0)
-        * *size* (``float``, ``Point``) --
+        * *size* (``float``, ``Vector``) --
           size of the pad
         * *solder_mask_margin* (``float``) --
           solder mask margin of the pad (default: 0)
           Only used if mask_size is not specified.
-        * *mask_size* (``float``, ``Point``) --
+        * *mask_size* (``float``, ``Vector``) --
           size of the mask cutout (If not given, mask will be part of the main pad)
         * *paste_layout* (``int``, [``int``, ``int``]) --
           paste layout specification.

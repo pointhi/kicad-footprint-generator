@@ -28,9 +28,9 @@ class FilledRect(Node):
         See below
 
     :Keyword Arguments:
-        * *start* (``Point``) --
+        * *start* (``Vector``) --
           start edge of the rect
-        * *end* (``Point``) --
+        * *end* (``Vector``) --
           end edge of the rect
         * *layer* (``str``) --
           layer on which the rect is drawn (default: 'F.SilkS')

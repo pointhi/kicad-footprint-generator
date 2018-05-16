@@ -27,9 +27,9 @@ class RectFill(Node):
         See below
 
     :Keyword Arguments:
-        * *start* (``Point``) --
+        * *start* (``Vector``) --
           start edge of the rect fill
-        * *end* (``Point``) --
+        * *end* (``Vector``) --
           end edge of the rect fill
         * *layer* (``str``) --
           layer on which the rect fill is drawn (default: 'F.SilkS')

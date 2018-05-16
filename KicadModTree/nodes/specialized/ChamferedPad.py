@@ -29,15 +29,15 @@ class ChamferedPad(Node):
           number/name of the pad (default: \"\")
         * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
           type of the pad
-        * *at* (``Point``) --
+        * *at* (``Vector``) --
           center position of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *size* (``float``, ``Point``) --
+        * *size* (``float``, ``Vector``) --
           size of the pad
-        * *offset* (``Point``) --
+        * *offset* (``Vector``) --
           offset of the pad
-        * *drill* (``float``, ``Point``) --
+        * *drill* (``float``, ``Vector``) --
           drill-size of the pad
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)
@@ -49,7 +49,7 @@ class ChamferedPad(Node):
           layers on which are used for the pad
         * *corner_selection* (``[bool, bool, bool, bool]``) --
           Select which corner(s) to chamfer. (top left, top right, bottom right, bottom left)
-        * *chamfer_size* (``float``, ``Point``) --
+        * *chamfer_size* (``float``, ``Vector``) --
           Size of the chamfer.
     """
 

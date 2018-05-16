@@ -25,15 +25,15 @@ class RectLine(PolygoneLine):
         See below
 
     :Keyword Arguments:
-        * *start* (``Point``) --
+        * *start* (``Vector``) --
           start edge of the rect
-        * *end* (``Point``) --
+        * *end* (``Vector``) --
           end edge of the rect
         * *layer* (``str``) --
           layer on which the rect is drawn
         * *width* (``float``) --
           width of the outer line (default: None, which means auto detection)
-        * *offset* (``Point``, ``float``) --
+        * *offset* (``Vector``, ``float``) --
           offset of the rect line to the specified one
 
     :Example:
