@@ -57,50 +57,18 @@ class DFN():
         per_fillet = ipc_data_set['side']
         rd_base = ipc_round_base['side']
 
-        EP_Pad = {'at':[0,0],
-            'size':{
-            'x': roundToBase(Xmin + 2*per_fillet + sqrt(Xtol**2+F**2+P**2), rd_base),
-            'y': roundToBase(Ymin + 2*per_fillet + sqrt(Ytol**2+F**2+P**2), rd_base)
-            },
-            'layers':['F.Cu', 'F.Mask'],
-            'type':Pad.TYPE_SMT, 'shape':Pad.SHAPE_RECT
-            }
+        size={'x': roundToBase(Xmin + 2*per_fillet + sqrt(Xtol**2+F**2+P**2), rd_base),
+              'y': roundToBase(Ymin + 2*per_fillet + sqrt(Ytol**2+F**2+P**2), rd_base)
+              }
 
         if 'EP_size_limit_x' in device_params:
-            if EP_Pad['size']['x'] > device_params['EP_size_limit_x']:
-                EP_Pad['size']['x'] = device_params['EP_size_limit_x']
-            if EP_Pad['size']['y'] > device_params['EP_size_limit_y']:
-                EP_Pad['size']['y'] = device_params['EP_size_limit_y']
+            if size['x'] > device_params['EP_size_limit_x']:
+                size['x'] = device_params['EP_size_limit_x']
+            if size['y'] > device_params['EP_size_limit_y']:
+                size['y'] = device_params['EP_size_limit_y']
 
-        c = sqrt(device_params.get('EP_paste_coverage', 0.65))
-        nx = device_params.get('EP_num_paste_pads_x', 1)
-        ny = device_params.get('EP_num_paste_pads_y', 1)
 
-        paste_rd_base = rd_base
-
-        paste_size_x = roundToBase(EP_Pad['size']['x']*c/nx, paste_rd_base)
-        paste_size_y = roundToBase(EP_Pad['size']['y']*c/ny, paste_rd_base)
-
-        dx = (EP_Pad['size']['x'] - paste_size_x*nx)/(nx+1)
-        dy = (EP_Pad['size']['y'] - paste_size_y*ny)/(ny+1)
-
-        grid_x = roundToBase(paste_size_x + dx, paste_rd_base)
-        grid_y = roundToBase(paste_size_y + dy, paste_rd_base)
-
-        EP_Paste = {'inner_array':{
-            'solder_paste_margin_ratio': 1e-6,
-            'solder_paste_margin': 1e-6,
-            'layers':['F.Paste'],
-            'size':[paste_size_x, paste_size_y],
-            'initial':"",
-            'increment':0,
-            'pincount':nx,
-            'x_spacing':grid_x,
-            'type':Pad.TYPE_SMT, 'shape':Pad.SHAPE_RECT
-            },
-            'ny':ny, 'grid_y':grid_y
-            }
-        return EP_Pad, EP_Paste
+        return size
 
 
     def calcPadDetails(self, device_params, ipc_data, ipc_round_base):
@@ -211,10 +179,10 @@ class DFN():
 
         if has_EP:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
-            EP_params, EP_paste_pads = self.calcExposedPad(device_params)
+            EP_size = self.calcExposedPad(device_params)
         else:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
-            EP_params = {'size':{'x':0, 'y':0}}
+            EP_size = {'x':0, 'y':0}
 
         if 'custom_name_format' in device_params:
             name_format = device_params['custom_name_format']
@@ -227,8 +195,8 @@ class DFN():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
-            ep_size_x = EP_params['size']['x'],
-            ep_size_y = EP_params['size']['y'],
+            ep_size_x = EP_size['x'],
+            ep_size_y = EP_size['y'],
             suffix=suffix
             ).replace('__','_').lstrip('_')
 
@@ -240,8 +208,8 @@ class DFN():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
-            ep_size_x = EP_params['size']['x'],
-            ep_size_y = EP_params['size']['y'],
+            ep_size_x = EP_size['x'],
+            ep_size_y = EP_size['y'],
             suffix=suffix_3d
             ).replace('__','_').lstrip('_')
 
@@ -276,14 +244,12 @@ class DFN():
 
 
         if has_EP:
-            kicad_mod.append(Pad(
-                number=pincount+1,
-                **EP_params
+            paste_nx = device_params.get('EP_num_paste_pads_x', 1)
+            paste_ny = device_params.get('EP_num_paste_pads_y', 1)
+            kicad_mod.append(ExposedPad(
+                number=pincount+1, size=EP_size,
+                paste_layout=[paste_nx, paste_ny]
                 ))
-            cy = -((EP_paste_pads['ny']-1)*EP_paste_pads['grid_y'])/2
-            for i in range(EP_paste_pads['ny']):
-                kicad_mod.append(PadArray(center=[0,cy], **EP_paste_pads['inner_array']))
-                cy += EP_paste_pads['grid_y']
 
         init = 1
         if device_params['num_pins_x'] == 0:
