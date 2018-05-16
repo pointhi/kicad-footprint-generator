@@ -105,25 +105,25 @@ class Vector2D(object):
         other = Vector2D.__arithmetic_parse(value)
 
         return Vector2D({'x': self.x + other.x,
-                        'y': self.y + other.y})
+                         'y': self.y + other.y})
 
     def __sub__(self, value):
         other = Vector2D.__arithmetic_parse(value)
 
         return Vector2D({'x': self.x - other.x,
-                        'y': self.y - other.y})
+                         'y': self.y - other.y})
 
     def __mul__(self, value):
         other = Vector2D.__arithmetic_parse(value)
 
         return Vector2D({'x': self.x * other.x,
-                        'y': self.y * other.y})
+                         'y': self.y * other.y})
 
     def __div__(self, value):
         other = Vector2D.__arithmetic_parse(value)
 
         return Vector2D({'x': self.x / other.x,
-                        'y': self.y / other.y})
+                         'y': self.y / other.y})
 
     def __truediv__(self, obj):
         return self.__div__(obj)
@@ -159,7 +159,6 @@ class Vector2D(object):
     def __iter__(self):
         yield self.x
         yield self.y
-
 
     def __copy__(self):
         return Vector2D(self.x, self.y)
@@ -258,29 +257,29 @@ class Vector3D(Vector2D):
         other = Vector3D.__arithmetic_parse(value)
 
         return Vector3D({'x': self.x + other.x,
-                        'y': self.y + other.y,
-                        'z': self.z + other.z})
+                         'y': self.y + other.y,
+                         'z': self.z + other.z})
 
     def __sub__(self, value):
         other = Vector3D.__arithmetic_parse(value)
 
         return Vector3D({'x': self.x - other.x,
-                        'y': self.y - other.y,
-                        'z': self.z - other.z})
+                         'y': self.y - other.y,
+                         'z': self.z - other.z})
 
     def __mul__(self, value):
         other = Vector3D.__arithmetic_parse(value)
 
         return Vector3D({'x': self.x * other.x,
-                        'y': self.y * other.y,
-                        'z': self.z * other.z})
+                         'y': self.y * other.y,
+                         'z': self.z * other.z})
 
     def __div__(self, value):
         other = Vector3D.__arithmetic_parse(value)
 
         return Vector3D({'x': self.x / other.x,
-                        'y': self.y / other.y,
-                        'z': self.z / other.z})
+                         'y': self.y / other.y,
+                         'z': self.z / other.z})
 
     def __truediv__(self, obj):
         return self.__div__(obj)
