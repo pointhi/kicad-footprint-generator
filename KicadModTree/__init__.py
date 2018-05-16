@@ -14,7 +14,7 @@
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.Vector import *
-from KicadModTree.Point import * # backwards compatibility
+from KicadModTree.Point import *  # backwards compatibility
 
 # all different types of nodes
 from KicadModTree.nodes import *

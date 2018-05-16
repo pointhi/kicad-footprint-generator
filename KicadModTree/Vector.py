@@ -71,10 +71,9 @@ class Vector2D(object):
         >>> Vector2D(0.1234, 0.5678).round_to(0.01)
         """
         if base == 0:
-            return self
+            return self.__copy__()
 
-        return Vector2D({'x': round(self.x / base) * base,
-                        'y': round(self.y / base) * base})
+        return Vector2D([round(v / base) * base for v in self])
 
     def distance_to(self, value):
         r"""Distance between this and another point
@@ -162,6 +161,10 @@ class Vector2D(object):
         yield self.y
 
 
+    def __copy__(self):
+        return Vector2D(self.x, self.y)
+
+
 class Vector3D(Vector2D):
     r"""Representation of a 3D Vector in space
 
@@ -230,11 +233,9 @@ class Vector3D(Vector2D):
         >>> Vector3D(0.123, 0.456, 0.789).round_to(0.01)
         """
         if base == 0:
-            return self
+            return self.__copy__()
 
-        return Vector3D({'x': round(self.x / base) * base,
-                        'y': round(self.y / base) * base,
-                        'z': round(self.z / base) * base})
+        return Vector3D([round(v / base) * base for v in self])
 
     @staticmethod
     def __arithmetic_parse(value):
@@ -319,3 +320,6 @@ class Vector3D(Vector2D):
         yield self.x
         yield self.y
         yield self.z
+
+    def __copy__(self):
+        return Vector3D(self.x, self.y, self.z)
