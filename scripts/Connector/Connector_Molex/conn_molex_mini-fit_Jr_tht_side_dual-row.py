@@ -177,7 +177,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
 
         kicad_mod.append(PolygoneLine(polygone=poly,
             layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(PolygoneLine(polygone=poly, x_mirror=B/2 if B/2 != 0 else 0.000000001,
+        kicad_mod.append(PolygoneLine(polygone=poly, x_mirror=B/2,
             layer='F.SilkS', width=configuration['silk_line_width']))
 
     #draw the 'screw' version
@@ -199,7 +199,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
 
         kicad_mod.append(PolygoneLine(polygone=poly,
             layer='F.Fab', width=configuration['fab_line_width']))
-        kicad_mod.append(PolygoneLine(polygone=poly, x_mirror=B/2 if B/2 != 0 else 0.000000001,
+        kicad_mod.append(PolygoneLine(polygone=poly, x_mirror=B/2,
             layer='F.Fab', width=configuration['fab_line_width']))
 
         poly = [
@@ -212,7 +212,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
         ]
 
         kicad_mod.append(PolygoneLine(polygone=poly))
-        kicad_mod.append(PolygoneLine(polygone=poly, x_mirror=B/2 if B/2 != 0 else 0.000000001,
+        kicad_mod.append(PolygoneLine(polygone=poly, x_mirror=B/2,
             layer='F.SilkS', width=configuration['silk_line_width']))
 
 

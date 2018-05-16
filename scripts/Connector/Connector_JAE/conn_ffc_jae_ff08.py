@@ -125,7 +125,7 @@ def make_module(pin_count, configuration):
         layer="F.SilkS", width=configuration['silk_line_width']
     ))
     kicad_mod.append(PolygoneLine(
-        polygone=silk_outline, y_mirror=0.00000001,
+        polygone=silk_outline, y_mirror=0,
         layer="F.SilkS", width=configuration['silk_line_width']
     ))
 

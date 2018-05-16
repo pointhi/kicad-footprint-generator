@@ -281,7 +281,7 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     ]
 
     kicad_mod.append(PolygoneLine(polygone=outline, layer="F.SilkS", width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=B/2 if B/2 != 0 else 0.00000001, layer="F.SilkS", width=configuration['silk_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=B/2, layer="F.SilkS", width=configuration['silk_line_width']))
 
     #pin-1 marker
 
