@@ -27,6 +27,7 @@ DFN-6-1EP_3x3mm_P1mm:
   pitch: 1.0
   num_pins_x: 0
   num_pins_y: 3
+  #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
@@ -66,6 +67,7 @@ VQFN-24-1EP_4x4mm_P0.5mm:
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
+  #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
@@ -107,6 +109,7 @@ Texas_S-PVQFN-N16_EP:
   pitch: 0.65
   num_pins_x: 4
   num_pins_y: 4
+  #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
@@ -147,6 +150,7 @@ Texas_S-PVQFN-N24_EP:
   pitch: 0.5
   num_pins_x: 6
   num_pins_y: 6
+  #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
@@ -187,6 +191,7 @@ Texas_S-PVQFN-N32_EP:
   pitch: 0.5
   num_pins_x: 8
   num_pins_y: 8
+  #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
@@ -227,6 +232,7 @@ Texas_S-PVQFN-N48_EP:
   pitch: 0.5
   num_pins_x: 12
   num_pins_y: 12
+  #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
@@ -267,6 +273,7 @@ Texas_S-PVQFN-N64_EP:
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
+  #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
