@@ -354,14 +354,14 @@ class DFN():
                 end={'x':body_edge['right'],
                     'y':body_edge['top']-silk_offset},
                 width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0))
+                layer="F.SilkS"))
             kicad_mod.append(Line(
                 start={'x':body_edge['left'],
                     'y':body_edge['bottom']+silk_offset},
                 end={'x':body_edge['right'],
                     'y':body_edge['bottom']+silk_offset},
                 width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0))
+                layer="F.SilkS", y_mirror=0))
         elif device_params['num_pins_y'] == 0:
             kicad_mod.append(Line(
                 start={'y':0,
@@ -369,7 +369,7 @@ class DFN():
                 end={'y':body_edge['bottom'],
                     'x':body_edge['left']-silk_offset},
                 width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0))
+                layer="F.SilkS"))
             kicad_mod.append(Line(
                 start={'y':body_edge['top'],
                     'x':body_edge['right']+silk_offset},
@@ -400,7 +400,7 @@ class DFN():
             kicad_mod.append(PolygoneLine(
                 polygone=poly_silk,
                 width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0))
+                layer="F.SilkS", x_mirror=0, y_mirror=0))
 
         # # ######################## Fabrication Layer ###########################
 

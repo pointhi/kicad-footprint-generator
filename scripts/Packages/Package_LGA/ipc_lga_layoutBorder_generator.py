@@ -355,7 +355,7 @@ class LGA():
             kicad_mod.append(PolygoneLine(
                 polygone=poly_silk,
                 width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0))
+                layer="F.SilkS", x_mirror=0, y_mirror=0))
 
         # # ######################## Fabrication Layer ###########################
 

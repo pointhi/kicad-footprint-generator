@@ -288,7 +288,7 @@ class QFP():
         kicad_mod.append(PolygoneLine(
             polygone=poly_silk,
             width=configuration['silk_line_width'],
-            layer="F.SilkS", x_mirror=0))
+            layer="F.SilkS", x_mirror=0, y_mirror=0))
 
         kicad_mod.append(Line(
             start={'x': body_edge['left']-silk_offset, 'y': sy1},
@@ -353,7 +353,7 @@ class QFP():
             y_mirror=0))
         kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
             layer='F.CrtYd', width=configuration['courtyard_line_width'],
-            x_mirror=0))
+            x_mirror=0, y_mirror=0))
 
         # ######################### Text Fields ###############################
 
