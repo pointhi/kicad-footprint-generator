@@ -53,6 +53,10 @@ class Pad(Node):
           solder mask margin of the pad (default: 0)
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
+        * *x_mirror* (``[int, float](mirror offset)``) --
+          mirror x direction around offset "point"
+        * *y_mirror* (``[int, float](mirror offset)``) --
+          mirror y direction around offset "point"
 
     :Example:
 
@@ -101,6 +105,7 @@ class Pad(Node):
         self._initSolderPasteMarginRatio(**kwargs)
         self._initSolderMaskMargin(**kwargs)
         self._initLayers(**kwargs)
+        self._initMirror(**kwargs)
 
         if self.shape == Pad.SHAPE_ROUNDRECT:
             self._initRadiusRatio(**kwargs)
@@ -115,6 +120,20 @@ class Pad(Node):
 
             for p in kwargs['primitives']:
                 self.addPrimitive(p)
+
+    def _initMirror(self, **kwargs):
+        self.mirror = [None, None]
+        if kwargs.get('x_mirror') is not None and type(kwargs['x_mirror']) in [float, int]:
+            self.mirror[0] = kwargs['x_mirror']
+        if kwargs.get('y_mirror') is not None and type(kwargs['y_mirror']) in [float, int]:
+            self.mirror[1] = kwargs['y_mirror']
+
+        if self.mirror[0] is not None:
+            self.at.x = 2 * self.mirror[0] - self.at.x
+            self.offset.x *= -1
+        if self.mirror[1] is not None:
+            self.at.y = 2 * self.mirror[1] - self.at.y
+            self.offset.y *= -1
 
     def _initNumber(self, **kwargs):
         self.number = kwargs.get('number', "")  # default to an un-numbered pad

@@ -178,16 +178,16 @@ class ChamferedPad(Node):
           Select which corner(s) to chamfer. (top left, top right, bottom right, bottom left)
         * *chamfer_size* (``float``, ``Vector``) --
           Size of the chamfer.
+        * *x_mirror* (``[int, float](mirror offset)``) --
+          mirror x direction around offset "point"
+        * *y_mirror* (``[int, float](mirror offset)``) --
+          mirror y direction around offset "point"
     """
 
     def __init__(self, **kwargs):
         Node.__init__(self)
         self._initSize(**kwargs)
-
-        primitives = [self.__generatePoints(**kwargs)]
-        kwargs['size'] = min(self.size.x, self.size.y)-sqrt(self.chamfer_size[0]**2+self.chamfer_size[1]**2)
-        kwargs['shape'] = Pad.SHAPE_CUSTOM
-        self.pad = Pad(primitives=primitives, **kwargs)
+        self._initPad(**kwargs)
 
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
@@ -198,7 +198,7 @@ class ChamferedPad(Node):
         else:
             self.size = Vector2D(kwargs.get('size'))
 
-    def __generatePoints(self, **kwargs):
+    def _initPad(self, **kwargs):
         if 'chamfer_size' not in kwargs:
             raise KeyError('chamfer size is required for chamfered pads (like "chamfer_size=[1,1]")')
         if 'corner_selection' not in kwargs:
@@ -212,24 +212,35 @@ class ChamferedPad(Node):
         else:
             self.chamfer_size = Vector2D(kwargs.get('chamfer_size'))
 
-        outside = Vector2D(self.size.x/2, self.size.y/2)
+        if corner_selection.isAnySelected() and self.chamfer_size[0] > 0 and self.chamfer_size[1] > 0:
+            outside = Vector2D(self.size.x/2, self.size.y/2)
 
-        inside = [Vector2D(outside.x, outside.y-self.chamfer_size.y),
-                  Vector2D(outside.x-self.chamfer_size.x, outside.y)
-                  ]
+            inside = [Vector2D(outside.x, outside.y-self.chamfer_size.y),
+                      Vector2D(outside.x-self.chamfer_size.x, outside.y)
+                      ]
 
-        points = []
-        corner_vectors = [
-            Vector2D(-1, -1), Vector2D(1, -1), Vector2D(1, 1), Vector2D(-1, 1)
-            ]
-        for i in range(4):
-            if corner_selection[i]:
-                points.append(corner_vectors[i]*inside[i % 2])
-                points.append(corner_vectors[i]*inside[(i+1) % 2])
-            else:
-                points.append(corner_vectors[i]*outside)
-
-        return Polygon(nodes=points)
+            points = []
+            corner_vectors = [
+                Vector2D(-1, -1), Vector2D(1, -1), Vector2D(1, 1), Vector2D(-1, 1)
+                ]
+            for i in range(4):
+                if corner_selection[i]:
+                    points.append(corner_vectors[i]*inside[i % 2])
+                    points.append(corner_vectors[i]*inside[(i+1) % 2])
+                else:
+                    points.append(corner_vectors[i]*outside)
+            kwargs2 = {}
+            if 'x_mirror' in kwargs:
+                kwargs2['x_mirror'] = kwargs['x_mirror']
+            if 'y_mirror' in kwargs:
+                kwargs2['y_mirror'] = kwargs['y_mirror']
+            primitives = [Polygon(nodes=points, **kwargs2)]
+            kwargs['size'] = min(self.size.x, self.size.y)-sqrt(self.chamfer_size[0]**2+self.chamfer_size[1]**2)
+            kwargs['shape'] = Pad.SHAPE_CUSTOM
+            self.pad = Pad(primitives=primitives, **kwargs)
+        else:
+            kwargs['shape'] = Pad.SHAPE_RECT
+            self.pad = Pad(**kwargs)
 
     def getVirtualChilds(self):
         return [self.pad]
