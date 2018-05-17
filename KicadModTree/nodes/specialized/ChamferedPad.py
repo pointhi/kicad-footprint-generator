@@ -18,6 +18,127 @@ from KicadModTree.nodes.base.Polygon import *
 from KicadModTree.nodes.base.Pad import Pad
 
 
+class CornerSelection():
+    r"""Class for handling chamfer selection
+        :param chamfer_select:
+            * A list of bools do directly set the corners
+              (top left, top right, bottom right, bottom left)
+            * A dict with keys 'tl', 'tr', 'br', 'bl'
+            * A list of strings (available as constants in this class)
+            * The integer 1 means all corners
+            * The integer 0 means no corners
+    """
+
+    TOP_LEFT = 'tl'
+    TOP_RIGHT = 'tr'
+    BOTTOM_RIGHT = 'br'
+    BOTTOM_LEFT = 'bl'
+
+    def __init__(self, chamfer_select):
+        self.top_left = False
+        self.top_right = False
+        self.bottom_right = False
+        self.bottom_left = False
+
+        if chamfer_select == 1:
+            self.selectAll()
+            return
+
+        if chamfer_select == 0:
+            return
+
+        if type(chamfer_select) is dict:
+            for key in chamfer_select:
+                self[key] = bool(chamfer_select[key])
+        else:
+            for i, value in enumerate(chamfer_select):
+                self[i] = bool(value)
+
+    def selectAll(self):
+        for i in range(len(self)):
+            self[i] = True
+
+    def clearAll(self):
+        for i in range(len(self)):
+            self[i] = False
+
+    def setLeft(self, value=1):
+        self.top_left = value
+        self.bottom_left = value
+
+    def setTop(self, value=1):
+        self.top_left = value
+        self.top_right = value
+
+    def setRight(self, value=1):
+        self.top_right = value
+        self.bottom_right = value
+
+    def setBottom(self, value=1):
+        self.bottom_left = value
+        self.bottom_right = value
+
+    def __or__(self, other):
+        return CornerSelection([s or o for s, o in zip(self, other)])
+
+    def __ior__(self, other):
+        for i in range(len(self)):
+            self[i] |= other[i]
+        return self
+
+    def __and__(self, other):
+        return CornerSelection([s and o for s, o in zip(self, other)])
+
+    def __iand__(self, other):
+        for i in range(len(self)):
+            self[i] &= other[i]
+        return self
+
+    def __len__(self):
+        return 4
+
+    def __iter__(self):
+        yield self.top_left
+        yield self.top_right
+        yield self.bottom_right
+        yield self.bottom_left
+
+    def __getitem__(self, item):
+        if item in [0, CornerSelection.TOP_LEFT]:
+            return self.top_left
+        if item in [1, CornerSelection.TOP_RIGHT]:
+            return self.top_right
+        if item in [2, CornerSelection.BOTTOM_RIGHT]:
+            return self.bottom_right
+        if item in [3, CornerSelection.BOTTOM_LEFT]:
+            return self.bottom_left
+
+        raise IndexError('Index {} is out of range'.format(item))
+
+    def __setitem__(self, item, value):
+        if item in [0, CornerSelection.TOP_LEFT]:
+            self.top_left = value
+        elif item in [1, CornerSelection.TOP_RIGHT]:
+            self.top_right = value
+        elif item in [2, CornerSelection.BOTTOM_RIGHT]:
+            self.bottom_right = value
+        elif item in [3, CornerSelection.BOTTOM_LEFT]:
+            self.bottom_left = value
+        else:
+            raise IndexError('Index {} is out of range'.format(item))
+
+    def __dict__(self):
+        return {
+            CornerSelection.TOP_LEFT: self.top_left,
+            CornerSelection.TOP_RIGHT: self.top_right,
+            CornerSelection.BOTTOM_RIGHT: self.bottom_right,
+            CornerSelection.BOTTOM_LEFT: self.bottom_left
+            }
+
+    def __str__(self):
+        return str(self.__dict__())
+
+
 class ChamferedPad(Node):
     r"""Add a ChamferedPad to the render tree
 
@@ -47,7 +168,7 @@ class ChamferedPad(Node):
           solder mask margin of the pad (default: 0)
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
-        * *corner_selection* (``[bool, bool, bool, bool]``) --
+        * *corner_selection* (``CornerSelection``) --
           Select which corner(s) to chamfer. (top left, top right, bottom right, bottom left)
         * *chamfer_size* (``float``, ``Vector``) --
           Size of the chamfer.
@@ -77,9 +198,7 @@ class ChamferedPad(Node):
         if 'corner_selection' not in kwargs:
             raise KeyError('corner selection is required for chamfered pads (like "corner_selection=[1,0,0,0]")')
 
-        corner_selection = kwargs.get('corner_selection')
-        if len(corner_selection) != 4:
-            raise TypeError('corner selection must be an array of lenght 4')
+        corner_selection = CornerSelection(kwargs.get('corner_selection'))
 
         if type(kwargs.get('chamfer_size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
