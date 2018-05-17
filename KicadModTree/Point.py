@@ -22,7 +22,7 @@ from math import sqrt
 
 class Point2D(Vector2D):
     def __init__(self, coordinates=None, y=None):
-        Vector2D.__init__(self, coordinates, y, z)
+        Vector2D.__init__(self, coordinates, y)
         warnings.warn(
             "Point2D is deprecated, use Vector2D instead",
             DeprecationWarning
