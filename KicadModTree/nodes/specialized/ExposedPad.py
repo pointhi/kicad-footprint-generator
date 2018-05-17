@@ -15,6 +15,7 @@
 #
 # (C) 2017 by @SchrodingersGat
 # (C) 2017 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2018 by Rene Poeschl, github @poeschlr
 
 from __future__ import division
 
@@ -44,12 +45,22 @@ class ExposedPad(Node):
           Only used if mask_size is not specified.
         * *mask_size* (``float``, ``Vector``) --
           size of the mask cutout (If not given, mask will be part of the main pad)
+
         * *paste_layout* (``int``, ``[int, int]``) --
           paste layout specification.
           How many pads in x and y direction.
           If only a single integer given, x and y direction use the same count.
+        * *paste_between_vias* (``int``, ``[int, int]``)
+          Alternative for paste_layout with more controll.
+          This defines how many pads will be between 4 vias in x and y direction.
+          If only a single integer given, x and y direction use the same count.
+        * *paste_rings_outside* (``int``, ``[int, int]``)
+          Alternative for paste_layout with more controll.
+          Defines the number of rings outside of the vias in x and y direction.
+          If only a single integer given, x and y direction use the same count.
         * *paste_coverage* (``float``) --
           how much of the mask free area is covered with paste. (default: 0.65)
+
         * *via_layout* (``int``, ``[int, int]``) --
           thermal via layout specification.
           How many vias in x and y direction.
@@ -74,6 +85,7 @@ class ExposedPad(Node):
         * *via_paste_clarance* (``float``)
           Clearance between paste and via drills (default: 0.05)
           Only used if paste_avoid_via is set.
+
         * *grid_round_base* (``float``) --
           Base used for rounding calculated grids (default: 0.01)
           0 means no rounding
@@ -134,7 +146,7 @@ class ExposedPad(Node):
         nx = self.via_layout[0]-1
         ny = self.via_layout[1]-1
         if 'via_grid' in kwargs:
-            if type(kwargs.get('via_grid')) is int:
+            if type(kwargs.get('via_grid')) in [int, float]:
                 # when the attribute is a simple number, use it for x and y
                 self.via_grid = Vector2D([kwargs.get('via_grid'), kwargs.get('via_grid')])
             else:
@@ -160,7 +172,8 @@ class ExposedPad(Node):
                 ]
 
     @staticmethod
-    def __calcPasteDetails(via_count, via_grid, drill, paste_count, mask_size,
+    def __calcPasteDetails(via_count, via_grid, drill,
+                           paste_count, between, outside, mask_size,
                            copper_size, paste_reduction, via_clarance):
         r"""Calculate the paste centers relative to center of pad for one axis
 
@@ -175,10 +188,12 @@ class ExposedPad(Node):
             Via grid in this direction
         : param drill: (``float``) --
             Via drill size
-        : param paste_count: (``int`` or ``[int, int]``) --
-            Paste count
-            * if int: this is the overall count of paste pads in this direction
-            * if array: the numbers stand for [inner, outher] pad count
+        : param paste_count: (``int``) --
+            overall count of paste pads in this direction
+        : param between: (``int``) --
+            alternative to paste_count. Defines paste pads between vias
+        : param outside: (``int``) --
+            alternative to paste_count. Defines paste pads outside vias
         : param mask_siz: (``float``) --
             Soldermask size in this direction
         : param copper_size: (``float``) --
@@ -195,7 +210,11 @@ class ExposedPad(Node):
         else:
             vias_in_mask = int(floor(paste_area_size/(via_grid-1)))
 
-        if type(paste_count) in [int, float]:
+        if between is not None or outside is not None:
+            outer_count = int(outside)*2
+            paste_pads_between_two_vias = int(between)
+            inner_count = int((vias_in_mask-1)*paste_pads_between_two_vias)
+        else:
             if vias_in_mask > 1:
                 paste_pads_between_two_vias = int(floor(paste_count/(vias_in_mask-1)))
                 inner_count = int((vias_in_mask-1)*paste_pads_between_two_vias)
@@ -203,10 +222,6 @@ class ExposedPad(Node):
                 inner_count = 0
 
             outer_count = int(paste_count - inner_count)
-        else:
-            outer_count = int(paste_count[1])
-            paste_pads_between_two_vias = int(floor(paste_count[0]/(vias_in_mask-1)))
-            inner_count = int((vias_in_mask-1)*paste_pads_between_two_vias)
 
         first_via = -(vias_in_mask-1)/2*via_grid
         paste_chamfer_to_via = sqrt(2)*(via_clarance+drill/2)
@@ -245,17 +260,17 @@ class ExposedPad(Node):
         outer_space = paste_area_size/2+first_via
         outer_per_side = outer_count//2
         if outer_per_side > 0:
-            outer_grid = outer_space/(outer_per_side+1)
-            first = first_via - outer_grid*outer_per_side
-
+            outer_grid = outer_space/(outer_per_side)
             outer_size = paste_reduction*outer_space/outer_per_side
+
+            first = first_via - outer_space/2 + outer_grid*(outer_per_side-1)/2
 
             paste_edge = first+outer_size/2
             chamfer_reference_point = first_via-paste_chamfer_to_via
-            outer_chamfer = chamfer_reference_point - paste_edge
+            outer_chamfer = paste_edge-chamfer_reference_point
 
             outer_pads = {
-                'pos': [first+i*outer_grid for i in range(outer_per_side)],
+                'pos': [first-i*outer_grid for i in range(outer_per_side)],
                 'size': outer_size,
                 'chamfer': outer_chamfer,
                 'edge_to_via': paste_edge - first_via
@@ -278,15 +293,31 @@ class ExposedPad(Node):
             paste_layout = kwargs.get('paste_layout', default_paste_layout)
             if type(paste_layout) in [float, int]:
                 paste_layout = [paste_layout, paste_layout]
+            paste_layout = [int(v) for v in paste_layout]
+
+            between = [None, None]
+            outside = [None, None]
+            if 'paste_between_vias' in kwargs or 'paste_rings_outside' in kwargs:
+                between = kwargs.get('paste_between_vias', [0, 0])
+                if type(between) in [float, int]:
+                    between = [between, between]
+                between = [int(v) for v in between]
+
+                outside = kwargs.get('paste_rings_outside', [0, 0])
+                if type(outside) in [float, int]:
+                    outside = [outside, outside]
+                outside = [int(v) for v in outside]
 
             self.gen_paste_x_inner, self.gen_paste_x_outher = ExposedPad.__calcPasteDetails(
                 self.via_layout[0], self.via_grid[0], self.via_drill,
-                paste_layout[0], self.mask_size.x, self.size.x,
+                paste_layout[0], between[0], outside[0],
+                self.mask_size.x, self.size.x,
                 paste_reduction, via_clarance)
 
             self.gen_paste_y_inner, self.gen_paste_y_outher = ExposedPad.__calcPasteDetails(
                 self.via_layout[1], self.via_grid[1], self.via_drill,
-                paste_layout[1], self.mask_size.y, self.size.y,
+                paste_layout[1], between[1], outside[1],
+                self.mask_size.y, self.size.y,
                 paste_reduction, via_clarance)
             return
 
@@ -331,10 +362,17 @@ class ExposedPad(Node):
         ))
 
         if self.has_vias and self.paste_avoid_via:
-            chamfer_size_inner = [
-                self.gen_paste_x_inner['chamfer']+self.gen_paste_y_inner['edge_to_via'],
-                self.gen_paste_y_inner['chamfer']+self.gen_paste_x_inner['edge_to_via'],
-            ]
+            if len(self.gen_paste_x_inner['pos']) and len(self.gen_paste_y_inner['pos']):
+                chamfer_size_inner = [
+                    self.gen_paste_x_inner['chamfer']+self.gen_paste_y_inner['edge_to_via'],
+                    self.gen_paste_y_inner['chamfer']+self.gen_paste_x_inner['edge_to_via'],
+                ]
+
+            if len(self.gen_paste_x_outher['pos']) and len(self.gen_paste_y_outher['pos']):
+                chamfer_size_outher = [
+                    self.gen_paste_x_outher['chamfer']+self.gen_paste_y_outher['edge_to_via'],
+                    self.gen_paste_y_outher['chamfer']+self.gen_paste_x_outher['edge_to_via'],
+                ]
 
             for posx in self.gen_paste_x_inner['pos']:
                 for idx_x, x in enumerate(posx):
@@ -350,21 +388,104 @@ class ExposedPad(Node):
                                     corner[CornerSelection.BOTTOM_RIGHT] = 1
                                 if idx_x == 0 and idx_y == len(posy)-1:
                                     corner[CornerSelection.BOTTOM_LEFT] = 1
-                            if corner.isAnySelected():
-                                pads.append(ChamferedPad(
-                                    at=self.at+[x, y], number="",
-                                    size=[self.gen_paste_x_inner['size'], self.gen_paste_y_inner['size']],
-                                    corner_selection=corner,
-                                    chamfer_size=chamfer_size_inner,
-                                    type=Pad.TYPE_SMT, layers=['F.Paste']
-                                    ))
-                            else:
-                                pads.append(Pad(
-                                    at=self.at+[x, y], number="",
-                                    size=[self.gen_paste_x_inner['size'], self.gen_paste_y_inner['size']],
-                                    corner_selection=corner, shape=Pad.SHAPE_RECT,
-                                    type=Pad.TYPE_SMT, layers=['F.Paste']
-                                    ))
+
+                            pads.append(ChamferedPad(
+                                at=self.at+[x, y], number="",
+                                size=[self.gen_paste_x_inner['size'], self.gen_paste_y_inner['size']],
+                                corner_selection=corner,
+                                chamfer_size=chamfer_size_inner,
+                                type=Pad.TYPE_SMT, layers=['F.Paste']
+                                ))
+
+            for posx in self.gen_paste_x_inner['pos']:
+                for idx_x, x in enumerate(posx):
+                    for idx_y, y in enumerate(self.gen_paste_y_outher['pos']):
+                        corner = CornerSelection(0)
+                        if idx_y == 0 and chamfer_size_outher[0] > 0 and chamfer_size_outher[1] > 0:
+                            if idx_x == 0:
+                                corner[CornerSelection.BOTTOM_LEFT] = 1
+                            if idx_x == len(posx)-1:
+                                corner[CornerSelection.BOTTOM_RIGHT] = 1
+
+                        pads.append(ChamferedPad(
+                            at=self.at+[x, y], number="",
+                            size=[self.gen_paste_x_inner['size'], self.gen_paste_y_outher['size']],
+                            corner_selection=corner,
+                            chamfer_size=chamfer_size_outher,
+                            type=Pad.TYPE_SMT, layers=['F.Paste']
+                            ))
+                        pads.append(ChamferedPad(
+                            at=self.at+[x, y], number="",
+                            size=[self.gen_paste_x_inner['size'], self.gen_paste_y_outher['size']],
+                            corner_selection=corner,
+                            chamfer_size=chamfer_size_outher,
+                            type=Pad.TYPE_SMT, layers=['F.Paste'],
+                            y_mirror=self.at.y
+                            ))
+
+            for posy in self.gen_paste_y_inner['pos']:
+                for idx_y, y in enumerate(posy):
+                    for idx_x, x in enumerate(self.gen_paste_x_outher['pos']):
+                        corner = CornerSelection(0)
+                        if idx_x == 0 and chamfer_size_outher[0] > 0 and chamfer_size_outher[1] > 0:
+                            if idx_y == 0:
+                                corner[CornerSelection.TOP_RIGHT] = 1
+                            if idx_y == len(posy)-1:
+                                corner[CornerSelection.BOTTOM_RIGHT] = 1
+
+                        pads.append(ChamferedPad(
+                            at=self.at+[x, y], number="",
+                            size=[self.gen_paste_x_outher['size'], self.gen_paste_y_inner['size']],
+                            corner_selection=corner,
+                            chamfer_size=chamfer_size_outher,
+                            type=Pad.TYPE_SMT, layers=['F.Paste']
+                            ))
+                        pads.append(ChamferedPad(
+                            at=self.at+[x, y], number="",
+                            size=[self.gen_paste_x_outher['size'], self.gen_paste_y_inner['size']],
+                            corner_selection=corner,
+                            chamfer_size=chamfer_size_outher,
+                            type=Pad.TYPE_SMT, layers=['F.Paste'],
+                            x_mirror=self.at.x
+                            ))
+
+            for idx_y, y in enumerate(self.gen_paste_y_outher['pos']):
+                for idx_x, x in enumerate(self.gen_paste_x_outher['pos']):
+                    corner = CornerSelection(0)
+                    if idx_x == 0 and idx_y == 0 and chamfer_size_outher[0] > 0 and chamfer_size_outher[1] > 0:
+                        corner[CornerSelection.BOTTOM_RIGHT] = 1
+
+                    pads.append(ChamferedPad(
+                        at=self.at+[x, y], number="",
+                        size=[self.gen_paste_x_outher['size'], self.gen_paste_y_outher['size']],
+                        corner_selection=corner,
+                        chamfer_size=chamfer_size_outher,
+                        type=Pad.TYPE_SMT, layers=['F.Paste']
+                        ))
+                    pads.append(ChamferedPad(
+                        at=self.at+[x, y], number="",
+                        size=[self.gen_paste_x_outher['size'], self.gen_paste_y_outher['size']],
+                        corner_selection=corner,
+                        chamfer_size=chamfer_size_outher,
+                        type=Pad.TYPE_SMT, layers=['F.Paste'],
+                        x_mirror=self.at.x
+                        ))
+                    pads.append(ChamferedPad(
+                        at=self.at+[x, y], number="",
+                        size=[self.gen_paste_x_outher['size'], self.gen_paste_y_outher['size']],
+                        corner_selection=corner,
+                        chamfer_size=chamfer_size_outher,
+                        type=Pad.TYPE_SMT, layers=['F.Paste'],
+                        y_mirror=self.at.x
+                        ))
+                    pads.append(ChamferedPad(
+                        at=self.at+[x, y], number="",
+                        size=[self.gen_paste_x_outher['size'], self.gen_paste_y_outher['size']],
+                        corner_selection=corner,
+                        chamfer_size=chamfer_size_outher,
+                        type=Pad.TYPE_SMT, layers=['F.Paste'],
+                        x_mirror=self.at.x, y_mirror=self.at.x
+                        ))
 
         else:
             cy = -((self.paste_layout[1]-1)*self.paste_grid[1])/2 + self.at.y

@@ -12,6 +12,7 @@
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2018 by Rene Poeschl, github @poeschlr
 from __future__ import division
 from KicadModTree.Vector import *
 from KicadModTree.nodes.base.Polygon import *
