@@ -108,7 +108,7 @@ RESULT_CHAMFERED_PAD = """(module test (layer F.Cu) (tedit 0)
   (fp_text value test (at 0 0) (layer F.Fab)
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (pad 1 smd custom (at 0 0) (size 1 1) (layers F.Cu F.Mask F.Paste)
+  (pad 1 smd custom (at 0 0) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
     (options (clearance outline) (anchor circle))
     (primitives
       (gr_poly (pts
@@ -247,5 +247,5 @@ class Kicad5PadsTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        # file_handler.writeFile('test.kicad_mod')
+        file_handler.writeFile('test1.kicad_mod')
         self.assertEqual(result, RESULT_CHAMFERED_PAD)

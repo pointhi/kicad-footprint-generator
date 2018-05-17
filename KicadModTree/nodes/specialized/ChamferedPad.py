@@ -78,6 +78,12 @@ class CornerSelection():
         self.bottom_left = value
         self.bottom_right = value
 
+    def isAnySelected(self):
+        for v in self:
+            if v:
+                return True
+        return False
+
     def __or__(self, other):
         return CornerSelection([s or o for s, o in zip(self, other)])
 
@@ -179,7 +185,7 @@ class ChamferedPad(Node):
         self._initSize(**kwargs)
 
         primitives = [self.__generatePoints(**kwargs)]
-        kwargs['size'] = min(self.size.x, self.size.y)
+        kwargs['size'] = min(self.size.x, self.size.y)-sqrt(self.chamfer_size[0]**2+self.chamfer_size[1]**2)
         kwargs['shape'] = Pad.SHAPE_CUSTOM
         self.pad = Pad(primitives=primitives, **kwargs)
 
@@ -202,14 +208,14 @@ class ChamferedPad(Node):
 
         if type(kwargs.get('chamfer_size')) in [int, float]:
             # when the attribute is a simple number, use it for x and y
-            chamfer_size = Vector2D([kwargs.get('chamfer_size'), kwargs.get('chamfer_size')])
+            self.chamfer_size = Vector2D([kwargs.get('chamfer_size'), kwargs.get('chamfer_size')])
         else:
-            chamfer_size = Vector2D(kwargs.get('chamfer_size'))
+            self.chamfer_size = Vector2D(kwargs.get('chamfer_size'))
 
         outside = Vector2D(self.size.x/2, self.size.y/2)
 
-        inside = [Vector2D(outside.x, outside.y-chamfer_size.y),
-                  Vector2D(outside.x-chamfer_size.x, outside.y)
+        inside = [Vector2D(outside.x, outside.y-self.chamfer_size.y),
+                  Vector2D(outside.x-self.chamfer_size.x, outside.y)
                   ]
 
         points = []
