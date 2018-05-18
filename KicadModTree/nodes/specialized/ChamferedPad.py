@@ -24,10 +24,15 @@ class CornerSelection():
         :param chamfer_select:
             * A list of bools do directly set the corners
               (top left, top right, bottom right, bottom left)
-            * A dict with keys 'tl', 'tr', 'br', 'bl'
-            * A list of strings (available as constants in this class)
+            * A dict with keys (constands see below)
             * The integer 1 means all corners
             * The integer 0 means no corners
+
+        :Constands:
+            * CornerSelection.TOP_LEFT
+            * CornerSelection.TOP_RIGHT
+            * CornerSelection.BOTTOM_RIGHT
+            * CornerSelection.BOTTOM_LEFT
     """
 
     TOP_LEFT = 'tl'
@@ -64,20 +69,20 @@ class CornerSelection():
             self[i] = False
 
     def setLeft(self, value=1):
-        self.top_left = value
-        self.bottom_left = value
+        self.top_left = bool(value)
+        self.bottom_left = bool(value)
 
     def setTop(self, value=1):
-        self.top_left = value
-        self.top_right = value
+        self.top_left = bool(value)
+        self.top_right = bool(value)
 
     def setRight(self, value=1):
-        self.top_right = value
-        self.bottom_right = value
+        self.top_right = bool(value)
+        self.bottom_right = bool(value)
 
     def setBottom(self, value=1):
-        self.bottom_left = value
-        self.bottom_right = value
+        self.bottom_left = bool(value)
+        self.bottom_right = bool(value)
 
     def isAnySelected(self):
         for v in self:
@@ -124,17 +129,17 @@ class CornerSelection():
 
     def __setitem__(self, item, value):
         if item in [0, CornerSelection.TOP_LEFT]:
-            self.top_left = value
+            self.top_left = bool(value)
         elif item in [1, CornerSelection.TOP_RIGHT]:
-            self.top_right = value
+            self.top_right = bool(value)
         elif item in [2, CornerSelection.BOTTOM_RIGHT]:
-            self.bottom_right = value
+            self.bottom_right = bool(value)
         elif item in [3, CornerSelection.BOTTOM_LEFT]:
-            self.bottom_left = value
+            self.bottom_left = bool(value)
         else:
             raise IndexError('Index {} is out of range'.format(item))
 
-    def __dict__(self):
+    def to_dict(self):
         return {
             CornerSelection.TOP_LEFT: self.top_left,
             CornerSelection.TOP_RIGHT: self.top_right,
@@ -143,7 +148,7 @@ class CornerSelection():
             }
 
     def __str__(self):
-        return str(self.__dict__())
+        return str(self.to_dict())
 
 
 class ChamferedPad(Node):
