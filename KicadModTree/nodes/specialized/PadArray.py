@@ -131,12 +131,9 @@ class PadArray(Node):
 
     # Pin incrementing
     def _initIncrement(self, **kwargs):
-        if kwargs.get('increment', None) is None:
-            self.increment = 1
-        else:
-            self.increment = kwargs.get('increment')
-            if type(self.increment) is not int:
-                raise ValueError('{inc} is not a valid number for pin increment'.format(inc=self.increment))
+        self.increment = kwargs.get('increment', 1)
+        if type(self.increment) is not int:
+            raise ValueError('{inc} is not a valid number for pin increment'.format(inc=self.increment))
 
     # Pad spacing
     def _initSpacing(self, **kwargs):
@@ -199,25 +196,27 @@ class PadArray(Node):
             else:
                 kwargs['shape'] = padShape
 
-            if i == 0 and kwargs.get('chamfer_corner_selection_first') is not None\
-                    and kwargs.get('chamfer_size') is not None:
-                pads.append(
-                    ChamferedPad(
-                        number=number, at=[x_pad, y_pad],
-                        corner_selection=kwargs.get('chamfer_corner_selection_first'),
-                        **kwargs
-                        ))
-            elif i == len(pad_numbers)-1\
-                    and kwargs.get('chamfer_corner_selection_last') is not None\
-                    and kwargs.get('chamfer_size') is not None:
-                pads.append(
-                    ChamferedPad(
-                        number=number, at=[x_pad, y_pad],
-                        corner_selection=kwargs.get('chamfer_corner_selection_last'),
-                        **kwargs
-                        ))
-            else:
-                pads.append(Pad(number=number, at=[x_pad, y_pad], **kwargs))
+            if 'chamfer_corner_selection_first' in kwargs and 'chamfer_size' in kwargs:
+                if i == 0:
+                    pads.append(
+                        ChamferedPad(
+                            number=number, at=[x_pad, y_pad],
+                            corner_selection=kwargs.get('chamfer_corner_selection_first'),
+                            **kwargs
+                            ))
+                    continue
+
+                if i == len(pad_numbers)-1:
+                    pads.append(
+                        ChamferedPad(
+                            number=number, at=[x_pad, y_pad],
+                            corner_selection=kwargs.get('chamfer_corner_selection_last'),
+                            **kwargs
+                            ))
+                    continue
+
+            pads.append(Pad(number=number, at=[x_pad, y_pad], **kwargs))
+
         return pads
 
     def getVirtualChilds(self):

@@ -125,9 +125,9 @@ class Pad(Node):
 
     def _initMirror(self, **kwargs):
         self.mirror = [None, None]
-        if kwargs.get('x_mirror') is not None and type(kwargs['x_mirror']) in [float, int]:
+        if 'x_mirror' in kwargs and type(kwargs['x_mirror']) in [float, int]:
             self.mirror[0] = kwargs['x_mirror']
-        if kwargs.get('y_mirror') is not None and type(kwargs['y_mirror']) in [float, int]:
+        if 'y_mirror' in kwargs and type(kwargs['y_mirror']) in [float, int]:
             self.mirror[1] = kwargs['y_mirror']
 
         if self.mirror[0] is not None:
@@ -194,7 +194,7 @@ class Pad(Node):
         self.layers = kwargs.get('layers')
 
     def _initRadiusRatio(self, **kwargs):
-        if kwargs.get('radius_ratio') is None:
+        if 'radius_ratio' not in kwargs:
             raise KeyError('radius ratio not declared for rounded rectangle pad.')
         radius_ratio = kwargs.get('radius_ratio')
         if type(radius_ratio) not in [int, float]:
