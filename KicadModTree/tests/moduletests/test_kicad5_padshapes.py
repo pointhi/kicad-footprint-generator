@@ -129,13 +129,144 @@ RESULT_CHAMFERED_PAD_AVOID_CIRCLE = """(module test (layer F.Cu) (tedit 0)
   (fp_text value test (at 0 0) (layer F.Fab)
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (fp_circle (center 1 1) (end 1.3 1) (layer F.SilkS) (width 0.01))
-  (pad 1 smd custom (at 0 0) (size 1.14 1.14) (layers F.Cu F.Mask F.Paste)
+  (fp_circle (center 3 3.5) (end 3.3 3.5) (layer F.SilkS) (width 0.01))
+  (pad 1 smd custom (at 2 2.5) (size 1.14 1.14) (layers F.Cu F.Mask F.Paste)
     (options (clearance outline) (anchor circle))
     (primitives
       (gr_poly (pts
          (xy -0.875 -0.693665) (xy -0.443665 -1.125) (xy 0.443665 -1.125) (xy 0.875 -0.693665)
          (xy 0.875 0.693665) (xy 0.443665 1.125) (xy -0.443665 1.125) (xy -0.875 0.693665)) (width 0))
+    ))
+)"""
+
+RESULT_CHAMFERED_PAD_GRID = """(module test (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value test (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 1 smd custom (at -1.5 -3.75) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.75) (xy -0.25 -1) (xy 0.5 -1) (xy 0.5 1)
+         (xy -0.25 1) (xy -0.5 0.75)) (width 0))
+    ))
+  (pad 1 smd custom (at -1.5 -1.25) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.75) (xy -0.25 -1) (xy 0.5 -1) (xy 0.5 1)
+         (xy -0.25 1) (xy -0.5 0.75)) (width 0))
+    ))
+  (pad 1 smd custom (at -1.5 1.25) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.75) (xy -0.25 -1) (xy 0.5 -1) (xy 0.5 1)
+         (xy -0.25 1) (xy -0.5 0.75)) (width 0))
+    ))
+  (pad 1 smd custom (at -1.5 3.75) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.75) (xy -0.25 -1) (xy 0.5 -1) (xy 0.5 1)
+         (xy -0.25 1) (xy -0.5 0.75)) (width 0))
+    ))
+  (pad 1 smd custom (at 0 -3.75) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.75) (xy -0.25 -1) (xy 0.25 -1) (xy 0.5 -0.75)
+         (xy 0.5 1) (xy -0.5 1)) (width 0))
+    ))
+  (pad 1 smd rect (at 0 -1.25) (size 1 2) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd rect (at 0 1.25) (size 1 2) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd custom (at 0 3.75) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -1) (xy 0.5 -1) (xy 0.5 0.75) (xy 0.25 1)
+         (xy -0.25 1) (xy -0.5 0.75)) (width 0))
+    ))
+  (pad 1 smd custom (at 1.5 -3.75) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -1) (xy 0.25 -1) (xy 0.5 -0.75) (xy 0.5 0.75)
+         (xy 0.25 1) (xy -0.5 1)) (width 0))
+    ))
+  (pad 1 smd custom (at 1.5 -1.25) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -1) (xy 0.25 -1) (xy 0.5 -0.75) (xy 0.5 0.75)
+         (xy 0.25 1) (xy -0.5 1)) (width 0))
+    ))
+  (pad 1 smd custom (at 1.5 1.25) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -1) (xy 0.25 -1) (xy 0.5 -0.75) (xy 0.5 0.75)
+         (xy 0.25 1) (xy -0.5 1)) (width 0))
+    ))
+  (pad 1 smd custom (at 1.5 3.75) (size 0.646447 0.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -1) (xy 0.25 -1) (xy 0.5 -0.75) (xy 0.5 0.75)
+         (xy 0.25 1) (xy -0.5 1)) (width 0))
+    ))
+)"""
+
+RESULT_CHAMFERED_PAD_GRID_AVOID_CIRCLE = """(module test (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value test (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_circle (center 2 2.5) (end 2.2 2.5) (layer F.SilkS) (width 0.01))
+  (pad 1 smd custom (at -1.4 -2.1) (size 0.59 0.59) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.210086) (xy -0.210086 -0.5) (xy 0.5 -0.5) (xy 0.5 0.5)
+         (xy -0.5 0.5)) (width 0))
+    ))
+  (pad 1 smd rect (at -1.4 -0.7) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd rect (at -1.4 0.7) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd custom (at -1.4 2.1) (size 0.59 0.59) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.5) (xy 0.5 -0.5) (xy 0.5 0.5) (xy -0.210086 0.5)
+         (xy -0.5 0.210086)) (width 0))
+    ))
+  (pad 1 smd rect (at 0 -2.1) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd rect (at 0 -0.7) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd rect (at 0 0.7) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd rect (at 0 2.1) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd custom (at 1.4 -2.1) (size 0.59 0.59) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.5) (xy 0.210086 -0.5) (xy 0.5 -0.210086) (xy 0.5 0.5)
+         (xy -0.5 0.5)) (width 0))
+    ))
+  (pad 1 smd rect (at 1.4 -0.7) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd rect (at 1.4 0.7) (size 1 1) (layers F.Cu F.Mask F.Paste))
+  (pad 1 smd custom (at 1.4 2.1) (size 0.59 0.59) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.5 -0.5) (xy 0.5 -0.5) (xy 0.5 0.210086) (xy 0.210086 0.5)
+         (xy -0.5 0.5)) (width 0))
     ))
 )"""
 
@@ -282,12 +413,12 @@ class Kicad5PadsTests(unittest.TestCase):
         kicad_mod.append(Text(type='value', text="test", at=[0, 0], layer='F.Fab'))
 
         pad = ChamferedPad(
-                    number=1, type=Pad.TYPE_SMT, at=[0, 0],
+                    number=1, type=Pad.TYPE_SMT, at=[2, 2.5],
                     size=[1.75, 2.25], layers=Pad.LAYERS_SMT, chamfer_size=[0.25, 0.25],
                     corner_selection=[1, 1, 1, 1]
                     )
 
-        c = [1, 1]
+        c = [3, 3.5]
         d = 0.6
 
         kicad_mod.append(Circle(center=c, radius=d/2, width=0.01))
@@ -296,5 +427,58 @@ class Kicad5PadsTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        # file_handler.writeFile('test_avoid_circle.kicad_mod')
+        file_handler.writeFile('test_avoid_circle.kicad_mod')
         self.assertEqual(result, RESULT_CHAMFERED_PAD_AVOID_CIRCLE)
+
+    def testChamferedPadGrid(self):
+        kicad_mod = Footprint("test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="test", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(
+            ChamferedPadGrid(
+                        number=1, type=Pad.TYPE_SMT,
+                        at=[0, 0], size=[1, 2], layers=Pad.LAYERS_SMT,
+                        chamfer_size=[0.25, 0.25], chamfer_selection=1,
+                        pincount=[3, 4], grid=[1.5, 2.5]
+                        ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('chamfered_grid0.kicad_mod')
+        self.assertEqual(result, RESULT_CHAMFERED_PAD_GRID)
+
+    def testChamferedPadGridCornerOnly(self):
+        kicad_mod = Footprint("test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="test", at=[0, 0], layer='F.Fab'))
+
+        chamfer_select = ChamferSelPadGrid(0)
+        chamfer_select.setCorners()
+
+        pad = ChamferedPadGrid(
+                        number=1, type=Pad.TYPE_SMT,
+                        at=[0, 0], size=[1, 1], layers=Pad.LAYERS_SMT,
+                        chamfer_size=[0.25, 0.25], chamfer_selection=chamfer_select,
+                        pincount=[3, 4], grid=[1.4, 1.4]
+                        )
+
+        c = [2.0, 2.5]
+        d = 0.4
+
+        kicad_mod.append(Circle(center=c, radius=d/2, width=0.01))
+        pad.chamferAvoidCircle(center=c, diameter=d, clearance=0.005)
+        kicad_mod.append(pad)
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('chamfered_grid.kicad_mod')
+        self.assertEqual(result, RESULT_CHAMFERED_PAD_GRID_AVOID_CIRCLE)

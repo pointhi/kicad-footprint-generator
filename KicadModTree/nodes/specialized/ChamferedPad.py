@@ -289,7 +289,7 @@ class ChamferedPad(Node):
         # compensate for reference circles not placed exactly at the corner
         edge_to_center = relative_center - self.size/2
         self.chamfer_size -= [edge_to_center.y, edge_to_center.x]
-
+        self.chamfer_size = Vector2D([x if x > 0 else 0 for x in self.chamfer_size])
         return self.chamfer_size
 
     def getVirtualChilds(self):
