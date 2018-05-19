@@ -14,6 +14,7 @@
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 # (C) 2018 by Rene Poeschl, github @poeschlr
 
+from KicadModTree.util.paramUtil import *
 from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.util.kicad_util import lispString
@@ -163,11 +164,7 @@ class Pad(Node):
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
             raise KeyError('pad size not declared (like "size=[1,1]")')
-        if type(kwargs.get('size')) in [int, float]:
-            # when the attribute is a simple number, use it for x and y
-            self.size = Vector2D([kwargs.get('size'), kwargs.get('size')])
-        else:
-            self.size = Vector2D(kwargs.get('size'))
+        self.size = toVectorUseCopyIfNumber(kwargs.get('size'), low_limit=0)
 
     def _initOffset(self, **kwargs):
         self.offset = Vector2D(kwargs.get('offset', [0, 0]))
@@ -176,13 +173,7 @@ class Pad(Node):
         if self.type in [Pad.TYPE_THT, Pad.TYPE_NPTH]:
             if not kwargs.get('drill'):
                 raise KeyError('drill size required (like "drill=1")')
-            if type(kwargs.get('drill')) in [int, float]:
-                # when the attribute is a simple number, use it for x and y
-                self.drill = Vector2D([kwargs.get('drill'), kwargs.get('drill')])
-            else:
-                self.drill = Vector2D(kwargs.get('drill'))
-            if self.drill.x < 0 or self.drill.y < 0:
-                raise ValueError("negative drill size not allowed")
+            self.drill = toVectorUseCopyIfNumber(kwargs.get('drill'), low_limit=0)
         else:
             self.drill = None
             if kwargs.get('drill'):

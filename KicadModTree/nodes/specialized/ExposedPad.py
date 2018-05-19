@@ -19,6 +19,7 @@
 
 from __future__ import division
 
+from KicadModTree.util.paramUtil import *
 from KicadModTree.nodes.base.Pad import *
 from KicadModTree.nodes.specialized.PadArray import *
 from KicadModTree.nodes.Node import Node
@@ -113,19 +114,12 @@ class ExposedPad(Node):
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
             raise KeyError('pad size not declared (like "size=[1,1]")')
-        if type(kwargs.get('size')) in [int, float]:
-            # when the attribute is a simple number, use it for x and y
-            self.size = Vector2D([kwargs.get('size'), kwargs.get('size')])
-        else:
-            self.size = Vector2D(kwargs.get('size'))
+        self.size = toVectorUseCopyIfNumber(kwargs.get('size'))
 
         if not kwargs.get('mask_size'):
             self.mask_size = self.size
-        elif type(kwargs.get('mask_size')) in [int, float]:
-            # when the attribute is a simple number, use it for x and y
-            self.mask_size = Vector2D([kwargs.get('mask_size'), kwargs.get('mask_size')])
         else:
-            self.mask_size = Vector2D(kwargs.get('mask_size'))
+            self.mask_size = toVectorUseCopyIfNumber(kwargs.get('mask_size'))
 
     def _initThermalVias(self, **kwargs):
         if 'via_layout' not in kwargs:
@@ -133,12 +127,7 @@ class ExposedPad(Node):
             return
 
         self.has_vias = True
-
-        if type(kwargs.get('via_layout')) in [int, float]:
-            # when the attribute is a simple number, use it for x and y
-            self.via_layout = [int(kwargs.get('via_layout'))]*2
-        else:
-            self.via_layout = [int(x) for x in kwargs.get('via_layout')]
+        self.via_layout = toIntArray(kwargs.get('via_layout'))
 
         self.via_drill = kwargs.get('via_drill', 0.3)
         self.via_size = self.via_drill + 2*kwargs.get('min_annular_ring', 0.15)
@@ -146,11 +135,7 @@ class ExposedPad(Node):
         nx = self.via_layout[0]-1
         ny = self.via_layout[1]-1
         if 'via_grid' in kwargs:
-            if type(kwargs.get('via_grid')) in [int, float]:
-                # when the attribute is a simple number, use it for x and y
-                self.via_grid = Vector2D([kwargs.get('via_grid'), kwargs.get('via_grid')])
-            else:
-                self.via_grid = Vector2D(kwargs.get('via_grid'))
+            self.via_grid = toVectorUseCopyIfNumber(kwargs.get('via_grid'), low_limit=self.via_size)
         else:
             self.via_grid = Vector2D([
                     (self.size.x-self.via_size)/(nx if nx > 0 else 1),
