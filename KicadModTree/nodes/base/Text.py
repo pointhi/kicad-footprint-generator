@@ -28,13 +28,13 @@ class Text(Node):
           type of text
         * *text* (``str``) --
           text which is been visualized
-        * *at* (``Vector``) --
+        * *at* (``Vector2D``) --
           position of text
         * *rotation* (``float``) --
           rotation of text (default: 0)
         * *layer* (``str``) --
           layer on which the text is drawn (default: 'F.SilkS')
-        * *size* (``Vector``) --
+        * *size* (``Vector2D``) --
           size of the text (default: [1, 1])
         * *thickness* (``float``) --
           thickness of the text (default: 0.15)

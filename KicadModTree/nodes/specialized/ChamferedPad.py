@@ -162,15 +162,15 @@ class ChamferedPad(Node):
           number/name of the pad (default: \"\")
         * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
           type of the pad
-        * *at* (``Vector``) --
+        * *at* (``Vector2D``) --
           center position of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *size* (``float``, ``Vector``) --
+        * *size* (``float``, ``Vector2D``) --
           size of the pad
-        * *offset* (``Vector``) --
+        * *offset* (``Vector2D``) --
           offset of the pad
-        * *drill* (``float``, ``Vector``) --
+        * *drill* (``float``, ``Vector2D``) --
           drill-size of the pad
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)
@@ -182,7 +182,7 @@ class ChamferedPad(Node):
           layers on which are used for the pad
         * *corner_selection* (``CornerSelection``) --
           Select which corner(s) to chamfer. (top left, top right, bottom right, bottom left)
-        * *chamfer_size* (``float``, ``Vector``) --
+        * *chamfer_size* (``float``, ``Vector2D``) --
           Size of the chamfer.
         * *x_mirror* (``[int, float](mirror offset)``) --
           mirror x direction around offset "point"

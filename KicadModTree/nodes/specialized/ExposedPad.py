@@ -37,14 +37,14 @@ class ExposedPad(Node):
     :Keyword Arguments:
         * *number* (``int``, ``str``) --
           number/name of the pad
-        * *at* (``Vector``) --
+        * *at* (``Vector2D``) --
           center the exposed pad around this point (default: 0,0)
-        * *size* (``float``, ``Vector``) --
+        * *size* (``float``, ``Vector2D``) --
           size of the pad
         * *solder_mask_margin* (``float``) --
           solder mask margin of the pad (default: 0)
           Only used if mask_size is not specified.
-        * *mask_size* (``float``, ``Vector``) --
+        * *mask_size* (``float``, ``Vector2D``) --
           size of the mask cutout (If not given, mask will be part of the main pad)
 
         * *paste_layout* (``int``, ``[int, int]``) --
@@ -67,7 +67,7 @@ class ExposedPad(Node):
           How many vias in x and y direction.
           If only a single integer given, x and y direction use the same count.
           default: no vias added
-        * *via_grid* (``int``, ``Vector``) --
+        * *via_grid* (``int``, ``Vector2D``) --
           thermal via grid specification.
           Grid used for thermal vias in x and y direction.
           If only a single integer given, x and y direction use the same count.

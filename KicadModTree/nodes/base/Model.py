@@ -26,11 +26,11 @@ class Model(Node):
     :Keyword Arguments:
         * *filename* (``str``) --
           name of the 3d-model file
-        * *at* (``Vector``) --
+        * *at* (``Vector3D``) --
           position of the model (default: [0, 0, 0])
-        * *scale* (``Vector``) --
+        * *scale* (``Vector3D``) --
           scale of the model (default: [1, 1, 1])
-        * *rotate* (``Vector``) --
+        * *rotate* (``Vector3D``) --
           rotation of the model (default: [0, 0, 0])
 
     :Example:

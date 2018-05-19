@@ -24,7 +24,7 @@ class Circle(Node):
         See below
 
     :Keyword Arguments:
-        * *center* (``Vector``) --
+        * *center* (``Vector2D``) --
           center of the circle
         * *radius* (``float``) --
           radius of the circle

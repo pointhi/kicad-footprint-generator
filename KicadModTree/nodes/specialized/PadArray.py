@@ -30,13 +30,13 @@ class PadArray(Node):
         See below
 
     :Keyword Arguments:
-        * *start* (``Vector``) --
+        * *start* (``Vector2D``) --
           start edge of the pad array
-        * *center* (``Vector``) --
+        * *center* (``Vector2D``) --
           center pad array around specific point
         * *pincount* (``int``) --
           number of pads to render
-        * *spacing* (``Vector``, ``float``) --
+        * *spacing* (``Vector2D``, ``float``) --
           offset between rendered pads
         * *x_spacing* (``float``) --
           x offset between rendered pads
@@ -52,11 +52,11 @@ class PadArray(Node):
           shape of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *size* (``float``, ``Vector``) --
+        * *size* (``float``, ``Vector2D``) --
           size of the pad
-        * *offset* (``Vector``) --
+        * *offset* (``Vector2D``) --
           offset of the pad
-        * *drill* (``float``, ``Vector``) --
+        * *drill* (``float``, ``Vector2D``) --
           drill-size of the pad
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad
@@ -66,7 +66,7 @@ class PadArray(Node):
           Select which corner should be chamfered for the first pad. (default: None)
         * *chamfer_corner_selection_last* (``[bool, bool, bool, bool]``)
           Select which corner should be chamfered for the last pad. (default: None)
-        * *chamfer_size* (``float``, ``Vector``) --
+        * *chamfer_size* (``float``, ``Vector2D``) --
           size for the chamfer used for the end pads. (default: None)
 
     :Example:

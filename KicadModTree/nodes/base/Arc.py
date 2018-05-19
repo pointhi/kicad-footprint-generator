@@ -25,9 +25,9 @@ class Arc(Node):
         See below
 
     :Keyword Arguments:
-        * *center* (``Vector``) --
+        * *center* (``Vector2D``) --
           center of arc
-        * *start* (``Vector``) --
+        * *start* (``Vector2D``) --
           start point of arc
         * *angle* (``float``) --
           angle of arc
