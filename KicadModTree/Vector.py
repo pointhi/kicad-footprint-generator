@@ -110,11 +110,25 @@ class Vector2D(object):
         return Vector2D({'x': self.x + other.x,
                          'y': self.y + other.y})
 
+    def __iadd__(self, value):
+        other = Vector2D.__arithmetic_parse(value)
+        self.x += other.x
+        self.y += other.y
+
+        return self
+
     def __sub__(self, value):
         other = Vector2D.__arithmetic_parse(value)
 
         return Vector2D({'x': self.x - other.x,
                          'y': self.y - other.y})
+
+    def __isub__(self, value):
+        other = Vector2D.__arithmetic_parse(value)
+        self.x -= other.x
+        self.y -= other.y
+
+        return self
 
     def __mul__(self, value):
         other = Vector2D.__arithmetic_parse(value)
@@ -263,12 +277,28 @@ class Vector3D(Vector2D):
                          'y': self.y + other.y,
                          'z': self.z + other.z})
 
+    def __iadd__(self, value):
+        other = Vector2D.__arithmetic_parse(value)
+        self.x += other.x
+        self.y += other.y
+        self.z += other.z
+
+        return self
+
     def __sub__(self, value):
         other = Vector3D.__arithmetic_parse(value)
 
         return Vector3D({'x': self.x - other.x,
                          'y': self.y - other.y,
                          'z': self.z - other.z})
+
+    def __isub__(self, value):
+        other = Vector2D.__arithmetic_parse(value)
+        self.x -= other.x
+        self.y -= other.y
+        self.z -= other.z
+
+        return self
 
     def __mul__(self, value):
         other = Vector3D.__arithmetic_parse(value)

@@ -953,6 +953,48 @@ RESULT_EP_PASTE_GEN_INNER_ONLY_X_AND_OUTHER = """(module EP_PasteGen2 (layer F.C
   (pad 3 smd rect (at 0 0) (size 3.6 0.6) (layers B.Cu))
 )"""
 
+RESULT_EP_PASTE_GEN_ONLY_OUTHER = """(module EP_PasteGen2 (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value EP_PasteGen2 (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 3 smd rect (at 0 0) (size 2 2) (layers F.Cu F.Mask))
+  (pad "" smd custom (at -0.5 -0.5) (size 0.680264 0.680264) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.403113 -0.403113) (xy 0.403113 -0.403113) (xy 0.403113 0.314044) (xy 0.314044 0.403113)
+         (xy -0.403113 0.403113)) (width 0))
+    ))
+  (pad "" smd custom (at 0.5 -0.5) (size 0.680264 0.680264) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy 0.403113 -0.403113) (xy -0.403113 -0.403113) (xy -0.403113 0.314044) (xy -0.314044 0.403113)
+         (xy 0.403113 0.403113)) (width 0))
+    ))
+  (pad "" smd custom (at -0.5 0.5) (size 0.680264 0.680264) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.403113 0.403113) (xy 0.403113 0.403113) (xy 0.403113 -0.314044) (xy 0.314044 -0.403113)
+         (xy -0.403113 -0.403113)) (width 0))
+    ))
+  (pad "" smd custom (at 0.5 0.5) (size 0.680264 0.680264) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy 0.403113 0.403113) (xy -0.403113 0.403113) (xy -0.403113 -0.314044) (xy -0.314044 -0.403113)
+         (xy 0.403113 -0.403113)) (width 0))
+    ))
+  (pad 3 thru_hole circle (at 0 0) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at 0 0) (size 0.6 0.6) (layers B.Cu))
+)"""
+
 
 class ExposedPadTests(unittest.TestCase):
 
@@ -1067,7 +1109,7 @@ class ExposedPadTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        # file_handler.writeFile('test.kicad_mod')
+        # file_handler.writeFile('testio.kicad_mod')
         self.assertEqual(result, RESULT_EP_PASTE_GEN_INNER_AND_OUTHER)
 
     def testExposedPasteAutogenInnerYonlyAndOuther(self):
@@ -1086,10 +1128,10 @@ class ExposedPadTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        # file_handler.writeFile('test.kicad_mod')
+        # file_handler.writeFile('testiyo.kicad_mod')
         self.assertEqual(result, RESULT_EP_PASTE_GEN_INNER_ONLY_Y_AND_OUTHER)
 
-    def testExposedPasteAutogenInnerYonlyAndOuther(self):
+    def testExposedPasteAutogenInnerXonlyAndOuther(self):
         kicad_mod = Footprint("EP_PasteGen2")
 
         kicad_mod.setDescription("A example footprint")
@@ -1105,5 +1147,24 @@ class ExposedPadTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        # file_handler.writeFile('test.kicad_mod')
+        # file_handler.writeFile('testixo.kicad_mod')
         self.assertEqual(result, RESULT_EP_PASTE_GEN_INNER_ONLY_X_AND_OUTHER)
+
+    def testExposedPasteAutogenOnlyOuther(self):
+        kicad_mod = Footprint("EP_PasteGen2")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="EP_PasteGen2", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[2, 2], paste_between_vias=0, paste_rings_outside=[1, 1], via_layout=[1, 1],
+            paste_avoid_via=True, paste_coverage=0.65, via_grid=1.5
+            ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        file_handler.writeFile('testo.kicad_mod')
+        self.assertEqual(result, RESULT_EP_PASTE_GEN_ONLY_OUTHER)

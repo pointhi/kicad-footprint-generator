@@ -14,6 +14,8 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 # (C) 2018 by Rene Poeschl, github @poeschlr
 
+from __future__ import division
+
 import unittest
 
 from KicadModTree import *
@@ -115,6 +117,25 @@ RESULT_CHAMFERED_PAD = """(module test (layer F.Cu) (tedit 0)
       (gr_poly (pts
          (xy -0.5 -0.75) (xy -0.25 -1) (xy 0.25 -1) (xy 0.5 -0.75)
          (xy 0.5 0.75) (xy 0.25 1) (xy -0.25 1) (xy -0.5 0.75)) (width 0))
+    ))
+)"""
+
+RESULT_CHAMFERED_PAD_AVOID_CIRCLE = """(module test (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value test (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_circle (center 1 1) (end 1.3 1) (layer F.SilkS) (width 0.01))
+  (pad 1 smd custom (at 0 0) (size 1.14 1.14) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.875 -0.693665) (xy -0.443665 -1.125) (xy 0.443665 -1.125) (xy 0.875 -0.693665)
+         (xy 0.875 0.693665) (xy 0.443665 1.125) (xy -0.443665 1.125) (xy -0.875 0.693665)) (width 0))
     ))
 )"""
 
@@ -248,5 +269,32 @@ class Kicad5PadsTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        file_handler.writeFile('test1.kicad_mod')
+        # file_handler.writeFile('test1.kicad_mod')
         self.assertEqual(result, RESULT_CHAMFERED_PAD)
+
+    def testChamferedPadAvoidCircle(self):
+        kicad_mod = Footprint("test")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="test", at=[0, 0], layer='F.Fab'))
+
+        pad = ChamferedPad(
+                    number=1, type=Pad.TYPE_SMT, at=[0, 0],
+                    size=[1.75, 2.25], layers=Pad.LAYERS_SMT, chamfer_size=[0.25, 0.25],
+                    corner_selection=[1, 1, 1, 1]
+                    )
+
+        c = [1, 1]
+        d = 0.6
+
+        kicad_mod.append(Circle(center=c, radius=d/2, width=0.01))
+        pad.chamferAvoidCircle(center=c, diameter=d, clearance=0.005)
+        kicad_mod.append(pad)
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('test_avoid_circle.kicad_mod')
+        self.assertEqual(result, RESULT_CHAMFERED_PAD_AVOID_CIRCLE)
