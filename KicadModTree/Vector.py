@@ -117,6 +117,9 @@ class Vector2D(object):
 
         return self
 
+    def __neg__(self):
+        return Vector2D({'x': -self.x, 'y': -self.y})
+
     def __sub__(self, value):
         other = Vector2D.__arithmetic_parse(value)
 
@@ -284,6 +287,11 @@ class Vector3D(Vector2D):
         self.z += other.z
 
         return self
+
+    def __neg__(self):
+        return Vector2D({'x': -self.x,
+                         'y': -self.y,
+                         'z': -self.z})
 
     def __sub__(self, value):
         other = Vector3D.__arithmetic_parse(value)
