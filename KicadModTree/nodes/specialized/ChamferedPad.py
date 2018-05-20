@@ -236,6 +236,9 @@ class ChamferedPad(Node):
         self.padargs.pop('at', None)
 
     def _generatePad(self):
+        if self.chamfer_size[0] >= self.size[0] or self.chamfer_size[1] >= self.size[1]:
+            raise ValueError('Chamfer size ({}) too large for given pad size ({})'.format(self.chamfer_size, self.size))
+
         if self.corner_selection.isAnySelected() and self.chamfer_size[0] > 0 and self.chamfer_size[1] > 0:
             outside = Vector2D(self.size.x/2, self.size.y/2)
 
@@ -255,8 +258,12 @@ class ChamferedPad(Node):
                     points.append(corner_vectors[i]*outside)
 
             primitives = [Polygon(nodes=points, **self.mirror)]
-            size = min(self.size.x, self.size.y)-sqrt(self.chamfer_size[0]**2+self.chamfer_size[1]**2)
-
+            # TODO make size calculation more resilient
+            size = min(self.size.x, self.size.y)-max(self.chamfer_size[0], self.chamfer_size[1])/sqrt(2)
+            if size <= 0:
+                raise ValueError('Anchor pad size calculation failed.'
+                                 'Chamfer size ({}) to large for given pad size ({})'
+                                 .format(self.size, self.chamfer_size))
             return Pad(primitives=primitives, at=self.at,
                        shape=Pad.SHAPE_CUSTOM, size=size, **self.padargs)
         else:

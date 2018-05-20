@@ -311,8 +311,8 @@ class ChamferedPadGrid(Node):
         return corner
 
     def _generatePads(self):
-        left = -self.grid['x']*(self.pincount[0]-1)/2
-        top = -self.grid['y']*(self.pincount[1]-1)/2
+        left = -self.grid['x']*(self.pincount[0]-1)/2+self.center['x']
+        top = -self.grid['y']*(self.pincount[1]-1)/2+self.center['y']
 
         pads = []
         for idx_x in range(self.pincount[0]):
