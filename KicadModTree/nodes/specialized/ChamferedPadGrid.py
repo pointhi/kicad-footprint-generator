@@ -182,6 +182,8 @@ class ChamferedPadGrid(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
+        if len(kwargs) == 0:
+            return
 
         self.number = kwargs.get('number', "")
         self.center = Vector2D(kwargs.get('center', [0, 0]))
@@ -279,33 +281,33 @@ class ChamferedPadGrid(Node):
                     corner[CornerSelection.TOP_LEFT] = True
                 if self.chamfer_selection[ChamferSelPadGrid.LEFT_EDGE]:
                     corner[CornerSelection.BOTTOM_LEFT] = True
-            elif idx_y == self.pincount[1]-1:
+            if idx_y == self.pincount[1]-1:
                 if self.chamfer_selection[ChamferSelPadGrid.BOTTOM_LEFT]:
                     corner[CornerSelection.BOTTOM_LEFT] = True
                 if self.chamfer_selection[ChamferSelPadGrid.LEFT_EDGE]:
                     corner[CornerSelection.TOP_LEFT] = True
-            else:
+            if idx_y != 0 and idx_y != self.pincount[1]-1:
                 if self.chamfer_selection[ChamferSelPadGrid.LEFT_EDGE]:
                     corner.setLeft()
-        elif idx_x == self.pincount[0]-1:
+        if idx_x == self.pincount[0]-1:
             if idx_y == 0:
                 if self.chamfer_selection[ChamferSelPadGrid.TOP_RIGHT]:
                     corner[CornerSelection.TOP_RIGHT] = True
                 if self.chamfer_selection[ChamferSelPadGrid.RIGHT_EDGE]:
                     corner[CornerSelection.BOTTOM_RIGHT] = True
-            elif idx_y == self.pincount[1]-1:
+            if idx_y == self.pincount[1]-1:
                 if self.chamfer_selection[ChamferSelPadGrid.BOTTOM_RIGHT]:
                     corner[CornerSelection.BOTTOM_RIGHT] = True
                 if self.chamfer_selection[ChamferSelPadGrid.RIGHT_EDGE]:
                     corner[CornerSelection.TOP_RIGHT] = True
-            else:
+            if idx_y != 0 and idx_y != self.pincount[1]-1:
                 if self.chamfer_selection[ChamferSelPadGrid.RIGHT_EDGE]:
                     corner.setRight()
-        else:
+        if idx_x != 0 and idx_x != self.pincount[0]-1:
             if idx_y == 0:
                 if self.chamfer_selection[ChamferSelPadGrid.TOP_EDGE]:
                     corner.setTop()
-            elif idx_y == self.pincount[1]-1:
+            if idx_y == self.pincount[1]-1:
                 if self.chamfer_selection[ChamferSelPadGrid.BOTTOM_EDGE]:
                     corner.setBottom()
         return corner
@@ -330,3 +332,8 @@ class ChamferedPadGrid(Node):
 
     def getVirtualChilds(self):
         return self._generatePads()
+
+    def __copy__(self):
+        newone = type(self)()
+        newone.__dict__.update(self.__dict__)
+        return newone
