@@ -239,7 +239,6 @@ class ChamferedPadGrid(Node):
         :param clearance: (``float``) --
            Additional clearance around circle. default:0
         """
-
         relative_center = Vector2D(center) - self.center
 
         left = -self.grid['x']*(self.pincount[0]-1)/2

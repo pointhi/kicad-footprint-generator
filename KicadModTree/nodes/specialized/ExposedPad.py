@@ -134,17 +134,13 @@ class ExposedPad(Node):
             self.has_vias = False
         return self.has_vias
 
-    def _initThermalVias(self, **kwargs):
-        if not self.setViaLayout(kwargs.get('via_layout', [0, 0])):
-            return
-
-        self.via_drill = kwargs.get('via_drill', 0.3)
-        self.via_size = self.via_drill + 2*kwargs.get('min_annular_ring', 0.15)
-
+    def __initViaGrid(self, **kwargs):
         nx = self.via_layout[0]-1
         ny = self.via_layout[1]-1
-        if 'via_grid' in kwargs:
-            self.via_grid = toVectorUseCopyIfNumber(kwargs.get('via_grid'), low_limit=self.via_size)
+
+        self.via_grid = kwargs.get('via_grid')
+        if self.via_grid is not None:
+            self.via_grid = toVectorUseCopyIfNumber(self.via_grid, low_limit=self.via_size)
         else:
             self.via_grid = Vector2D([
                     (self.size.x-self.via_size)/(nx if nx > 0 else 1),
@@ -152,6 +148,15 @@ class ExposedPad(Node):
                 ])
 
         self.via_grid = self.via_grid.round_to(kwargs.get('grid_round_base', 0.01))
+
+    def _initThermalVias(self, **kwargs):
+        if not self.setViaLayout(kwargs.get('via_layout', [0, 0])):
+            return
+
+        self.via_drill = kwargs.get('via_drill', 0.3)
+        self.via_size = self.via_drill + 2*kwargs.get('min_annular_ring', 0.15)
+        self.__initViaGrid(**kwargs)
+
 
         self.bottom_pad_Layers = kwargs.get('bottom_pad_Layers', ['B.Cu'])
 
@@ -161,8 +166,8 @@ class ExposedPad(Node):
         else:
             bottom_pad_min_size = toVectorUseCopyIfNumber(kwargs.get('bottom_pad_min_size', [0, 0]))
             self.bottom_size = Vector2D([
-                    max(nx*self.via_grid[0]+self.via_size, bottom_pad_min_size[0]),
-                    max(ny*self.via_grid[1]+self.via_size, bottom_pad_min_size[1])
+                    max((self.via_layout[0]-1)*self.via_grid[0]+self.via_size, bottom_pad_min_size[0]),
+                    max((self.via_layout[1]-1)*self.via_grid[1]+self.via_size, bottom_pad_min_size[1])
                 ])
 
     def __viasInMaskCount(self, idx):
@@ -184,7 +189,11 @@ class ExposedPad(Node):
             self.paste_rings_outside = toIntArray(kwargs.get('paste_rings_outside', [0, 0]), min_value=0)
         else:
             default = [l-1 for l in self.via_layout]
-            self.paste_layout = toIntArray(kwargs.get('paste_layout', default))
+            layout = kwargs.get('paste_layout')
+            if layout is None:
+                # alows initializing with 'paste_layout=None' to force default value
+                layout = default
+            self.paste_layout = toIntArray(layout)
 
             # int(floor(paste_count/(vias_in_mask-1)))
             self.paste_between_vias = [p//(v-1) for p, v in zip(self.paste_layout, self.vias_in_mask)]
@@ -196,7 +205,8 @@ class ExposedPad(Node):
         self.paste_reduction = sqrt(kwargs.get('paste_coverage', 0.65))
 
         self.paste_area_size = Vector2D([min(m, c) for m, c in zip(self.mask_size, self.size)])
-        self.vias_in_mask = [self.__viasInMaskCount(i) for i in range(2)]
+        if self.has_vias:
+            self.vias_in_mask = [self.__viasInMaskCount(i) for i in range(2)]
 
         if self.has_vias and self.paste_avoid_via:
             self._initPasteForAvoidingVias(**kwargs)
@@ -285,7 +295,7 @@ class ExposedPad(Node):
                      ChamferSelPadGrid.BOTTOM_RIGHT: 1
                      })
         x = self.top_left_via[0]-self.ring_size[0]/2
-        y = self.at[1]-(self.via_layout[1]-1)/2*self.via_grid[1]
+        y = self.at[1]-(self.via_layout[1]-2)/2*self.via_grid[1]
 
         pad_side = ChamferedPadGrid(
             number="", type=Pad.TYPE_SMT,
@@ -328,7 +338,7 @@ class ExposedPad(Node):
                      ChamferSelPadGrid.BOTTOM_RIGHT: 1
                      })
 
-        x = self.at[0]-(self.via_layout[0]-1)/2*self.via_grid[0]
+        x = self.at[0]-(self.via_layout[0]-2)/2*self.via_grid[0]
         y = self.top_left_via[1]-self.ring_size[1]/2
 
         pad_side = ChamferedPadGrid(
@@ -418,7 +428,8 @@ class ExposedPad(Node):
 
     def __createPaste(self):
         pads = []
-        self.top_left_via = -(Vector2D(self.vias_in_mask)-1)*self.via_grid/2+self.at
+        if self.has_vias:
+            self.top_left_via = -(Vector2D(self.vias_in_mask)-1)*self.via_grid/2+self.at
 
         if self.has_vias and self.paste_avoid_via:
             self.inner_count = (Vector2D(self.vias_in_mask)-1)*Vector2D(self.paste_between_vias)
