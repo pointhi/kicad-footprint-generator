@@ -81,9 +81,12 @@ class ExposedPad(Node):
         * *min_annular_ring* (``float``) --
           Anullar ring for thermal vias. (default: 0.15)
         * *bottom_pad_Layers* (``[layer string]``) --
-          Select layers for the bottom pad (default: [B.Cu])
+          Select layers for the bottom pad (default: [B.Cu]) --
           Ignored if no thermal vias are added.
           If None or empty no pad is added.
+        * *bottom_pad_min_size* (``float``, ``Vector2D``) --
+          Minimum size for bottom pad. default: (0,0)
+          Ignored if no bottom pad given.
         * *paste_avoid_via* (``bool``) --
           Paste automatically generated to avoid vias (default: false)
         * *via_paste_clarance* (``float``)
@@ -154,12 +157,18 @@ class ExposedPad(Node):
             self.add_bottom_pad = False
 
         if self.add_bottom_pad:
-            self.bottom_size = [
-                    nx*self.via_grid[0]+self.via_size,
-                    ny*self.via_grid[1]+self.via_size
-                ]
+            bottom_pad_min_size = toVectorUseCopyIfNumber(kwargs.get('bottom_pad_min_size', [0, 0]))
+            self.bottom_size = Vector2D([
+                    max(nx*self.via_grid[0]+self.via_size, bottom_pad_min_size[0]),
+                    max(ny*self.via_grid[1]+self.via_size, bottom_pad_min_size[1])
+                ])
 
     def __viasInMaskCount(self, idx):
+        r""" Determine the number of vias within the soldermask area
+
+        :param idx: (``int``) --
+           determines if the x or y direction is used.
+        """
         if (self.via_layout[idx]-1)*self.via_grid[idx] <= self.paste_area_size[idx]:
             return self.via_layout[idx]
         else:
@@ -215,6 +224,18 @@ class ExposedPad(Node):
 
     @staticmethod
     def __createPasteGrids(original, grid, count, center):
+        r""" Helper function for creating grids of ChamferedPadGrid sections
+
+        :param original: (``ChamferedPadGrid``) --
+           This instance will be shallow copied to create a grid.
+        :param grid: (``float``, ``Vector2D``) --
+           The spacing between instances
+        :param count: (``int``, ``[int, int]``) --
+           Determines how many copies will be created in x and y direction.
+           If only one number is given, both directions use the same count.
+        :parma center: (``float``, ``Vector2D``) --
+           Center of the resulting grid of grids.
+        """
         pads = []
         top_left = Vector2D(center)-Vector2D(grid)*(Vector2D(count)-1)/2
         for idx_x in range(count[0]):

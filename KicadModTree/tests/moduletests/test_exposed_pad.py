@@ -995,6 +995,24 @@ RESULT_EP_PASTE_GEN_ONLY_OUTHER = """(module exposed_paste_autogen (layer F.Cu) 
     ))
 )"""
 
+RESULT_EP_BOTTOM_PAD = """(module exposed_paste_autogen (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value exposed_paste_autogen (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 3 smd rect (at -2 -2) (size 2 2) (layers F.Cu F.Mask))
+  (pad 3 thru_hole circle (at -2 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad "" smd rect (at -2 -2) (size 1.61 1.61) (layers F.Paste))
+  (pad 3 smd rect (at 2 -2) (size 2 2) (layers F.Cu F.Mask))
+  (pad 3 thru_hole circle (at 2 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at 2 -2) (size 3 3) (layers B.Cu B.Mask))
+  (pad "" smd rect (at 2 -2) (size 1.61 1.61) (layers F.Paste))
+)"""
+
 
 class ExposedPadTests(unittest.TestCase):
 
@@ -1170,3 +1188,28 @@ class ExposedPadTests(unittest.TestCase):
         result = file_handler.serialize(timestamp=0)
         # file_handler.writeFile('test_ep.kicad_mod')
         self.assertEqual(result, RESULT_EP_PASTE_GEN_ONLY_OUTHER)
+
+    def testExposedPasteBottomPadTests(self):
+        kicad_mod = Footprint("exposed_paste_autogen")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="exposed_paste_autogen", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[2, 2], via_layout=[1, 1], at=[-2, -2],
+            paste_coverage=0.65, via_grid=1, bottom_pad_Layers=None
+            ))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[2, 2], via_layout=[1, 1], at=[2, -2],
+            paste_coverage=0.65, via_grid=1, bottom_pad_Layers=['B.Cu', 'B.Mask'],
+            bottom_pad_min_size=[3, 3]
+            ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('test_ep.kicad_mod')
+        self.assertEqual(result, RESULT_EP_BOTTOM_PAD)
