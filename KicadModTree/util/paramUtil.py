@@ -59,10 +59,8 @@ def toNumberArray(value, length=2, min_value=1, member_type=int):
 
     result = [member_type(v) for v in result]
 
-    if min_value is not None:
-        for v in result:
-            if v < min_value:
-                raise ValueError("Value ({}) too small. Linit is {}.".format(v, min_value))
+    if min_value is not None and isAnyLarger(result, min_value, False):
+        raise ValueError("At least one value in ({}) too small. Linit is {}.".format(result, min_value))
 
     return result
 
@@ -109,6 +107,27 @@ def toFloatArray(value, length=2, min_value=1):
     return toNumberArray(value, length, min_value, member_type=int)
 
 
+def isAnyLarger(values, low_limits, must_be_larger=False):
+    r"""Check if any value in the source array is larger than its respective limit
+
+    :param value: (``itterable``) --
+        The values to check.
+
+    :param low_limit: (``int``)
+        Defines the minimum alowed value (raise value error if too low)
+        None -> No check
+
+    :param must_be_larger: (``bool``) -- default: True
+       Defines if the number must be larger than the limit or if the limit is
+       the minimum value.
+    """
+    limits = toFloatArray(low_limits, len(values), min_value=None)
+    for v, l in zip(values, limits):
+        if v < l or (v <= l and must_be_larger):
+            return True
+    return False
+
+
 def toVectorUseCopyIfNumber(value, length=2, low_limit=None, must_be_larger=True):
     r""" Convert value into an vector of given dimension
 
@@ -134,17 +153,14 @@ def toVectorUseCopyIfNumber(value, length=2, low_limit=None, must_be_larger=True
     else:
         result = value
 
-    if low_limit is not None:
-        limits = toFloatArray(low_limit, length, min_value=None)
-        i = 0
-        for v in result if type(result) is not dict else result.values():
-            if v < limits[i] or (must_be_larger and v <= limits[i]):
-                raise ValueError("Value ({}) too small. Linit is {}.".format(v, low_limit))
-            i += 1
-
     if length == 2:
-        return Vector2D(result)
-    if length == 3:
-        return Vector3D(result)
+        result = Vector2D(result)
+    elif length == 3:
+        result = Vector3D(result)
+    else:
+        raise ValueError("length must be 2 or 3")
 
-    raise ValueError("length must be 2 or 3")
+    if low_limit is not None and isAnyLarger(result, low_limit, must_be_larger):
+        raise ValueError("One value in ({}) too small. Linit is {}.".format(result, low_limit))
+
+    return result
