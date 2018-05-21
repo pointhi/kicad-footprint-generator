@@ -127,13 +127,16 @@ class ExposedPad(Node):
         else:
             self.mask_size = toVectorUseCopyIfNumber(kwargs.get('mask_size'))
 
-    def _initThermalVias(self, **kwargs):
-        if 'via_layout' not in kwargs:
-            self.has_vias = False
-            return
-
+    def setViaLayout(self, layout):
         self.has_vias = True
-        self.via_layout = toIntArray(kwargs.get('via_layout'))
+        self.via_layout = toIntArray(layout, min_value=0)
+        if self.via_layout[0] == 0 or self.via_layout[1] == 0:
+            self.has_vias = False
+        return self.has_vias
+
+    def _initThermalVias(self, **kwargs):
+        if not self.setViaLayout(kwargs.get('via_layout', [0, 0])):
+            return
 
         self.via_drill = kwargs.get('via_drill', 0.3)
         self.via_size = self.via_drill + 2*kwargs.get('min_annular_ring', 0.15)
@@ -155,8 +158,7 @@ class ExposedPad(Node):
         self.add_bottom_pad = True
         if self.bottom_pad_Layers is None or len(self.bottom_pad_Layers) == 0:
             self.add_bottom_pad = False
-
-        if self.add_bottom_pad:
+        else:
             bottom_pad_min_size = toVectorUseCopyIfNumber(kwargs.get('bottom_pad_min_size', [0, 0]))
             self.bottom_size = Vector2D([
                     max(nx*self.via_grid[0]+self.via_size, bottom_pad_min_size[0]),
@@ -174,6 +176,21 @@ class ExposedPad(Node):
         else:
             return self.paste_area_size[idx]//(self.via_grid[idx]-1)
 
+    def _initPasteForAvoidingVias(self, **kwargs):
+        self.via_clarance = kwargs.get('via_paste_clarance', 0.05)
+
+        if 'paste_between_vias' in kwargs or 'paste_rings_outside' in kwargs:
+            self.paste_between_vias = toIntArray(kwargs.get('paste_between_vias', [0, 0]), min_value=0)
+            self.paste_rings_outside = toIntArray(kwargs.get('paste_rings_outside', [0, 0]), min_value=0)
+        else:
+            default = [l-1 for l in self.via_layout]
+            self.paste_layout = toIntArray(kwargs.get('paste_layout', default))
+
+            # int(floor(paste_count/(vias_in_mask-1)))
+            self.paste_between_vias = [p//(v-1) for p, v in zip(self.paste_layout, self.vias_in_mask)]
+            inner_count = [(v-1)*p for v, p in zip(self.vias_in_mask, self.paste_between_vias)]
+            self.paste_rings_outside = [p-i for p, i in zip(self.paste_layout, inner_count)]
+
     def _initPaste(self, **kwargs):
         self.paste_avoid_via = kwargs.get('paste_avoid_via', False)
         self.paste_reduction = sqrt(kwargs.get('paste_coverage', 0.65))
@@ -182,19 +199,7 @@ class ExposedPad(Node):
         self.vias_in_mask = [self.__viasInMaskCount(i) for i in range(2)]
 
         if self.has_vias and self.paste_avoid_via:
-            self.via_clarance = kwargs.get('via_paste_clarance', 0.05)
-
-            if 'paste_between_vias' in kwargs or 'paste_rings_outside' in kwargs:
-                self.paste_between_vias = toIntArray(kwargs.get('paste_between_vias', [0, 0]), min_value=0)
-                self.paste_rings_outside = toIntArray(kwargs.get('paste_rings_outside', [0, 0]), min_value=0)
-            else:
-                default = [l-1 for l in self.via_layout]
-                self.paste_layout = toIntArray(kwargs.get('paste_layout', default))
-
-                # int(floor(paste_count/(vias_in_mask-1)))
-                self.paste_between_vias = [p//(v-1) for p, v in zip(self.paste_layout, self.vias_in_mask)]
-                inner_count = [(v-1)*p for v, p in zip(self.vias_in_mask, self.paste_between_vias)]
-                self.paste_rings_outside = [p-i for p, i in zip(self.paste_layout, inner_count)]
+            self._initPasteForAvoidingVias(**kwargs)
         else:
             self.paste_layout = toIntArray(kwargs.get('paste_layout', [1, 1]))
 
@@ -273,125 +278,157 @@ class ExposedPad(Node):
                     original=pad, grid=self.via_grid, count=count, center=self.at
                     )
 
+    def __createPasteOutsideX(self):
+        pads = []
+        corner = ChamferSelPadGrid(
+                    {ChamferSelPadGrid.TOP_RIGHT: 1,
+                     ChamferSelPadGrid.BOTTOM_RIGHT: 1
+                     })
+        x = self.top_left_via[0]-self.ring_size[0]/2
+        y = self.at[1]-(self.via_layout[1]-1)/2*self.via_grid[1]
+
+        pad_side = ChamferedPadGrid(
+            number="", type=Pad.TYPE_SMT,
+            center=[x, y],
+            size=[self.outer_size[0], self.inner_size[1]],
+            layers=['F.Paste'],
+            chamfer_size=0, chamfer_selection=corner,
+            pincount=[self.paste_rings_outside[0], self.paste_between_vias[1]],
+            grid=[self.outer_paste_grid[0], self.inner_grid[1]]
+            )
+
+        pad_side.chamferAvoidCircle(
+                    center=self.top_left_via, diameter=self.via_drill,
+                    clearance=self.via_clarance)
+
+        pads.extend(ExposedPad.__createPasteGrids(
+                    original=pad_side, grid=self.via_grid,
+                    count=[1, self.via_layout[1]-1],
+                    center=[x, self.at['y']]
+                    ))
+
+        corner = ChamferSelPadGrid(
+                    {ChamferSelPadGrid.TOP_LEFT: 1,
+                     ChamferSelPadGrid.BOTTOM_LEFT: 1
+                     })
+        pad_side.chamfer_selection = corner
+
+        x = 2*self.at[0]-x
+        pads.extend(ExposedPad.__createPasteGrids(
+                    original=pad_side, grid=self.via_grid,
+                    count=[1, self.via_layout[1]-1],
+                    center=[x, self.at['y']]
+                    ))
+        return pads
+
+    def __createPasteOutsideY(self):
+        pads = []
+        corner = ChamferSelPadGrid(
+                    {ChamferSelPadGrid.BOTTOM_LEFT: 1,
+                     ChamferSelPadGrid.BOTTOM_RIGHT: 1
+                     })
+
+        x = self.at[0]-(self.via_layout[0]-1)/2*self.via_grid[0]
+        y = self.top_left_via[1]-self.ring_size[1]/2
+
+        pad_side = ChamferedPadGrid(
+            number="", type=Pad.TYPE_SMT,
+            center=[x, y],
+            size=[self.inner_size[0], self.outer_size[1]],
+            layers=['F.Paste'],
+            chamfer_size=0, chamfer_selection=corner,
+            pincount=[self.paste_between_vias[0], self.paste_rings_outside[1]],
+            grid=[self.inner_grid[0], self.outer_paste_grid[1]]
+            )
+
+        pad_side.chamferAvoidCircle(
+                    center=self.top_left_via, diameter=self.via_drill,
+                    clearance=self.via_clarance)
+
+        pads.extend(ExposedPad.__createPasteGrids(
+                    original=pad_side, grid=self.via_grid,
+                    count=[self.via_layout[0]-1, 1],
+                    center=[self.at['x'], y]
+                    ))
+
+        corner = ChamferSelPadGrid(
+                    {ChamferSelPadGrid.TOP_LEFT: 1,
+                     ChamferSelPadGrid.TOP_RIGHT: 1
+                     })
+        pad_side.chamfer_selection = corner
+
+        y = 2*self.at[1]-y
+        pads.extend(ExposedPad.__createPasteGrids(
+                    original=pad_side, grid=self.via_grid,
+                    count=[self.via_layout[0]-1, 1],
+                    center=[self.at['x'], y]
+                    ))
+        return pads
+
+    def __createPasteOutsideCorners(self):
+        pads = []
+        left = self.top_left_via[0]-self.ring_size[0]/2
+        top = self.top_left_via[1]-self.ring_size[1]/2
+        corner = [
+            [
+                {ChamferSelPadGrid.BOTTOM_RIGHT: 1},
+                {ChamferSelPadGrid.TOP_RIGHT: 1}
+                ],
+            [
+                {ChamferSelPadGrid.BOTTOM_LEFT: 1},
+                {ChamferSelPadGrid.TOP_LEFT: 1}
+                ]
+            ]
+        pad_side = ChamferedPadGrid(
+            number="", type=Pad.TYPE_SMT,
+            center=[left, top], size=self.outer_size, layers=['F.Paste'],
+            chamfer_size=0, chamfer_selection=0,
+            pincount=self.paste_rings_outside,
+            grid=self.outer_paste_grid
+            )
+        pad_side.chamferAvoidCircle(
+                    center=self.top_left_via, diameter=self.via_drill,
+                    clearance=self.via_clarance)
+        for idx_x in range(2):
+            for idx_y in range(2):
+                x = left if idx_x == 0 else 2*self.at[0]-left
+                y = top if idx_y == 0 else 2*self.at[1]-top
+                pad_side.center = Vector2D(x, y)
+                pad_side.chamfer_selection = ChamferSelPadGrid(corner[idx_x][idx_y])
+                pads.append(copy(pad_side))
+
+        return pads
+
     def __createPasteAvoidViasOutside(self):
-        ring_size = (self.paste_area_size-(Vector2D(self.vias_in_mask)-1)*self.via_grid)/2
-        paste_grid = ring_size/Vector2D(self.paste_rings_outside)
-        outer_size = paste_grid*self.paste_reduction
+        self.ring_size = (self.paste_area_size-(Vector2D(self.vias_in_mask)-1)*self.via_grid)/2
+        self.outer_paste_grid = self.ring_size/Vector2D(self.paste_rings_outside)
+        self.outer_size = self.outer_paste_grid*self.paste_reduction
 
         pads = []
         if self.paste_rings_outside[0] and self.inner_count[1] > 0:
-            corner = ChamferSelPadGrid(
-                        {ChamferSelPadGrid.TOP_RIGHT: 1,
-                         ChamferSelPadGrid.BOTTOM_RIGHT: 1
-                         })
-            x = self.top_left_via[0]-ring_size[0]/2
-            y = self.at[1]-(self.via_layout[1]-1)/2*self.via_grid[1]
-
-            pad_side = ChamferedPadGrid(
-                number="", type=Pad.TYPE_SMT,
-                center=[x, y],
-                size=[outer_size[0], self.inner_size[1]],
-                layers=['F.Paste'],
-                chamfer_size=0, chamfer_selection=corner,
-                pincount=[self.paste_rings_outside[0], self.paste_between_vias[1]],
-                grid=[paste_grid[0], self.inner_grid[1]]
-                )
-
-            pad_side.chamferAvoidCircle(
-                        center=self.top_left_via, diameter=self.via_drill,
-                        clearance=self.via_clarance)
-
-            pads.extend(ExposedPad.__createPasteGrids(
-                        original=pad_side, grid=self.via_grid,
-                        count=[1, self.via_layout[1]-1],
-                        center=[x, self.at['y']]
-                        ))
-
-            corner = ChamferSelPadGrid(
-                        {ChamferSelPadGrid.TOP_LEFT: 1,
-                         ChamferSelPadGrid.BOTTOM_LEFT: 1
-                         })
-            pad_side.chamfer_selection = corner
-
-            x = 2*self.at[0]-x
-            pads.extend(ExposedPad.__createPasteGrids(
-                        original=pad_side, grid=self.via_grid,
-                        count=[1, self.via_layout[1]-1],
-                        center=[x, self.at['y']]
-                        ))
+            pads.extend(self.__createPasteOutsideX())
 
         if self.paste_rings_outside[1] and self.inner_count[0]:
-            corner = ChamferSelPadGrid(
-                        {ChamferSelPadGrid.BOTTOM_LEFT: 1,
-                         ChamferSelPadGrid.BOTTOM_RIGHT: 1
-                         })
-
-            x = self.at[0]-(self.via_layout[0]-1)/2*self.via_grid[0]
-            y = self.top_left_via[1]-ring_size[1]/2
-
-            pad_side = ChamferedPadGrid(
-                number="", type=Pad.TYPE_SMT,
-                center=[x, y],
-                size=[self.inner_size[0], outer_size[1]],
-                layers=['F.Paste'],
-                chamfer_size=0, chamfer_selection=corner,
-                pincount=[self.paste_between_vias[0], self.paste_rings_outside[1]],
-                grid=[self.inner_grid[0], paste_grid[1]]
-                )
-
-            pad_side.chamferAvoidCircle(
-                        center=self.top_left_via, diameter=self.via_drill,
-                        clearance=self.via_clarance)
-
-            pads.extend(ExposedPad.__createPasteGrids(
-                        original=pad_side, grid=self.via_grid,
-                        count=[self.via_layout[0]-1, 1],
-                        center=[self.at['x'], y]
-                        ))
-
-            corner = ChamferSelPadGrid(
-                        {ChamferSelPadGrid.TOP_LEFT: 1,
-                         ChamferSelPadGrid.TOP_RIGHT: 1
-                         })
-            pad_side.chamfer_selection = corner
-
-            y = 2*self.at[1]-y
-            pads.extend(ExposedPad.__createPasteGrids(
-                        original=pad_side, grid=self.via_grid,
-                        count=[self.via_layout[0]-1, 1],
-                        center=[self.at['x'], y]
-                        ))
+            pads.extend(self.__createPasteOutsideY())
 
         if all(self.paste_rings_outside):
-            left = self.top_left_via[0]-ring_size[0]/2
-            top = self.top_left_via[1]-ring_size[1]/2
-            corner = [
-                [
-                    {ChamferSelPadGrid.BOTTOM_RIGHT: 1},
-                    {ChamferSelPadGrid.TOP_RIGHT: 1}
-                    ],
-                [
-                    {ChamferSelPadGrid.BOTTOM_LEFT: 1},
-                    {ChamferSelPadGrid.TOP_LEFT: 1}
-                    ]
-                ]
-            pad_side = ChamferedPadGrid(
-                number="", type=Pad.TYPE_SMT,
-                center=[left, top], size=outer_size, layers=['F.Paste'],
-                chamfer_size=0, chamfer_selection=0,
-                pincount=self.paste_rings_outside,
-                grid=paste_grid
-                )
-            pad_side.chamferAvoidCircle(
-                        center=self.top_left_via, diameter=self.via_drill,
-                        clearance=self.via_clarance)
-            for idx_x in range(2):
-                for idx_y in range(2):
-                    x = left if idx_x == 0 else 2*self.at[0]-left
-                    y = top if idx_y == 0 else 2*self.at[1]-top
-                    pad_side.center = Vector2D(x, y)
-                    pad_side.chamfer_selection = ChamferSelPadGrid(corner[idx_x][idx_y])
-                    pads.append(copy(pad_side))
+            pads.extend(self.__createPasteOutsideCorners())
+
+        return pads
+
+    def __createPaste(self):
+        pads = []
+        self.top_left_via = -(Vector2D(self.vias_in_mask)-1)*self.via_grid/2+self.at
+
+        if self.has_vias and self.paste_avoid_via:
+            self.inner_count = (Vector2D(self.vias_in_mask)-1)*Vector2D(self.paste_between_vias)
+
+            if all(self.vias_in_mask) and all(self.paste_between_vias):
+                pads += self.__createPasteAvoidViasInside()
+            if any(self.paste_rings_outside):
+                pads += self.__createPasteAvoidViasOutside()
+        else:
+            pads += self.__createPasteIgnoreVia()
 
         return pads
 
@@ -432,22 +469,6 @@ class ExposedPad(Node):
                 shape=Pad.SHAPE_RECT, type=Pad.TYPE_SMT,
                 layers=self.bottom_pad_Layers
             ))
-
-        return pads
-
-    def __createPaste(self):
-        pads = []
-        self.top_left_via = -(Vector2D(self.vias_in_mask)-1)*self.via_grid/2+self.at
-
-        if self.has_vias and self.paste_avoid_via:
-            self.inner_count = (Vector2D(self.vias_in_mask)-1)*Vector2D(self.paste_between_vias)
-
-            if all(self.vias_in_mask) and all(self.paste_between_vias):
-                pads += self.__createPasteAvoidViasInside()
-            if any(self.paste_rings_outside):
-                pads += self.__createPasteAvoidViasOutside()
-        else:
-            pads += self.__createPasteIgnoreVia()
 
         return pads
 
