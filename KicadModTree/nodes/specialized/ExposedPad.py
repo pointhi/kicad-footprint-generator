@@ -157,7 +157,6 @@ class ExposedPad(Node):
         self.via_size = self.via_drill + 2*kwargs.get('min_annular_ring', 0.15)
         self.__initViaGrid(**kwargs)
 
-
         self.bottom_pad_Layers = kwargs.get('bottom_pad_Layers', ['B.Cu'])
 
         self.add_bottom_pad = True
@@ -184,7 +183,9 @@ class ExposedPad(Node):
     def _initPasteForAvoidingVias(self, **kwargs):
         self.via_clarance = kwargs.get('via_paste_clarance', 0.05)
 
-        if 'paste_between_vias' in kwargs or 'paste_rings_outside' in kwargs:
+        # check get against none to allow the caller to use None as the sign to ignore these.
+        if kwargs.get('paste_between_vias') is not None\
+                or kwargs.get('paste_rings_outside')is not None:
             self.paste_between_vias = toIntArray(kwargs.get('paste_between_vias', [0, 0]), min_value=0)
             self.paste_rings_outside = toIntArray(kwargs.get('paste_rings_outside', [0, 0]), min_value=0)
         else:

@@ -18,6 +18,10 @@ ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
 category = 'DFN_QFN'
 
+DEFAULT_PASTE_COVERAGE = 0.65
+DEFAULT_VIA_PASTE_CLEARANCE = 0.15
+DEFAULT_MIN_ANNULAR_RING = 0.15
+
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -141,6 +145,13 @@ class DFN():
         return Pad
 
     def generateFootprint(self, device_params):
+        has_EP = 'EP_size_x' in device_params or 'EP_size_x_min' in device_params
+        if has_EP and 'thermal_vias' in device_params:
+            self.__createFootprintVariant(device_params, has_EP, True)
+
+        self.__createFootprintVariant(device_params, has_EP, False)
+
+    def __createFootprintVariant(self, device_params, has_EP, with_thermal_vias):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
@@ -175,8 +186,6 @@ class DFN():
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
-        has_EP = 'EP_size_x' in device_params or 'EP_size_x_min' in device_params
-
         if has_EP:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
             EP_size = self.calcExposedPad(device_params)
@@ -197,7 +206,8 @@ class DFN():
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
-            suffix=suffix
+            suffix=suffix,
+            vias=self.configuration.get('thermal_via_suffix', '_ThermalVias') if with_thermal_vias else ''
             ).replace('__','_').lstrip('_')
 
         fp_name_2 = name_format.format(
@@ -210,7 +220,8 @@ class DFN():
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
-            suffix=suffix_3d
+            suffix=suffix_3d,
+            vias=''
             ).replace('__','_').lstrip('_')
 
         model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'\
@@ -244,12 +255,31 @@ class DFN():
 
 
         if has_EP:
-            paste_nx = device_params.get('EP_num_paste_pads_x', 1)
-            paste_ny = device_params.get('EP_num_paste_pads_y', 1)
-            kicad_mod.append(ExposedPad(
-                number=pincount+1, size=EP_size,
-                paste_layout=[paste_nx, paste_ny]
-                ))
+            if with_thermal_vias:
+                thermals = device_params['thermal_vias']
+                paste_coverage = thermals.get('EP_paste_coverage',
+                                               device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE))
+
+                kicad_mod.append(ExposedPad(
+                    number=pincount+1, size=EP_size,
+                    paste_layout=thermals.get('EP_num_paste_pads'),
+                    paste_coverage=paste_coverage,
+                    via_layout=thermals.get('count', 0),
+                    paste_between_vias=thermals.get('paste_between_vias'),
+                    paste_rings_outside=thermals.get('paste_rings_outside'),
+                    via_drill=thermals.get('drill', 0.3),
+                    via_grid=thermals.get('grid'),
+                    paste_avoid_via=thermals.get('paste_avoid_via', True),
+                    via_paste_clarance=thermals.get('paste_via_clearance', DEFAULT_VIA_PASTE_CLEARANCE),
+                    min_annular_ring=thermals.get('min_annular_ring', DEFAULT_MIN_ANNULAR_RING),
+                    bottom_pad_min_size=thermals.get('bottom_min_size', 0)
+                    ))
+            else:
+                kicad_mod.append(ExposedPad(
+                    number=pincount+1, size=EP_size,
+                    paste_layout=device_params.get('EP_num_paste_pads', 1),
+                    paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE)
+                    ))
 
         init = 1
         if device_params['num_pins_x'] == 0:
