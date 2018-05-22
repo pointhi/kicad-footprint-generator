@@ -94,7 +94,7 @@ def gen_footprint(pinnum, manpart, configuration):
 		
 	kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
 		orientation=orientation_str, man=manufacturer,
-		entry=configuration['entry_direction']['V']))
+		entry='horizontal'))
 
 	kicad_mod.setAttribute('smd')
 	
