@@ -78,6 +78,10 @@ class ExposedPad(Node):
           to have them distributed across the main pad.
         * *via_drill* (``float``) --
           via drill diameter (default: 0.3)
+        * *via_tented* (VIA_TENTED, VIA_TENTED_TOP_ONLY, VIA_TENTED_BOTTOM_ONLY, VIA_NOT_TENTED) --
+          Determines which side of the thermal vias is covered in soldermask.
+          On the top only vias outside the defined mask area can be covered in soldermask.
+          default: VIA_TENTED
         * *min_annular_ring* (``float``) --
           Anullar ring for thermal vias. (default: 0.15)
         * *bottom_pad_Layers* (``[layer string]``) --
@@ -100,6 +104,11 @@ class ExposedPad(Node):
           Base used for rounding calculated sizes (default: 0.01)
           0 means no rounding
     """
+
+    VIA_TENTED = 'all'
+    VIA_TENTED_TOP_ONLY = 'top'
+    VIA_TENTED_BOTTOM_ONLY = 'bottom'
+    VIA_NOT_TENTED = 'none'
 
     def __init__(self, **kwargs):
         Node.__init__(self)
@@ -156,6 +165,7 @@ class ExposedPad(Node):
         self.via_drill = kwargs.get('via_drill', 0.3)
         self.via_size = self.via_drill + 2*kwargs.get('min_annular_ring', 0.15)
         self.__initViaGrid(**kwargs)
+        self.via_tented = kwargs.get('via_tented', ExposedPad.VIA_TENTED)
 
         self.bottom_pad_Layers = kwargs.get('bottom_pad_Layers', ['B.Cu'])
 
@@ -178,7 +188,7 @@ class ExposedPad(Node):
         if (self.via_layout[idx]-1)*self.via_grid[idx] <= self.paste_area_size[idx]:
             return self.via_layout[idx]
         else:
-            return self.paste_area_size[idx]//(self.via_grid[idx]-1)
+            return self.paste_area_size[idx]//(self.via_grid[idx])
 
     def _initPasteForAvoidingVias(self, **kwargs):
         self.via_clarance = kwargs.get('via_paste_clarance', 0.05)
@@ -197,9 +207,10 @@ class ExposedPad(Node):
             self.paste_layout = toIntArray(layout)
 
             # int(floor(paste_count/(vias_in_mask-1)))
-            self.paste_between_vias = [p//(v-1) for p, v in zip(self.paste_layout, self.vias_in_mask)]
+            self.paste_between_vias = [p//(v-1) if v > 1 else p//v
+                                       for p, v in zip(self.paste_layout, self.vias_in_mask)]
             inner_count = [(v-1)*p for v, p in zip(self.vias_in_mask, self.paste_between_vias)]
-            self.paste_rings_outside = [p-i for p, i in zip(self.paste_layout, inner_count)]
+            self.paste_rings_outside = [(p-i)//2 for p, i in zip(self.paste_layout, inner_count)]
 
     def _initPaste(self, **kwargs):
         self.paste_avoid_via = kwargs.get('paste_avoid_via', False)
@@ -208,6 +219,9 @@ class ExposedPad(Node):
         self.paste_area_size = Vector2D([min(m, c) for m, c in zip(self.mask_size, self.size)])
         if self.has_vias:
             self.vias_in_mask = [self.__viasInMaskCount(i) for i in range(2)]
+
+        if not all(self.vias_in_mask):
+            self.paste_avoid_via = False
 
         if self.has_vias and self.paste_avoid_via:
             self._initPasteForAvoidingVias(**kwargs)
@@ -412,7 +426,8 @@ class ExposedPad(Node):
 
     def __createPasteAvoidViasOutside(self):
         self.ring_size = (self.paste_area_size-(Vector2D(self.vias_in_mask)-1)*self.via_grid)/2
-        self.outer_paste_grid = self.ring_size/Vector2D(self.paste_rings_outside)
+        self.outer_paste_grid = Vector2D([s/p if p != 0 else s
+                                          for s, p in zip(self.ring_size, self.paste_rings_outside)])
         self.outer_size = self.outer_paste_grid*self.paste_reduction
 
         pads = []
@@ -463,6 +478,12 @@ class ExposedPad(Node):
         return pads
 
     def __createVias(self):
+        via_layers = ['*.Cu']
+        if self.via_tented == ExposedPad.VIA_NOT_TENTED or self.via_tented == ExposedPad.VIA_TENTED_BOTTOM_ONLY:
+            via_layers.append('F.Mask')
+        if self.via_tented == ExposedPad.VIA_NOT_TENTED or self.via_tented == ExposedPad.VIA_TENTED_TOP_ONLY:
+            via_layers.append('B.Mask')
+
         pads = []
         cy = -((self.via_layout[1]-1)*self.via_grid[1])/2 + self.at.y
         for i in range(self.via_layout[1]):
@@ -471,7 +492,7 @@ class ExposedPad(Node):
                          increment=0, pincount=self.via_layout[0],
                          x_spacing=self.via_grid[0], size=self.via_size,
                          type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                         drill=self.via_drill, layers=['*.Cu']
+                         drill=self.via_drill, layers=via_layers
                          ))
             cy += self.via_grid[1]
 

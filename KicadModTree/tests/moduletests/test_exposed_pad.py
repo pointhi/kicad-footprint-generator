@@ -1147,6 +1147,99 @@ RESULT_EP_4x4 = """(module exposed_paste_autogen (layer F.Cu) (tedit 0)
     ))
 )"""
 
+RESULT_EP_AUTOGEN_EDGECASE_1 = """(module exposed_paste_autogen (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value exposed_paste_autogen (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 3 smd rect (at -2 -2) (size 2 2) (layers F.Cu F.Mask))
+  (pad 3 thru_hole circle (at -2.7 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at -1.3 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at -2 -2) (size 2 0.6) (layers B.Cu))
+  (pad "" smd custom (at -2 -2.5) (size 0.770649 0.770649) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.564358 -0.403113) (xy 0.564358 -0.403113) (xy 0.564358 0.352799) (xy 0.514044 0.403113)
+         (xy -0.514044 0.403113) (xy -0.564358 0.352799)) (width 0))
+    ))
+  (pad "" smd custom (at -2 -1.5) (size 0.770649 0.770649) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.564358 -0.352799) (xy -0.514044 -0.403113) (xy 0.514044 -0.403113) (xy 0.564358 -0.352799)
+         (xy 0.564358 0.403113) (xy -0.564358 0.403113)) (width 0))
+    ))
+  (pad 3 smd rect (at 2 -2) (size 2 2) (layers F.Cu F.Mask))
+  (pad 3 thru_hole circle (at 1.3 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 2.7 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at 2 -2) (size 2 0.6) (layers B.Cu))
+  (pad "" smd custom (at 2 -2.5) (size 0.770649 0.770649) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.564358 -0.403113) (xy 0.564358 -0.403113) (xy 0.564358 0.352799) (xy 0.514044 0.403113)
+         (xy -0.514044 0.403113) (xy -0.564358 0.352799)) (width 0))
+    ))
+  (pad "" smd custom (at 2 -1.5) (size 0.770649 0.770649) (layers F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -0.564358 -0.352799) (xy -0.514044 -0.403113) (xy 0.514044 -0.403113) (xy 0.564358 -0.352799)
+         (xy 0.564358 0.403113) (xy -0.564358 0.403113)) (width 0))
+    ))
+  (pad "" smd rect (at 0 3) (size 2 2) (layers F.Mask))
+  (pad 3 smd rect (at 0 3) (size 3 3) (layers F.Cu))
+  (pad 3 thru_hole circle (at -1.2 3) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 1.2 3) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at 0 3) (size 3 0.6) (layers B.Cu))
+  (pad "" smd rect (at 0 2.53) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at 0 3.47) (size 1.61 0.81) (layers F.Paste))
+)"""
+
+RESULT_EP_VIA_TENTING = """(module exposed_paste_autogen (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value exposed_paste_autogen (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad "" smd rect (at -2 -2) (size 2 2) (layers F.Mask))
+  (pad 3 smd rect (at -2 -2) (size 3 3) (layers F.Cu))
+  (pad 3 thru_hole circle (at -3.2 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu F.Mask B.Mask))
+  (pad 3 thru_hole circle (at -0.8 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu F.Mask B.Mask))
+  (pad 3 smd rect (at -2 -2) (size 3 0.6) (layers B.Cu))
+  (pad "" smd rect (at -2 -2.47) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at -2 -1.53) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at 2 -2) (size 2 2) (layers F.Mask))
+  (pad 3 smd rect (at 2 -2) (size 3 3) (layers F.Cu))
+  (pad 3 thru_hole circle (at 0.8 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu F.Mask))
+  (pad 3 thru_hole circle (at 3.2 -2) (size 0.6 0.6) (drill 0.3) (layers *.Cu F.Mask))
+  (pad 3 smd rect (at 2 -2) (size 3 0.6) (layers B.Cu))
+  (pad "" smd rect (at 2 -2.47) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at 2 -1.53) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at -2 2) (size 2 2) (layers F.Mask))
+  (pad 3 smd rect (at -2 2) (size 3 3) (layers F.Cu))
+  (pad 3 thru_hole circle (at -3.2 2) (size 0.6 0.6) (drill 0.3) (layers *.Cu B.Mask))
+  (pad 3 thru_hole circle (at -0.8 2) (size 0.6 0.6) (drill 0.3) (layers *.Cu B.Mask))
+  (pad 3 smd rect (at -2 2) (size 3 0.6) (layers B.Cu))
+  (pad "" smd rect (at -2 1.53) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at -2 2.47) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at 2 2) (size 2 2) (layers F.Mask))
+  (pad 3 smd rect (at 2 2) (size 3 3) (layers F.Cu))
+  (pad 3 thru_hole circle (at 0.8 2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 thru_hole circle (at 3.2 2) (size 0.6 0.6) (drill 0.3) (layers *.Cu))
+  (pad 3 smd rect (at 2 2) (size 3 0.6) (layers B.Cu))
+  (pad "" smd rect (at 2 1.53) (size 1.61 0.81) (layers F.Paste))
+  (pad "" smd rect (at 2 2.47) (size 1.61 0.81) (layers F.Paste))
+)"""
+
 
 class ExposedPadTests(unittest.TestCase):
 
@@ -1376,3 +1469,73 @@ class ExposedPadTests(unittest.TestCase):
         result = file_handler.serialize(timestamp=0)
         # file_handler.writeFile('test_ep.kicad_mod')
         self.assertEqual(result, RESULT_EP_4x4)
+
+    def testExposedPadEdgeCase1(self):
+        kicad_mod = Footprint("exposed_paste_autogen")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="exposed_paste_autogen", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[2, 2], via_layout=[2, 1], at=[-2, -2],
+            paste_coverage=0.65, paste_layout=[1, 2],
+            paste_avoid_via=True
+            ))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[2, 2], via_layout=[2, 1], at=[2, -2],
+            paste_coverage=0.65, paste_layout=[1, 2],
+            paste_avoid_via=True
+            ))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[3, 3], via_layout=[2, 1], at=[0, 3],
+            paste_coverage=0.65, paste_layout=[1, 2], mask_size=[2, 2],
+            paste_avoid_via=True
+            ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('test_ep.kicad_mod')
+        self.assertEqual(result, RESULT_EP_AUTOGEN_EDGECASE_1)
+
+    def testExposedPasteViaTented(self):
+        kicad_mod = Footprint("exposed_paste_autogen")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="exposed_paste_autogen", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[3, 3], via_layout=[2, 1], at=[-2, -2],
+            paste_coverage=0.65, paste_layout=[1, 2], mask_size=[2, 2],
+            paste_avoid_via=True, via_tented=ExposedPad.VIA_NOT_TENTED
+            ))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[3, 3], via_layout=[2, 1], at=[2, -2],
+            paste_coverage=0.65, paste_layout=[1, 2], mask_size=[2, 2],
+            paste_avoid_via=True, via_tented=ExposedPad.VIA_TENTED_BOTTOM_ONLY
+            ))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[3, 3], via_layout=[2, 1], at=[-2, 2],
+            paste_coverage=0.65, paste_layout=[1, 2], mask_size=[2, 2],
+            paste_avoid_via=True, via_tented=ExposedPad.VIA_TENTED_TOP_ONLY
+            ))
+
+        kicad_mod.append(ExposedPad(
+            number=3, size=[3, 3], via_layout=[2, 1], at=[2, 2],
+            paste_coverage=0.65, paste_layout=[1, 2], mask_size=[2, 2],
+            paste_avoid_via=True, via_tented=ExposedPad.VIA_TENTED
+            ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        file_handler.writeFile('test_ep.kicad_mod')
+        self.assertEqual(result, RESULT_EP_VIA_TENTING)
