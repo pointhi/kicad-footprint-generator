@@ -452,6 +452,11 @@ class DFN():
                 polygone=poly_silk,
                 width=configuration['silk_line_width'],
                 layer="F.SilkS", x_mirror=0, y_mirror=0))
+            kicad_mod.append(Line(
+                start={'x': sx1, 'y': body_edge['top']-silk_offset},
+                end={'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS"))
 
         # # ######################## Fabrication Layer ###########################
 
