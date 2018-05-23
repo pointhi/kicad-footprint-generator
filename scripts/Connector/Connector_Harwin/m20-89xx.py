@@ -164,13 +164,13 @@ def gen_footprint(pinnum, manpart, configuration):
 
 	# Text Fields
 	body_edge={
-        'left': 3.5,
-        'right': 6,
+        'left': 3.8,
+        'right': 6.3,
         'top': -(pinnum-1)*pitch/2-2.54/2-configuration['silk_line_width'],
         'bottom': -(pinnum-1)*pitch/2-2.54/2+2.54*pinnum+configuration['silk_line_width'],
     }
 	addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-        courtyard={'top':cy_top, 'bottom':cy_bottom}, fp_name=footprint_name, text_y_inside_position='bottom')
+        courtyard={'top':cy_top, 'bottom':cy_bottom}, fp_name=footprint_name, text_y_inside_position='bottom', allow_rotation=True)
 
 	# 3D model
 	model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
