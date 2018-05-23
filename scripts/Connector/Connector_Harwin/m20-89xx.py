@@ -120,11 +120,11 @@ def gen_footprint(pinnum, manpart, configuration):
 	# SilkS
 	silkslw = configuration['silk_line_width']
 	s_body = [
-		{'x': +3.8-silkslw/2, 'y': -(pinnum-1)*pitch/2-2.54/2-silkslw/2+2.54},
-		{'x': +6.3+silkslw/2, 'y': -(pinnum-1)*pitch/2-2.54/2-silkslw/2+2.54},
-		{'x': +6.3+silkslw/2, 'y': -(pinnum-1)*pitch/2-2.54/2+2.54*pinnum+silkslw/2+2.54},
-		{'x': +3.8-silkslw/2, 'y': -(pinnum-1)*pitch/2-2.54/2+2.54*pinnum+silkslw/2+2.54},
-		{'x': +3.8-silkslw/2, 'y': -(pinnum-1)*pitch/2-2.54/2-silkslw/2+2.54},
+		{'x': +3.8-silkslw, 'y': -(pinnum-1)*pitch/2-2.54/2-silkslw+2.54},
+		{'x': +6.3+silkslw, 'y': -(pinnum-1)*pitch/2-2.54/2-silkslw+2.54},
+		{'x': +6.3+silkslw, 'y': -(pinnum-1)*pitch/2-2.54/2+2.54*pinnum+silkslw+2.54},
+		{'x': +3.8-silkslw, 'y': -(pinnum-1)*pitch/2-2.54/2+2.54*pinnum+silkslw+2.54},
+		{'x': +3.8-silkslw, 'y': -(pinnum-1)*pitch/2-2.54/2-silkslw+2.54},
 	]
 	kicad_mod.append(PolygoneLine(polygone=s_body,
             width=configuration['silk_line_width'], layer="F.SilkS"))
