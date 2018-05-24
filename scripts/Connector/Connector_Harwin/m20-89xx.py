@@ -66,10 +66,7 @@ def gen_silk_pins(origx, origy, kicad_mod, configuration, fill):
 	kicad_mod.append(PolygoneLine(polygone=poly_s_front,
         width=configuration['silk_line_width'], layer="F.SilkS"))
 	if fill:
-		for x in range(0, 7):
-			kicad_mod.append(RectLine(start={'x': origx+6.3+configuration['silk_line_width'], 'y': origy-0.64/2+x*configuration['silk_line_width']},
-				end={'x': origx+12.3+configuration['silk_line_width'], 'y': origy-0.64/2+x*configuration['silk_line_width']},
-				width=configuration['silk_line_width'], layer="F.SilkS"))
+		kicad_mod.append(Pad(type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, at=[origx+configuration['silk_line_width']+(6.3+12.3)/2, origy], size=[6, 0.64+configuration['silk_line_width']], layers=["F.SilkS"]))
 
 def gen_footprint(pinnum, manpart, configuration):
 	orientation_str = configuration['orientation_options']['H']
