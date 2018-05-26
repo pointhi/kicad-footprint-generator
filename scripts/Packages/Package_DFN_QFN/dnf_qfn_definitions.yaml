@@ -177,11 +177,13 @@ Texas_S-PVQFN-N24_EP:
     drill: 0.2
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    EP_num_paste_pads: [2, 2]
-    EP_paste_coverage: 0.65
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    # EP_num_paste_pads: [2, 2]
+    #EP_paste_coverage: 0.55
     # grid:
     # bottom_pad_size:
-    paste_avoid_via: False
+    # paste_avoid_via: False
 
 Texas_S-PVQFN-N32_EP:
   device_type: 'QFN'
@@ -325,13 +327,13 @@ Texas_S-PVQFN-N64_EP:
     drill: 0.2
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1
-    EP_num_paste_pads: [2, 2]
-    # paste_between_vias: 1
-    # paste_rings_outside: 1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
     EP_paste_coverage: 0.65
     grid: [0.8, 0.8]
     # bottom_pad_size:
-    paste_avoid_via: False
+    # paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 16

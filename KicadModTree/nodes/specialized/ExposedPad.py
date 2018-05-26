@@ -220,7 +220,7 @@ class ExposedPad(Node):
         if self.has_vias:
             self.vias_in_mask = [self.__viasInMaskCount(i) for i in range(2)]
 
-        if not all(self.vias_in_mask):
+        if not self.has_vias or not all(self.vias_in_mask):
             self.paste_avoid_via = False
 
         if self.has_vias and self.paste_avoid_via:
