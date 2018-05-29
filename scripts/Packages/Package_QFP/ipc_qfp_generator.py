@@ -17,6 +17,10 @@ ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
 category = 'QFP'
 
+DEFAULT_PASTE_COVERAGE = 0.65
+DEFAULT_VIA_PASTE_CLEARANCE = 0.15
+DEFAULT_MIN_ANNULAR_RING = 0.15
+
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -29,7 +33,45 @@ class QFP():
             except yaml.YAMLError as exc:
                 print(exc)
 
+    def calcExposedPad(self, device_params):
+        F = self.configuration.get('manufacturing_tolerance', 0.1)
+        P = self.configuration.get('placement_tolerance', 0.05)
 
+
+        ipc_reference = 'ipc_spec_flat_no_lead_pull_back'
+        used_density = device_params.get('ipc_density', ipc_density)
+        ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
+        ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
+
+        if 'EP_size_x_min' in device_params:
+            Xtol = device_params['EP_size_x_max'] - device_params['EP_size_x_min']
+            Xmin = device_params['EP_size_x_min']
+        else:
+            Xtol = 0
+            Xmin = device_params['EP_size_x']
+
+        if 'EP_size_y_min' in device_params:
+            Ytol = device_params['EP_size_y_max'] - device_params['EP_size_y_min']
+            Ymin = device_params['EP_size_y_min']
+        else:
+            Ytol = 0
+            Ymin = device_params['EP_size_y']
+
+        per_fillet = ipc_data_set['side']
+        rd_base = ipc_round_base['side']
+
+        size={'x': roundToBase(Xmin + 2*per_fillet + sqrt(Xtol**2+F**2+P**2), rd_base),
+              'y': roundToBase(Ymin + 2*per_fillet + sqrt(Ytol**2+F**2+P**2), rd_base)
+              }
+
+        if 'EP_size_limit_x' in device_params:
+            if size['x'] > device_params['EP_size_limit_x']:
+                size['x'] = device_params['EP_size_limit_x']
+            if size['y'] > device_params['EP_size_limit_y']:
+                size['y'] = device_params['EP_size_limit_y']
+
+
+        return size
 
     def calcPadDetails(self, device_params, ipc_data, ipc_round_base):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
@@ -92,8 +134,14 @@ class QFP():
         Pad['bottom'] = {'center':[0,(Zmax_y+Gmin_y)/4], 'size':[Xmax,(Zmax_y-Gmin_y)/2]}
 
         return Pad
-
     def generateFootprint(self, device_params):
+        has_EP = 'EP_size_x' in device_params or 'EP_size_x_min' in device_params
+        if has_EP and 'thermal_vias' in device_params:
+            self.__createFootprintVariant(device_params, has_EP, True)
+
+        self.__createFootprintVariant(device_params, has_EP, False)
+
+    def __createFootprintVariant(self, device_params, has_EP, with_thermal_vias):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
@@ -122,9 +170,17 @@ class QFP():
         suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
             pad_y=pad_details['left']['size'][1])
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
-
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
-        name_format = self.configuration['fp_name_format_string_no_trailing_zero']
+
+        if has_EP:
+            name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
+            EP_size = self.calcExposedPad(device_params)
+        else:
+            name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
+            EP_size = {'x':0, 'y':0}
+
+        if 'custom_name_format' in device_params:
+            name_format = device_params['custom_name_format']
 
         fp_name = name_format.format(
             man=device_params.get('manufacturer',''),
@@ -134,7 +190,10 @@ class QFP():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
-            suffix=suffix
+            ep_size_x = EP_size['x'],
+            ep_size_y = EP_size['y'],
+            suffix=suffix,
+            vias=self.configuration.get('thermal_via_suffix', '_ThermalVias') if with_thermal_vias else ''
             ).replace('__','_').lstrip('_')
 
         fp_name_2 = name_format.format(
@@ -145,7 +204,10 @@ class QFP():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
-            suffix=suffix_3d
+            ep_size_x = EP_size['x'],
+            ep_size_y = EP_size['y'],
+            suffix=suffix_3d,
+            vias=''
             ).replace('__','_').lstrip('_')
 
         model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'\
@@ -176,6 +238,33 @@ class QFP():
                 category=category
             ).lstrip())
         kicad_mod.setAttribute('smd')
+
+        if has_EP:
+            if with_thermal_vias:
+                thermals = device_params['thermal_vias']
+                paste_coverage = thermals.get('EP_paste_coverage',
+                                               device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE))
+
+                kicad_mod.append(ExposedPad(
+                    number=pincount+1, size=EP_size,
+                    paste_layout=thermals.get('EP_num_paste_pads'),
+                    paste_coverage=paste_coverage,
+                    via_layout=thermals.get('count', 0),
+                    paste_between_vias=thermals.get('paste_between_vias'),
+                    paste_rings_outside=thermals.get('paste_rings_outside'),
+                    via_drill=thermals.get('drill', 0.3),
+                    via_grid=thermals.get('grid'),
+                    paste_avoid_via=thermals.get('paste_avoid_via', True),
+                    via_paste_clarance=thermals.get('paste_via_clearance', DEFAULT_VIA_PASTE_CLEARANCE),
+                    min_annular_ring=thermals.get('min_annular_ring', DEFAULT_MIN_ANNULAR_RING),
+                    bottom_pad_min_size=thermals.get('bottom_min_size', 0)
+                    ))
+            else:
+                kicad_mod.append(ExposedPad(
+                    number=pincount+1, size=EP_size,
+                    paste_layout=device_params.get('EP_num_paste_pads', 1),
+                    paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE)
+                    ))
 
         init = 1
         kicad_mod.append(PadArray(
