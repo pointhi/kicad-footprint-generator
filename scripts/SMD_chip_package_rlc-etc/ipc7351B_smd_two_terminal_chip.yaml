@@ -8,7 +8,7 @@
 # ----------+---------+-----------+---------+-
 # Toe (JT)  |  0.1    |  0.2      |  0.3    | 0.02
 # Heel (JH) |  0.0    |  0.0      |  0.0    | 0.02
-# Side (JS) |  0.05   |  0.0      |  -0.05  | 0.02
+# Side (JS) |  -0.05  |  0.0      |  0.05   | 0.02
 # Courtyard |  0.1    |  0.15     |  0.2    |
 
 ipc_spec_smaller_0603:
@@ -99,10 +99,10 @@ ipc_spec_tantalumn:
         side: 0.05
 
 # castellated
-# The document is a bit strange with the castelated definitions.
+# The document is a bit strange with the castellated definitions.
 # They seem to exchange the toe and heel fillet.
-# For normall square ends the toe fillet is towards the outside = Z measurement
-# But for castelated they tell us that the heel fillet is responsible for the Z measurement.
+# For square terminated parts the toe fillet is towards the outside = Z measurement
+# But for castellated they tell us that the heel fillet is responsible for the Z measurement.
 # As the script interprets toe to point outwards (=Z dim) we change these two compared to the
 # ipc document.
 

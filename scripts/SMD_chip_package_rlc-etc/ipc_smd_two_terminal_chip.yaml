@@ -99,10 +99,10 @@ ipc_spec_tantalumn:
         side: 0.1
 
 # castellated
-# The document is a bit strange with the castelated definitions.
+# The document is a bit strange with the castellated definitions.
 # They seem to exchange the toe and heel fillet.
-# For normall square ends the toe fillet is towards the outside = Z measurement
-# But for castelated they tell us that the heel fillet is responsible for the Z measurement.
+# For square terminated parts the toe fillet is towards the outside = Z measurement
+# But for castellated they tell us that the heel fillet is responsible for the Z measurement.
 # As the script interprets toe to point outwards (=Z dim) we change these two compared to the
 # ipc document.
 
