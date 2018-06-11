@@ -28,7 +28,7 @@ if __name__ == '__main__':
     package_height = 6.5
     leftbottom_offset = [1.5, 3.25]
     ddrill = 1.1
-    pad = [2.2,2.2]
+    pad = [2.1,2.1]
     screw_diameter = 2.2
     bevel_height = [0.4,5.5]
     slit_screw = True
