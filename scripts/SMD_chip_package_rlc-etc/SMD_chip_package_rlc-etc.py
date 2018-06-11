@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -163,25 +163,34 @@ class TwoTerminalSMDchip():
                     size_info=device_size_data.get('size_info')))
                 kicad_mod.setTags(footprint_group_data['keywords'])
                 kicad_mod.setAttribute('smd')
+                
+                pad_shape_details = {}
+                if 'round_rect_radius_ratio' in configuration:
+                    pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
+                    pad_shape_details['radius_ratio'] = configuration['round_rect_radius_ratio']
+                    if 'round_rect_max_radius' in configuration:
+                        pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
+                else:
+                    pad_shape_details['shape'] = Pad.SHAPE_RECT
 
                 if paste_details is not None:
-                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Cu', 'F.Mask'], **pad_details))
+                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT,
+                        layers=['F.Cu', 'F.Mask'], **pad_details, **pad_shape_details))
                     pad_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Cu', 'F.Mask'], **pad_details))
+                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
+                        layers=['F.Cu', 'F.Mask'], **pad_details, **pad_shape_details))
 
-                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Paste'], **paste_details))
+                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
+                        layers=['F.Paste'], **paste_details, **pad_shape_details))
                     paste_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Paste'], **paste_details))
+                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
+                        layers=['F.Paste'], **paste_details, **pad_shape_details))
                 else:
-                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=Pad.LAYERS_SMT, **pad_details))
+                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT,
+                        layers=Pad.LAYERS_SMT, **pad_details, **pad_shape_details))
                     pad_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=Pad.LAYERS_SMT, **pad_details))
+                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
+                        layers=Pad.LAYERS_SMT, **pad_details, **pad_shape_details))
 
                 fab_outline = self.configuration.get('fab_outline', 'typical')
                 if fab_outline == 'max':
@@ -299,6 +308,7 @@ if __name__ == "__main__":
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='config_KLCv3.0.yaml')
     parser.add_argument('--ipc_definition', type=str, nargs='?', help='the ipc definition file', default='ipc7351B_smd_two_terminal_chip.yaml')
+    parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle (KiCad 4.x compatibility.)')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -314,6 +324,9 @@ if __name__ == "__main__":
             print(exc)
     args = parser.parse_args()
     configuration['ipc_definition'] = args.ipc_definition
+    if args.force_rectangle_pads:
+        configuration.pop('round_rect_max_radius', None)
+        configuration.pop('round_rect_radius_ratio', None)
 
     for filepath in args.files:
         two_terminal_smd =TwoTerminalSMDchip(filepath, configuration)
