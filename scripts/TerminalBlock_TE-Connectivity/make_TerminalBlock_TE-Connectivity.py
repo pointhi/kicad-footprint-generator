@@ -19,9 +19,10 @@ from footprint_scripts_terminal_blocks import *
 
 if __name__ == '__main__':
     script_generated_note = ("script-generated using https://github.com"
-            "/pointhi/kicad-footprint-generator/scripts/TerminalBlock_TE")
+            "/pointhi/kicad-footprint-generator/scripts/TerminalBlock_TE-Connectivity")
+    long_classname = "TerminalBlock_TE-Connectivity"
     classname = "TerminalBlock_TE"
-   
+
     pins = range(2,12+1)
     rm = 2.54
     package_height = 6.5
@@ -77,7 +78,7 @@ if __name__ == '__main__':
                 nibblePos=nibblePos,
                 fabref_offset=fabref_offset,
                 tags_additional=[],
-                lib_name='${KISYS3DMOD}/'+classname,
+                lib_name='${KISYS3DMOD}/'+long_classname,
                 classname=classname,
                 classname_description=classname_description,
                 webpage=webpage,
