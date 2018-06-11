@@ -298,6 +298,7 @@ if __name__ == "__main__":
                         help='list of files holding information about what devices should be created.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='config_KLCv3.0.yaml')
+    parser.add_argument('--ipc_definition', type=str, nargs='?', help='the ipc definition file', default='ipc7351B_smd_two_terminal_chip.yaml')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -312,6 +313,7 @@ if __name__ == "__main__":
         except yaml.YAMLError as exc:
             print(exc)
     args = parser.parse_args()
+    configuration['ipc_definition'] = args.ipc_definition
 
     for filepath in args.files:
         two_terminal_smd =TwoTerminalSMDchip(filepath, configuration)
