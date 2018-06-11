@@ -47,6 +47,15 @@ class Pad(Node):
           offset of the pad
         * *drill* (``float``, ``Vector2D``) --
           drill-size of the pad
+        * *radius_ratio* (``float``) --
+          The radius ratio of the rounded rectangle.
+          Ignored for every other shape.
+        * *maximum_radius* (``float``) --
+          The maximum radius for the rounded rectangle.
+          If the radius produced by the radius ratio parameter for this pad would
+          exceed the maximum radius, the ratio is reduced to limit the ratio.
+          (This is usefull for IPC-7351C complience as it suggests 25% ratio with limit 0.25mm)
+          Ignored for every other shape.
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)
         * *solder_paste_margin* (``float``) --
@@ -203,6 +212,15 @@ class Pad(Node):
             self.radius_ratio = radius_ratio
         else:
             raise ValueError('radius ratio out of allowed range (0 < rr <= 0.5)')
+
+        if 'maximum_radius' in kwargs:
+            maximum_radius = kwargs.get('maximum_radius')
+            if type(maximum_radius) not in [int, float]:
+                raise TypeError('maximum radius needs to be of type int or float')
+
+            shortest_sidlength = min(self.size)
+            if self.radius_ratio*shortest_sidlength > maximum_radius:
+                self.radius_ratio = maximum_radius/shortest_sidlength
 
     def _initAnchorShape(self, **kwargs):
         self.anchor_shape = kwargs.get('anchor_shape', Pad.ANCHOR_CIRCLE)
