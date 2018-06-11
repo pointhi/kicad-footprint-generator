@@ -15,6 +15,7 @@ from drawing_tools import *  # NOQA
 from math import sqrt
 
 crt_offset = 0.5 # different for connectors
+slk_offset = lw_slk
 
 #
 #  +----------------------------------------+                      ^                  
@@ -711,4 +712,4 @@ def makeScrewTerminalSingleStd(footprint_name, block_size, block_offset, pins, d
     # write file
     file_handler = KicadFileHandler(kicad_mod)
     file_handler.writeFile(footprint_name + '.kicad_mod')
-    
+
