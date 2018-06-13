@@ -163,7 +163,7 @@ class TwoTerminalSMDchip():
                     size_info=device_size_data.get('size_info')))
                 kicad_mod.setTags(footprint_group_data['keywords'])
                 kicad_mod.setAttribute('smd')
-                
+
                 pad_shape_details = {}
                 if 'round_rect_radius_ratio' in configuration:
                     pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
@@ -174,11 +174,7 @@ class TwoTerminalSMDchip():
                     pad_shape_details['shape'] = Pad.SHAPE_RECT
 
                 if paste_details is not None:
-                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT,
-                        layers=['F.Cu', 'F.Mask'], **pad_details, **pad_shape_details))
-                    pad_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
-                        layers=['F.Cu', 'F.Mask'], **pad_details, **pad_shape_details))
+                    layers_main = ['F.Cu', 'F.Mask']
 
                     kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
                         layers=['F.Paste'], **paste_details, **pad_shape_details))
@@ -186,11 +182,19 @@ class TwoTerminalSMDchip():
                     kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
                         layers=['F.Paste'], **paste_details, **pad_shape_details))
                 else:
-                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT,
-                        layers=Pad.LAYERS_SMT, **pad_details, **pad_shape_details))
-                    pad_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
-                        layers=Pad.LAYERS_SMT, **pad_details, **pad_shape_details))
+                    layers_main = Pad.LAYERS_SMT
+
+                P1 = Pad(number= 1, type=Pad.TYPE_SMT,
+                    layers=layers_main, **pad_details, **pad_shape_details)
+                if 'round_rect_radius_ratio' in configuration:
+                    pad_radius = P1.radius_ratio*min(P1.size)
+                else:
+                    pad_radius = 0
+
+                kicad_mod.append(P1)
+                pad_details['at'][0] *= (-1)
+                kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
+                    layers=layers_main, **pad_details, **pad_shape_details))
 
                 fab_outline = self.configuration.get('fab_outline', 'typical')
                 if fab_outline == 'max':
@@ -260,12 +264,45 @@ class TwoTerminalSMDchip():
                         end=[outline_size[0]/2, -outline_size[1]/2],
                         layer='F.Fab', width=fab_line_width))
 
-                    pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
-                    if pad_spacing > 2*self.configuration['silk_pad_clearance'] + \
-                            self.configuration['silk_line_lenght_min'] + self.configuration['silk_line_width']:
-                        silk_outline_x = pad_spacing/2 - silk_line_width - self.configuration['silk_pad_clearance']
-                        silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
+                    silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
 
+                    pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
+
+                    off = silk_line_width/2 + self.configuration['silk_pad_clearance']
+                    if 'silk_clearance_small_parts' in configuration:
+                        off_small = silk_line_width/2 + self.configuration['silk_clearance_small_parts']
+
+                    rcy = pad_details['size'][1]/2-pad_radius
+                    if rcy < silk_outline_y:
+                        # the silk outline is in the area where the radius of the pad is.
+
+                        dry = silk_outline_y - rcy
+
+                        r = pad_radius + off
+                        silk_outline_x = 0
+                        if dry > r:
+                            silk_outline_x = outline_size[0]/2
+                        else:
+                            drx = sqrt(r**2 - dry**2)
+
+                            silk_outline_x = pad_spacing/2+pad_radius-drx
+
+                            if 2*silk_outline_x <  self.configuration['silk_line_lenght_min']\
+                                    and 'silk_clearance_small_parts' in configuration:
+                                r_small = pad_radius + off_small
+
+                                if dry > r_small:
+                                    silk_outline_x = outline_size[0]/2
+                                else:
+                                    drx = sqrt(r_small**2 - dry**2)
+                                    silk_outline_x = pad_spacing/2+pad_radius-drx
+                    else:
+                        silk_outline_x = pad_spacing/2 - off
+                        if 2*silk_outline_x <  self.configuration['silk_line_lenght_min']\
+                                and 'silk_clearance_small_parts' in configuration:
+                            silk_outline_x = pad_spacing/2 - off_small
+
+                    if 2*silk_outline_x >=  self.configuration['silk_line_lenght_min']:
                         kicad_mod.append(Line(start=[-silk_outline_x, -silk_outline_y],
                             end=[silk_outline_x, -silk_outline_y], layer='F.SilkS', width=silk_line_width))
                         kicad_mod.append(Line(start=[-silk_outline_x, silk_outline_y],

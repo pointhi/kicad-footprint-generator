@@ -16,3 +16,5 @@ fab_outline: 'typical' # typical | max | min
 fab_polarity_min_size: 0.3
 fab_polarity_max_size: 1
 fab_polarity_factor: 0.25
+
+silk_clearance_small_parts: 0.1
