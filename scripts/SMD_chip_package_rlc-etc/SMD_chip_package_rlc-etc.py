@@ -222,8 +222,10 @@ class TwoTerminalSMDchip():
                     silk_x_left = -abs(pad_details['at'][0]) - pad_details['size'][0]/2 - \
                         self.configuration['silk_pad_clearance'] - silk_line_width/2
 
-                    silk_y_bottom = self.configuration['silk_pad_clearance'] + silk_line_width/2 + \
-                        (outline_size[1] if outline_size[1]> pad_details['size'][1] else pad_details['size'][1])/2
+                    silk_y_bottom = max(
+                        self.configuration['silk_pad_clearance'] + silk_line_width/2 + pad_details['size'][1]/2,
+                        outline_size[1]/2 + self.configuration['silk_fab_offset']
+                        )
 
                     if polarity_marker_thick_line:
                         kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
