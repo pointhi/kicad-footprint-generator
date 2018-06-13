@@ -238,8 +238,8 @@ class ExposedPad(Node):
         paste_size = Vector2D([sx*self.paste_reduction/nx, sy*self.paste_reduction/ny])\
             .round_to(self.size_round_base)
 
-        dx = (sx - paste_size[0]*nx)/(nx+1)
-        dy = (sy - paste_size[1]*ny)/(ny+1)
+        dx = (sx - paste_size[0]*nx)/(nx)
+        dy = (sy - paste_size[1]*ny)/(ny)
 
         paste_grid = Vector2D(
                     [paste_size[0]+dx, paste_size[1]+dy]
