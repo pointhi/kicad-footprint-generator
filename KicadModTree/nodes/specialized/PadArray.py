@@ -196,8 +196,8 @@ class PadArray(Node):
             else:
                 kwargs['shape'] = padShape
 
-            if 'chamfer_corner_selection_first' in kwargs and 'chamfer_size' in kwargs:
-                if i == 0:
+            if kwargs.get('chamfer_size'):
+                if i == 0 and 'chamfer_corner_selection_first' in kwargs:
                     pads.append(
                         ChamferedPad(
                             number=number, at=[x_pad, y_pad],
@@ -206,7 +206,7 @@ class PadArray(Node):
                             ))
                     continue
 
-                if i == len(pad_numbers)-1:
+                if i == len(pad_numbers)-1 and 'chamfer_corner_selection_last' in kwargs:
                     pads.append(
                         ChamferedPad(
                             number=number, at=[x_pad, y_pad],
