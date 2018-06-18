@@ -245,8 +245,8 @@ LQFP-48:
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
   #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  #EP_size_limit_x: 2.7  #for relatively large EP pads (increase clearance)
-  #EP_size_limit_y: 2.7  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]

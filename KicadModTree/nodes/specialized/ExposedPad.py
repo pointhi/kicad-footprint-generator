@@ -103,6 +103,13 @@ class ExposedPad(Node):
         * *size_round_base* (``float``) --
           Base used for rounding calculated sizes (default: 0.01)
           0 means no rounding
+
+        * *radius_ratio* (``float``) --
+          The radius ratio for all pads (copper, paste and mask)
+          Default: 0 means pads do not included rounded corners (normal rectangles are used)
+        * *maximum_radius* (``float``) --
+          Only used if a radius ratio is given.
+          Limits the radius.
     """
 
     VIA_TENTED = 'all'
@@ -115,6 +122,9 @@ class ExposedPad(Node):
         self.at = Vector2D(kwargs.get('at', [0, 0]))
         self.size_round_base = kwargs.get('size_round_base', 0.01)
         self.grid_round_base = kwargs.get('grid_round_base', 0.01)
+
+        self.radius_ratio = kwargs.get('radius_ratio', 0)
+        self.maximum_radius = kwargs.get('maximum_radius')
 
         self._initNumber(**kwargs)
         self._initSize(**kwargs)
@@ -249,7 +259,8 @@ class ExposedPad(Node):
                     number="", type=Pad.TYPE_SMT,
                     center=self.at, size=paste_size, layers=['F.Paste'],
                     chamfer_size=0, chamfer_selection=0,
-                    pincount=self.paste_layout, grid=paste_grid
+                    pincount=self.paste_layout, grid=paste_grid,
+                    radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
                     )]
 
     @staticmethod
@@ -292,7 +303,8 @@ class ExposedPad(Node):
                 number="", type=Pad.TYPE_SMT,
                 center=[0, 0], size=self.inner_size, layers=['F.Paste'],
                 chamfer_size=0, chamfer_selection=corner,
-                pincount=self.paste_between_vias, grid=self.inner_grid
+                pincount=self.paste_between_vias, grid=self.inner_grid,
+                radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
                 )
         pad.chamferAvoidCircle(
                     center=self.via_grid/2, diameter=self.via_drill,
@@ -319,7 +331,8 @@ class ExposedPad(Node):
             layers=['F.Paste'],
             chamfer_size=0, chamfer_selection=corner,
             pincount=[self.paste_rings_outside[0], self.paste_between_vias[1]],
-            grid=[self.outer_paste_grid[0], self.inner_grid[1]]
+            grid=[self.outer_paste_grid[0], self.inner_grid[1]],
+            radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
             )
 
         pad_side.chamferAvoidCircle(
@@ -363,7 +376,8 @@ class ExposedPad(Node):
             layers=['F.Paste'],
             chamfer_size=0, chamfer_selection=corner,
             pincount=[self.paste_between_vias[0], self.paste_rings_outside[1]],
-            grid=[self.inner_grid[0], self.outer_paste_grid[1]]
+            grid=[self.inner_grid[0], self.outer_paste_grid[1]],
+            radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
             )
 
         pad_side.chamferAvoidCircle(
@@ -409,7 +423,8 @@ class ExposedPad(Node):
             center=[left, top], size=self.outer_size, layers=['F.Paste'],
             chamfer_size=0, chamfer_selection=0,
             pincount=self.paste_rings_outside,
-            grid=self.outer_paste_grid
+            grid=self.outer_paste_grid,
+            radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
             )
         pad_side.chamferAvoidCircle(
                     center=self.top_left_via, diameter=self.via_drill,
@@ -467,12 +482,14 @@ class ExposedPad(Node):
             layers_main = ['F.Cu']
             pads.append(Pad(
                 number="", at=self.at, size=self.mask_size,
-                shape=Pad.SHAPE_RECT, type=Pad.TYPE_SMT, layers=['F.Mask']
+                shape=Pad.SHAPE_ROUNDRECT, type=Pad.TYPE_SMT, layers=['F.Mask'],
+                radius_ratio=self.radius_ratio, maximum_radius=self.main_max_radius
             ))
 
         pads.append(Pad(
             number=self.number, at=self.at, size=self.size,
-            shape=Pad.SHAPE_RECT, type=Pad.TYPE_SMT, layers=layers_main
+            shape=Pad.SHAPE_ROUNDRECT, type=Pad.TYPE_SMT, layers=layers_main,
+            radius_ratio=self.radius_ratio, maximum_radius=self.main_max_radius
         ))
 
         return pads
@@ -499,14 +516,23 @@ class ExposedPad(Node):
         if self.add_bottom_pad:
             pads.append(Pad(
                 number=self.number, at=self.at, size=self.bottom_size,
-                shape=Pad.SHAPE_RECT, type=Pad.TYPE_SMT,
-                layers=self.bottom_pad_Layers
+                shape=Pad.SHAPE_ROUNDRECT, type=Pad.TYPE_SMT,
+                layers=self.bottom_pad_Layers,
+                radius_ratio=self.radius_ratio, maximum_radius=self.main_max_radius
             ))
 
         return pads
 
     def getVirtualChilds(self):
         # traceback.print_stack()
+        if self.has_vias:
+            if self.maximum_radius:
+                self.main_max_radius = min(self.maximum_radius, self.via_size/2)
+            else:
+                self.main_max_radius = self.via_size/2
+        else:
+            self.main_max_radius = self.maximum_radius
+
         pads = []
         pads += self.__createMainPad()
         if self.has_vias:

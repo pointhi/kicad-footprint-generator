@@ -31,7 +31,7 @@ RESULT_ROUNDRECT_FP = """(module round_rect_test (layer F.Cu) (tedit 0)
   )
   (pad 3 smd roundrect (at 5 0 45) (size 1 1) (layers F.Cu F.Mask F.Paste) (roundrect_rratio 0.1))
   (pad 2 smd roundrect (at -5 0) (size 1 1) (layers F.Cu F.Mask F.Paste) (roundrect_rratio 0.5))
-  (pad 1 smd roundrect (at 0 0) (size 1 1) (layers F.Cu F.Mask F.Paste) (roundrect_rratio 0))
+  (pad 1 smd rect (at 0 0) (size 1 1) (layers F.Cu F.Mask F.Paste))
 )"""
 
 RESULT_ROUNDRECT_FP2 = """(module round_rect_test (layer F.Cu) (tedit 0)
@@ -343,7 +343,7 @@ class Kicad5PadsTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        file_handler.writeFile('test_max_radius.kicad_mod')
+        # file_handler.writeFile('test_max_radius.kicad_mod')
         self.assertEqual(result, RESULT_ROUNDRECT_FP2)
 
     def testPolygonPad(self):

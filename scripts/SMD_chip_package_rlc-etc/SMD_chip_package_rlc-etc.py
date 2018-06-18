@@ -165,13 +165,11 @@ class TwoTerminalSMDchip():
                 kicad_mod.setAttribute('smd')
 
                 pad_shape_details = {}
-                if 'round_rect_radius_ratio' in configuration:
-                    pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
-                    pad_shape_details['radius_ratio'] = configuration['round_rect_radius_ratio']
-                    if 'round_rect_max_radius' in configuration:
-                        pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
-                else:
-                    pad_shape_details['shape'] = Pad.SHAPE_RECT
+                pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
+                pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
+                if 'round_rect_max_radius' in configuration:
+                    pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
+
 
                 if paste_details is not None:
                     layers_main = ['F.Cu', 'F.Mask']
@@ -364,8 +362,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     configuration['ipc_definition'] = args.ipc_definition
     if args.force_rectangle_pads:
-        configuration.pop('round_rect_max_radius', None)
-        configuration.pop('round_rect_radius_ratio', None)
+        configuration['round_rect_max_radius'] = None
+        configuration['round_rect_radius_ratio'] = 0
 
     for filepath in args.files:
         two_terminal_smd =TwoTerminalSMDchip(filepath, configuration)

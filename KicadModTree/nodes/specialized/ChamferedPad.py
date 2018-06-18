@@ -192,6 +192,13 @@ class ChamferedPad(Node):
           mirror x direction around offset "point"
         * *y_mirror* (``[int, float](mirror offset)``) --
           mirror y direction around offset "point"
+
+        * *radius_ratio* (``float``) --
+          The radius ratio used if the pad has no chamfer
+          Default: 0 means pads do not included rounded corners (normal rectangles are used)
+        * *maximum_radius* (``float``) --
+          Only used if a radius ratio is given.
+          Limits the radius.
     """
 
     def __init__(self, **kwargs):
@@ -200,6 +207,8 @@ class ChamferedPad(Node):
         self._initSize(**kwargs)
         self._initMirror(**kwargs)
         self._initPadSettings(**kwargs)
+        self.radius_ratio = kwargs.get('radius_ratio', 0)
+        self.maximum_radius = kwargs.get('maximum_radius')
 
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
@@ -267,7 +276,10 @@ class ChamferedPad(Node):
             return Pad(primitives=primitives, at=self.at,
                        shape=Pad.SHAPE_CUSTOM, size=size, **self.padargs)
         else:
-            return Pad(at=self.at, shape=Pad.SHAPE_RECT, size=self.size, **self.padargs)
+            return Pad(
+                    at=self.at, shape=Pad.SHAPE_ROUNDRECT, size=self.size,
+                    **self.padargs
+                )
 
     def chamferAvoidCircle(self, center, diameter, clearance=0):
         r""" set the chamfer such that the pad avoids a cricle located at near corner.

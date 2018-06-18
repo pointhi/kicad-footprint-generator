@@ -194,40 +194,50 @@ class LGA():
             ).lstrip())
         kicad_mod.setAttribute('smd')
 
+        pad_shape_details = {}
+        pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
+        pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
+        if 'round_rect_max_radius' in configuration:
+            pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
+
         init = 1
         if device_params['num_pins_x'] == 0:
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_y'],
                 x_spacing=0, y_spacing=device_params['pitch'],
-                **pad_details['left']))
+                **pad_details['left'],
+                **pad_shape_details))
             init += device_params['num_pins_y']
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_y'],
                 x_spacing=0, y_spacing=-device_params['pitch'],
-                **pad_details['right']))
+                **pad_details['right'],
+                **pad_shape_details))
         elif device_params['num_pins_y'] == 0:
             #for devices with clockwise numbering
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
                 y_spacing=0, x_spacing=device_params['pitch'],
-                **pad_details['top']))
+                **pad_details['top'],
+                **pad_shape_details))
             init += device_params['num_pins_x']
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
                 y_spacing=0, x_spacing=-device_params['pitch'],
-                **pad_details['bottom']))
+                **pad_details['bottom'],
+                **pad_shape_details))
         else:
             chamfer_size = device_params.get('chamfer_edge_pins')
             corner_first = [0, 1, 0, 0]
@@ -235,56 +245,60 @@ class LGA():
 
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_y'],
                 x_spacing=0, y_spacing=device_params['pitch'],
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
-                **pad_details['left']))
+                **pad_details['left'],
+                **pad_shape_details))
 
             init += device_params['num_pins_y']
             corner_first = [1, 0, 0, 0]
             corner_last = [0, 1, 0, 0]
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
                 y_spacing=0, x_spacing=device_params['pitch'],
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
-                **pad_details['bottom']))
+                **pad_details['bottom'],
+                **pad_shape_details))
 
             init += device_params['num_pins_x']
             corner_first = [0, 0, 0, 1]
             corner_last = [1, 0, 0, 0]
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_y'],
                 x_spacing=0, y_spacing=-device_params['pitch'],
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
-                **pad_details['right']))
+                **pad_details['right'],
+                **pad_shape_details))
 
             init += device_params['num_pins_y']
             corner_first = [0, 0, 1, 0]
             corner_last = [0, 0, 0, 1]
             kicad_mod.append(PadArray(
                 initial= init,
-                type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
+                type=Pad.TYPE_SMT,
                 layers=Pad.LAYERS_SMT,
                 pincount=device_params['num_pins_x'],
                 y_spacing=0, x_spacing=-device_params['pitch'],
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
-                **pad_details['top']))
+                **pad_details['top'],
+                **pad_shape_details))
 
 
         body_edge = {
@@ -419,6 +433,7 @@ if __name__ == "__main__":
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../package_config_KLCv3.yaml')
     parser.add_argument('--density', type=str, nargs='?', help='Density level (L,N,M)', default='N')
     parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='../ipc_definitions.yaml')
+    parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle')
     args = parser.parse_args()
 
     if args.density == 'L':
@@ -427,6 +442,9 @@ if __name__ == "__main__":
         ipc_density = 'most'
 
     ipc_doc_file = args.ipc_doc
+    if args.force_rectangle_pads:
+        configuration['round_rect_max_radius'] = None
+        configuration['round_rect_radius_ratio'] = 0
 
     with open(args.global_config, 'r') as config_stream:
         try:

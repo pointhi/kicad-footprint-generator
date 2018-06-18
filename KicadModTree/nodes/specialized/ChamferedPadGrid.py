@@ -178,6 +178,13 @@ class ChamferedPadGrid(Node):
           mirror x direction around offset "point"
         * *y_mirror* (``[int, float](mirror offset)``) --
           mirror y direction around offset "point"
+
+        * *radius_ratio* (``float``) --
+          The radius ratio used if the pad has no chamfer
+          Default: 0 means pads do not included rounded corners (normal rectangles are used)
+        * *maximum_radius* (``float``) --
+          Only used if a radius ratio is given.
+          Limits the radius.
     """
 
     def __init__(self, **kwargs):

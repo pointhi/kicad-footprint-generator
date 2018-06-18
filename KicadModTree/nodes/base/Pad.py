@@ -203,9 +203,7 @@ class Pad(Node):
         self.layers = kwargs.get('layers')
 
     def _initRadiusRatio(self, **kwargs):
-        if 'radius_ratio' not in kwargs:
-            raise KeyError('radius ratio not declared for rounded rectangle pad.')
-        radius_ratio = kwargs.get('radius_ratio')
+        radius_ratio = kwargs.get('radius_ratio', 0)
         if type(radius_ratio) not in [int, float]:
             raise TypeError('radius ratio needs to be of type int or float')
         if radius_ratio >= 0 and radius_ratio <= 0.5:
@@ -213,7 +211,7 @@ class Pad(Node):
         else:
             raise ValueError('radius ratio out of allowed range (0 < rr <= 0.5)')
 
-        if 'maximum_radius' in kwargs:
+        if kwargs.get('maximum_radius') is not None:
             maximum_radius = kwargs.get('maximum_radius')
             if type(maximum_radius) not in [int, float]:
                 raise TypeError('maximum radius needs to be of type int or float')
@@ -221,6 +219,9 @@ class Pad(Node):
             shortest_sidlength = min(self.size)
             if self.radius_ratio*shortest_sidlength > maximum_radius:
                 self.radius_ratio = maximum_radius/shortest_sidlength
+
+        if self.radius_ratio == 0:
+            self.shape = Pad.SHAPE_RECT
 
     def _initAnchorShape(self, **kwargs):
         self.anchor_shape = kwargs.get('anchor_shape', Pad.ANCHOR_CIRCLE)
