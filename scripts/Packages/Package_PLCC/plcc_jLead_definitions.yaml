@@ -1,3 +1,43 @@
+PLCC_32:
+  device_type: 'PLCC'
+  # units: 'inches'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/doc0015.pdf'
+  #overall_size_x: 0.69
+  overall_size_x_min: 12.319
+  overall_size_x_max: 12.573
+  #overall_size_y: 0.69
+  overall_size_y_min: 14.859
+  overall_size_y_max: 15.113
+  #body_size_x: 0.653
+  body_size_x_min: 11.354
+  body_size_x_max: 11.506
+  #body_size_y: 0.653
+  body_size_y_min: 13.894
+  body_size_y_max: 14.046
+  body_chamfer: 1.14
+  lead_width_min: 0.330
+  lead_width_max:  0.533
+  # lead_len_min: 0.45
+  # lead_len_max: 0.75
+  # lead_inside_x: 0.61
+  # lead_inside_x_min: 0.59
+  # lead_inside_x_max: 0.63
+  # lead_inside_y: 0.61
+  # lead_inside_y_min: 0.59
+  # lead_inside_y_max: 0.63
+  lead_center_distance_x_min: 9.906
+  lead_center_distance_x_max: 10.922
+  lead_center_distance_y_min: 12.471
+  lead_center_distance_y_max: 13.487
+  pitch: 1.27
+  num_pins_x: 7
+  num_pins_y: 9
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
 PLCC_44:
   device_type: 'PLCC'
   units: 'inches'
@@ -16,6 +56,7 @@ PLCC_44:
   body_size_y: 0.653
   body_size_y_min: 0.65
   body_size_y_max: 0.656
+  body_chamfer: 0.045
   lead_width_min: 0.013
   lead_width_max: 0.021
   # lead_len_min: 0.45
@@ -51,6 +92,7 @@ PLCC_68:
   body_size_y: 0.954
   body_size_y_min: 0.95
   body_size_y_max: 0.958
+  body_chamfer: 0.045
   lead_width_min: 0.013
   lead_width_max: 0.021
   # lead_len_min: 0.45
@@ -86,6 +128,7 @@ PLCC_84:
   body_size_y: 1.154
   body_size_y_min: 1.15
   body_size_y_max: 1.158
+  body_chamfer: 0.045
   lead_width_min: 0.013
   lead_width_max: 0.021
   # lead_len_min: 0.45
