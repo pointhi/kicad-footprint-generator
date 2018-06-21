@@ -33,46 +33,6 @@ class QFP():
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def calcExposedPad(self, device_params):
-        F = self.configuration.get('manufacturing_tolerance', 0.1)
-        P = self.configuration.get('placement_tolerance', 0.05)
-
-
-        ipc_reference = 'ipc_spec_flat_no_lead_pull_back'
-        used_density = device_params.get('ipc_density', ipc_density)
-        ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
-        ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
-
-        if 'EP_size_x_min' in device_params:
-            Xtol = device_params['EP_size_x_max'] - device_params['EP_size_x_min']
-            Xmin = device_params['EP_size_x_min']
-        else:
-            Xtol = 0
-            Xmin = device_params['EP_size_x']
-
-        if 'EP_size_y_min' in device_params:
-            Ytol = device_params['EP_size_y_max'] - device_params['EP_size_y_min']
-            Ymin = device_params['EP_size_y_min']
-        else:
-            Ytol = 0
-            Ymin = device_params['EP_size_y']
-
-        per_fillet = ipc_data_set['side']
-        rd_base = ipc_round_base['side']
-
-        size={'x': roundToBase(Xmin + 2*per_fillet + sqrt(Xtol**2+F**2+P**2), rd_base),
-              'y': roundToBase(Ymin + 2*per_fillet + sqrt(Ytol**2+F**2+P**2), rd_base)
-              }
-
-        if 'EP_size_limit_x' in device_params:
-            if size['x'] > device_params['EP_size_limit_x']:
-                size['x'] = device_params['EP_size_limit_x']
-            if size['y'] > device_params['EP_size_limit_y']:
-                size['y'] = device_params['EP_size_limit_y']
-
-
-        return size
-
     def calcPadDetails(self, device_params, ipc_data, ipc_round_base):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
@@ -174,7 +134,16 @@ class QFP():
 
         if has_EP:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
-            EP_size = self.calcExposedPad(device_params)
+            if 'EP_size_x' in device_params and 'EP_size_y' in device_params:
+                EP_size = {'x':device_params['EP_size_x'], 'y':device_params['EP_size_y']}
+            elif 'EP_size_x_max' in device_params and 'EP_size_x_min' in device_params and\
+                    'EP_size_y_max' in device_params and 'EP_size_y_min' in device_params:
+                EP_size = {
+                    'x':(device_params['EP_size_x_max']+device_params['EP_size_x_min'])/2,
+                    'y':(device_params['EP_size_y_max']+device_params['EP_size_y_min'])/2
+                    }
+            else:
+                raise KeyError("Either nominal ep size in x and y direction must be given or min and max values for both directions.")
         else:
             name_format = self.configuration['fp_name_format_string_no_trailing_zero']
             EP_size = {'x':0, 'y':0}
