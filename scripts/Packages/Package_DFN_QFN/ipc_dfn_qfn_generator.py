@@ -349,10 +349,10 @@ class DFN():
 
 
         body_edge = {
-            'left': -device_params['body_size_x']/2,
-            'right': device_params['body_size_x']/2,
-            'top': -device_params['body_size_y']/2,
-            'bottom': device_params['body_size_y']/2
+            'left': -size_x/2,
+            'right': size_x/2,
+            'top': -size_y/2,
+            'bottom': size_y/2
             }
 
         bounding_box = body_edge.copy()
