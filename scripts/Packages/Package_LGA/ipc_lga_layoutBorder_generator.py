@@ -442,9 +442,6 @@ if __name__ == "__main__":
         ipc_density = 'most'
 
     ipc_doc_file = args.ipc_doc
-    if args.force_rectangle_pads:
-        configuration['round_rect_max_radius'] = None
-        configuration['round_rect_radius_ratio'] = 0
 
     with open(args.global_config, 'r') as config_stream:
         try:
@@ -457,6 +454,10 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    if args.force_rectangle_pads:
+        configuration['round_rect_max_radius'] = None
+        configuration['round_rect_radius_ratio'] = 0
 
     for filepath in args.files:
         qfp = LGA(configuration)

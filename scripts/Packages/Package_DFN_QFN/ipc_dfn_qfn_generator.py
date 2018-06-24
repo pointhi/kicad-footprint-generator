@@ -51,27 +51,31 @@ class DFN():
         if 'body_size_x_max' in device_params:
             body_x_tol = device_params['body_size_x_max'] - device_params['body_size_x_min']
             outside_x_min = device_params['body_size_x_min']
-            outside_x_tol = body_x_tol
+            outside_x_max = device_params['body_size_x_max']
         else:
             outside_x_min = device_params['body_size_x']
-            outside_x_tol = 0
+            outside_x_max = device_params['body_size_x']
 
         if 'body_size_y_max' in device_params:
             body_y_tol = device_params['body_size_y_max'] - device_params['body_size_y_min']
             outside_y_min = device_params['body_size_y_min']
-            outside_y_tol = body_y_tol
+            outside_y_max = device_params['body_size_y_max']
         else:
-            outside_y_tol = 0
             outside_y_min = device_params['body_size_y']
+            outside_y_max = device_params['body_size_y']
 
         lead_len_tol = device_params['lead_len_max'] - device_params['lead_len_min']
 
         lead_width_tol = device_params['lead_width_max'] - device_params['lead_width_min']
 
-        def calcPadLength(outside_min, outside_tol):
-            Stol_RMS = math.sqrt(outside_tol**2+2*(lead_len_tol**2))
+        def calcPadLength(outside_min, outside_max):
+            outside_tol = outside_max - outside_min
+
             Smin = outside_min - 2*device_params['lead_len_max']
-            Smax_RMS = Smin + Stol_RMS
+            Smax = outside_max - 2*device_params['lead_len_min']
+            Stol = Smax - Smin
+            Stol_RMS = math.sqrt(outside_tol**2+2*(lead_len_tol**2))
+            Smax_RMS = Smax - (Stol - Stol_RMS)/2
 
             Gmin = Smax_RMS - 2*ipc_data['heel']\
                 + 2*device_params.get('heel_reduction',0)\
@@ -87,9 +91,9 @@ class DFN():
             return Gmin, Zmax
 
 
-        Gmin_x, Zmax_x = calcPadLength(outside_x_min, outside_x_tol)
+        Gmin_x, Zmax_x = calcPadLength(outside_x_min, outside_x_max)
         #print("Omin {} Otol {}".format(outside_y_min, outside_y_tol))
-        Gmin_y, Zmax_y = calcPadLength(outside_y_min, outside_y_tol)
+        Gmin_y, Zmax_y = calcPadLength(outside_y_min, outside_y_max)
         #print("Gy {} Zy {}".format(Gmin_y, Zmax_y))
 
         Xmax = device_params['lead_width_min'] + 2*ipc_data['side'] + math.sqrt(lead_width_tol**2 + F**2 + P**2)
@@ -504,9 +508,6 @@ if __name__ == "__main__":
         ipc_density = 'most'
 
     ipc_doc_file = args.ipc_doc
-    if args.force_rectangle_pads:
-        configuration['round_rect_max_radius'] = None
-        configuration['round_rect_radius_ratio'] = 0
 
     with open(args.global_config, 'r') as config_stream:
         try:
@@ -519,6 +520,10 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    if args.force_rectangle_pads:
+        configuration['round_rect_max_radius'] = None
+        configuration['round_rect_radius_ratio'] = 0
 
     for filepath in args.files:
         dfn = DFN(configuration)
