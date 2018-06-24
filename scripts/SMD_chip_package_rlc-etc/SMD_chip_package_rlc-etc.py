@@ -48,35 +48,37 @@ class TwoTerminalSMDchip():
         F = self.configuration.get('manufacturing_tolerance', 0.1)
         P = self.configuration.get('placement_tolerance', 0.05)
 
-        Ltol = device_params['body_length_max']-device_params['body_length_min']
+        Lmax = device_params['body_length_max']
+        Lmin = device_params['body_length_min']
+        Ltol = Lmax-Lmin
 
         if 'terminal_width_min' in device_params:
-            terminal_width_min = device_params['terminal_width_min']
-            terminal_width_max = device_params['terminal_width_max']
+            Wmin = device_params['terminal_width_min']
+            Wmax = device_params['terminal_width_max']
         else:
-            terminal_width_min = device_params['body_width_min']
-            terminal_width_max = device_params['body_width_max']
+            Wmin = device_params['body_width_min']
+            Wmax = device_params['body_width_max']
 
-        width_tolerance = terminal_width_max - terminal_width_min
+        Wtol = Wmax - Wmin
 
         if 'terminator_spacing_max' in device_params:
-            Tmin = (device_params['body_length_max'] - device_params['terminator_spacing_max'])/2
-            Tmax = (device_params['body_length_min'] - device_params['terminator_spacing_min'])/2
-            Ttol = (Tmax-Tmin)
-            Stol_RMS = math.sqrt(Ltol**2+2*(Ttol**2))
-            Smax_RMS = device_params['terminator_spacing_min'] + Stol_RMS
-            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
-
+            Stol_RMS = device_params['terminator_spacing_max'] - device_params['terminator_spacing_min']
+            Smax_RMS = device_params['terminator_spacing_max']
         else:
-            Ttol = (device_params['terminal_length_max'] - device_params['terminal_length_min'])
+            Tmin = device_params['terminal_length_min']
+            Tmax = device_params['terminal_length_max']
+            Ttol = (Tmax - Tmin)
+
+            Smin = Lmin - 2*Tmax
+            Smax = Lmax - 2*Tmin
+            Stol = Smax - Smin
             Stol_RMS = math.sqrt(Ltol**2+2*(Ttol**2))
-            Smin = device_params['body_length_min'] - 2*device_params['terminal_length_max']
-            Smax_RMS = Smin + Stol_RMS
+            Smax_RMS = Smax - (Stol - Stol_RMS)/2
 
-            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
+        Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
 
-        Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(Ltol**2 + F**2 + P**2)
-        Xmax = terminal_width_min + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
+        Zmax = Lmin + 2*ipc_data['toe'] + math.sqrt(Ltol**2 + F**2 + P**2)
+        Xmax = Wmin + 2*ipc_data['side'] + math.sqrt(Wtol**2 + F**2 + P**2)
 
         Zmax = roundToBase(Zmax, ipc_round_base['toe'])
         Gmin = roundToBase(Gmin, ipc_round_base['heel'])
