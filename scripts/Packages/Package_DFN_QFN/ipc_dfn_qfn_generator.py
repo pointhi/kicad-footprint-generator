@@ -239,7 +239,7 @@ class DFN():
 
                 kicad_mod.append(ExposedPad(
                     number=pincount+1, size=EP_size,
-                    paste_layout=thermals.get('EP_num_paste_pads'),
+                    paste_layout=thermals.get('EP_num_paste_pads', device_params.get('EP_num_paste_pads', 1)),
                     paste_coverage=paste_coverage,
                     via_layout=thermals.get('count', 0),
                     paste_between_vias=thermals.get('paste_between_vias'),

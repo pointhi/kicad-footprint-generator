@@ -35,7 +35,7 @@ Texas_S-PVQFN-N16_EP:
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1
     # EP_num_paste_pads: [2, 2]
-    EP_paste_coverage: 0.55
+    EP_paste_coverage: 0.5
     # grid:
     # bottom_pad_size:
     # paste_avoid_via: True
@@ -125,7 +125,7 @@ Texas_S-PVQFN-N24_EP:
   EP_size_y_min: 2.0
   EP_size_y: 2.1
   EP_size_y_max: 2.2
-  # EP_paste_coverage: 0.65
+  EP_paste_coverage: 0.75
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
   #EP_size_limit_x: 2.7  #for relatively large EP pads (increase clearance)
@@ -147,10 +147,10 @@ Texas_S-PVQFN-N24_EP:
     # paste_between_vias: 1
     # paste_rings_outside: 1
     # EP_num_paste_pads: [2, 2]
-    EP_paste_coverage: 0.5
+    # EP_paste_coverage: 0.5
     # grid:
     # bottom_pad_size:
-    # paste_avoid_via: False
+    paste_avoid_via: False
 
 Texas_S-PVQFN-N32_EP:
   device_type: 'QFN'

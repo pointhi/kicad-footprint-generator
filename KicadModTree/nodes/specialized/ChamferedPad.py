@@ -248,7 +248,21 @@ class ChamferedPad(Node):
         if self.chamfer_size[0] >= self.size[0] or self.chamfer_size[1] >= self.size[1]:
             raise ValueError('Chamfer size ({}) too large for given pad size ({})'.format(self.chamfer_size, self.size))
 
+        is_chamfered = False
         if self.corner_selection.isAnySelected() and self.chamfer_size[0] > 0 and self.chamfer_size[1] > 0:
+            is_chamfered = True
+        if is_chamfered and self.chamfer_size[0] == self.chamfer_size[1] and self.radius_ratio > 0:
+            # We prefer the use of rounded rectangle over chamfered pads.
+            shortest_sidlength = min(self.size)
+            radius = shortest_sidlength*self.radius_ratio
+            if self.maximum_radius and radius > self.maximum_radius:
+                radius = self.maximum_radius
+
+            r_chamfer = self.chamfer_size[0] + sqrt(2)*self.chamfer_size[0]/2
+            if radius >= r_chamfer:
+                is_chamfered = False
+
+        if is_chamfered:
             outside = Vector2D(self.size.x/2, self.size.y/2)
 
             inside = [Vector2D(outside.x, outside.y-self.chamfer_size.y),

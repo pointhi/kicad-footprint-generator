@@ -166,7 +166,7 @@ class ExposedPad(Node):
                     (self.size.y-self.via_size)/(ny if ny > 0 else 1)
                 ])
 
-        self.via_grid = self.via_grid.round_to(kwargs.get('grid_round_base', 0.01))
+        self.via_grid = self.via_grid.round_to(kwargs.get('grid_round_base', 0))
 
     def _initThermalVias(self, **kwargs):
         if not self.setViaLayout(kwargs.get('via_layout', [0, 0])):
