@@ -22,6 +22,8 @@ DEFAULT_PASTE_COVERAGE = 0.65
 DEFAULT_VIA_PASTE_CLEARANCE = 0.15
 DEFAULT_MIN_ANNULAR_RING = 0.15
 
+SILK_MIN_LEN = 0.1
+
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -419,23 +421,29 @@ class DFN():
                 {'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
                 {'x': body_edge['left']-silk_offset, 'y': sy1}
             ]
-            kicad_mod.append(PolygoneLine(
-                polygone=poly_silk,
-                width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0))
-            kicad_mod.append(PolygoneLine(
-                polygone=poly_silk,
-                width=configuration['silk_line_width'],
-                layer="F.SilkS", y_mirror=0))
-            kicad_mod.append(PolygoneLine(
-                polygone=poly_silk,
-                width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0, y_mirror=0))
-            kicad_mod.append(Line(
-                start={'x': sx1, 'y': body_edge['top']-silk_offset},
-                end={'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
-                width=configuration['silk_line_width'],
-                layer="F.SilkS"))
+            if sx1 - SILK_MIN_LEN < body_edge['left']-silk_offset:
+                poly_silk = poly_silk[1:]
+            if sy1 - SILK_MIN_LEN < body_edge['top']-silk_offset:
+                poly_silk = poly_silk[:-1]
+            if len(poly_silk) > 1:
+                kicad_mod.append(PolygoneLine(
+                    polygone=poly_silk,
+                    width=configuration['silk_line_width'],
+                    layer="F.SilkS", x_mirror=0))
+                kicad_mod.append(PolygoneLine(
+                    polygone=poly_silk,
+                    width=configuration['silk_line_width'],
+                    layer="F.SilkS", y_mirror=0))
+                kicad_mod.append(PolygoneLine(
+                    polygone=poly_silk,
+                    width=configuration['silk_line_width'],
+                    layer="F.SilkS", x_mirror=0, y_mirror=0))
+                if len(poly_silk) > 2:
+                    kicad_mod.append(Line(
+                        start={'x': sx1, 'y': body_edge['top']-silk_offset},
+                        end={'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
 
         # # ######################## Fabrication Layer ###########################
 
