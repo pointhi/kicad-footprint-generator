@@ -63,27 +63,29 @@ SMD_1210:
 SMD_1806:
     code_imperial: "1806"
     code_metric: "4516"
-    body_length: 4.5
-    body_length_min: 4.3
-    body_length_max: 4.7
-    body_width: 1.6
-    body_width_min: 1.4
-    body_width_max: 1.8
-    terminal_length_min: 0.4
-    terminal_length_max: 1.0
+    body_length:
+      nominal: 4.5
+      tolerance: 0.2
+    body_width:
+      nominal: 1.6
+      tolerance: 0.2
+    terminal_length:
+      nominal: 0.7
+      tolerance: 0.3
     size_info: '(Body size source: https://www.modelithics.com/models/Vendor/MuRata/BLM41P.pdf)'
 
 SMD_1812:
     code_imperial: "1812"
     code_metric: "4532"
-    body_length: 4.5
-    body_length_min: 4.3
-    body_length_max: 4.7
-    body_width: 3.2
-    body_width_min: 3.0
-    body_width_max: 3.4
-    terminal_length_min: 0.3
-    terminal_length_max: 0.7
+    body_length:
+        nominal: 4.5
+        tolerance: 0.2
+    body_width:
+        nominal: 3.2
+        tolerance: 0.2
+    terminal_length:
+        nominal: 0.5
+        tolerance: 0.2
     size_info: '(Body size source: https://www.nikhef.nl/pub/departments/mt/projects/detectorR_D/dtddice/ERJ2G.pdf)'
 
 SMD_2010:
@@ -115,12 +117,12 @@ SMD_2512:
 SMD_2816:
     code_imperial: "2816"
     code_metric: "7142"
-    body_length: 7.1
-    body_length_min: 6.846
-    body_length_max: 7.354
-    body_width: 4.2
-    body_width_min: 3.946
-    body_width_max: 4.454
+    body_length:
+        nominal: 7.1
+        tolerance: 0.254
+    body_width:
+        nominal: 4.2
+        tolerance: 0.254
     terminal_length_min: 1.316
-    terminal_length_max: 1.824
+    terminal_length_max: 2.744
     size_info: '(Body size from: https://www.vishay.com/docs/30100/wsl.pdf)'

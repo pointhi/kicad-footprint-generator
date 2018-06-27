@@ -13,6 +13,7 @@ from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
+from ipc_pad_size_calculators import *
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
