@@ -57,14 +57,14 @@ pad_size = [pitch - pad_to_pad_clearance, pitch - pad_to_pad_clearance]
 def generate_one_footprint(pins, configuration):
     pins_per_row = pins
 
-    mpn = part_code.format(n=pins)
-    alt_mpn = [code.format(n=pins) for code in alternative_codes]
+    mpn = part_code.format(n=pins*2)
+    alt_mpn = [code.format(n=pins*2) for code in alternative_codes]
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "-1MP",
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
@@ -72,6 +72,7 @@ def generate_one_footprint(pins, configuration):
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
+
     ########################## Dimensions ##############################
     B = (pins_per_row-1)*pitch
     A = B + 6.65
@@ -128,10 +129,10 @@ def generate_one_footprint(pins, configuration):
     ######################## Fabrication Layer ###########################
     main_body_poly= [
         {'x': body_edge['left'], 'y': body_edge['bottom']},
-        {'x': body_edge['left'], 'y': body_edge['top']+1},
-        {'x': body_edge['left']+1, 'y': body_edge['top']},
-        {'x': body_edge['right']-1, 'y': body_edge['top']},
-        {'x': body_edge['right'], 'y': body_edge['top']+1},
+        {'x': body_edge['left'], 'y': body_edge['top'] + 1},
+        {'x': body_edge['left'] + 1, 'y': body_edge['top']},
+        {'x': body_edge['right'] - 1, 'y': body_edge['top']},
+        {'x': body_edge['right'], 'y': body_edge['top'] + 1},
         {'x': body_edge['right'], 'y': body_edge['bottom']},
         {'x': body_edge['left'], 'y': body_edge['bottom']}
     ]
@@ -179,7 +180,7 @@ def generate_one_footprint(pins, configuration):
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     ######################### Text Fields ###############################
-    cy1 = roundToBase(body_edge['top']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy1 = roundToBase(body_edge['top'] - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = roundToBase(pad_row_2_y + pad_size[1] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,

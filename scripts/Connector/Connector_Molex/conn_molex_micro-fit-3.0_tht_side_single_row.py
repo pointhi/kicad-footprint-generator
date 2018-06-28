@@ -39,11 +39,11 @@ datasheet = 'https://www.molex.com/pdm_docs/sd/436500300_sd.pdf'
 
 #Molex part number
 #n = number of circuits per row
-part_code = "43065-{n:02}00"
+part_code = "43650-{n:02}00"
 
 alternative_codes = [
-"43045-{n:02}01",
-"43045-{n:02}02"
+"43650-{n:02}01",
+"43650-{n:02}02"
 ]
 
 pins_per_row_range = range(2,13)
@@ -64,7 +64,7 @@ def generate_one_footprint(pins, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "-1MP",
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
@@ -72,6 +72,7 @@ def generate_one_footprint(pins, configuration):
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
+
     ########################## Dimensions ##############################
     B = (pins_per_row-1)*pitch
     A = B + 6.65
@@ -167,7 +168,7 @@ def generate_one_footprint(pins, configuration):
         layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     ######################### Text Fields ###############################
-    cy1 = roundToBase(body_edge['top']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy1 = roundToBase(body_edge['top'] - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy2 = roundToBase(pad_size[1] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
