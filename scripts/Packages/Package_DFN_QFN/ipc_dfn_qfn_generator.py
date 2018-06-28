@@ -37,7 +37,7 @@ class DFN():
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def calcPadDetails(self, device_params, ipc_data, ipc_round_base):
+    def calcPadDetails(self, device_dimensions, ipc_data, ipc_round_base):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
         # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -48,59 +48,18 @@ class DFN():
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
-        F = self.configuration.get('manufacturing_tolerance', 0.1)
-        P = self.configuration.get('placement_tolerance', 0.05)
+        manf_tol = {
+            'F': self.configuration.get('manufacturing_tolerance', 0.1),
+            'P': self.configuration.get('placement_tolerance', 0.05)
+        }
 
-        if 'body_size_x_max' in device_params:
-            body_x_tol = device_params['body_size_x_max'] - device_params['body_size_x_min']
-            outside_x_min = device_params['body_size_x_min']
-            outside_x_max = device_params['body_size_x_max']
-        else:
-            outside_x_min = device_params['body_size_x']
-            outside_x_max = device_params['body_size_x']
+        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['body_size_x'], device_dimensions['lead_width'],
+                lead_len=device_dimensions.get('lead_len'))
 
-        if 'body_size_y_max' in device_params:
-            body_y_tol = device_params['body_size_y_max'] - device_params['body_size_y_min']
-            outside_y_min = device_params['body_size_y_min']
-            outside_y_max = device_params['body_size_y_max']
-        else:
-            outside_y_min = device_params['body_size_y']
-            outside_y_max = device_params['body_size_y']
-
-        lead_len_tol = device_params['lead_len_max'] - device_params['lead_len_min']
-
-        lead_width_tol = device_params['lead_width_max'] - device_params['lead_width_min']
-
-        def calcPadLength(outside_min, outside_max):
-            outside_tol = outside_max - outside_min
-
-            Smin = outside_min - 2*device_params['lead_len_max']
-            Smax = outside_max - 2*device_params['lead_len_min']
-            Stol = Smax - Smin
-            Stol_RMS = math.sqrt(outside_tol**2+2*(lead_len_tol**2))
-            Smax_RMS = Smax - (Stol - Stol_RMS)/2
-
-            Gmin = Smax_RMS - 2*ipc_data['heel']\
-                + 2*device_params.get('heel_reduction',0)\
-                - math.sqrt(Stol_RMS**2 + F**2 + P**2)
-
-            Zmax = outside_min + 2*ipc_data['toe'] + math.sqrt(outside_tol**2 + F**2 + P**2)
-
-            Zmax = roundToBase(Zmax, ipc_round_base['toe'])
-            Gmin = roundToBase(Gmin, ipc_round_base['heel'])
-
-            Zmax += device_params.get('pad_length_addition', 0)
-
-            return Gmin, Zmax
-
-
-        Gmin_x, Zmax_x = calcPadLength(outside_x_min, outside_x_max)
-        #print("Omin {} Otol {}".format(outside_y_min, outside_y_tol))
-        Gmin_y, Zmax_y = calcPadLength(outside_y_min, outside_y_max)
-        #print("Gy {} Zy {}".format(Gmin_y, Zmax_y))
-
-        Xmax = device_params['lead_width_min'] + 2*ipc_data['side'] + math.sqrt(lead_width_tol**2 + F**2 + P**2)
-        Xmax = roundToBase(Xmax, ipc_round_base['side'])
+        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['body_size_y'], device_dimensions['lead_width'],
+                lead_len=device_dimensions.get('lead_len'))
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -110,28 +69,35 @@ class DFN():
 
         return Pad
 
+    @staticmethod
+    def deviceDimensions(device_size_data):
+        dimensions = {
+            'body_size_x': TolerancedSize.fromYaml(device_size_data, base_name='body_size_x'),
+            'body_size_y': TolerancedSize.fromYaml(device_size_data, base_name='body_size_y'),
+            'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width'),
+            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
+        }
+        dimensions['has_EP'] = False
+        if 'EP_size_x_min' in device_size_data and 'EP_size_x_max' in device_size_data or 'EP_size_x' in device_size_data:
+            dimensions['EP_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_x')
+            dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
+            dimensions['has_EP'] = True
+
+        return dimensions
+
     def generateFootprint(self, device_params):
-        has_EP = 'EP_size_x' in device_params or 'EP_size_x_min' in device_params
-        if has_EP and 'thermal_vias' in device_params:
-            self.__createFootprintVariant(device_params, has_EP, True)
+        device_dimensions = DFN.deviceDimensions(device_params)
 
-        self.__createFootprintVariant(device_params, has_EP, False)
+        if device_dimensions['has_EP'] and 'thermal_vias' in device_params:
+            self.__createFootprintVariant(device_params, device_dimensions, True)
 
-    def __createFootprintVariant(self, device_params, has_EP, with_thermal_vias):
+        self.__createFootprintVariant(device_params, device_dimensions, False)
+
+    def __createFootprintVariant(self, device_params, device_dimensions, with_thermal_vias):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
         lib_name = self.configuration['lib_name_format_string'].format(category=category)
-
-        if 'body_size_x' in device_params:
-            size_x = device_params['body_size_x']
-        else:
-            size_x = (device_params['body_size_x_max'] + device_params['body_size_x_min'])/2
-
-        if 'body_size_y' in device_params:
-            size_y = device_params['body_size_y']
-        else:
-            size_y = (device_params['body_size_y_max'] + device_params['body_size_y_min'])/2
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
@@ -144,7 +110,7 @@ class DFN():
         ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
-        pad_details = self.calcPadDetails(device_params, ipc_data_set, ipc_round_base)
+        pad_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base)
 
 
         suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
@@ -152,24 +118,21 @@ class DFN():
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
-        if has_EP:
+        if device_dimensions['has_EP']:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
-            if 'EP_size_x' in device_params and 'EP_size_y' in device_params:
-                EP_size = {'x':device_params['EP_size_x'], 'y':device_params['EP_size_y']}
-            elif 'EP_size_x_max' in device_params and 'EP_size_x_min' in device_params and\
-                    'EP_size_y_max' in device_params and 'EP_size_y_min' in device_params:
-                EP_size = {
-                    'x':(device_params['EP_size_x_max']+device_params['EP_size_x_min'])/2,
-                    'y':(device_params['EP_size_y_max']+device_params['EP_size_y_min'])/2
-                    }
-            else:
-                raise KeyError("Either nominal ep size in x and y direction must be given or min and max values for both directions.")
+            EP_size = {
+                'x':device_dimensions['EP_size_x'].nominal,
+                'y':device_dimensions['EP_size_y'].nominal
+                }
         else:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
             EP_size = {'x':0, 'y':0}
 
         if 'custom_name_format' in device_params:
             name_format = device_params['custom_name_format']
+
+        size_x = device_dimensions['body_size_x'].nominal
+        size_y = device_dimensions['body_size_y'].nominal
 
         fp_name = name_format.format(
             man=device_params.get('manufacturer',''),
@@ -234,7 +197,7 @@ class DFN():
         if 'round_rect_max_radius' in configuration:
             pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
 
-        if has_EP:
+        if device_dimensions['has_EP']:
             if with_thermal_vias:
                 thermals = device_params['thermal_vias']
                 paste_coverage = thermals.get('EP_paste_coverage',
