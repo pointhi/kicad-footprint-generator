@@ -15,14 +15,14 @@ SMD_0805:
     code_imperial: "0805"
     code_metric: "2012"
     body_length: 2.0
-    body_length_min: 1.85
+    body_length_min: 1.86
     body_length_max: 2.15
     body_width: 1.2
-    body_width_min: 1.1
-    body_width_max: 1.4
-    terminator_spacing_min: 0.55
-    terminator_spacing_max: 1.32
-    size_info: '(Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)'
+    body_width_min: 1.12
+    body_width_max: 1.38
+    terminator_spacing_min: 0.89
+    terminator_spacing_max: 1.55
+    size_info: '(Body size source: https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)'
 
 # SMD_1008:
 # I did not find any part that uses this package.
