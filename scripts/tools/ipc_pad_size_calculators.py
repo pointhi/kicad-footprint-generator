@@ -31,6 +31,61 @@ class TolerancedSize():
             raise ValueError("Maximum is smaller than minimum. Tolerance ranges given wrong or parameters confused.")
 
         self.ipc_tol = self.maximum - self.minimum
+        self.ipc_tol_RMS = self.ipc_tol
+        self.maximum_RMS = self.maximum
+        self.minimum_RMS = self.minimum
+
+    def updateRMS(self, tolerances):
+        ipc_tol_RMS = 0
+        for t in tolerances:
+            ipc_tol_RMS += t**2
+
+        self.ipc_tol_RMS = math.sqrt(ipc_tol_RMS)
+        if self.ipc_tol_RMS > self.ipc_tol:
+            raise ValueError("RMS tolerance larger than normal tolerance. Did you give the wrong tolerances?")
+
+        self.maximum_RMS = self.maximum - (self.ipc_tol - self.ipc_tol_RMS)/2
+        self.minimum_RMS = self.minimum + (self.ipc_tol - self.ipc_tol_RMS)/2
+
+    def __add__(self, other):
+        if type(other) in [int, float]:
+            result = TolerancedSize(
+                minimum = self.minimum + other,
+                maximum = self.maximum + other
+                )
+            return result
+
+        result = TolerancedSize(
+            minimum = self.minimum + other.minimum,
+            maximum = self.maximum + other.maximum
+            )
+        result.updateRMS([self.ipc_tol_RMS, other.ipc_tol_RMS])
+        return result
+
+    def __sub__(self, other):
+        if type(other) in [int, float]:
+            result = TolerancedSize(
+                minimum = self.minimum - other,
+                maximum = self.maximum - other
+                )
+            return result
+
+        result = TolerancedSize(
+            minimum = self.minimum - other.maximum,
+            maximum = self.maximum - other.minimum
+            )
+        result.updateRMS([self.ipc_tol_RMS, other.ipc_tol_RMS])
+        return result
+
+    def __mul__(self, other):
+        if type(other) not in [int, float]:
+            raise NotImplementedError("Only multiplication with int and float is implemented right now.")
+        result = TolerancedSize(
+            minimum = self.minimum*other,
+            maximum = self.maximum*other
+            )
+        result.updateRMS([self.ipc_tol_RMS]*other)
+        return result
 
     @staticmethod
     def fromYaml(yaml, base_name=None):
@@ -60,6 +115,15 @@ class TolerancedSize():
 
 def ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
         lead_len=None, lead_inside=None):
+    pull_back = TolerancedSize(nominal=0)
+
+    return ipc_body_edge_inside_pull_back(
+                ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
+                lead_len=lead_len, lead_inside=lead_inside, pull_back=pull_back
+                )
+
+def ipc_body_edge_inside_pull_back(ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
+        lead_len=None, lead_inside=None, pull_back=None, lead_outside=None):
     # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
     # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
     # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -73,22 +137,22 @@ def ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol, body_size, lead_wid
     F = manf_tol.get('manufacturing_tolerance', 0.1)
     P = manf_tol.get('placement_tolerance', 0.05)
 
+    if lead_outside is None:
+        if pull_back is None:
+            raise KeyError("Either lead outside or pull back distance must be given")
+        lead_outside = body_size - pull_back*2
+
     if lead_inside is not None:
-        Stol_RMS = lead_inside.ipc_tol
-        Smax_RMS = lead_inside.maximum
+        S = lead_inside
     elif lead_len is not None:
-        Smin = body_size.minimum - 2*lead_len.maximum
-        Smax = body_size.maximum - 2*lead_len.minimum
-        Stol = Smax - Smin
-        Stol_RMS = math.sqrt(body_size.ipc_tol**2+2*(lead_len.ipc_tol**2))
-        Smax_RMS = Smax - (Stol - Stol_RMS)/2
+        S = lead_outside - lead_len*2
     else:
         raise KeyError("either lead inside distance or lead lenght must be given")
 
-    Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
+    Gmin = S.maximum_RMS - 2*ipc_data['heel'] - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
 
-    Zmax = body_size.minimum + 2*ipc_data['toe'] + math.sqrt(body_size.ipc_tol**2 + F**2 + P**2)
-    Xmax = lead_width.minimum + 2*ipc_data['side'] + math.sqrt(lead_width.ipc_tol**2 + F**2 + P**2)
+    Zmax = lead_outside.minimum_RMS + 2*ipc_data['toe'] + math.sqrt(body_size.ipc_tol_RMS**2 + F**2 + P**2)
+    Xmax = lead_width.minimum_RMS + 2*ipc_data['side'] + math.sqrt(lead_width.ipc_tol_RMS**2 + F**2 + P**2)
 
     Zmax = roundToBase(Zmax, ipc_round_base['toe'])
     Gmin = roundToBase(Gmin, ipc_round_base['heel'])
