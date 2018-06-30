@@ -13,6 +13,7 @@ from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
+from ipc_pad_size_calculators import *
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
@@ -32,7 +33,7 @@ class LGA():
 
 
 
-    def calcPadDetails(self, device_params, ipc_data, ipc_round_base):
+    def calcPadDetails(self, device_dimensions, ipc_data, ipc_round_base):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
         # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -43,55 +44,24 @@ class LGA():
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
-        F = self.configuration.get('manufacturing_tolerance', 0.1)
-        P = self.configuration.get('placement_tolerance', 0.05)
+        manf_tol = {
+            'F': self.configuration.get('manufacturing_tolerance', 0.1),
+            'P': self.configuration.get('placement_tolerance', 0.05)
+        }
 
-        Mtol = device_params['lead_to_edge_max'] - device_params['lead_to_edge_min']
+        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
+                ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['body_size_x'], device_dimensions['lead_width'],
+                lead_len=device_dimensions.get('lead_len'),
+                pull_back=device_dimensions.get('lead_to_edge')
+                )
 
-        if 'body_size_x_max' in device_params:
-            body_x_tol = device_params['body_size_x_max'] - device_params['body_size_x_min']
-            outside_x_min = device_params['body_size_x_min'] - 2*device_params['lead_to_edge_max']
-            outside_x_tol = sqrt(2*Mtol**2+body_x_tol**2)
-        else:
-            outside_x_min = device_params['body_size_x']- 2*device_params['lead_to_edge_max']
-            outside_x_tol = Mtol
-
-        if 'body_size_y_max' in device_params:
-            body_y_tol = device_params['body_size_y_max'] - device_params['body_size_y_min']
-            outside_y_min = device_params['body_size_y_min']- 2*device_params['lead_to_edge_max']
-            outside_y_tol = sqrt(2*Mtol**2+body_y_tol**2)
-        else:
-            outside_y_tol = Mtol
-            outside_x_min = device_params['body_size_y']- 2*device_params['lead_to_edge_max']
-
-        lead_len_tol = device_params['lead_len_max'] - device_params['lead_len_min']
-
-        lead_width_tol = device_params['lead_width_max'] - device_params['lead_width_min']
-
-        def calcPadLength(outside_min, outside_tol):
-            Stol_RMS = math.sqrt(outside_tol**2+2*(lead_len_tol**2))
-            Smin = outside_min - 2*device_params['lead_len_max']
-            Smax_RMS = Smin + Stol_RMS
-
-            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
-
-            Zmax = outside_min + 2*ipc_data['toe'] + math.sqrt(outside_tol**2 + F**2 + P**2)
-
-            Zmax = roundToBase(Zmax, ipc_round_base['toe'])
-            Gmin = roundToBase(Gmin, ipc_round_base['heel'])
-
-            Zmax += device_params.get('pad_length_addition', 0)
-
-            return Gmin, Zmax
-
-
-        Gmin_x, Zmax_x = calcPadLength(outside_x_min, outside_x_tol)
-        #print("Omin {} Otol {}".format(outside_y_min, outside_y_tol))
-        Gmin_y, Zmax_y = calcPadLength(outside_y_min, outside_y_tol)
-        #print("Gy {} Zy {}".format(Gmin_y, Zmax_y))
-
-        Xmax = device_params['lead_width_min'] + 2*ipc_data['side'] + math.sqrt(lead_width_tol**2 + F**2 + P**2)
-        Xmax = roundToBase(Xmax, ipc_round_base['side'])
+        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
+                ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['body_size_y'], device_dimensions['lead_width'],
+                lead_len=device_dimensions.get('lead_len'),
+                pull_back=device_dimensions.get('lead_to_edge')
+                )
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -101,21 +71,31 @@ class LGA():
 
         return Pad
 
+    @staticmethod
+    def deviceDimensions(device_size_data):
+        dimensions = {
+            'body_size_x': TolerancedSize.fromYaml(device_size_data, base_name='body_size_x'),
+            'body_size_y': TolerancedSize.fromYaml(device_size_data, base_name='body_size_y'),
+            'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width'),
+            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len'),
+            'lead_to_edge': TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
+        }
+        # ToDo implement more options on how to enter the dimensions.
+        # Example: add option to directly input lead outside to outside and inside to inside instead of lead to edge and lead lenght
+
+        return dimensions
+
     def generateFootprint(self, device_params):
+        device_dimensions = LGA.deviceDimensions(device_params)
+        size_x = device_dimensions['body_size_x'].nominal
+        size_y = device_dimensions['body_size_y'].nominal
+
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
         lib_name = self.configuration['lib_name_format_string'].format(category=category)
 
-        if 'body_size_x' in device_params:
-            size_x = device_params['body_size_x']
-        else:
-            size_x = (device_params['body_size_x_max'] + device_params['body_size_x_min'])/2
 
-        if 'body_size_y' in device_params:
-            size_y = device_params['body_size_y']
-        else:
-            size_y = (device_params['body_size_y_max'] + device_params['body_size_y_min'])/2
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
@@ -125,7 +105,7 @@ class LGA():
         ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
-        pad_details = self.calcPadDetails(device_params, ipc_data_set, ipc_round_base)
+        pad_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base)
 
 
         suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
@@ -302,10 +282,10 @@ class LGA():
 
 
         body_edge = {
-            'left': -device_params['body_size_x']/2,
-            'right': device_params['body_size_x']/2,
-            'top': -device_params['body_size_y']/2,
-            'bottom': device_params['body_size_y']/2
+            'left': -size_x/2,
+            'right': size_x/2,
+            'top': -size_y/2,
+            'bottom': size_y/2
             }
 
         bounding_box = body_edge
