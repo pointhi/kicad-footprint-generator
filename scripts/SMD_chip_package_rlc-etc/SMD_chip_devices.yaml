@@ -220,7 +220,7 @@ diode_handsolder:
     description: 'Diode SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
     keywords: 'diode handsolder'
     ipc_density: 'nominal'
-    pad_length_addition: 0
+    pad_length_addition: 0.35
     polarization_mark: 'True'
     suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
     include_suffix_in_3dpath: 'False'
@@ -286,7 +286,7 @@ led_handsolder:
     description: 'LED SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
     keywords: 'LED handsolder'
     ipc_density: 'nominal'
-    pad_length_addition: 0
+    pad_length_addition: 0.35
     polarization_mark: 'True'
     suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
     include_suffix_in_3dpath: 'False'
