@@ -104,7 +104,7 @@ def toFloatArray(value, length=2, min_value=1):
         Defines the minimum alowed value (raise value error if too low)
         None -> No check
     """
-    return toNumberArray(value, length, min_value, member_type=int)
+    return toNumberArray(value, length, min_value, member_type=float)
 
 
 def isAnyLarger(values, low_limits, must_be_larger=False):
