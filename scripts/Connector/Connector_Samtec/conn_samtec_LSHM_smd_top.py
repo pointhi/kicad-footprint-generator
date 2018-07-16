@@ -167,7 +167,7 @@ def generate_one_footprint(pins_per_row, params, configuration):
     ]
     kicad_mod.append(PolygoneLine(polygone=poly_fab,
         layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=poly_fab, x_mirror=0.000000001,
+    kicad_mod.append(PolygoneLine(polygone=poly_fab, x_mirror=0,
         layer='F.Fab', width=configuration['fab_line_width']))
 
     pad_x_outside_edge = A/2 + pad_size[0]/2 + pad_silk_off
@@ -182,7 +182,7 @@ def generate_one_footprint(pins_per_row, params, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=poly_silk,
             layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(PolygoneLine(polygone=poly_silk, x_mirror=0.000000001,
+        kicad_mod.append(PolygoneLine(polygone=poly_silk, x_mirror=0,
             layer='F.SilkS', width=configuration['silk_line_width']))
 
     else:
@@ -197,7 +197,7 @@ def generate_one_footprint(pins_per_row, params, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=poly_silk_top,
             layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(PolygoneLine(polygone=poly_silk_top, x_mirror=0.000000001,
+        kicad_mod.append(PolygoneLine(polygone=poly_silk_top, x_mirror=0,
             layer='F.SilkS', width=configuration['silk_line_width']))
 
         poly_silk_bottom = [
@@ -208,7 +208,7 @@ def generate_one_footprint(pins_per_row, params, configuration):
         ]
         kicad_mod.append(PolygoneLine(polygone=poly_silk_bottom,
             layer='F.SilkS', width=configuration['silk_line_width']))
-        kicad_mod.append(PolygoneLine(polygone=poly_silk_bottom, x_mirror=0.000000001,
+        kicad_mod.append(PolygoneLine(polygone=poly_silk_bottom, x_mirror=0,
             layer='F.SilkS', width=configuration['silk_line_width']))
 
     ########################### Pin 1 #################################

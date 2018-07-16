@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.PolygonPoints import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.base.Line import Line
@@ -71,7 +71,7 @@ class PolygoneLine(Node):
 
         node_strings = []
         for node in self.nodes:
-            node_position = Point2D(node)
+            node_position = Vector2D(node)
             node_strings.append("[x: {x}, y: {y}]".format(x=node_position.x,
                                                           y=node_position.y))
 

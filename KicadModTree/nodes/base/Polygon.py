@@ -14,7 +14,7 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.PolygonPoints import *
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -31,6 +31,10 @@ class Polygon(Node):
           layer on which the line is drawn (default: 'F.SilkS')
         * *width* (``float``) --
           width of the line (default: None, which means auto detection)
+        * *x_mirror* (``[int, float](mirror offset)``) --
+          mirror x direction around offset "point"
+        * *y_mirror* (``[int, float](mirror offset)``) --
+          mirror y direction around offset "point"
 
     :Example:
 

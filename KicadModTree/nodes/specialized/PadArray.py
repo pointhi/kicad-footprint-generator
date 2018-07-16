@@ -17,6 +17,7 @@
 # (C) 2017 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 from KicadModTree.nodes.base.Pad import *
+from KicadModTree.nodes.specialized.ChamferedPad import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -29,13 +30,13 @@ class PadArray(Node):
         See below
 
     :Keyword Arguments:
-        * *start* (``Point``) --
+        * *start* (``Vector2D``) --
           start edge of the pad array
-        * *center* (``Point``) --
+        * *center* (``Vector2D``) --
           center pad array around specific point
         * *pincount* (``int``) --
           number of pads to render
-        * *spacing* (``Point``, ``float``) --
+        * *spacing* (``Vector2D``, ``float``) --
           offset between rendered pads
         * *x_spacing* (``float``) --
           x offset between rendered pads
@@ -51,16 +52,22 @@ class PadArray(Node):
           shape of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *size* (``float``, ``Point``) --
+        * *size* (``float``, ``Vector2D``) --
           size of the pad
-        * *offset* (``Point``) --
+        * *offset* (``Vector2D``) --
           offset of the pad
-        * *drill* (``float``, ``Point``) --
+        * *drill* (``float``, ``Vector2D``) --
           drill-size of the pad
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
+        * *chamfer_corner_selection_first* (``[bool, bool, bool, bool]``)
+          Select which corner should be chamfered for the first pad. (default: None)
+        * *chamfer_corner_selection_last* (``[bool, bool, bool, bool]``)
+          Select which corner should be chamfered for the last pad. (default: None)
+        * *chamfer_size* (``float``, ``Vector2D``) --
+          size for the chamfer used for the end pads. (default: None)
 
     :Example:
 
@@ -72,8 +79,8 @@ class PadArray(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
         self._initPincount(**kwargs)
-        self._initInitialNumber(**kwargs)
         self._initIncrement(**kwargs)
+        self._initInitialNumber(**kwargs)
         self._initSpacing(**kwargs)
         self._initStartingPosition(**kwargs)
         self.virtual_childs = self._createPads(**kwargs)
@@ -116,21 +123,17 @@ class PadArray(Node):
 
     # What number to start with?
     def _initInitialNumber(self, **kwargs):
-        if not kwargs.get('initial'):
-            self.initialPin = 1
-        else:
-            self.initialPin = kwargs.get('initial')
-            if type(self.initialPin) is not int or self.initialPin < 1:
-                raise ValueError('{pn} is not a valid starting pin number'.format(pn=self.initialPin))
+        self.initialPin = kwargs.get('initial', 1)
+        if self.initialPin == "":
+            self.increment = 0
+        elif type(self.initialPin) is not int or self.initialPin < 1:
+            raise ValueError('{pn} is not a valid starting pin number'.format(pn=self.initialPin))
 
     # Pin incrementing
     def _initIncrement(self, **kwargs):
-        if kwargs.get('increment', None) is None:
-            self.increment = 1
-        else:
-            self.increment = kwargs.get('increment')
-            if type(self.increment) is not int:
-                raise ValueError('{inc} is not a valid number for pin increment'.format(inc=self.increment))
+        self.increment = kwargs.get('increment', 1)
+        if type(self.increment) is not int:
+            raise ValueError('{inc} is not a valid number for pin increment'.format(inc=self.increment))
 
     # Pad spacing
     def _initSpacing(self, **kwargs):
@@ -193,7 +196,27 @@ class PadArray(Node):
             else:
                 kwargs['shape'] = padShape
 
+            if kwargs.get('chamfer_size'):
+                if i == 0 and 'chamfer_corner_selection_first' in kwargs:
+                    pads.append(
+                        ChamferedPad(
+                            number=number, at=[x_pad, y_pad],
+                            corner_selection=kwargs.get('chamfer_corner_selection_first'),
+                            **kwargs
+                            ))
+                    continue
+
+                if i == len(pad_numbers)-1 and 'chamfer_corner_selection_last' in kwargs:
+                    pads.append(
+                        ChamferedPad(
+                            number=number, at=[x_pad, y_pad],
+                            corner_selection=kwargs.get('chamfer_corner_selection_last'),
+                            **kwargs
+                            ))
+                    continue
+
             pads.append(Pad(number=number, at=[x_pad, y_pad], **kwargs))
+
         return pads
 
     def getVirtualChilds(self):

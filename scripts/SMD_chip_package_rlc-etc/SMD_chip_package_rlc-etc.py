@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -12,10 +12,21 @@ from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
+from ipc_pad_size_calculators import *
 
 size_definition_path = "size_definitions/"
 def roundToBase(value, base):
     return round(value/base) * base
+
+def merge_dicts(*dict_args):
+    """
+    Given any number of dicts, shallow copy and merge into a new dict,
+    precedence goes to key value pairs in latter dicts.
+    """
+    result = {}
+    for dictionary in dict_args:
+        result.update(dictionary)
+    return result
 
 class TwoTerminalSMDchip():
     def __init__(self, command_file, configuration):
@@ -32,9 +43,7 @@ class TwoTerminalSMDchip():
             except yaml.YAMLError as exc:
                 print(exc)
 
-
-
-    def calcPadDetails(self, device_params, ipc_data, ipc_round_base, footprint_group_data):
+    def calcPadDetails(self, device_dimensions, ipc_data, ipc_round_base, footprint_group_data):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
         # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -45,42 +54,20 @@ class TwoTerminalSMDchip():
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
-        F = self.configuration.get('manufacturing_tolerance', 0.1)
-        P = self.configuration.get('placement_tolerance', 0.05)
+        manf_tol = {
+            'F': self.configuration.get('manufacturing_tolerance', 0.1),
+            'P': self.configuration.get('placement_tolerance', 0.05)
+        }
 
-        Ltol = device_params['body_length_max']-device_params['body_length_min']
-
-        if 'terminal_width_min' in device_params:
-            terminal_width_min = device_params['terminal_width_min']
-            terminal_width_max = device_params['terminal_width_max']
+        if 'terminal_width' in device_dimensions:
+            lead_width = device_dimensions['terminal_width']
         else:
-            terminal_width_min = device_params['body_width_min']
-            terminal_width_max = device_params['body_width_max']
+            lead_width = device_dimensions['body_width']
 
-        width_tolerance = terminal_width_max - terminal_width_min
-
-        if 'terminator_spacing_max' in device_params:
-            Tmin = (device_params['body_length_max'] - device_params['terminator_spacing_max'])/2
-            Tmax = (device_params['body_length_min'] - device_params['terminator_spacing_min'])/2
-            Ttol = (Tmax-Tmin)
-            Stol_RMS = math.sqrt(Ltol**2+2*(Ttol**2))
-            Smax_RMS = device_params['terminator_spacing_min'] + Stol_RMS
-            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
-
-        else:
-            Ttol = (device_params['terminal_length_max'] - device_params['terminal_length_min'])
-            Stol_RMS = math.sqrt(Ltol**2+2*(Ttol**2))
-            Smin = device_params['body_length_min'] - 2*device_params['terminal_length_max']
-            Smax_RMS = Smin + Stol_RMS
-
-            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
-
-        Zmax = device_params['body_length_min'] + 2*ipc_data['toe'] + math.sqrt(Ltol**2 + F**2 + P**2)
-        Xmax = terminal_width_min + 2*ipc_data['side'] + math.sqrt(width_tolerance**2 + F**2 + P**2)
-
-        Zmax = roundToBase(Zmax, ipc_round_base['toe'])
-        Gmin = roundToBase(Gmin, ipc_round_base['heel'])
-        Xmax = roundToBase(Xmax, ipc_round_base['side'])
+        Gmin, Zmax, Xmax = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['body_length'], lead_width,
+                lead_len=device_dimensions.get('terminal_length'),
+                lead_inside=device_dimensions.get('terminator_spacing'))
 
         Zmax += footprint_group_data.get('pad_length_addition', 0)
         Pad = {'at':[-(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax]}
@@ -95,6 +82,24 @@ class TwoTerminalSMDchip():
             Paste = {'at':[-(Zmax+Gmin)/4,0], 'size':[(Zmax-Gmin)/2,Xmax]}
 
         return Pad, Paste
+
+    @staticmethod
+    def deviceDimensions(device_size_data):
+        dimensions = {
+            'body_length': TolerancedSize.fromYaml(device_size_data, base_name='body_length'),
+            'body_width': TolerancedSize.fromYaml(device_size_data, base_name='body_width')
+        }
+        if 'terminator_spacing_max' in device_size_data and 'terminator_spacing_min' in device_size_data or 'terminator_spacing' in device_size_data:
+            dimensions['terminator_spacing'] = TolerancedSize.fromYaml(device_size_data, base_name='terminator_spacing')
+        elif 'terminal_length_max' in device_size_data and 'terminal_length_min' in device_size_data or 'terminal_length' in device_size_data:
+            dimensions['terminal_length'] = TolerancedSize.fromYaml(device_size_data, base_name='terminal_length')
+        else:
+            raise KeyError("Either terminator spacing or terminal lenght must be included in the size definition.")
+
+        if 'terminal_width_min' in device_size_data and 'terminal_width_max' in device_size_data or 'terminal_width' in device_size_data:
+            dimensions['terminal_width'] = TolerancedSize.fromYaml(device_size_data, base_name='terminal_width')
+
+        return dimensions
 
     def generateFootprints(self):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
@@ -116,12 +121,14 @@ class TwoTerminalSMDchip():
             for size_name in package_size_defintions:
                 device_size_data = package_size_defintions[size_name]
 
+                device_dimensions = TwoTerminalSMDchip.deviceDimensions(device_size_data)
+
                 ipc_reference = footprint_group_data['ipc_reference']
                 ipc_density = footprint_group_data['ipc_density']
                 ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
                 ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
-                pad_details, paste_details = self.calcPadDetails(device_size_data, ipc_data_set, ipc_round_base, footprint_group_data)
+                pad_details, paste_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base, footprint_group_data)
                 #print(calc_pad_details())
                 #print("generate {name}.kicad_mod".format(name=footprint))
 
@@ -164,32 +171,43 @@ class TwoTerminalSMDchip():
                 kicad_mod.setTags(footprint_group_data['keywords'])
                 kicad_mod.setAttribute('smd')
 
-                if paste_details is not None:
-                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Cu', 'F.Mask'], **pad_details))
-                    pad_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Cu', 'F.Mask'], **pad_details))
+                pad_shape_details = {}
+                pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
+                pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
+                if 'round_rect_max_radius' in configuration:
+                    pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
 
-                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Paste'], **paste_details))
+
+                if paste_details is not None:
+                    layers_main = ['F.Cu', 'F.Mask']
+
+                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
+                        layers=['F.Paste'], **merge_dicts(paste_details, pad_shape_details)))
                     paste_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=['F.Paste'], **paste_details))
+                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
+                        layers=['F.Paste'], **merge_dicts(paste_details, pad_shape_details)))
                 else:
-                    kicad_mod.append(Pad(number= 1, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=Pad.LAYERS_SMT, **pad_details))
-                    pad_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        layers=Pad.LAYERS_SMT, **pad_details))
+                    layers_main = Pad.LAYERS_SMT
+
+                P1 = Pad(number= 1, type=Pad.TYPE_SMT,
+                    layers=layers_main, **merge_dicts(pad_details, pad_shape_details))
+                if 'round_rect_radius_ratio' in configuration:
+                    pad_radius = P1.radius_ratio*min(P1.size)
+                else:
+                    pad_radius = 0
+
+                kicad_mod.append(P1)
+                pad_details['at'][0] *= (-1)
+                kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
+                    layers=layers_main, **merge_dicts(pad_details, pad_shape_details)))
 
                 fab_outline = self.configuration.get('fab_outline', 'typical')
                 if fab_outline == 'max':
-                    outline_size = [device_size_data['body_length_max'], device_size_data['body_width_max']]
+                    outline_size = [device_dimensions['body_length'].maximum, device_dimensions['body_width'].maximum]
                 elif fab_outline == 'min':
-                    outline_size = [device_size_data['body_length_min'], device_size_data['body_width_min']]
+                    outline_size = [device_dimensions['body_length'].minimum, device_dimensions['body_width'].minimum]
                 else:
-                    outline_size = [device_size_data['body_length'], device_size_data['body_width']]
+                    outline_size = [device_dimensions['body_length'].nominal, device_dimensions['body_width'].nominal]
 
                 if footprint_group_data.get('polarization_mark', 'False') == 'True':
                     polararity_marker_size = self.configuration.get('fab_polarity_factor', 0.25)
@@ -209,8 +227,10 @@ class TwoTerminalSMDchip():
                     silk_x_left = -abs(pad_details['at'][0]) - pad_details['size'][0]/2 - \
                         self.configuration['silk_pad_clearance'] - silk_line_width/2
 
-                    silk_y_bottom = self.configuration['silk_pad_clearance'] + silk_line_width/2 + \
-                        (outline_size[1] if outline_size[1]> pad_details['size'][1] else pad_details['size'][1])/2
+                    silk_y_bottom = max(
+                        self.configuration['silk_pad_clearance'] + silk_line_width/2 + pad_details['size'][1]/2,
+                        outline_size[1]/2 + self.configuration['silk_fab_offset']
+                        )
 
                     if polarity_marker_thick_line:
                         kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
@@ -251,12 +271,45 @@ class TwoTerminalSMDchip():
                         end=[outline_size[0]/2, -outline_size[1]/2],
                         layer='F.Fab', width=fab_line_width))
 
-                    pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
-                    if pad_spacing > 2*self.configuration['silk_pad_clearance'] + \
-                            self.configuration['silk_line_lenght_min'] + self.configuration['silk_line_width']:
-                        silk_outline_x = pad_spacing/2 - silk_line_width - self.configuration['silk_pad_clearance']
-                        silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
+                    silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
 
+                    pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
+
+                    off = silk_line_width/2 + self.configuration['silk_pad_clearance']
+                    if 'silk_clearance_small_parts' in configuration:
+                        off_small = silk_line_width/2 + self.configuration['silk_clearance_small_parts']
+
+                    rcy = pad_details['size'][1]/2-pad_radius
+                    if rcy < silk_outline_y:
+                        # the silk outline is in the area where the radius of the pad is.
+
+                        dry = silk_outline_y - rcy
+
+                        r = pad_radius + off
+                        silk_outline_x = 0
+                        if dry > r:
+                            silk_outline_x = outline_size[0]/2
+                        else:
+                            drx = sqrt(r**2 - dry**2)
+
+                            silk_outline_x = pad_spacing/2+pad_radius-drx
+
+                            if 2*silk_outline_x <  self.configuration['silk_line_lenght_min']\
+                                    and 'silk_clearance_small_parts' in configuration:
+                                r_small = pad_radius + off_small
+
+                                if dry > r_small:
+                                    silk_outline_x = outline_size[0]/2
+                                else:
+                                    drx = sqrt(r_small**2 - dry**2)
+                                    silk_outline_x = pad_spacing/2+pad_radius-drx
+                    else:
+                        silk_outline_x = pad_spacing/2 - off
+                        if 2*silk_outline_x <  self.configuration['silk_line_lenght_min']\
+                                and 'silk_clearance_small_parts' in configuration:
+                            silk_outline_x = pad_spacing/2 - off_small
+
+                    if 2*silk_outline_x >=  self.configuration['silk_line_lenght_min']:
                         kicad_mod.append(Line(start=[-silk_outline_x, -silk_outline_y],
                             end=[silk_outline_x, -silk_outline_y], layer='F.SilkS', width=silk_line_width))
                         kicad_mod.append(Line(start=[-silk_outline_x, silk_outline_y],
@@ -298,6 +351,8 @@ if __name__ == "__main__":
                         help='list of files holding information about what devices should be created.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='config_KLCv3.0.yaml')
+    parser.add_argument('--ipc_definition', type=str, nargs='?', help='the ipc definition file', default='ipc7351B_smd_two_terminal_chip.yaml')
+    parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle (KiCad 4.x compatibility.)')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -312,6 +367,10 @@ if __name__ == "__main__":
         except yaml.YAMLError as exc:
             print(exc)
     args = parser.parse_args()
+    configuration['ipc_definition'] = args.ipc_definition
+    if args.force_rectangle_pads:
+        configuration['round_rect_max_radius'] = None
+        configuration['round_rect_radius_ratio'] = 0
 
     for filepath in args.files:
         two_terminal_smd =TwoTerminalSMDchip(filepath, configuration)

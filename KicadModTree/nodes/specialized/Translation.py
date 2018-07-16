@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -38,7 +38,7 @@ class Translation(Node):
         self.offset_y = y
 
     def getRealPosition(self, coordinate, rotation=None):
-        parsed_coordinate = Point2D(coordinate)
+        parsed_coordinate = Vector2D(coordinate)
 
         # calculate translation
         translation_coordinate = {'x': parsed_coordinate.x + self.offset_x,

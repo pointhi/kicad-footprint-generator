@@ -1,0 +1,262 @@
+VQFP_80:
+  device_type: 'VQFP'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  #body_size_x_min: 14
+  #body_size_x_max: 14
+  body_size_y: 14
+  #body_size_y_min: 14
+  #body_size_y_max: 14
+  overall_size_x: 16
+  #overall_size_x_min: 16
+  #overall_size_x_max: 16
+  overall_size_y: 16
+  #overall_size_y_min: 16
+  #overall_size_y_max: 16
+  lead_width_min: 0.22
+  lead_width_max: 0.379
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.65
+  num_pins_x: 20
+  num_pins_y: 20
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+VQFP_100:
+  device_type: 'VQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  body_size_y: 14
+  overall_size_x: 16
+  overall_size_y: 16
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 25
+  num_pins_y: 25
+
+VQFP_128:
+  device_type: 'VQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  body_size_y: 14
+  overall_size_x: 16
+  overall_size_y: 16
+  lead_width_min: 0.13
+  lead_width_max: 0.23
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.4
+  num_pins_x: 32
+  num_pins_y: 32
+
+VQFP_176:
+  device_type: 'VQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 20
+  body_size_y: 20
+  overall_size_x: 22
+  overall_size_y: 22
+  lead_width_min: 0.13
+  lead_width_max: 0.23
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.4
+  num_pins_x: 44
+  num_pins_y: 44
+
+PQFP_100:
+  device_type: 'PQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  body_size_y: 20
+  overall_size_x: 17.2
+  overall_size_y: 23.2
+  lead_width_min: 0.22
+  lead_width_max: 0.4
+  lead_len_min: 0.73
+  lead_len_max: 1.03
+  pitch: 0.65
+  num_pins_x: 20
+  num_pins_y: 30
+
+PQFP_144:
+  device_type: 'PQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 28
+  body_size_y: 28
+  overall_size_x: 31.2
+  overall_size_y: 31.2
+  lead_width_min: 0.22
+  lead_width_max: 0.4
+  lead_len_min: 0.73
+  lead_len_max: 1.03
+  pitch: 0.65
+  num_pins_x: 36
+  num_pins_y: 36
+
+PQFP_160:
+  device_type: 'PQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 28
+  body_size_y: 28
+  overall_size_x: 31.2
+  overall_size_y: 31.2
+  lead_width_min: 0.22
+  lead_width_max: 0.4
+  lead_len_min: 0.73
+  lead_len_max: 1.03
+  pitch: 0.65
+  num_pins_x: 40
+  num_pins_y: 40
+
+PQFP_208:
+  device_type: 'PQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 28
+  body_size_y: 28
+  overall_size_x: 30.6
+  overall_size_y: 30.6
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 52
+  num_pins_y: 52
+
+PQFP_240:
+  device_type: 'PQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 32.1
+  body_size_y: 32.1
+  overall_size_x: 34.6
+  overall_size_y: 34.6
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 60
+  num_pins_y: 60
+
+TQFP_64:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 10
+  body_size_y: 10
+  overall_size_x: 12
+  overall_size_y: 12
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+
+TQFP_100:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 14
+  body_size_y: 14
+  overall_size_x: 16
+  overall_size_y: 16
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 25
+  num_pins_y: 25
+
+TQFP_144:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 20
+  body_size_y: 20
+  overall_size_x: 22
+  overall_size_y: 22
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+TQFP_176:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 24
+  body_size_y: 24
+  overall_size_x: 26
+  overall_size_y: 26
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 44
+  num_pins_y: 44
+
+TQFP_176:
+  device_type: 'TQFP'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x: 24
+  body_size_y: 24
+  overall_size_x: 26
+  overall_size_y: 26
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 44
+  num_pins_y: 44
+
+LQFP-48:
+  device_type: 'LQFP'
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  body_size_x: 7
+  body_size_y: 7
+  overall_size_x: 9
+  overall_size_y: 9
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+
+  EP_size_x_min: 3.5
+  EP_size_x: 3.6
+  EP_size_x_max: 3.7
+  EP_size_y_min: 3.5
+  EP_size_y: 3.6
+  EP_size_y_max: 3.7
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1, 1]
+    # bottom_pad_size:
+    # paste_avoid_via: True

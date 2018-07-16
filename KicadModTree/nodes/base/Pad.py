@@ -12,8 +12,10 @@
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2018 by Rene Poeschl, github @poeschlr
 
-from KicadModTree.Point import *
+from KicadModTree.util.paramUtil import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.util.kicad_util import lispString
 from KicadModTree.nodes.base.Arc import Arc
@@ -35,22 +37,37 @@ class Pad(Node):
           type of the pad
         * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``) --
           shape of the pad
-        * *at* (``Point``) --
+        * *at* (``Vector2D``) --
           center position of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *size* (``float``, ``Point``) --
+        * *size* (``float``, ``Vector2D``) --
           size of the pad
-        * *offset* (``Point``) --
+        * *offset* (``Vector2D``) --
           offset of the pad
-        * *drill* (``float``, ``Point``) --
+        * *drill* (``float``, ``Vector2D``) --
           drill-size of the pad
+        * *radius_ratio* (``float``) --
+          The radius ratio of the rounded rectangle.
+          Ignored for every other shape.
+        * *maximum_radius* (``float``) --
+          The maximum radius for the rounded rectangle.
+          If the radius produced by the radius ratio parameter for this pad would
+          exceed the maximum radius, the ratio is reduced to limit the ratio.
+          (This is usefull for IPC-7351C complience as it suggests 25% ratio with limit 0.25mm)
+          Ignored for every other shape.
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)
+        * *solder_paste_margin* (``float``) --
+          solder paste margin of the pad (default: 0)
         * *solder_mask_margin* (``float``) --
           solder mask margin of the pad (default: 0)
         * *layers* (``Pad.LAYERS_SMT``, ``Pad.LAYERS_THT``, ``Pad.LAYERS_NPTH``) --
           layers on which are used for the pad
+        * *x_mirror* (``[int, float](mirror offset)``) --
+          mirror x direction around offset "point"
+        * *y_mirror* (``[int, float](mirror offset)``) --
+          mirror y direction around offset "point"
 
     :Example:
 
@@ -96,8 +113,10 @@ class Pad(Node):
         self._initOffset(**kwargs)
         self._initDrill(**kwargs)  # requires pad type and offset
         self._initSolderPasteMargin(**kwargs)
+        self._initSolderPasteMarginRatio(**kwargs)
         self._initSolderMaskMargin(**kwargs)
         self._initLayers(**kwargs)
+        self._initMirror(**kwargs)
 
         if self.shape == Pad.SHAPE_ROUNDRECT:
             self._initRadiusRatio(**kwargs)
@@ -112,6 +131,20 @@ class Pad(Node):
 
             for p in kwargs['primitives']:
                 self.addPrimitive(p)
+
+    def _initMirror(self, **kwargs):
+        self.mirror = [None, None]
+        if 'x_mirror' in kwargs and type(kwargs['x_mirror']) in [float, int]:
+            self.mirror[0] = kwargs['x_mirror']
+        if 'y_mirror' in kwargs and type(kwargs['y_mirror']) in [float, int]:
+            self.mirror[1] = kwargs['y_mirror']
+
+        if self.mirror[0] is not None:
+            self.at.x = 2 * self.mirror[0] - self.at.x
+            self.offset.x *= -1
+        if self.mirror[1] is not None:
+            self.at.y = 2 * self.mirror[1] - self.at.y
+            self.offset.y *= -1
 
     def _initNumber(self, **kwargs):
         self.number = kwargs.get('number', "")  # default to an un-numbered pad
@@ -133,40 +166,33 @@ class Pad(Node):
     def _initPosition(self, **kwargs):
         if not kwargs.get('at'):
             raise KeyError('center position not declared (like "at=[0,0]")')
-        self.at = Point2D(kwargs.get('at'))
+        self.at = Vector2D(kwargs.get('at'))
 
         self.rotation = kwargs.get('rotation', 0)
 
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
             raise KeyError('pad size not declared (like "size=[1,1]")')
-        if type(kwargs.get('size')) in [int, float]:
-            # when the attribute is a simple number, use it for x and y
-            self.size = Point2D([kwargs.get('size'), kwargs.get('size')])
-        else:
-            self.size = Point2D(kwargs.get('size'))
+        self.size = toVectorUseCopyIfNumber(kwargs.get('size'), low_limit=0)
 
     def _initOffset(self, **kwargs):
-        self.offset = Point2D(kwargs.get('offset', [0, 0]))
+        self.offset = Vector2D(kwargs.get('offset', [0, 0]))
 
     def _initDrill(self, **kwargs):
         if self.type in [Pad.TYPE_THT, Pad.TYPE_NPTH]:
             if not kwargs.get('drill'):
                 raise KeyError('drill size required (like "drill=1")')
-            if type(kwargs.get('drill')) in [int, float]:
-                # when the attribute is a simple number, use it for x and y
-                self.drill = Point2D([kwargs.get('drill'), kwargs.get('drill')])
-            else:
-                self.drill = Point2D(kwargs.get('drill'))
-            if self.drill.x < 0 or self.drill.y < 0:
-                raise ValueError("negative drill size not allowed")
+            self.drill = toVectorUseCopyIfNumber(kwargs.get('drill'), low_limit=0)
         else:
             self.drill = None
             if kwargs.get('drill'):
                 pass  # TODO: throw warning because drill is not supported
 
-    def _initSolderPasteMargin(self, **kwargs):
+    def _initSolderPasteMarginRatio(self, **kwargs):
         self.solder_paste_margin_ratio = kwargs.get('solder_paste_margin_ratio', 0)
+
+    def _initSolderPasteMargin(self, **kwargs):
+        self.solder_paste_margin = kwargs.get('solder_paste_margin', 0)
 
     def _initSolderMaskMargin(self, **kwargs):
         self.solder_mask_margin = kwargs.get('solder_mask_margin', 0)
@@ -177,15 +203,25 @@ class Pad(Node):
         self.layers = kwargs.get('layers')
 
     def _initRadiusRatio(self, **kwargs):
-        if kwargs.get('radius_ratio') is None:
-            raise KeyError('radius ratio not declared for rounded rectangle pad.')
-        radius_ratio = kwargs.get('radius_ratio')
+        radius_ratio = kwargs.get('radius_ratio', 0)
         if type(radius_ratio) not in [int, float]:
             raise TypeError('radius ratio needs to be of type int or float')
         if radius_ratio >= 0 and radius_ratio <= 0.5:
             self.radius_ratio = radius_ratio
         else:
             raise ValueError('radius ratio out of allowed range (0 < rr <= 0.5)')
+
+        if kwargs.get('maximum_radius') is not None:
+            maximum_radius = kwargs.get('maximum_radius')
+            if type(maximum_radius) not in [int, float]:
+                raise TypeError('maximum radius needs to be of type int or float')
+
+            shortest_sidlength = min(self.size)
+            if self.radius_ratio*shortest_sidlength > maximum_radius:
+                self.radius_ratio = maximum_radius/shortest_sidlength
+
+        if self.radius_ratio == 0:
+            self.shape = Pad.SHAPE_RECT
 
     def _initAnchorShape(self, **kwargs):
         self.anchor_shape = kwargs.get('anchor_shape', Pad.ANCHOR_CIRCLE)

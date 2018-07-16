@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -24,9 +24,9 @@ class Line(Node):
         See below
 
     :Keyword Arguments:
-        * *start* (``Point``) --
+        * *start* (``Vector2D``) --
           start point of the line
-        * *end* (``Point``) --
+        * *end* (``Vector2D``) --
           end point of the line
         * *layer* (``str``) --
           layer on which the line is drawn (default: 'F.SilkS')
@@ -41,8 +41,8 @@ class Line(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Point2D(kwargs['start'])
-        self.end_pos = Point2D(kwargs['end'])
+        self.start_pos = Vector2D(kwargs['start'])
+        self.end_pos = Vector2D(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
@@ -56,7 +56,7 @@ class Line(Node):
         max_x = max([render_start_pos.x, render_end_pos.x])
         max_y = max([render_start_pos.y, render_end_pos.y])
 
-        return Node.calculateBoundingBox({'min': Point2D(min_x, min_y), 'max': Point2D(max_x, max_y)})
+        return Node.calculateBoundingBox({'min': Vector2D(min_x, min_y), 'max': Vector2D(max_x, max_y)})
 
     def _getRenderTreeText(self):
         render_strings = ['fp_line']

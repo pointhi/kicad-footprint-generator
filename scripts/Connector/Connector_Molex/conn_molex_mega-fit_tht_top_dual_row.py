@@ -260,17 +260,17 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     kicad_mod.append(PolygoneLine(polygone=outline,
         layer='F.SilkS', width=configuration['silk_line_width']))
     if variant_params[variant]['mount_pins']:
-        kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=P/2 if P != 0 else 0.00000001,
+        kicad_mod.append(PolygoneLine(polygone=outline, x_mirror=P/2,
             layer='F.SilkS', width=configuration['silk_line_width']))
     else:
         outline1 = outline[:2]
         outline1.append({'x': outline[2]['x'], 'y': boss_y - boss_drill/2 - silk_pad_off})
-        kicad_mod.append(PolygoneLine(polygone=outline1, x_mirror=P/2 if P != 0 else 0.00000001,
+        kicad_mod.append(PolygoneLine(polygone=outline1, x_mirror=P/2,
             layer='F.SilkS', width=configuration['silk_line_width']))
 
         outline2 = outline[2:]
         outline2[0]['x'] = P - boss_x + boss_drill/2 + silk_pad_off # outline contains the mirrored version
-        kicad_mod.append(PolygoneLine(polygone=outline2, x_mirror=P/2 if P != 0 else 0.00000001,
+        kicad_mod.append(PolygoneLine(polygone=outline2, x_mirror=P/2,
             layer='F.SilkS', width=configuration['silk_line_width']))
 
 

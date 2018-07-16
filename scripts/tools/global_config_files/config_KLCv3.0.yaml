@@ -20,6 +20,11 @@ courtyard_offset:
 
 edge_cuts_line_width: 0.12
 
+# IPC-7351C will most likely suggest the use of rounded rectangle pads
+# with 25% radius ratio but at a maximum of 0.25mm
+round_rect_max_radius: 0.25
+round_rect_radius_ratio: 0.25
+
 references:
     -
           layer: 'F.SilkS'
