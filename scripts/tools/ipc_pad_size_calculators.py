@@ -42,7 +42,12 @@ class TolerancedSize():
 
         self.ipc_tol_RMS = math.sqrt(ipc_tol_RMS)
         if self.ipc_tol_RMS > self.ipc_tol:
-            raise ValueError("RMS tolerance larger than normal tolerance. Did you give the wrong tolerances?")
+            if roundToBase(self.ipc_tol_RMS, 1e-6) > roundToBase(self.ipc_tol, 1e-6):
+                raise ValueError(
+                    "RMS tolerance larger than normal tolerance. Did you give the wrong tolerances?\ntol(RMS): {} tol: {}"\
+                    .format(self.ipc_tol_RMS, self.ipc_tol))
+            # the discrepancy most likely comes from floating point errors. Ignore it.
+            self.ipc_tol_RMS = self.ipc_tol
 
         self.maximum_RMS = self.maximum - (self.ipc_tol - self.ipc_tol_RMS)/2
         self.minimum_RMS = self.minimum + (self.ipc_tol - self.ipc_tol_RMS)/2
@@ -84,7 +89,30 @@ class TolerancedSize():
             minimum = self.minimum*other,
             maximum = self.maximum*other
             )
-        result.updateRMS([self.ipc_tol_RMS]*other)
+        result.updateRMS([self.ipc_tol_RMS*other])
+        return result
+
+    def __div__(self, other):
+        return self.__truediv__(other)
+
+    def __truediv__(self, other):
+        if type(other) not in [int, float]:
+            raise NotImplementedError("Only multiplication with int and float is implemented right now.")
+        result = TolerancedSize(
+            minimum = self.minimum/other,
+            maximum = self.maximum/other
+            )
+        result.updateRMS([self.ipc_tol_RMS/other])
+        return result
+
+    def __floordiv__(self, other):
+        if type(other) not in [int, float]:
+            raise NotImplementedError("Only multiplication with int and float is implemented right now.")
+        result = TolerancedSize(
+            minimum = self.minimum//other,
+            maximum = self.maximum//other
+            )
+        result.updateRMS([self.ipc_tol_RMS//other])
         return result
 
     @staticmethod
@@ -112,6 +140,8 @@ class TolerancedSize():
                 maximum=yaml.get("maximum"),
                 tolerance=yaml.get("tolerance")
                 )
+    def __str__(self):
+        return 'nom: {}, min: {}, max: {}'.format(self.nominal, self.minimum, self.maximum)
 
 def ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
         lead_len=None, lead_inside=None):
@@ -151,7 +181,27 @@ def ipc_body_edge_inside_pull_back(ipc_data, ipc_round_base, manf_tol, body_size
 
     Gmin = S.maximum_RMS - 2*ipc_data['heel'] - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
 
-    Zmax = lead_outside.minimum_RMS + 2*ipc_data['toe'] + math.sqrt(body_size.ipc_tol_RMS**2 + F**2 + P**2)
+    Zmax = lead_outside.minimum_RMS + 2*ipc_data['toe'] + math.sqrt(lead_outside.ipc_tol_RMS**2 + F**2 + P**2)
+    Xmax = lead_width.minimum_RMS + 2*ipc_data['side'] + math.sqrt(lead_width.ipc_tol_RMS**2 + F**2 + P**2)
+
+    Zmax = roundToBase(Zmax, ipc_round_base['toe'])
+    Gmin = roundToBase(Gmin, ipc_round_base['heel'])
+    Xmax = roundToBase(Xmax, ipc_round_base['side'])
+
+    return Gmin, Zmax, Xmax
+
+
+def ipc_pad_center_plus_size(ipc_data, ipc_round_base, manf_tol,
+        center_position, lead_length, lead_width):
+    F = manf_tol.get('manufacturing_tolerance', 0.1)
+    P = manf_tol.get('placement_tolerance', 0.05)
+
+    S = center_position - lead_length/2
+    lead_outside = center_position + lead_length/2
+
+    Gmin = S.maximum_RMS - 2*ipc_data['heel'] - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
+    Zmax = lead_outside.minimum_RMS + 2*ipc_data['toe'] + math.sqrt(lead_outside.ipc_tol_RMS**2 + F**2 + P**2)
+
     Xmax = lead_width.minimum_RMS + 2*ipc_data['side'] + math.sqrt(lead_width.ipc_tol_RMS**2 + F**2 + P**2)
 
     Zmax = roundToBase(Zmax, ipc_round_base['toe'])
