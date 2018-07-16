@@ -144,16 +144,17 @@ class TolerancedSize():
         return 'nom: {}, min: {}, max: {}'.format(self.nominal, self.minimum, self.maximum)
 
 def ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
-        lead_len=None, lead_inside=None):
+        lead_len=None, lead_inside=None, heel_reduction=0):
     pull_back = TolerancedSize(nominal=0)
 
     return ipc_body_edge_inside_pull_back(
                 ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
-                lead_len=lead_len, lead_inside=lead_inside, pull_back=pull_back
+                lead_len=lead_len, lead_inside=lead_inside, pull_back=pull_back,
+                heel_reduction=heel_reduction
                 )
 
 def ipc_body_edge_inside_pull_back(ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
-        lead_len=None, lead_inside=None, pull_back=None, lead_outside=None):
+        lead_len=None, lead_inside=None, pull_back=None, lead_outside=None, heel_reduction=0):
     # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
     # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
     # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -179,7 +180,7 @@ def ipc_body_edge_inside_pull_back(ipc_data, ipc_round_base, manf_tol, body_size
     else:
         raise KeyError("either lead inside distance or lead lenght must be given")
 
-    Gmin = S.maximum_RMS - 2*ipc_data['heel'] - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
+    Gmin = S.maximum_RMS - 2*ipc_data['heel'] + 2*heel_reduction - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
 
     Zmax = lead_outside.minimum_RMS + 2*ipc_data['toe'] + math.sqrt(lead_outside.ipc_tol_RMS**2 + F**2 + P**2)
     Xmax = lead_width.minimum_RMS + 2*ipc_data['side'] + math.sqrt(lead_width.ipc_tol_RMS**2 + F**2 + P**2)

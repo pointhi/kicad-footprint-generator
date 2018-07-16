@@ -55,11 +55,13 @@ class DFN():
 
         Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
                 device_dimensions['body_size_x'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len'))
+                lead_len=device_dimensions.get('lead_len'),
+                heel_reduction=device_dimensions.get('heel_reduction', 0))
 
         Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
                 device_dimensions['body_size_y'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len'))
+                lead_len=device_dimensions.get('lead_len'),
+                heel_reduction=device_dimensions.get('heel_reduction', 0))
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -82,6 +84,8 @@ class DFN():
             dimensions['EP_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_x')
             dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
             dimensions['has_EP'] = True
+
+        dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
 
         return dimensions
 
