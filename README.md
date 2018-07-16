@@ -19,8 +19,8 @@ I started drawing a bunch of similar footprints for KiCAD, like connectors which
 amount of pins. To be able to update/improve those footprints quickly I decided to write my own footprint generator Framework,
 to allow simple creation of easy as well complex shapes.
 
-This is my second approach (the first one is visible below). This solution should be able to be easy to use, to read and
-also be easy expand with custom nodes.
+This is my second approach (the first one can be found in the git history). This solution should be able to be easy to
+use, to read and also be easy to expand with custom nodes.
 
 
 ## Overview
@@ -42,7 +42,6 @@ Please look into the **[Documentation](http://kicad-footprint-generator.readthed
 ```
 KicadModTree        - The KicadModTree framework which is used for footprint generation
 docs                - Files required to generate a sphinx documentation
-kicad_mod           - my old framework, which should be considered as legacy now
 scripts             - scripts which are generating footprints based on this library
 ```
 

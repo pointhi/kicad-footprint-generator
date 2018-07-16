@@ -19,4 +19,3 @@ ratings:
 exclude_paths:
 - doc/**/*
 - scripts/**/*
-- kicad_mod/**/*
