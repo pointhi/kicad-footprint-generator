@@ -11,8 +11,9 @@ LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
   body_size_y_max: 3.15
   lead_width_min: 0.19
   lead_width_max: 0.31
-  lead_to_edge_min: 0.04
-  lead_to_edge_max: 0.16
+  lead_to_edge:
+    minimum: 0.04
+    maximum: 0.16
   lead_len_min: 0.29
   lead_len_max: 0.41
   pitch: 0.5
@@ -38,8 +39,8 @@ LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
   body_size_y_max: 2.15
   lead_width_min: 0.2
   lead_width_max: 0.2
-  lead_to_edge_min: 0.1
-  lead_to_edge_max: 0.1
+  lead_to_edge:
+    nominal: 0.1
   lead_len_min: 0.275
   lead_len_max: 0.275
   pitch: 0.35
@@ -64,8 +65,8 @@ LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
   body_size_y_max: 2.6
   lead_width_min: 0.15
   lead_width_max: 0.35
-  lead_to_edge_min: 0.1
-  lead_to_edge_max: 0.1
+  lead_to_edge:
+    nominal: 0.1
   lead_len_min: 0.35
   lead_len_max: 0.55
   pitch: 0.5
@@ -90,8 +91,8 @@ LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
   body_size_y_max: 5.15
   lead_width_min: 0.5
   lead_width_max: 0.5
-  lead_to_edge_min: 0.1
-  lead_to_edge_max: 0.1
+  lead_to_edge:
+    nominal: 0.1
   lead_len_min: 0.8
   lead_len_max: 0.8
   pitch: 0.8
@@ -116,8 +117,8 @@ LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
   body_size_y_max: 4.15
   lead_width_min: 0.3
   lead_width_max: 0.3
-  lead_to_edge_min: 0.1
-  lead_to_edge_max: 0.1
+  lead_to_edge:
+    nominal: 0.1
   lead_len_min: 0.4
   lead_len_max: 0.4
   pitch: 0.65
@@ -142,8 +143,9 @@ Bosch_LGA-8_3x3mm_P0.8mm:
   body_size_y_max: 3.05
   lead_width_min: 0.37
   lead_width_max: 0.43
-  lead_to_edge_min: 0.05
-  lead_to_edge_max: 0.15
+  lead_to_edge:
+    minimum: 0.05
+    maximum: 0.15
   lead_len_min: 0.37
   lead_len_max: 0.43
   pitch: 0.8
@@ -160,18 +162,24 @@ ST_HLGA-10_2.5x2.5mm_P0.6mm:
   manufacturer: 'ST'
   #part_number: 'mpn'
   size_source: 'https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46'
-  body_size_x_min: 2.4
-  body_size_x: 2.5
-  body_size_x_max: 2.6
-  body_size_y_min: 2.4
-  body_size_y: 2.5
-  body_size_y_max: 2.6
-  lead_width_min: 0.25
-  lead_width_max: 0.35
-  lead_to_edge_min: 0.08
-  lead_to_edge_max: 0.13
-  lead_len_min: 0.40
-  lead_len_max: 0.50
+  body_size_x:
+    nominal: 2.5
+    tolerance: 0.1
+  body_size_y:
+    nominal: 2.5
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.3
+    tolerance: 0.05
+  lead_center_pos_x:
+    nominal: 0.92
+    tolerance: 0
+  lead_center_pos_y:
+    nominal: 0.92
+    tolerance: 0
+  lead_len:
+    nominal: 0.45
+    tolerance: 0.05
   pitch: 0.6
   num_pins_x: 3
   num_pins_y: 2

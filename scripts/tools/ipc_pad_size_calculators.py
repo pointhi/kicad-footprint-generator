@@ -89,7 +89,7 @@ class TolerancedSize():
             minimum = self.minimum*other,
             maximum = self.maximum*other
             )
-        result.updateRMS([self.ipc_tol_RMS*other])
+        result.updateRMS([self.ipc_tol_RMS*math.sqrt(other)])
         return result
 
     def __div__(self, other):
@@ -102,7 +102,7 @@ class TolerancedSize():
             minimum = self.minimum/other,
             maximum = self.maximum/other
             )
-        result.updateRMS([self.ipc_tol_RMS/other])
+        result.updateRMS([self.ipc_tol_RMS/math.sqrt(other)])
         return result
 
     def __floordiv__(self, other):
@@ -112,7 +112,7 @@ class TolerancedSize():
             minimum = self.minimum//other,
             maximum = self.maximum//other
             )
-        result.updateRMS([self.ipc_tol_RMS//other])
+        result.updateRMS([self.ipc_tol_RMS//math.sqrt(other)])
         return result
 
     @staticmethod
@@ -196,8 +196,8 @@ def ipc_pad_center_plus_size(ipc_data, ipc_round_base, manf_tol,
     F = manf_tol.get('manufacturing_tolerance', 0.1)
     P = manf_tol.get('placement_tolerance', 0.05)
 
-    S = center_position - lead_length/2
-    lead_outside = center_position + lead_length/2
+    S = center_position*2 - lead_length
+    lead_outside = center_position*2 + lead_length
 
     Gmin = S.maximum_RMS - 2*ipc_data['heel'] - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
     Zmax = lead_outside.minimum_RMS + 2*ipc_data['toe'] + math.sqrt(lead_outside.ipc_tol_RMS**2 + F**2 + P**2)

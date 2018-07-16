@@ -48,20 +48,34 @@ class LGA():
             'F': self.configuration.get('manufacturing_tolerance', 0.1),
             'P': self.configuration.get('placement_tolerance', 0.05)
         }
+        if 'lead_to_edge' in device_dimensions:
+            Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
+                    ipc_data, ipc_round_base, manf_tol,
+                    device_dimensions['body_size_x'], device_dimensions['lead_width'],
+                    lead_len=device_dimensions.get('lead_len'),
+                    pull_back=device_dimensions.get('lead_to_edge')
+                    )
 
-        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
-                ipc_data, ipc_round_base, manf_tol,
-                device_dimensions['body_size_x'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len'),
-                pull_back=device_dimensions.get('lead_to_edge')
-                )
+            Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
+                    ipc_data, ipc_round_base, manf_tol,
+                    device_dimensions['body_size_y'], device_dimensions['lead_width'],
+                    lead_len=device_dimensions.get('lead_len'),
+                    pull_back=device_dimensions.get('lead_to_edge')
+                    )
+        elif 'lead_center_pos_x' in device_dimensions:
+            Gmin_x, Zmax_x, Xmax = ipc_pad_center_plus_size(
+                    ipc_data, ipc_round_base, manf_tol,
+                    center_position=device_dimensions['lead_center_pos_x'],
+                    lead_width=device_dimensions['lead_width'],
+                    lead_length=device_dimensions.get('lead_len')
+                    )
 
-        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
-                ipc_data, ipc_round_base, manf_tol,
-                device_dimensions['body_size_y'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len'),
-                pull_back=device_dimensions.get('lead_to_edge')
-                )
+            Gmin_y, Zmax_y, Xmax_y_ignored = ipc_pad_center_plus_size(
+                    ipc_data, ipc_round_base, manf_tol,
+                    center_position=device_dimensions['lead_center_pos_y'],
+                    lead_width=device_dimensions['lead_width'],
+                    lead_length=device_dimensions.get('lead_len')
+                    )
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -77,9 +91,22 @@ class LGA():
             'body_size_x': TolerancedSize.fromYaml(device_size_data, base_name='body_size_x'),
             'body_size_y': TolerancedSize.fromYaml(device_size_data, base_name='body_size_y'),
             'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width'),
-            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len'),
-            'lead_to_edge': TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
+            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
         }
+        if 'lead_to_edge' in device_size_data:
+            dimensions['lead_to_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
+        elif 'lead_center_pos_x' in device_size_data or 'lead_center_pos_y' in device_size_data:
+            if 'lead_center_pos_x' in device_size_data:
+                dimensions['lead_center_pos_x'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_pos_x')
+            else:
+                dimensions['lead_center_pos_x'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_pos_y')
+
+            if 'lead_center_pos_y' in device_size_data:
+                dimensions['lead_center_pos_y'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_pos_y')
+            else:
+                dimensions['lead_center_pos_y'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_pos_x')
+        else:
+            raise KeyError("Some way of determening the lead positions must be given. (Right now either center or lead to edge)")
         # ToDo implement more options on how to enter the dimensions.
         # Example: add option to directly input lead outside to outside and inside to inside instead of lead to edge and lead lenght
 
