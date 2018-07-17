@@ -109,8 +109,8 @@ QFN-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
     nominal: 4
   body_size_y:
     nominal: 4
-  lead_width_min: 0.25
-  lead_width_max: 0.35
+  lead_width_min: 0.18
+  lead_width_max: 0.30
   lead_len_min: 0.3
   lead_len_max: 0.5
 
@@ -198,7 +198,7 @@ QFN-20-1EP_5x5mm_P0.65mm_EP3.35x3.35mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 277)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 276)'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -241,14 +241,14 @@ QFN-20-1EP_5x5mm_P0.65mm_EP3.35x3.35mm:
 
 
 ####################################################################################
-####                                 QFN 20                                     ####
+####                                 QFN 24                                     ####
 ####################################################################################
 
 QFN-24-1EP_3x3mm_P0.4mm_EP1.75x1.6mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.alfarzpp.lv/eng/sc/AS3330.pdf'
+  size_source: 'https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf (page 39)'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -296,7 +296,7 @@ QFN-24-1EP_3x4mm_P0.4mm_EP1.65x2.65mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.alfarzpp.lv/eng/sc/AS3330.pdf'
+  size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_20_05-08-1742.pdf'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -446,22 +446,25 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x_min: 3.9
-  body_size_x: 4
-  body_size_x_max: 4.1
-  body_size_y_min: 3.9
-  body_size_y: 4
-  body_size_y_max: 4.1
-  lead_width_min: 0.18
-  lead_width_max: 0.38
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+  body_size_x:
+    nominal: 4
+    tolerance: 0.1
+  body_size_y:
+    nominal: 4
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.23
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
 
-  EP_size_x_min: 2.6
-  EP_size_x: 2.7
-  EP_size_x_max: 2.8
-  EP_size_y_min: 2.6
-  EP_size_y: 2.7
-  EP_size_y_max: 2.8
+  EP_size_x:
+    nominal: 2.7
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2.7
+    tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
