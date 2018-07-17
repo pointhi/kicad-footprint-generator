@@ -22,3 +22,6 @@ from .RectFill import RectFill
 from .FilledRect import FilledRect
 
 from .PadArray import PadArray
+from .ExposedPad import ExposedPad
+from .ChamferedPad import ChamferedPad, CornerSelection
+from .ChamferedPadGrid import *

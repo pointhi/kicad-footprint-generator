@@ -3,7 +3,6 @@
 
 placement_tolerance: 0.05
 manufacturing_tolerance: 0.1
-ipc_definition: 'ipc_smd_two_terminal_chip.yaml'
 
 fp_name_format_string: '{prefix:s}_{code_imperial:s}_{code_metric:s}Metric{suffix:s}'
 fp_name_non_metric_format_string: '{prefix:s}_{code_imperial:s}{suffix:s}'
@@ -17,3 +16,5 @@ fab_outline: 'typical' # typical | max | min
 fab_polarity_min_size: 0.3
 fab_polarity_max_size: 1
 fab_polarity_factor: 0.25
+
+silk_clearance_small_parts: 0.1

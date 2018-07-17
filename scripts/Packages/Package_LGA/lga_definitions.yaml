@@ -1,0 +1,190 @@
+LGA-16_3x3mm_P0.5mm_LayoutBorder3x5y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lis331hh.pdf'
+  body_size_x_min: 2.85
+  body_size_x: 3.0
+  body_size_x_max: 3.15
+  body_size_y_min: 2.85
+  body_size_y: 3.0
+  body_size_y_max: 3.15
+  lead_width_min: 0.19
+  lead_width_max: 0.31
+  lead_to_edge:
+    minimum: 0.04
+    maximum: 0.16
+  lead_len_min: 0.29
+  lead_len_max: 0.41
+  pitch: 0.5
+  num_pins_x: 3
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-14_2x2mm_P0.35mm_LayoutBorder3x4y:
+  device_type: 'LGA'
+  ipc_density: 'least'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lis2dh.pdf'
+  body_size_x_min: 1.85
+  body_size_x: 2.0
+  body_size_x_max: 2.15
+  body_size_y_min: 1.85
+  body_size_y: 2.0
+  body_size_y_max: 2.15
+  lead_width_min: 0.2
+  lead_width_max: 0.2
+  lead_to_edge:
+    nominal: 0.1
+  lead_len_min: 0.275
+  lead_len_max: 0.275
+  pitch: 0.35
+  num_pins_x: 3
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-14_3x2.5mm_P0.5mm_LayoutBorder3x4y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lsm6ds3.pdf'
+  body_size_x_min: 2.9
+  body_size_x: 3.0
+  body_size_x_max: 3.1
+  body_size_y_min: 2.4
+  body_size_y: 2.5
+  body_size_y_max: 2.6
+  lead_width_min: 0.15
+  lead_width_max: 0.35
+  lead_to_edge:
+    nominal: 0.1
+  lead_len_min: 0.35
+  lead_len_max: 0.55
+  pitch: 0.5
+  num_pins_x: 3
+  num_pins_y: 4
+  chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-14_3x5mm_P0.8mm_LayoutBorder1x6y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/lsm303dlhc.pdf'
+  body_size_x_min: 2.85
+  body_size_x: 3.0
+  body_size_x_max: 3.15
+  body_size_y_min: 4.85
+  body_size_y: 5.0
+  body_size_y_max: 5.15
+  lead_width_min: 0.5
+  lead_width_max: 0.5
+  lead_to_edge:
+    nominal: 0.1
+  lead_len_min: 0.8
+  lead_len_max: 0.8
+  pitch: 0.8
+  num_pins_x: 1
+  num_pins_y: 6
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
+  device_type: 'LGA'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.st.com/resource/en/datasheet/l3gd20.pdf'
+  body_size_x_min: 3.85
+  body_size_x: 4.0
+  body_size_x_max: 4.15
+  body_size_y_min: 3.85
+  body_size_y: 4.0
+  body_size_y_max: 4.15
+  lead_width_min: 0.3
+  lead_width_max: 0.3
+  lead_to_edge:
+    nominal: 0.1
+  lead_len_min: 0.4
+  lead_len_max: 0.4
+  pitch: 0.65
+  num_pins_x: 4
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+Bosch_LGA-8_3x3mm_P0.8mm:
+  device_type: 'LGA'
+  manufacturer: 'Bosch'
+  #part_number: 'mpn'
+  size_source: 'https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME680-DS001-00.pdf#page=44'
+  body_size_x_min: 2.95
+  body_size_x: 3.0
+  body_size_x_max: 3.05
+  body_size_y_min: 2.95
+  body_size_y: 3.0
+  body_size_y_max: 3.05
+  lead_width_min: 0.37
+  lead_width_max: 0.43
+  lead_to_edge:
+    minimum: 0.05
+    maximum: 0.15
+  lead_len_min: 0.37
+  lead_len_max: 0.43
+  pitch: 0.8
+  num_pins_x: 4
+  num_pins_y: 0
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  suffix: '_ClockwisePinNumbering'
+  #include_suffix_in_3dpath: 'False'
+
+ST_HLGA-10_2.5x2.5mm_P0.6mm:
+  device_type: 'HLGA'
+  manufacturer: 'ST'
+  #part_number: 'mpn'
+  size_source: 'https://www.st.com/resource/en/datasheet/lps25hb.pdf#page=46'
+  body_size_x:
+    nominal: 2.5
+    tolerance: 0.1
+  body_size_y:
+    nominal: 2.5
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.3
+    tolerance: 0.05
+  lead_center_pos_x:
+    nominal: 0.92
+    tolerance: 0
+  lead_center_pos_y:
+    nominal: 0.92
+    tolerance: 0
+  lead_len:
+    nominal: 0.45
+    tolerance: 0.05
+  pitch: 0.6
+  num_pins_x: 3
+  num_pins_y: 2
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_ClockwisePinNumbering'
+  #include_suffix_in_3dpath: 'False'

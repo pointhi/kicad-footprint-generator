@@ -12,10 +12,11 @@
 # along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
 #
 # (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
+# (C) 2018 by Rene Poeschl, github @poeschlr
 
 import warnings
 
-from KicadModTree.Point import Point2D
+from KicadModTree.Vector import Vector2D
 from KicadModTree.nodes.Node import Node
 
 
@@ -46,7 +47,7 @@ class PolygonPoints(object):
         self.nodes = []
         if 'nodes' in kwargs:
             for n in kwargs['nodes']:
-                self.nodes.append(Point2D(n))
+                self.nodes.append(Vector2D(n))
             if 'polygone' in kwargs:
                 raise KeyError('Use of "nodes" and "polygone" parameter at the same time is not supported.')
         elif 'polygone' in kwargs:
@@ -55,7 +56,7 @@ class PolygonPoints(object):
                 DeprecationWarning
             )
             for n in kwargs['polygone']:
-                self.nodes.append(Point2D(n))
+                self.nodes.append(Vector2D(n))
         else:
             raise KeyError('Either "nodes" or "polygone" parameter is required for creating a PolyPoint instance.')
 
@@ -67,9 +68,9 @@ class PolygonPoints(object):
 
     def _initMirror(self, **kwargs):
         self.mirror = [None, None]
-        if kwargs.get('x_mirror') is not None and type(kwargs['x_mirror']) in [float, int]:
+        if 'x_mirror' in kwargs and type(kwargs['x_mirror']) in [float, int]:
             self.mirror[0] = kwargs['x_mirror']
-        if kwargs.get('y_mirror') is not None and type(kwargs['y_mirror']) in [float, int]:
+        if 'y_mirror' in kwargs and type(kwargs['y_mirror']) in [float, int]:
             self.mirror[1] = kwargs['y_mirror']
 
     def calculateBoundingBox(self):

@@ -15,33 +15,33 @@
 
 import unittest
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 
 
-class Point2DTests(unittest.TestCase):
+class Vector2DTests(unittest.TestCase):
 
     def test_init(self):
-        p1 = Point2D([1, 2])
+        p1 = Vector2D([1, 2])
         self.assertEqual(p1.x, 1)
         self.assertEqual(p1.y, 2)
 
-        p2 = Point2D((4, 5))
+        p2 = Vector2D((4, 5))
         self.assertEqual(p2.x, 4)
         self.assertEqual(p2.y, 5)
 
-        p3 = Point2D({'x': 7, 'y': 8})
+        p3 = Vector2D({'x': 7, 'y': 8})
         self.assertEqual(p3.x, 7)
         self.assertEqual(p3.y, 8)
 
-        p3_empty = Point2D({})
+        p3_empty = Vector2D({})
         self.assertEqual(p3_empty.x, 0)
         self.assertEqual(p3_empty.y, 0)
 
-        p4 = Point2D(p1)
+        p4 = Vector2D(p1)
         self.assertEqual(p4.x, 1)
         self.assertEqual(p4.y, 2)
 
-        p5 = Point2D(1, 2)
+        p5 = Vector2D(1, 2)
         self.assertEqual(p5.x, 1)
         self.assertEqual(p5.y, 2)
 
@@ -50,28 +50,28 @@ class Point2DTests(unittest.TestCase):
         # TODO: tests if int is always converted to float
 
     def test_round_to(self):
-        p1 = Point2D([1.234, 5.678]).round_to(0)
+        p1 = Vector2D([1.234, 5.678]).round_to(0)
         self.assertAlmostEqual(p1.x, 1.234)
         self.assertAlmostEqual(p1.y, 5.678)
 
-        p2 = Point2D([1.234, 5.678]).round_to(0.1)
+        p2 = Vector2D([1.234, 5.678]).round_to(0.1)
         self.assertAlmostEqual(p2.x, 1.2)
         self.assertAlmostEqual(p2.y, 5.7)
 
-        p3 = Point2D([1.234, 5.678]).round_to(0.01)
+        p3 = Vector2D([1.234, 5.678]).round_to(0.01)
         self.assertAlmostEqual(p3.x, 1.23)
         self.assertAlmostEqual(p3.y, 5.68)
 
-        p4 = Point2D([1.234, 5.678]).round_to(0.001)
+        p4 = Vector2D([1.234, 5.678]).round_to(0.001)
         self.assertAlmostEqual(p4.x, 1.234)
         self.assertAlmostEqual(p4.y, 5.678)
 
-        p5 = Point2D([1.234, 5.678]).round_to(0.0001)
+        p5 = Vector2D([1.234, 5.678]).round_to(0.0001)
         self.assertAlmostEqual(p5.x, 1.234)
         self.assertAlmostEqual(p5.y, 5.678)
 
     def test_add(self):
-        p1 = Point2D([1, 2])
+        p1 = Vector2D([1, 2])
         self.assertEqual(p1.x, 1)
         self.assertEqual(p1.y, 2)
 
@@ -94,7 +94,7 @@ class Point2DTests(unittest.TestCase):
         # TODO: invalid type tests
 
     def test_sub(self):
-        p1 = Point2D([1, 2])
+        p1 = Vector2D([1, 2])
         self.assertEqual(p1.x, 1)
         self.assertEqual(p1.y, 2)
 
@@ -117,7 +117,7 @@ class Point2DTests(unittest.TestCase):
         # TODO: invalid type tests
 
     def test_mul(self):
-        p1 = Point2D([1, 2])
+        p1 = Vector2D([1, 2])
         self.assertEqual(p1.x, 1)
         self.assertEqual(p1.y, 2)
 
@@ -140,7 +140,7 @@ class Point2DTests(unittest.TestCase):
         # TODO: invalid type tests
 
     def test_div(self):
-        p1 = Point2D([1, 2])
+        p1 = Vector2D([1, 2])
         self.assertEqual(p1.x, 1)
         self.assertEqual(p1.y, 2)
 

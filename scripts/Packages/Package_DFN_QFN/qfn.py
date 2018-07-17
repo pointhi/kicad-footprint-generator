@@ -46,7 +46,7 @@ def qfn(args):
     f.setDescription(desc)
     f.setTags("QFN " + str(pitch))
     f.setAttribute("smd")
-    f.append(Model(filename="${KISYS3DMOD}/Housings_DFN_QFN.3dshapes/" + model + ".wrl",
+    f.append(Model(filename="${KISYS3DMOD}/Package_DFN_QFN.3dshapes/" + model + ".wrl",
                    at=[0.0, 0.0, 0.0],
                    scale=[1.0, 1.0, 1.0],
                    rotate=[0.0, 0.0, 0.0]))

@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -28,13 +28,13 @@ class Text(Node):
           type of text
         * *text* (``str``) --
           text which is been visualized
-        * *at* (``Point``) --
+        * *at* (``Vector2D``) --
           position of text
         * *rotation* (``float``) --
           rotation of text (default: 0)
         * *layer* (``str``) --
           layer on which the text is drawn (default: 'F.SilkS')
-        * *size* (``Point``) --
+        * *size* (``Vector2D``) --
           size of the text (default: [1, 1])
         * *thickness* (``float``) --
           thickness of the text (default: 0.15)
@@ -52,11 +52,11 @@ class Text(Node):
         Node.__init__(self)
         self.type = kwargs['type']
         self.text = kwargs['text']
-        self.at = Point2D(kwargs['at'])
+        self.at = Vector2D(kwargs['at'])
         self.rotation = kwargs.get('rotation', 0)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
-        self.size = Point2D(kwargs.get('size', [1, 1]))
+        self.size = Vector2D(kwargs.get('size', [1, 1]))
         self.thickness = kwargs.get('thickness', 0.15)
 
         self.hide = kwargs.get('hide', False)
@@ -70,7 +70,7 @@ class Text(Node):
         max_x = self.at['x']+width/2.
         max_y = self.at['y']+height/2.
 
-        return Node.calculateBoundingBox({'min': Point2D(min_x, min_y), 'max': Point2D(max_x, max_y)})
+        return Node.calculateBoundingBox({'min': Vector2D(min_x, min_y), 'max': Vector2D(max_x, max_y)})
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)

@@ -1,13 +1,14 @@
 SMD_4020:
     code_imperial: "4020"
     code_metric: "10251"
-    body_length: 10.2
-    body_length_min: 10.15
-    body_length_max: 10.4
-    body_width: 5.1
-    body_width_min: 5.05
-    body_width_max: 5.3
-    terminal_length_min: 0.7
-    terminal_length_max: 1.1
+    body_length:
+      nominal: 10.2
+      tolerance: [0.05, 0.2]
+    body_width:
+      nominal: 5.1
+      tolerance: [0.05, 0.2]
+    terminal_length:
+      nominal: 0.9
+      tolerance: 0.2
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     size_info: '(Body size source: http://datasheet.octopart.com/HVC0603T5004FET-Ohmite-datasheet-26699797.pdf)'

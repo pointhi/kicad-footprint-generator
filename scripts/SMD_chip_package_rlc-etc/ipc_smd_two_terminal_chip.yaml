@@ -33,29 +33,6 @@ ipc_spec_smaller_0603:
         heel: 0.05
         side: 0.05
 
-#0201 and smaller need special paste layer treadment.
-ipc_spec_smaller_0402:
-    least:
-        toe: 0.0
-        heel: -0.05
-        side: 0.0
-        courtyard: 0.1
-    nominal:
-        toe: 0.1
-        heel: -0.05
-        side: 0.0
-        courtyard: 0.15
-    most:
-        toe: 0.2
-        heel: -0.05
-        side: 0.05
-        courtyard: 0.2
-    round_base:
-        toe: 0.05
-        heel: 0.05
-        side: 0.05
-
-
 # >= 0603 (1608 Metric)
 #           | Minimum | Median    | Maximum
 #           | (Least) | (Nominal) | (Most)
@@ -122,6 +99,13 @@ ipc_spec_tantalumn:
         side: 0.1
 
 # castellated
+# The document is a bit strange with the castellated definitions.
+# They seem to exchange the toe and heel fillet.
+# For square terminated parts the toe fillet is towards the outside = Z measurement
+# But for castellated they tell us that the heel fillet is responsible for the Z measurement.
+# As the script interprets toe to point outwards (=Z dim) we change these two compared to the
+# ipc document.
+
 #           | Minimum | Median    | Maximum
 #           | (Least) | (Nominal) | (Most)
 #           | Density | Density   | Density

@@ -66,7 +66,16 @@ CP_Elec_4x4.5:
     pad_length: 2.6
     pad_spacing: 1
 
-# 4x5.3
+CP_Elec_4x5.3:
+    description: "SMT capacitor, aluminium electrolytic, 4x5.3, Vishay"
+    length: 4.3
+    width: 4.3
+    height: 5.3
+    diameter: 4
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 2.6
+    pad_spacing: 1
 
 CP_Elec_4x5.4:
     description: "SMT capacitor, aluminium electrolytic, 4x5.4, Panasonic A5, Nichicon"
@@ -79,8 +88,27 @@ CP_Elec_4x5.4:
     pad_length: 2.6
     pad_spacing: 1
 
-# 4x5.7
-# 4x5.8
+CP_Elec_4x5.7:
+    description: "SMT capacitor, aluminium electrolytic, 4x5.7, United Chemi-Con"
+    length: 4.3
+    width: 4.3
+    height: 5.7
+    diameter: 4
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 2.6
+    pad_spacing: 1
+
+CP_Elec_4x5.8:
+    description: "SMT capacitor, aluminium electrolytic, 4x5.8, Panasonic"
+    length: 4.3
+    width: 4.3
+    height: 5.8
+    diameter: 4
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 2.6
+    pad_spacing: 1
 
 CP_Elec_5x3:
     description: "SMT capacitor, aluminium electrolytic, 5x3, Nichicon"
@@ -104,17 +132,6 @@ CP_Elec_5x3.9:
     pad_length: 3
     pad_spacing: 1.4
 
-CP_Elec_5x4.5:
-    description: "SMT capacitor, aluminium electrolytic, 5x4.5, Nichicon"
-    length: 5.3
-    width: 5.3
-    height: 4.5
-    diameter: 5
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 3
-    pad_spacing: 1.4
-
 CP_Elec_5x4.4:
     description: "SMT capacitor, aluminium electrolytic, 5x4.4, Panasonic B45"
     length: 5.3
@@ -126,7 +143,27 @@ CP_Elec_5x4.4:
     pad_length: 3
     pad_spacing: 1.4
 
-# 5x5.3
+CP_Elec_5x4.5:
+    description: "SMT capacitor, aluminium electrolytic, 5x4.5, Nichicon"
+    length: 5.3
+    width: 5.3
+    height: 4.5
+    diameter: 5
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 3
+    pad_spacing: 1.4
+
+CP_Elec_5x5.3:
+    description: "SMT capacitor, aluminium electrolytic, 5x5.3, Nichicon"
+    length: 5.3
+    width: 5.3
+    height: 5.3
+    diameter: 5
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 3
+    pad_spacing: 1.4
 
 CP_Elec_5x5.4:
     description: "SMT capacitor, aluminium electrolytic, 5x5.4, Nichicon"
@@ -139,8 +176,27 @@ CP_Elec_5x5.4:
     pad_length: 3
     pad_spacing: 1.4
 
-# 5x5.7
-# 5x5.8
+CP_Elec_5x5.7:
+    description: "SMT capacitor, aluminium electrolytic, 5x5.7, United Chemi-Con"
+    length: 5.3
+    width: 5.3
+    height: 5.7
+    diameter: 5
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 3
+    pad_spacing: 1.4
+
+CP_Elec_5x5.8:
+    description: "SMT capacitor, aluminium electrolytic, 5x5.8, Panasonic"
+    length: 5.3
+    width: 5.3
+    height: 5.8
+    diameter: 5
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 3
+    pad_spacing: 1.4
 
 CP_Elec_5x5.9:
     description: "SMT capacitor, aluminium electrolytic, 5x5.9, Panasonic B6"
@@ -186,8 +242,6 @@ CP_Elec_6.3x4.5:
     pad_length: 3.5
     pad_spacing: 1.9
 
-# 6.3x4.5
-
 CP_Elec_6.3x4.9:
     description: "SMT capacitor, aluminium electrolytic, 6.3x4.9, Panasonic C5"
     length: 6.6
@@ -199,7 +253,27 @@ CP_Elec_6.3x4.9:
     pad_length: 3.5
     pad_spacing: 2.1
 
-# 6.3x5.3
+CP_Elec_6.3x5.2:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x5.2, United Chemi-Con"
+    length: 6.6
+    width: 6.6
+    height: 5.2
+    diameter: 6.3
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 3.5
+    pad_spacing: 2.1
+
+CP_Elec_6.3x5.3:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x5.3, Cornell Dubilier Electronics"
+    length: 6.6
+    width: 6.6
+    height: 5.3
+    diameter: 6.3
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 3.5
+    pad_spacing: 2.1
 
 CP_Elec_6.3x5.4:
     description: "SMT capacitor, aluminium electrolytic, 6.3x5.4, Panasonic C55"
@@ -223,7 +297,16 @@ CP_Elec_6.3x5.4_Nichicon:
     pad_length: 3.5
     pad_spacing: 1.9
 
-# 6.3x5.7
+CP_Elec_6.3x5.7:
+    description: "SMT capacitor, aluminium electrolytic, 6.3x5.7, United Chemi-Con"
+    length: 6.6
+    width: 6.6
+    height: 5.7
+    diameter: 6.3
+    pad_width: 1.6
+    pin1_chamfer: 'auto'
+    pad_length: 3.5
+    pad_spacing: 1.9
 
 CP_Elec_6.3x5.8:
     description: "SMT capacitor, aluminium electrolytic, 6.3x5.8, Nichicon"
@@ -291,8 +374,27 @@ CP_Elec_8x6.2:
     pad_length: 4
     pad_spacing: 2.1
 
-# 8x6.5
-# 8x6.7
+CP_Elec_8x6.5:
+    description: "SMT capacitor, aluminium electrolytic, 8x6.5, Rubycon"
+    length: 8.3
+    width: 8.3
+    height: 6.5
+    diameter: 8
+    pad_width: 2.5
+    pin1_chamfer: 'auto'
+    pad_length: 4
+    pad_spacing: 2.1
+
+CP_Elec_8x6.7:
+    description: "SMT capacitor, aluminium electrolytic, 8x6.7, United Chemi-Con"
+    length: 8.3
+    width: 8.3
+    height: 6.7
+    diameter: 8
+    pad_width: 2.5
+    pin1_chamfer: 'auto'
+    pad_length: 4
+    pad_spacing: 2.1
 
 CP_Elec_8x6.9:
     description: "SMT capacitor, aluminium electrolytic, 8x6.9, Panasonic E7"
@@ -338,6 +440,17 @@ CP_Elec_8x11.9:
     pin1_chamfer: 'auto'
     pad_length: 4.15
     pad_spacing: 2.8
+
+CP_Elec_10x7.7:
+    description: "SMT capacitor, aluminium electrolytic, 10x7.7, Nichicon"
+    length: 10.3
+    width: 10.3
+    height: 7.7
+    diameter: 10
+    pad_width: 1.9
+    pin1_chamfer: 'auto'
+    pad_length: 4.4
+    pad_spacing: 4.3
 
 CP_Elec_10x7.9:
     description: "SMT capacitor, aluminium electrolytic, 10x7.9, Panasonic F8"
@@ -460,218 +573,219 @@ CP_Elec_18x22:
     pad_spacing: 4.7
 
 ######################Panasonic
-CP_Panasonic_Standard_B:
-    description: "SMT capacitor, standard, aluminium electrolytic, 4.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 4.3
-    width: 4.3
-    height: 5.8
-    diameter: 4.0
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 2.5
-    pad_spacing: 1.0
-
-CP_Panasonic_Standard_B_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 4.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 4.3
-    width: 4.3
-    height: 5.8
-    diameter: 4.0
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 3.5
-    pad_spacing: 1.0
-
-CP_Panasonic_Standard_C:
-    description: "SMT capacitor, standard, aluminium electrolytic, 5.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 5.3
-    width: 5.3
-    height: 5.8
-    diameter: 5.0
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 2.8
-    pad_spacing: 1.5
-
-CP_Panasonic_Standard_C_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 5.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 5.3
-    width: 5.3
-    height: 5.8
-    diameter: 5.0
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 3.8
-    pad_spacing: 1.5
-
-CP_Panasonic_Standard_D:
-    description: "SMT capacitor, standard, aluminium electrolytic, 6.3mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 6.6
-    width: 6.6
-    height: 5.8
-    diameter: 6.3
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 3.2
-    pad_spacing: 1.8
-
-CP_Panasonic_Standard_D_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 6.3mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 6.6
-    width: 6.6
-    height: 5.8
-    diameter: 6.3
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 4.2
-    pad_spacing: 1.8
-
-CP_Panasonic_Standard_E:
-    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 8.3
-    width: 8.3
-    height: 6.2
-    diameter: 8.0
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 4.0
-    pad_spacing: 2.2
-
-CP_Panasonic_Standard_E_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 8.3
-    width: 8.3
-    height: 6.2
-    diameter: 8.0
-    pad_width: 1.6
-    pin1_chamfer: 'auto'
-    pad_length: 5.0
-    pad_spacing: 2.2
-
-CP_Panasonic_Standard_F:
-    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 8.3
-    width: 8.3
-    height: 10.2
-    diameter: 8.0
-    pad_width: 2.0
-    pin1_chamfer: 'auto'
-    pad_length: 4.0
-    pad_spacing: 3.1
-
-CP_Panasonic_Standard_F_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 8.3
-    width: 8.3
-    height: 10.2
-    diameter: 8.0
-    pad_width: 2.0
-    pin1_chamfer: 'auto'
-    pad_length: 5.0
-    pad_spacing: 3.1
-
-CP_Panasonic_Standard_G:
-    description: "SMT capacitor, standard, aluminium electrolytic, 10.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 10.3
-    width: 10.3
-    height: 10.2
-    diameter: 10.0
-    pad_width: 2.0
-    pin1_chamfer: 'auto'
-    pad_length: 4.1
-    pad_spacing: 4.6
-
-CP_Panasonic_Standard_G_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 10.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 10.3
-    width: 10.3
-    height: 10.2
-    diameter: 10.0
-    pad_width: 2.0
-    pin1_chamfer: 'auto'
-    pad_length: 5.1
-    pad_spacing: 4.6
-
-CP_Panasonic_Standard_H:
-    description: "SMT capacitor, standard, aluminium electrolytic, 12.5mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 13.5
-    width: 13.5
-    height: 13.5
-    diameter: 12.5
-    pad_width: 2.0
-    pin1_chamfer: 'auto'
-    pad_length: 5.7
-    pad_spacing: 4.0
-
-CP_Panasonic_Standard_H_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 12.5mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 13.5
-    width: 13.5
-    height: 13.5
-    diameter: 12.5
-    pad_width: 2.0
-    pin1_chamfer: 'auto'
-    pad_length: 6.7
-    pad_spacing: 4.0
-
-CP_Panasonic_Standard_J:
-    description: "SMT capacitor, standard, aluminium electrolytic, 16.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 17.0
-    width: 17.0
-    height: 16.5
-    diameter: 16.0
-    pad_width: 2.5
-    pin1_chamfer: 'auto'
-    pad_length: 6.5
-    pad_spacing: 6.0
-
-CP_Panasonic_Standard_J_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 16.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 17.0
-    width: 17.0
-    height: 16.5
-    diameter: 16.0
-    pad_width: 2.5
-    pin1_chamfer: 'auto'
-    pad_length: 7.5
-    pad_spacing: 6.0
-
-CP_Panasonic_Standard_K:
-    description: "SMT capacitor, standard, aluminium electrolytic, 18.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 19.0
-    width: 19.0
-    height: 16.5
-    diameter: 18.0
-    pad_width: 2.5
-    pin1_chamfer: 'auto'
-    pad_length: 7.5
-    pad_spacing: 6.0
-
-CP_Panasonic_Standard_K_HandSoldering:
-    description: "SMT capacitor, standard, aluminium electrolytic, 18.0mm, Panasonic"
-    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
-    length: 19.0
-    width: 19.0
-    height: 16.5
-    diameter: 18.0
-    pad_width: 2.5
-    pin1_chamfer: 'auto'
-    pad_length: 8.5
-    pad_spacing: 6.0
+#
+#CP_Panasonic_Standard_B:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 4.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 4.3
+#    width: 4.3
+#    height: 5.8
+#    diameter: 4.0
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 2.5
+#    pad_spacing: 1.0
+#
+#CP_Panasonic_Standard_B_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 4.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 4.3
+#    width: 4.3
+#    height: 5.8
+#    diameter: 4.0
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 3.5
+#    pad_spacing: 1.0
+#
+#CP_Panasonic_Standard_C:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 5.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 5.3
+#    width: 5.3
+#    height: 5.8
+#    diameter: 5.0
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 2.8
+#    pad_spacing: 1.5
+#
+#CP_Panasonic_Standard_C_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 5.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 5.3
+#    width: 5.3
+#    height: 5.8
+#    diameter: 5.0
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 3.8
+#    pad_spacing: 1.5
+#
+#CP_Panasonic_Standard_D:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 6.3mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 6.6
+#    width: 6.6
+#    height: 5.8
+#    diameter: 6.3
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 3.2
+#    pad_spacing: 1.8
+#
+#CP_Panasonic_Standard_D_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 6.3mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 6.6
+#    width: 6.6
+#    height: 5.8
+#    diameter: 6.3
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 4.2
+#    pad_spacing: 1.8
+#
+#CP_Panasonic_Standard_E:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 8.3
+#    width: 8.3
+#    height: 6.2
+#    diameter: 8.0
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 4.0
+#    pad_spacing: 2.2
+#
+#CP_Panasonic_Standard_E_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 8.3
+#    width: 8.3
+#    height: 6.2
+#    diameter: 8.0
+#    pad_width: 1.6
+#    pin1_chamfer: 'auto'
+#    pad_length: 5.0
+#    pad_spacing: 2.2
+#
+#CP_Panasonic_Standard_F:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 8.3
+#    width: 8.3
+#    height: 10.2
+#    diameter: 8.0
+#    pad_width: 2.0
+#    pin1_chamfer: 'auto'
+#    pad_length: 4.0
+#    pad_spacing: 3.1
+#
+#CP_Panasonic_Standard_F_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 8.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 8.3
+#    width: 8.3
+#    height: 10.2
+#    diameter: 8.0
+#    pad_width: 2.0
+#    pin1_chamfer: 'auto'
+#    pad_length: 5.0
+#    pad_spacing: 3.1
+#
+#CP_Panasonic_Standard_G:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 10.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 10.3
+#    width: 10.3
+#    height: 10.2
+#    diameter: 10.0
+#    pad_width: 2.0
+#    pin1_chamfer: 'auto'
+#    pad_length: 4.1
+#    pad_spacing: 4.6
+#
+#CP_Panasonic_Standard_G_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 10.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 10.3
+#    width: 10.3
+#    height: 10.2
+#    diameter: 10.0
+#    pad_width: 2.0
+#    pin1_chamfer: 'auto'
+#    pad_length: 5.1
+#    pad_spacing: 4.6
+#
+#CP_Panasonic_Standard_H:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 12.5mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 13.5
+#    width: 13.5
+#    height: 13.5
+#    diameter: 12.5
+#    pad_width: 2.0
+#    pin1_chamfer: 'auto'
+#    pad_length: 5.7
+#    pad_spacing: 4.0
+#
+#CP_Panasonic_Standard_H_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 12.5mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 13.5
+#    width: 13.5
+#    height: 13.5
+#    diameter: 12.5
+#    pad_width: 2.0
+#    pin1_chamfer: 'auto'
+#    pad_length: 6.7
+#    pad_spacing: 4.0
+#
+#CP_Panasonic_Standard_J:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 16.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 17.0
+#    width: 17.0
+#    height: 16.5
+#    diameter: 16.0
+#    pad_width: 2.5
+#    pin1_chamfer: 'auto'
+#    pad_length: 6.5
+#    pad_spacing: 6.0
+#
+#CP_Panasonic_Standard_J_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 16.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 17.0
+#    width: 17.0
+#    height: 16.5
+#    diameter: 16.0
+#    pad_width: 2.5
+#    pin1_chamfer: 'auto'
+#    pad_length: 7.5
+#    pad_spacing: 6.0
+#
+#CP_Panasonic_Standard_K:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 18.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 19.0
+#    width: 19.0
+#    height: 16.5
+#    diameter: 18.0
+#    pad_width: 2.5
+#    pin1_chamfer: 'auto'
+#    pad_length: 7.5
+#    pad_spacing: 6.0
+#
+#CP_Panasonic_Standard_K_HandSoldering:
+#    description: "SMT capacitor, standard, aluminium electrolytic, 18.0mm, Panasonic"
+#    datasheet: "https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/DME0000COL48.pdf"
+#    length: 19.0
+#    width: 19.0
+#    height: 16.5
+#    diameter: 18.0
+#    pad_width: 2.5
+#    pin1_chamfer: 'auto'
+#    pad_length: 8.5
+#    pad_spacing: 6.0

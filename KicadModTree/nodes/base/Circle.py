@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -24,7 +24,7 @@ class Circle(Node):
         See below
 
     :Keyword Arguments:
-        * *center* (``Point``) --
+        * *center* (``Vector2D``) --
           center of the circle
         * *radius* (``float``) --
           radius of the circle
@@ -41,10 +41,10 @@ class Circle(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = Point2D(kwargs['center'])
+        self.center_pos = Vector2D(kwargs['center'])
         self.radius = kwargs['radius']
 
-        self.end_pos = Point2D([self.center_pos.x+self.radius, self.center_pos.y])
+        self.end_pos = Vector2D([self.center_pos.x+self.radius, self.center_pos.y])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')

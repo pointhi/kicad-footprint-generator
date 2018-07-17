@@ -21,7 +21,7 @@ import argparse
 import yaml
 import pprint
 
-sys.path.append(os.path.join(sys.path[0], "../.."))  # enable package import from parent directory
+sys.path.append(os.path.join(sys.path[0], "../../.."))  # enable package import from parent directory
 
 from KicadModTree import *  # NOQA
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     from DPAK import DPAK, TO252, TO263, TO268, ATPAK
 
-    CONFIG = 'DPAK_config.yaml' 
+    CONFIG = 'DPAK_config.yaml'
 
     if args.family:
         if args.family[0] == 'TO252':
@@ -61,7 +61,6 @@ if __name__ == '__main__':
             build_list = []
     else:
         build_list = [TO252(CONFIG), TO263(CONFIG), TO268(CONFIG), ATPAK(CONFIG)]
-                
+
     for package in build_list:
         package.build_series(verbose=args.verbose)
-

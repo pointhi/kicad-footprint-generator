@@ -1,3 +1,15 @@
-fp_name_format_string: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}_{size_x:.1f}x{size_y:.1f}mm_P{pitch:.2f}mm'
-keyword_fp_string: 'connector {man:s} {package:s} {category:s}'
+fp_name_format_string: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}_{size_x:.1f}x{size_y:.1f}mm_P{pitch:.2f}mm{suffix:s}'
+keyword_fp_string: '{man:s} {package:s} {category:s}'
+
 lib_name_format_string: 'Package_{category:s}'
+
+fp_name_format_string_no_trailing_zero: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}'
+
+fp_name_lga_format_string_no_trailing_zero: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{layout:s}{suffix:s}'
+
+lga_layout_grid: '_LayoutGrid{nx:d}x{ny:d}'
+lga_layout_border: '_LayoutBorder{nx:d}x{ny:d}y'
+
+fp_name_EP_format_string_no_trailing_zero: '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}-1EP_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
+
+thermal_via_suffix: "_ThermalVias"

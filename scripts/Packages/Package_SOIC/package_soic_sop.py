@@ -38,6 +38,7 @@ pincount_range = [18]
 pad_size = [1.725, 0.6]
 datasheet = 'https://toshiba.semicon-storage.com/info/docget.jsp?did=30523'
 mpn = ''
+suffix = ''
 is_smd = True
 
 def generate_one_footprint(pincount, configuration):
@@ -48,7 +49,8 @@ def generate_one_footprint(pincount, configuration):
         pincount=pincount,
         size_y=size_y,
         size_x=size_x,
-        pitch=pitch
+        pitch=pitch,
+        suffix=suffix
         )
     footprint_name = footprint_name.replace('__','_').lstrip('_')
 
@@ -58,7 +60,7 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.setDescription("{manufacturer} {mpn} {package}, {pincount} Pin ({datasheet}), generated with kicad-footprint-generator {scriptname}".format(
         manufacturer = manufacturer,
         package = package,
-        mpn = mpn, 
+        mpn = mpn,
         pincount = pincount,
         datasheet = datasheet,
         scriptname = os.path.basename(__file__)).replace("  ", " "))
@@ -72,7 +74,7 @@ def generate_one_footprint(pincount, configuration):
     kicad_mod.setAttribute('smd')
 
     # ########################## Dimensions ##############################
-    
+
 
     pad1_x = -size_x/2-pad_size[0]/2
     pad1_y = -((pincount/2)-1)/2*pitch
@@ -95,7 +97,7 @@ def generate_one_footprint(pincount, configuration):
     }
 
     # # ############################# Pads ##################################
-       
+
     # Pads
     kicad_mod.append(PadArray(start=[pad1_x, pad1_y], initial=1,
         pincount=int(pincount/2), increment=1,  y_spacing=pitch, size=pad_size,
@@ -138,7 +140,7 @@ def generate_one_footprint(pincount, configuration):
     ]
 
     kicad_mod.append(PolygoneLine(polygone=poly_silk_top,
-    width=configuration['silk_line_width'], layer="F.SilkS"))        
+    width=configuration['silk_line_width'], layer="F.SilkS"))
 
     silk_xpM_bottom = pad1_y + pitch*((pincount/2)-1)+ pad_size[1]/2 + silk_pad_offset
 
@@ -150,7 +152,7 @@ def generate_one_footprint(pincount, configuration):
     ]
 
     kicad_mod.append(PolygoneLine(polygone=poly_silk_bottom,
-    width=configuration['silk_line_width'], layer="F.SilkS"))        
+    width=configuration['silk_line_width'], layer="F.SilkS"))
 
     # # ############################ CrtYd ##################################
 

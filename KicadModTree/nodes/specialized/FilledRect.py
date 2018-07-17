@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 from KicadModTree.nodes.specialized import RectLine
 from KicadModTree.nodes.specialized import RectFill
@@ -28,9 +28,9 @@ class FilledRect(Node):
         See below
 
     :Keyword Arguments:
-        * *start* (``Point``) --
+        * *start* (``Vector2D``) --
           start edge of the rect
-        * *end* (``Point``) --
+        * *end* (``Vector2D``) --
           end edge of the rect
         * *layer* (``str``) --
           layer on which the rect is drawn (default: 'F.SilkS')
@@ -45,8 +45,8 @@ class FilledRect(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Point2D(kwargs['start'])
-        self.end_pos = Point2D(kwargs['end'])
+        self.start_pos = Vector2D(kwargs['start'])
+        self.end_pos = Vector2D(kwargs['end'])
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width', 0.12)  # TODO: better variation to get line width

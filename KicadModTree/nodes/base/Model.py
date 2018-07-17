@@ -13,7 +13,7 @@
 #
 # (C) 2016 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
-from KicadModTree.Point import *
+from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 
 
@@ -26,11 +26,11 @@ class Model(Node):
     :Keyword Arguments:
         * *filename* (``str``) --
           name of the 3d-model file
-        * *at* (``Point``) --
+        * *at* (``Vector3D``) --
           position of the model (default: [0, 0, 0])
-        * *scale* (``Point``) --
+        * *scale* (``Vector3D``) --
           scale of the model (default: [1, 1, 1])
-        * *rotate* (``Point``) --
+        * *rotate* (``Vector3D``) --
           rotation of the model (default: [0, 0, 0])
 
     :Example:
@@ -43,9 +43,9 @@ class Model(Node):
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.filename = kwargs['filename']
-        self.at = Point3D(kwargs.get('at', [0, 0, 0]))
-        self.scale = Point3D(kwargs.get('scale', [1, 1, 1]))
-        self.rotate = Point3D(kwargs.get('rotate', [0, 0, 0]))
+        self.at = Vector3D(kwargs.get('at', [0, 0, 0]))
+        self.scale = Vector3D(kwargs.get('scale', [1, 1, 1]))
+        self.rotate = Vector3D(kwargs.get('rotate', [0, 0, 0]))
 
     def _getRenderTreeText(self):
         render_text = Node._getRenderTreeText(self)
