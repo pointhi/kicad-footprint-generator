@@ -30,7 +30,7 @@ ADVANTAGES:
 '''
 
 # define in which order the general "lisp" operators are arranged
-render_order = ['descr', 'tags', 'attr', 'fp_text', 'fp_circle', 'fp_line', 'pad', 'model']
+render_order = ['descr', 'tags', 'attr', 'solder_mask_margin', 'solder_paste_margin', 'solder_paste_ratio', 'fp_text', 'fp_circle', 'fp_line', 'pad', 'model']
 # TODO: sort Text by type
 
 
@@ -45,6 +45,9 @@ class Footprint(Node):
         self.description = None
         self.tags = None
         self.attribute = None
+        self.maskMargin = None
+        self.pasteMargin = None
+        self.pasteMarginRatio = None
 
     def setName(self, name):
         self.name = name
@@ -57,3 +60,15 @@ class Footprint(Node):
 
     def setAttribute(self, value):
         self.attribute = value
+        
+    def setMaskMargin(self, value):
+        self.maskMargin = value
+
+    def setPasteMargin(self, value):
+        self.pasteMargin = value
+    
+    def setPasteMarginRatio(self, value):
+        # paste_margin_ratio is a percentage between 0 and 1 but user could enter exact ratio or percentage
+        if value > 1:
+            value = value / 100.0
+        self.pasteMarginRatio = value

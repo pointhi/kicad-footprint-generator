@@ -18,29 +18,24 @@ def bga(args):
 
     pitch = args["pitch"]
     padDiameter = args["pad_diameter"]
-    pasteRatio = args["paste_ratio"]
-    pasteDiameter = args["paste_diameter"]
+    maskMargin = args["mask_margin"]
+    pasteMargin = args["paste_margin"]
+    pasteRatio = args["paste_ratio"] # '10.0' means paste ratio is 10% of pad size
     layoutX = args["layout_x"]
     layoutY = args["layout_y"]
     rowNames = args["row_names"]
     rowSkips = args["row_skips"]
-
+    
     f = Footprint(footprint_name)
     f.setDescription(desc)
     f.setAttribute("smd")
+    f.setMaskMargin(maskMargin)
+    f.setPasteMargin(pasteMargin)
+    f.setPasteMarginRatio(pasteRatio)
+    
     # If this looks like a CSP footprint, use the CSP 3dshapes library
-    if 'BGA' not in footprint_name and 'CSP' in footprint_name:
-        f.append(Model(filename="${{KISYS3DMOD}}/Package_CSP.3dshapes"
-                                "/{}.wrl".format(footprint_name),
-                       at=[0.0, 0.0, 0.0],
-                       scale=[1.0, 1.0, 1.0],
-                       rotate=[0.0, 0.0, 0.0]))
-    else:
-        f.append(Model(filename="${{KISYS3DMOD}}/Package_BGA.3dshapes"
-                                "/{}.wrl".format(footprint_name),
-                       at=[0.0, 0.0, 0.0],
-                       scale=[1.0, 1.0, 1.0],
-                       rotate=[0.0, 0.0, 0.0]))
+    f.append(Model(filename="${{KISYS3DMOD}}/Package_{}.3dshapes/{}.wrl".format(
+                  'CSP' if 'BGA' not in footprint_name and 'CSP' in footprint_name else 'BGA', footprint_name)))
 
     s1 = [1.0, 1.0]
     s2 = [min(1.0, round(pkgWidth / 4.3, 2))] * 2
@@ -50,40 +45,37 @@ def bga(args):
 
     padShape = Pad.SHAPE_CIRCLE
 
-    chamfer = min(1.0, min(pkgWidth, pkgHeight)*0.25)
-    silkOffset = 0.125
-    crtYd = 1.0
-
-    if pasteDiameter:
-        pasteRatio = (pasteDiameter / padDiameter - 1) / 2
-
+    chamfer = min(1.0, min(pkgWidth, pkgHeight) * 0.25)
+    silkOffset = 0.11
+    crtYdOffset = 1.0
+    
     def crtYdRound(x):
         # Round away from zero for proper courtyard calculation
         neg = x < 0
         if neg:
             x = -x
-        x = math.ceil(x * 100) / 100
+        x = math.ceil(x * 100) / 100.0
         if neg:
             x = -x
         return x
 
     xCenter = 0.0
-    xLeftFab = xCenter - pkgWidth / 2
-    xRightFab = xCenter + pkgWidth / 2
+    xLeftFab = xCenter - pkgWidth / 2.0
+    xRightFab = xCenter + pkgWidth / 2.0
     xChamferFab = xLeftFab + chamfer
-    xPadLeft = xCenter - pitch * ((layoutX - 1) / 2)
-    xPadRight = xCenter + pitch * ((layoutX - 1) / 2)
-    xLeftCrtYd = crtYdRound(xCenter - (pkgWidth / 2 + crtYd))
-    xRightCrtYd = crtYdRound(xCenter + (pkgWidth / 2 + crtYd))
+    xPadLeft = xCenter - pitch * ((layoutX - 1) / 2.0)
+    xPadRight = xCenter + pitch * ((layoutX - 1) / 2.0)
+    xLeftCrtYd = crtYdRound(xCenter - (pkgWidth / 2 + crtYdOffset))
+    xRightCrtYd = crtYdRound(xCenter + (pkgWidth / 2 + crtYdOffset))
 
     yCenter = 0.0
-    yTopFab = yCenter - pkgHeight / 2
-    yBottomFab = yCenter + pkgHeight / 2
+    yTopFab = yCenter - pkgHeight / 2.0
+    yBottomFab = yCenter + pkgHeight / 2.0
     yChamferFab = yTopFab + chamfer
-    yPadTop = yCenter - pitch * ((layoutY - 1) / 2)
-    yPadBottom = yCenter + pitch * ((layoutY - 1) / 2)
-    yTopCrtYd = crtYdRound(yCenter - (pkgHeight / 2 + crtYd))
-    yBottomCrtYd = crtYdRound(yCenter + (pkgHeight / 2 + crtYd))
+    yPadTop = yCenter - pitch * ((layoutY - 1) / 2.0)
+    yPadBottom = yCenter + pitch * ((layoutY - 1) / 2.0)
+    yTopCrtYd = crtYdRound(yCenter - (pkgHeight / 2 + crtYdOffset))
+    yBottomCrtYd = crtYdRound(yCenter + (pkgHeight / 2 + crtYdOffset))
     yRef = yTopFab - 1.0
     yValue = yBottomFab + 1.0
 
@@ -149,11 +141,10 @@ def bga(args):
                          shape=padShape,
                          at=[xPadLeft + (col-1) * pitch, yPadTop + rowNum * pitch],
                          size=[padDiameter, padDiameter],
-                         layers=Pad.LAYERS_SMT,
-                         solder_paste_margin_ratio=pasteRatio))
+                         layers=Pad.LAYERS_SMT))
 
-    f.setTags("BGA {} {}".format(balls, pitch))
-
+    f.setTags("{} {} {}".format('CSP' if 'BGA' not in footprint_name and 'CSP' in footprint_name else 'BGA', balls, pitch))
+    
     file_handler = KicadFileHandler(f)
     file_handler.writeFile(footprint_name + ".kicad_mod")
 
@@ -166,8 +157,9 @@ if __name__ == '__main__':
     parser.add_parameter("pkg_height", type=float, required=True)
     parser.add_parameter("pitch", type=float, required=True)
     parser.add_parameter("pad_diameter", type=float, required=True)
+    parser.add_parameter("mask_margin", type=float, required=False, default=0)
+    parser.add_parameter("paste_margin", type=float, required=False, default=0)
     parser.add_parameter("paste_ratio", type=float, required=False, default=0)
-    parser.add_parameter("paste_diameter", type=float, required=False, default=0)
     parser.add_parameter("layout_x", type=int, required=True)
     parser.add_parameter("layout_y", type=int, required=True)
     parser.add_parameter("row_names", type=list, required=False, default=[

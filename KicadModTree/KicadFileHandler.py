@@ -87,7 +87,19 @@ class KicadFileHandler(FileHandler):
         if self.kicad_mod.attribute:
             sexpr.append(['attr', self.kicad_mod.attribute])
             sexpr.append(SexprSerializer.NEW_LINE)
-
+        
+        if self.kicad_mod.maskMargin:
+            sexpr.append(['solder_mask_margin', self.kicad_mod.maskMargin])
+            sexpr.append(SexprSerializer.NEW_LINE)
+        
+        if self.kicad_mod.pasteMargin:
+            sexpr.append(['solder_paste_margin', self.kicad_mod.pasteMargin])
+            sexpr.append(SexprSerializer.NEW_LINE)
+        
+        if self.kicad_mod.pasteMarginRatio:
+            sexpr.append(['solder_paste_ratio', self.kicad_mod.pasteMarginRatio])
+            sexpr.append(SexprSerializer.NEW_LINE)
+        
         sexpr.extend(self._serializeTree())
 
         return str(SexprSerializer(sexpr))
