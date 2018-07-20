@@ -25,7 +25,7 @@ def bga(args):
     layoutY = args["layout_y"]
     rowNames = args["row_names"]
     rowSkips = args["row_skips"]
-    
+
     f = Footprint(footprint_name)
     f.setDescription(desc)
     f.setAttribute("smd")
@@ -33,9 +33,11 @@ def bga(args):
     f.setPasteMargin(pasteMargin)
     f.setPasteMarginRatio(pasteRatio)
     
+    package_type = 'CSP' if 'BGA' not in footprint_name and 'CSP' in footprint_name else 'BGA'
+    
     # If this looks like a CSP footprint, use the CSP 3dshapes library
     f.append(Model(filename="${{KISYS3DMOD}}/Package_{}.3dshapes/{}.wrl".format(
-                  'CSP' if 'BGA' not in footprint_name and 'CSP' in footprint_name else 'BGA', footprint_name)))
+                  package_type, footprint_name)))
 
     s1 = [1.0, 1.0]
     s2 = [min(1.0, round(pkgWidth / 4.3, 2))] * 2
@@ -65,8 +67,8 @@ def bga(args):
     xChamferFab = xLeftFab + chamfer
     xPadLeft = xCenter - pitch * ((layoutX - 1) / 2.0)
     xPadRight = xCenter + pitch * ((layoutX - 1) / 2.0)
-    xLeftCrtYd = crtYdRound(xCenter - (pkgWidth / 2 + crtYdOffset))
-    xRightCrtYd = crtYdRound(xCenter + (pkgWidth / 2 + crtYdOffset))
+    xLeftCrtYd = crtYdRound(xCenter - (pkgWidth / 2 + float(crtYdOffset)))
+    xRightCrtYd = crtYdRound(xCenter + (pkgWidth / 2 + float(crtYdOffset)))
 
     yCenter = 0.0
     yTopFab = yCenter - pkgHeight / 2.0
@@ -74,8 +76,8 @@ def bga(args):
     yChamferFab = yTopFab + chamfer
     yPadTop = yCenter - pitch * ((layoutY - 1) / 2.0)
     yPadBottom = yCenter + pitch * ((layoutY - 1) / 2.0)
-    yTopCrtYd = crtYdRound(yCenter - (pkgHeight / 2 + crtYdOffset))
-    yBottomCrtYd = crtYdRound(yCenter + (pkgHeight / 2 + crtYdOffset))
+    yTopCrtYd = crtYdRound(yCenter - (pkgHeight / 2 + float(crtYdOffset)))
+    yBottomCrtYd = crtYdRound(yCenter + (pkgHeight / 2 + float(crtYdOffset)))
     yRef = yTopFab - 1.0
     yValue = yBottomFab + 1.0
 
@@ -143,7 +145,7 @@ def bga(args):
                          size=[padDiameter, padDiameter],
                          layers=Pad.LAYERS_SMT))
 
-    f.setTags("{} {} {}".format('CSP' if 'BGA' not in footprint_name and 'CSP' in footprint_name else 'BGA', balls, pitch))
+    f.setTags("{} {} {}".format(package_type, balls, pitch))
     
     file_handler = KicadFileHandler(f)
     file_handler.writeFile(footprint_name + ".kicad_mod")
