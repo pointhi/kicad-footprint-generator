@@ -72,6 +72,6 @@ class Footprint(Node):
     def setPasteMarginRatio(self, value):
         # paste_margin_ratio is unitless between 0 and 1
         # GUI uses percentage so account for that input
-        if value > 1:
-            value = abs(value) / 100.0
+        if abs(value) > 1:
+            value = value / 100.0
         self.pasteMarginRatio = value
