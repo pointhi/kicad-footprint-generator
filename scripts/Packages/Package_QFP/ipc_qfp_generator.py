@@ -162,6 +162,7 @@ class QFP():
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
             suffix=suffix,
+            suffix2="",
             vias=self.configuration.get('thermal_via_suffix', '_ThermalVias') if with_thermal_vias else ''
             ).replace('__','_').lstrip('_')
 
@@ -176,6 +177,7 @@ class QFP():
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
             suffix=suffix_3d,
+            suffix2="",
             vias=''
             ).replace('__','_').lstrip('_')
 

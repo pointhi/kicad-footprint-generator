@@ -53,15 +53,25 @@ class DFN():
             'P': self.configuration.get('placement_tolerance', 0.05)
         }
 
-        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
+        pull_back_0 = TolerancedSize(nominal=0)
+        pull_back = device_dimensions.get('lead_to_edge', pull_back_0)
+
+
+        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
+                ipc_data, ipc_round_base, manf_tol,
                 device_dimensions['body_size_x'], device_dimensions['lead_width'],
                 lead_len=device_dimensions.get('lead_len'),
-                heel_reduction=device_dimensions.get('heel_reduction', 0))
+                heel_reduction=device_dimensions.get('heel_reduction', 0),
+                pull_back=pull_back
+                )
 
-        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
+        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
+                ipc_data, ipc_round_base, manf_tol,
                 device_dimensions['body_size_y'], device_dimensions['lead_width'],
                 lead_len=device_dimensions.get('lead_len'),
-                heel_reduction=device_dimensions.get('heel_reduction', 0))
+                heel_reduction=device_dimensions.get('heel_reduction', 0),
+                pull_back=pull_back
+                )
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -87,6 +97,9 @@ class DFN():
 
         dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
 
+        if 'lead_to_edge' in device_size_data:
+            dimensions['lead_to_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
+
         return dimensions
 
     def generateFootprint(self, device_params):
@@ -105,7 +118,8 @@ class DFN():
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
-        if device_params.get('ipc_class', 'qfn') == 'qfn_pull_back':
+        default_ipc_config = 'qfn_pull_back' if 'lead_to_edge' in device_params else 'qfn'
+        if device_params.get('ipc_class', default_ipc_config) == 'qfn_pull_back':
             ipc_reference = 'ipc_spec_flat_no_lead_pull_back'
         else:
             ipc_reference = 'ipc_spec_flat_no_lead'
@@ -117,9 +131,14 @@ class DFN():
         pad_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base)
 
 
-        suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
+        pad_suffix = '_Pad{pad_x:.2f}x{pad_y:.2f}mm'.format(pad_x=pad_details['left']['size'][0],
             pad_y=pad_details['left']['size'][1])
+        pad_suffix = '' if device_params.get('include_pad_size', 'none') not in ('fp_name_only', 'both') else pad_suffix
+        pad_suffix_3d = '' if device_params.get('include_pad_size', 'none') not in ('both') else pad_suffix
+
+        suffix = device_params.get('suffix', '')
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
+
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
         if device_dimensions['has_EP']:
@@ -129,7 +148,7 @@ class DFN():
                 'y':device_dimensions['EP_size_y'].nominal
                 }
         else:
-            name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
+            name_format = self.configuration['fp_name_format_string_no_trailing_zero']
             EP_size = {'x':0, 'y':0}
 
         if 'custom_name_format' in device_params:
@@ -148,7 +167,8 @@ class DFN():
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
-            suffix=suffix,
+            suffix=pad_suffix,
+            suffix2=suffix,
             vias=self.configuration.get('thermal_via_suffix', '_ThermalVias') if with_thermal_vias else ''
             ).replace('__','_').lstrip('_')
 
@@ -162,7 +182,8 @@ class DFN():
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
-            suffix=suffix_3d,
+            suffix=pad_suffix_3d,
+            suffix2=suffix_3d,
             vias=''
             ).replace('__','_').lstrip('_')
 
