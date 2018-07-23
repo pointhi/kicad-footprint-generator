@@ -109,44 +109,52 @@ ST_WLCSP-49_Die435:
   layout_x: 7
   layout_y: 7
 ST_WLCSP-49_Die438:
-  description: "WLCSP-49, 7x7 raster, 3.89x3.74mm package, pitch 0.5mm; see section 7.5 of http://www.st.com/resource/en/datasheet/stm32f303r8.pdf"
+  description: "WLCSP-49, 7x7 raster, 3.89x3.74mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32f303r8.pdf#page=112"
   pkg_width: 3.89
   pkg_height: 3.74
   pitch: 0.5
   pad_diameter: 0.29
-  paste_margin: 0.31
+  mask_margin: 0.03
+  paste_margin: 0.01
   layout_x: 7
   layout_y: 7
 ST_WLCSP-49_Die439:
-  description: "WLCSP-49, 7x7 raster, 3.417x3.151mm package, pitch 0.4mm; see section 7.1 of http://www.st.com/resource/en/datasheet/stm32f301r8.pdf"
+  description: "WLCSP-49, 7x7 raster, 3.417x3.151mm package, pitch 0.4mm; http://www.st.com/resource/en/datasheet/stm32f301r8.pdf#page=117"
   pkg_width: 3.417
   pkg_height: 3.151
   pitch: 0.4
   pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
   layout_x: 7
   layout_y: 7
 ST_WLCSP-49_Die447:
-  description: "WLCSP-49, 7x7 raster, 3.294x3.258mm package, pitch 0.4mm; see section 7.6 of http://www.st.com/resource/en/datasheet/stm32l072kz.pdf"
+  description: "WLCSP-49, 7x7 raster, 3.294x3.258mm package, pitch 0.4mm; http://www.st.com/resource/en/datasheet/stm32l072kz.pdf#page=134"
   pkg_width: 3.294
   pkg_height: 3.258
   pitch: 0.4
   pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
   layout_x: 7
   layout_y: 7
 ST_WLCSP-49_Die448:
-  description: "WLCSP-49, 7x7 raster, 3.277x3.109mm package, pitch 0.4mm; see section 7.4 of http://www.st.com/resource/en/datasheet/stm32f071v8.pdf"
+  description: "WLCSP-49, 7x7 raster, 3.277x3.109mm package, pitch 0.4mm; http://www.st.com/resource/en/datasheet/stm32f071v8.pdf#page=106"
   pkg_width: 3.277
   pkg_height: 3.109
   pitch: 0.4
   pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
   layout_x: 7
   layout_y: 7
 ST_WLCSP-63_Die427:
-  description: "WLCSP-63, 7x9 raster, 3.228x4.164mm package, pitch 0.4mm; see section 7.6 of http://www.st.com/resource/en/datasheet/stm32l151cc.pdf"
+  description: "WLCSP-63, 7x9 raster, 3.228x4.164mm package, pitch 0.4mm; http://www.st.com/resource/en/datasheet/stm32l151cc.pdf#page=125"
   pkg_width: 3.228
   pkg_height: 4.164
   pitch: 0.4
   pad_diameter: 0.24
+  paste_margin: 0.000001
   layout_x: 7
   layout_y: 9
 ST_WLCSP-64_Die414:
@@ -236,6 +244,7 @@ ST_WLCSP-66_Die432:
   pkg_height: 4.229
   pitch: 0.4
   pad_diameter: 0.24
+  paste_margin: 0.000001
   layout_x: 8
   layout_y: 9
   row_skips: [[], [], [], [4, 5], [4, 5], [4, 5], [], [], []]
@@ -377,6 +386,8 @@ ST_WLCSP-168_Die434:
   pkg_height: 5.692
   pitch: 0.4
   pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
   layout_x: 12
   layout_y: 14
 ST_WLCSP-180_Die451:
