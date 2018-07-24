@@ -149,8 +149,8 @@ variant_params = {
 def generate_one_footprint(pins_per_row, variant, configuration):
     is_smd = variant_params[variant].get('smd', False)
 
-    mpn = variant_params[variant]['part_code'].format(n=pins_per_row*2)
-    alt_mpn = [code.format(n=pins_per_row*2) for code in variant_params[variant].get('alternative_codes', [])]
+    mpn = variant_params[variant]['part_code'].format(n=pins_per_row)
+    alt_mpn = [code.format(n=pins_per_row) for code in variant_params[variant].get('alternative_codes', [])]
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
