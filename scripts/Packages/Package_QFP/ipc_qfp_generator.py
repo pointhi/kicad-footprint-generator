@@ -12,6 +12,7 @@ from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
+from ipc_pad_size_calculators import *
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
@@ -33,7 +34,7 @@ class QFP():
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def calcPadDetails(self, device_params, ipc_data, ipc_round_base):
+    def calcPadDetails(self, device_dimensions, ipc_data, ipc_round_base):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
         # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -44,48 +45,26 @@ class QFP():
         # Smin = Lmin - 2*Tmax
         # Smax(RMS) = Smin + Stol(RMS)
 
-        F = self.configuration.get('manufacturing_tolerance', 0.1)
-        P = self.configuration.get('placement_tolerance', 0.05)
+        manf_tol = {
+            'F': self.configuration.get('manufacturing_tolerance', 0.1),
+            'P': self.configuration.get('placement_tolerance', 0.05)
+        }
 
-        if 'overall_size_x_max' in device_params:
-            overall_x_tol = device_params['overall_size_x_max'] - device_params['overall_size_x_min']
-            overall_x_min = device_params['overall_size_x_min']
-        else:
-            overall_x_tol = 0
-            overall_x_min = device_params['overall_size_x']
+        Gmin_x, Zmax_x, Xmax = ipc_gull_wing(
+                ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['lead_width'],
+                device_dimensions['overall_size_x'],
+                lead_len=device_dimensions.get('lead_len'),
+                heel_reduction=device_dimensions.get('heel_reduction', 0)
+                )
 
-        if 'overall_size_y_max' in device_params:
-            overall_y_tol = device_params['overall_size_y_max'] - device_params['overall_size_y_min']
-            overall_y_min = device_params['overall_size_y_min']
-        else:
-            overall_y_tol = 0
-            overall_y_min = device_params['overall_size_y']
-
-        lead_len_tol = device_params['lead_len_max'] - device_params['lead_len_min']
-        lead_width_tol = device_params['lead_width_max'] - device_params['lead_width_min']
-
-        def calcPadLength(overall_min, overall_tol):
-            Stol_RMS = math.sqrt(overall_tol**2+2*(lead_len_tol**2))
-            Smin = overall_min - 2*device_params['lead_len_max']
-            Smax_RMS = Smin + Stol_RMS
-
-            Gmin = Smax_RMS - 2*ipc_data['heel'] - math.sqrt(Stol_RMS**2 + F**2 + P**2)
-
-
-            Zmax = overall_min + 2*ipc_data['toe'] + math.sqrt(overall_tol**2 + F**2 + P**2)
-
-            Zmax = roundToBase(Zmax, ipc_round_base['toe'])
-            Gmin = roundToBase(Gmin, ipc_round_base['heel'])
-
-            Zmax += device_params.get('pad_length_addition', 0)
-
-            return Gmin, Zmax
-
-        Gmin_x, Zmax_x = calcPadLength(overall_x_min, overall_x_tol)
-        Gmin_y, Zmax_y = calcPadLength(overall_y_min, overall_y_tol)
-
-        Xmax = device_params['lead_width_min'] + 2*ipc_data['side'] + math.sqrt(lead_width_tol**2 + F**2 + P**2)
-        Xmax = roundToBase(Xmax, ipc_round_base['side'])
+        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_gull_wing(
+                ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['lead_width'],
+                device_dimensions['overall_size_y'],
+                lead_len=device_dimensions.get('lead_len'),
+                heel_reduction=device_dimensions.get('heel_reduction', 0)
+                )
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -94,28 +73,43 @@ class QFP():
         Pad['bottom'] = {'center':[0,(Zmax_y+Gmin_y)/4], 'size':[Xmax,(Zmax_y-Gmin_y)/2]}
 
         return Pad
+
+    @staticmethod
+    def deviceDimensions(device_size_data):
+        dimensions = {
+            'body_size_x': TolerancedSize.fromYaml(device_size_data, base_name='body_size_x'),
+            'body_size_y': TolerancedSize.fromYaml(device_size_data, base_name='body_size_y'),
+            'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width'),
+            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len'),
+            'overall_size_x': TolerancedSize.fromYaml(device_size_data, base_name='overall_size_x'),
+            'overall_size_y': TolerancedSize.fromYaml(device_size_data, base_name='overall_size_y')
+        }
+        dimensions['has_EP'] = False
+        if 'EP_size_x_min' in device_size_data and 'EP_size_x_max' in device_size_data or 'EP_size_x' in device_size_data:
+            dimensions['EP_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_x')
+            dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
+            dimensions['has_EP'] = True
+
+        dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
+
+        return dimensions
+
     def generateFootprint(self, device_params):
-        has_EP = 'EP_size_x' in device_params or 'EP_size_x_min' in device_params
-        if has_EP and 'thermal_vias' in device_params:
-            self.__createFootprintVariant(device_params, has_EP, True)
+        dimensions = QFP.deviceDimensions(device_params)
 
-        self.__createFootprintVariant(device_params, has_EP, False)
+        if dimensions['has_EP'] and 'thermal_vias' in device_params:
+            self.__createFootprintVariant(device_params, dimensions, True)
 
-    def __createFootprintVariant(self, device_params, has_EP, with_thermal_vias):
+        self.__createFootprintVariant(device_params, dimensions, False)
+
+    def __createFootprintVariant(self, device_params, dimensions, with_thermal_vias):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
         lib_name = self.configuration['lib_name_format_string'].format(category=category)
 
-        if 'body_size_x' in device_params:
-            size_x = device_params['body_size_x']
-        else:
-            size_x = (device_params['body_size_x_max'] + device_params['body_size_x_min'])/2
-
-        if 'body_size_y' in device_params:
-            size_y = device_params['body_size_y']
-        else:
-            size_y = (device_params['body_size_y_max'] + device_params['body_size_y_min'])/2
+        size_x = dimensions['body_size_x'].nominal
+        size_y = dimensions['body_size_y'].nominal
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
@@ -124,7 +118,7 @@ class QFP():
         ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
-        pad_details = self.calcPadDetails(device_params, ipc_data_set, ipc_round_base)
+        pad_details = self.calcPadDetails(dimensions, ipc_data_set, ipc_round_base)
 
 
         suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
@@ -132,18 +126,9 @@ class QFP():
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
-        if has_EP:
+        if dimensions['has_EP']:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
-            if 'EP_size_x' in device_params and 'EP_size_y' in device_params:
-                EP_size = {'x':device_params['EP_size_x'], 'y':device_params['EP_size_y']}
-            elif 'EP_size_x_max' in device_params and 'EP_size_x_min' in device_params and\
-                    'EP_size_y_max' in device_params and 'EP_size_y_min' in device_params:
-                EP_size = {
-                    'x':(device_params['EP_size_x_max']+device_params['EP_size_x_min'])/2,
-                    'y':(device_params['EP_size_y_max']+device_params['EP_size_y_min'])/2
-                    }
-            else:
-                raise KeyError("Either nominal ep size in x and y direction must be given or min and max values for both directions.")
+            EP_size = {'x':dimensions['EP_size_x'].nominal, 'y':dimensions['EP_size_y'].nominal}
         else:
             name_format = self.configuration['fp_name_format_string_no_trailing_zero']
             EP_size = {'x':0, 'y':0}
@@ -216,7 +201,7 @@ class QFP():
         if 'round_rect_max_radius' in configuration:
             pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
 
-        if has_EP:
+        if dimensions['has_EP']:
             if with_thermal_vias:
                 thermals = device_params['thermal_vias']
                 paste_coverage = thermals.get('EP_paste_coverage',
@@ -287,10 +272,10 @@ class QFP():
 
 
         body_edge = {
-            'left': -device_params['body_size_x']/2,
-            'right': device_params['body_size_x']/2,
-            'top': -device_params['body_size_y']/2,
-            'bottom': device_params['body_size_y']/2
+            'left': -dimensions['body_size_x'].nominal/2,
+            'right': dimensions['body_size_x'].nominal/2,
+            'top': -dimensions['body_size_y'].nominal/2,
+            'bottom': dimensions['body_size_y'].nominal/2
             }
 
         bounding_box = {
