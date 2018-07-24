@@ -146,6 +146,56 @@ PQFP_240:
   num_pins_x: 60
   num_pins_y: 60
 
+TQFP-48-1EP_7x7mm_P0.5mm_EP5.0x5.0mm:
+  device_type: 'TQFP'
+  size_source: 'https://www.trinamic.com/fileadmin/assets/Products/ICs_Documents/TMC2100_datasheet_Rev1.08.pdf (page 45)'
+  body_size_x:
+    nominal: 7
+    tolerance: 0
+  body_size_y:
+    nominal: 7
+    tolerance: 0
+  overall_size_x:
+    nominal: 9
+    tolerance: 0
+  overall_size_y:
+    nominal: 9
+    tolerance: 0
+  lead_width_min: 0.17
+  lead_width_max: 0.27
+  lead_len_min: 0.45
+  lead_len_max: 0.75
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+
+  EP_size_x:
+    minimum: 4.9
+    nominal: 5.0
+    maximum: 5.1
+  EP_size_y:
+    minimum: 4.9
+    nominal: 5.0
+    maximum: 5.1
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [4, 4]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [5, 5]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    #EP_paste_coverage: 0.65
+    #grid: [1, 1]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
 TQFP_64:
   device_type: 'TQFP'
   size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
