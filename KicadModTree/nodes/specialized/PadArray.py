@@ -20,6 +20,8 @@ from KicadModTree.nodes.base.Pad import *
 from KicadModTree.nodes.specialized.ChamferedPad import *
 from KicadModTree.nodes.Node import Node
 
+from KicadModTree.util.paramUtil import *
+
 
 class PadArray(Node):
     r"""Add a row of Pads
@@ -68,6 +70,9 @@ class PadArray(Node):
           Select which corner should be chamfered for the last pad. (default: None)
         * *chamfer_size* (``float``, ``Vector2D``) --
           size for the chamfer used for the end pads. (default: None)
+
+        * *end_pads_size_reduction* (``dict with keys x-,x+,y-,y+``) --
+          size is reduced on the given side. (size reduced plus center moved.)
 
     :Example:
 
@@ -187,9 +192,34 @@ class PadArray(Node):
         else:
             pad_numbers = range(self.initialPin, self.initialPin + (self.pincount * self.increment), self.increment)
 
+        end_pad_params = copy(kwargs)
+        if kwargs.get('end_pads_size_reduction'):
+            size_reduction = kwargs['end_pads_size_reduction']
+            end_pad_params['size'] = toVectorUseCopyIfNumber(kwargs.get('size'), low_limit=0)
+
+            delta_size = Vector2D(
+                size_reduction.get('x+', 0) + size_reduction.get('x-', 0),
+                size_reduction.get('y+', 0) + size_reduction.get('y-', 0)
+                )
+
+            end_pad_params['size'] -= delta_size
+
+            delta_pos = Vector2D(
+                -size_reduction.get('x+', 0) + size_reduction.get('x-', 0),
+                -size_reduction.get('y+', 0) + size_reduction.get('y-', 0)
+                )/2
+        else:
+            delta_pos = Vector2D(0, 0)
+
         for i, number in enumerate(pad_numbers):
-            x_pad = x_start + i * x_spacing
-            y_pad = y_start + i * y_spacing
+            current_pad_pos = Vector2D(
+                x_start + i * x_spacing,
+                y_start + i * y_spacing
+                )
+            current_pad_params = kwargs
+            if i == 0 or i == len(pad_numbers)-1:
+                current_pad_pos += delta_pos
+                current_pad_params = end_pad_params
 
             if kwargs.get('type') == Pad.TYPE_THT and number == 1:
                 kwargs['shape'] = Pad.SHAPE_RECT
@@ -200,22 +230,21 @@ class PadArray(Node):
                 if i == 0 and 'chamfer_corner_selection_first' in kwargs:
                     pads.append(
                         ChamferedPad(
-                            number=number, at=[x_pad, y_pad],
+                            number=number, at=current_pad_pos,
                             corner_selection=kwargs.get('chamfer_corner_selection_first'),
-                            **kwargs
+                            **current_pad_params
                             ))
                     continue
 
                 if i == len(pad_numbers)-1 and 'chamfer_corner_selection_last' in kwargs:
                     pads.append(
                         ChamferedPad(
-                            number=number, at=[x_pad, y_pad],
+                            number=number, at=current_pad_pos,
                             corner_selection=kwargs.get('chamfer_corner_selection_last'),
-                            **kwargs
+                            **current_pad_params
                             ))
                     continue
-
-            pads.append(Pad(number=number, at=[x_pad, y_pad], **kwargs))
+            pads.append(Pad(number=number, at=current_pad_pos, **current_pad_params))
 
         return pads
 

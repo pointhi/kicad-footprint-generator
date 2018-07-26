@@ -241,6 +241,7 @@ class DFN():
                     via_paste_clarance=thermals.get('paste_via_clearance', DEFAULT_VIA_PASTE_CLEARANCE),
                     min_annular_ring=thermals.get('min_annular_ring', DEFAULT_MIN_ANNULAR_RING),
                     bottom_pad_min_size=thermals.get('bottom_min_size', 0),
+                    kicad4_compatible=args.kicad4_compatible,
                     **pad_shape_details
                     ))
             else:
@@ -248,6 +249,7 @@ class DFN():
                     number=pincount+1, size=EP_size,
                     paste_layout=device_params.get('EP_num_paste_pads', 1),
                     paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
+                    kicad4_compatible=args.kicad4_compatible,
                     **pad_shape_details
                     ))
 
@@ -289,6 +291,13 @@ class DFN():
             chamfer_size = device_params.get('chamfer_edge_pins')
             corner_first = [0, 1, 0, 0]
             corner_last = [0, 0, 1, 0]
+            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
+                chamfer_size = 0
+                pad_size_reduction = {'x+': device_params.get('chamfer_edge_pins')}
+            else:
+                chamfer_size = device_params.get('chamfer_edge_pins')
+                pad_size_reduction = None
+
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT,
@@ -298,11 +307,15 @@ class DFN():
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
+                end_pads_size_reduction = pad_size_reduction,
                 **pad_details['left'], **pad_shape_details))
 
             init += device_params['num_pins_y']
             corner_first = [1, 0, 0, 0]
             corner_last = [0, 1, 0, 0]
+            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
+                pad_size_reduction = {'y-': device_params.get('chamfer_edge_pins')}
+
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT,
@@ -312,11 +325,15 @@ class DFN():
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
+                end_pads_size_reduction = pad_size_reduction,
                 **pad_details['bottom'], **pad_shape_details))
 
             init += device_params['num_pins_x']
             corner_first = [0, 0, 0, 1]
             corner_last = [1, 0, 0, 0]
+            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
+                pad_size_reduction = {'x-': device_params.get('chamfer_edge_pins')}
+
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT,
@@ -326,11 +343,15 @@ class DFN():
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
+                end_pads_size_reduction = pad_size_reduction,
                 **pad_details['right'], **pad_shape_details))
 
             init += device_params['num_pins_y']
             corner_first = [0, 0, 1, 0]
             corner_last = [0, 0, 0, 1]
+            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
+                pad_size_reduction = {'y+': device_params.get('chamfer_edge_pins')}
+
             kicad_mod.append(PadArray(
                 initial= init,
                 type=Pad.TYPE_SMT,
@@ -340,6 +361,7 @@ class DFN():
                 chamfer_size=chamfer_size,
                 chamfer_corner_selection_first=corner_first,
                 chamfer_corner_selection_last=corner_last,
+                end_pads_size_reduction = pad_size_reduction,
                 **pad_details['top'], **pad_shape_details))
 
 
@@ -497,6 +519,7 @@ if __name__ == "__main__":
     parser.add_argument('--density', type=str, nargs='?', help='Density level (L,N,M)', default='N')
     parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='../ipc_definitions.yaml')
     parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     if args.density == 'L':
@@ -518,7 +541,7 @@ if __name__ == "__main__":
         except yaml.YAMLError as exc:
             print(exc)
 
-    if args.force_rectangle_pads:
+    if args.force_rectangle_pads or args.kicad4_compatible:
         configuration['round_rect_max_radius'] = None
         configuration['round_rect_radius_ratio'] = 0
 
