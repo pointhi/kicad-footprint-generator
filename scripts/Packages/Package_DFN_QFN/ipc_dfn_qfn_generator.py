@@ -115,6 +115,7 @@ class DFN():
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
         lib_name = self.configuration['lib_name_format_string'].format(category=category)
+        lib_name = device_params.get('library', lib_name)
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
@@ -291,12 +292,15 @@ class DFN():
             chamfer_size = device_params.get('chamfer_edge_pins')
             corner_first = [0, 1, 0, 0]
             corner_last = [0, 0, 1, 0]
-            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
+            pad_size_red = device_params.get('edge_heel_reduction', 0)
+            if args.kicad4_compatible:
                 chamfer_size = 0
-                pad_size_reduction = {'x+': device_params.get('chamfer_edge_pins')}
+                pad_size_red += device_params.get('chamfer_edge_pins', 0)
             else:
                 chamfer_size = device_params.get('chamfer_edge_pins')
-                pad_size_reduction = None
+
+
+            pad_size_reduction = {'x+': pad_size_red} if pad_size_red > 0 else None
 
             kicad_mod.append(PadArray(
                 initial= init,
@@ -313,8 +317,8 @@ class DFN():
             init += device_params['num_pins_y']
             corner_first = [1, 0, 0, 0]
             corner_last = [0, 1, 0, 0]
-            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
-                pad_size_reduction = {'y-': device_params.get('chamfer_edge_pins')}
+
+            pad_size_reduction = {'y-': pad_size_red} if pad_size_red > 0 else None
 
             kicad_mod.append(PadArray(
                 initial= init,
@@ -331,8 +335,8 @@ class DFN():
             init += device_params['num_pins_x']
             corner_first = [0, 0, 0, 1]
             corner_last = [1, 0, 0, 0]
-            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
-                pad_size_reduction = {'x-': device_params.get('chamfer_edge_pins')}
+
+            pad_size_reduction = {'x-': pad_size_red} if pad_size_red > 0 else None
 
             kicad_mod.append(PadArray(
                 initial= init,
@@ -349,8 +353,8 @@ class DFN():
             init += device_params['num_pins_y']
             corner_first = [0, 0, 1, 0]
             corner_last = [0, 0, 0, 1]
-            if args.kicad4_compatible and device_params.get('chamfer_edge_pins'):
-                pad_size_reduction = {'y+': device_params.get('chamfer_edge_pins')}
+
+            pad_size_reduction = {'y+': pad_size_red} if pad_size_red > 0 else None
 
             kicad_mod.append(PadArray(
                 initial= init,
