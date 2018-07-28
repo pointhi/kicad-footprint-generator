@@ -382,7 +382,7 @@ class LGA():
 
         # # ######################## Fabrication Layer ###########################
 
-        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*max(size_x, size_y))
+        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*min(size_x, size_y))
 
         poly_fab = [
             {'x': body_edge['left']+fab_bevel_size, 'y': body_edge['top']},
