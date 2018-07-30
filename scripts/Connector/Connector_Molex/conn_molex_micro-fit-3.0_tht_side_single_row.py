@@ -48,7 +48,7 @@ alternative_codes = [
 
 pins_per_row_range = range(2,13)
 pitch = 3.0
-drill = 1.0
+drill = 1.02
 peg_drill = 3.0
 pad_to_pad_clearance = 1.5 # Voltage rating is up to 600V (http://www.molex.com/pdm_docs/ps/PS-43045.pdf)
 
