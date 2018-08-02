@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 
+import os
+import sys
+
 from setuptools import setup
 from setuptools import find_packages
 
+
+long_description = open(os.path.join(sys.path[0], 'README.md')).read()
 requirements = map(str.strip, open('requirements.txt').readlines())
 dev_requirements = map(str.strip, open('requirements-dev.txt').readlines())
 
 setup(
     name='KicadModTree',
-    version='1.0',
+    version='1.0.1',
     author='Thomas Pointhuber',
     author_email='thomas.pointhuber@gmx.at',
     url='https://github.com/pointhi/kicad-footprint-generator',
