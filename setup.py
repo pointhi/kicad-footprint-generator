@@ -13,12 +13,13 @@ dev_requirements = map(str.strip, open('requirements-dev.txt').readlines())
 
 setup(
     name='KicadModTree',
-    version='1.0.2',
+    version='1.0.3',
     author='Thomas Pointhuber',
     author_email='thomas.pointhuber@gmx.at',
     url='https://github.com/pointhi/kicad-footprint-generator',
     description="creating kicad footprints using python scripts",
     long_description=long_description,
+    long_description_content_type='text/markdown',
     license="GPL3+",
 
     install_requires=requirements,
