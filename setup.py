@@ -13,15 +13,12 @@ dev_requirements = map(str.strip, open('requirements-dev.txt').readlines())
 
 setup(
     name='KicadModTree',
-    version='1.0.1',
+    version='1.0.2',
     author='Thomas Pointhuber',
     author_email='thomas.pointhuber@gmx.at',
     url='https://github.com/pointhi/kicad-footprint-generator',
     description="creating kicad footprints using python scripts",
-    long_description="""
-        This is a standalone implementation of the KiCad footprint format as well as helper functions to simplify the
-        creation of custom footprints. It is heavily used in the official footprint library.
-        """,
+    long_description=long_description,
     license="GPL3+",
 
     install_requires=requirements,
