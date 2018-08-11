@@ -19,7 +19,7 @@ WSON-8-1EP_5x6mm_P1.27mm_EP3.4x4.0mm:
   lead_width_min: 0.35
   lead_width_max: 0.48
   lead_len_min: 0.5
-  lead_len_max: 0.7
+  lead_len_max: 0.75
 
 
   EP_size_x: 3.4
