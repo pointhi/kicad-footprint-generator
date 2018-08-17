@@ -46,7 +46,7 @@ class PadArray(Node):
           y offset between rendered pads
         * *initial* (``int``) --
           name of the first pad
-        * *increment* (``int``) --
+        * *increment* (``int, function(previous_number)``) --
           declare how the name of the follow up is calculated
         * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
           type of the pad
@@ -75,6 +75,8 @@ class PadArray(Node):
           size is reduced on the given side. (size reduced plus center moved.)
         * *tht_pad1_shape* (``Pad.SHAPE_RECT``, ``Pad.SHAPE_ROUNDRECT``, ...) --
           shape for marking pad 1 for through hole components. (deafult: ``Pad.SHAPE_ROUNDRECT``)
+        * *tht_pad1_id* (``int, string``) --
+          pad number used for "pin 1" (default: 1)
 
     :Example:
 
@@ -134,13 +136,12 @@ class PadArray(Node):
         if self.initialPin == "":
             self.increment = 0
         elif type(self.initialPin) is not int or self.initialPin < 1:
-            raise ValueError('{pn} is not a valid starting pin number'.format(pn=self.initialPin))
+            if not callable(self.increment):
+                raise ValueError('{pn} is not a valid starting pin number if increment is not a function'.format(pn=self.initialPin))
 
     # Pin incrementing
     def _initIncrement(self, **kwargs):
         self.increment = kwargs.get('increment', 1)
-        if type(self.increment) is not int:
-            raise ValueError('{inc} is not a valid number for pin increment'.format(inc=self.increment))
 
     # Pad spacing
     def _initSpacing(self, **kwargs):
@@ -190,9 +191,15 @@ class PadArray(Node):
         # this can be used for creating an array with all the same pad number
         if self.increment == 0:
             pad_numbers = [self.initialPin] * self.pincount
-
-        else:
+        elif type(self.increment) == int:
             pad_numbers = range(self.initialPin, self.initialPin + (self.pincount * self.increment), self.increment)
+        elif callable(self.increment):
+            pad_numbers = [self.initialPin]
+            for idx in range(1, self.pincount):
+                pad_numbers.append(self.increment(pad_numbers[-1]))
+        else:
+            raise TypeError("Wrong type for increment. It must be either a int or callable.")
+
 
         end_pad_params = copy(kwargs)
         if kwargs.get('end_pads_size_reduction'):
@@ -223,7 +230,7 @@ class PadArray(Node):
                 current_pad_pos += delta_pos
                 current_pad_params = end_pad_params
 
-            if kwargs.get('type') == Pad.TYPE_THT and number == 1:
+            if kwargs.get('type') == Pad.TYPE_THT and number == kwargs.get('tht_pad1_id', 1):
                 current_pad_params['shape'] = kwargs.get('tht_pad1_shape', Pad.SHAPE_ROUNDRECT)
                 if 'radius_ratio' not in current_pad_params:
                     current_pad_params['radius_ratio'] = 0.25
