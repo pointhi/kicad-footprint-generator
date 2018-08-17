@@ -50,7 +50,7 @@ class PadArray(Node):
           declare how the name of the follow up is calculated
         * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
           type of the pad
-        * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``) --
+        * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``Pad.SHAPE_TRAPEZE``, ...) --
           shape of the pad
         * *rotation* (``float``) --
           rotation of the pad
@@ -73,6 +73,8 @@ class PadArray(Node):
 
         * *end_pads_size_reduction* (``dict with keys x-,x+,y-,y+``) --
           size is reduced on the given side. (size reduced plus center moved.)
+        * *tht_pad1_shape* (``Pad.SHAPE_RECT``, ``Pad.SHAPE_ROUNDRECT``, ...) --
+          shape for marking pad 1 for through hole components. (deafult: ``Pad.SHAPE_ROUNDRECT``)
 
     :Example:
 
@@ -216,15 +218,19 @@ class PadArray(Node):
                 x_start + i * x_spacing,
                 y_start + i * y_spacing
                 )
-            current_pad_params = kwargs
+            current_pad_params = copy(kwargs)
             if i == 0 or i == len(pad_numbers)-1:
                 current_pad_pos += delta_pos
                 current_pad_params = end_pad_params
 
             if kwargs.get('type') == Pad.TYPE_THT and number == 1:
-                kwargs['shape'] = Pad.SHAPE_RECT
+                current_pad_params['shape'] = kwargs.get('tht_pad1_shape', Pad.SHAPE_ROUNDRECT)
+                if 'radius_ratio' not in current_pad_params:
+                    current_pad_params['radius_ratio'] = 0.25
+                if 'maximum_radius' not in current_pad_params:
+                    current_pad_params['maximum_radius'] = 0.25
             else:
-                kwargs['shape'] = padShape
+                current_pad_params['shape'] = padShape
 
             if kwargs.get('chamfer_size'):
                 if i == 0 and 'chamfer_corner_selection_first' in kwargs:
