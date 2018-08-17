@@ -318,7 +318,7 @@ Texas_VQFN_RGE0024H:
   size_source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=42&zoom=200,-13,779'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
-  custom_name_format: 'Texas_RGE0024H{vias:s}'
+  custom_name_format: 'Texas_RGE00{pincount}H_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
   body_size_x_min: 3.9
   body_size_x: 4.0
   body_size_x_max: 4.1
