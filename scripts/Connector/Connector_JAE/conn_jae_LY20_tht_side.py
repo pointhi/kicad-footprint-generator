@@ -104,6 +104,8 @@ def make_module(pins_per_row, configuration):
     optional_pad_params = {}
     if configuration['kicad4_compatible']:
         optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
 
     for row_idx in range(2):
         kicad_mod.append(PadArray(

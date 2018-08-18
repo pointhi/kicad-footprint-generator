@@ -116,6 +116,8 @@ def generate_one_footprint(pincount, configuration):
     optional_pad_params = {}
     if configuration['kicad4_compatible']:
         optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
 
     # Create pins
     for i in range(number_of_rows):

@@ -162,6 +162,8 @@ def generate_one_footprint(pincount, configuration):
     optional_pad_params = {}
     if configuration['kicad4_compatible']:
         optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
 
     kicad_mod.append(PadArray(initial=1, start=[0, 0],
         x_spacing=pitch, pincount=pincount,
