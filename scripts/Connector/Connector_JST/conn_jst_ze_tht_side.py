@@ -109,16 +109,21 @@ def generate_one_footprint(pincount, configuration):
 
     # create odd numbered pads
     #createNumberedPadsTHT(kicad_mod, ceil(pincount/2), pitch * 2, drill, pad_size,  increment=2)
-    kicad_mod.append(PadArray(initial=1, start=[0, 0],
-        x_spacing=pitch*2, pincount=ceil(pincount/2),
-        size=pad_size, drill=drill, increment=2,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+
+    for row_idx in range(2):
+        kicad_mod.append(PadArray(
+            initial=row_idx+1, start=[row_idx*pitch, row_idx*y_spacing],
+            x_spacing=pitch*2,
+            pincount=ceil(pincount/2) if row_idx == 0 else floor(pincount/2),
+            size=pad_size, drill=drill, increment=2,
+            type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT,
+            **optional_pad_params))
     #create even numbered pads
     #createNumberedPadsTHT(kicad_mod, floor(pincount/2), pitch * 2, drill, pad_size, starting=2, increment=2, y_off=y_spacing, x_off=pitch)
-    kicad_mod.append(PadArray(initial=2, start=[pitch, y_spacing],
-        x_spacing=pitch*2, pincount=floor(pincount/2),
-        size=pad_size, drill=drill, increment=2,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
+
 
 
     #add mounting holes
@@ -184,6 +189,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -197,6 +203,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pincount in range(2, 17):
         generate_one_footprint(pincount, configuration)
