@@ -136,21 +136,13 @@ def generate_one_footprint(pins, params, configuration):
     pad_silk_off = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
 
     #generate the pads
-    #top row(s)
-    kicad_mod.append(PadArray(pincount=pins, start=[0,0],
-        y_spacing=pitch, size=pad_size, drill=drill,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_THT))
-    kicad_mod.append(PadArray(pincount=pins, start=[offset_second_pad, 0],
-        y_spacing=pitch, size=pad_size, drill=drill,
-        shape=Pad.SHAPE_RECT, type=Pad.TYPE_THT, layers=Pad.LAYERS_THT))
-
-    #bottom row(s)
-    kicad_mod.append(PadArray(pincount=pins, start=[pitch_row, 0],
-        initial=pins+1, y_spacing=pitch, size=pad_size, drill=drill,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_THT))
-    kicad_mod.append(PadArray(pincount=pins, start=[pitch_row + offset_second_pad, 0],
-        initial=pins+1, y_spacing=pitch, size=pad_size, drill=drill,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_THT))
+    for row_idx in range(2):
+        for pad_idx in range(2):
+            kicad_mod.append(PadArray(
+                pincount=pins, start=[row_idx*pitch_row + pad_idx*offset_second_pad, 0],
+                initial=row_idx*pins+1, y_spacing=pitch, size=pad_size, drill=drill,
+                type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_THT,
+                tht_pad1_shape=Pad.SHAPE_RECT))
 
     #thermal vias
 
@@ -223,7 +215,7 @@ def generate_one_footprint(pins, params, configuration):
         width=configuration['silk_line_width'], layer='F.SilkS'))
     kicad_mod.append(PolygoneLine(polygone=corner,x_mirror=x_loc,
         width=configuration['silk_line_width'], layer='F.SilkS'))
-    kicad_mod.append(PolygoneLine(polygone=corner,y_mirror=B/2,
+    kicad_mod.append(PolygoneLine(polygone=corner,y_mirror=B/2,x_mirror=x_loc,
         width=configuration['silk_line_width'], layer='F.SilkS'))
 
     #silk-screen between each pad
@@ -238,12 +230,12 @@ def generate_one_footprint(pins, params, configuration):
             width=configuration['silk_line_width'], layer='F.SilkS'))
 
     #draw the tabs at each end
-    def offsetPoly(poly_points, o , center_x):
+    def offsetPoly(poly_points, o , center_x, center_y):
         new_points = []
         for point in poly_points:
             new_points.append(
                 {
-                'y': point['y'] + o,
+                'y': point['y'] + (o if point['y'] > center_y else -o),
                 'x': point['x'] + (o if point['x'] > center_x else -o)
                 }
             )
@@ -261,7 +253,7 @@ def generate_one_footprint(pins, params, configuration):
     kicad_mod.append(PolygoneLine(polygone=tab, y_mirror=B/2,
         width=configuration['fab_line_width'], layer='F.Fab'))
 
-    tap_off = offsetPoly(tab, off, x_loc)
+    tap_off = offsetPoly(tab, off, x_loc, B/2)
     kicad_mod.append(PolygoneLine(polygone=tap_off,
         width=configuration['silk_line_width'], layer='F.SilkS'))
     kicad_mod.append(PolygoneLine(polygone=tap_off, y_mirror=B/2,

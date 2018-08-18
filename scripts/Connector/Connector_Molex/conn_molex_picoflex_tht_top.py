@@ -90,13 +90,17 @@ def generate_one_footprint(pins, configuration):
     StartFY = 0 - 2.755
 
     # generate the pads
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+
     tpc = int(pins / 2)
-    kicad_mod.append(PadArray(start=[0,0], pincount=tpc, initial=1, increment=2,
-        x_spacing=0,  y_spacing=2*pitch, type=Pad.TYPE_THT,
-        shape=pad_shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
-    kicad_mod.append(PadArray(start=[2*pitch, pitch], pincount=tpc, initial=2,
-        increment=2, x_spacing=0,  y_spacing=2*pitch, type=Pad.TYPE_THT,
-        shape=pad_shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
+    for row_idx in range(2):
+        kicad_mod.append(PadArray(
+            start=[2*row_idx*pitch, row_idx*pitch], pincount=tpc, initial=row_idx+1,
+            increment=2, x_spacing=0,  y_spacing=2*pitch, type=Pad.TYPE_THT,
+            shape=pad_shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT,
+            **optional_pad_params))
 
     # Generate the drill holes
     stx = (pins - 1) * pitch + 1.8
@@ -264,6 +268,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -277,6 +282,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins in pins_range:
         generate_one_footprint(pins, configuration)

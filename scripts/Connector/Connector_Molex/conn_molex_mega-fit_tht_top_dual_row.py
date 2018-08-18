@@ -140,9 +140,17 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     bounding_box = body_edge.copy()
     bounding_box['bottom'] = y2 + tab_w
 
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+
     #generate the pads
-    kicad_mod.append(PadArray(pincount=pins_per_row, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
-    kicad_mod.append(PadArray(pincount=pins_per_row, initial=pins_per_row+1, start=[0, row], x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT))
+    for row_idx in range(2):
+        kicad_mod.append(PadArray(
+            pincount=pins_per_row, initial=row_idx*pins_per_row+1,
+            start=[0, row_idx*row], x_spacing=pitch, type=Pad.TYPE_THT,
+            shape=Pad.SHAPE_CIRCLE, size=size, drill=drill, layers=Pad.LAYERS_THT,
+            **optional_pad_params))
 
     off = configuration['silk_fab_offset']
     silk_pad_off = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
@@ -349,6 +357,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -362,6 +371,9 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
+
     for variant in variant_params:
         for pins_per_row in pins_per_row_range:
             generate_one_footprint(pins_per_row, variant, configuration)
