@@ -65,7 +65,7 @@ min_annular_ring = 0.15
 variant_params = {
     'smd-be-a': {
         'smd': True,
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'npth_drill': be_npth_drill,
         'peg_drill': a_npth_drill,
         'pad_size': pad_size_smd_be,
@@ -75,7 +75,7 @@ variant_params = {
         },
     'smd-be-lc': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'npth_drill': be_npth_drill,
         'peg_drill': lc_npth_drill,
         'pad_size': pad_size_smd_be,
@@ -85,7 +85,7 @@ variant_params = {
         },
     'smd-be': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'npth_drill': be_npth_drill,
         'pad_size': pad_size_smd_be,
         'pad_pitch_y': pad_pitch_y_smd_be,
@@ -94,7 +94,7 @@ variant_params = {
         },
     'smd-a': {
         'smd': True,
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'peg_drill': a_npth_drill,
         'pad_size': pad_size_smd,
         'pad_pitch_y': pad_pitch_y_smd,
@@ -103,7 +103,7 @@ variant_params = {
         },
     'smd-lc': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'peg_drill': lc_npth_drill,
         'pad_size': pad_size_smd,
         'pad_pitch_y': pad_pitch_y_smd,
@@ -112,20 +112,20 @@ variant_params = {
         },
     'smd': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'pad_size': pad_size_smd,
         'pad_pitch_y': pad_pitch_y_smd,
         'datasheets': [datasheet_smd, footprint_smd],
         'part_code': "HLE-1{n:02}-02-xxx-DV",
         },
     'tht-te': {
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'pad_drill': drill,
         'datasheets': [datasheet_tht, footprint_tht],
         'part_code': "HLE-1{n:02}-02-xx-DV-TE",
         },
     'tht-pe': {
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'npth_drill': pe_npth_drill,
         'pad_drill': drill,
         'pad_pitch_y': pad_pitch_y_pe,
@@ -136,7 +136,7 @@ variant_params = {
             ],
         },
     'tht-pe-lc': {
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'npth_drill': pe_npth_drill,
         'peg_drill': lc_npth_drill,
         'pad_drill': drill,
@@ -149,8 +149,8 @@ variant_params = {
 def generate_one_footprint(pins_per_row, variant, configuration):
     is_smd = variant_params[variant].get('smd', False)
 
-    mpn = variant_params[variant]['part_code'].format(n=pins_per_row*2)
-    alt_mpn = [code.format(n=pins_per_row*2) for code in variant_params[variant].get('alternative_codes', [])]
+    mpn = variant_params[variant]['part_code'].format(n=pins_per_row)
+    alt_mpn = [code.format(n=pins_per_row) for code in variant_params[variant].get('alternative_codes', [])]
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
