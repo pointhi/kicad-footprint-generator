@@ -152,7 +152,7 @@ class Gullwing():
             EP_size = {'x':dimensions['EP_size_x'].nominal, 'y':dimensions['EP_size_y'].nominal}
             if 'EP_mask_x' in dimensions:
                 name_format = self.configuration['fp_name_EP_custom_mask_format_string_no_trailing_zero']
-                EP_mask_size = {'x':dimensions['EP_mask_x'].nominal, 'y':dimensions['EP_mask_x'].nominal}
+                EP_mask_size = {'x':dimensions['EP_mask_x'].nominal, 'y':dimensions['EP_mask_y'].nominal}
 
         if 'custom_name_format' in device_params:
             name_format = device_params['custom_name_format']
