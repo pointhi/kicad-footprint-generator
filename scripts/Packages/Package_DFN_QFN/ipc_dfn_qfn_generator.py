@@ -14,6 +14,7 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 from ipc_pad_size_calculators import *
+from quad_dual_pad_border import add_dual_or_quad_pad_border
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
@@ -259,120 +260,7 @@ class DFN():
                     **pad_shape_details
                     ))
 
-        init = 1
-        if device_params['num_pins_x'] == 0:
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=device_params['pitch'],
-                **pad_details['left'], **pad_shape_details))
-            init += device_params['num_pins_y']
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=-device_params['pitch'],
-                **pad_details['right'], **pad_shape_details))
-        elif device_params['num_pins_y'] == 0:
-            #for devices with clockwise numbering
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=device_params['pitch'],
-                **pad_details['top'], **pad_shape_details))
-            init += device_params['num_pins_x']
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=-device_params['pitch'],
-                **pad_details['bottom'], **pad_shape_details))
-        else:
-            chamfer_size = device_params.get('chamfer_edge_pins')
-            corner_first = [0, 1, 0, 0]
-            corner_last = [0, 0, 1, 0]
-            pad_size_red = device_params.get('edge_heel_reduction', 0)
-            if args.kicad4_compatible:
-                chamfer_size = 0
-                pad_size_red += device_params.get('chamfer_edge_pins', 0)
-            else:
-                chamfer_size = device_params.get('chamfer_edge_pins')
-
-
-            pad_size_reduction = {'x+': pad_size_red} if pad_size_red > 0 else None
-
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                end_pads_size_reduction = pad_size_reduction,
-                **pad_details['left'], **pad_shape_details))
-
-            init += device_params['num_pins_y']
-            corner_first = [1, 0, 0, 0]
-            corner_last = [0, 1, 0, 0]
-
-            pad_size_reduction = {'y-': pad_size_red} if pad_size_red > 0 else None
-
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                end_pads_size_reduction = pad_size_reduction,
-                **pad_details['bottom'], **pad_shape_details))
-
-            init += device_params['num_pins_x']
-            corner_first = [0, 0, 0, 1]
-            corner_last = [1, 0, 0, 0]
-
-            pad_size_reduction = {'x-': pad_size_red} if pad_size_red > 0 else None
-
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=-device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                end_pads_size_reduction = pad_size_reduction,
-                **pad_details['right'], **pad_shape_details))
-
-            init += device_params['num_pins_y']
-            corner_first = [0, 0, 1, 0]
-            corner_last = [0, 0, 0, 1]
-
-            pad_size_reduction = {'y+': pad_size_red} if pad_size_red > 0 else None
-
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=-device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                end_pads_size_reduction = pad_size_reduction,
-                **pad_details['top'], **pad_shape_details))
-
+        add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
 
         body_edge = {
             'left': -size_x/2,
@@ -553,6 +441,8 @@ if __name__ == "__main__":
     if args.force_rectangle_pads or args.kicad4_compatible:
         configuration['round_rect_max_radius'] = None
         configuration['round_rect_radius_ratio'] = 0
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for filepath in args.files:
         dfn = DFN(configuration)
