@@ -22,6 +22,8 @@ DEFAULT_PASTE_COVERAGE = 0.65
 DEFAULT_VIA_PASTE_CLEARANCE = 0.15
 DEFAULT_MIN_ANNULAR_RING = 0.15
 
+SILK_SIDE_MINLEN = 0.25
+
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -293,35 +295,122 @@ class Gullwing():
         silk_offset = configuration['silk_fab_offset']
 
         if device_params['num_pins_x'] == 0:
-            kicad_mod.append(Line(
-                start={'x':0,
-                    'y':body_edge['top']-silk_offset},
-                end={'x':body_edge['right'],
-                    'y':body_edge['top']-silk_offset},
-                width=configuration['silk_line_width'],
-                layer="F.SilkS"))
-            kicad_mod.append(Line(
-                start={'x':body_edge['left'],
-                    'y':body_edge['bottom']+silk_offset},
-                end={'x':body_edge['right'],
-                    'y':body_edge['bottom']+silk_offset},
-                width=configuration['silk_line_width'],
-                layer="F.SilkS", y_mirror=0))
+            silk_bottom_pad = (device_params['num_pins_y']-1)*device_params['pitch']/2\
+                +pad_details['right']['size'][1]/2+silk_pad_offset
+
+            if EP_size['y'] > size_y and EP_size['y']/2 > silk_bottom_pad:
+                #ToDo implement
+                warnings.warn(
+                    "EP size larger than body. No silk outline created.",
+                    Warning
+                )
+            else:
+                silk_bottom = max(body_edge['bottom']+silk_offset, EP_size['y']/2+silk_pad_offset)
+                if silk_bottom_pad > silk_bottom:
+                    pad_silk_inside = pad_details['right']['center'][0] - pad_details['right']['size'][0]/2 - silk_pad_offset
+                    silk_right = min(pad_silk_inside, body_edge['right'])
+                    kicad_mod.append(Line(
+                        start={'x':0, 'y':-silk_bottom},
+                        end={'x': silk_right, 'y': -silk_bottom},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                    kicad_mod.append(Line(
+                        start={'x': -silk_right, 'y': silk_bottom},
+                        end={'x':silk_right, 'y': silk_bottom},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                elif silk_bottom-silk_bottom_pad < SILK_SIDE_MINLEN:
+                    kicad_mod.append(Line(
+                        start={'x':bounding_box['left'], 'y':-silk_bottom},
+                        end={'x': body_edge['right'], 'y': -silk_bottom},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                    kicad_mod.append(Line(
+                        start={'x': body_edge['left'], 'y': silk_bottom},
+                        end={'x':body_edge['right'], 'y': silk_bottom},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                else:
+                    silk_right = body_edge['right'] + silk_offset
+                    kicad_mod.append(Line(
+                        start={'x':bounding_box['left'], 'y':-silk_bottom_pad},
+                        end={'x': -silk_right, 'y': -silk_bottom_pad},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+
+                    poly_silk_bottom = [
+                        {'x': -silk_right, 'y': silk_bottom_pad},
+                        {'x': -silk_right, 'y': silk_bottom},
+                        {'x': silk_right, 'y': silk_bottom},
+                        {'x': silk_right, 'y': silk_bottom_pad}
+                    ]
+                    kicad_mod.append(PolygoneLine(
+                        polygone=poly_silk_bottom,
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                    kicad_mod.append(PolygoneLine(
+                        polygone=poly_silk_bottom,
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS", y_mirror=0))
+
         elif device_params['num_pins_y'] == 0:
-            kicad_mod.append(Line(
-                start={'y':0,
-                    'x':body_edge['left']-silk_offset},
-                end={'y':body_edge['bottom'],
-                    'x':body_edge['left']-silk_offset},
-                width=configuration['silk_line_width'],
-                layer="F.SilkS"))
-            kicad_mod.append(Line(
-                start={'y':body_edge['top'],
-                    'x':body_edge['right']+silk_offset},
-                end={'y':body_edge['bottom'],
-                    'x':body_edge['right']+silk_offset},
-                width=configuration['silk_line_width'],
-                layer="F.SilkS", x_mirror=0))
+            silk_right_pad = (device_params['num_pins_x']-1)*device_params['pitch']/2\
+                +pad_details['bottom']['size'][0]/2+silk_pad_offset
+
+            if EP_size['x'] > size_x and EP_size['x']/2 > silk_right_pad:
+                #ToDo implement
+                warnings.warn(
+                    "EP size larger than body. No silk outline created.",
+                    Warning
+                )
+            else:
+                silk_right = max(body_edge['right']+silk_offset, EP_size['x']/2+silk_pad_offset)
+                if silk_right_pad > silk_right:
+                    pad_silk_inside = pad_details['bottom']['center'][1] - pad_details['bottom']['size'][1]/2 - silk_pad_offset
+                    silk_bottom = min(pad_silk_inside, body_edge['bottom'])
+                    kicad_mod.append(Line(
+                        start={'x':-silk_right, 'y': 0},
+                        end={'x': -silk_right, 'y': silk_bottom},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                    kicad_mod.append(Line(
+                        start={'x': silk_right, 'y': -silk_bottom},
+                        end={'x':silk_right, 'y': silk_bottom},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                elif silk_right-silk_right_pad < SILK_SIDE_MINLEN:
+                    kicad_mod.append(Line(
+                        start={'x': -silk_right, 'y': bounding_box['top']},
+                        end={'x': -silk_right, 'y': body_edge['bottom']},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                    kicad_mod.append(Line(
+                        start={'x': silk_right, 'y': body_edge['top']},
+                        end={'x':silk_right, 'y': body_edge['bottom']},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                else:
+                    silk_bottom = body_edge['bottom'] + silk_offset
+                    kicad_mod.append(Line(
+                        start={'x':-silk_right_pad, 'y':-silk_bottom},
+                        end={'x': -silk_right_pad, 'y': bounding_box['top']},
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+
+                    poly_silk_bottom = [
+                        {'x': silk_right_pad, 'y': silk_bottom},
+                        {'x': silk_right, 'y': silk_bottom},
+                        {'x': silk_right, 'y': -silk_bottom},
+                        {'x': silk_right_pad, 'y': -silk_bottom}
+                    ]
+                    kicad_mod.append(PolygoneLine(
+                        polygone=poly_silk_bottom,
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS"))
+                    kicad_mod.append(PolygoneLine(
+                        polygone=poly_silk_bottom,
+                        width=configuration['silk_line_width'],
+                        layer="F.SilkS", x_mirror=0))
         else:
             sx1 = -(device_params['pitch']*(device_params['num_pins_x']-1)/2.0
                 + pad_width/2.0 + silk_pad_offset)

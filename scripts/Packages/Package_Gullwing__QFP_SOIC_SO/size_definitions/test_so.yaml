@@ -1,0 +1,340 @@
+#######################################################
+#
+# Size definitions used for testing silk screen
+# and courtyard creation.
+#
+
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'HTSSOP'
+
+test_original_fp:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_original_fp"
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+
+  EP_size_x: 3.4
+  EP_size_y: 5
+  EP_mask_x: 2.46
+  EP_mask_y: 2.31
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+test_large_ep:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_large_ep"
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+
+  EP_size_x: 3.4
+  EP_size_y: 6
+  EP_mask_x: 2.46
+  EP_mask_y: 2.31
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+test_long_body_no_ep:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_long_body_no_ep"
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 5.9
+    maximum: 6.1
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+test_long_body:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_long_body"
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 5.9
+    maximum: 6.1
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+
+  EP_size_x: 3.4
+  EP_size_y: 6
+  EP_mask_x: 2.46
+  EP_mask_y: 2.31
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+test_no_ep:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_no_ep"
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+test_no_ep2:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_no_ep2"
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 5.4
+    maximum: 5.6
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+
+test_original_fpy:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_original_fpy"
+  body_size_y:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_x:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_y:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_y: 0
+  num_pins_x: 8
+
+
+  EP_size_y: 3.4
+  EP_size_x: 5
+  EP_mask_y: 2.46
+  EP_mask_x: 2.31
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+test_large_epy:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_large_epy"
+  body_size_y:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_x:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_y:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_y: 0
+  num_pins_x: 8
+
+
+  EP_size_y: 3.4
+  EP_size_x: 6
+  EP_mask_y: 2.46
+  EP_mask_x: 2.31
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+test_long_body_no_epy:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_long_body_no_epy"
+  body_size_y:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_x:
+    minimum: 5.9
+    maximum: 6.1
+  overall_size_y:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_y: 0
+  num_pins_x: 8
+
+test_long_bodyy:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_long_bodyy"
+  body_size_y:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_x:
+    minimum: 5.9
+    maximum: 6.1
+  overall_size_y:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_y: 0
+  num_pins_x: 8
+
+
+  EP_size_y: 3.4
+  EP_size_x: 6
+  EP_mask_y: 2.46
+  EP_mask_x: 2.31
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+test_no_epy:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_no_epy"
+  body_size_y:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_x:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_y:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_y: 0
+  num_pins_x: 8
+
+test_no_epy2:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  custom_name_format: "test_no_epy2"
+  body_size_y:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_x:
+    minimum: 5.4
+    maximum: 5.6
+  overall_size_y:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_y: 0
+  num_pins_x: 8

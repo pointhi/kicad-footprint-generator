@@ -25,8 +25,7 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias:
 
 
   EP_size_x: 3.4
-  #EP_size_y: 5
-  EP_size_y: 6
+  EP_size_y: 5
   EP_mask_x: 2.46
   EP_mask_y: 2.31
   # EP_paste_coverage: 0.65
