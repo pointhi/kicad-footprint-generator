@@ -94,6 +94,24 @@ class CornerSelection():
                 return True
         return False
 
+    def rotateCW(self):
+        top_left_old = self.top_left
+
+        self.top_left = self.bottom_left
+        self.bottom_left = self.bottom_right
+        self.bottom_right = self.top_right
+        self.top_right = top_left_old
+        return self
+
+    def rotateCCW(self):
+        top_left_old = self.top_left
+
+        self.top_left = self.top_right
+        self.top_right = self.bottom_right
+        self.bottom_right = self.bottom_left
+        self.bottom_left = top_left_old
+        return self
+
     def __or__(self, other):
         return CornerSelection([s or o for s, o in zip(self, other)])
 
