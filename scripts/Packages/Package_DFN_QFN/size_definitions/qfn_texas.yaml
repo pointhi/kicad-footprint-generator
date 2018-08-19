@@ -336,7 +336,7 @@ Texas_VQFN_RGE0024H:
   EP_size_y_min: 2.6
   EP_size_y: 2.7
   EP_size_y_max: 2.8
-  EP_paste_coverage: 0.78
+  EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   # heel_reduction: 0.2 #for relatively large EP pads (increase clearance) # not in use
   EP_size_limit_x: 2.7  #for relatively large EP pads (increase clearance)
@@ -357,8 +357,8 @@ Texas_VQFN_RGE0024H:
     paste_via_clearance: 0.05
     # paste_between_vias: 1
     # paste_rings_outside: 1
-    # EP_num_paste_pads: [2, 2]
-    # EP_paste_coverage: 0.5
+    EP_paste_coverage: 0.78
+    EP_num_paste_pads: [2, 2]
     # grid:
     # bottom_pad_size:
     paste_avoid_via: False
