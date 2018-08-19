@@ -271,6 +271,14 @@ class DFN():
 
         bounding_box = body_edge.copy()
 
+        if device_params['num_pins_x'] == 0 and EP_size['y'] > size_y:
+                bounding_box['top'] = -EP_size['y']/2
+                bounding_box['bottom'] = EP_size['y']/2
+
+        if device_params['num_pins_y'] == 0 and EP_size['x'] > size_x:
+                bounding_box['left'] = -EP_size['x']/2
+                bounding_box['right'] = EP_size['x']/2
+
         if device_params['num_pins_y'] > 0:
             bounding_box['left'] = pad_details['left']['center'][0] - pad_details['left']['size'][0]/2
 

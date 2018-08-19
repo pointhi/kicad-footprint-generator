@@ -1,0 +1,91 @@
+FileHeader:
+  library_Suffix: 'QFP'
+  device_type: 'VQFP'
+
+VQFP_80:
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 14
+    tolerance: 0
+    # minimum: 
+    # maximum:
+  body_size_y:
+    nominal: 14
+  overall_size_x:
+    nominal: 16
+  overall_size_y:
+    nominal: 16
+  lead_width:
+    minimum: 0.22
+    maximum: 0.379
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 20
+  num_pins_y: 20
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+VQFP_100:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 14
+  body_size_y:
+    nominal: 14
+  overall_size_x:
+    nominal: 16
+  overall_size_y:
+    nominal: 16
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 25
+  num_pins_y: 25
+
+VQFP_128:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 14
+  body_size_y:
+    nominal: 14
+  overall_size_x:
+    nominal: 16
+  overall_size_y:
+    nominal: 16
+  lead_width:
+    minimum: 0.13
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 32
+  num_pins_y: 32
+
+VQFP_176:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 20
+  body_size_y:
+    nominal: 20
+  overall_size_x:
+    nominal: 22
+  overall_size_y:
+    nominal: 22
+  lead_width:
+    minimum: 0.13
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 44
+  num_pins_y: 44

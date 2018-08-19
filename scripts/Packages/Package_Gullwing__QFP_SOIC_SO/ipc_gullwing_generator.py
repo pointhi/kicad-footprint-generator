@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -13,10 +13,10 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 from ipc_pad_size_calculators import *
+from quad_dual_pad_border import add_dual_or_quad_pad_border
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
-category = 'QFP'
 
 DEFAULT_PASTE_COVERAGE = 0.65
 DEFAULT_VIA_PASTE_CLEARANCE = 0.15
@@ -25,7 +25,7 @@ DEFAULT_MIN_ANNULAR_RING = 0.15
 def roundToBase(value, base):
     return round(value/base) * base
 
-class QFP():
+class Gullwing():
     def __init__(self, configuration):
         self.configuration = configuration
         with open(ipc_doc_file, 'r') as ipc_stream:
@@ -80,33 +80,48 @@ class QFP():
             'body_size_x': TolerancedSize.fromYaml(device_size_data, base_name='body_size_x'),
             'body_size_y': TolerancedSize.fromYaml(device_size_data, base_name='body_size_y'),
             'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width'),
-            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len'),
-            'overall_size_x': TolerancedSize.fromYaml(device_size_data, base_name='overall_size_x'),
-            'overall_size_y': TolerancedSize.fromYaml(device_size_data, base_name='overall_size_y')
+            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
         }
         dimensions['has_EP'] = False
-        if 'EP_size_x_min' in device_size_data and 'EP_size_x_max' in device_size_data or 'EP_size_x' in device_size_data:
+        if 'EP_size_x' in device_size_data:
             dimensions['EP_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_x')
             dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
             dimensions['has_EP'] = True
 
+        if 'EP_mask_x' in device_size_data:
+            dimensions['EP_mask_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_mask_x')
+            dimensions['EP_mask_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_mask_y')
+
         dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
+
+        if 'overall_size_x' in device_size_data or 'overall_size_y' in device_size_data:
+            if 'overall_size_x' in device_size_data:
+                dimensions['overall_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='overall_size_x')
+            else:
+                dimensions['overall_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='overall_size_y')
+
+            if 'overall_size_y' in device_size_data:
+                dimensions['overall_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='overall_size_y')
+            else:
+                dimensions['overall_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='overall_size_x')
+        else:
+            raise KeyError("Either overall size x or overall size y must be given (Outside to outside lead dimensions)")
 
         return dimensions
 
-    def generateFootprint(self, device_params):
-        dimensions = QFP.deviceDimensions(device_params)
+    def generateFootprint(self, device_params, header):
+        dimensions = Gullwing.deviceDimensions(device_params)
 
         if dimensions['has_EP'] and 'thermal_vias' in device_params:
-            self.__createFootprintVariant(device_params, dimensions, True)
+            self.__createFootprintVariant(device_params, header, dimensions, True)
 
-        self.__createFootprintVariant(device_params, dimensions, False)
+        self.__createFootprintVariant(device_params, header, dimensions, False)
 
-    def __createFootprintVariant(self, device_params, dimensions, with_thermal_vias):
+    def __createFootprintVariant(self, device_params, header, dimensions, with_thermal_vias):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
-        lib_name = self.configuration['lib_name_format_string'].format(category=category)
+        lib_name = self.configuration['lib_name_format_string'].format(category=header['library_Suffix'])
 
         size_x = dimensions['body_size_x'].nominal
         size_y = dimensions['body_size_y'].nominal
@@ -126,12 +141,16 @@ class QFP():
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
+        name_format = self.configuration['fp_name_format_string_no_trailing_zero']
+        EP_size = {'x':0, 'y':0}
+        EP_mask_size = {'x':0, 'y':0}
+
         if dimensions['has_EP']:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
             EP_size = {'x':dimensions['EP_size_x'].nominal, 'y':dimensions['EP_size_y'].nominal}
-        else:
-            name_format = self.configuration['fp_name_format_string_no_trailing_zero']
-            EP_size = {'x':0, 'y':0}
+            if 'EP_mask_x' in dimensions:
+                name_format = self.configuration['fp_name_EP_custom_mask_format_string_no_trailing_zero']
+                EP_mask_size = {'x':dimensions['EP_mask_x'].nominal, 'y':dimensions['EP_mask_x'].nominal}
 
         if 'custom_name_format' in device_params:
             name_format = device_params['custom_name_format']
@@ -139,13 +158,15 @@ class QFP():
         fp_name = name_format.format(
             man=device_params.get('manufacturer',''),
             mpn=device_params.get('part_number',''),
-            pkg=device_params['device_type'],
+            pkg=header['device_type'],
             pincount=pincount,
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
+            mask_size_x = EP_mask_size['x'],
+            mask_size_y = EP_mask_size['y'],
             suffix=suffix,
             suffix2="",
             vias=self.configuration.get('thermal_via_suffix', '_ThermalVias') if with_thermal_vias else ''
@@ -154,13 +175,15 @@ class QFP():
         fp_name_2 = name_format.format(
             man=device_params.get('manufacturer',''),
             mpn=device_params.get('part_number',''),
-            pkg=device_params['device_type'],
+            pkg=header['device_type'],
             pincount=pincount,
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
+            mask_size_x = EP_mask_size['x'],
+            mask_size_y = EP_mask_size['y'],
             suffix=suffix_3d,
             suffix2="",
             vias=''
@@ -180,7 +203,7 @@ class QFP():
             "{manufacturer} {mpn} {package}, {pincount} Pin ({datasheet}), generated with kicad-footprint-generator {scriptname}"\
             .format(
                 manufacturer = device_params.get('manufacturer',''),
-                package = device_params['device_type'],
+                package = header['device_type'],
                 mpn = device_params.get('part_number',''),
                 pincount = pincount,
                 datasheet = device_params['size_source'],
@@ -190,8 +213,8 @@ class QFP():
         kicad_mod.setTags(self.configuration['keyword_fp_string']\
             .format(
                 man=device_params.get('manufacturer',''),
-                package=device_params['device_type'],
-                category=category
+                package=header['device_type'],
+                category=header['library_Suffix']
             ).lstrip())
         kicad_mod.setAttribute('smd')
 
@@ -202,13 +225,15 @@ class QFP():
             pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
 
         if dimensions['has_EP']:
+            EP_mask_size = EP_mask_size if EP_mask_size['x'] > 0 else None
+
             if with_thermal_vias:
                 thermals = device_params['thermal_vias']
                 paste_coverage = thermals.get('EP_paste_coverage',
                                                device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE))
 
                 kicad_mod.append(ExposedPad(
-                    number=pincount+1, size=EP_size,
+                    number=pincount+1, size=EP_size, mask_size=EP_mask_size,
                     paste_layout=thermals.get('EP_num_paste_pads'),
                     paste_coverage=paste_coverage,
                     via_layout=thermals.get('count', 0),
@@ -224,52 +249,13 @@ class QFP():
                     ))
             else:
                 kicad_mod.append(ExposedPad(
-                    number=pincount+1, size=EP_size,
+                    number=pincount+1, size=EP_size, mask_size=EP_mask_size,
                     paste_layout=device_params.get('EP_num_paste_pads', 1),
                     paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
                     **pad_shape_details
                     ))
 
-        init = 1
-        kicad_mod.append(PadArray(
-            initial= init,
-            type=Pad.TYPE_SMT,
-            layers=Pad.LAYERS_SMT,
-            pincount=device_params['num_pins_y'],
-            x_spacing=0, y_spacing=device_params['pitch'],
-            **pad_details['left'],
-            **pad_shape_details))
-
-        init += device_params['num_pins_y']
-        kicad_mod.append(PadArray(
-            initial= init,
-            type=Pad.TYPE_SMT,
-            layers=Pad.LAYERS_SMT,
-            pincount=device_params['num_pins_x'],
-            y_spacing=0, x_spacing=device_params['pitch'],
-            **pad_details['bottom'],
-            **pad_shape_details))
-
-        init += device_params['num_pins_x']
-        kicad_mod.append(PadArray(
-            initial= init,
-            type=Pad.TYPE_SMT,
-            layers=Pad.LAYERS_SMT,
-            pincount=device_params['num_pins_y'],
-            x_spacing=0, y_spacing=-device_params['pitch'],
-            **pad_details['right'],
-            **pad_shape_details))
-
-        init += device_params['num_pins_y']
-        kicad_mod.append(PadArray(
-            initial= init,
-            type=Pad.TYPE_SMT,
-            layers=Pad.LAYERS_SMT,
-            pincount=device_params['num_pins_x'],
-            y_spacing=0, x_spacing=-device_params['pitch'],
-            **pad_details['top'],
-            **pad_shape_details))
-
+        add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
 
         body_edge = {
             'left': -dimensions['body_size_x'].nominal/2,
@@ -285,48 +271,92 @@ class QFP():
             'bottom': pad_details['bottom']['center'][1] + pad_details['bottom']['size'][1]/2
         }
 
+        if device_params['num_pins_x'] == 0:
+            bounding_box['top'] = body_edge['top']
+            bounding_box['bottom'] = body_edge['bottom']
+            if EP_size['y'] > dimensions['body_size_y'].nominal:
+                bounding_box['top'] = -EP_size['y']/2
+                bounding_box['bottom'] = EP_size['y']/2
+
+        if device_params['num_pins_y'] == 0:
+            bounding_box['left'] = body_edge['left']
+            bounding_box['right'] = body_edge['right']
+            if EP_size['x'] > dimensions['body_size_x'].nominal:
+                bounding_box['left'] = -EP_size['x']/2
+                bounding_box['right'] = EP_size['x']/2
+
 
         pad_width = pad_details['top']['size'][0]
 
         # ############################ SilkS ##################################
-
         silk_pad_offset = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
         silk_offset = configuration['silk_fab_offset']
 
-        sx1 = -(device_params['pitch']*(device_params['num_pins_x']-1)/2.0
-            + pad_width/2.0 + silk_pad_offset)
+        if device_params['num_pins_x'] == 0:
+            kicad_mod.append(Line(
+                start={'x':0,
+                    'y':body_edge['top']-silk_offset},
+                end={'x':body_edge['right'],
+                    'y':body_edge['top']-silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS"))
+            kicad_mod.append(Line(
+                start={'x':body_edge['left'],
+                    'y':body_edge['bottom']+silk_offset},
+                end={'x':body_edge['right'],
+                    'y':body_edge['bottom']+silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", y_mirror=0))
+        elif device_params['num_pins_y'] == 0:
+            kicad_mod.append(Line(
+                start={'y':0,
+                    'x':body_edge['left']-silk_offset},
+                end={'y':body_edge['bottom'],
+                    'x':body_edge['left']-silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS"))
+            kicad_mod.append(Line(
+                start={'y':body_edge['top'],
+                    'x':body_edge['right']+silk_offset},
+                end={'y':body_edge['bottom'],
+                    'x':body_edge['right']+silk_offset},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
+        else:
+            sx1 = -(device_params['pitch']*(device_params['num_pins_x']-1)/2.0
+                + pad_width/2.0 + silk_pad_offset)
 
-        sy1 = -(device_params['pitch']*(device_params['num_pins_y']-1)/2.0
-            + pad_width/2.0 + silk_pad_offset)
+            sy1 = -(device_params['pitch']*(device_params['num_pins_y']-1)/2.0
+                + pad_width/2.0 + silk_pad_offset)
 
-        poly_silk = [
-            {'x': sx1, 'y': body_edge['top']-silk_offset},
-            {'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
-            {'x': body_edge['left']-silk_offset, 'y': sy1}
-        ]
+            poly_silk = [
+                {'x': sx1, 'y': body_edge['top']-silk_offset},
+                {'x': body_edge['left']-silk_offset, 'y': body_edge['top']-silk_offset},
+                {'x': body_edge['left']-silk_offset, 'y': sy1}
+            ]
 
-        kicad_mod.append(PolygoneLine(
-            polygone=poly_silk,
-            width=configuration['silk_line_width'],
-            layer="F.SilkS"))
-        kicad_mod.append(PolygoneLine(
-            polygone=poly_silk,
-            width=configuration['silk_line_width'],
-            layer="F.SilkS", x_mirror=0))
-        kicad_mod.append(PolygoneLine(
-            polygone=poly_silk,
-            width=configuration['silk_line_width'],
-            layer="F.SilkS", y_mirror=0))
-        kicad_mod.append(PolygoneLine(
-            polygone=poly_silk,
-            width=configuration['silk_line_width'],
-            layer="F.SilkS", x_mirror=0, y_mirror=0))
+            kicad_mod.append(PolygoneLine(
+                polygone=poly_silk,
+                width=configuration['silk_line_width'],
+                layer="F.SilkS"))
+            kicad_mod.append(PolygoneLine(
+                polygone=poly_silk,
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0))
+            kicad_mod.append(PolygoneLine(
+                polygone=poly_silk,
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", y_mirror=0))
+            kicad_mod.append(PolygoneLine(
+                polygone=poly_silk,
+                width=configuration['silk_line_width'],
+                layer="F.SilkS", x_mirror=0, y_mirror=0))
 
-        kicad_mod.append(Line(
-            start={'x': body_edge['left']-silk_offset, 'y': sy1},
-            end={'x': bounding_box['left'], 'y': sy1},
-            width=configuration['silk_line_width'],
-            layer="F.SilkS"))
+            kicad_mod.append(Line(
+                start={'x': body_edge['left']-silk_offset, 'y': sy1},
+                end={'x': bounding_box['left'], 'y': sy1},
+                width=configuration['silk_line_width'],
+                layer="F.SilkS"))
 
         # # ######################## Fabrication Layer ###########################
 
@@ -351,41 +381,57 @@ class QFP():
         off = ipc_data_set['courtyard']
         grid = configuration['courtyard_grid']
 
-        cy1=roundToBase(bounding_box['top']-off, grid)
-        cy2=roundToBase(body_edge['top']-off, grid)
-        cy3=-roundToBase(
-            device_params['pitch']*(device_params['num_pins_y']-1)/2.0
-            + pad_width/2.0 + off, grid)
+        if device_params['num_pins_y'] == 0 or device_params['num_pins_x'] == 0:
+            cy1=roundToBase(bounding_box['top']-off, grid)
+
+            kicad_mod.append(RectLine(
+                start={
+                    'x':roundToBase(bounding_box['left']-off, grid),
+                    'y':cy1
+                    },
+                end={
+                    'x':roundToBase(bounding_box['right']+off, grid),
+                    'y':roundToBase(bounding_box['bottom']+off, grid)
+                    },
+                width=configuration['courtyard_line_width'],
+                layer='F.CrtYd'))
+
+        else:
+            cy1=roundToBase(bounding_box['top']-off, grid)
+            cy2=roundToBase(body_edge['top']-off, grid)
+            cy3=-roundToBase(
+                device_params['pitch']*(device_params['num_pins_y']-1)/2.0
+                + pad_width/2.0 + off, grid)
 
 
 
-        cx1=-roundToBase(
-            device_params['pitch']*(device_params['num_pins_x']-1)/2.0
-            + pad_width/2.0 + off, grid)
-        cx2=roundToBase(body_edge['left']-off, grid)
-        cx3=roundToBase(bounding_box['left']-off, grid)
+            cx1=-roundToBase(
+                device_params['pitch']*(device_params['num_pins_x']-1)/2.0
+                + pad_width/2.0 + off, grid)
+            cx2=roundToBase(body_edge['left']-off, grid)
+            cx3=roundToBase(bounding_box['left']-off, grid)
 
 
-        crty_poly_tl = [
-            {'x':0, 'y':cy1},
-            {'x':cx1, 'y':cy1},
-            {'x':cx1, 'y':cy2},
-            {'x':cx2, 'y':cy2},
-            {'x':cx2, 'y':cy3},
-            {'x':cx3, 'y':cy3},
-            {'x':cx3, 'y':0}
-        ]
-        kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
-            layer='F.CrtYd', width=configuration['courtyard_line_width']))
-        kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
-            layer='F.CrtYd', width=configuration['courtyard_line_width'],
-            x_mirror=0))
-        kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
-            layer='F.CrtYd', width=configuration['courtyard_line_width'],
-            y_mirror=0))
-        kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
-            layer='F.CrtYd', width=configuration['courtyard_line_width'],
-            x_mirror=0, y_mirror=0))
+            crty_poly_tl = [
+                {'x':0, 'y':cy1},
+                {'x':cx1, 'y':cy1},
+                {'x':cx1, 'y':cy2},
+                {'x':cx2, 'y':cy2},
+                {'x':cx2, 'y':cy3},
+                {'x':cx3, 'y':cy3},
+                {'x':cx3, 'y':0}
+            ]
+            kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
+                layer='F.CrtYd', width=configuration['courtyard_line_width']))
+            kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
+                layer='F.CrtYd', width=configuration['courtyard_line_width'],
+                x_mirror=0))
+            kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
+                layer='F.CrtYd', width=configuration['courtyard_line_width'],
+                y_mirror=0))
+            kicad_mod.append(PolygoneLine(polygone=crty_poly_tl,
+                layer='F.CrtYd', width=configuration['courtyard_line_width'],
+                x_mirror=0, y_mirror=0))
 
         # ######################### Text Fields ###############################
 
@@ -413,6 +459,7 @@ if __name__ == "__main__":
     parser.add_argument('--density', type=str, nargs='?', help='Density level (L,N,M)', default='N')
     parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='../ipc_definitions.yaml')
     parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     if args.density == 'L':
@@ -434,17 +481,21 @@ if __name__ == "__main__":
         except yaml.YAMLError as exc:
             print(exc)
 
-    if args.force_rectangle_pads:
+    if args.force_rectangle_pads or args.kicad4_compatible:
         configuration['round_rect_max_radius'] = None
         configuration['round_rect_radius_ratio'] = 0
 
+    configuration['kicad4_compatible'] = args.kicad4_compatible
+
     for filepath in args.files:
-        qfp = QFP(configuration)
+        gw = Gullwing(configuration)
 
         with open(filepath, 'r') as command_stream:
             try:
                 cmd_file = yaml.load(command_stream)
             except yaml.YAMLError as exc:
                 print(exc)
+        header = cmd_file.pop('FileHeader')
+
         for pkg in cmd_file:
-            qfp.generateFootprint(cmd_file[pkg])
+            gw.generateFootprint(cmd_file[pkg], header)

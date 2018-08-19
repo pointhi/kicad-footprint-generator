@@ -1,0 +1,49 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'HTSSOP'
+
+HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias:
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+
+  EP_size_x: 3.4
+  #EP_size_y: 5
+  EP_size_y: 6
+  EP_mask_x: 2.46
+  EP_mask_y: 2.31
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [1, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.5, 1.5]
+    # bottom_pad_size:
+    paste_avoid_via: False
