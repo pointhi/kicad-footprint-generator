@@ -342,7 +342,7 @@ def addSlitScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts, ro
     addLineWithKeepout(kicad_mod, x + dx2, y + dy2, x + dx3, y + dy3, layer, width, keepouts)
 
 
-# draw a circle with a cross-screw under 45°
+# draw a circle with a cross-screw under 45 deg
 def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
     kicad_mod.append(Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
     
@@ -365,7 +365,7 @@ def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
                                       [roundG(-dw, roun), roundG(-dd, roun)]], layer=layer, width=width))
 
 
-# draw a circle with a cross-screw under 45°
+# draw a circle with a cross-screw under 45 deg
 def addCrossScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
     addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts, roun)
     
