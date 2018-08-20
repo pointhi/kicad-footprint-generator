@@ -154,6 +154,7 @@ ST_WLCSP-63_Die427:
   pkg_height: 4.164
   pitch: 0.4
   pad_diameter: 0.24
+  mask_margin: 0.0325
   paste_margin: 0.000001
   layout_x: 7
   layout_y: 9
@@ -244,6 +245,7 @@ ST_WLCSP-66_Die432:
   pkg_height: 4.229
   pitch: 0.4
   pad_diameter: 0.24
+  mask_margin: 0.0325
   paste_margin: 0.000001
   layout_x: 8
   layout_y: 9
