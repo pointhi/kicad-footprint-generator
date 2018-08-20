@@ -154,7 +154,7 @@ def ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol, body_size, lead_wid
                 )
 
 def ipc_body_edge_inside_pull_back(ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
-        lead_len=None, lead_inside=None, pull_back=None, lead_outside=None, heel_reduction=0):
+        lead_len=None, lead_inside=None, body_to_inside_lead_edge=None, pull_back=None, lead_outside=None, heel_reduction=0):
     # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
     # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
     # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -177,8 +177,10 @@ def ipc_body_edge_inside_pull_back(ipc_data, ipc_round_base, manf_tol, body_size
         S = lead_inside
     elif lead_len is not None:
         S = lead_outside - lead_len*2
+    elif body_to_inside_lead_edge is not None:
+        S = body_size - body_to_inside_lead_edge*2
     else:
-        raise KeyError("either lead inside distance or lead lenght must be given")
+        raise KeyError("either lead inside distance, lead to body edge or lead lenght must be given")
 
     Gmin = S.maximum_RMS - 2*ipc_data['heel'] + 2*heel_reduction - math.sqrt(S.ipc_tol_RMS**2 + F**2 + P**2)
 

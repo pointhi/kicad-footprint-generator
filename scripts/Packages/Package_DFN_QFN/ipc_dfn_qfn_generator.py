@@ -62,6 +62,7 @@ class DFN():
                 ipc_data, ipc_round_base, manf_tol,
                 device_dimensions['body_size_x'], device_dimensions['lead_width'],
                 lead_len=device_dimensions.get('lead_len_H'),
+                body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
                 heel_reduction=device_dimensions.get('heel_reduction', 0),
                 pull_back=pull_back
                 )
@@ -70,6 +71,7 @@ class DFN():
                 ipc_data, ipc_round_base, manf_tol,
                 device_dimensions['body_size_y'], device_dimensions['lead_width'],
                 lead_len=device_dimensions.get('lead_len_V'),
+                body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
                 heel_reduction=device_dimensions.get('heel_reduction', 0),
                 pull_back=pull_back
                 )
@@ -83,7 +85,7 @@ class DFN():
         return Pad
 
     @staticmethod
-    def deviceDimensions(device_size_data):
+    def deviceDimensions(device_size_data, fp_id):
         dimensions = {
             'body_size_x': TolerancedSize.fromYaml(device_size_data, base_name='body_size_x'),
             'body_size_y': TolerancedSize.fromYaml(device_size_data, base_name='body_size_y'),
@@ -100,16 +102,26 @@ class DFN():
         if 'lead_to_edge' in device_size_data:
             dimensions['lead_to_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
 
+        dimensions['lead_len_H'] = None
+        dimensions['lead_len_V'] = None
         if 'lead_len_H' in device_size_data and 'lead_len_V' in device_size_data:
             dimensions['lead_len_H'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_len_H')
             dimensions['lead_len_V'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_len_V')
-        else:
+        elif 'lead_len' in device_size_data or (
+                'lead_len_min' in device_size_data and 'lead_len_max' in device_size_data):
             dimensions['lead_len_H'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
             dimensions['lead_len_V'] = dimensions['lead_len_H']
+
+        if 'body_to_inside_lead_edge' in device_size_data:
+            dimensions['body_to_inside_lead_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='body_to_inside_lead_edge')
+        elif dimensions['lead_len_H'] is None:
+            raise KeyError('{}: Either lead lenght or inside lead to edge dimension must be given.'.format(fp_id))
+
         return dimensions
 
-    def generateFootprint(self, device_params):
-        device_dimensions = DFN.deviceDimensions(device_params)
+    def generateFootprint(self, device_params, fp_id):
+        print('Building footprint for parameter set: {}'.format(fp_id))
+        device_dimensions = DFN.deviceDimensions(device_params, fp_id)
 
         if device_dimensions['has_EP'] and 'thermal_vias' in device_params:
             self.__createFootprintVariant(device_params, device_dimensions, True)
@@ -461,4 +473,4 @@ if __name__ == "__main__":
             except yaml.YAMLError as exc:
                 print(exc)
         for pkg in cmd_file:
-            dfn.generateFootprint(cmd_file[pkg])
+            dfn.generateFootprint(cmd_file[pkg], pkg)
