@@ -138,7 +138,7 @@ def debug_draw_keepouts(kicad_modg, keepouts):
         kicad_modg.append(RectLine(start=[ko[0],ko[2]],
                                   end=[ko[1],ko[3]],
                                   layer='F.Mask', width=0.01))
-        
+
 # split a horizontal line so it does not interfere with keepout areas defined as [[x0,x1,y0,y1], ...]
 def addHLineWithKeepout(kicad_mod, x0, x1, y, layer, width, keepouts=[], roun=0.001, dashed=False):
     if dashed:
@@ -162,7 +162,7 @@ def addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts=[], rou
     while a < 2 * 3.1415:
         x1 = x + radius * math.sin(a)
         y1 = y + radius * math.cos(a)
-        
+
         if containedInAnyKeepout(x1,y1, keepouts):
             if hasToDraw and math.fabs(a-start)>0:
                 kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(startx, roun), roundG(starty, roun)], angle=-1*(a - start)/3.1415*180, layer=layer, width=width))
@@ -171,7 +171,7 @@ def addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts=[], rou
             noneUsed = False
         else:
             hasToDraw = True
-        
+
         a = a + dalpha
     if noneUsed:
         kicad_mod.append(
@@ -184,7 +184,7 @@ def addArcByAngles(kicad_mod, x, y, radius, angle_start, angle_end, layer, width
     startx = x + radius * math.sin(angle_start/180*3.1415)
     starty = y + radius * math.cos(angle_start/180*3.1415)
     kicad_mod.append( Arc(center=[roundG(x, roun), roundG(y, roun)], start=[roundG(startx, roun), roundG(starty, roun)], angle=-(angle_end-angle_start), layer=layer, width=width))
-    
+
 # draw an arc minding the keepouts
 def addArcByAnglesWithKeepout(kicad_mod, x, y, radius, angle_start, angle_end, layer, width, keepouts=[], roun=0.001):
     startx = x + radius * math.sin(angle_start/180*3.1415)
@@ -201,7 +201,7 @@ def addArcWithKeepout(kicad_mod, x, y, startx, starty, angle, layer, width, keep
     astart=a;
     aend=astart+angle/180*3.1415
     start=astart
-    #print(radius, astart/3.1415*180, aend/3.1415*180)    
+    #print(radius, astart/3.1415*180, aend/3.1415*180)
     istartx=x + radius * math.sin(a)
     istarty=y + radius * math.cos(a)
     hasToDraw=False
@@ -209,7 +209,7 @@ def addArcWithKeepout(kicad_mod, x, y, startx, starty, angle, layer, width, keep
     while a < aend:
         x1 = x + radius * math.sin(a)
         y1 = y + radius * math.cos(a)
-        
+
         if containedInAnyKeepout(x1,y1, keepouts):
             if hasToDraw and math.fabs(a-start)>0:
                 #print('DRAW ',x1,y1)
@@ -274,15 +274,15 @@ def addLineWithKeepout(kicad_mod, x1, y1, x2,y2, layer, width, keepouts=[], roun
     didDrawAny=False
     for n in range(0,200):
         if containedInAnyKeepout(x+dx, y+dy, keepouts):
-            if hasToDraw: 
+            if hasToDraw:
                 didDrawAny=True
                 kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x, roun), roundG(y, roun)], layer=layer, width=width))
             xs=x+2*dx; ys=y+2*dy; hasToDraw=False
         else:
             hasToDraw = True
-        
+
         x=x+dx; y=y+dy
-    if hasToDraw and ((xs!=x2 and ys!=y2) or (not didDrawAny)): 
+    if hasToDraw and ((xs!=x2 and ys!=y2) or (not didDrawAny)):
         kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x2, roun), roundG(y2, roun)], layer=layer, width=width))
 
 
@@ -342,10 +342,10 @@ def addSlitScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts, ro
     addLineWithKeepout(kicad_mod, x + dx2, y + dy2, x + dx3, y + dy3, layer, width, keepouts)
 
 
-# draw a circle with a cross-screw under 45°
+# draw a circle with a cross-screw under 45Â°
 def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
     kicad_mod.append(Circle(center=[roundG(x, roun), roundG(y, roun)], radius=radius, layer=layer, width=width))
-    
+
     kkt = Translation(x, y)
     kicad_mod.append(kkt)
     dd = radius * 0.1 / 2
@@ -365,10 +365,10 @@ def addCrossScrew(kicad_mod, x, y, radius, layer, width, roun=0.001):
                                       [roundG(-dw, roun), roundG(-dd, roun)]], layer=layer, width=width))
 
 
-# draw a circle with a cross-screw under 45°
+# draw a circle with a cross-screw under 45Â°
 def addCrossScrewWithKeepouts(kicad_mod, x, y, radius, layer, width, keepouts=[], roun=0.001):
     addCircleWithKeepout(kicad_mod, x, y, radius, layer, width, keepouts, roun)
-    
+
     kkt = Translation(x, y)
     kicad_mod.append(kkt)
     dd = radius * 0.1 / 2
@@ -419,7 +419,7 @@ def addVDLineWithKeepout(kicad_mod, x, y0, y1, layer, width, keepouts=[], roun=0
 
 
 
-# split a rectangle 
+# split a rectangle
 def addRectWith(kicad_mod, x, y, w, h, layer, width, roun=0.001):
 	kicad_mod.append(RectLine(start=[roundG(x, roun),roundG(y, roun)], end=[roundG(x+w, roun),roundG(y+h, roun)], layer=layer, width=width))
 
@@ -531,7 +531,7 @@ def allRoundedBevelRect(model, x, size, angle, corner_radius, layer, width):
         dx3=corner_radius/math.tan((90-math.fabs(angle))/2/180*math.pi)
         ds2=corner_radius*math.sin(math.fabs(angle)/180*math.pi)
         dc2=corner_radius*math.cos(math.fabs(angle)/180*math.pi)
-        
+
         if angle == 0:
             addRoundedRect(model, x, size, corner_radius, layer, width=0.2)
         elif angle<0:
@@ -561,7 +561,7 @@ def allRoundedBevelRect(model, x, size, angle, corner_radius, layer, width):
             model.append(Line(start=[ctr[0]+dc2,ctr[1]+ds2], end=[cbr[0]+dc2,cbr[1]+ds2], layer=layer, width=width))
             model.append(Line(start=[ctl[0]-dc2,ctl[1]+ds2], end=[cbl[0]-dc2,cbl[1]+ds2], layer=layer, width=width))
 
-        
+
 # draw a rectangle with rounded corners on all sides (e.g. for crystals), or a simple rectangle if bevel_size0=0)
 #
 #   /----\
@@ -686,7 +686,7 @@ def DIPRectL_LeftOnly(model, x, size, layer, width, marker_size=2):
     if size[0] > 0:
         model.append(Line(start=[x[0], x[1]], end=[x[0] + size[0], x[1]], layer=layer, width=width))
         model.append(Line(start=[x[0], x[1] + size[1]], end=[x[0] + size[0], x[1] + size[1]], layer=layer, width=width))
-    
+
     model.append(Arc(center=[x[0], x[1] + size[1] / 2], start=[x[0], x[1] + size[1] / 2 - marker_size / 2], angle=180,
                      layer=layer, width=width))
 
@@ -740,3 +740,85 @@ def THTQuartzIncomplete(model, x, size, angle, layer, width):
         model.append(Arc(center=cl, start=xbl, angle=angle, layer=layer, width=width))
         model.append(Arc(center=cr, start=xbr, angle=-angle, layer=layer, width=width))
 
+#
+# This is an alternative to using silk keepout areas for simple cases.
+# It calculates a new endpoint for a horizontal or vertical line such that
+# the silk line has the correct minimal clearance.
+#
+# Parameters:
+#   - pad_size, pad_position, and pad_radius are the dimensions of the reference pad.
+#     (pad that is expected to be intersected by the line)
+#   - far_point: The point farthest away from the reference pad (The fix point)
+#   - near point: The point nearest the pad
+#     (The point that will be moved if the line intersects the pads clearance area)
+#   - configuration: The dict holding the generator configuration information (from yaml file)
+#   - is_half_line: The far point is at the center of the resulting line not the starting point.
+#     (Means the resulting line will be double the length) default: False
+#
+
+def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, far_point, near_point,
+        configuration, is_half_line=False):
+    silk_line_width = configuration.get('silk_line_width', 0.12)
+
+    if far_point[0] == near_point[0]:
+        normal_dir_idx = 0
+    elif far_point[1] == near_point[1]:
+        normal_dir_idx = 1
+    else:
+        raise ValueError("nearestSilkPointOnOrtoLine only works for horizontal or vertical lines. \n"
+                        "(Either x or y coordinate of the two reference points must be equal)")
+
+    inline_dir_idx = (normal_dir_idx+1)%1
+
+    line_pad_offset = far_point[normal_dir_idx] - pad_position[normal_dir_idx]
+
+    off = silk_line_width/2 + configuration['silk_pad_clearance']
+    if 'silk_clearance_small_parts' in configuration:
+        off_small = silk_line_width/2 + configuration['silk_clearance_small_parts']
+
+    min_lenght = configuration['silk_line_lenght_min']
+    if is_half_line:
+        min_lenght /= 2
+
+    rc_normal_dir = pad_size[normal_dir_idx]/2-pad_radius
+
+    sign = 1 if pad_position[inline_dir_idx] - far_point[inline_dir_idx] > 0 else -1
+    ep_new = Vector2D(near_point)
+
+    if rc_normal_dir < line_pad_offset:
+        # the silk outline is in the area where the radius of the pad is.
+
+        dr_normal_dir = line_pad_offset - rc_normal_dir
+
+        r = pad_radius + off
+
+        if dr_normal_dir > r:
+            return near_point
+
+        dr_inline = sqrt(r**2 - dr_normal_dir**2)
+
+        ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
+            sign*(pad_size[inline_dir_idx]/2 - (pad_radius-dr_inline))
+
+        if sign*(ep_new[inline_dir_idx] - far_point[inline_dir_idx]) <  min_lenght\
+                and 'silk_clearance_small_parts' in configuration:
+            r_small = pad_radius + off_small
+
+            if dr_normal_dir > r_small:
+                return near_point
+            else:
+                dr_inline = sqrt(r_small**2 - dr_normal_dir**2)
+                ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
+                    sign*(pad_size[inline_dir_idx]/2 - (pad_radius-dr_inline))
+    else:
+        ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
+            sign*(pad_size[inline_dir_idx]/2 + off)
+        if sign*(ep_new[inline_dir_idx] - far_point[inline_dir_idx]) <  min_lenght\
+                and 'silk_clearance_small_parts' in configuration:
+            ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
+                sign*(pad_size[inline_dir_idx]/2 + off_small)
+
+    if sign*(ep_new[inline_dir_idx] - far_point[inline_dir_idx]) <  min_lenght:
+        return None
+
+    return ep_new

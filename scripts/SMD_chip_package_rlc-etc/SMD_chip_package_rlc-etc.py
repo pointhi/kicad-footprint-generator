@@ -13,6 +13,7 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 from ipc_pad_size_calculators import *
+from drawing_tools import nearestSilkPointOnOrtoLine
 
 size_definition_path = "size_definitions/"
 def roundToBase(value, base):
@@ -191,10 +192,7 @@ class TwoTerminalSMDchip():
 
                 P1 = Pad(number= 1, type=Pad.TYPE_SMT,
                     layers=layers_main, **merge_dicts(pad_details, pad_shape_details))
-                if 'round_rect_radius_ratio' in configuration:
-                    pad_radius = P1.radius_ratio*min(P1.size)
-                else:
-                    pad_radius = 0
+                pad_radius = P1.getRoundRadius()
 
                 kicad_mod.append(P1)
                 pad_details['at'][0] *= (-1)
@@ -273,47 +271,22 @@ class TwoTerminalSMDchip():
 
                     silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
 
-                    pad_spacing = 2*abs(pad_details['at'][0])-pad_details['size'][0]
+                    silk_point_top_right = nearestSilkPointOnOrtoLine(
+                        pad_size=pad_details['size'], pad_position=pad_details['at'], pad_radius=pad_radius,
+                        far_point=Vector2D(0, silk_outline_y),
+                        near_point=Vector2D(outline_size[0]/2, silk_outline_y),
+                        configuration=self.configuration,
+                        is_half_line=True)
 
-                    off = silk_line_width/2 + self.configuration['silk_pad_clearance']
-                    if 'silk_clearance_small_parts' in configuration:
-                        off_small = silk_line_width/2 + self.configuration['silk_clearance_small_parts']
-
-                    rcy = pad_details['size'][1]/2-pad_radius
-                    if rcy < silk_outline_y:
-                        # the silk outline is in the area where the radius of the pad is.
-
-                        dry = silk_outline_y - rcy
-
-                        r = pad_radius + off
-                        silk_outline_x = 0
-                        if dry > r:
-                            silk_outline_x = outline_size[0]/2
-                        else:
-                            drx = sqrt(r**2 - dry**2)
-
-                            silk_outline_x = pad_spacing/2+pad_radius-drx
-
-                            if 2*silk_outline_x <  self.configuration['silk_line_lenght_min']\
-                                    and 'silk_clearance_small_parts' in configuration:
-                                r_small = pad_radius + off_small
-
-                                if dry > r_small:
-                                    silk_outline_x = outline_size[0]/2
-                                else:
-                                    drx = sqrt(r_small**2 - dry**2)
-                                    silk_outline_x = pad_spacing/2+pad_radius-drx
-                    else:
-                        silk_outline_x = pad_spacing/2 - off
-                        if 2*silk_outline_x <  self.configuration['silk_line_lenght_min']\
-                                and 'silk_clearance_small_parts' in configuration:
-                            silk_outline_x = pad_spacing/2 - off_small
-
-                    if 2*silk_outline_x >=  self.configuration['silk_line_lenght_min']:
-                        kicad_mod.append(Line(start=[-silk_outline_x, -silk_outline_y],
-                            end=[silk_outline_x, -silk_outline_y], layer='F.SilkS', width=silk_line_width))
-                        kicad_mod.append(Line(start=[-silk_outline_x, silk_outline_y],
-                            end=[silk_outline_x, silk_outline_y], layer='F.SilkS', width=silk_line_width))
+                    if silk_point_top_right:
+                        kicad_mod.append(Line(
+                            start=[-silk_point_top_right.x, -silk_point_top_right.y],
+                            end=[silk_point_top_right.x, -silk_point_top_right.y],
+                            layer='F.SilkS', width=silk_line_width))
+                        kicad_mod.append(Line(
+                            start=[-silk_point_top_right.x, silk_point_top_right.y],
+                            end=silk_point_top_right,
+                            layer='F.SilkS', width=silk_line_width))
 
                 CrtYd_rect = [None,None]
                 CrtYd_rect[0] = roundToBase(2 * abs(pad_details['at'][0]) + \
