@@ -273,8 +273,8 @@ class TwoTerminalSMDchip():
 
                     silk_point_top_right = nearestSilkPointOnOrtoLine(
                         pad_size=pad_details['size'], pad_position=pad_details['at'], pad_radius=pad_radius,
-                        far_point=Vector2D(0, silk_outline_y),
-                        near_point=Vector2D(outline_size[0]/2, silk_outline_y),
+                        fixed_point=Vector2D(0, silk_outline_y),
+                        moving_point=Vector2D(outline_size[0]/2, silk_outline_y),
                         configuration=self.configuration,
                         is_half_line=True)
 

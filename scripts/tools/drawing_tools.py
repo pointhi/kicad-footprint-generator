@@ -748,21 +748,21 @@ def THTQuartzIncomplete(model, x, size, angle, layer, width):
 # Parameters:
 #   - pad_size, pad_position, and pad_radius are the dimensions of the reference pad.
 #     (pad that is expected to be intersected by the line)
-#   - far_point: The point farthest away from the reference pad (The fix point)
-#   - near point: The point nearest the pad
-#     (The point that will be moved if the line intersects the pads clearance area)
+#   - fixed_point: The fixed reference point
+#   - moving_point: The point that will be moved (toward the fixed point)
+#     if the line intersects the pads clearance area.
 #   - configuration: The dict holding the generator configuration information (from yaml file)
 #   - is_half_line: The far point is at the center of the resulting line not the starting point.
 #     (Means the resulting line will be double the length) default: False
 #
 
-def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, far_point, near_point,
+def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, moving_point,
         configuration, is_half_line=False):
     silk_line_width = configuration.get('silk_line_width', 0.12)
 
-    if far_point[0] == near_point[0]:
+    if fixed_point[0] == moving_point[0]:
         normal_dir_idx = 0
-    elif far_point[1] == near_point[1]:
+    elif fixed_point[1] == moving_point[1]:
         normal_dir_idx = 1
     else:
         raise ValueError("nearestSilkPointOnOrtoLine only works for horizontal or vertical lines. \n"
@@ -770,7 +770,7 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, far_point, ne
 
     inline_dir_idx = (normal_dir_idx+1)%1
 
-    line_pad_offset = far_point[normal_dir_idx] - pad_position[normal_dir_idx]
+    line_pad_offset = fixed_point[normal_dir_idx] - pad_position[normal_dir_idx]
 
     off = silk_line_width/2 + configuration['silk_pad_clearance']
     if 'silk_clearance_small_parts' in configuration:
@@ -782,8 +782,8 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, far_point, ne
 
     rc_normal_dir = pad_size[normal_dir_idx]/2-pad_radius
 
-    sign = 1 if pad_position[inline_dir_idx] - far_point[inline_dir_idx] > 0 else -1
-    ep_new = Vector2D(near_point)
+    sign = 1 if pad_position[inline_dir_idx] - fixed_point[inline_dir_idx] > 0 else -1
+    ep_new = Vector2D(moving_point)
 
     if rc_normal_dir < line_pad_offset:
         # the silk outline is in the area where the radius of the pad is.
@@ -793,19 +793,19 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, far_point, ne
         r = pad_radius + off
 
         if dr_normal_dir > r:
-            return near_point
+            return moving_point
 
         dr_inline = sqrt(r**2 - dr_normal_dir**2)
 
         ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
             sign*(pad_size[inline_dir_idx]/2 - (pad_radius-dr_inline))
 
-        if sign*(ep_new[inline_dir_idx] - far_point[inline_dir_idx]) <  min_lenght\
+        if sign*(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) <  min_lenght\
                 and 'silk_clearance_small_parts' in configuration:
             r_small = pad_radius + off_small
 
             if dr_normal_dir > r_small:
-                return near_point
+                return moving_point
             else:
                 dr_inline = sqrt(r_small**2 - dr_normal_dir**2)
                 ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
@@ -813,12 +813,12 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, far_point, ne
     else:
         ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
             sign*(pad_size[inline_dir_idx]/2 + off)
-        if sign*(ep_new[inline_dir_idx] - far_point[inline_dir_idx]) <  min_lenght\
+        if sign*(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) <  min_lenght\
                 and 'silk_clearance_small_parts' in configuration:
             ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
                 sign*(pad_size[inline_dir_idx]/2 + off_small)
 
-    if sign*(ep_new[inline_dir_idx] - far_point[inline_dir_idx]) <  min_lenght:
+    if sign*(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) <  min_lenght:
         return None
 
     return ep_new
