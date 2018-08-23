@@ -799,7 +799,7 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, 
         raise ValueError("nearestSilkPointOnOrtoLine only works for horizontal or vertical lines. \n"
                         "(Either x or y coordinate of the two reference points must be equal)")
 
-    inline_dir_idx = (normal_dir_idx+1)%1
+    inline_dir_idx = (normal_dir_idx+1)%2
 
     line_pad_offset = fixed_point[normal_dir_idx] - pad_position[normal_dir_idx]
 
