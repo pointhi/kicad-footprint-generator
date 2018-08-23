@@ -743,6 +743,39 @@ def THTQuartzIncomplete(model, x, size, angle, layer, width):
 #
 # This is an alternative to using silk keepout areas for simple cases.
 # It calculates a new endpoint for a horizontal or vertical line such that
+# the silk line has the correct minimal clearance. If the line is to short
+# given the default clearance, the clearance is reduced and new points are
+# calculated.
+#
+# Parameters:
+#   - pad_size, pad_position, and pad_radius are the dimensions of the reference pad.
+#     (pad that is expected to be intersected by the line)
+#   - fixed_point: The fixed reference point
+#   - moving_point: The point that will be moved (toward the fixed point)
+#     if the line intersects the pads clearance area.
+#   - silk_pad_offset: offset between edge of the pad and silk line center.
+#   - min_lenght: minimum silk line length
+#
+# Returns a new point along the line or None if no valid point could be found
+#
+def nearestSilkPointOnOrtoLineSmallClerance(pad_size, pad_position, pad_radius, fixed_point, moving_point,
+        silk_pad_offset_default, silk_pad_offset_reduced, min_lenght):
+    if silk_pad_offset_reduced < silk_pad_offset_default:
+        offset = (silk_pad_offset_default, silk_pad_offset_reduced)
+    else:
+        offset = (silk_pad_offset_default)
+
+    for silk_pad_offset in (silk_pad_offset_default, silk_pad_offset_reduced):
+        point = nearestSilkPointOnOrtoLine(
+                pad_size, pad_position, pad_radius, fixed_point, moving_point,
+                silk_pad_offset, min_lenght)
+        if point is not None:
+            return point
+    return None
+
+#
+# This is an alternative to using silk keepout areas for simple cases.
+# It calculates a new endpoint for a horizontal or vertical line such that
 # the silk line has the correct minimal clearance.
 #
 # Parameters:
@@ -751,15 +784,13 @@ def THTQuartzIncomplete(model, x, size, angle, layer, width):
 #   - fixed_point: The fixed reference point
 #   - moving_point: The point that will be moved (toward the fixed point)
 #     if the line intersects the pads clearance area.
-#   - configuration: The dict holding the generator configuration information (from yaml file)
-#   - is_half_line: The far point is at the center of the resulting line not the starting point.
-#     (Means the resulting line will be double the length) default: False
+#   - silk_pad_offset: offset between edge of the pad and silk line center.
+#   - min_lenght: minimum silk line length
 #
-
+# Returns a new point along the line or None if no valid point could be found
+#
 def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, moving_point,
-        configuration, is_half_line=False):
-    silk_line_width = configuration.get('silk_line_width', 0.12)
-
+        silk_pad_offset, min_lenght):
     if fixed_point[0] == moving_point[0]:
         normal_dir_idx = 0
     elif fixed_point[1] == moving_point[1]:
@@ -772,14 +803,6 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, 
 
     line_pad_offset = fixed_point[normal_dir_idx] - pad_position[normal_dir_idx]
 
-    off = silk_line_width/2 + configuration['silk_pad_clearance']
-    if 'silk_clearance_small_parts' in configuration:
-        off_small = silk_line_width/2 + configuration['silk_clearance_small_parts']
-
-    min_lenght = configuration['silk_line_lenght_min']
-    if is_half_line:
-        min_lenght /= 2
-
     rc_normal_dir = pad_size[normal_dir_idx]/2-pad_radius
 
     sign = 1 if pad_position[inline_dir_idx] - fixed_point[inline_dir_idx] > 0 else -1
@@ -790,7 +813,7 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, 
 
         dr_normal_dir = line_pad_offset - rc_normal_dir
 
-        r = pad_radius + off
+        r = pad_radius + silk_pad_offset
 
         if dr_normal_dir > r:
             return moving_point
@@ -799,24 +822,9 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, 
 
         ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
             sign*(pad_size[inline_dir_idx]/2 - (pad_radius-dr_inline))
-
-        if sign*(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) <  min_lenght\
-                and 'silk_clearance_small_parts' in configuration:
-            r_small = pad_radius + off_small
-
-            if dr_normal_dir > r_small:
-                return moving_point
-            else:
-                dr_inline = sqrt(r_small**2 - dr_normal_dir**2)
-                ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
-                    sign*(pad_size[inline_dir_idx]/2 - (pad_radius-dr_inline))
     else:
         ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
-            sign*(pad_size[inline_dir_idx]/2 + off)
-        if sign*(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) <  min_lenght\
-                and 'silk_clearance_small_parts' in configuration:
-            ep_new[inline_dir_idx] =  pad_position[inline_dir_idx] -\
-                sign*(pad_size[inline_dir_idx]/2 + off_small)
+            sign*(pad_size[inline_dir_idx]/2 + silk_pad_offset)
 
     if sign*(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) <  min_lenght:
         return None
