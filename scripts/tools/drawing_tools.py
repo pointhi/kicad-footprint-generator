@@ -815,7 +815,8 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, 
 
         r = pad_radius + silk_pad_offset
 
-        if dr_normal_dir > r:
+        # rounding to avoid floating point errors
+        if round(dr_normal_dir, 6) >= round(r, 6):
             return moving_point
 
         dr_inline = sqrt(r**2 - dr_normal_dir**2)
@@ -829,7 +830,7 @@ def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, 
     if sign*(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) <  min_lenght:
         return None
 
-    if math.fabs(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) > math.fabs(moving_point[inline_dir_idx] - fixed_point[inline_dir_idx]):
+    if abs(ep_new[inline_dir_idx] - fixed_point[inline_dir_idx]) > math.fabs(moving_point[inline_dir_idx] - fixed_point[inline_dir_idx]):
         return moving_point
-    
+
     return ep_new
