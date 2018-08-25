@@ -72,18 +72,30 @@ def generate_one_footprint(idx, pincount, series_definition, configuration, grou
 
 
     ############################# Pads ##################################
-    kicad_mod.append(PadArray(center=[0, pad_pos_y], x_spacing=series_definition['pitch'], pincount=pincount,
-        size=pad_size, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        pad_shape=Pad.SHAPE_RECT
+    else:
+        pad_shape=Pad.SHAPE_ROUNDRECT
+        optional_pad_params['radius_ratio'] = configuration.get('radius_ratio', 0.25)
+        optional_pad_params['maximum_radius'] = configuration.get('maximum_radius', 0.25)
+
+    kicad_mod.append(PadArray(
+        center=[0, pad_pos_y], x_spacing=series_definition['pitch'], pincount=pincount,
+        size=pad_size, type=Pad.TYPE_SMT, shape=pad_shape, layers=Pad.LAYERS_SMT,
+        **optional_pad_params))
 
     mount_pad_left_x_pos = -dimension_A/2 - mount_pad_center_x_to_pin
-    kicad_mod.append(Pad(number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        at=[mount_pad_left_x_pos, mount_pad_y_pos],
-                        size=mounting_pad_size,
-                        layers=Pad.LAYERS_SMT))
-    kicad_mod.append(Pad(number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                        at=[-mount_pad_left_x_pos, mount_pad_y_pos],
-                        size=mounting_pad_size,
-                        layers=Pad.LAYERS_SMT))
+    kicad_mod.append(Pad(
+        number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT,
+        shape=pad_shape, at=[mount_pad_left_x_pos, mount_pad_y_pos],
+        size=mounting_pad_size, layers=Pad.LAYERS_SMT,
+        **optional_pad_params))
+    kicad_mod.append(Pad(
+        number = configuration['mounting_pad_number'], type=Pad.TYPE_SMT,
+        shape=pad_shape, at=[-mount_pad_left_x_pos, mount_pad_y_pos],
+        size=mounting_pad_size, layers=Pad.LAYERS_SMT,
+        **optional_pad_params))
 
     ######################### Body outline ###############################
     pad_edge_silk_center_offset = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
@@ -391,6 +403,7 @@ if __name__ == "__main__":
                         help='list of files holding information about what devices should be created.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -404,6 +417,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+    configuration['kicad4_compatible'] = args.kicad4_compatible
+
     for filepath in args.files:
         with open(filepath, 'r') as stream:
             try:
