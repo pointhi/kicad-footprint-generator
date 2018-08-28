@@ -490,21 +490,25 @@ def makeResistorAxialVertical(seriesname,rm, rmdisp, l, d, ddrill, R_POW, type="
             kicad_mod.append(RectLine(start=[-d_slk/2, -d2_slk/2], end=[d_slk/2,d2_slk/2], layer='F.SilkS', width=lw_slk))
         kicad_mod.append(Line(start=[xs1, 0], end=[xs2, 0], layer='F.SilkS', width=lw_slk))
     else:
-        xx=math.sqrt(d_slk*d_slk/4-(pady+slk_offset+lw_slk)*(pady+slk_offset+lw_slk)/4)
-        if pad1style==Pad.SHAPE_RECT:
-            xx=math.sqrt(d_slk*d_slk/4-(pady+slk_offset)*(pady+slk_offset)/4)
-        alpha=360-2*math.acos(xx/(d_slk/2))/3.1415*180
+        yy = (pady+slk_offset+lw_slk)/2
+        #I don't know why rectangle pads would allow silk nearer to the pad. -> removed for this reason
+        # if pad1style==Pad.SHAPE_RECT:
+        #     yy=(pady+slk_offset)/2
+
+        xx=math.sqrt((d_slk/2)**2-(yy)**2)
+
+        alpha=360-2*math.degrees(math.acos(xx/(d_slk/2)))
         if type == "cyl":
             if deco=="diode_KUP":
-                kicad_mod.append(Arc(center=[rm, 0], start=[rm-xx, -pady/2], angle=alpha, layer='F.SilkS', width=lw_slk))
+                kicad_mod.append(Arc(center=[rm, 0], start=[rm-xx, -yy], angle=alpha, layer='F.SilkS', width=lw_slk))
             else:
-                kicad_mod.append(Arc(center=[0, 0], start=[xx, -pady/2], angle=-alpha, layer='F.SilkS', width=lw_slk))
+                kicad_mod.append(Arc(center=[0, 0], start=[xx, -yy], angle=-alpha, layer='F.SilkS', width=lw_slk))
         else:
-            kicad_mod.append(PolygoneLine(polygone=[[d_slk/2, -pady/2-slk_offset],
+            kicad_mod.append(PolygoneLine(polygone=[[d_slk/2, -yy],
                                                     [d_slk / 2, -d2_slk / 2],
                                                     [-d_slk / 2, -d2_slk / 2],
                                                     [d_slk / 2, -d2_slk / 2],
-                                                    [d_slk / 2, +pady / 2 + slk_offset]], layer='F.SilkS', width=lw_slk))
+                                                    [d_slk / 2, +yy]], layer='F.SilkS', width=lw_slk))
 #    if deco=="diode" or deco=="diode_KUP":
 #        kicad_mod.append(Line(start=[d_x-d_size/3, d_y-0.5*d_size], end=[d_x-d_size/3, d_y+0.5*d_size], layer='F.SilkS', width=lw_slk))
 #        kicad_mod.append(PolygoneLine(polygone=[[d_x-d_size/3, d_y],
