@@ -15,6 +15,7 @@ from drawing_tools import *  # NOQA
 from math import sqrt
 
 crt_offset = 0.5 # different for connectors
+slk_offset = lw_slk
 
 #
 #  +----------------------------------------+                      ^

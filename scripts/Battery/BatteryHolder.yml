@@ -1,0 +1,128 @@
+BatteryHolder_Bulgin_BX0033_1xPP3:
+  description: "Bulgin Battery Holder, BX0033, Battery Type 1xPP3"
+  datasheet: "http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf"
+  tags: "Bulgin Battery Holder, BX0033, Battery Type 1xPP3"
+  extratexts: [[-3.0, 0, "-", "F.SilkS", 1.0, 1.0]]
+  at: [-1.7, 8.55]
+  size: [58.7, 29.8]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.6], ["tht", "2", 0, -12.7, 3.0, 3.0, 1.6], ["npth", "", 10.7, -6.35, 3.0, 0, 3.0], ["npth", "", 24.7, -6.35, 3.0, 0, 3.0]]
+
+BatteryHolder_Bulgin_BX0034_1xAAA:
+  description: "Bulgin Battery Holder, BX0034, Battery Type 1xAAA"
+  datasheet: "http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf"
+  tags: "Bulgin Battery Holder, BX0034, Battery Type 1xAAA"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-1.7, 8.65]
+  size: [52.3, 17.3]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.6], ["tht", "2", 48.9, 0, 3.0, 3.0, 1.6], ["npth", "", 10.5, 0, 3.2, 0, 3.2], ["npth", "", 38.4, 0, 3.2, 0, 3.2]]
+  
+BatteryHolder_Bulgin_BX0035_1xAA:
+  description: "Bulgin Battery Holder, BX0035, Battery Type 1xAA (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)"
+  datasheet: "Bulgin Battery Holder, BX0035, Battery Type 1xAA (http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf)"
+  tags: "Bulgin Battery Holder, BX0035, Battery Type 1xAA"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-1.75, 10.80]
+  size: [60.3, 21.6]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.6], ["tht", "2", 56.8, 0, 3.0, 3.0, 1.6], ["npth", "", 11.9, 0, 3.8, 0, 3.8], ["npth", "", 44.9, 0, 3.8, 0, 3.8]]
+  
+BatteryHolder_Bulgin_BX0036_1xC:
+  description: "Bulgin Battery Holder, BX0036, Battery Type 1xC"
+  datasheet: "http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf"
+  tags: "Bulgin Battery Holder, BX0036, Battery Type 1xC"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-1.75, 17.0]
+  size: [59.1, 34.0]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.6], ["tht", "2", 55.6, 0, 3.0, 3.0, 1.6], ["npth", "", 11.9, 0, 3.8, 0, 3.8], ["npth", "", 43.7, 0, 3.8, 0, 3.8]]
+  
+BatteryHolder_Bulgin_BX0037_1xD:
+  description: "Bulgin Battery Holder, BX0037, Battery Type 1xD"
+  datasheet: "http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf"
+  tags: "Bulgin Battery Holder, BX0037, Battery Type 1xD"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-1.75, 20.95]
+  size: [71.0, 41.9]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.6], ["tht", "2", 67.5, 0, 3.0, 3.0, 1.6], ["npth", "", 15.95, 0, 3.8, 0, 3.8], ["npth", "", 51.55, 0, 3.8, 0, 3.8]]
+
+BatteryHolder_Bulgin_BX0123_1xCR123:
+  description: "Bulgin Battery Holder, BX0123, Battery Type 1xCR123"
+  datasheet: "http://www.bulgin.com/media/bulgin/data/Battery_holders.pdf"
+  tags: "Bulgin Battery Holder, BX0123, Battery Type 1xCR123"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-1.75, 10.0]
+  size: [41.3, 20.0]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.6], ["tht", "2", 37.8, 0, 3.0, 3.0, 1.6], ["npth", "", 10.425, 0, 3.2, 0, 3.2], ["npth", "", 27.375, 0, 3.2, 0, 3.2]]
+
+BatteryHolder_Keystone_1042_1x18650:
+  description: "Keystone Battery Holder, 1042, Battery Type 1x18650"
+  datasheet: "http://www.keyelco.com/product.cfm/product_id/918"
+  tags: "Keystone Battery Holder, 1042, Battery Type 1x18650"
+  extratexts: [[-49.0, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-43.205, 10.325]
+  size: [86.41, 20.65]
+  smd_tht: "smd"
+  pins: [["smd", "1", -43.205, 0, 6.47, 6.47, 0.0], ["smd", "2", 43.205, 0, 6.47, 6.47, 0.0]]
+
+BatteryHolder_Keystone_2466_1xAAA:
+  description: "Keystone Battery Holder, 2466, Battery Type 1xAAA"
+  datasheet: "http://www.keyelco.com/product-pdf.cfm?p=1031"
+  tags: "Keystone Battery Holder, 2466, Battery Type 1xAAA"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.645, 6.50]
+  size: [49.99, 13.00]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.1], ["tht", "2", 44.70, 0, 3.0, 3.0, 1.1]]
+  
+BatteryHolder_Keystone_2468_2xAAA:
+  description: "Keystone Battery Holder, 2468, Battery Type 2xAAA"
+  datasheet: "http://www.keyelco.com/product-pdf.cfm?p=1033"
+  tags: "Keystone Battery Holder, 2468, Battery Type 2xAAA"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.865, 5.945]
+  size: [52.98, 24.59]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.1], ["tht", "2", 0, -12.70, 3.0, 3.0, 1.1], ["npth", "", 8.64, -4, 3.45, 0, 3.45], ["npth", "", 38.61, -8, 3.45, 0, 3.45]]
+
+BatteryHolder_Keystone_2479_3xAAA:
+  description: "Keystone Battery Holder, 2479, Battery Type 3xAAA"
+  datasheet: "http://www.keyelco.com/product-pdf.cfm?p=1041"
+  tags: "Keystone Battery Holder, 2479, Battery Type 3xAAA"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.59, 6.045]
+  size: [52.63, 37.49]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.1], ["tht", "2", 0, -12.70, 3.0, 3.0, 1.1], ["npth", "", 23.72, 0, 3.45, 0, 3.45], ["npth", "", 23.72, -23.50, 3.45, 0, 3.45]]
+
+BatteryHolder_MPD_BC2AAPC_2xAA:
+  description: "Keystone Battery Holder, BC2AAPC, Battery Type 2xAA"
+  datasheet: "http://www.memoryprotectiondevices.com/datasheets/BC2AAPC-datasheet.pdf"
+  tags: "MPD Battery Holder, BC2AAPC, Battery Type 2xAA"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.84, 8.445]
+  size: [58.00, 30.50]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.1], ["tht", "2", 0, -13.59, 3.0, 3.0, 1.1], ["npth", "", 26.16, -6.63, 3.56, 0, 3.56]]
+
+BatteryHolder_MPD_BC12AAPC_2xAA:
+  description: "Keystone Battery Holder, BC12AAPC, Battery Type 2xAA"
+  datasheet: "http://www.memoryprotectiondevices.com/datasheets/BC12AAPC-datasheet.pdf"
+  tags: "MPD Battery Holder, BC12AAPC, Battery Type 2xAA"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.9, 8.1]
+  size: [107.8, 16.20]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.1], ["tht", "2", 102.0, 0, 3.0, 3.0, 1.1],  ["npth", "", 26.15, 4.75, 2.5, 0, 1.1], ["npth", "", 26.15, -4.75, 2.5, 0, 1.1], ["npth", "", 75.85, 4.75, 2.5, 0, 1.1], ["npth", "", 75.85, -4.75, 2.5, 0, 1.1]]
+
+BatteryHolder_MPD_BH-18650-PC:
+  description: "Keystone Battery Holder, BH-18650, Battery Type 1x18650"
+  datasheet: "http://www.memoryprotectiondevices.com/datasheets/BH-18650-PC-datasheet.pdf"
+  tags: "MPD Battery Holder, BH-18650, Battery Type 1x18650"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.4, 10.45]
+  size: [77.7, 20.9]
+  pins: [["tht", "1", 0, 0,  3.0, 3.0, 1.57], ["tht", "2", 72.90, 0,  3.0, 3.0, 1.57], ["npth", "", 8.445, 0.0, 3.2, 0, 3.2], ["npth", "", 64.055, 0.0, 3.2, 0, 3.2]]
+
+BatteryHolder_MPD_BK-18650-PC2:
+  description: "Keystone Battery Holder, BH-18650, Battery Type 1x18650"
+  datasheet: "http://www.memoryprotectiondevices.com/datasheets/BK-18650-PC2-datasheet.pdf"
+  tags: "MPD Battery Holder, BK-18650, Battery Type 1x18650"
+  extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.23, 10.49]
+  size: [76.96, 20.98]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.57], ["tht", "2", 72.90, 0, 3.0, 3.0, 1.57], ["npth", "", 8.445, 0.0, 3.2, 0, 3.2], ["npth", "", 64.055, 0.0, 3.2, 0, 3.2]]
+
+
