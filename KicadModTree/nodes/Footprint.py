@@ -71,7 +71,6 @@ class Footprint(Node):
 
     def setPasteMarginRatio(self, value):
         # paste_margin_ratio is unitless between 0 and 1 while GUI uses percentage
-        if abs(value) > 1:
-            raise ValueError("Solder paste margin must be between -1 and 1. {} is too large.".format(value))
-        else:
-            self.pasteMarginRatio = value
+        assert abs(value) <= 1,"Solder paste margin must be between -1 and 1. {} is too large.".format(value)
+        
+        self.pasteMarginRatio = value
