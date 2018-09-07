@@ -1,29 +1,34 @@
 Potentiometer_Bourns_PTA1543_Single_Slide:
   dimA: 30
+  dimB: 26
   dimC: 17.8
   dimD: 20.2
   dimE: 28.5
   travel: 15
 Potentiometer_Bourns_PTA2043_Single_Slide:
   dimA: 35
+  dimB: 31
   dimC: 22.8
   dimD: 25.2
   dimE: 33
   travel: 20
 Potentiometer_Bourns_PTA3043_Single_Slide:
   dimA: 45
+  dimB: 41
   dimC: 32.8
   dimD: 35.2
   dimE: 43.5
   travel: 30
 Potentiometer_Bourns_PTA4543_Single_Slide:
   dimA: 60
+  dimB: 56
   dimC: 47.8
   dimD: 50.2
   dimE: 58.5
   travel: 45
 Potentiometer_Bourns_PTA6043_Single_Slide:
   dimA: 75
+  dimB: 71
   dimC: 62.8
   dimD: 65.2
   dimE: 73.5

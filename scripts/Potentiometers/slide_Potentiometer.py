@@ -14,20 +14,21 @@ from drawing_tools import *
 def slide_pot(args):
     footprint_name = args["name"]
     dimA = args["dimA"]
+    dimB = args["dimB"]
     dimC = args["dimC"]
     dimD = args["dimD"]
     dimE = args["dimE"]
     travel = args["travel"]
 
     f = Footprint(footprint_name)
-    f.setDescription("Bourns single-gang slide potentiometer, " + str(travel) + "mm travel")
+    f.setDescription("Bourns single-gang slide potentiometer, " + str(travel) + "mm travel, https://www.bourns.com/docs/Product-Datasheets/pta.pdf")
     f.setTags("Bourns single-gang slide potentiometer " + str(travel) + "mm")
     f.append(Model(filename="${KISYS3DMOD}/Potentiometer_THT.3dshapes/" + footprint_name + ".wrl", at=[0.0, 0.0, 0.0], scale=[1.0, 1.0, 1.0], rotate=[0.0, 0.0, 0.0]))
 
     dPin = [1.2, 1.2]
     dMP = [1.7, 1.7]
 
-    pPin = [2.2, 2.2]
+    pPin = [1.75, 1.75]
     pMP = [2.7, 2.7]
 
     s = [1.0, 1.0]
@@ -82,6 +83,10 @@ def slide_pot(args):
     yValue = yBottomFab + 1.25
     yFabRef = yCenter
 
+    hTravel = travel / 2
+    xLeftTravel = xCenter - hTravel
+    xRightTravel = xCenter + hTravel
+
     keepouts = []
 
     # Pins
@@ -118,16 +123,39 @@ def slide_pot(args):
                                     [xLeftFab + 1, yTopFab]],
                           layer="F.Fab",
                           width=wFab))
+    for dir in [-1, 1]:
+        xScrew = xCenter + dir * (dimB / 2)
+        f.append(Circle(center=[xScrew, yCenter], radius=1.0,
+                        layer="F.Fab", width=wFab))
 
-    # Silk
+    # Silk outline
     addRectWithKeepout(f, xLeftSilk, yTopSilk,
                        xRightSilk - xLeftSilk, yBottomSilk - yTopSilk,
                        "F.SilkS", wSilkS, keepouts)
-    f.append(PolygoneLine(polygone=[[xLeftSilk - silkGap, yTopSilk + 1],
-                                    [xLeftSilk - silkGap, yTopSilk - silkGap],
-                                    [xLeftSilk + 1, yTopSilk - silkGap]],
-                          layer="F.SilkS",
-                          width=wSilkS))
+
+    # Silk pin 1 indicator
+    xp1 = -(pPin[0] / 2 + silk_ko)
+    yp1 = 0.0
+    f.append(PolygoneLine(polygone=[[xp1, yp1],
+                                    [xp1 - 0.5, yp1 - 0.5],
+                                    [xp1 - 0.5, yp1 + 0.5],
+                                    [xp1, yp1]],
+                          layer="F.SilkS", width=wSilkS))
+
+    # Silk travel indicator
+    f.append(Line(start=[xLeftTravel, yCenter],
+                  end=[xRightTravel, yCenter],
+                  layer="F.SilkS", width=wSilkS))
+    for dir in [-1, 1]:
+        xTravel = xCenter + dir * hTravel
+        xArrow = xCenter + dir * (hTravel - 0.75)
+        f.append(Line(start=[xTravel, yCenter - 1.5],
+                      end=[xTravel, yCenter + 1.5],
+                      layer="F.SilkS", width=wSilkS))
+        f.append(PolygoneLine(polygone=[[xArrow, yCenter - 0.75],
+                                        [xTravel, yCenter],
+                                        [xArrow, yCenter + 0.75]],
+                              layer="F.SilkS", width=wSilkS))
 
     # CrtYd
     f.append(RectLine(start=[xLeftCrtYd, yTopCrtYd],
@@ -144,6 +172,7 @@ if __name__ == '__main__':
     # the root node of .yml files is parsed as name
     parser.add_parameter("name", type=str, required=True)
     parser.add_parameter("dimA", type=float, required=True)
+    parser.add_parameter("dimB", type=float, required=True)
     parser.add_parameter("dimC", type=float, required=True)
     parser.add_parameter("dimD", type=float, required=True)
     parser.add_parameter("dimE", type=float, required=True)
