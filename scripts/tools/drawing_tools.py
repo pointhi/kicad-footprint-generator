@@ -758,7 +758,7 @@ def THTQuartzIncomplete(model, x, size, angle, layer, width):
 #
 # Returns a new point along the line or None if no valid point could be found
 #
-def nearestSilkPointOnOrtoLineSmallClerance(pad_size, pad_position, pad_radius, fixed_point, moving_point,
+def nearestSilkPointOnOrthogonalLineSmallClerance(pad_size, pad_position, pad_radius, fixed_point, moving_point,
         silk_pad_offset_default, silk_pad_offset_reduced, min_lenght):
     if silk_pad_offset_reduced < silk_pad_offset_default:
         offset = (silk_pad_offset_default, silk_pad_offset_reduced)
@@ -766,7 +766,7 @@ def nearestSilkPointOnOrtoLineSmallClerance(pad_size, pad_position, pad_radius, 
         offset = (silk_pad_offset_default)
 
     for silk_pad_offset in (silk_pad_offset_default, silk_pad_offset_reduced):
-        point = nearestSilkPointOnOrtoLine(
+        point = nearestSilkPointOnOrthogonalLine(
                 pad_size, pad_position, pad_radius, fixed_point, moving_point,
                 silk_pad_offset, min_lenght)
         if point is not None:
@@ -789,14 +789,14 @@ def nearestSilkPointOnOrtoLineSmallClerance(pad_size, pad_position, pad_radius, 
 #
 # Returns a new point along the line or None if no valid point could be found
 #
-def nearestSilkPointOnOrtoLine(pad_size, pad_position, pad_radius, fixed_point, moving_point,
+def nearestSilkPointOnOrthogonalLine(pad_size, pad_position, pad_radius, fixed_point, moving_point,
         silk_pad_offset, min_lenght):
     if fixed_point[0] == moving_point[0]:
         normal_dir_idx = 0
     elif fixed_point[1] == moving_point[1]:
         normal_dir_idx = 1
     else:
-        raise ValueError("nearestSilkPointOnOrtoLine only works for horizontal or vertical lines. \n"
+        raise ValueError("nearestSilkPointOnOrthogonalLine only works for horizontal or vertical lines. \n"
                         "(Either x or y coordinate of the two reference points must be equal)")
 
     inline_dir_idx = (normal_dir_idx+1)%2

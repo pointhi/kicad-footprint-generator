@@ -54,7 +54,7 @@ class Pad(Node):
           The maximum radius for the rounded rectangle.
           If the radius produced by the radius ratio parameter for this pad would
           exceed the maximum radius, the ratio is reduced to limit the ratio.
-          (This is usefull for IPC-7351C complience as it suggests 25% ratio with limit 0.25mm)
+          (This is useful for IPC-7351C compliance as it suggests 25% ratio with limit 0.25mm)
           Ignored for every other shape.
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)

@@ -14,7 +14,7 @@ sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent p
 from footprint_text_fields import addTextFields
 from ipc_pad_size_calculators import *
 from quad_dual_pad_border import add_dual_or_quad_pad_border
-from drawing_tools import nearestSilkPointOnOrtoLine
+from drawing_tools import nearestSilkPointOnOrthogonalLine
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
@@ -319,7 +319,7 @@ class Gullwing():
         min_lenght = configuration.get('silk_line_lenght_min', 0)
         silk_corner_bottom_right = Vector2D(silk_right, silk_bottom)
 
-        silk_point_bottom_inside = nearestSilkPointOnOrtoLine(
+        silk_point_bottom_inside = nearestSilkPointOnOrthogonalLine(
             pad_size=EP_size,
             pad_position=[0, 0],
             pad_radius=EP_round_radius,
@@ -329,7 +329,7 @@ class Gullwing():
             min_lenght=min_lenght)
 
         if silk_point_bottom_inside is not None and device_params['num_pins_x'] > 0:
-            silk_point_bottom_inside = nearestSilkPointOnOrtoLine(
+            silk_point_bottom_inside = nearestSilkPointOnOrthogonalLine(
                 pad_size=pad_details['bottom']['size'],
                 pad_position=[
                     pad_details['bottom']['center'][0]+(device_params['num_pins_x']-1)/2*pitch,
@@ -340,7 +340,7 @@ class Gullwing():
                 silk_pad_offset=silk_pad_offset,
                 min_lenght=min_lenght)
 
-        silk_point_right_inside = nearestSilkPointOnOrtoLine(
+        silk_point_right_inside = nearestSilkPointOnOrthogonalLine(
             pad_size=EP_size,
             pad_position=[0, 0],
             pad_radius=EP_round_radius,
@@ -349,7 +349,7 @@ class Gullwing():
             silk_pad_offset=silk_pad_offset,
             min_lenght=min_lenght)
         if silk_point_right_inside is not None and device_params['num_pins_y'] > 0:
-            silk_point_right_inside = nearestSilkPointOnOrtoLine(
+            silk_point_right_inside = nearestSilkPointOnOrthogonalLine(
                 pad_size=pad_details['right']['size'],
                 pad_position=[
                     pad_details['right']['center'][0],
@@ -362,7 +362,7 @@ class Gullwing():
 
         if silk_point_bottom_inside is None and silk_point_right_inside is not None:
             silk_corner_bottom_right['y'] = body_edge['bottom']
-            silk_corner_bottom_right = nearestSilkPointOnOrtoLine(
+            silk_corner_bottom_right = nearestSilkPointOnOrthogonalLine(
                 pad_size=pad_details['bottom']['size'],
                 pad_position=[
                     pad_details['bottom']['center'][0]+(device_params['num_pins_x']-1)/2*pitch,
@@ -375,7 +375,7 @@ class Gullwing():
 
         elif silk_point_right_inside is None and silk_point_bottom_inside is not None:
             silk_corner_bottom_right['x'] = body_edge['right']
-            silk_corner_bottom_right = nearestSilkPointOnOrtoLine(
+            silk_corner_bottom_right = nearestSilkPointOnOrthogonalLine(
                 pad_size=pad_details['right']['size'],
                 pad_position=[
                     pad_details['right']['center'][0],

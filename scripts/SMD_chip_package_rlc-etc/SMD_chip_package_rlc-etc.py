@@ -13,7 +13,7 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 from ipc_pad_size_calculators import *
-from drawing_tools import nearestSilkPointOnOrtoLineSmallClerance
+from drawing_tools import nearestSilkPointOnOrthogonalLineSmallClerance
 
 size_definition_path = "size_definitions/"
 def roundToBase(value, base):
@@ -271,7 +271,7 @@ class TwoTerminalSMDchip():
 
                     silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
                     default_clearance = self.configuration.get('silk_pad_clearance', 0.2)
-                    silk_point_top_right = nearestSilkPointOnOrtoLineSmallClerance(
+                    silk_point_top_right = nearestSilkPointOnOrthogonalLineSmallClerance(
                         pad_size=pad_details['size'], pad_position=pad_details['at'], pad_radius=pad_radius,
                         fixed_point=Vector2D(0, silk_outline_y),
                         moving_point=Vector2D(outline_size[0]/2, silk_outline_y),
