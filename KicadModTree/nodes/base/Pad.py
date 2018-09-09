@@ -35,7 +35,8 @@ class Pad(Node):
           number/name of the pad (default: \"\")
         * *type* (``Pad.TYPE_THT``, ``Pad.TYPE_SMT``, ``Pad.TYPE_CONNECT``, ``Pad.TYPE_NPTH``) --
           type of the pad
-        * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``SHAPE_ROUNDRECT``, ``Pad.SHAPE_TRAPEZE``, ``SHAPE_CUSTOM``) --
+        * *shape* (``Pad.SHAPE_CIRCLE``, ``Pad.SHAPE_OVAL``, ``Pad.SHAPE_RECT``, ``SHAPE_ROUNDRECT``,
+        ``Pad.SHAPE_TRAPEZE``, ``SHAPE_CUSTOM``) --
           shape of the pad
         * *at* (``Vector2D``) --
           center position of the pad
