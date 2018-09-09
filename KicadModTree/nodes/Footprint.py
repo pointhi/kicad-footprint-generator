@@ -31,8 +31,8 @@ ADVANTAGES:
 
 # define in which order the general "lisp" operators are arranged
 render_order = ['descr', 'tags', 'attr', 'solder_mask_margin',
-                    'solder_paste_margin', 'solder_paste_ratio', 'fp_text',
-                    'fp_circle', 'fp_line', 'pad', 'model']
+                'solder_paste_margin', 'solder_paste_ratio', 'fp_text',
+                'fp_circle', 'fp_line', 'pad', 'model']
 # TODO: sort Text by type
 
 
@@ -71,6 +71,6 @@ class Footprint(Node):
 
     def setPasteMarginRatio(self, value):
         # paste_margin_ratio is unitless between 0 and 1 while GUI uses percentage
-        assert abs(value) <= 1,"Solder paste margin must be between -1 and 1. {} is too large.".format(value)
-        
+        assert abs(value) <= 1, "Solder paste margin must be between -1 and 1. {} is too large.".format(value)
+
         self.pasteMarginRatio = value
