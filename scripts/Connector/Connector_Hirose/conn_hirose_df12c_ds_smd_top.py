@@ -42,61 +42,95 @@ datasheet = 'ola'
 part_code = "43045-{n:02}00"
 
 pitch = 0.5
+pad_size = [0.3, 1.6]
 
 #pins_per_row_range = range(1,13)
-pins_per_row_range = [10,14,20,30,32,36,40,50,60,80]
+pins_per_row_range = [10,20,30,40,50,60,80,14,32,36]
 
 def generate_one_footprint(idx, pins, configuration):
-    pins_per_row = pins
 
-    mpn = part_code.format(n=pins*2)
+    mpn = part_code.format(n=pins)
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "",
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setAttribute('smd')
-    kicad_mod.setDescription("Hirose {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
+    kicad_mod.setDescription("Hirose {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
 
     ########################## Dimensions ##############################
 
-    A = 4.6 + (idx * 2.5)
+    if(idx == 6):
+        A = 4.6 + ((idx + 1) * 2.5)
+        B = 19.5
+    elif (idx == 7):
+        A = 5.6
+        B = 3
+    elif (idx == 8):
+        A = 10.1
+        B = 7.5
+    elif (idx == 9):
+        A = 11.1
+        B = 8.5
+    else:
+        A = 4.6 + (idx * 2.5)
+        B = A - 2.6
 
-    body_edge={
-        'left': -A / 2,
-        'right': A / 2,
-        'top': -2.3,
-        'bottom': 2.3
+    body_edge_out={
+        'left': round(-A/2 ,2),
+        'right': round(A/2 ,2),
+        'top': -1.8,
+        'bottom': 1.8
+        }
+
+    C = A - 1.5
+
+    body_edge_in={
+        'left': round(-C/2 ,2),
+        'right': round(C/2 ,2),
+        'top': -1.2,
+        'bottom': 1.2
         }
 
     ############################# Pads ##################################
     #
     # Add pads
     #
-    #kicad_mod.append(PadArray(start=[pad1_x, pad_row_1_y], initial=1,
-    #    pincount=pins_per_row, increment=1,  x_spacing=pitch, size=pad_size,
-    #    type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_THT, drill=drill))
+    CPins=int(pins / 2)
+    kicad_mod.append(PadArray(start=[-B/2, -1.8], initial=1,
+        pincount=CPins, increment=1,  x_spacing=pitch, size=pad_size,
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
 
-    #kicad_mod.append(PadArray(start=[pad1_x, pad_row_2_y], initial=pins_per_row+1,
-    #    pincount=pins_per_row, increment=1, x_spacing=pitch, size=pad_size,
-    #    type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_THT, drill=drill))
+    kicad_mod.append(PadArray(start=[-B/2, 1.8], initial=CPins + 1,
+        pincount=CPins, increment=1,  x_spacing=pitch, size=pad_size,
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
 
     ######################## Fabrication Layer ###########################
-    main_body_poly= [
-        {'x': body_edge['left'], 'y': body_edge['bottom']},
-        {'x': body_edge['left'], 'y': body_edge['top']},
-        {'x': body_edge['right'], 'y': body_edge['top']},
-        {'x': body_edge['right'], 'y': body_edge['bottom']},
-        {'x': body_edge['left'], 'y': body_edge['bottom']}
+    main_body_out_poly= [
+        {'x': body_edge_out['left'], 'y': body_edge_out['bottom']},
+        {'x': body_edge_out['left'], 'y': body_edge_out['top']},
+        {'x': body_edge_out['right'], 'y': body_edge_out['top']},
+        {'x': body_edge_out['right'], 'y': body_edge_out['bottom']},
+        {'x': body_edge_out['left'], 'y': body_edge_out['bottom']}
     ]
-    kicad_mod.append(PolygoneLine(polygone=main_body_poly,
+    kicad_mod.append(PolygoneLine(polygone=main_body_out_poly,
+        width=configuration['fab_line_width'], layer="F.Fab"))
+
+    main_body_in_poly= [
+        {'x': body_edge_in['left'], 'y': body_edge_in['bottom']},
+        {'x': body_edge_in['left'], 'y': body_edge_in['top']},
+        {'x': body_edge_in['right'], 'y': body_edge_in['top']},
+        {'x': body_edge_in['right'], 'y': body_edge_in['bottom']},
+        {'x': body_edge_in['left'], 'y': body_edge_in['bottom']}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=main_body_in_poly,
         width=configuration['fab_line_width'], layer="F.Fab"))
 
     #main_arrow_poly= [
