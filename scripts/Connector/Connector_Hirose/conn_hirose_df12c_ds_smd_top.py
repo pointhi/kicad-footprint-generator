@@ -142,43 +142,45 @@ def generate_one_footprint(idx, pins, configuration):
     #    width=configuration['fab_line_width'], layer="F.Fab"))
 
     ######################## SilkS Layer ###########################
-    #poly_s_t= [
-    #    {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-    #    {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['top'] + 1 - configuration['silk_fab_offset']},
-    #    {'x': body_edge['left'] + 1 - configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-    #    {'x': body_edge['right'] - 1 + configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-    #    {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': body_edge['top'] + 1 - configuration['silk_fab_offset']},
-    #    {'x': body_edge['right']+ configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-    #    {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-    #]
-    #kicad_mod.append(PolygoneLine(polygone=poly_s_t,
-    #    width=configuration['silk_line_width'], layer="F.SilkS"))
+    poly_left= [
+        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
+        {'x': -(A/2) - configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
+        {'x': body_edge_out['left'] - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
+        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_left,
+        width=configuration['silk_line_width'], layer="F.SilkS"))
+
+    poly_right= [
+        {'x': (B/2) + 0.15 + configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
+        {'x': (A/2) + configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
+        {'x': body_edge_out['right'] + configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
+        {'x': (B/2) + 0.15 + configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=poly_right,
+        width=configuration['silk_line_width'], layer="F.SilkS"))
 
     ######################## CrtYd Layer ###########################
-    #CrtYd_offset = configuration['courtyard_offset']['connector']
-    #CrtYd_grid = configuration['courtyard_grid']
+    CrtYd_offset = configuration['courtyard_offset']['connector']
+    CrtYd_grid = configuration['courtyard_grid']
 
-    #poly_yd = [
-    #    {'x': roundToBase(body_edge['left'] - CrtYd_offset, CrtYd_grid), 'y': roundToBase(body_edge['bottom'] + CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(body_edge['left'] - CrtYd_offset, CrtYd_grid), 'y': roundToBase(body_edge['top'] - CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(body_edge['right'] + CrtYd_offset, CrtYd_grid), 'y': roundToBase(body_edge['top'] - CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(body_edge['right'] + CrtYd_offset, CrtYd_grid), 'y': roundToBase(body_edge['bottom'] + CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(B + pad_to_pad_clearance/2 + CrtYd_offset, CrtYd_grid), 'y': roundToBase(body_edge['bottom'] + CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(B + pad_to_pad_clearance/2 + CrtYd_offset, CrtYd_grid), 'y': roundToBase(pitch + pad_to_pad_clearance/2 + CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(- pad_to_pad_clearance/2 - CrtYd_offset, CrtYd_grid), 'y': roundToBase(pitch + pad_to_pad_clearance/2 + CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(- pad_to_pad_clearance/2 - CrtYd_offset, CrtYd_grid), 'y': roundToBase(body_edge['bottom'] + CrtYd_offset, CrtYd_grid)},
-    #    {'x': roundToBase(body_edge['left'] - CrtYd_offset, CrtYd_grid), 'y': roundToBase(body_edge['bottom'] + CrtYd_offset, CrtYd_grid)}
-    #]
+    poly_yd = [
+        {'x': roundToBase(body_edge_out['left'] - CrtYd_offset, CrtYd_grid), 'y': roundToBase(-2.6 - CrtYd_offset, CrtYd_grid)},
+        {'x': roundToBase(body_edge_out['left'] - CrtYd_offset, CrtYd_grid), 'y': roundToBase(2.6 + CrtYd_offset, CrtYd_grid)},
+        {'x': roundToBase(body_edge_out['right'] + CrtYd_offset, CrtYd_grid), 'y': roundToBase(2.6 + CrtYd_offset, CrtYd_grid)},
+        {'x': roundToBase(body_edge_out['right'] + CrtYd_offset, CrtYd_grid), 'y': roundToBase(-2.6 - CrtYd_offset, CrtYd_grid)},
+        {'x': roundToBase(body_edge_out['left'] - CrtYd_offset, CrtYd_grid), 'y': roundToBase(-2.6 - CrtYd_offset, CrtYd_grid)}
+    ]
 
-    #kicad_mod.append(PolygoneLine(polygone=poly_yd,
-    #    layer='F.CrtYd', width=configuration['courtyard_line_width']))
+    kicad_mod.append(PolygoneLine(polygone=poly_yd,
+        layer='F.CrtYd', width=configuration['courtyard_line_width']))
 
     ######################### Text Fields ###############################
-    #cy1 = roundToBase(body_edge['top'] - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
-    #cy2 = roundToBase(pad_row_2_y + pad_size[1] + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy1 = roundToBase(body_edge_out['top'] -1 - configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
+    cy2 = roundToBase(body_edge_out['bottom'] + 1 + configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
-    #addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-    #    courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='top')
+    addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge_out,
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='top')
 
     ##################### Write to File and 3D ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
