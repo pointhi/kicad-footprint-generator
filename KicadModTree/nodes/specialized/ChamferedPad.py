@@ -298,7 +298,6 @@ class ChamferedPad(Node):
                 inside[0] -= radius
                 inside[1] -= radius
 
-
             points = []
             corner_vectors = [
                 Vector2D(-1, -1), Vector2D(1, -1), Vector2D(1, 1), Vector2D(-1, 1)
