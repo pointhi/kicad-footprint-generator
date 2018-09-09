@@ -110,6 +110,9 @@ class ExposedPad(Node):
         * *maximum_radius* (``float``) --
           Only used if a radius ratio is given.
           Limits the radius.
+
+        * *kicad4_compatible* (``bool``) --
+          Makes sure the resulting pad is compatible with kicad 4. default False
     """
 
     VIA_TENTED = 'all'
@@ -125,6 +128,11 @@ class ExposedPad(Node):
 
         self.radius_ratio = kwargs.get('radius_ratio', 0)
         self.maximum_radius = kwargs.get('maximum_radius')
+
+        self.kicad4_compatible = kwargs.get('kicad4_compatible', False)
+        if self.kicad4_compatible:
+            self.radius_ratio = 0
+            self.maximum_radius = None
 
         self._initNumber(**kwargs)
         self._initSize(**kwargs)
@@ -306,9 +314,11 @@ class ExposedPad(Node):
                 pincount=self.paste_between_vias, grid=self.inner_grid,
                 radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
                 )
-        pad.chamferAvoidCircle(
-                    center=self.via_grid/2, diameter=self.via_drill,
-                    clearance=self.via_clarance)
+
+        if not self.kicad4_compatible:
+            pad.chamferAvoidCircle(
+                        center=self.via_grid/2, diameter=self.via_drill,
+                        clearance=self.via_clarance)
 
         count = [self.vias_in_mask[0]-1, self.vias_in_mask[1]-1]
         return ExposedPad.__createPasteGrids(
@@ -335,7 +345,8 @@ class ExposedPad(Node):
             radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
             )
 
-        pad_side.chamferAvoidCircle(
+        if not self.kicad4_compatible:
+            pad_side.chamferAvoidCircle(
                     center=self.top_left_via, diameter=self.via_drill,
                     clearance=self.via_clarance)
 
@@ -380,7 +391,8 @@ class ExposedPad(Node):
             radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
             )
 
-        pad_side.chamferAvoidCircle(
+        if not self.kicad4_compatible:
+            pad_side.chamferAvoidCircle(
                     center=self.top_left_via, diameter=self.via_drill,
                     clearance=self.via_clarance)
 
@@ -426,9 +438,12 @@ class ExposedPad(Node):
             grid=self.outer_paste_grid,
             radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
             )
-        pad_side.chamferAvoidCircle(
+
+        if not self.kicad4_compatible:
+            pad_side.chamferAvoidCircle(
                     center=self.top_left_via, diameter=self.via_drill,
                     clearance=self.via_clarance)
+
         for idx_x in range(2):
             for idx_y in range(2):
                 x = left if idx_x == 0 else 2*self.at[0]-left
@@ -539,3 +554,6 @@ class ExposedPad(Node):
             pads += self.__createVias()
         pads += self.__createPaste()
         return pads
+
+    def getRoundRadius(self):
+        return min(self.radius_ratio*min(self.size), self.maximum_radius)

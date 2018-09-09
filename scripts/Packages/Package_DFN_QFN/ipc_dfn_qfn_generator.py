@@ -14,6 +14,7 @@ from KicadModTree.nodes.base.Pad import Pad  # NOQA
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 from ipc_pad_size_calculators import *
+from quad_dual_pad_border import add_dual_or_quad_pad_border
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
@@ -53,13 +54,27 @@ class DFN():
             'P': self.configuration.get('placement_tolerance', 0.05)
         }
 
-        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
-                device_dimensions['body_size_x'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len'))
+        pull_back_0 = TolerancedSize(nominal=0)
+        pull_back = device_dimensions.get('lead_to_edge', pull_back_0)
 
-        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol,
+
+        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
+                ipc_data, ipc_round_base, manf_tol,
+                device_dimensions['body_size_x'], device_dimensions['lead_width'],
+                lead_len=device_dimensions.get('lead_len_H'),
+                body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
+                heel_reduction=device_dimensions.get('heel_reduction', 0),
+                pull_back=pull_back
+                )
+
+        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
+                ipc_data, ipc_round_base, manf_tol,
                 device_dimensions['body_size_y'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len'))
+                lead_len=device_dimensions.get('lead_len_V'),
+                body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
+                heel_reduction=device_dimensions.get('heel_reduction', 0),
+                pull_back=pull_back
+                )
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -70,12 +85,11 @@ class DFN():
         return Pad
 
     @staticmethod
-    def deviceDimensions(device_size_data):
+    def deviceDimensions(device_size_data, fp_id):
         dimensions = {
             'body_size_x': TolerancedSize.fromYaml(device_size_data, base_name='body_size_x'),
             'body_size_y': TolerancedSize.fromYaml(device_size_data, base_name='body_size_y'),
-            'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width'),
-            'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
+            'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width')
         }
         dimensions['has_EP'] = False
         if 'EP_size_x_min' in device_size_data and 'EP_size_x_max' in device_size_data or 'EP_size_x' in device_size_data:
@@ -83,10 +97,31 @@ class DFN():
             dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
             dimensions['has_EP'] = True
 
+        dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
+
+        if 'lead_to_edge' in device_size_data:
+            dimensions['lead_to_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
+
+        dimensions['lead_len_H'] = None
+        dimensions['lead_len_V'] = None
+        if 'lead_len_H' in device_size_data and 'lead_len_V' in device_size_data:
+            dimensions['lead_len_H'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_len_H')
+            dimensions['lead_len_V'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_len_V')
+        elif 'lead_len' in device_size_data or (
+                'lead_len_min' in device_size_data and 'lead_len_max' in device_size_data):
+            dimensions['lead_len_H'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
+            dimensions['lead_len_V'] = dimensions['lead_len_H']
+
+        if 'body_to_inside_lead_edge' in device_size_data:
+            dimensions['body_to_inside_lead_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='body_to_inside_lead_edge')
+        elif dimensions['lead_len_H'] is None:
+            raise KeyError('{}: Either lead lenght or inside lead to edge dimension must be given.'.format(fp_id))
+
         return dimensions
 
-    def generateFootprint(self, device_params):
-        device_dimensions = DFN.deviceDimensions(device_params)
+    def generateFootprint(self, device_params, fp_id):
+        print('Building footprint for parameter set: {}'.format(fp_id))
+        device_dimensions = DFN.deviceDimensions(device_params, fp_id)
 
         if device_dimensions['has_EP'] and 'thermal_vias' in device_params:
             self.__createFootprintVariant(device_params, device_dimensions, True)
@@ -98,10 +133,12 @@ class DFN():
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
         lib_name = self.configuration['lib_name_format_string'].format(category=category)
+        lib_name = device_params.get('library', lib_name)
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
-        if device_params.get('ipc_class', 'qfn') == 'qfn_pull_back':
+        default_ipc_config = 'qfn_pull_back' if 'lead_to_edge' in device_params else 'qfn'
+        if device_params.get('ipc_class', default_ipc_config) == 'qfn_pull_back':
             ipc_reference = 'ipc_spec_flat_no_lead_pull_back'
         else:
             ipc_reference = 'ipc_spec_flat_no_lead'
@@ -113,9 +150,14 @@ class DFN():
         pad_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base)
 
 
-        suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
+        pad_suffix = '_Pad{pad_x:.2f}x{pad_y:.2f}mm'.format(pad_x=pad_details['left']['size'][0],
             pad_y=pad_details['left']['size'][1])
+        pad_suffix = '' if device_params.get('include_pad_size', 'none') not in ('fp_name_only', 'both') else pad_suffix
+        pad_suffix_3d = '' if device_params.get('include_pad_size', 'none') not in ('both') else pad_suffix
+
+        suffix = device_params.get('suffix', '')
         suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
+
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
         if device_dimensions['has_EP']:
@@ -125,7 +167,7 @@ class DFN():
                 'y':device_dimensions['EP_size_y'].nominal
                 }
         else:
-            name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
+            name_format = self.configuration['fp_name_format_string_no_trailing_zero']
             EP_size = {'x':0, 'y':0}
 
         if 'custom_name_format' in device_params:
@@ -144,7 +186,8 @@ class DFN():
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
-            suffix=suffix,
+            suffix=pad_suffix,
+            suffix2=suffix,
             vias=self.configuration.get('thermal_via_suffix', '_ThermalVias') if with_thermal_vias else ''
             ).replace('__','_').lstrip('_')
 
@@ -158,7 +201,8 @@ class DFN():
             pitch=device_params['pitch'],
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
-            suffix=suffix_3d,
+            suffix=pad_suffix_3d,
+            suffix2=suffix_3d,
             vias=''
             ).replace('__','_').lstrip('_')
 
@@ -216,6 +260,7 @@ class DFN():
                     via_paste_clarance=thermals.get('paste_via_clearance', DEFAULT_VIA_PASTE_CLEARANCE),
                     min_annular_ring=thermals.get('min_annular_ring', DEFAULT_MIN_ANNULAR_RING),
                     bottom_pad_min_size=thermals.get('bottom_min_size', 0),
+                    kicad4_compatible=args.kicad4_compatible,
                     **pad_shape_details
                     ))
             else:
@@ -223,100 +268,11 @@ class DFN():
                     number=pincount+1, size=EP_size,
                     paste_layout=device_params.get('EP_num_paste_pads', 1),
                     paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
+                    kicad4_compatible=args.kicad4_compatible,
                     **pad_shape_details
                     ))
 
-        init = 1
-        if device_params['num_pins_x'] == 0:
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=device_params['pitch'],
-                **pad_details['left'], **pad_shape_details))
-            init += device_params['num_pins_y']
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=-device_params['pitch'],
-                **pad_details['right'], **pad_shape_details))
-        elif device_params['num_pins_y'] == 0:
-            #for devices with clockwise numbering
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=device_params['pitch'],
-                **pad_details['top'], **pad_shape_details))
-            init += device_params['num_pins_x']
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=-device_params['pitch'],
-                **pad_details['bottom'], **pad_shape_details))
-        else:
-            chamfer_size = device_params.get('chamfer_edge_pins')
-            corner_first = [0, 1, 0, 0]
-            corner_last = [0, 0, 1, 0]
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                **pad_details['left'], **pad_shape_details))
-
-            init += device_params['num_pins_y']
-            corner_first = [1, 0, 0, 0]
-            corner_last = [0, 1, 0, 0]
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                **pad_details['bottom'], **pad_shape_details))
-
-            init += device_params['num_pins_x']
-            corner_first = [0, 0, 0, 1]
-            corner_last = [1, 0, 0, 0]
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_y'],
-                x_spacing=0, y_spacing=-device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                **pad_details['right'], **pad_shape_details))
-
-            init += device_params['num_pins_y']
-            corner_first = [0, 0, 1, 0]
-            corner_last = [0, 0, 0, 1]
-            kicad_mod.append(PadArray(
-                initial= init,
-                type=Pad.TYPE_SMT,
-                layers=Pad.LAYERS_SMT,
-                pincount=device_params['num_pins_x'],
-                y_spacing=0, x_spacing=-device_params['pitch'],
-                chamfer_size=chamfer_size,
-                chamfer_corner_selection_first=corner_first,
-                chamfer_corner_selection_last=corner_last,
-                **pad_details['top'], **pad_shape_details))
-
+        add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
 
         body_edge = {
             'left': -size_x/2,
@@ -326,6 +282,14 @@ class DFN():
             }
 
         bounding_box = body_edge.copy()
+
+        if device_params['num_pins_x'] == 0 and EP_size['y'] > size_y:
+                bounding_box['top'] = -EP_size['y']/2
+                bounding_box['bottom'] = EP_size['y']/2
+
+        if device_params['num_pins_y'] == 0 and EP_size['x'] > size_x:
+                bounding_box['left'] = -EP_size['x']/2
+                bounding_box['right'] = EP_size['x']/2
 
         if device_params['num_pins_y'] > 0:
             bounding_box['left'] = pad_details['left']['center'][0] - pad_details['left']['size'][0]/2
@@ -411,7 +375,7 @@ class DFN():
 
         # # ######################## Fabrication Layer ###########################
 
-        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*max(size_x, size_y))
+        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*min(size_x, size_y))
 
         poly_fab = [
             {'x': body_edge['left']+fab_bevel_size, 'y': body_edge['top']},
@@ -472,6 +436,7 @@ if __name__ == "__main__":
     parser.add_argument('--density', type=str, nargs='?', help='Density level (L,N,M)', default='N')
     parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='../ipc_definitions.yaml')
     parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     if args.density == 'L':
@@ -493,9 +458,11 @@ if __name__ == "__main__":
         except yaml.YAMLError as exc:
             print(exc)
 
-    if args.force_rectangle_pads:
+    if args.force_rectangle_pads or args.kicad4_compatible:
         configuration['round_rect_max_radius'] = None
         configuration['round_rect_radius_ratio'] = 0
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for filepath in args.files:
         dfn = DFN(configuration)
@@ -506,4 +473,4 @@ if __name__ == "__main__":
             except yaml.YAMLError as exc:
                 print(exc)
         for pkg in cmd_file:
-            dfn.generateFootprint(cmd_file[pkg])
+            dfn.generateFootprint(cmd_file[pkg], pkg)

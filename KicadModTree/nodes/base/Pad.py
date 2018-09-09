@@ -54,7 +54,7 @@ class Pad(Node):
           The maximum radius for the rounded rectangle.
           If the radius produced by the radius ratio parameter for this pad would
           exceed the maximum radius, the ratio is reduced to limit the ratio.
-          (This is usefull for IPC-7351C complience as it suggests 25% ratio with limit 0.25mm)
+          (This is useful for IPC-7351C compliance as it suggests 25% ratio with limit 0.25mm)
           Ignored for every other shape.
         * *solder_paste_margin_ratio* (``float``) --
           solder paste margin ratio of the pad (default: 0)
@@ -104,6 +104,7 @@ class Pad(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
+        self.radius_ratio = 0
 
         self._initNumber(**kwargs)
         self._initType(**kwargs)
@@ -118,6 +119,11 @@ class Pad(Node):
         self._initLayers(**kwargs)
         self._initMirror(**kwargs)
 
+        if self.shape == self.SHAPE_OVAL and self.size[0] == self.size[1]:
+            self.shape = self.SHAPE_CIRCLE
+
+        if self.shape == Pad.SHAPE_OVAL or self.shape == Pad.SHAPE_CIRCLE:
+            self.radius_ratio = 0.5
         if self.shape == Pad.SHAPE_ROUNDRECT:
             self._initRadiusRatio(**kwargs)
 
@@ -259,3 +265,13 @@ class Pad(Node):
         :param p: the primitive to add
         """
         self.primitives.append(p)
+
+    def getRoundRadius(self):
+        if self.shape == Pad.SHAPE_CUSTOM:
+            r_max = 0
+            for p in self.primitives:
+                r = p.width/2
+                if r > r_max:
+                    r_max = r
+            return r_max
+        return self.radius_ratio*min(self.size)
