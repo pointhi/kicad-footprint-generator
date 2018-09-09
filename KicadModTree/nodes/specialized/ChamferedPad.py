@@ -227,6 +227,7 @@ class ChamferedPad(Node):
         self._initPadSettings(**kwargs)
         self.radius_ratio = kwargs.get('radius_ratio', 0)
         self.maximum_radius = kwargs.get('maximum_radius')
+        self.pad = self._generatePad()
 
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
@@ -352,7 +353,12 @@ class ChamferedPad(Node):
         edge_to_center = relative_center - self.size/2
         self.chamfer_size -= [edge_to_center.y, edge_to_center.x]
         self.chamfer_size = Vector2D([x if x > 0 else 0 for x in self.chamfer_size])
+
+        self.pad = self._generatePad()
         return self.chamfer_size
 
     def getVirtualChilds(self):
-        return [self._generatePad()]
+        return [self.pad]
+
+    def getRoundRadius(self):
+        return self.pad.getRoundRadius()
