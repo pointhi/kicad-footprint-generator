@@ -22,3 +22,45 @@ SSOP-20_5.3x7.2mm_P0.65mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
+
+SOP-8_3.9x5.0mm_P1.27mm:
+  size_source: 'http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf'
+  body_size_x:
+    minimum: 3.60
+    maximum: 4.20
+  body_size_y:
+    minimum: 4.80
+    maximum: 5.30
+  overall_size_x:
+    minimum: 5.80
+    maximum: 6.20
+  lead_width:
+    minimum: 0.36
+    maximum: 0.52
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+SOP-8_5.3x5.2mm_P1.27mm:
+  size_source: 'http://www.fujitsu.com/ca/en/Images/MB85RS2MT-DS501-00023-1v0-E.pdf'
+  body_size_x:
+    minimum: 5.20
+    maximum: 5.30
+  body_size_y:
+    minimum: 5.14
+    maximum: 5.34
+  overall_size_x:
+    minimum: 7.70
+    maximum: 8.25
+  lead_width:
+    minimum: 0.38
+    maximum: 0.48
+  lead_len:
+    minimum: 0.55
+    maximum: 0.85
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
