@@ -30,21 +30,20 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = "DF12C"
+series = "DF12"
 series_long = 'DF12C SMD'
 manufacturer = 'Hirose'
 orientation = 'V'
 number_of_rows = 2
-datasheet = 'ola'
+datasheet = 'https://www.hirose.com/product/en/download_file/key_name/DF12C%283.0%29%2D50DS%2D0.5V%2881%29/category/Drawing%20(2D)/doc_file_id/38626/'
 
-#Molex part number
-#n = number of circuits per row
-part_code = "43045-{n:02}00"
+#Hirose part number
+part_code = "DF12C(3.0)-{n:02}DS-0.5V(81)"
 
 pitch = 0.5
 pad_size = [0.3, 1.6]
+pad_size_paste = [0.28,1.2]
 
-#pins_per_row_range = range(1,13)
 pins_per_row_range = [10,20,30,40,50,60,80,14,32,36]
 
 def generate_one_footprint(idx, pins, configuration):
@@ -106,11 +105,19 @@ def generate_one_footprint(idx, pins, configuration):
     CPins=int(pins / 2)
     kicad_mod.append(PadArray(start=[-B/2, -1.8], initial=1,
         pincount=CPins, increment=1,  x_spacing=pitch, size=pad_size,
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Mask"]))
 
     kicad_mod.append(PadArray(start=[-B/2, 1.8], initial=CPins + 1,
         pincount=CPins, increment=1,  x_spacing=pitch, size=pad_size,
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_SMT))
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Mask"]))
+
+    kicad_mod.append(PadArray(start=[-B/2, -2], initial="",
+        pincount=CPins,  x_spacing=pitch, size=pad_size_paste,
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Paste"]))
+
+    kicad_mod.append(PadArray(start=[-B/2, 2], initial="",
+        pincount=CPins,  x_spacing=pitch, size=pad_size_paste,
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Paste"]))
 
     ######################## Fabrication Layer ###########################
     main_body_out_poly= [
