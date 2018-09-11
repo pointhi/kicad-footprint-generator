@@ -20,7 +20,7 @@ def bga(args):
     padDiameter = args["pad_diameter"]
     maskMargin = args["mask_margin"]
     pasteMargin = args["paste_margin"]
-    pasteRatio = args["paste_ratio"] # '10.0' means paste ratio is 10% of pad size
+    pasteRatio = args["paste_ratio"]
     layoutX = args["layout_x"]
     layoutY = args["layout_y"]
     rowNames = args["row_names"]
