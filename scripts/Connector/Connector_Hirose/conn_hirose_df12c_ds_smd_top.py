@@ -140,20 +140,22 @@ def generate_one_footprint(idx, pins, configuration):
     kicad_mod.append(PolygoneLine(polygone=main_body_in_poly,
         width=configuration['fab_line_width'], layer="F.Fab"))
 
-    #main_arrow_poly= [
-    #    {'x': -.75, 'y': body_edge['bottom']},
-    #    {'x': 0, 'y': 0},
-    #    {'x': 0.75, 'y': body_edge['bottom']}
-    #]
-    #kicad_mod.append(PolygoneLine(polygone=main_arrow_poly,
-    #    width=configuration['fab_line_width'], layer="F.Fab"))
+    main_arrow_poly= [
+        {'x': (-B/2)-0.2, 'y': body_edge_out['top'] - 0.75},
+        {'x': -B/2, 'y': -1.8},
+        {'x': (-B/2)+0.2, 'y': body_edge_out['top'] - 0.75},
+        {'x': (-B/2)-0.2, 'y': body_edge_out['top'] - 0.75}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=main_arrow_poly,
+        width=configuration['fab_line_width'], layer="F.Fab"))
 
     ######################## SilkS Layer ###########################
     poly_left= [
         {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
         {'x': -(A/2) - configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
         {'x': body_edge_out['left'] - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
-        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']}
+        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
+        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - 0.75}
     ]
     kicad_mod.append(PolygoneLine(polygone=poly_left,
         width=configuration['silk_line_width'], layer="F.SilkS"))
