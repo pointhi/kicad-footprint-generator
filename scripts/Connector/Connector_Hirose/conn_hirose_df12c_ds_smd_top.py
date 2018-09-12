@@ -38,13 +38,13 @@ number_of_rows = 2
 datasheet = 'https://www.hirose.com/product/en/download_file/key_name/DF12C%283.0%29%2D50DS%2D0.5V%2881%29/category/Drawing%20(2D)/doc_file_id/38626/'
 
 #Hirose part number
-part_code = "DF12C(3.0)-{n:02}DS-0.5V(81)"
+part_code = "DF12C3.0-{n:02}DS-0.5V"
 
 pitch = 0.5
 pad_size = [0.3, 1.6]
 pad_size_paste = [0.28,1.2]
 
-pins_per_row_range = [10,20,30,40,50,60,80,14,32,36]
+pins_per_row_range = [10,20,30,40,50,60,14,32,36]
 
 def generate_one_footprint(idx, pins, configuration):
 
@@ -67,15 +67,12 @@ def generate_one_footprint(idx, pins, configuration):
     ########################## Dimensions ##############################
 
     if(idx == 6):
-        A = 4.6 + ((idx + 1) * 2.5)
-        B = 19.5
-    elif (idx == 7):
         A = 5.6
         B = 3
-    elif (idx == 8):
+    elif (idx == 7):
         A = 10.1
         B = 7.5
-    elif (idx == 9):
+    elif (idx == 8):
         A = 11.1
         B = 8.5
     else:
