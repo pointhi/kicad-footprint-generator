@@ -22,3 +22,24 @@ SSOP-20_5.3x7.2mm_P0.65mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 10
+
+SSOP-32_11.3x20.5mm_P1.27mm:
+  size_source: 'http://www.issi.com/WW/pdf/61-64C5128AL.pdf'
+  body_size_x:
+    minimum: 11.18
+    maximum: 11.43
+  body_size_y:
+    minimum: 20.24
+    maximum: 20.75
+  overall_size_x:
+    minimum: 13.79
+    maximum: 14.45
+  lead_width:
+    minimum: 0.33
+    maximum: 0.51
+  lead_len:
+    minimum: 0.38
+    maximum: 1.27
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 16
