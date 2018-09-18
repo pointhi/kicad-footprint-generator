@@ -93,8 +93,8 @@ UCBGA-36_2.5x2.5mm_Layout6x6_P0.4mm:
   pkg_width: 2.5
   pkg_height: 2.5
   pitch: 0.4
-  pad_diameter: 0.2
-  mask_margin: 0.045
+  pad_diameter: 0.27
+  mask_margin: 0.035
   paste_margin: 0.000001
   layout_x: 6
   layout_y: 6
@@ -103,18 +103,18 @@ UCBGA-49_3x3mm_Layout7x7_P0.4mm:
   pkg_width: 3
   pkg_height: 3
   pitch: 0.4
-  pad_diameter: 0.2
-  mask_margin: 0.045
+  pad_diameter: 0.27
+  mask_margin: 0.035
   paste_margin: 0.000001
   layout_x: 7
   layout_y: 7
-UCBGA-81_4.5x4.5mm_Layout9x9_P0.4mm:  
-  description: "UCBGA-81, 9x9 raster, 4.5x4.5mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213"
-  pkg_width: 4.5
-  pkg_height: 4.5
+UCBGA-81_4x4mm_Layout9x9_P0.4mm:  
+  description: "UCBGA-81, 9x9 raster, 4x4mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 4
+  pkg_height: 4
   pitch: 0.4
-  pad_diameter: 0.2
-  mask_margin: 0.045
+  pad_diameter: 0.27
+  mask_margin: 0.035
   paste_margin: 0.000001
   layout_x: 9
   layout_y: 9
