@@ -1,110 +1,163 @@
 LFBGA-100_10x10mm_Layout10x10_P0.8mm:
-  description: "LFBGA-100, 10x10 raster, 10x10mm package, pitch 0.8mm; see section 6.3 of http://www.st.com/resource/en/datasheet/stm32f103tb.pdf"
+  description: "LFBGA-100, 10x10 raster, 10x10mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f103tb.pdf#page=87"
   pkg_width: 10.0
   pkg_height: 10.0
   pitch: 0.8
   pad_diameter: 0.5
+  mask_margin: 0.035
+  paste_margin: 0.000001
   layout_x: 10
   layout_y: 10
 LFBGA-144_10x10mm_Layout12x12_P0.8mm:
-  description: "LFBGA-144, 12x12 raster, 10x10mm package, pitch 0.8mm; see section 6.1 of http://www.st.com/resource/en/datasheet/stm32f103ze.pdf"
+  description: "LFBGA-144, 12x12 raster, 10x10mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f103ze.pdf#page=114"
   pkg_width: 10.0
   pkg_height: 10.0
   pitch: 0.8
   pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
+Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
+  description: "Texas Instruments, DSBGA, 3.33x3.488x0.625mm, 49 ball 7x7 area grid, NSMD pad definition (http://www.ti.com/lit/ds/symlink/msp430f2234.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
+  pkg_width: 3.33
+  pkg_height: 3.488
+  pitch: 0.4
+  pad_diameter: 0.225
+  layout_x: 7
+  layout_y: 7
+  mask_margin: 0.05
+Texas_DSBGA-64_3.415x3.535mm_Layout8x8_P0.4mm:
+  description: "Texas Instruments, DSBGA, 3.415x3.535x0.625mm, 64 ball 8x8 area grid, NSMD pad definition (http://www.ti.com/lit/ds/slas718g/slas718g.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
+  pkg_width: 3.415
+  pkg_height: 3.535
+  pitch: 0.4
+  pad_diameter: 0.225
+  layout_x: 8
+  layout_y: 8
+  mask_margin: 0.05
+Texas_MicroStar_Junior_BGA-113_7.0x7.0mm_Layout12x12_P0.5mm:
+  description: "Texas Instruments, BGA Microstar Junior, 7x7mm, 113 ball 12x12 grid, NSMD pad definition (http://www.ti.com/lit/ml/mpbg674/mpbg674.pdf, http://www.ti.com/lit/wp/ssyz015b/ssyz015b.pdf)"
+  pkg_width: 7
+  pkg_height: 7
+  pitch: 0.5
+  pad_diameter: 0.25
+  layout_x: 12
+  layout_y: 12
+  mask_margin: 0.025
+  row_skips: [[], [], [[4, 11]], [3, 10], [3, 10], [3, 6, 7, 10], [3, 6, 7, 10], [3, 10], [3, 10], [[3, 11]], [], []]
 TFBGA-64_5x5mm_Layout8x8_P0.5mm:
-  description: "TFBGA-64, 8x8 raster, 5x5mm package, pitch 0.5mm; see section 6.3 of http://www.st.com/resource/en/datasheet/stm32f100v8.pdf"
+  description: "TFBGA-64, 8x8 raster, 5x5mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32f100v8.pdf#page=83"
   pkg_width: 5.0
   pkg_height: 5.0
   pitch: 0.5
   pad_diameter: 0.28
+  mask_margin: 0.045
+  paste_margin: 0.000001
   layout_x: 8
   layout_y: 8
 TFBGA-100_8x8mm_Layout10x10_P0.8mm:
-  description: "TFBGA-100, 10x10 raster, 8x8mm package, pitch 0.8mm; see section 6.2 of http://www.st.com/resource/en/datasheet/stm32f746zg.pdf"
+  description: "TFBGA-100, 10x10 raster, 8x8mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f746zg.pdf#page=199"
   pkg_width: 8.0
   pkg_height: 8.0
   pitch: 0.8
   pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
   layout_x: 10
   layout_y: 10
 TFBGA-216_13x13mm_Layout15x15_P0.8mm:
-  description: "TFBGA-216, 15x15 raster, 13x13mm package, pitch 0.8mm; see section 6.8 of http://www.st.com/resource/en/datasheet/stm32f746zg.pdf"
+  description: "TFBGA-216, 15x15 raster, 13x13mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f746zg.pdf#page=219"
   pkg_width: 13.0
   pkg_height: 13.0
   pitch: 0.8
   pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
   layout_x: 15
   layout_y: 15
   row_skips: [[], [], [], [], [], [], [[7, 10]], [[7, 10]], [[7, 10]], [], [], [], [], [], []]
 TFBGA-265_14x14mm_Layout17x17_P0.8mm:
-  description: "TFBGA-265, 17x17 raster, 14x14mm package, pitch 0.8mm; see section 7.8 of http://www.st.com/resource/en/datasheet/DM00387108.pdf"
+  description: "TFBGA-265, 17x17 raster, 14x14mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/DM00387108.pdf#page=223"
   pkg_width: 14.0
   pkg_height: 14.0
   pitch: 0.8
   pad_diameter: 0.325
-  paste_ratio: -.115
+  mask_margin: 0.0325
+  paste_ratio: 0.0125
   layout_x: 17
   layout_y: 17
   row_skips: [[], [], [], [], [], [[6, 13]], [6, 12], [6, 12], [6, 12], [6, 12], [6, 12], [[6, 13]], [], [], [], [], []]
 UFBGA-64_5x5mm_Layout8x8_P0.5mm:
-  description: "UFBGA-64, 8x8 raster, 5x5mm package, pitch 0.5mm; see section 7.1 of http://www.st.com/resource/en/datasheet/stm32f051t8.pdf"
+  description: "UFBGA-64, 8x8 raster, 5x5mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32f051t8.pdf#page=91"
   pkg_width: 5.0
   pkg_height: 5.0
   pitch: 0.5
   pad_diameter: 0.28
+  mask_margin: 0.045
+  paste_margin: 0.000001
   layout_x: 8
   layout_y: 8
 UFBGA-100_7x7mm_Layout12x12_P0.5mm:
-  description: "UFBGA-100, 12x12 raster, 7x7mm package, pitch 0.5mm; see section 7.1 of http://www.st.com/resource/en/datasheet/stm32f103tb.pdf"
+  description: "UFBGA-100, 12x12 raster, 7x7mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32f103tb.pdf#page=93"
   pkg_width: 7.0
   pkg_height: 7.0
   pitch: 0.5
   pad_diameter: 0.28
+  mask_margin: 0.045
+  paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
   row_skips: [[], [], [6, 7], [[4, 10]], [[4, 10]], [[3, 11]], [[3, 11]], [[4, 10]], [[4, 10]], [6, 7], [], []]
 UFBGA-132_7x7mm_Layout12x12_P0.5mm:
-  description: "UFBGA-132, 12x12 raster, 7x7mm package, pitch 0.5mm; see section 7.4 of http://www.st.com/resource/en/datasheet/stm32l152zc.pdf"
+  description: "UFBGA-132, 12x12 raster, 7x7mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32l152zc.pdf#page=123"
   pkg_width: 7.0
   pkg_height: 7.0
   pitch: 0.5
   pad_diameter: 0.27
+  mask_margin: 0.04
+  paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
   row_skips: [[], [], [], [], [[5, 9]], [5, 8], [5, 8], [[5, 9]], [], [], [], []]
 UFBGA-144_7x7mm_Layout12x12_P0.5mm:
-  description: "UFBGA-144, 12x12 raster, 7x7mm package, pitch 0.5mm; see section 7.4 of http://www.st.com/resource/en/datasheet/stm32f446ze.pdf"
+  description: "UFBGA-144, 12x12 raster, 7x7mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32f446ze.pdf#page=186"
   pkg_width: 7.0
   pkg_height: 7.0
   pitch: 0.5
   pad_diameter: 0.28
+  mask_margin: 0.045
+  paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
 UFBGA-144_10x10mm_Layout12x12_P0.8mm:
-  description: "UFBGA-144, 12x12 raster, 10x10mm package, pitch 0.8mm; see section 7.5 of http://www.st.com/resource/en/datasheet/stm32f446ze.pdf"
+  description: "UFBGA-144, 12x12 raster, 10x10mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f446ze.pdf#page=189"
   pkg_width: 10.0
   pkg_height: 10.0
   pitch: 0.8
   pad_diameter: 0.4
+  mask_margin: 0.075
+  paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
 UFBGA-169_7x7mm_Layout13x13_P0.5mm:
-  description: "UFBGA-169, 13x13 raster, 7x7mm package, pitch 0.5mm; see section 7.6 of http://www.st.com/resource/en/datasheet/stm32f429ng.pdf"
+  description: "UFBGA-169, 13x13 raster, 7x7mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32f429ng.pdf#page=218"
   pkg_width: 7.0
   pkg_height: 7.0
   pitch: 0.5
   pad_diameter: 0.27
+  mask_margin: 0.04
+  paste_margin: 0.000001
   layout_x: 13
   layout_y: 13
 UFBGA-201_10x10mm_Layout15x15_P0.65mm:
-  description: "UFBGA-201, 15x15 raster, 10x10mm package, pitch 0.65mm; see section 7.6 of http://www.st.com/resource/en/datasheet/stm32f207vg.pdf"
+  description: "UFBGA-201, 15x15 raster, 10x10mm package, pitch 0.65mm; http://www.st.com/resource/en/datasheet/stm32f207vg.pdf#page=166"
   pkg_width: 10.0
   pkg_height: 10.0
   pitch: 0.65
   pad_diameter: 0.3
+  mask_margin: 0.05
+  paste_margin: 0.000001
   layout_x: 15
   layout_y: 15
   row_skips: [[], [], [], [], [[5, 12]], [5, 11], [5, 11], [5, 11], [5, 11], [5, 11], [[5, 12]], [], [], [], []]
