@@ -136,7 +136,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   lead_width_min: 0.25
   lead_width_max: 0.35
   lead_len_min: 0.35
-  lead_len_max: 0.55
+  lead_len_max: 0.45
 
   EP_size_x: 2.1
   EP_size_y: 2.1
