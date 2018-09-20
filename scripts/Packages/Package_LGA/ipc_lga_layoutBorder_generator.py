@@ -19,6 +19,10 @@ ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
 category = 'LGA'
 
+DEFAULT_PASTE_COVERAGE = 0.65
+DEFAULT_VIA_PASTE_CLEARANCE = 0.15
+DEFAULT_MIN_ANNULAR_RING = 0.15
+
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -93,6 +97,18 @@ class LGA():
             'lead_width': TolerancedSize.fromYaml(device_size_data, base_name='lead_width'),
             'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
         }
+
+        dimensions['has_EP'] = False
+        if 'EP_size_x_min' in device_size_data and 'EP_size_x_max' in device_size_data or 'EP_size_x' in device_size_data:
+            dimensions['EP_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_x')
+            dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
+            dimensions['has_EP'] = True
+            dimensions['EP_center_x'] = TolerancedSize(nominal=0)
+            dimensions['EP_center_y'] = TolerancedSize(nominal=0)
+            if 'EP_center_x' in device_size_data and 'EP_center_y' in device_size_data:
+              dimensions['EP_center_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_center_x')
+              dimensions['EP_center_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_center_y')
+
         if 'lead_to_edge' in device_size_data:
             dimensions['lead_to_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
         elif 'lead_center_pos_x' in device_size_data or 'lead_center_pos_y' in device_size_data:
@@ -116,6 +132,7 @@ class LGA():
         device_dimensions = LGA.deviceDimensions(device_params)
         size_x = device_dimensions['body_size_x'].nominal
         size_y = device_dimensions['body_size_y'].nominal
+        with_thermal_vias = device_dimensions['has_EP'] and 'thermal_vias' in device_params
 
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
@@ -142,6 +159,17 @@ class LGA():
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
         name_format = self.configuration['fp_name_lga_format_string_no_trailing_zero']
 
+        if device_dimensions['has_EP']:
+            name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
+            EP_size = {
+                'x':device_dimensions['EP_size_x'].nominal,
+                'y':device_dimensions['EP_size_y'].nominal
+                }
+            EP_center = {
+                'x':device_dimensions['EP_center_x'].nominal,
+                'y':device_dimensions['EP_center_y'].nominal
+                }
+
         if device_params['num_pins_x'] == 0 or device_params['num_pins_y'] == 0:
             layout = ''
         else:
@@ -155,10 +183,13 @@ class LGA():
             pincount=pincount,
             size_y=size_y,
             size_x=size_x,
+            ep_size_x = EP_size['x'],
+            ep_size_y = EP_size['y'],
             pitch=device_params['pitch'],
             layout=layout,
             suffix=suffix,
-            suffix2=""
+            suffix2="",
+            vias=self.configuration.get('thermal_via_suffix', '_ThermalVias') if with_thermal_vias else ''
             ).replace('__','_').lstrip('_')
 
         fp_name_2 = name_format.format(
@@ -168,10 +199,13 @@ class LGA():
             pincount=pincount,
             size_y=size_y,
             size_x=size_x,
+            ep_size_x = EP_size['x'],
+            ep_size_y = EP_size['y'],
             pitch=device_params['pitch'],
             layout=layout,
             suffix=suffix_3d,
-            suffix2=""
+            suffix2="",
+            vias=''
             ).replace('__','_').lstrip('_')
 
         model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'\
@@ -208,6 +242,39 @@ class LGA():
         pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
         if 'round_rect_max_radius' in configuration:
             pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
+
+        if device_dimensions['has_EP']:
+            if with_thermal_vias:
+                thermals = device_params['thermal_vias']
+                paste_coverage = thermals.get('EP_paste_coverage',
+                                               device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE))
+
+                kicad_mod.append(ExposedPad(
+                    number=pincount+1, size=EP_size,
+                    at=EP_center,
+                    paste_layout=thermals.get('EP_num_paste_pads', device_params.get('EP_num_paste_pads', 1)),
+                    paste_coverage=paste_coverage,
+                    via_layout=thermals.get('count', 0),
+                    paste_between_vias=thermals.get('paste_between_vias'),
+                    paste_rings_outside=thermals.get('paste_rings_outside'),
+                    via_drill=thermals.get('drill', 0.3),
+                    via_grid=thermals.get('grid'),
+                    paste_avoid_via=thermals.get('paste_avoid_via', True),
+                    via_paste_clarance=thermals.get('paste_via_clearance', DEFAULT_VIA_PASTE_CLEARANCE),
+                    min_annular_ring=thermals.get('min_annular_ring', DEFAULT_MIN_ANNULAR_RING),
+                    bottom_pad_min_size=thermals.get('bottom_min_size', 0),
+                    kicad4_compatible=args.kicad4_compatible,
+                    **pad_shape_details
+                    ))
+            else:
+                kicad_mod.append(ExposedPad(
+                    number=pincount+1, size=EP_size,
+                    at=EP_center,
+                    paste_layout=device_params.get('EP_num_paste_pads', 1),
+                    paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
+                    kicad4_compatible=args.kicad4_compatible,
+                    **pad_shape_details
+                    ))
 
         init = 1
         if device_params['num_pins_x'] == 0:
@@ -443,6 +510,7 @@ if __name__ == "__main__":
     parser.add_argument('--density', type=str, nargs='?', help='Density level (L,N,M)', default='N')
     parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='../ipc_definitions.yaml')
     parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     if args.density == 'L':
