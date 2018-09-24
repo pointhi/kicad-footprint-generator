@@ -1,3 +1,42 @@
+Fujitsu_SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
+  device_type: 'Fujitsu_SON'
+  library: Package_SON
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.fujitsu.com/downloads/MICRO/fsa/pdf/products/memory/fram/MB85RS16-DS501-00014-6v0-E.pdf'
+  ipc_class: 'qfn_pull_back' #'qfn' | 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  #body_size_x_min: 2.85
+  body_size_x:
+    nominal: 3.0
+    tolerance: 0.07
+  #body_size_x_max: 3.15
+  #body_size_y_min: 2.85
+  body_size_y:
+    nominal: 2.0
+    tolerance: 0.07
+  #body_size_y_max: 3.15
+  lead_width_min: 0.20
+  lead_width_max: 0.30
+  lead_len_min: 0.33
+  lead_len_max: 0.47
+
+
+  EP_size_x: 1.4
+  EP_size_y: 1.6
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.50
+  num_pins_x: 0
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_PullBack'
+  #include_suffix_in_3dpath: 'False'
+  #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
 WSON-8-1EP_5x6mm_P1.27mm_EP3.4x4.0mm:
   device_type: 'WSON'
   library: Package_SON
