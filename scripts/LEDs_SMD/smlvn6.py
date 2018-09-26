@@ -9,20 +9,18 @@ sys.path.append(os.path.join(sys.path[0], "..", ".."))
 from KicadModTree import *
 
 datasheet = "https://www.rohm.com/datasheet/SMLVN6RGB1U"
-footprint_name = "LED_SMLVN6"
+footprint_name = "LED_ROHM_SMLVN6"
 pkgWidth = 3.1
 pkgHeight = 2.8
-padXSpacing = 2.7
-padYSpacing = 0.95
-padWidth = 0.8
-padHeight = 0.5
-pads_clockwise = True
-
-# desc = str(pkgWidth) + "mm x " + str(pkgHeight) + "mm SMLV6 LED, "
+padXSpacing = 3.05
+padYSpacing = 1.05
+padWidth = 1.45
+padHeight = 0.6
+padCornerHeight = 0.8
 
 f = Footprint(footprint_name)
 f.setDescription(datasheet)
-f.setTags("LED SMLVN6")
+f.setTags("LED ROHM SMLVN6")
 f.setAttribute("smd")
 f.append(Model(filename="${KISYS3DMOD}/LED_SMD.3dshapes/" + footprint_name + ".wrl",
                at=[0.0, 0.0, 0.0],
@@ -30,6 +28,7 @@ f.append(Model(filename="${KISYS3DMOD}/LED_SMD.3dshapes/" + footprint_name + ".w
                rotate=[0.0, 0.0, 0.0]))
 
 p = [padWidth, padHeight]
+pCorner = [padWidth, padCornerHeight]
 s = [1.0, 1.0]
 sFabRef = [0.5, 0.5]
 
@@ -96,23 +95,20 @@ f.append(Line(start=[xSilkLeft, ySilkBottom],
               end=[xSilkRight, ySilkBottom],
               layer="F.SilkS", width=wSilkS))
 
-if pads_clockwise:
-    pads = ["1", "2", "3", "4", "5", "6"]
-else:
-    pads = ["1", "6", "2", "5", "3", "4"]
+pads = ["1", "6", "2", "5", "3", "4"]
 
 f.append(Pad(number=pads[0], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadLeft, yPadTop], size=p, layers=Pad.LAYERS_SMT))
+             at=[xPadLeft, yPadTop], size=pCorner, layers=Pad.LAYERS_SMT))
 f.append(Pad(number=pads[1], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadRight, yPadTop], size=p, layers=Pad.LAYERS_SMT))
+             at=[xPadRight, yPadTop], size=pCorner, layers=Pad.LAYERS_SMT))
 f.append(Pad(number=pads[2], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
              at=[xPadLeft, yCenter], size=p, layers=Pad.LAYERS_SMT))
 f.append(Pad(number=pads[3], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
              at=[xPadRight, yCenter], size=p, layers=Pad.LAYERS_SMT))
 f.append(Pad(number=pads[4], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadRight, yPadBottom], size=p, layers=Pad.LAYERS_SMT))
+             at=[xPadLeft, yPadBottom], size=pCorner, layers=Pad.LAYERS_SMT))
 f.append(Pad(number=pads[5], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadLeft, yPadBottom], size=p, layers=Pad.LAYERS_SMT))
+             at=[xPadRight, yPadBottom], size=pCorner, layers=Pad.LAYERS_SMT))
 
 file_handler = KicadFileHandler(f)
 file_handler.writeFile(footprint_name + ".kicad_mod")
