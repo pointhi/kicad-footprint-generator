@@ -44,14 +44,15 @@ silkClearance = 0.2
 xCenter = 0.0
 xPadRight = padXSpacing / 2
 xFabRight = pkgWidth / 2
-xSilkRight = xPadRight + padWidth / 2 + silkClearance
-xRightCrtYd = xSilkRight + crtYd
+xSilkRight = xPadRight
+xRightCrtYd = max(xPadRight, xFabRight + padWidth / 2) + crtYd
 
-xLeftCrtYd = -xRightCrtYd
-xSilkLeft = -xSilkRight
+xLeftCrtYd = - xRightCrtYd
 xPadLeft = -xPadRight
 xFabLeft = -xFabRight
 xChamfer = xFabLeft + 1.0
+xSilkTopLeft = -xSilkRight - (padWidth / 2) + (wSilkS / 2)
+xSilkBottomLeft = -xSilkRight
 
 yCenter = 0.0
 yPadBottom = padYSpacing
@@ -88,11 +89,10 @@ f.append(PolygoneLine(polygone=[[xFabLeft, yChamfer],
                                 [xFabLeft, yChamfer]],
                       layer="F.Fab", width=wFab))
 
-f.append(PolygoneLine(polygone=[[xSilkLeft, yPadTop],
-                                [xSilkLeft, ySilkTop],
-                                [xSilkRight, ySilkTop]],
-                      layer="F.SilkS", width=wSilkS))
-f.append(Line(start=[xSilkLeft, ySilkBottom],
+f.append(Line(start=[xSilkTopLeft, ySilkTop],
+              end=[xSilkRight, ySilkTop],
+              layer="F.SilkS", width=wSilkS))
+f.append(Line(start=[xSilkBottomLeft, ySilkBottom],
               end=[xSilkRight, ySilkBottom],
               layer="F.SilkS", width=wSilkS))
 
