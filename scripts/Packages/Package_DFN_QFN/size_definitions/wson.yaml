@@ -1,5 +1,5 @@
-Fujitsu_SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
-  device_type: 'Fujitsu_SON'
+SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
+  device_type: 'SON'
   library: Package_SON
   #manufacturer: 'man'
   #part_number: 'mpn'
