@@ -80,24 +80,13 @@ f.append(RectLine(start=[xLeftCrtYd, yTopCrtYd],
                   end=[xRightCrtYd, yBottomCrtYd],
                   layer="F.CrtYd", width=wCrtYd))
 
-f.append(Line(start=[xChamfer, yFabTop],
-              end=[xFabLeft, yChamfer],
-              layer="F.Fab", width=wFab))
-f.append(Line(start=[xChamfer, yFabTop],
-              end=[xFabRight, yFabTop],
-              layer="F.Fab", width=wFab))
-f.append(Line(start=[xFabRight, yFabTop],
-              end=[xFabRight, yFabBottom],
-              layer="F.Fab", width=wFab))
-f.append(Line(start=[xFabRight, yFabBottom],
-              end=[xFabLeft, yFabBottom],
-              layer="F.Fab", width=wFab))
-f.append(Line(start=[xFabRight, yFabBottom],
-              end=[xFabLeft, yFabBottom],
-              layer="F.Fab", width=wFab))
-f.append(Line(start=[xFabLeft, yFabBottom],
-              end=[xFabLeft, yChamfer],
-              layer="F.Fab", width=wFab))
+f.append(PolygoneLine(polygone=[[xFabLeft, yChamfer],
+                                [xChamfer, yFabTop],
+                                [xFabRight, yFabTop],
+                                [xFabRight, yFabBottom],
+                                [xFabLeft, yFabBottom],
+                                [xFabLeft, yChamfer]],
+                      layer="F.Fab", width=wFab))
 
 f.append(PolygoneLine(polygone=[[xSilkLeft, yPadTop],
                                 [xSilkLeft, ySilkTop],
