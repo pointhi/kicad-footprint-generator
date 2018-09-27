@@ -57,8 +57,7 @@ xSilkBottomLeft = -xSilkRight
 yCenter = 0.0
 yPadBottom = padYSpacing
 yFabBottom = pkgHeight / 2
-ySilkBottom = max(yFabBottom + 0.1,
-                  yPadBottom + padHeight / 2 + silkClearance)
+ySilkBottom = max(yFabBottom + 0.1, yPadBottom + padHeight / 2) + silkClearance
 yBottomCrtYd = ySilkBottom + crtYd
 
 yTopCrtYd = -yBottomCrtYd
