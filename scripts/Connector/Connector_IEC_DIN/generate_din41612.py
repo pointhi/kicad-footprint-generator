@@ -4,9 +4,8 @@ import sys
 import os
 import math
 
-sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod"))
-sys.path.append(os.path.join(sys.path[0],"..","..")) # for KicadModTree
-sys.path.append(os.path.join(sys.path[0],"..","tools")) # for drawing_tools
+sys.path.append(os.path.join(sys.path[0],"..","..","..")) # for KicadModTree
+sys.path.append(os.path.join(sys.path[0],"..","..","tools")) # for drawing_tools
 
 from KicadModTree import *
 from drawing_tools import *
@@ -30,7 +29,7 @@ from drawing_tools import *
 # METHOD and further are ommited, because the footprint is suited for
 # soldering and press fit.
 #
-# It includes half and third sized connectors, that are not part of IEC 60603 
+# It includes half and third sized connectors, that are not part of IEC 60603
 # or DIN 41612. These connectors are named 2X and 3X, a convention also used by
 # Harting.
 
@@ -38,6 +37,14 @@ from drawing_tools import *
 
 # When a manufacturer is mentioned in the comment, it means that
 # the value is explicitly stated in a datasheet by this company.
+
+ROW_IDENTIFIER = ('a', 'b')
+LIBRARY_NAME = 'Connector_DIN'
+ORIENTATION = {'H': 'Horizontal', 'V': 'Vertical'}
+
+#fp_name_format_string = "Conn_DIN41612_{size:s}{num_pins:d}{gender:s}
+#fp_name_format_string = "DIN41612_{size:s}{num_pins:d}{gender:s}_{num_rows:d}x{pins_per_row:d}_{orientation:s}"
+fp_name_format_string = "DIN41612_{size:s}_{num_rows:d}x{pins_per_row:d}_{orientation:s}"
 
 def AllPins(row, col):
 	return True
@@ -49,16 +56,17 @@ def OptionalPin(kicad_mod, row, col, row_step, col_step, pin_pad, pin_drill, opt
 	if not opt_cb(row, col):
 		return
 	shape = Pad.SHAPE_CIRCLE
-	if col == 1 and row == 'A':
+	if col == 1 and row == ROW_IDENTIFIER[0]:
 		shape = Pad.SHAPE_RECT
 	if rotate:
-		x = row_step * (ord(row) - ord('A'))
+		x = row_step * (ord(row) - ord(ROW_IDENTIFIER[0]))
 		y = -col_step*(col-1)
 	else:
 		x = col_step*(col-1)
-		y = row_step * (ord(row) - ord('A'))
+		y = row_step * (ord(row) - ord(ROW_IDENTIFIER[0]))
+
 	kicad_mod.append(Pad(number= row + str(col), type=Pad.TYPE_THT, shape=shape,
-		     at=[x, y], size=pin_pad, drill=pin_drill, layers=Pad.LAYERS_THT))
+			 at=[x, y], size=pin_pad, drill=pin_drill, layers=Pad.LAYERS_THT))
 	# don't know if KLC allows 3d compositing at all
 	#pin_model = "Pin_Headers.3dshapes/Pin_Header_Straight_1x01_Pitch2.54mm.wrl"
 	#inch = 25.4
@@ -90,34 +98,37 @@ def BFemale(size, pin_cb, more_description):
 
 	mid_x =  0.5 * row_step
 	mid_y = -0.5 * col_step * (cols - 1)
-	
+
 	# ------ Init ------
 	pin_count = 0;
 	for col in range(1, cols + 1):
 		pin_count += int(pin_cb('A', col))
 		pin_count += int(pin_cb('B', col))
-	size_names = ["B", "2B", "3B"]
-	footprint_name = "Conn_DIN41612_%s%03dF" % (size_names[size], pin_count)
+	#size_names = ["B", "2B", "3B"]
+	size_names = ["B", "B2", "B3"]
+	footprint_name = fp_name_format_string.format(
+		size=size_names[size], num_pins=pin_count, gender="F",
+		num_rows=2, pins_per_row=pin_count//2, orientation=ORIENTATION['V'])
 
 	# init kicad footprint
 	kicad_mod = Footprint(footprint_name)
 	size_descs = ["B", "B/2", "B/3"]
-	kicad_mod.setDescription("DIN 41612 connector, family " + size_descs[size] + ", straight backplane part, " + str(cols) + " pins wide" + more_description)
-	kicad_mod.setTags("DIN 41512 IEC 60603 " + size_descs[size] + " straight backplane")
+	kicad_mod.setDescription("DIN 41612 connector, type " + size_descs[size] + ", vertical, " + str(cols) + " pins wide, 2 rows" + more_description)
+	kicad_mod.setTags("DIN 41512 IEC 60603 " + size_descs[size])
 
 	# ------ Pins and holes ------
 	for col in range(1, cols + 1):
-		OptionalPin(kicad_mod, 'A', col, row_step, col_step, pin_pad, pin_drill, pin_cb, True)
-		OptionalPin(kicad_mod, 'B', col, row_step, col_step, pin_pad, pin_drill, pin_cb, True)
+		OptionalPin(kicad_mod, ROW_IDENTIFIER[0], col, row_step, col_step, pin_pad, pin_drill, pin_cb, True)
+		OptionalPin(kicad_mod, ROW_IDENTIFIER[1], col, row_step, col_step, pin_pad, pin_drill, pin_cb, True)
 
 	# non-plated drill holes, assumed to be equally distant to pins
 	npth_x = row_step + npth_b_offset_x
 	npth_y_left  = mid_y - npth_step * 0.5
 	npth_y_right = mid_y + npth_step * 0.5
 	kicad_mod.append(Pad(number="", type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-		             at=[npth_x, npth_y_left], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
+					 at=[npth_x, npth_y_left], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
 	kicad_mod.append(Pad(number="", type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-		             at=[npth_x, npth_y_right], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
+					 at=[npth_x, npth_y_right], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
 
 
 	# ------ Courtyard ------
@@ -187,16 +198,22 @@ def BFemale(size, pin_cb, more_description):
 		type='reference', text='REF**',
 		at=[mid_x, mid_y - outer_length/2 - 1],
 		layer='F.SilkS'))
-	
+
 	# ------ 3D reference ------
 	# in case someone wants to make a model
 	kicad_mod.append(Model(
 		filename="${KISYS3DMOD}/Connectors_IEC_DIN.3dshapes/" + footprint_name + ".wrl",
 		at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
-	
+
 	# ------ Output ------
 	file_handler = KicadFileHandler(kicad_mod)
-	file_handler.writeFile(footprint_name + '.kicad_mod')
+
+	output_dir = '{lib_name:s}.pretty/'.format(lib_name=LIBRARY_NAME)
+	if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+		os.makedirs(output_dir)
+	filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name)
+
+	file_handler.writeFile(filename)
 
 
 def BMale(size, pin_cb, more_description):
@@ -220,34 +237,37 @@ def BMale(size, pin_cb, more_description):
 
 	mid_x = 0.5 * col_step * (cols - 1)
 	mid_y = 0.5 * row_step
-	
+
 	# ------ Init ------
 	pin_count = 0;
 	for col in range(1, cols + 1):
 		pin_count += int(pin_cb('A', col))
 		pin_count += int(pin_cb('B', col))
-	size_names = ["B", "2B", "3B"]
-	footprint_name = "Conn_DIN41612_%s%03dM" % (size_names[size], pin_count)
+	#size_names = ["B", "2B", "3B"]
+	size_names = ["B", "B2", "B3"]
+	footprint_name = fp_name_format_string.format(
+		size=size_names[size], num_pins=pin_count, gender="M",
+		num_rows=2, pins_per_row=pin_count//2, orientation=ORIENTATION['H'])
 
 	# init kicad footprint
 	kicad_mod = Footprint(footprint_name)
 	size_descs = ["B", "B/2", "B/3"]
-	kicad_mod.setDescription("DIN 41612 connector, family " + size_descs[size] + ", angled module part, " + str(cols) + " pins wide" + more_description)
-	kicad_mod.setTags("DIN 41512 IEC 60603 " + size_descs[size] + " angled module")
+	kicad_mod.setDescription("DIN 41612 connector, type " + size_descs[size] + ", horizontal, " + str(cols) + " pins wide, 2 rows" + more_description)
+	kicad_mod.setTags("DIN 41512 IEC 60603 " + size_descs[size])
 
 	# ------ Pins and holes ------
 	for col in range(1, cols + 1):
-		OptionalPin(kicad_mod, 'A', col, row_step, col_step, pin_pad, pin_drill, pin_cb)
-		OptionalPin(kicad_mod, 'B', col, row_step, col_step, pin_pad, pin_drill, pin_cb)
+		OptionalPin(kicad_mod, ROW_IDENTIFIER[0], col, row_step, col_step, pin_pad, pin_drill, pin_cb)
+		OptionalPin(kicad_mod, ROW_IDENTIFIER[1], col, row_step, col_step, pin_pad, pin_drill, pin_cb)
 
 	# non-plated drill holes, assumed to be equally distant to pins
 	npth_x_left  = mid_x - npth_step * 0.5
 	npth_x_right = mid_x + npth_step * 0.5
 	npth_y = npth_a_offset_y
 	kicad_mod.append(Pad(number="", type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-		             at=[npth_x_left, npth_y], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
+					 at=[npth_x_left, npth_y], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
 	kicad_mod.append(Pad(number="", type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-		             at=[npth_x_right, npth_y], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
+					 at=[npth_x_right, npth_y], size=npth_drill, drill=npth_drill, layers=Pad.LAYERS_NPTH))
 
 	# ------ Silk screen ------
 	# assume plastic part to be centered around the pins
@@ -339,7 +359,7 @@ def BMale(size, pin_cb, more_description):
 	kicad_mod.append(PolygoneLine(
 		polygone = courtyard + [courtyard[0]],
 		layer = 'F.CrtYd'))
-	
+
 	# ------ Board edge ------
 	kicad_mod.append(Line(
 		start = [mid_x - jack_width/2, -board_edge_to_a],
@@ -368,26 +388,34 @@ def BMale(size, pin_cb, more_description):
 	# ------ 3D reference ------
 	# in case someone wants to make a model
 	kicad_mod.append(Model(
-		filename="${KISYS3DMOD}/Connectors_IEC_DIN.3dshapes/" + footprint_name + ".wrl",
+		filename="{prefix}{lib_name}.3dshapes/{fp_name}.wrl".format(prefix = '${KISYS3DMOD}/', lib_name=LIBRARY_NAME, fp_name=footprint_name),
 		at=[0, 0, 0], scale=[1, 1, 1], rotate=[0, 0, 0]))
-	
+
 	# ------ Output ------
 	file_handler = KicadFileHandler(kicad_mod)
-	file_handler.writeFile(footprint_name + '.kicad_mod')
+
+	output_dir = '{lib_name:s}.pretty/'.format(lib_name=LIBRARY_NAME)
+	if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+		os.makedirs(output_dir)
+	filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name)
+
+	file_handler.writeFile(filename)
+
+
 
 
 BFemale(0, AllPins, ", full configuration")
-BFemale(0, EvenColPins, ", both rows, even columns")
+BFemale(0, EvenColPins, ", even columns")
 BFemale(1, AllPins, ", full configuration")
-BFemale(1, EvenColPins, ", both rows, even columns")
+BFemale(1, EvenColPins, ", even columns")
 BFemale(2, AllPins, ", full configuration")
-BFemale(2, EvenColPins, ", both rows, even columns")
+BFemale(2, EvenColPins, ", even columns")
+
 BMale(0, AllPins, ", full configuration")
-BMale(0, EvenColPins, ", both rows, even columns")
+BMale(0, EvenColPins, ", even columns")
 BMale(1, AllPins, ", full configuration")
-BMale(1, EvenColPins, ", both rows, even columns")
+BMale(1, EvenColPins, ", even columns")
 BMale(2, AllPins, ", full configuration")
-BMale(2, EvenColPins, ", both rows, even columns")
+BMale(2, EvenColPins, ", even columns")
 
 # output kicad model
-

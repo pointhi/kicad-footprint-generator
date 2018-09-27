@@ -355,7 +355,7 @@ class QFP():
 
         # # ######################## Fabrication Layer ###########################
 
-        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*max(size_x, size_y))
+        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*min(size_x, size_y))
         fab_bevel_y = fab_bevel_size/sqrt(2)
         poly_fab = [
             {'x': p1_x, 'y': body_edge['top']+fab_bevel_y},

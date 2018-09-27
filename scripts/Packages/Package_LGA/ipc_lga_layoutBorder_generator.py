@@ -157,7 +157,8 @@ class LGA():
             size_x=size_x,
             pitch=device_params['pitch'],
             layout=layout,
-            suffix=suffix
+            suffix=suffix,
+            suffix2=""
             ).replace('__','_').lstrip('_')
 
         fp_name_2 = name_format.format(
@@ -169,7 +170,8 @@ class LGA():
             size_x=size_x,
             pitch=device_params['pitch'],
             layout=layout,
-            suffix=suffix_3d
+            suffix=suffix_3d,
+            suffix2=""
             ).replace('__','_').lstrip('_')
 
         model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'\
@@ -380,7 +382,7 @@ class LGA():
 
         # # ######################## Fabrication Layer ###########################
 
-        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*max(size_x, size_y))
+        fab_bevel_size = min(configuration['fab_bevel_size_absolute'], configuration['fab_bevel_size_relative']*min(size_x, size_y))
 
         poly_fab = [
             {'x': body_edge['left']+fab_bevel_size, 'y': body_edge['top']},

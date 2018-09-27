@@ -165,13 +165,21 @@ class Vector2D(object):
     def __str__(self):
         return "(x={x}, y={y})".format(**self.__dict__())
 
-    def __getitem__(self, item):
-        if item == 0 or item == 'x':
+    def __getitem__(self, key):
+        if key == 0 or key == 'x':
             return self.x
-        if item == 1 or item == 'y':
+        if key == 1 or key == 'y':
             return self.y
 
-        raise IndexError('Index {} is out of range'.format(item))
+        raise IndexError('Index {} is out of range'.format(key))
+
+    def __setitem__(self, key, item):
+        if key == 0 or key == 'x':
+            self.x = item
+        elif key == 1 or key == 'y':
+            self.y = item
+        else:
+            raise IndexError('Index {} is out of range'.format(key))
 
     def __len__(self):
         return 2
@@ -343,15 +351,25 @@ class Vector3D(Vector2D):
     def __str__(self):
         return "(x={x}, y={y}, z={z})".format(**self.__dict__())
 
-    def __getitem__(self, item):
-        if item == 0 or item == 'x':
+    def __getitem__(self, key):
+        if key == 0 or key == 'x':
             return self.x
-        if item == 1 or item == 'y':
+        if key == 1 or key == 'y':
             return self.y
-        if item == 2 or item == 'z':
+        if key == 2 or key == 'z':
             return self.z
 
-        raise IndexError('Index {} is out of range'.format(item))
+        raise IndexError('Index {} is out of range'.format(key))
+
+    def __setitem__(self, key, item):
+        if key == 0 or key == 'x':
+            self.x = item
+        elif key == 1 or key == 'y':
+            self.y = item
+        elif key == 2 or key == 'z':
+            self.z = item
+        else:
+            raise IndexError('Index {} is out of range'.format(key))
 
     def __len__(self):
         return 3
