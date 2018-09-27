@@ -38,14 +38,14 @@ t2 = 0.15
 wCrtYd = 0.05
 wFab = 0.1
 wSilkS = 0.12
-crtYd = 0.25
+crtYd = 0.3
 silkClearance = 0.2
 
 xCenter = 0.0
 xPadRight = padXSpacing / 2
 xFabRight = pkgWidth / 2
 xSilkRight = xPadRight
-xRightCrtYd = max(xPadRight, xFabRight + padWidth / 2) + crtYd
+xRightCrtYd = max(xPadRight + padWidth / 2, xFabRight) + crtYd
 
 xLeftCrtYd = - xRightCrtYd
 xPadLeft = -xPadRight
@@ -57,8 +57,9 @@ xSilkBottomLeft = -xSilkRight
 yCenter = 0.0
 yPadBottom = padYSpacing
 yFabBottom = pkgHeight / 2
-ySilkBottom = max(yFabBottom + 0.1, yPadBottom + padHeight / 2) + silkClearance
-yBottomCrtYd = ySilkBottom + crtYd
+yBottom = max(yFabBottom + 0.1, yPadBottom + padHeight / 2)
+ySilkBottom = yBottom + silkClearance
+yBottomCrtYd = yBottom + crtYd
 
 yTopCrtYd = -yBottomCrtYd
 ySilkTop = -ySilkBottom
