@@ -97,19 +97,27 @@ f.append(Line(start=[xSilkLeft, ySilkBottom],
               layer="F.SilkS", width=wSilkS))
 
 pads = ["1", "6", "2", "5", "3", "4"]
+padShape = Pad.SHAPE_ROUNDRECT
+radiusRatio = 0.2
 
-f.append(Pad(number=pads[0], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadLeft, yPadTop], size=pCorner, layers=Pad.LAYERS_SMT))
-f.append(Pad(number=pads[1], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadRight, yPadTop], size=pCorner, layers=Pad.LAYERS_SMT))
-f.append(Pad(number=pads[2], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadLeft, yCenter], size=p, layers=Pad.LAYERS_SMT))
-f.append(Pad(number=pads[3], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadRight, yCenter], size=p, layers=Pad.LAYERS_SMT))
-f.append(Pad(number=pads[4], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadLeft, yPadBottom], size=pCorner, layers=Pad.LAYERS_SMT))
-f.append(Pad(number=pads[5], type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-             at=[xPadRight, yPadBottom], size=pCorner, layers=Pad.LAYERS_SMT))
+f.append(Pad(number=pads[0], type=Pad.TYPE_SMT, shape=padShape,
+             at=[xPadLeft, yPadTop], size=pCorner, layers=Pad.LAYERS_SMT,
+             radius_ratio=radiusRatio))
+f.append(Pad(number=pads[1], type=Pad.TYPE_SMT, shape=padShape,
+             at=[xPadRight, yPadTop], size=pCorner, layers=Pad.LAYERS_SMT,
+             radius_ratio=radiusRatio))
+f.append(Pad(number=pads[2], type=Pad.TYPE_SMT, shape=padShape,
+             at=[xPadLeft, yCenter], size=p, layers=Pad.LAYERS_SMT,
+             radius_ratio=radiusRatio))
+f.append(Pad(number=pads[3], type=Pad.TYPE_SMT, shape=padShape,
+             at=[xPadRight, yCenter], size=p, layers=Pad.LAYERS_SMT,
+             radius_ratio=radiusRatio))
+f.append(Pad(number=pads[4], type=Pad.TYPE_SMT, shape=padShape,
+             at=[xPadLeft, yPadBottom], size=pCorner, layers=Pad.LAYERS_SMT,
+             radius_ratio=radiusRatio))
+f.append(Pad(number=pads[5], type=Pad.TYPE_SMT, shape=padShape,
+             at=[xPadRight, yPadBottom], size=pCorner, layers=Pad.LAYERS_SMT,
+             radius_ratio=radiusRatio))
 
 file_handler = KicadFileHandler(f)
 file_handler.writeFile(footprint_name + ".kicad_mod")
