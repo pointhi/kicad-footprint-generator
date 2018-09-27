@@ -30,7 +30,7 @@ f.append(Model(filename="${KISYS3DMOD}/LED_SMD.3dshapes/" + footprint_name + ".w
 p = [padWidth, padHeight]
 pCorner = [padWidth, padCornerHeight]
 s = [1.0, 1.0]
-sFabRef = [0.5, 0.5]
+sFabRef = [0.6, 0.6]
 
 t1 = 0.075
 t2 = 0.15
