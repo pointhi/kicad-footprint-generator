@@ -7,13 +7,16 @@ import re
 # load parent path of KicadModTree
 sys.path.append(os.path.join(sys.path[0], "..", ".."))
 
+# load scripts
+sys.path.append(os.path.join(sys.path[0], ".."))
+
 from KicadModTree import *
-from tree.master.scripts.general.StandardBox import *
+from general.StandardBox import *
 
 def qfn(args):
 
     extraffablines = []
-    
+
     footprint_name = args["name"]
     description = args["description"]
     datasheet = args["description"]
@@ -23,12 +26,12 @@ def qfn(args):
     size = args["size"]
     pins = args["pins"]
     extratexts = args["extratexts"]
-    
+
     dir3D = 'Sensor_Current.3dshapes'
     f = Footprint(footprint_name)
-    
+
     file3Dname = "${KISYS3DMOD}/" + dir3D + "/" + footprint_name + ".wrl"
-    words = footprint_name.split("_")  
+    words = footprint_name.split("_")
     if words[-1].lower().startswith('handsolder'):
         words[-1] = ''
         ff = '_'.join(words)
