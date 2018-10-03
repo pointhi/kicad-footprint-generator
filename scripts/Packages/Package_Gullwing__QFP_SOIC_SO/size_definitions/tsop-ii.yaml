@@ -1,0 +1,24 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'TSOP-II'
+
+TSOP-II-44_10.16x18.41mm_P0.80mm:
+  size_source: 'http://www.issi.com/WW/pdf/61-64C5128AL.pdf'
+  body_size_x:
+    minimum: 10.03
+    maximum: 10.29
+  body_size_y:
+    minimum: 18.28
+    maximum: 18.54
+  overall_size_x:
+    minimum: 11.56
+    maximum: 11.96
+  lead_width:
+    minimum: 0.30
+    maximum: 0.45
+  lead_len:
+    minimum: 0.40
+    maximum: 0.69
+  pitch: 0.80
+  num_pins_x: 0
+  num_pins_y: 22
