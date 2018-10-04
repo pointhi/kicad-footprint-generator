@@ -159,3 +159,22 @@ QFN-36-1EP_6x6mm_P0.5mm_EP4.1x4.1mm:
   center_pad_v_div: 4
   paste_margin_ratio: -0.1
   thermal_vias: false
+QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
+  description: "76-Lead Plastic Quad Flat, No Lead Package - 9x9 mm Body [QFN]; see section 3.2 of https://www.marvell.com/documents/bqcwxsoiqfjkcjdjhkvc/"
+  pkg_width: 9.0
+  pkg_height: 9.0
+  pitch: 0.4
+  n_horz_pads: 19
+  n_vert_pads: 19
+  pad_width: 1
+  pad_height: 0.2
+  pad_h_distance: 8.6
+  pad_v_distance: 8.6
+  corner_pads: false
+  center_pad: true
+  center_pad_width: 3.8
+  center_pad_height: 3.8
+  center_pad_h_div: 1
+  center_pad_v_div: 1
+  paste_margin_ratio: 0
+  thermal_vias: false

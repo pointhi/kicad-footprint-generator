@@ -1,0 +1,24 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'TSOP-I'
+
+TSOP-I-32_11.80x8.00mm_P0.50mm:
+  size_source: 'http://www.issi.com/WW/pdf/61-64C5128AL.pdf'
+  body_size_x:
+    minimum: 11.70
+    maximum: 11.90
+  body_size_y:
+    minimum: 7.90
+    maximum: 8.10
+  overall_size_x:
+    minimum: 13.10
+    maximum: 13.70
+  lead_width:
+    minimum: 0.16
+    maximum: 0.27
+  lead_len:
+    minimum: 0.30
+    maximum: 0.70
+  pitch: 0.50
+  num_pins_x: 0
+  num_pins_y: 16
