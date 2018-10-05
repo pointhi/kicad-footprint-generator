@@ -386,11 +386,11 @@ class Gullwing():
                 silk_pad_offset=silk_pad_offset,
                 min_lenght=min_lenght)
 
-        kicad_mod.append(Line(
+        '''kicad_mod.append(Line(
             start=silk_point_bottom_inside,
             end=silk_point_bottom_inside,
             width=configuration['silk_line_width'],
-            layer="B.Fab"))
+            layer="B.Fab"))'''
 
         poly_bottom_right = []
         if silk_point_bottom_inside is not None:
