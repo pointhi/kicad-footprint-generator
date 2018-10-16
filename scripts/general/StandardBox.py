@@ -168,14 +168,15 @@ class StandardBox(Node):
         self.REF_P_w = 1.0
         self.REF_P_h = 1.0
         #
-        if self.size.x < 2.0 or self.size.y < 2.0:
+        if self.size.x < 8.0 or self.size.y < 8.0:
             dd = self.size.y / 3.0
             if self.size.x < self.size.y:
                 dd = self.size.x / 3.0
 
             self.p1m = dd
-            self.REF_P_w = dd
-            self.REF_P_h = self.REF_P_w
+            if dd < self.REF_P_w:
+                self.REF_P_w = dd
+                self.REF_P_h = self.REF_P_w
 
         new_node = Text(type='user', text='%R', at=[self.at.x + (self.size.x / 2.0),
                         self.at.y + (self.size.y / 2.0)], layer='F.Fab', size=[self.REF_P_w, self.REF_P_h])
@@ -208,9 +209,9 @@ class StandardBox(Node):
         self.footprint.setTags(self.tags)
 
     def _initAttributeNode(self, **kwargs):
-        if kwargs.get('smd'):
+        if kwargs.get('SmdTht'):
             self.SmdTht = str(kwargs.get('SmdTht'))
-            if SmdTht == "smd":
+            if self.SmdTht == "smd":
                 self.footprint.setAttribute("smd")
 
     def _initFile3DNameNode(self, **kwargs):
@@ -434,7 +435,7 @@ class StandardBox(Node):
         #
         #
         #
-        # Check all holes and pads, if a pad or hole is on the silk line
+        # Check all holes and pads, if a pad or hole is on the crtyrd line
         # then jump over the pad/hole
         #
         for n in self.boxffabline:
@@ -477,7 +478,7 @@ class StandardBox(Node):
 
                         if (n_min_y - dd) <= y1_t and (n_max_y + dd) > y1_t and n_max_x > x1_t and n_min_x < x2_t:
                             #
-                            # This pad is in SilkS line's path
+                            # This pad is in CrtYd line's path
                             #
                             if n_min_x < px1:
                                 px1 = n_min_x
@@ -487,35 +488,35 @@ class StandardBox(Node):
                                 foundPad = True
                     if foundPad:
                         #
-                        # Found at least one pad that is in SilkS's line
+                        # Found at least one pad that is in CrtYd's line
                         #
                         if (px1 - dd) > x1_t:
                             #
                             # It does not cover the start point
                             #
-                            self.fsilksline.append(koaLine(x1_t, y1_t, px1 - dd, y2_t, 'F.CrtYd', self.FSilkSWidth))
+                            self.fcrtydline.append(koaLine(x1_t, y1_t, px1 - dd, y2_t, 'F.CrtYd', self.FCrtYdWidth))
                             if y1 < 0.0:
                                 # Top line
-                                self.fsilksline.append(koaLine(px1 - dd, y2_t, px1 - dd, py1 - dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px1 - dd, py1 - dd, px2 + dd, py1 - dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px2 + dd, py1 - dd, px2 + dd, y2_t,
-                                                               'F.CrtYd', self.FSilkSWidth))
+                                self.fcrtydline.append(koaLine(px1 - dd, y2_t, px1 - dd, py1 - dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px1 - dd, py1 - dd, px2 + dd, py1 - dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px2 + dd, py1 - dd, px2 + dd, y2_t,
+                                                               'F.CrtYd', self.FCrtYdWidth))
                             else:
                                 # Bottom line
-                                self.fsilksline.append(koaLine(px1 - dd, y2_t, px1 - dd, py2 + dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px1 - dd, py2 + dd, px2 + dd, py2 + dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px2 + dd, py2 + dd, px2 + dd, y2_t,
-                                                               'F.CrtYd', self.FSilkSWidth))
+                                self.fcrtydline.append(koaLine(px1 - dd, y2_t, px1 - dd, py2 + dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px1 - dd, py2 + dd, px2 + dd, py2 + dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px2 + dd, py2 + dd, px2 + dd, y2_t,
+                                                               'F.CrtYd', self.FCrtYdWidth))
                         x1_t = px2 + dd
                     else:
                         #
                         # No pads was in the way
                         #
-                        self.fsilksline.append(koaLine(x1_t, y1_t, x2_t, y2_t, 'F.CrtYd', self.FSilkSWidth))
+                        self.fcrtydline.append(koaLine(x1_t, y1_t, x2_t, y2_t, 'F.CrtYd', self.FCrtYdWidth))
                         EndLine = False
 
                     if x1_t >= x2:
@@ -550,11 +551,11 @@ class StandardBox(Node):
                         n_min_y = n.at.y - (n.size.y / 2.0)
                         n_max_x = n_min_x + n.size.x
                         n_max_y = n_min_y + n.size.y
-                        dd = max(0.25, n.solder_mask_margin)
+                        dd = max(0.26, n.solder_mask_margin)
 
-                        if (n_min_x <= x1_t) and (n_max_x > x1_t) and n_max_y > y1_t and n_min_y < y2_t:
+                        if (n_min_x <= x1_t) and (n_max_x >= x1_t) and n_max_y >= y1_t and n_min_y <= y2_t:
                             #
-                            # This pad is in SilkS line's path
+                            # This pad is in CrtYd line's path
                             #
                             if n_min_y < py1:
                                 px1 = n_min_x
@@ -564,43 +565,43 @@ class StandardBox(Node):
                                 foundPad = True
                     if foundPad:
                         #
-                        # Found at least one pad that is in SilkS's line
+                        # Found at least one pad that is in CrtYd's line
                         #
                         if (py1 - dd) > y1_t:
                             #
                             # It does not cover the start point
                             #
-                            self.fsilksline.append(koaLine(x1_t, y1_t, x2_t, py1 - dd, 'F.CrtYd', self.FSilkSWidth))
+                            self.fcrtydline.append(koaLine(x1_t, y1_t, x2_t, py1 - dd, 'F.CrtYd', self.FCrtYdWidth))
                             if x1 < 0.0:
                                 # Left line
-                                self.fsilksline.append(koaLine(x2_t, py1 - dd, px1 - dd, py1 - dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px1 - dd, py1 - dd, px1 - dd, py2 + dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px1 - dd, py2 + dd, x2_t, py2 + dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
+                                self.fcrtydline.append(koaLine(x2_t, py1 - dd, px1 - dd, py1 - dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px1 - dd, py1 - dd, px1 - dd, py2 + dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px1 - dd, py2 + dd, x2_t, py2 + dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
                             else:
                                 # Right line
-                                self.fsilksline.append(koaLine(x2_t, py1 - dd, px2 + dd, py1 - dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px2 + dd, py1 - dd, px2 + dd, py2 + dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
-                                self.fsilksline.append(koaLine(px2 + dd, py2 + dd, x2_t, py2 + dd,
-                                                               'F.CrtYd', self.FSilkSWidth))
+                                self.fcrtydline.append(koaLine(x2_t, py1 - dd, px2 + dd, py1 - dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px2 + dd, py1 - dd, px2 + dd, py2 + dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
+                                self.fcrtydline.append(koaLine(px2 + dd, py2 + dd, x2_t, py2 + dd,
+                                                               'F.CrtYd', self.FCrtYdWidth))
 
                         y1_t = py2 + dd
                     else:
                         #
                         # No pads was in the way
                         #
-                        self.fsilksline.append(koaLine(x1_t, y1_t, x2_t, y2_t, 'F.CrtYd', self.FSilkSWidth))
+                        self.fcrtydline.append(koaLine(x1_t, y1_t, x2_t, y2_t, 'F.CrtYd', self.FCrtYdWidth))
                         EndLine = False
 
                     if y1_t >= y2:
                         EndLine = False
         #
         #
-        for n in self.fsilksline:
+        for n in self.fcrtydline:
             new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer, width=n.width)
             if n.width < 0.0:
                 new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer)
@@ -640,28 +641,28 @@ class StandardBox(Node):
             if n[0] == 'tht':
                 if c == '1':
                     new_pad = Pad(number=c, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
-                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=['*.Cu', '*.Mask'])
+                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=Pad.LAYERS_THT)
                     self.footprint.append(new_pad)
                     self.pad.append(new_pad)
                 else:
                     new_pad = Pad(number=c, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=['*.Cu', '*.Mask'])
+                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=Pad.LAYERS_THT)
                     self.footprint.append(new_pad)
                     self.pad.append(new_pad)
             elif n[0] == 'smd':
-                    new_pad = Pad(number=c, type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT,
-                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=['F.Cu', 'F.Paste', 'F.Mask'])
+                    new_pad = Pad(number=c, type=Pad.TYPE_SMT, shape=Pad.SHAPE_ROUNDRECT, radius_ratio=0.25, 
+                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=Pad.LAYERS_SMT)
                     self.footprint.append(new_pad)
                     self.pad.append(new_pad)
             elif n[0] == 'npth':
                     if sy == 0:
                         new_pad = Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-                                      at=[x, 0.0 - y], size=[sx, sx], drill=dh, layers=['*.Cu', '*.Mask'])
+                                      at=[x, 0.0 - y], size=[sx, sx], drill=dh, layers=Pad.LAYERS_NPTH)
                         self.footprint.append(new_pad)
                         self.pad.append(new_pad)
                     else:
                         new_pad = Pad(type=Pad.TYPE_NPTH, shape=Pad.SHAPE_RECT,
-                                      at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=['*.Cu', '*.Mask'])
+                                      at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=Pad.LAYERS_NPTH)
                         self.footprint.append(new_pad)
                         self.pad.append(new_pad)
             #
