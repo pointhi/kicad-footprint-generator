@@ -447,7 +447,6 @@ if __name__ == '__main__':
         [30, 50, 10, 0, 2, ["SnapIn"], [], ", http://www.vishay.com/docs/28342/058059pll-si.pdf"],
         [35, 50, 10, 0, 2, ["SnapIn"], [], ", http://www.vishay.com/docs/28342/058059pll-si.pdf"],
         [40, 50, 10, 0, 2, ["SnapIn"], [], ", http://www.vishay.com/docs/28342/058059pll-si.pdf"],
-
     ]
     scriptcprad = "CQ_params_CP_Radial.py"
     with open(scriptcprad, "w") as myfile:
@@ -473,6 +472,61 @@ if __name__ == '__main__':
                            script3d=scriptcprad, height3d=h3d)
 
     ###########################################################
+    # radial nonpolar electrolytic capacitors
+    
+    # package sizes taken from:
+    # http://nichicon-us.com/english/products/pdfs/e-ump.pdf
+    # http://nichicon-us.com/english/products/pdfs/e-usp.pdf
+    # http://nichicon-us.com/english/products/pdfs/e-uvp.pdf
+    # http://nichicon-us.com/english/products/pdfs/e-ues.pdf
+    ###########################################################
+    specialtags = ["Non-Polar Electrolytic Capacitor"]
+    #            d          h,      rm    rm2,   ddrill               name_additions                specialtags                  add_description
+    caps = [
+        [4, 5, 1.5, 0, 0.6, [], [], ""],
+        [4, 7, 1.5, 0, 0.6, [], [], ""],
+        [5, 5, 2, 0, 0.6, [], [], ""],
+        [5, 7, 2, 0, 0.6, [], [], ""],
+        [5, 11, 2, 0, 0.8, [], [], ""],
+        [6.3, 5, 2.5, 0, 0.8, [], [], ""],
+        [6.3, 7, 2.5, 0, 0.8, [], [], ""],
+        [6.3, 11, 2.5, 0, 0.8, [], [], ""],
+        [8, 7, 3.5, 0, 0.8, [], [], ""],
+        [8, 11.5, 3.5, 0, 0.8, [], [], ""],
+        [10, 12.5, 5, 0, 0.8, [], [], ""],
+        [10, 16, 5, 0, 0.8, [], [], ""],
+        [10, 20, 5, 0, 0.8, [], [], ""],
+        [12.5, 20, 5, 0, 0.8, [], [], ""],
+        [12.5, 25, 5, 0, 0.8, [], [], ""],
+        [16, 25, 7.5, 0, 1, [], [], ""],
+        [16, 31.5, 7.5, 0, 1, [], [], ""],
+        [18, 35.5, 7.5, 0, 1, [], [], ""]
+    ]
+    scriptcprad = "CQ_params_C_Radial.py"
+    with open(scriptcprad, "w") as myfile:
+        myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
+
+    for c in caps:
+        seriesname = "Radial";
+        type = "round"
+        deco = "electrolytic nonpolar"
+        d = c[0];
+        h3d = c[1]
+        w2 = 0;
+        rm = c[2];
+        rm2 = c[3]
+        ddrill = c[4];
+        add_description = c[7];
+        name_additions = c[5]
+        special_tags = specialtags + c[6]
+        makeResistorRadial(seriesname=seriesname, rm=rm, rm2=rm2, w=d, h=d, ddrill=ddrill, R_POW=R_POW,
+                           type=type, w2=w2, x_3d=[0, 0, 0], s_3d=[1, 1, 1], has3d=1,
+                           specialfpname="", add_description=add_description, name_additions=name_additions,
+                           specialtags=special_tags, classname="C", lib_name="${KISYS3DMOD}/Capacitor_THT_Round", deco=deco,
+                           script3d=scriptcprad, height3d=h3d)
+
+                           
+    ###########################################################
     # radial electrolytic capacitors, 3 pins
     ###########################################################
     specialtags = ["Electrolytic Capacitor"]
@@ -489,7 +543,7 @@ if __name__ == '__main__':
         [       40,         50,         10,     [2,10-3.3,-4.75,2.5],        2, ["3pin", "SnapIn"], [], ", http://www.vishay.com/docs/28342/058059pll-si.pdf"],
 
     ]
-    scriptcprad3p = "cp_radial_round_3pin.py"
+    scriptcprad3p = "CQ_params_CP_Radial_3Pin.py"
     with open(scriptcprad3p, "w") as myfile:
         myfile.write("#\n# SCRIPT to generate 3D models\n#\n\n")
 
