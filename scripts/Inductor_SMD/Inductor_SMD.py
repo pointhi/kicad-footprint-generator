@@ -19,7 +19,7 @@ def qfn(args):
 
     footprint_name = args["name"]
     description = args["description"]
-    datasheet = args["description"]
+    datasheet = args["datasheet"]
     fptag = args["tags"]
     SmdTht = args["smd_tht"]
     at = args["at"]
@@ -42,6 +42,7 @@ def qfn(args):
     #
     file_handler = KicadFileHandler(f)
     file_handler.writeFile(footprint_name + ".kicad_mod")
+    
 
 
 if __name__ == '__main__':
@@ -55,7 +56,7 @@ if __name__ == '__main__':
 	parser.add_parameter("at", type=list, required=True)
 	parser.add_parameter("size", type=list, required=False)
 	parser.add_parameter("pins", type=list, required=True)
-	parser.add_parameter("extratexts", type=list, required=True)
+	parser.add_parameter("extratexts", type=list, required=False)
 
 
 	# now run our script which handles the whole part of parsing the files
