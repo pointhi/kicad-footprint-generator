@@ -27,7 +27,7 @@ def qfn(args):
     pins = args["pins"]
     extratexts = args["extratexts"]
 
-    dir3D = 'Sensor_Current.3dshapes'
+    dir3D = 'Inductor_SMD.3dshapes'
     f = Footprint(footprint_name)
 
     file3Dname = "${KISYS3DMOD}/" + dir3D + "/" + footprint_name + ".wrl"

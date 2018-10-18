@@ -31,7 +31,7 @@
 L_TDK_SLF6025:
   description: "Inductor, TDK, SLF6025, 6.0mmx6.0mm"
   datasheet: "https://product.tdk.com/info/en/document/catalog/smd/inductor_commercial_power_slf6025_en.pdf"
-  tags: "Inductor, TDK_SLF6025"
+  tags: "Inductor TDK_SLF6025"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-3.00, 3.00]
   size: [6.00, 6.00, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -42,7 +42,7 @@ L_TDK_SLF6025:
 L_TDK_SLF6028:
   description: "Inductor, TDK, SLF6028, 6.0mmx6.0mm"
   datasheet: "https://product.tdk.com/info/en/document/catalog/smd/inductor_commercial_power_slf6028_en.pdf"
-  tags: "Inductor, TDK_SLF6028"
+  tags: "Inductor TDK_SLF6028"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-3.00, 3.00]
   size: [6.00, 6.00, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -52,7 +52,7 @@ L_TDK_SLF6028:
 L_TDK_SLF6045:
   description: "Inductor, TDK, SLF6045, 6.0mmx6.0mm"
   datasheet: "https://product.tdk.com/info/en/document/catalog/smd/inductor_commercial_power_slf6045_en.pdf"
-  tags: "Inductor, TDK_SLF6045"
+  tags: "Inductor TDK_SLF6045"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-3.00, 3.00]
   size: [6.00, 6.00, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -62,7 +62,7 @@ L_TDK_SLF6045:
 L_TDK_SLF7032:
   description: "Inductor, TDK, SLF7032, 7.0mmx7.0mm"
   datasheet: "https://product.tdk.com/info/en/document/catalog/smd/inductor_commercial_power_slf7032_en.pdf"
-  tags: "Inductor, TDK_SLF7032"
+  tags: "Inductor TDK_SLF7032"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-3.5, 3.5]
   size: [7.00, 7.00, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -72,7 +72,7 @@ L_TDK_SLF7032:
 L_TDK_SLF7045:
   description: "Inductor, TDK, SLF7045, 7.0mmx7.0mm"
   datasheet: "https://product.tdk.com/info/en/document/catalog/smd/inductor_commercial_power_slf7045_en.pdf"
-  tags: "Inductor, TDK_SLF7045"
+  tags: "Inductor TDK_SLF7045"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-3.5, 3.5]
   size: [7.00, 7.00, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -82,7 +82,7 @@ L_TDK_SLF7045:
 L_TDK_SLF7055:
   description: "Inductor, TDK, SLF7055, 7.0mmx7.0mm"
   datasheet: "https://product.tdk.com/info/en/document/catalog/smd/inductor_commercial_power_slf7055_en.pdf"
-  tags: "Inductor, TDK_SLF7055"
+  tags: "Inductor TDK_SLF7055"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-3.5, 3.5]
   size: [7.00, 7.00, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -92,7 +92,7 @@ L_TDK_SLF7055:
 L_TDK_SLF10145:
   description: "Inductor, TDK, SLF10145, 10.1mmx10.1mm"
   datasheet: "https://product.tdk.com/info/en/catalog/datasheets/inductor_automotive_power_slf10145-h_en.pdf"
-  tags: "Inductor, TDK_SLF10145"
+  tags: "Inductor TDK_SLF10145"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-5.05, 5.05]
   size: [10.1, 10.1, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -102,7 +102,7 @@ L_TDK_SLF10145:
 L_TDK_SLF10165:
   description: "Inductor, TDK, SLF10165, 10.1mmx10.1mm"
   datasheet: "https://product.tdk.com/info/en/catalog/datasheets/inductor_commercial_power_slf10165_en.pdf"
-  tags: "Inductor, TDK_SLF10165"
+  tags: "Inductor TDK_SLF10165"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-5.05, 5.05]
   size: [10.1, 10.1, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -112,7 +112,7 @@ L_TDK_SLF10165:
 L_TDK_SLF12555:
   description: "Inductor, TDK, SLF12555, 12.5mmx12.5mm"
   datasheet: "https://product.tdk.com/info/en/catalog/datasheets/inductor_commercial_power_slf12555_en.pdf"
-  tags: "Inductor, SLF12555"
+  tags: "Inductor SLF12555"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-6.25, 6.25]
   size: [12.5, 12.5, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -122,7 +122,7 @@ L_TDK_SLF12555:
 L_TDK_SLF12565:
   description: "Inductor, TDK, SLF12565, 12.5mmx12.5mm"
   datasheet: "https://product.tdk.com/info/en/catalog/datasheets/inductor_automotive_power_slf12565-h_en.pdf"
-  tags: "Inductor, SLF12565"
+  tags: "Inductor SLF12565"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-6.25, 6.25]
   size: [12.5, 12.5, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
@@ -132,7 +132,7 @@ L_TDK_SLF12565:
 L_TDK_SLF12575:
   description: "Inductor, TDK, SLF12575, 12.5mmx12.5mm"
   datasheet: "https://product.tdk.com/info/en/catalog/datasheets/inductor_automotive_power_slf12575-h_en.pdf"
-  tags: "Inductor, SLF12575"
+  tags: "Inductor SLF12575"
   extratexts: [[-49.0, -0.05, "", "F.SilkS", 3.0, 3.0]]
   at: [-6.25, 6.25]
   size: [12.5, 12.5, ['ULP', 0.9, 0.9], ['URR', 0.9], ['LRR', 0.9], ['LLR', 0.9]]
