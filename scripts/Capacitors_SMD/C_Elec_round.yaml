@@ -1,0 +1,275 @@
+# http://nichicon-us.com/english/products/pdfs/e-uup.pdf
+# http://nichicon-us.com/english/products/pdfs/e-uwp.pdf
+# https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/ABA0000C1145.pdf
+# https://media.digikey.com/pdf/Data%20Sheets/Panasonic%20Electronic%20Components/S_Series_Type_V_.pdf
+# https://industrial.panasonic.com/cdbs/www-data/pdf/RDE0000/ABA0000C1157.pdf
+
+# Note: KLC puts pin 1 to the left so body_length is across the pins (horizontal)
+
+# Note: Due to minor variations in lead dimension for the same body size,
+# given dimensions are the greatest of all common body sizes in the datasheets
+# above. This may result in slightly more paste than if the lead size was
+# specific to one vendor's datasheet dimensions. However, as the lead sizes are
+# already large, lead-to-PCB coplanarity is quite varaible, and the capacitor
+# body does not sit flush with the PCB, the amount of paste is not extremely
+# critical. Pads a few tenths of a millimeter bigger or smaller than ideal
+# won't affect solderability or reliability.
+
+C_Elec_3x5.4:
+    body_length:
+      nominal: 3.3
+      tolerance: 0.2
+    body_width:
+      nominal: 3.3
+      tolerance: 0.2
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 3.0
+    lead_width:
+      minimum: 0.45
+      maximum: 0.65
+    lead_length:
+      nominal: 1.5
+      tolerance: 0.2
+    lead_spacing:
+      nominal: 0.6
+    pin1_chamfer: 'auto'
+
+C_Elec_4x5.4:
+    body_length:
+      nominal: 4.3
+      tolerance: 0.2
+    body_width:
+      nominal: 4.3
+      tolerance: 0.2
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 4.0
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      nominal: 1.8
+      tolerance: 0.2
+    lead_spacing:
+      nominal: 1.0
+    pin1_chamfer: 'auto'
+
+C_Elec_4x5.8:
+    body_length:
+      nominal: 4.3
+      tolerance: 0.2
+    body_width:
+      nominal: 4.3
+      tolerance: 0.2
+    body_height:
+      nominal: 5.8
+    body_diameter:
+      nominal: 4.0
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      nominal: 1.8
+      tolerance: 0.2
+    lead_spacing:
+      nominal: 1.0
+    pin1_chamfer: 'auto'
+
+C_Elec_5x5.4:
+    body_length:
+      nominal: 5.3
+      tolerance: 0.2
+    body_width:
+      nominal: 5.3
+      tolerance: 0.2
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 5.0
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      minimum: 2.1
+      maximum: 2.2
+    lead_spacing:
+      minimum: 1.3
+      maximum: 1.5
+    pin1_chamfer: 'auto'
+
+C_Elec_5x5.8:
+    body_length:
+      nominal: 5.3
+      tolerance: 0.2
+    body_width:
+      nominal: 5.3
+      tolerance: 0.2
+    body_height:
+      nominal: 5.8
+    body_diameter:
+      nominal: 5.0
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      minimum: 2.1
+      maximum: 2.2
+    lead_spacing:
+      minimum: 1.3
+      maximum: 1.5
+    pin1_chamfer: 'auto'
+    
+C_Elec_6.3x5.4:
+    body_length:
+      nominal: 6.6
+      tolerance: 0.2
+    body_width:
+      nominal: 6.6
+      tolerance: 0.2
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 6.3
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      minimum: 2.4
+      maximum: 2.6
+    lead_spacing:
+      minimum: 1.8
+      maximum: 2.2
+    pin1_chamfer: 'auto'
+
+C_Elec_6.3x5.8:
+    body_length:
+      nominal: 6.6
+      tolerance: 0.2
+    body_width:
+      nominal: 6.6
+      tolerance: 0.2
+    body_height:
+      nominal: 5.8
+    body_diameter:
+      nominal: 6.3
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      minimum: 2.4
+      maximum: 2.6
+    lead_spacing:
+      minimum: 1.8
+      maximum: 2.2
+    pin1_chamfer: 'auto'
+
+C_Elec_6.3x7.7:
+    body_length:
+      nominal: 6.6
+      tolerance: 0.2
+    body_width:
+      nominal: 6.6
+      tolerance: 0.2
+    body_height:
+      nominal: 7.7
+    body_diameter:
+      nominal: 6.3
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      minimum: 2.4
+      maximum: 2.6
+    lead_spacing:
+      minimum: 1.8
+      maximum: 2.2
+    pin1_chamfer: 'auto'
+
+C_Elec_8x5.4:
+    body_length:
+      nominal: 8.3
+      tolerance: 0.2
+    body_width:
+      nominal: 8.3
+      tolerance: 0.2
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 8.0
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      minimum: 3.3
+      maximum: 3.4
+    lead_spacing:
+      minimum: 2.2
+      maximum: 2.3
+    pin1_chamfer: 'auto'
+
+C_Elec_8x6.2:
+    body_length:
+      nominal: 8.3
+      tolerance: 0.2
+    body_width:
+      nominal: 8.3
+      tolerance: 0.2
+    body_height:
+      nominal: 6.2
+    body_diameter:
+      nominal: 8.0
+    lead_width:
+      minimum: 0.5
+      maximum: 0.8
+    lead_length:
+      minimum: 3.3
+      maximum: 3.4
+    lead_spacing:
+      minimum: 2.2
+      maximum: 2.3
+    pin1_chamfer: 'auto'
+
+C_Elec_8x10.2:
+    body_length:
+      nominal: 8.3
+      tolerance: 0.2
+    body_width:
+      nominal: 8.3
+      tolerance: 0.2
+    body_height:
+      nominal: 10.2
+    body_diameter:
+      nominal: 8.0
+    lead_width:
+      minimum: 0.7
+      maximum: 1.1
+    lead_length:
+      nominal: 3.4
+      tolerance: 0.2
+    lead_spacing:
+      nominal: 3.1
+    pin1_chamfer: 'auto'
+
+C_Elec_10x10.2:
+    body_length:
+      nominal: 10.3
+      tolerance: 0.2
+    body_width:
+      nominal: 10.3
+      tolerance: 0.2
+    body_height:
+      nominal: 10.2
+    body_diameter:
+      nominal: 10.0
+    lead_width:
+      minimum: 0.7
+      maximum: 1.1
+    lead_length:
+      nominal: 3.5
+      tolerance: 0.2
+    lead_spacing:
+      nominal: 4.6
+    pin1_chamfer: 'auto'
