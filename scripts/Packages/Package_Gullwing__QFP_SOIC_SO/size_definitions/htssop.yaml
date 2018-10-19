@@ -131,7 +131,7 @@ Texas_DAP_R-PDSO-G38:
   # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
 
   thermal_vias:
-    count: [4, 5]
+    count: [4, 10]
     drill: 0.2
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1
