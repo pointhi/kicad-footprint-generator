@@ -17,10 +17,12 @@ def create_footprint(name, configuration, **kwargs):
     kicad_mod = Footprint(name)
 
     # init kicad footprint
-    datasheet = "" if 'datasheet' in kwargs else ""
+    datasheet = ", " + kwargs['datasheet'] if 'datasheet' in kwargs else ""
     description = "SMD capacitor, aluminum electrolytic"
+    tags = 'capacitor electrolytic'
     if name[:2] == "C_":
         description += " nonpolar"
+        tags += " nonpolar"
     if 'extra_description' in kwargs:
         description += ", " + kwargs['extra_description']
 
@@ -29,10 +31,7 @@ def create_footprint(name, configuration, **kwargs):
         'body_length': TolerancedSize.fromYaml(kwargs, base_name='body_length'),
         'body_width': TolerancedSize.fromYaml(kwargs, base_name='body_width'),
         'body_height': TolerancedSize.fromYaml(kwargs, base_name='body_height'),
-        'body_diameter': TolerancedSize.fromYaml(kwargs, base_name='body_diameter'),
-        'lead_width': TolerancedSize.fromYaml(kwargs, base_name='lead_width'),
-        'lead_spacing': TolerancedSize.fromYaml(kwargs, base_name='lead_spacing'),
-        'lead_length': TolerancedSize.fromYaml(kwargs, base_name='lead_length')
+        'body_diameter': TolerancedSize.fromYaml(kwargs, base_name='body_diameter')
     }
     
     # for ease of use, capture nominal body and pad sizes
@@ -42,15 +41,10 @@ def create_footprint(name, configuration, **kwargs):
         'height': device_dimensions['body_height'].nominal,
         'diameter': device_dimensions['body_diameter'].nominal
     }
-    pad_size = {
-        'length': device_dimensions['lead_length'].nominal,
-        'width': device_dimensions['body_width'].nominal,
-        'height': device_dimensions['body_height'].nominal
-    }
 
     description += ", " + str(body_size['diameter']) + "x" + str(body_size['height']) + "mm"
     kicad_mod.setDescription(description + datasheet)
-    kicad_mod.setTags('capacitor electrolytic' if name[:2] is "CP" else 'capacitor electrolyic nonpolar')
+    kicad_mod.setTags(tags)
     kicad_mod.setAttribute('smd')
 
     # set general values
@@ -95,7 +89,10 @@ def create_footprint(name, configuration, **kwargs):
             'P': configuration.get('placement_tolerance', 0.05)
         }
         
-        # leads are dimensioned like SOIC so use gullwing calculator
+        # # fully tolerance lead dimensions; leads are dimensioned like SOIC so use gullwing calculator
+        device_dimensions['lead_width'] = TolerancedSize.fromYaml(kwargs, base_name='lead_width')
+        device_dimensions['lead_spacing'] = TolerancedSize.fromYaml(kwargs, base_name='lead_spacing')
+        device_dimensions['lead_length'] = TolerancedSize.fromYaml(kwargs, base_name='lead_length')
         device_dimensions['lead_outside'] = TolerancedSize(maximum =
             device_dimensions['lead_spacing'].maximum +
             device_dimensions.get('lead_length').maximum * 2,

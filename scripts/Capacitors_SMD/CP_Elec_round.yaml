@@ -1,32 +1,42 @@
 #CP_Elec_6.3x5.8:
-#    length: 6.6
-#    width: 6.6
-#    height: 5.8
-#    diameter: 6.3
+#    body_length:
+#      nominal: 6.6
+#    body_width:
+#      nominal: 6.6
+#    body_height:
+#      nominal: 5.8
+#    body_diameter:
+#      nominal: 6.3
 #    pad_width: 1.9
 #    pin1_chamfer: 'auto'
 #    pad_length: 3.5
 #    pad_spacing: 1.6
 
-# https://industrial.panasonic.com/cdbs/www-data/pdf/AAB8000/AAB8000COL60.pdf
-# https://industrial.panasonic.com/cdbs/www-data/pdf/AAB8000/AAB8000COL10.pdf
+# https://industrial.panasonic.com/cdbs/www-data/pdf/AAB8000/AAB8000COL60.pdf # broken link
+# https://industrial.panasonic.com/cdbs/www-data/pdf/AAB8000/AAB8000COL10.pdf # pad sizes
 
-# http://www.vishay.com/docs/28395/150crz.pdf
+# https://www.vishay.com/docs/28395/150crz.pdf
 
+# http://www.nichicon.co.jp/english/products/pdfs/e-ch_ref.pdf # pad sizes
 # https://media.digikey.com/pdf/Data%20Sheets/Nichicon%20PDFs/ZD_Series.pdf
-# http://www.nichicon.co.jp/english/products/pdfs/e-ch_ref.pdf
 # http://nichicon-us.com/english/products/pdfs/e-uzr.pdf
 # http://nichicon-us.com/english/products/pdfs/e-uzs.pdf
 # http://nichicon-us.com/english/products/pdfs/e-uwx.pdf
+
+# UCC, CDE, nor Rubycon datasheets are given above
 
 # 3x5.3
 
 CP_Elec_3x5.4:
     extra_description: "Nichicon"
-    length: 3.3
-    width: 3.3
-    height: 5.3
-    diameter: 3
+    body_length:
+      nominal: 3.3
+    body_width:
+      nominal: 3.3
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 3.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.2
@@ -34,10 +44,14 @@ CP_Elec_3x5.4:
 
 CP_Elec_4x3:
     extra_description: "Nichicon"
-    length: 4.3
-    width: 4.3
-    height: 3
-    diameter: 4
+    body_length:
+      nominal: 4.3
+    body_width:
+      nominal: 4.3
+    body_height:
+      nominal: 3
+    body_diameter:
+      nominal: 4.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.6
@@ -45,10 +59,14 @@ CP_Elec_4x3:
 
 CP_Elec_4x3.9:
     extra_description: "Nichicon"
-    length: 4.3
-    width: 4.3
-    height: 3.9
-    diameter: 4
+    body_length:
+      nominal: 4.3
+    body_width:
+      nominal: 4.3
+    body_height:
+      nominal: 3.9
+    body_diameter:
+      nominal: 4.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.6
@@ -56,10 +74,14 @@ CP_Elec_4x3.9:
 
 CP_Elec_4x4.5:
     extra_description: "Nichicon"
-    length: 4.3
-    width: 4.3
-    height: 4.5
-    diameter: 4
+    body_length:
+      nominal: 4.3
+    body_width:
+      nominal: 4.3
+    body_height:
+      nominal: 4.5
+    body_diameter:
+      nominal: 4.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.6
@@ -67,10 +89,14 @@ CP_Elec_4x4.5:
 
 CP_Elec_4x5.3:
     extra_description: "Vishay"
-    length: 4.3
-    width: 4.3
-    height: 5.3
-    diameter: 4
+    body_length:
+      nominal: 4.3
+    body_width:
+      nominal: 4.3
+    body_height:
+      nominal: 5.3
+    body_diameter:
+      nominal: 4.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.6
@@ -78,10 +104,14 @@ CP_Elec_4x5.3:
 
 CP_Elec_4x5.4:
     extra_description: "Panasonic A5 / Nichicon"
-    length: 4.3
-    width: 4.3
-    height: 5.4
-    diameter: 4
+    body_length:
+      nominal: 4.3
+    body_width:
+      nominal: 4.3
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 4.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.6
@@ -89,10 +119,14 @@ CP_Elec_4x5.4:
 
 CP_Elec_4x5.7:
     extra_description: "United Chemi-Con"
-    length: 4.3
-    width: 4.3
-    height: 5.7
-    diameter: 4
+    body_length:
+      nominal: 4.3
+    body_width:
+      nominal: 4.3
+    body_height:
+      nominal: 5.7
+    body_diameter:
+      nominal: 4.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.6
@@ -100,10 +134,14 @@ CP_Elec_4x5.7:
 
 CP_Elec_4x5.8:
     extra_description: "Panasonic"
-    length: 4.3
-    width: 4.3
-    height: 5.8
-    diameter: 4
+    body_length:
+      nominal: 4.3
+    body_width:
+      nominal: 4.3
+    body_height:
+      nominal: 5.8
+    body_diameter:
+      nominal: 4.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 2.6
@@ -111,10 +149,14 @@ CP_Elec_4x5.8:
 
 CP_Elec_5x3:
     extra_description: "Nichicon"
-    length: 5.3
-    width: 5.3
-    height: 3
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 3.0
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -122,10 +164,14 @@ CP_Elec_5x3:
 
 CP_Elec_5x3.9:
     extra_description: "Nichicon"
-    length: 5.3
-    width: 5.3
-    height: 3.9
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 3.9
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -133,10 +179,14 @@ CP_Elec_5x3.9:
 
 CP_Elec_5x4.4:
     extra_description: "Panasonic B45"
-    length: 5.3
-    width: 5.3
-    height: 4.4
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 4.4
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -144,10 +194,14 @@ CP_Elec_5x4.4:
 
 CP_Elec_5x4.5:
     extra_description: "Nichicon"
-    length: 5.3
-    width: 5.3
-    height: 4.5
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 4.5
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -155,10 +209,14 @@ CP_Elec_5x4.5:
 
 CP_Elec_5x5.3:
     extra_description: "Nichicon"
-    length: 5.3
-    width: 5.3
-    height: 5.3
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 5.3
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -166,10 +224,14 @@ CP_Elec_5x5.3:
 
 CP_Elec_5x5.4:
     extra_description: "Nichicon"
-    length: 5.3
-    width: 5.3
-    height: 5.4
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -177,10 +239,14 @@ CP_Elec_5x5.4:
 
 CP_Elec_5x5.7:
     extra_description: "United Chemi-Con"
-    length: 5.3
-    width: 5.3
-    height: 5.7
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 5.7
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -188,10 +254,14 @@ CP_Elec_5x5.7:
 
 CP_Elec_5x5.8:
     extra_description: "Panasonic"
-    length: 5.3
-    width: 5.3
-    height: 5.8
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 5.8
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -199,10 +269,14 @@ CP_Elec_5x5.8:
 
 CP_Elec_5x5.9:
     extra_description: "Panasonic B6"
-    length: 5.3
-    width: 5.3
-    height: 5.9
-    diameter: 5
+    body_length:
+      nominal: 5.3
+    body_width:
+      nominal: 5.3
+    body_height:
+      nominal: 5.9
+    body_diameter:
+      nominal: 5.0
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3
@@ -210,10 +284,14 @@ CP_Elec_5x5.9:
 
 CP_Elec_6.3x3:
     extra_description: "Nichicon"
-    length: 6.6
-    width: 6.6
-    height: 3
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 3.0
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -221,10 +299,14 @@ CP_Elec_6.3x3:
 
 CP_Elec_6.3x3.9:
     extra_description: "Nichicon"
-    length: 6.6
-    width: 6.6
-    height: 3.9
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 3.9
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -232,10 +314,14 @@ CP_Elec_6.3x3.9:
 
 CP_Elec_6.3x4.5:
     extra_description: "Nichicon"
-    length: 6.6
-    width: 6.6
-    height: 4.5
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 4.5
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -243,10 +329,14 @@ CP_Elec_6.3x4.5:
 
 CP_Elec_6.3x4.9:
     extra_description: "Panasonic C5"
-    length: 6.6
-    width: 6.6
-    height: 4.9
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 4.9
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -254,10 +344,14 @@ CP_Elec_6.3x4.9:
 
 CP_Elec_6.3x5.2:
     extra_description: "United Chemi-Con"
-    length: 6.6
-    width: 6.6
-    height: 5.2
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 5.2
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -265,10 +359,14 @@ CP_Elec_6.3x5.2:
 
 CP_Elec_6.3x5.3:
     extra_description: "Cornell Dubilier"
-    length: 6.6
-    width: 6.6
-    height: 5.3
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 5.3
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -276,10 +374,14 @@ CP_Elec_6.3x5.3:
 
 CP_Elec_6.3x5.4:
     extra_description: "Panasonic C55"
-    length: 6.6
-    width: 6.6
-    height: 5.4
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -287,10 +389,14 @@ CP_Elec_6.3x5.4:
 
 CP_Elec_6.3x5.4_Nichicon:
     extra_description: "Nichicon"
-    length: 6.6
-    width: 6.6
-    height: 5.4
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -298,10 +404,14 @@ CP_Elec_6.3x5.4_Nichicon:
 
 CP_Elec_6.3x5.7:
     extra_description: "United Chemi-Con"
-    length: 6.6
-    width: 6.6
-    height: 5.7
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 5.7
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -309,10 +419,14 @@ CP_Elec_6.3x5.7:
 
 CP_Elec_6.3x5.8:
     extra_description: "Nichicon"
-    length: 6.6
-    width: 6.6
-    height: 5.8
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 5.8
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -320,10 +434,14 @@ CP_Elec_6.3x5.8:
 
 CP_Elec_6.3x5.9:
     extra_description: "Panasonic C6"
-    length: 6.6
-    width: 6.6
-    height: 5.9
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 5.9
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -331,10 +449,14 @@ CP_Elec_6.3x5.9:
 
 CP_Elec_6.3x7.7:
     extra_description: "Nichicon"
-    length: 6.6
-    width: 6.6
-    height: 7.7
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 7.7
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -342,10 +464,14 @@ CP_Elec_6.3x7.7:
 
 CP_Elec_6.3x9.9:
     extra_description: "Panasonic C10"
-    length: 6.6
-    width: 6.6
-    height: 9.9
-    diameter: 6.3
+    body_length:
+      nominal: 6.6
+    body_width:
+      nominal: 6.6
+    body_height:
+      nominal: 9.9
+    body_diameter:
+      nominal: 6.3
     pad_width: 1.6
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -353,10 +479,14 @@ CP_Elec_6.3x9.9:
 
 CP_Elec_8x5.4:
     extra_description: "Nichicon"
-    length: 8.3
-    width: 8.3
-    height: 5.4
-    diameter: 8
+    body_length:
+      nominal: 8.3
+    body_width:
+      nominal: 8.3
+    body_height:
+      nominal: 5.4
+    body_diameter:
+      nominal: 8.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4
@@ -364,10 +494,14 @@ CP_Elec_8x5.4:
 
 CP_Elec_8x6.2:
     extra_description: "Nichicon"
-    length: 8.3
-    width: 8.3
-    height: 6.2
-    diameter: 8
+    body_length:
+      nominal: 8.3
+    body_width:
+      nominal: 8.3
+    body_height:
+      nominal: 6.2
+    body_diameter:
+      nominal: 8.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4
@@ -375,10 +509,14 @@ CP_Elec_8x6.2:
 
 CP_Elec_8x6.5:
     extra_description: "Rubycon"
-    length: 8.3
-    width: 8.3
-    height: 6.5
-    diameter: 8
+    body_length:
+      nominal: 8.3
+    body_width:
+      nominal: 8.3
+    body_height:
+      nominal: 6.5
+    body_diameter:
+      nominal: 8.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4
@@ -386,10 +524,14 @@ CP_Elec_8x6.5:
 
 CP_Elec_8x6.7:
     extra_description: "United Chemi-Con"
-    length: 8.3
-    width: 8.3
-    height: 6.7
-    diameter: 8
+    body_length:
+      nominal: 8.3
+    body_width:
+      nominal: 8.3
+    body_height:
+      nominal: 6.7
+    body_diameter:
+      nominal: 8.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4
@@ -397,10 +539,14 @@ CP_Elec_8x6.7:
 
 CP_Elec_8x6.9:
     extra_description: "Panasonic E7"
-    length: 8.3
-    width: 8.3
-    height: 6.9
-    diameter: 8
+    body_length:
+      nominal: 8.3
+    body_width:
+      nominal: 8.3
+    body_height:
+      nominal: 6.9
+    body_diameter:
+      nominal: 8.0
     pad_width: 1.9
     pin1_chamfer: 'auto'
     pad_length: 4.15
@@ -408,10 +554,14 @@ CP_Elec_8x6.9:
 
 CP_Elec_8x10:
     extra_description: "Nichicon"
-    length: 8.3
-    width: 8.3
-    height: 10
-    diameter: 8
+    body_length:
+      nominal: 8.3
+    body_width:
+      nominal: 8.3
+    body_height:
+      nominal: 10
+    body_diameter:
+      nominal: 8.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 3.5
@@ -420,10 +570,14 @@ CP_Elec_8x10:
 CP_Elec_8x10.5:
     extra_description: "Vishay 0810"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 8.5
-    width: 8.5
-    height: 10.5
-    diameter: 8
+    body_length:
+      nominal: 8.5
+    body_width:
+      nominal: 8.5
+    body_height:
+      nominal: 10.5
+    body_diameter:
+      nominal: 8.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4.4
@@ -431,10 +585,14 @@ CP_Elec_8x10.5:
 
 CP_Elec_8x11.9:
     extra_description: "Panasonic E12"
-    length: 8.3
-    width: 8.3
-    height: 11.9
-    diameter: 8
+    body_length:
+      nominal: 8.3
+    body_width:
+      nominal: 8.3
+    body_height:
+      nominal: 11.9
+    body_diameter:
+      nominal: 8.0
     pad_width: 1.9
     pin1_chamfer: 'auto'
     pad_length: 4.15
@@ -442,10 +600,14 @@ CP_Elec_8x11.9:
 
 CP_Elec_10x7.7:
     extra_description: "Nichicon"
-    length: 10.3
-    width: 10.3
-    height: 7.7
-    diameter: 10
+    body_length:
+      nominal: 10.3
+    body_width:
+      nominal: 10.3
+    body_height:
+      nominal: 7.7
+    body_diameter:
+      nominal: 10.0
     pad_width: 1.9
     pin1_chamfer: 'auto'
     pad_length: 4.4
@@ -453,10 +615,14 @@ CP_Elec_10x7.7:
 
 CP_Elec_10x7.9:
     extra_description: "Panasonic F8"
-    length: 10.3
-    width: 10.3
-    height: 7.9
-    diameter: 10
+    body_length:
+      nominal: 10.3
+    body_width:
+      nominal: 10.3
+    body_height:
+      nominal: 7.9
+    body_diameter:
+      nominal: 10.0
     pad_width: 1.9
     pin1_chamfer: 'auto'
     pad_length: 4.4
@@ -464,10 +630,14 @@ CP_Elec_10x7.9:
 
 CP_Elec_10x10:
     extra_description: "Nichicon"
-    length: 10.3
-    width: 10.3
-    height: 10
-    diameter: 10
+    body_length:
+      nominal: 10.3
+    body_width:
+      nominal: 10.3
+    body_height:
+      nominal: 10.0
+    body_diameter:
+      nominal: 10.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4
@@ -476,10 +646,14 @@ CP_Elec_10x10:
 CP_Elec_10x10.5:
     extra_description: "Vishay 1010"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 10.5
-    width: 10.5
-    height: 10.5
-    diameter: 10
+    body_length:
+      nominal: 10.5
+    body_width:
+      nominal: 10.5
+    body_height:
+      nominal: 10.5
+    body_diameter:
+      nominal: 10.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4.4
@@ -488,10 +662,14 @@ CP_Elec_10x10.5:
 CP_Elec_10x12.5:
     extra_description: "Vishay 1012"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 10.5
-    width: 10.5
-    height: 12.5
-    diameter: 10
+    body_length:
+      nominal: 10.5
+    body_width:
+      nominal: 10.5
+    body_height:
+      nominal: 12.5
+    body_diameter:
+      nominal: 10.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4.4
@@ -499,10 +677,14 @@ CP_Elec_10x12.5:
 
 CP_Elec_10x12.6:
     extra_description: "Panasonic F12"
-    length: 10.3
-    width: 10.3
-    height: 12.6
-    diameter: 10
+    body_length:
+      nominal: 10.3
+    body_width:
+      nominal: 10.3
+    body_height:
+      nominal: 12.6
+    body_diameter:
+      nominal: 10.0
     pad_width: 1.9
     pin1_chamfer: 'auto'
     pad_length: 4.4
@@ -511,10 +693,14 @@ CP_Elec_10x12.6:
 CP_Elec_10x14.3:
     extra_description: "Vishay 1014"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 10.5
-    width: 10.5
-    height: 14.3
-    diameter: 10
+    body_length:
+      nominal: 10.5
+    body_width:
+      nominal: 10.5
+    body_height:
+      nominal: 14.3
+    body_diameter:
+      nominal: 10.0
     pad_width: 2.5
     pin1_chamfer: 'auto'
     pad_length: 4.4
@@ -526,10 +712,14 @@ CP_Elec_10x14.3:
 CP_Elec_16x17.5:
     extra_description: "Vishay 1616"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 16.6
-    width: 16.6
-    height: 17.5
-    diameter: 16
+    body_length:
+      nominal: 16.6
+    body_width:
+      nominal: 16.6
+    body_height:
+      nominal: 17.5
+    body_diameter:
+      nominal: 16.0
     pad_width: 9.6
     pin1_chamfer: 'auto'
     pad_length: 7.8
@@ -538,10 +728,14 @@ CP_Elec_16x17.5:
 CP_Elec_16x22:
     extra_description: "Vishay 1621"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 16.6
-    width: 16.6
-    height: 22
-    diameter: 16
+    body_length:
+      nominal: 16.6
+    body_width:
+      nominal: 16.6
+    body_height:
+      nominal: 22.0
+    body_diameter:
+      nominal: 16.0
     pad_width: 9.6
     pin1_chamfer: 'auto'
     pad_length: 7.8
@@ -550,10 +744,14 @@ CP_Elec_16x22:
 CP_Elec_18x17.5:
     extra_description: "Vishay 1816"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 19
-    width: 19
-    height: 17.5
-    diameter: 18
+    body_length:
+      nominal: 19.0
+    body_width:
+      nominal: 19.0
+    body_height:
+      nominal: 17.5
+    body_diameter:
+      nominal: 18.0
     pad_width: 9.6
     pin1_chamfer: 'auto'
     pad_length: 8.8
@@ -562,10 +760,14 @@ CP_Elec_18x17.5:
 CP_Elec_18x22:
     extra_description: "Vishay 1821"
     datasheet: "http://www.vishay.com/docs/28395/150crz.pdf"
-    length: 19
-    width: 19
-    height: 22
-    diameter: 18
+    body_length:
+      nominal: 19.0
+    body_width:
+      nominal: 19.0
+    body_height:
+      nominal: 22.0
+    body_diameter:
+      nominal: 18.0
     pad_width: 9.6
     pin1_chamfer: 'auto'
     pad_length: 8.8
