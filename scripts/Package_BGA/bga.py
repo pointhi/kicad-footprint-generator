@@ -166,7 +166,7 @@ if __name__ == '__main__':
     parser.add_parameter("layout_y", type=int, required=True)
     parser.add_parameter("row_names", type=list, required=False, default=[
         "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P",
-        "R", "T", "U"])
+        "R", "T", "U", "V", "W", "Y", "AA", "AB", "AC", "AD", "AE"])
     parser.add_parameter("row_skips", type=list, required=False, default=[])
 
     # now run our script which handles the whole part of parsing the files
