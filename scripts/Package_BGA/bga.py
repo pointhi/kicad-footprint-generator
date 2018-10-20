@@ -17,6 +17,7 @@ def bga(args):
     pkgHeight = args["pkg_height"]
 
     pitch = args["pitch"]
+    padShapes = args["pad_shape"]
     padDiameter = args["pad_diameter"]
     maskMargin = args["mask_margin"]
     pasteMargin = args["paste_margin"]
@@ -46,6 +47,10 @@ def bga(args):
     t2 = 0.15 * s2[0]
 
     padShape = Pad.SHAPE_CIRCLE
+    if padShapes == "rect": 
+        padShape = Pad.SHAPE_RECT
+    if padShapes == "roundrect": 
+        padShape = Pad.SHAPE_ROUNDRECT
 
     chamfer = min(1.0, min(pkgWidth, pkgHeight) * 0.25)
     silkOffset = 0.11
@@ -143,7 +148,8 @@ def bga(args):
                          shape=padShape,
                          at=[xPadLeft + (col-1) * pitch, yPadTop + rowNum * pitch],
                          size=[padDiameter, padDiameter],
-                         layers=Pad.LAYERS_SMT))
+                         layers=Pad.LAYERS_SMT, 
+                         radius_ratio=0.25))
 
     f.setTags("{} {} {}".format(package_type, balls, pitch))
     
@@ -158,6 +164,7 @@ if __name__ == '__main__':
     parser.add_parameter("pkg_width", type=float, required=True)
     parser.add_parameter("pkg_height", type=float, required=True)
     parser.add_parameter("pitch", type=float, required=True)
+    parser.add_parameter("pad_shape", type=str, required=False, default="round")
     parser.add_parameter("pad_diameter", type=float, required=True)
     parser.add_parameter("mask_margin", type=float, required=False, default=0)
     parser.add_parameter("paste_margin", type=float, required=False, default=0)
