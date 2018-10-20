@@ -88,6 +88,36 @@ TFBGA-265_14x14mm_Layout17x17_P0.8mm:
   layout_x: 17
   layout_y: 17
   row_skips: [[], [], [], [], [], [[6, 13]], [6, 12], [6, 12], [6, 12], [6, 12], [6, 12], [[6, 13]], [], [], [], [], []]
+UCBGA-36_2.5x2.5mm_Layout6x6_P0.4mm:
+  description: "UCBGA-36, 6x6 raster, 2.5x2.5mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 2.5
+  pkg_height: 2.5
+  pitch: 0.4
+  pad_diameter: 0.27
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 6
+  layout_y: 6
+UCBGA-49_3x3mm_Layout7x7_P0.4mm:
+  description: "UCBGA-49, 7x7 raster, 3x3mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 3
+  pkg_height: 3
+  pitch: 0.4
+  pad_diameter: 0.27
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+UCBGA-81_4x4mm_Layout9x9_P0.4mm:  
+  description: "UCBGA-81, 9x9 raster, 4x4mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 4
+  pkg_height: 4
+  pitch: 0.4
+  pad_diameter: 0.27
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 9
+  layout_y: 9
 UFBGA-64_5x5mm_Layout8x8_P0.5mm:
   description: "UFBGA-64, 8x8 raster, 5x5mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32f051t8.pdf#page=91"
   pkg_width: 5.0
