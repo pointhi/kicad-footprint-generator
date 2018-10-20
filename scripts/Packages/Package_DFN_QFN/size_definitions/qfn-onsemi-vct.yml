@@ -1,0 +1,30 @@
+OnSemi_VCT-28_3.5x3.5mm_P0.4mm:
+  device_type: 'VCT'
+  manufacturer: 'OnSemi'
+  #part_number: 'mpn'
+  size_source: 'http://www.onsemi.com/pub/Collateral/601AE.PDF'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 3.5
+    tolerance: 0.08
+  body_size_y:
+    nominal: 3.5
+    tolerance: 0.08
+  lead_width:
+    minimum: .14
+    maximum: .24
+  lead_len:
+    minimum: .35
+    maximum: .45
+
+  pitch: 0.4
+  num_pins_x: 7
+  num_pins_y: 7
+  chamfer_edge_pins: 0.09
+  edge_heel_reduction: 0.1
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
