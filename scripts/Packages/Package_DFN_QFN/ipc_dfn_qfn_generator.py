@@ -96,6 +96,11 @@ class DFN():
             dimensions['EP_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_x')
             dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
             dimensions['has_EP'] = True
+            dimensions['EP_center_x'] = TolerancedSize(nominal=0)
+            dimensions['EP_center_y'] = TolerancedSize(nominal=0)
+            if 'EP_center_x' in device_size_data and 'EP_center_y' in device_size_data:
+              dimensions['EP_center_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_center_x')
+              dimensions['EP_center_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_center_y')
 
         dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
 
@@ -165,6 +170,10 @@ class DFN():
             EP_size = {
                 'x':device_dimensions['EP_size_x'].nominal,
                 'y':device_dimensions['EP_size_y'].nominal
+                }
+            EP_center = {
+                'x':device_dimensions['EP_center_x'].nominal,
+                'y':device_dimensions['EP_center_y'].nominal
                 }
         else:
             name_format = self.configuration['fp_name_format_string_no_trailing_zero']
@@ -249,6 +258,7 @@ class DFN():
 
                 kicad_mod.append(ExposedPad(
                     number=pincount+1, size=EP_size,
+                    at=EP_center,
                     paste_layout=thermals.get('EP_num_paste_pads', device_params.get('EP_num_paste_pads', 1)),
                     paste_coverage=paste_coverage,
                     via_layout=thermals.get('count', 0),
@@ -266,6 +276,7 @@ class DFN():
             else:
                 kicad_mod.append(ExposedPad(
                     number=pincount+1, size=EP_size,
+                    at=EP_center,
                     paste_layout=device_params.get('EP_num_paste_pads', 1),
                     paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),
                     kicad4_compatible=args.kicad4_compatible,
