@@ -1,0 +1,109 @@
+FileHeader:
+  library_Suffix: 'QFP'
+  device_type: 'PQFP'
+
+PQFP_100:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 14
+    tolerance: 0
+    # minimum:
+    # maximum:
+  body_size_y:
+    nominal: 20
+    tolerance: 0
+  overall_size_x:
+    nominal: 17.2
+    tolerance: 0
+  overall_size_y:
+    nominal: 23.2
+    tolerance: 0
+  lead_width:
+    minimum: 0.22
+    maximum: 0.4
+  lead_len:
+    minimum: 0.73
+    maximum: 1.03
+  pitch: 0.65
+  num_pins_x: 20
+  num_pins_y: 30
+
+PQFP_144:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 28
+  body_size_y:
+    nominal: 28
+  overall_size_x:
+    nominal: 31.2
+  overall_size_y:
+    nominal: 31.2
+  lead_width:
+    minimum: 0.22
+    maximum: 0.4
+  lead_len:
+    minimum: 0.73
+    maximum: 1.03
+  pitch: 0.65
+  num_pins_x: 36
+  num_pins_y: 36
+
+PQFP_160:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 28
+  body_size_y:
+    nominal: 28
+  overall_size_x:
+    nominal: 31.2
+  overall_size_y:
+    nominal: 31.2
+  lead_width:
+    minimum: 0.22
+    maximum: 0.4
+  lead_len:
+    minimum: 0.73
+    maximum: 1.03
+  pitch: 0.65
+  num_pins_x: 40
+  num_pins_y: 40
+
+PQFP_208:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 28
+  body_size_y:
+    nominal: 28
+  overall_size_x:
+    nominal: 30.6
+  overall_size_y:
+    nominal: 30.6
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 52
+  num_pins_y: 52
+
+PQFP_240:
+  size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  body_size_x:
+    nominal: 32.1
+  body_size_y:
+    nominal: 32.1
+  overall_size_x:
+    nominal: 34.6
+  overall_size_y:
+    nominal: 34.6
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 60
+  num_pins_y: 60

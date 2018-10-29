@@ -161,6 +161,6 @@ def toVectorUseCopyIfNumber(value, length=2, low_limit=None, must_be_larger=True
         raise ValueError("length must be 2 or 3")
 
     if low_limit is not None and isAnyLarger(result, low_limit, must_be_larger):
-        raise ValueError("One value in ({}) too small. Linit is {}.".format(result, low_limit))
+        raise ValueError("One value in ({}) too small. Limit is {}.".format(result, low_limit))
 
     return result

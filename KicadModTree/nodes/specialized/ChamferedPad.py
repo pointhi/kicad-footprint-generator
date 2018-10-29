@@ -94,6 +94,24 @@ class CornerSelection():
                 return True
         return False
 
+    def rotateCW(self):
+        top_left_old = self.top_left
+
+        self.top_left = self.bottom_left
+        self.bottom_left = self.bottom_right
+        self.bottom_right = self.top_right
+        self.top_right = top_left_old
+        return self
+
+    def rotateCCW(self):
+        top_left_old = self.top_left
+
+        self.top_left = self.top_right
+        self.top_right = self.bottom_right
+        self.bottom_right = self.bottom_left
+        self.bottom_left = top_left_old
+        return self
+
     def __or__(self, other):
         return CornerSelection([s or o for s, o in zip(self, other)])
 
@@ -209,6 +227,7 @@ class ChamferedPad(Node):
         self._initPadSettings(**kwargs)
         self.radius_ratio = kwargs.get('radius_ratio', 0)
         self.maximum_radius = kwargs.get('maximum_radius')
+        self.pad = self._generatePad()
 
     def _initSize(self, **kwargs):
         if not kwargs.get('size'):
@@ -279,7 +298,6 @@ class ChamferedPad(Node):
                 inside[0] -= radius
                 inside[1] -= radius
 
-
             points = []
             corner_vectors = [
                 Vector2D(-1, -1), Vector2D(1, -1), Vector2D(1, 1), Vector2D(-1, 1)
@@ -334,7 +352,12 @@ class ChamferedPad(Node):
         edge_to_center = relative_center - self.size/2
         self.chamfer_size -= [edge_to_center.y, edge_to_center.x]
         self.chamfer_size = Vector2D([x if x > 0 else 0 for x in self.chamfer_size])
+
+        self.pad = self._generatePad()
         return self.chamfer_size
 
     def getVirtualChilds(self):
-        return [self._generatePad()]
+        return [self.pad]
+
+    def getRoundRadius(self):
+        return self.pad.getRoundRadius()

@@ -137,7 +137,8 @@ class PadArray(Node):
             self.increment = 0
         elif type(self.initialPin) is not int or self.initialPin < 1:
             if not callable(self.increment):
-                raise ValueError('{pn} is not a valid starting pin number if increment is not a function'.format(pn=self.initialPin))
+                raise ValueError('{pn} is not a valid starting pin number if increment is not a function'
+                                 .format(pn=self.initialPin))
 
     # Pin incrementing
     def _initIncrement(self, **kwargs):
@@ -199,7 +200,6 @@ class PadArray(Node):
                 pad_numbers.append(self.increment(pad_numbers[-1]))
         else:
             raise TypeError("Wrong type for increment. It must be either a int or callable.")
-
 
         end_pad_params = copy(kwargs)
         if kwargs.get('end_pads_size_reduction'):

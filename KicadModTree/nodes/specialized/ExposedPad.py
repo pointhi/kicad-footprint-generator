@@ -554,3 +554,6 @@ class ExposedPad(Node):
             pads += self.__createVias()
         pads += self.__createPaste()
         return pads
+
+    def getRoundRadius(self):
+        return min(self.radius_ratio*min(self.size), self.maximum_radius)
