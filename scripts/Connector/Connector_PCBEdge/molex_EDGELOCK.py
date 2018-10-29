@@ -70,6 +70,14 @@ xLeftCrtYd = - xRightCrtYd
 xFabLeft = -xFabRight
 xSilkLeft = -xSilkRight
 
+xOffset = (datasheetBtoHousingLeft - datasheetBtoHousingRight) / 2
+xFabRight -= xOffset
+xSilkRight -= xOffset
+xRightCrtYd -= xOffset
+xLeftCrtYd -= xOffset
+xFabLeft -= xOffset
+xSilkLeft -= xOffset
+
 yCenter = 0.0
 
 yFabBottom = housingHeight / 2
@@ -83,6 +91,17 @@ yTopCrtYd = ySilkTop - crtYd
 
 yValue = yFabBottom + 1.25
 yRef = yFabTop - 1.25
+
+yOffset = yEdge - edgeToPadBottom - padHeight / 2
+yFabBottom -= yOffset
+yFabTop -= yOffset
+yEdge -= yOffset
+ySilkBottom -= yOffset
+yBottomCrtYd -= yOffset
+ySilkTop -= yOffset
+yTopCrtYd -= yOffset
+yValue -= yOffset
+yRef -= yOffset
 
 f.append(Text(type="reference", text="REF**", at=[xCenter, yRef],
               layer="F.SilkS", size=s, thickness=t2))
