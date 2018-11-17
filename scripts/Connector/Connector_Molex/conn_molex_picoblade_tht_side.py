@@ -35,7 +35,7 @@ series_long = 'PicoBlade Connector System'
 manufacturer = 'Molex'
 orientation = 'H'
 number_of_rows = 1
-datasheet = 'http://www.molex.com/pdm_docs/sd/532530770_sd.pdf'
+datasheet = 'http://www.molex.com/pdm_docs/sd/530480210_sd.pdf'
 
 #pins_per_row per row
 pins_per_row_range = range(2,16)
@@ -66,7 +66,7 @@ if pad_size[1] == pad_size[0]:
 
 
 def generate_one_footprint(pins, configuration):
-    mpn = part_code.format(n=pins*2)
+    mpn = part_code.format(n=pins)
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]

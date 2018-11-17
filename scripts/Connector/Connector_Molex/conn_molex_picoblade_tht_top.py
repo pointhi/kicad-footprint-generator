@@ -66,7 +66,7 @@ if pad_size[1] == pad_size[0]:
 
 
 def generate_one_footprint(pins, configuration):
-    mpn = part_code.format(n=pins*2)
+    mpn = part_code.format(n=pins)
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
