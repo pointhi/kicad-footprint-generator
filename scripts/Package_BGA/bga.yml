@@ -66,6 +66,16 @@ TFBGA-100_8x8mm_Layout10x10_P0.8mm:
   paste_margin: 0.000001
   layout_x: 10
   layout_y: 10
+TFBGA-121_10x10mm_Layout11x11_P0.8mm:
+  description: "TFBGA-121, 11x11 raster, 10x10mm package, pitch 0.8mm; http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#p495"
+  pkg_width: 10.0
+  pkg_height: 10.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 11
+  layout_y: 11
 TFBGA-216_13x13mm_Layout15x15_P0.8mm:
   description: "TFBGA-216, 15x15 raster, 13x13mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f746zg.pdf#page=219"
   pkg_width: 13.0
