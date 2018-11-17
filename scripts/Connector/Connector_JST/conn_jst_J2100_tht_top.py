@@ -51,10 +51,9 @@ min_annular_ring = 0.15
 
 pin1_row_to_mh = 'far' # 'near'
 
-def generatePadNumber(row_idx, pin_idx):
-    row_name=['a','b']
-    return '{:s}{:d}'.format(row_name[row_idx-1],pin_idx)
-    #return 2*pin_idx if row_idx==2 else 2*pin_idx-1
+ROW_NAMES = ('a','b')
+def incrementPadNumber(old_number):
+    return old_number[0] + str(int(old_number[1:])+1)
 
 #FP description and tags
 
@@ -86,18 +85,30 @@ def generate_one_footprint(pins, configuration):
     if pad_size[1] - drill < 2*min_annular_ring:
         pad_size[1] = drill + 2*min_annular_ring
 
-    for row_idx in range(1,3):
-        for pin_idx in range(1,pins+1):
-            shape=Pad.SHAPE_RECT if row_idx == 1 and pin_idx == 1 else Pad.SHAPE_CIRCLE
-            if pin1_row_to_mh == 'near':
-                position = [(pin_idx-1)*pitch, -(row_idx-1)*row_pitch]
-            else:
-                position = [(pin_idx-1)*pitch, (row_idx-1)*row_pitch]
+    if pad_size[0] == pad_size[1]:
+        pad_shape = Pad.SHAPE_CIRCLE
+    else:
+        pad_shape = Pad.SHAPE_OVAL
 
-            pad_num = generatePadNumber(row_idx, pin_idx)
-            kicad_mod.append(Pad(number=pad_num, type=Pad.TYPE_THT, shape=shape,
-                                 at=position, size=pad_size,
-                                 drill=drill, layers=Pad.LAYERS_THT))
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+
+    for row_idx in range(2):
+        if pin1_row_to_mh == 'near':
+            position_y = -(row_idx)*row_pitch
+        else:
+            position_y = (row_idx)*row_pitch
+
+        kicad_mod.append(PadArray(
+            initial=ROW_NAMES[row_idx]+'1', start=[0, position_y],
+            x_spacing=pitch, pincount=pins, increment=incrementPadNumber,
+            size=pad_size, drill=drill,
+            type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT,
+            tht_pad1_id=ROW_NAMES[0]+'1',
+            **optional_pad_params))
 
     #draw the component outline
     x1 = A/2 - B/2
@@ -223,6 +234,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -236,6 +248,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins_per_row in pin_range:
         generate_one_footprint(pins_per_row, configuration)

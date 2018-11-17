@@ -51,6 +51,15 @@ if pad_size[1] - drill < 2*min_annular_ring:
 if pad_size[1] - drill > 2*max_annular_ring:
     pad_size[1] = drill + 2*max_annular_ring
 
+ROW_NAMES = ('a','b')
+def incrementPadNumber(old_number):
+    return old_number[0] + str(int(old_number[1:])+1)
+
+if pad_size[0] == pad_size[1]:
+    pad_shape = Pad.SHAPE_CIRCLE
+else:
+    pad_shape = Pad.SHAPE_OVAL
+
 def make_module(pins_per_row, configuration):
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     off = configuration['silk_fab_offset']
@@ -92,16 +101,20 @@ def make_module(pins_per_row, configuration):
     bounding_box = body_edge.copy()
 
     ############################## Pins ###############################
-    for i in range(pins_per_row):
-        y = i*pitch
-        kicad_mod.append(Pad(
-            at=[0, y], number='a{:d}'.format(i+1),
-            type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-            size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
-        kicad_mod.append(Pad(
-            at=[pitch_row, y], number='b{:d}'.format(i+1),
-            type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
-            size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+
+    for row_idx in range(2):
+        kicad_mod.append(PadArray(
+            initial=ROW_NAMES[row_idx]+'1', start=[(row_idx)*pitch_row, 0],
+            y_spacing=pitch, pincount=pins_per_row, increment=incrementPadNumber,
+            size=pad_size, drill=drill,
+            type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT,
+            tht_pad1_id=ROW_NAMES[0]+'1',
+            **optional_pad_params))
 
     ############################ Outline ##############################
     kicad_mod.append(RectLine(
@@ -113,6 +126,7 @@ def make_module(pins_per_row, configuration):
     r_no_silk = max(pad_size)/2 + pad_silk_off
     dx = abs(body_edge['left']) + off
     pin_center_silk_y = 0 if dx >= r_no_silk else sqrt(r_no_silk**2-dx**2)
+    pin1_center_silk_y = pad_size[1]/2 + pad_silk_off
 
     YCb = A/2+C/2
     YCt = A/2-C/2
@@ -120,7 +134,6 @@ def make_module(pins_per_row, configuration):
 
 
     poly_silk_b = [
-        {'x': body_edge['left']-off, 'y': A+pin_center_silk_y},
         {'x': body_edge['left']-off, 'y': body_edge['bottom']+off},
         {'x': body_edge['right']+off, 'y': body_edge['bottom']+off},
         {'x': body_edge['right']+off, 'y': YCb},
@@ -138,12 +151,27 @@ def make_module(pins_per_row, configuration):
 
     if pin_center_silk_y == 0:
         kicad_mod.append(Line(
-            start=[body_edge['left']-off, 0],
-            end=[body_edge['left']-off, A],
+            start=[body_edge['left']-off, body_edge['top']],
+            end=[body_edge['left']-off, body_edge['bottom']],
             layer="F.SilkS", width=configuration['silk_line_width']
         ))
     else:
-        for i in range(pins_per_row-1):
+        kicad_mod.append(Line(
+            start=[body_edge['left']-off, body_edge['top']-off],
+            end=[body_edge['left']-off, -pin1_center_silk_y],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
+        kicad_mod.append(Line(
+            start=[body_edge['left']-off, pin1_center_silk_y],
+            end=[body_edge['left']-off, pitch-pin_center_silk_y],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
+        kicad_mod.append(Line(
+            start=[body_edge['left']-off, A+pin_center_silk_y],
+            end=[body_edge['left']-off, body_edge['bottom']+off],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
+        for i in range(1, pins_per_row-1):
             yt = i*pitch + pin_center_silk_y
             yb = (i+1)*pitch - pin_center_silk_y
             kicad_mod.append(Line(
@@ -246,6 +274,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -259,6 +288,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins_per_row in pins_per_row_range:
         make_module(pins_per_row, configuration)
