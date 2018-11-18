@@ -79,7 +79,7 @@ class PadArray(Node):
           pad number used for "pin 1" (default: 1)
         * *exclude_pin_list* (``int, Vector1D``) --
           which pin number should be skipped"
-          
+
     :Example:
 
     >>> from KicadModTree import *
@@ -103,7 +103,7 @@ class PadArray(Node):
         self.pincount = kwargs.get('pincount')
         if type(self.pincount) is not int or self.pincount <= 0:
             raise ValueError('{pc} is an invalid value for pincount'.format(pc=self.pincount))
-            
+
         self.exclude_pin_list = []
         if kwargs.get('exclude_pin_list'):
             self.exclude_pin_list = kwargs.get('exclude_pin_list')
@@ -111,7 +111,7 @@ class PadArray(Node):
                 raise TypeError('exclude pin list must be specified like "exclude_pin_list=[0,1]"')
             elif any([type(i) not in [int] for i in self.exclude_pin_list]):
                 raise ValueError('exclude pin list must be integer value')
-                
+
     # Where to start the aray
     def _initStartingPosition(self, **kwargs):
         """
@@ -235,7 +235,7 @@ class PadArray(Node):
             for exi in self.exclude_pin_list:
                 if (i + self.initialPin) == exi:
                     includePad = False
-            
+
             if includePad:
                 current_pad_pos = Vector2D(
                     x_start + i * x_spacing,
