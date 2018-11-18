@@ -104,16 +104,24 @@ def generate_one_footprint(pincount, variant, configuration):
     # create odd numbered pads
     # createNumberedPadsTHT(kicad_mod, ceil(pincount/2), pitch * 2, drill, {'x':dia, 'y':dia},  increment=2)
     #special treatment for pin 1 (rectangular pad alone would reduce the clearance too much)
-    kicad_mod.append(Pad(number=1, at=[0, 0],
-        size=pad_size, drill=drill,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
+    if configuration['kicad4_compatible']:
+        kicad_mod.append(Pad(number=1, at=[0, 0],
+            size=pad_size, drill=drill,
+            type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT))
 
-    kicad_mod.append(Pad(number=1, at=[-pad_size[0]/4, 0],
-        size=[pad_size[0]/2,pad_size[1]],
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=['F.Cu', 'F.Mask']))
-    kicad_mod.append(Pad(number=1, at=[-pad_size[0]/4, 0],
-        size=[pad_size[0]/2,pad_size[1]],
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=['B.Cu', 'B.Mask']))
+        kicad_mod.append(Pad(number=1, at=[-pad_size[0]/4, 0],
+            size=[pad_size[0]/2,pad_size[1]],
+            type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=['F.Cu', 'F.Mask']))
+        kicad_mod.append(Pad(number=1, at=[-pad_size[0]/4, 0],
+            size=[pad_size[0]/2,pad_size[1]],
+            type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=['B.Cu', 'B.Mask']))
+
+    else:
+        kicad_mod.append(ChamferedPad(number=1, at=[0, 0],
+            size=pad_size, drill=drill,
+            type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, layers=Pad.LAYERS_THT,
+            chamfer_size=0.4, radius_ratio=0.25, maximum_radius=0.25,
+            corner_selection=CornerSelection({CornerSelection.TOP_RIGHT:True})))
 
     if pincount > 2:
         kicad_mod.append(PadArray(initial=3, start=[2*pitch, 0],
@@ -293,6 +301,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -306,6 +315,9 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
+
     for variant in variant_parameters:
         for pincount in variant_parameters[variant]['pin_range']:
             generate_one_footprint(pincount, variant, configuration)

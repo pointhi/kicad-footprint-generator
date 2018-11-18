@@ -54,7 +54,7 @@ pitch = 3.0
 drill = 1.0
 peg_drill = 1.0
 pad_to_pad_clearance = 1.5 # Voltage rating is up to 600V (http://www.molex.com/pdm_docs/ps/PS-43650.pdf)
-max_annular_ring = 0.5 
+max_annular_ring = 0.5
 min_annular_ring = 0.15
 
 pad_size = [pitch - pad_to_pad_clearance, drill + 2*max_annular_ring]
@@ -130,9 +130,16 @@ def generate_one_footprint(pins_per_row, variant, configuration):
     #
     # Add pads
     #
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+
     kicad_mod.append(PadArray(start=[pad1_x, pad_y], initial=1,
         pincount=pins_per_row, increment=1,  x_spacing=pitch, size=pad_size,
-        type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT, drill=drill))
+        type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT, drill=drill,
+        **optional_pad_params))
 
     ######################## Fabrication Layer ###########################
     main_body_poly= [
@@ -268,6 +275,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -281,6 +289,9 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
+
     for variant in variant_params:
         for pins_per_row in pins_per_row_range:
             generate_one_footprint(pins_per_row, variant, configuration)

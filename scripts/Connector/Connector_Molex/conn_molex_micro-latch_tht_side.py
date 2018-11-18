@@ -119,18 +119,29 @@ def generate_one_footprint(pins_per_row, configuration):
 
     #offset
     o = configuration['silk_fab_offset']
+    pso = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
+
     x1 -= o
     y1 -= o
     x2 += o
     y2 += o
 
     #generate the pads
-    kicad_mod.append(PadArray(pincount=pins_per_row, x_spacing=pitch, type=Pad.TYPE_THT,
-        shape=pad_shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT))
+
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+
+    kicad_mod.append(PadArray(
+        pincount=pins_per_row, x_spacing=pitch, type=Pad.TYPE_THT,
+        shape=pad_shape, size=pad_size, drill=drill, layers=Pad.LAYERS_THT,
+        **optional_pad_params))
 
     #draw the connector outline
     out = [
-    {'x': -0.3,'y': 1},
+    {'x': -0.3,'y': pad_size[1]/2+pso},
     {'x': -0.5,'y': y2},
     {'x': x1+0.6,'y': y2},
     {'x': x1+0.1,'y': 0.5},
@@ -149,11 +160,11 @@ def generate_one_footprint(pins_per_row, configuration):
     for i in range(pins_per_row-1):
         x = i * pitch
         tab = [
-        {'x': x-0.3,'y': 1},
-        {'x': x+0.3,'y': 1},
+        {'x': x-0.3,'y': pad_size[1]/2+pso},
+        {'x': x+0.3,'y': pad_size[1]/2+pso},
         {'x': x+0.5,'y': y2},
         {'x': x+pitch-0.5,'y': y2},
-        {'x': x+pitch-0.3,'y': 1},
+        {'x': x+pitch-0.3,'y': pad_size[1]/2+pso},
         ]
 
         kicad_mod.append(PolygoneLine(polygone=tab,
@@ -161,7 +172,7 @@ def generate_one_footprint(pins_per_row, configuration):
 
     #add the final tab line
     x = (pins_per_row-1) * pitch
-    kicad_mod.append(Line(start=[x - 0.3,1], end=[x+0.3,1]))
+    kicad_mod.append(Line(start=[x - 0.3, pad_size[1]/2+pso], end=[x+0.3, pad_size[1]/2+pso]))
 
     #pin-1 marker
     y =  y2 + 0.5
@@ -251,6 +262,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -264,6 +276,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins_per_row in pins_per_row_range:
         generate_one_footprint(pins_per_row, configuration)

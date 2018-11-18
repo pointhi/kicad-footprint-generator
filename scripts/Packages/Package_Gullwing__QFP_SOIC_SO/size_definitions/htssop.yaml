@@ -47,6 +47,51 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias:
     # bottom_pad_size:
     paste_avoid_via: False
 
+HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm_ThermalVias:
+  size_source: 'http://www.ti.com/lit/ds/symlink/tps703.pdf'
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 7.7
+    maximum: 7.9
+  overall_size_x:
+    minimum: 6.2
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 12
+
+
+  EP_size_x: 3.4
+  EP_size_y: 7.8
+  EP_mask_x: 2.4
+  EP_mask_y: 4.68
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [3, 6]
+    drill: 0.3
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [1, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.3, 1.3]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
 Texas_PWP_R-PDSO-G20:
 # HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.75x3.43mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=37&zoom=160,-90,3'

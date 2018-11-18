@@ -132,12 +132,11 @@ def generate_one_footprint(pins, params, configuration):
     }
 
     ##################################  Pins ##################################
-    kicad_mod.append(PadArray(pincount=pins, start=[0,0],
-        y_spacing=pitch, size=pad_size, drill=drill,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, layers=Pad.LAYERS_THT))
-    kicad_mod.append(PadArray(pincount=pins, start=[offset_second_pad, 0],
-        y_spacing=pitch, size=pad_size, drill=drill,
-        shape=Pad.SHAPE_RECT, type=Pad.TYPE_THT, layers=Pad.LAYERS_THT))
+    for row_idx in range(2):
+        kicad_mod.append(PadArray(pincount=pins, start=[row_idx*offset_second_pad, 0],
+            y_spacing=pitch, size=pad_size, drill=drill,
+            shape=Pad.SHAPE_RECT, type=Pad.TYPE_THT, layers=Pad.LAYERS_THT,
+            tht_pad1_shape=Pad.SHAPE_RECT))
 
     d_small = 0.3
     s_small = d_small + 2*min_annular_ring

@@ -1,0 +1,51 @@
+# Dimensions taken from ipc7351b table 3-20
+
+# Aluminum Electrolytic Capacitor and 2-Pin Crystal
+#           | Minimum | Median    | Maximum |
+#           | (Most)  | (Nominal) | (Least) |
+#           | Density | Density   | Density | round
+# Lead Part | Level A | Level B   | Level C |  to
+# ----------+---------+-----------+---------+-
+# Toe (JT)  |  0.7    |  0.5      |  0.3    | 0.05
+# >=10mm    |  1.0    |  0.7      |  0.4
+# Heel (JH) |  0.0    |  -0.1     |  -0.2   | 0.05
+# >=10mm    |  0.0    |  -0.05    |  -0.1
+# Side (JS) |  0.5    |  0.4      |  0.03   | 0.05
+# >=10mm    |  0.6    |  0.5      |  0.4
+# Courtyard |  1.0    |  0.5      |  0.25   |
+
+ipc_spec_capae_crystal:
+    most:
+        toe: 0.7
+        heel: 0
+        side: 0.5
+        courtyard: 1.0
+    most_10mm:
+        toe: 1.0
+        heel: 0.0
+        side: 0.6
+        courtyard: 1.0
+    nominal:
+        toe: 0.5
+        heel: -0.1
+        side: 0.4
+        courtyard: 0.5
+    nominal_10mm:
+        toe: 0.7
+        heel: -0.05
+        side: 0.5
+        courtyard: 0.5
+    least:
+        toe: 0.3
+        heel: -0.2
+        side: 0.03
+        courtyard: 0.25
+    least_10mm:
+        toe: 0.4
+        heel: -0.1
+        side: 0.4
+        courtyard: 0.25
+    round_base:
+        toe: 0.05
+        heel: 0.05
+        side: 0.05
