@@ -231,7 +231,7 @@ class PadArray(Node):
             delta_pos = Vector2D(0, 0)
 
         for i, number in enumerate(pad_numbers):
-            includePad = True
+            includePad = (i + self.initialPin) not in self.exclude_pin_list
             for exi in self.exclude_pin_list:
                 if (i + self.initialPin) == exi:
                     includePad = False
