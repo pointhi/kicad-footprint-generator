@@ -29,8 +29,7 @@
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../kicad-footprint-generator")
-sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../..")
 
 from KicadModTree import Footprint, Translation, Pad, Model, KicadFileHandler
 from canvas import Layer, PadLayer, Keepout, OutDir
