@@ -68,7 +68,8 @@ class params (PartParametersBase):
         'body_height',
         'body_length',
         'body_overlength',
-        'body_offset'
+        'body_offset',
+        'datasheet',
     ])
 
     def __init__(self, parameter_file=None):
@@ -148,7 +149,8 @@ class params (PartParametersBase):
                 body_offset = device['body']['offset'],
                 pad_width = device['pads']['width'],
                 pad_length = device['pads']['length'],
-                pads_lp_width = device['pads']['lp_width']
+                pads_lp_width = device['pads']['lp_width'],
+                datasheet = device['datasheet'],
             )
         else:
             return False
@@ -171,7 +173,7 @@ class params (PartParametersBase):
         for i in range(0, len(model_classes)):
             for variant in self.devices.keys():
                 for pin_columns in range(self.devices[variant].pins_min, self.devices[variant].pins_max + 1):
-                    params = self.devices[variant]._replace(num_pins = pin_columns * self.devices[variant].num_pin_rows)
+                    params = self.devices[variant]._replace(num_pins = pin_columns)
                     model = model_classes[i](params)
                     if model.make_me:
                         models[model.makeModelName(variant)] = self.Model(variant, params, model_classes[i])
