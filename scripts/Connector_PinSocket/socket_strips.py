@@ -60,7 +60,7 @@ class pinSocketVerticalTHT (object):
 
         param = self.params
 
-        lib_name ="Conn_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
+        lib_name ="Connector_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
         footprint_name = self.makeModelName("")
         description = "Through hole straight socket strip, {0}x{1:02}, {2:03.2f}mm pitch".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
         tags = "Through hole socket strip THT {0}x{1:02} {2:03.2f}mm".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
@@ -230,7 +230,7 @@ class pinSocketHorizontalTHT (object):
 
         param = self.params
 
-        lib_name ="Conn_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
+        lib_name ="Connector_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
         footprint_name = self.makeModelName("")
         description = "Through hole angled socket strip, {0}x{1:02}, {2:03.2f}mm pitch, {3}mm socket length"\
                        .format(param.num_pin_rows, param.num_pins, param.pin_pitch, param.body_width)
@@ -382,7 +382,7 @@ class pinSocketVerticalSMD (object):
 
         param = self.params
 
-        lib_name ="Conn_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
+        lib_name ="Connector_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
         footprint_name = self.makeModelName("")
         description = "surface-mounted straight socket strip, {0}x{1:02}, {2:03.2f}mm pitch".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
         tags = "Surface mounted socket strip SMD {0}x{1:02} {2:03.2f}mm".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
