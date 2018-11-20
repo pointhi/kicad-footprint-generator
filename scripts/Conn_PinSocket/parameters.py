@@ -122,7 +122,7 @@ class params (PartParametersBase):
                     self.devices[device['series']] = params
                 self.loaded = True
         except Exception as exception:
-            self.loaded = 'Failed to load parameters: {e:s}'.format(e=exception)
+            self.loaded = 'Failed to load parameters: {e}'.format(e=exception)
             return
 
     def _import_params(self, device):
