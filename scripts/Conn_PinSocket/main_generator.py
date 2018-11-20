@@ -31,6 +31,8 @@
 #       see parameter.yaml for which
 #
 
+import sys
+
 from parameters import params
 
 import socket_strips
@@ -44,6 +46,10 @@ if __name__ == '__main__':
     ]
 
     params = params()
+    if params.loaded is not True:
+        print(params.loaded)
+        sys.exit(1)
+
 #    models = params.getSampleModels(series, 4)
     models = params.getAllModels(series)
     i = 0
