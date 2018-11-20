@@ -126,7 +126,7 @@ class params (PartParametersBase):
             return
 
     def _import_params(self, device):
-        if self.base_params.has_key(device['series']):
+        if device['series'] in self.base_params:
             base = self.base_params[device['series']]
             return self.DParams(
                 num_pins = None,                  # to be added programmatically
@@ -196,7 +196,7 @@ class params (PartParametersBase):
 
     def getModel(self, model_class, variant):
 
-        model = self.devices.has_key(variant)
+        model = variant in self.devices
 
         # instantiate generator class in order to make a dictionary entry for a single variant
         if model:
