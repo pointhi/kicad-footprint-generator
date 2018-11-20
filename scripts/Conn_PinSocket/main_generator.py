@@ -54,6 +54,6 @@ if __name__ == '__main__':
             model.make()
         i += 1
 
-    print "\nFootprints made:", i
+    print("\nFootprints made:", i)
 
 ### EOF ###

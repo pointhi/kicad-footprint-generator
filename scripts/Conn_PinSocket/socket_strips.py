@@ -82,8 +82,8 @@ class pinSocketVerticalTHT (object):
 
         description += ", script generated"
 
-        print "###################"
-        print footprint_name, "in", lib_name
+        print("###################")
+        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name)
@@ -253,8 +253,8 @@ class pinSocketHorizontalTHT (object):
 
         description += ", script generated"
 
-        print "###################"
-        print footprint_name, "in", lib_name
+        print("###################")
+        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name)
@@ -415,8 +415,8 @@ class pinSocketVerticalSMD (object):
 
         description += ", script generated"
 
-        print "###################"
-        print footprint_name, "in", lib_name
+        print("###################")
+        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name)
