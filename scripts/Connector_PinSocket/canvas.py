@@ -711,7 +711,7 @@ class Keepout():
         segments = [[line.x0, line.y0, line.x1, line.y1]]
 
         if self.DEBUG & 2:
-            print "S", line
+            print("S", line)
 
         changes = len(self.keepouts) > 0
         while changes != False:
@@ -727,13 +727,13 @@ class Keepout():
                                 add_segment(segment[0], segment[1], segment[2], segment[3])
                             
                         if self.DEBUG & 2:
-                            print "CHOP - line:", segment[0], segment[1], segment[2], segment[3], "keepout:", keepout
+                            print("CHOP - line:", segment[0], segment[1], segment[2], segment[3], "keepout:", keepout)
 
             if changes != False:
                 break
 
         if self.DEBUG & 2:
-            print "LI", segments    
+            print("LI", segments)
 
         return segments
     
