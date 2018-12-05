@@ -1,0 +1,74 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'SOIC'
+
+SOIC-4_4.55x3.7mm_P2.54mm:
+  custom_name_format: 'SOIC-4_4.55x3.7mm_P2.54mm' #does not take into account the excluded pins
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=11791&prodName=TLP185'
+  body_size_x:
+    minimum: 4.4
+    nominal: 4.55
+    maximum: 4.8
+  body_size_y:
+    minimum: 3.45
+    nominal: 3.7
+    maximum: 3.95
+  overall_size_x:
+    minimum: 6.6
+    nominal: 7.0
+    maximum: 7.4
+  lead_width:
+    nominal: 0.4
+  lead_len:
+    nominal: 0.5
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 3
+  exclude_pin_list: [2, 4] #not currently implemented so hand modification is necessary
+
+
+SOIC-4_4.55x2.6mm_P1.27mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12884&prodName=TLP291'
+  body_size_x:
+    minimum: 4.4
+    nominal: 4.55
+    maximum: 4.8
+  body_size_y:
+    minimum: 2.45
+    nominal: 2.6
+    maximum: 2.85
+  overall_size_x:
+    minimum: 6.6
+    nominal: 7.0
+    maximum: 7.4
+  lead_width:
+    minimum: 0.37
+    maximum: 0.39
+  lead_len:
+    nominal: 0.5
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 2
+  
+SOIC-16_4.55x10.3mm_P1.27mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12858&prodName=TLP291-4'
+  body_size_x:
+    minimum: 4.4
+    nominal: 4.55
+    maximum: 4.8
+  body_size_y:
+    minimum: 10.15
+    nominal: 10.3
+    maximum: 10.55
+  overall_size_x:
+    minimum: 6.6
+    nominal: 7.0
+    maximum: 7.4
+  lead_width:
+    minimum: 0.39
+    maximum: 0.41
+  lead_len:
+    nominal: 0.5
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
