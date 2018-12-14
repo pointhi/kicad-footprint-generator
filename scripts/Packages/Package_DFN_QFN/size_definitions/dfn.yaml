@@ -91,6 +91,7 @@ DFN-6-1EP_3x2mm_P0.5mm_EP1.65x1.35mm:
   lead_len:
     nominal: 0.4
     tolerance: 0.1
+  
   EP_size_x: 1.65
   EP_size_y: 1.35
   # EP_paste_coverage: 0.65
