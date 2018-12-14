@@ -85,13 +85,17 @@ DFN-6-1EP_3x2mm_P0.5mm_EP1.65x1.35mm:
   #ipc_density: 'least' #overwrite global value for this device.
   body_size_x: 3
   body_size_y: 2
-  lead_width: 0.25
-  lead_len: 0.2
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
   EP_size_x: 1.65
   EP_size_y: 1.35
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  heel_reduction: 0.0 #for relatively large EP pads (increase clearance)
 
   pitch: 0.5
   num_pins_x: 0
