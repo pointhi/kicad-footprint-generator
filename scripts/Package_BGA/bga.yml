@@ -144,7 +144,7 @@ UFBGA-100_7x7mm_Layout12x12_P0.5mm:
   pkg_height: 7.0
   pitch: 0.5
   pad_diameter: 0.28
-  mask_margin: 0.045
+  mask_margin:  0.045
   paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
@@ -154,9 +154,9 @@ XBGA-121_10x10mm_Layout11x11_P0.8mm:
   pkg_width: 10.0
   pkg_height: 10.0
   pitch: 0.8
-  pad_diameter: 0.40
+  pad_diameter: 0.32
   mask_margin: 0.04
-  paste_margin: 0.000001
+  paste_margin: 0.0001
   layout_x: 11
   layout_y: 11
 UFBGA-132_7x7mm_Layout12x12_P0.5mm:
