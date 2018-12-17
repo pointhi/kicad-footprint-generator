@@ -491,7 +491,7 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
-TQFN-24-1EP_4x4mm_Pitch0.5mm_EP52.8x2.8mm_PullBack_ThermalVias:
+TQFN-24-1EP_4x4mm_Pitch0.5mm_EP52.8x2.8mm_PullBack:
   device_type: 'TQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
