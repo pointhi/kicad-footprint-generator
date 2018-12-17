@@ -162,7 +162,7 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
-    count: [2, 2]
+    count: [3, 3]
     drill: 0.2
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1
