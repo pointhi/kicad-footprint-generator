@@ -2,6 +2,78 @@ FileHeader:
   library_Suffix: 'QFP'
   device_type: 'LQFP'
 
+LQFP-32_5x5mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT401-1.pdf'
+  body_size_x:
+    minimum: 4.9
+    maximum: 5.1
+  body_size_y:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_x:
+    minimum: 6.85
+    maximum: 7.15
+  overall_size_y:
+    minimum: 6.85
+    maximum: 7.15
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 8
+  num_pins_y: 8
+
+LQFP-32_7x7mm_P0.8mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT358-1.pdf'
+  body_size_x:
+    minimum: 6.9
+    maximum: 7.1
+  body_size_y:
+    minimum: 6.9
+    maximum: 7.1
+  overall_size_x:
+    minimum: 8.85
+    maximum: 9.15
+  overall_size_y:
+    minimum: 8.85
+    maximum: 9.15
+  lead_width:
+    minimum: 0.3
+    maximum: 0.4
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.8
+  num_pins_x: 8
+  num_pins_y: 8
+
+LQFP-36_7x7mm_P0.65mm:
+  size_source: 'https://www.onsemi.com/pub/Collateral/561AV.PDF'
+  body_size_x:
+    nominal: 7
+    tolerance: 0.1
+  body_size_y:
+    nominal: 7
+    tolerance: 0.1
+  overall_size_x:
+    nominal: 9
+    tolerance: 0.2
+  overall_size_y:
+    nominal: 9
+    tolerance: 0.2
+  lead_width:
+    nominal: 0.3
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.5
+    tolerance: 0.2
+  pitch: 0.65
+  num_pins_x: 9
+  num_pins_y: 9
+
 LQFP-48:
   size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
   body_size_x:
