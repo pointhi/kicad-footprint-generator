@@ -75,7 +75,47 @@ LQFP-36_7x7mm_P0.65mm:
   num_pins_x: 9
   num_pins_y: 9
 
-LQFP-48:
+LQFP-44_10x10mm_P0.8mm:
+  size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ASS23225W.pdf?&fsrch=1'
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    minimum: 0.3
+    maximum: 0.45
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.8
+  num_pins_x: 11
+  num_pins_y: 11
+
+LQFP-48_7x7mm_P0.5mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ltc2358-16.pdf'
+  body_size_x:
+    nominal: 7
+  body_size_y:
+    nominal: 7
+  overall_size_x:
+    nominal: 9
+  overall_size_y:
+    nominal: 9
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+
+LQFP-48-1ep:
   size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
   body_size_x:
     nominal: 7
