@@ -52,6 +52,7 @@ LQFP-32_7x7mm_P0.8mm:
 
 LQFP-36_7x7mm_P0.65mm:
   size_source: 'https://www.onsemi.com/pub/Collateral/561AV.PDF'
+  ipc_density: 'least'
   body_size_x:
     nominal: 7
     tolerance: 0.1

@@ -131,7 +131,8 @@ class Gullwing():
 
         ipc_reference = 'ipc_spec_gw_large_pitch' if device_params['pitch'] >= 0.625 else 'ipc_spec_gw_small_pitch'
 
-        ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
+        used_density = device_params.get('ipc_density', ipc_density)
+        ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
         pitch = device_params['pitch']
