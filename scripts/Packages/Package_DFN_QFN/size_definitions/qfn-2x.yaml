@@ -146,6 +146,7 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   device_type: 'LFCSP'
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/AD7682_7689.pdf'
   ipc_class: 'qfn' # 'qfn_pull_back'
+  library: 'Package_CSP'
   body_size_x:
     nominal: 4
   body_size_y:
