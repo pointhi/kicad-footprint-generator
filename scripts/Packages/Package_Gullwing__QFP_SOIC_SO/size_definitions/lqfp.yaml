@@ -381,3 +381,104 @@ LQFP-64_14x14mm_P0.8mm:
   pitch: 0.8
   num_pins_x: 16
   num_pins_y: 16
+
+LQFP-80_10x10mm_P0.4mm:
+  size_source: 'https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q80.10x10.pdf'
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    minimum: 0.13
+    nominal: 0.16
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 20
+  num_pins_y: 20
+
+LQFP-80_12x12mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT315-1.pdf'
+  body_size_x:
+    minimum: 11.9
+    maximum: 12.1
+  body_size_y:
+    minimum: 11.9
+    maximum: 12.1
+  overall_size_x:
+    minimum: 13.85
+    maximum: 14.15
+  overall_size_y:
+    minimum: 13.85
+    maximum: 14.15
+  lead_width:
+    minimum: 0.13
+    maximum: 0.27
+  lead_len:
+    minimum: 0.3
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 20
+  num_pins_y: 20
+
+LQFP-80_14x14mm_P0.65mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/AD9852.pdf'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    minimum: 13.8
+    nominal: 14
+    maximum: 14.2
+  body_size_y:
+    minimum: 13.8
+    nominal: 14
+    maximum: 14.2
+  overall_size_x:
+    minimum: 15.8
+    nominal: 16
+    maximum: 16.2
+  overall_size_y:
+    minimum: 15.8
+    nominal: 16
+    maximum: 16.2
+  lead_width:
+    minimum: 0.22
+    nominal: 0.32
+    maximum: 0.38
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 20
+  num_pins_y: 20
+
+LQFP-100_14x14mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT407-1.pdf'
+  body_size_x:
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    minimum: 13.9
+    maximum: 14.1
+  overall_size_x:
+    minimum: 15.75
+    maximum: 16.25
+  overall_size_y:
+    minimum: 15.75
+    maximum: 16.25
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 25
+  num_pins_y: 25
