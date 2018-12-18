@@ -482,3 +482,49 @@ LQFP-100_14x14mm_P0.5mm:
   pitch: 0.5
   num_pins_x: 25
   num_pins_y: 25
+
+LQFP-128_14x14mm_P0.4mm:
+  size_source: 'https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q128.14x14.pdf'
+  body_size_x:
+    nominal: 14
+  body_size_y:
+    nominal: 14
+  overall_size_x:
+    nominal: 16
+  overall_size_y:
+    nominal: 16
+  lead_width:
+    minimum: 0.13
+    nominal: 0.16
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 32
+  num_pins_y: 32
+
+LQFP-128_14x20mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT425-1.pdf'
+  body_size_x:
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    minimum: 19.9
+    maximum: 20.1
+  overall_size_x:
+    minimum: 15.85
+    maximum: 16.15
+  overall_size_y:
+    minimum: 21.85
+    maximum: 22.15
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 26
+  num_pins_y: 38
