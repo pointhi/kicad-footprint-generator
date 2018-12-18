@@ -8,6 +8,8 @@ import sys
 sys.path.append(os.path.join(sys.path[0], "..", ".."))
 
 from KicadModTree import *
+import itertools
+from string import ascii_uppercase
 
 def bga(args):
     footprint_name = args["name"]
@@ -17,6 +19,8 @@ def bga(args):
     pkgHeight = args["pkg_height"]
 
     pitch = args["pitch"]
+    pitch_x = args["pitch_x"]
+    pitch_y = args["pitch_y"]
     padShapes = args["pad_shape"]
     padDiameter = args["pad_diameter"]
     maskMargin = args["mask_margin"]
@@ -26,6 +30,21 @@ def bga(args):
     layoutY = args["layout_y"]
     rowNames = args["row_names"]
     rowSkips = args["row_skips"]
+    
+    # must be given pitch (equal in X and Y directions) or a unique pitch in both X and Y
+    if pitch == 0:
+        if pitch_x and pitch_y:
+            pitch_string = str(pitch_x) + "x" + str(pitch_y)
+            
+        else:
+            raise KeyError('{}: Either pitch or both pitch_x and pitch_y must be given.'.format(footprint_name))
+    else:
+        if pitch_x and pitch_y:
+            raise KeyError('{}: Either pitch or both pitch_x and pitch_y must be given.'.format(footprint_name))
+        else:
+            pitch_string = str(pitch)
+            pitch_x = pitch
+            pitch_y = pitch
 
     f = Footprint(footprint_name)
     f.setDescription(desc)
@@ -70,8 +89,8 @@ def bga(args):
     xLeftFab = xCenter - pkgWidth / 2.0
     xRightFab = xCenter + pkgWidth / 2.0
     xChamferFab = xLeftFab + chamfer
-    xPadLeft = xCenter - pitch * ((layoutX - 1) / 2.0)
-    xPadRight = xCenter + pitch * ((layoutX - 1) / 2.0)
+    xPadLeft = xCenter - pitch_x * ((layoutX - 1) / 2.0)
+    xPadRight = xCenter + pitch_x * ((layoutX - 1) / 2.0)
     xLeftCrtYd = crtYdRound(xCenter - (pkgWidth / 2.0 + crtYdOffset))
     xRightCrtYd = crtYdRound(xCenter + (pkgWidth / 2.0 + crtYdOffset))
 
@@ -79,8 +98,8 @@ def bga(args):
     yTopFab = yCenter - pkgHeight / 2.0
     yBottomFab = yCenter + pkgHeight / 2.0
     yChamferFab = yTopFab + chamfer
-    yPadTop = yCenter - pitch * ((layoutY - 1) / 2.0)
-    yPadBottom = yCenter + pitch * ((layoutY - 1) / 2.0)
+    yPadTop = yCenter - pitch_y * ((layoutY - 1) / 2.0)
+    yPadBottom = yCenter + pitch_y * ((layoutY - 1) / 2.0)
     yTopCrtYd = crtYdRound(yCenter - (pkgHeight / 2.0 + crtYdOffset))
     yBottomCrtYd = crtYdRound(yCenter + (pkgHeight / 2.0 + crtYdOffset))
     yRef = yTopFab - 1.0
@@ -146,24 +165,35 @@ def bga(args):
         for col in rowSet:
             f.append(Pad(number="{}{}".format(row, col), type=Pad.TYPE_SMT,
                          shape=padShape,
-                         at=[xPadLeft + (col-1) * pitch, yPadTop + rowNum * pitch],
+                         at=[xPadLeft + (col-1) * pitch_x, yPadTop + rowNum * pitch_y],
                          size=[padDiameter, padDiameter],
                          layers=Pad.LAYERS_SMT, 
                          radius_ratio=0.25))
 
-    f.setTags("{} {} {}".format(package_type, balls, pitch))
+    f.setTags("{} {} {}".format(package_type, balls, pitch_string))
     
     file_handler = KicadFileHandler(f)
     file_handler.writeFile(footprint_name + ".kicad_mod")
 
+def bga_row_column_generator(seq):
+    for n in itertools.count(1):
+        for s in itertools.product(seq, repeat = n):
+            yield ''.join(s)
+
 if __name__ == '__main__':
+    # generate list of A, B .. Y, Z, AA, AB .. CY less easily-confused letters
+    bga_row_col_chars = [x for x in ascii_uppercase if x not in ["I", "O", "Q", "S", "X", "Z"]]
+    bga_row_col_list = list(itertools.islice(bga_row_column_generator(bga_row_col_chars), 103))
+    
     parser = ModArgparser(bga)
     # the root node of .yml files is parsed as name
     parser.add_parameter("name", type=str, required=True)
     parser.add_parameter("description", type=str, required=True)
     parser.add_parameter("pkg_width", type=float, required=True)
     parser.add_parameter("pkg_height", type=float, required=True)
-    parser.add_parameter("pitch", type=float, required=True)
+    parser.add_parameter("pitch", type=float, required=False, default=0)
+    parser.add_parameter("pitch_x", type=float, required=False)
+    parser.add_parameter("pitch_y", type=float, required=False)
     parser.add_parameter("pad_shape", type=str, required=False, default="round")
     parser.add_parameter("pad_diameter", type=float, required=True)
     parser.add_parameter("mask_margin", type=float, required=False, default=0)
@@ -171,9 +201,7 @@ if __name__ == '__main__':
     parser.add_parameter("paste_ratio", type=float, required=False, default=0)
     parser.add_parameter("layout_x", type=int, required=True)
     parser.add_parameter("layout_y", type=int, required=True)
-    parser.add_parameter("row_names", type=list, required=False, default=[
-        "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P",
-        "R", "T", "U"])
+    parser.add_parameter("row_names", type=list, required=False, default=bga_row_col_list)
     parser.add_parameter("row_skips", type=list, required=False, default=[])
 
     # now run our script which handles the whole part of parsing the files
