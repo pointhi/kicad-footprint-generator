@@ -1,0 +1,203 @@
+FileHeader:
+  library_Suffix: 'QFP'
+  device_type: 'EQFP'
+
+EQFP-144-1EP_20x20mm_P0.5mm_EP4x4mm:
+  size_source: 'https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00482-02.pdf'
+  body_size_x:
+    nominal: 20
+  body_size_y:
+    nominal: 20
+  overall_size_x:
+    nominal: 22
+  overall_size_y:
+    nominal: 22
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+  EP_size_x: 4
+  EP_size_y: 4
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.2, 1.2]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
+EQFP-144-1EP_20x20mm_P0.5mm_EP5x5mm:
+  size_source: 'https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00476-02.pdf'
+  body_size_x:
+    nominal: 20
+  body_size_y:
+    nominal: 20
+  overall_size_x:
+    nominal: 22
+  overall_size_y:
+    nominal: 22
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+  EP_size_x: 5
+  EP_size_y: 5
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [4, 4]
+
+  thermal_vias:
+    count: [4, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.2, 1.2]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
+EQFP-144-1EP_20x20mm_P0.5mm_EP6.61x5.615mm:
+  size_source: 'https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00476-02.pdf'
+  body_size_x:
+    nominal: 20
+  body_size_y:
+    nominal: 20
+  overall_size_x:
+    nominal: 22
+  overall_size_y:
+    nominal: 22
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+  EP_size_x: 6.61
+  EP_size_y: 5.615
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [5, 4]
+
+  thermal_vias:
+    count: [5, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.3, 1.4]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
+EQFP-144-1EP_20x20mm_P0.5mm_EP7.2x6.35mm:
+  size_source: 'https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00487-01.pdf'
+  body_size_x:
+    nominal: 20
+  body_size_y:
+    nominal: 20
+  overall_size_x:
+    nominal: 22
+  overall_size_y:
+    nominal: 22
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+  EP_size_x: 7.2
+  EP_size_y: 6.35
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [6, 5]
+
+  thermal_vias:
+    count: [6, 5]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.2, 1.2]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
+EQFP-144-1EP_20x20mm_P0.5mm_EP8.93x8.7mm:
+  size_source: 'https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/packaging/04r00479-02.pdf'
+  body_size_x:
+    nominal: 20
+  body_size_y:
+    nominal: 20
+  overall_size_x:
+    nominal: 22
+  overall_size_y:
+    nominal: 22
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+  EP_size_x: 8.93
+  EP_size_y: 8.7
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [7, 7]
+
+  thermal_vias:
+    count: [7, 7]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.2, 1.2]
+    # bottom_pad_size:
+    # paste_avoid_via: True
