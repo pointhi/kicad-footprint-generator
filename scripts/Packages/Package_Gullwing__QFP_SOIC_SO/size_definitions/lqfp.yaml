@@ -166,3 +166,69 @@ LQFP-48-1ep:
     grid: [1, 1]
     # bottom_pad_size:
     # paste_avoid_via: True
+
+LQFP-52_10x10mm_P0.65mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/98ARL10526D.pdf'
+  # ipc_density: 'least'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    nominal: 0.325
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 13
+  num_pins_y: 13
+
+LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
+  size_source: 'https://www.onsemi.com/pub/Collateral/848H-01.PDF'
+  body_size_x:
+    nominal: 10
+    tolerance: 0
+  body_size_y:
+    nominal: 10
+    tolerance: 0
+  overall_size_x:
+    nominal: 12
+    tolerance: 0
+  overall_size_y:
+    nominal: 12
+    tolerance: 0
+  lead_width:
+    minimum: 0.22
+    maximum: 0.4
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 13
+  num_pins_y: 13
+
+  EP_size_x: 4.8
+  EP_size_y: 4.8
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [4, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1, 1]
+    # bottom_pad_size:
+    # paste_avoid_via: True
