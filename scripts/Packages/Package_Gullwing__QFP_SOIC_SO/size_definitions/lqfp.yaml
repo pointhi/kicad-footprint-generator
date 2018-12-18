@@ -260,3 +260,124 @@ LQFP-52_14x14mm_P1mm:
   pitch: 1
   num_pins_x: 13
   num_pins_y: 13
+
+LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
+  size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ARH98426A.pdf'
+  # ipc_density: 'least'
+  # force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+
+  EP_size_x: 6.5
+  EP_size_y: 6.5
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [5, 5]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [5, 5]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.2, 1.2]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
+LQFP-64_7x7mm_P0.4mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT414-1.pdf'
+  body_size_x:
+    minimum: 6.9
+    maximum: 7.1
+  body_size_y:
+    minimum: 6.9
+    maximum: 7.1
+  overall_size_x:
+    minimum: 8.85
+    maximum: 9.15
+  overall_size_y:
+    minimum: 8.85
+    maximum: 9.15
+  lead_width:
+    minimum: 0.13
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 16
+  num_pins_y: 16
+
+LQFP-64_10x10mm_P0.5mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606_7606-6_7606-4.pdf'
+  body_size_x:
+    minimum: 9.8
+    nominal: 10
+    maximum: 10.2
+  body_size_y:
+    minimum: 9.8
+    nominal: 10
+    maximum: 10.2
+  overall_size_x:
+    minimum: 11.8
+    nominal: 12
+    maximum: 12.2
+  overall_size_y:
+    minimum: 11.8
+    nominal: 12
+    maximum: 12.2
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+
+LQFP-64_14x14mm_P0.8mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT791-1.pdf'
+  body_size_x:
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    minimum: 13.9
+    maximum: 14.1
+  overall_size_x:
+    minimum: 15.85
+    maximum: 16.15
+  overall_size_y:
+    minimum: 15.85
+    maximum: 16.15
+  lead_width:
+    minimum: 0.3
+    maximum: 0.45
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.8
+  num_pins_x: 16
+  num_pins_y: 16
