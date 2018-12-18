@@ -232,3 +232,31 @@ LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
     grid: [1, 1]
     # bottom_pad_size:
     # paste_avoid_via: True
+
+LQFP-52_14x14mm_P1mm:
+  size_source: 'http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf'
+  body_size_x:
+    nominal: 14
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    nominal: 14
+    minimum: 13.9
+    maximum: 14.1
+  overall_size_x:
+    nominal: 16
+    minimum: 15.8
+    maximum: 16.2
+  overall_size_y:
+    nominal: 16
+    minimum: 15.8
+    maximum: 16.2
+  lead_width:
+    minimum: 0.39
+    maximum: 0.48
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 1
+  num_pins_x: 13
+  num_pins_y: 13
