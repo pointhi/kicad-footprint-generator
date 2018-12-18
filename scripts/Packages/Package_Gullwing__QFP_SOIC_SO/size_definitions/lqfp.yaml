@@ -622,3 +622,51 @@ LQFP-176_24x24mm_P0.5mm:
   pitch: 0.5
   num_pins_x: 44
   num_pins_y: 44
+
+LQFP-208_28x28mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT459-1.pdf'
+  body_size_x:
+    minimum: 27.9
+    maximum: 28.1
+  body_size_y:
+    minimum: 27.9
+    maximum: 28.1
+  overall_size_x:
+    minimum: 29.85
+    maximum: 30.15
+  overall_size_y:
+    minimum: 29.85
+    maximum: 30.15
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 52
+  num_pins_y: 52
+
+LQFP-216_24x24mm_P0.4mm:
+  size_source: 'https://www.onsemi.com/pub/Collateral/566DB.PDF'
+  body_size_x:
+    nominal: 24
+    tolerance: 0
+  body_size_y:
+    nominal: 24
+    tolerance: 0
+  overall_size_x:
+    nominal: 26
+    tolerance: 0
+  overall_size_y:
+    nominal: 26
+    tolerance: 0
+  lead_width:
+    minimum: 0.13
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 54
+  num_pins_y: 54
