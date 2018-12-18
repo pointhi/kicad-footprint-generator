@@ -1,3 +1,13 @@
+BGA-624_21.0x21.0mm_Layout25x25_P0.8mm:
+  description: "BGA-624, 25x25 grid, 21x21mm package, pitch 0.8mm; https://www.nxp.com/docs/en/package-information/SOT1529-1.pdf"
+  pkg_width: 21.0
+  pkg_height: 21.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.0625
+  layout_x: 25
+  layout_y: 25
+  row_skips: [[1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
 LFBGA-100_10x10mm_Layout10x10_P0.8mm:
   description: "LFBGA-100, 10x10 raster, 10x10mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f103tb.pdf#page=87"
   pkg_width: 10.0
