@@ -649,7 +649,7 @@ LQFP-208_28x28mm_P0.5mm:
   num_pins_y: 52
 
 LQFP-216_24x24mm_P0.4mm:
-  size_source: 'https://www.onsemi.com/pub/Collateral/566DB.PDF'
+  size_source: 'https://www.onsemi.com/pub/Collateral/561BE.PDF'
   body_size_x:
     nominal: 24
     tolerance: 0
