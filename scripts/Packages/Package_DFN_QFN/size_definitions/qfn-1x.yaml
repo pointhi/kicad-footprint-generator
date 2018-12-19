@@ -119,6 +119,30 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
+QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
+  device_type: 'QFN'
+  ipc_class: 'qfn'
+  size_source: 'https://www.st.com/content/ccc/resource/technical/document/datasheet/4a/50/94/16/69/af/4b/58/DM00047334.pdf/files/DM00047334.pdf/jcr:content/translations/en.DM00047334.pdf'
+  body_size_x_min: 2.9
+  body_size_x: 3.0
+  body_size_x_max: 3.1
+  body_size_y_min: 2.9
+  body_size_y: 3.0
+  body_size_y_max: 3.1
+  lead_width_min: 0.18
+  lead_width_max: 0.3
+  lead_len_min: 0.3
+  lead_len_max: 0.5
+  
+  EP_size_x: 1.7
+  EP_size_y: 1.7
+  
+  EP_num_paste_pads: [2, 2]
+  
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+  
 QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   device_type: 'QFN'
   #manufacturer: 'man'
