@@ -531,7 +531,7 @@ LQFP-128_14x20mm_P0.5mm:
   num_pins_y: 38
 
 LQFP-144_20x20mm_P0.5mm:
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (page 426)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=425'
   body_size_x:
     nominal: 20
   body_size_y:
@@ -601,7 +601,7 @@ LQFP-176_20x20mm_P0.4mm:
   num_pins_y: 44
 
 LQFP-176_24x24mm_P0.5mm:
-  size_source: 'https://www.st.com/resource/en/datasheet/stm32f207vg.pdf (page 163)'
+  size_source: 'https://www.st.com/resource/en/datasheet/stm32f207vg.pdf#page=163'
   body_size_x:
     minimum: 23.9
     maximum: 24.1
