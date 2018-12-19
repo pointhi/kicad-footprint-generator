@@ -190,6 +190,7 @@ LQFP-52_10x10mm_P0.65mm:
 
 LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
   size_source: 'https://www.onsemi.com/pub/Collateral/848H-01.PDF'
+  force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 10
     tolerance: 0
