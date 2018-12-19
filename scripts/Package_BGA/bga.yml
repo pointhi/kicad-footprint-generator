@@ -36,6 +36,16 @@ Texas_DSBGA-64_3.415x3.535mm_Layout8x8_P0.4mm:
   layout_x: 8
   layout_y: 8
   mask_margin: 0.05
+Texas_DSBGA-8_1.5195x1.5195mm_Layout3x3_P0.5mm:
+  description: "Texas Instruments, DSBGA, 1.5195x1.5195x0.600mm, 8 ball 3x3 area grid, YZR pad definition (http://www.ti.com/lit/ml/mxbg270/mxbg270.pdf)"
+  pkg_width: 1.5195
+  pkg_height: 1.5195
+  pitch: 0.5
+  pad_diameter: 0.2625
+  layout_x: 3
+  layout_y: 3
+  mask_margin: 0.05
+  row_skips: [[], [2], []]
 Texas_MicroStar_Junior_BGA-113_7.0x7.0mm_Layout12x12_P0.5mm:
   description: "Texas Instruments, BGA Microstar Junior, 7x7mm, 113 ball 12x12 grid, NSMD pad definition (http://www.ti.com/lit/ml/mpbg674/mpbg674.pdf, http://www.ti.com/lit/wp/ssyz015b/ssyz015b.pdf)"
   pkg_width: 7
