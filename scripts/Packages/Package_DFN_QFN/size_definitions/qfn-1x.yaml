@@ -123,12 +123,18 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
   device_type: 'QFN'
   size_source: 'http://www.cypress.com/file/46236/download'
   ipc_class: 'qfn' # 'qfn_pull_back'
-  body_size_x: 3
-  body_size_y: 3
-  lead_width_min: 0.18
-  lead_width_max: 0.3
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+  body_size_x:
+    nominal: 3
+    tolerance: 0.1
+  body_size_y:
+    nominal: 3
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.24
+    tolerance: 0.06
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
 
   EP_size_x: 1.7
   EP_size_y: 1.7
@@ -137,7 +143,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
   heel_reduction: 0.025 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
-    count: [3, 3]
+    count: [2, 2]
     drill: 0.3
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1

@@ -148,13 +148,21 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   ipc_class: 'qfn' # 'qfn_pull_back'
   library: 'Package_CSP'
   body_size_x:
+    minimum: 3.9
     nominal: 4
+    maximum: 4.1
   body_size_y:
+    minimum: 3.9
     nominal: 4
-  lead_width_min: 0.2
-  lead_width_max: 0.3
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+    maximum: 4.1
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
 
   EP_size_x: 2.5
   EP_size_y: 2.5
@@ -479,12 +487,18 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.65x2.65mm:
   device_type: 'QFN'
   size_source: 'http://www.cypress.com/file/46236/download'
   ipc_class: 'qfn' # 'qfn_pull_back'
-  body_size_x: 4
-  body_size_y: 4
-  lead_width_min: 0.18
-  lead_width_max: 0.32
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+  body_size_x:
+    nominal: 4
+    tolerance: 0.1
+  body_size_y:
+    nominal: 4
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.07
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
 
   EP_size_x: 2.65
   EP_size_y: 2.65
