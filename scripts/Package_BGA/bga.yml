@@ -118,7 +118,7 @@ UCBGA-49_3x3mm_Layout7x7_P0.4mm:
   paste_margin: 0.000001
   layout_x: 7
   layout_y: 7
-UCBGA-81_4x4mm_Layout9x9_P0.4mm:  
+UCBGA-81_4x4mm_Layout9x9_P0.4mm:
   description: "UCBGA-81, 9x9 raster, 4x4mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213"
   pkg_width: 4
   pkg_height: 4
@@ -201,3 +201,14 @@ UFBGA-201_10x10mm_Layout15x15_P0.65mm:
   layout_x: 15
   layout_y: 15
   row_skips: [[], [], [], [], [[5, 12]], [5, 11], [5, 11], [5, 11], [5, 11], [5, 11], [[5, 12]], [], [], [], []]
+WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm_NSMD:
+  description: "WLP-4, 2x2 raster, 0.73x0.73mm package, pitch 0.35mm; https://datasheets.maximintegrated.com/en/ds/MAX40200.pdf"
+  pkg_width: 0.728
+  pkg_height: 0.728
+  pitch: 0.35
+  pad_diameter: 0.2
+  mask_margin: 0.02
+  paste_margin: 0.000001
+  layout_x: 2
+  layout_y: 2
+  row_skips: [[], []]
