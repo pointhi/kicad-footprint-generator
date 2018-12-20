@@ -336,7 +336,7 @@ RESULT_CHAMFERED_ROUNDED_PAD = """(module chamfered_pad (layer F.Cu) (tedit 0)
          (xy -1.292893 -0.207107) (xy -0.707107 -0.792893) (xy 1.292893 -0.792893) (xy 1.292893 0.207107)
          (xy 0.707107 0.792893) (xy -1.292893 0.792893)) (width 1.414214))
     ))
-)"""
+)"""  # NOQA: E501
 
 
 class Kicad5PadsTests(unittest.TestCase):
