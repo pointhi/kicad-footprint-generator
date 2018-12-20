@@ -291,6 +291,53 @@ RESULT_CHAMFERED_PAD_GRID_AVOID_CIRCLE = """(module test_chamfered_grid (layer F
     ))
 )"""
 
+RESULT_CHAMFERED_ROUNDED_PAD = """(module chamfered_pad (layer F.Cu) (tedit 0)
+  (descr "A example footprint")
+  (tags example)
+  (fp_text reference REF** (at 0 0) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value chamfered_pad (at 0 0) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 1 smd custom (at 0 0) (size 3.646447 3.646447) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -2 -1.5) (xy -1.5 -2) (xy 1.5 -2) (xy 2 -1.5)
+         (xy 2 1.5) (xy 1.5 2) (xy -1.5 2) (xy -2 1.5)) (width 0))
+    ))
+  (pad 1 smd roundrect (at 0 0) (size 4 4) (layers B.Cu) (roundrect_rratio 0.25))
+  (pad 1 smd custom (at 0 5) (size 2.292893 2.292893) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -2 -0.5) (xy -1 -1.5) (xy 1 -1.5) (xy 2 -0.5)
+         (xy 2 0.5) (xy 1 1.5) (xy -1 1.5) (xy -2 0.5)) (width 0))
+    ))
+  (pad 1 smd custom (at 0 5) (size 2.292893 2.292893) (layers B.Cu)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -1.292893 -0.207107) (xy -0.707107 -0.792893) (xy 0.707107 -0.792893) (xy 1.292893 -0.207107)
+         (xy 1.292893 0.207107) (xy 0.707107 0.792893) (xy -0.707107 0.792893) (xy -1.292893 0.207107)) (width 1.414214))
+    ))
+  (pad 1 smd custom (at 5 0) (size 2.292893 2.292893) (layers F.Cu F.Mask F.Paste)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -2 -0.5) (xy -1 -1.5) (xy 2 -1.5) (xy 2 0.5)
+         (xy 1 1.5) (xy -2 1.5)) (width 0))
+    ))
+  (pad 1 smd custom (at 5 0) (size 2.292893 2.292893) (layers B.Cu)
+    (options (clearance outline) (anchor circle))
+    (primitives
+      (gr_poly (pts
+         (xy -1.292893 -0.207107) (xy -0.707107 -0.792893) (xy 1.292893 -0.792893) (xy 1.292893 0.207107)
+         (xy 0.707107 0.792893) (xy -1.292893 0.792893)) (width 1.414214))
+    ))
+)"""
+
 
 class Kicad5PadsTests(unittest.TestCase):
 
@@ -535,3 +582,53 @@ class Kicad5PadsTests(unittest.TestCase):
         result = file_handler.serialize(timestamp=0)
         # file_handler.writeFile('test_chamfered_grid.kicad_mod')
         self.assertEqual(result, RESULT_CHAMFERED_PAD_GRID_AVOID_CIRCLE)
+
+    def testChamferedRoundedPad(self):
+        kicad_mod = Footprint("chamfered_pad")
+
+        kicad_mod.setDescription("A example footprint")
+        kicad_mod.setTags("example")
+
+        kicad_mod.append(Text(type='reference', text='REF**', at=[0, 0], layer='F.SilkS'))
+        kicad_mod.append(Text(type='value', text="chamfered_pad", at=[0, 0], layer='F.Fab'))
+
+        kicad_mod.append(
+            ChamferedPad(number=1, type=Pad.TYPE_SMT,
+                         at=[0, 0], size=[4, 4], layers=Pad.LAYERS_SMT, chamfer_size=[0.5, 0.5],
+                         corner_selection=[1, 1, 1, 1]
+                         ))
+
+        kicad_mod.append(
+            ChamferedPad(number=1, type=Pad.TYPE_SMT,
+                         at=[0, 0], size=[4, 4], layers=["B.Cu"], chamfer_size=[0.5, 0.5],
+                         corner_selection=[1, 1, 1, 1], radius_ratio=0.25
+                         ))
+
+        kicad_mod.append(
+            ChamferedPad(number=1, type=Pad.TYPE_SMT,
+                         at=[0, 5], size=[4, 3], layers=Pad.LAYERS_SMT, chamfer_size=[1, 1],
+                         corner_selection=[1, 1, 1, 1]
+                         ))
+
+        kicad_mod.append(
+            ChamferedPad(number=1, type=Pad.TYPE_SMT,
+                         at=[0, 5], size=[4, 3], layers=["B.Cu"], chamfer_size=[1, 1],
+                         corner_selection=[1, 1, 1, 1], radius_ratio=0.25
+                         ))
+
+        kicad_mod.append(
+            ChamferedPad(number=1, type=Pad.TYPE_SMT,
+                         at=[5, 0], size=[4, 3], layers=Pad.LAYERS_SMT, chamfer_size=[1, 1],
+                         corner_selection=[1, 0, 1, 0]
+                         ))
+
+        kicad_mod.append(
+            ChamferedPad(number=1, type=Pad.TYPE_SMT,
+                         at=[5, 0], size=[4, 3], layers=["B.Cu"], chamfer_size=[1, 1],
+                         corner_selection=[1, 0, 1, 0], radius_ratio=0.25
+                         ))
+
+        file_handler = KicadFileHandler(kicad_mod)
+        result = file_handler.serialize(timestamp=0)
+        # file_handler.writeFile('test_cp.kicad_mod')
+        self.assertEqual(result, RESULT_CHAMFERED_ROUNDED_PAD)
