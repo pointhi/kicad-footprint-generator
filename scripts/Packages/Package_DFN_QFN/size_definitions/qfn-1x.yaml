@@ -67,31 +67,29 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
-    minimum: 3.9
-    nominal: 4
-    maximum: 4.1
+    nominal: 3
+    tolerance: 0.1
   body_size_y:
-    minimum: 3.9
-    nominal: 4
-    maximum: 4.1
+    nominal: 3
+    tolerance: 0.1
   body_height:
     nominal: 0.75
     tolerance: 0.05
   lead_width:
-    minimum: 0.25
-    maximum: 0.35
+    nominal: 0.25
+    tolerance: 0.05
   lead_len:
-    minimum: 0.35
-    maximum: 0.45
+    nominal: 0.4
+    tolerance: 0.05
 
-  EP_size_x: 2.1
-  EP_size_y: 2.1
+  EP_size_x: 1.45
+  EP_size_y: 1.45
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
-    count: [3, 3]
+    count: [2, 2]
     drill: 0.3
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1
@@ -103,7 +101,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
     # bottom_pad_size:
     paste_avoid_via: False
 
-  pitch: 0.65
+  pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
   #chamfer_edge_pins: 0.25
