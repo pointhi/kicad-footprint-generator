@@ -135,8 +135,54 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
 
   EP_size_x: 1.7
   EP_size_y: 1.7
+  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   EP_num_paste_pads: [2, 2]
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+
+QFN-16-1EP_3x3mm_P0.5mm_EP1.9x1.9mm:
+  device_type: 'QFN'
+  ipc_class: 'qfn'
+  size_source: 'https://www.nxp.com/docs/en/package-information/98ASA00525D.pdf'
+  body_size_x:
+    nominal: 3.0
+  body_size_y:
+    nominal: 3.0
+  body_height:
+    minimum: 0.5
+    maximum: 0.65
+  lead_width:
+    minimum: 0.18
+    maximum: 0.3
+  lead_len:
+    minimum: 0.25
+    maximum: 0.45
+
+  EP_size_x:
+    minimum: 1.8
+    maximum: 2.0
+  EP_size_y:
+    minimum: 1.8
+    maximum: 2.0
+
+  EP_num_paste_pads: [2, 2]
+  heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
 
   pitch: 0.5
   num_pins_x: 4

@@ -1,4 +1,4 @@
-VQFN-16-1EP_3x3mm_P0.4mm_EP1.45x1.45mm:
+VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
@@ -30,6 +30,124 @@ VQFN-16-1EP_3x3mm_P0.4mm_EP1.45x1.45mm:
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.08
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
+  device_type: 'VQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.ti.com/lit/ds/symlink/tlv62095.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    minimum: 2.9
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    maximum: 3.1
+  body_height:
+    maximum: 1
+  lead_width:
+    minimum: 0.18
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    nominal: 1.68
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 1.68
+    tolerance: 0.1
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.08
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+VQFN-16-1EP_3x3mm_P0.5mm_EP1.8x1.8mm:
+  device_type: 'VQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://www.st.com/resource/en/datasheet/stspin220.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    minimum: 2.85
+    nominal: 3
+    maximum: 3.15
+  body_size_y:
+    minimum: 2.85
+    nominal: 3
+    maximum: 3.15
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
+  lead_width:
+    minimum: 0.18
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.45
+    nominal: 0.5
+    maximum: 0.55
+
+  EP_size_x:
+    minimum: 1.7
+    nominal: 1.8
+    maximum: 1.9
+  EP_size_y:
+    minimum: 1.7
+    nominal: 1.8
+    maximum: 1.9
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+  heel_reduction: 0.2 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [2, 2]
