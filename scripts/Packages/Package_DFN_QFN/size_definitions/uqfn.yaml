@@ -47,7 +47,7 @@ UQFN-48-1EP_6x6mm_P0.4mm_EP4.62x4.62mm:
   device_type: 'UQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: ''
+  size_source: 'https://github.com/KiCad/kicad-symbols/pull/1189#issuecomment-449506354'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
