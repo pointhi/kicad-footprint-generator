@@ -52,17 +52,21 @@ UQFN-48-1EP_6x6mm_P0.4mm_EP4.62x4.62mm:
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
+    minimum: 5.9
     nominal: 6
-    tolerance: 0.1
+    maximum: 6.1
   body_size_y:
+    minimum: 5.9
     nominal: 6
-    tolerance: 0.1
+    maximum: 6.1
   lead_width:
+    minimum: 0.15
     nominal: 0.2
-    tolerance: 0.07
+    maximum: 0.25
   lead_len:
+    minimum: 0.3
     nominal: 0.4
-    tolerance: 0.1
+    maximum: 0.5
 
   EP_size_x_min: 4.52
   EP_size_x_max: 4.72
