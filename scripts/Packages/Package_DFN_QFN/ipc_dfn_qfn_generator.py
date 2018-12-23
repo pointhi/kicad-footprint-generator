@@ -181,10 +181,16 @@ class DFN():
 
         if device_dimensions['has_EP']:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
-            EP_size = {
-                'x':device_dimensions['EP_size_x'].nominal,
-                'y':device_dimensions['EP_size_y'].nominal
-                }
+            if 'EP_size_x_overwrite' in device_params:
+                EP_size = {
+                    'x':device_params['EP_size_x_overwrite'],
+                    'y':device_params['EP_size_y_overwrite']
+                    }
+            else:
+                EP_size = {
+                    'x':device_dimensions['EP_size_x'].nominal,
+                    'y':device_dimensions['EP_size_y'].nominal
+                    }
             EP_center = {
                 'x':device_dimensions['EP_center_x'].nominal,
                 'y':device_dimensions['EP_center_y'].nominal
