@@ -2,27 +2,46 @@ QFN-20-1EP_3x3mm_P0.45mm_EP1.6x1.6mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet.pdf (Page 212)'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet.pdf#page=212'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
-  body_size_x_min: 2.9
-  body_size_x: 3
-  body_size_x_max: 3.1
-  body_size_y_min: 2.9
-  body_size_y: 3
-  body_size_y_max: 3.1
-  lead_width_min: 0.17
-  lead_width_max: 0.27
-  lead_len_min: 0.35
-  lead_len_max: 0.45
+  body_size_x:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_height:
+    minimum: 0.75
+    nominal: 0.8
+    maximum: 0.85
+
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.45
 
   # For backwards compatibility use 1.6mm even though nominal would be 1.55
-  EP_size_x: 1.6
-  EP_size_y: 1.6
+  EP_size_x:
+    minimum: 1.4
+    nominal: 1.55
+    maximum: 1.7
+  EP_size_x_overwrite: 1.6
+  EP_size_y:
+    minimum: 1.4
+    nominal: 1.55
+    maximum: 1.7
+  EP_size_y_overwrite: 1.6
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [2, 2]
@@ -54,26 +73,31 @@ QFN-20-1EP_3x4mm_P0.5mm_EP1.65x2.65mm:
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
-  body_size_x_min: 2.9
-  body_size_x: 3
-  body_size_x_max: 3.1
-  body_size_y_min: 3.9
-  body_size_y: 4
-  body_size_y_max: 4.1
-  lead_width_min: 0.2
-  lead_width_max: 0.3
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+  body_size_x:
+    nominal: 3
+    tolerance: 0.1
+  body_size_y:
+    nominal: 4
+    tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
 
-  EP_size_x_min: 1.55
-  EP_size_x: 1.65
-  EP_size_x_max: 1.75
-  EP_size_y_min: 2.55
-  EP_size_y: 2.65
-  EP_size_y_max: 2.75
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
+
+  EP_size_x:
+    nominal: 1.65
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2.65
+    tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [2, 3]
@@ -101,24 +125,43 @@ QFN-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 274)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=274'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
     nominal: 4
+    tolerance: 0
   body_size_y:
     nominal: 4
-  lead_width_min: 0.18
-  lead_width_max: 0.30
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+    tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
 
-  EP_size_x: 2.5
-  EP_size_y: 2.5
+  lead_width:
+    minimum: 0.18
+    nominal: 0.25
+    maximum: 0.30
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  EP_size_x_overwrite: 2.5
+  EP_size_y:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  EP_size_y_overwrite: 2.5
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [2, 2]
@@ -146,29 +189,41 @@ MLF-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   device_type: 'MLF'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/doc8246.pdf (page 263)'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/doc8246.pdf#page=263'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
     nominal: 4
+    tolerance: 0
   body_size_y:
     nominal: 4
-  lead_width_min: 0.18
-  lead_width_max: 0.30
-  lead_len_min: 0.35
-  lead_len_max: 0.55
+    tolerance: 0
+  body_height:
+    minimum: 0.7
+    nominal: 0.75
+    maximum: 0.8
 
-  EP_size_x_min: 2.45
-  EP_size_x: 2.6
-  EP_size_x_max: 2.75
-  EP_size_y_min: 2.45
-  EP_size_y: 2.6
-  EP_size_y_max: 2.75
-  heel_reduction: 0.025 #for relatively large EP pads (increase clearance)
+  lead_width:
+    minimum: 0.18
+    nominal: 0.23
+    maximum: 0.30
+  lead_len:
+    minimum: 0.35
+    nominal: 0.45
+    maximum: 0.55
+
+  EP_size_x:
+    minimum: 2.45
+    nominal: 2.6
+    maximum: 2.75
+  EP_size_y:
+    minimum: 2.45
+    nominal: 2.6
+    maximum: 2.75
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [2, 2]
@@ -200,26 +255,33 @@ QFN-20-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
-  body_size_x_min: 3.9
-  body_size_x: 4
-  body_size_x_max: 4.1
-  body_size_y_min: 4.9
-  body_size_y: 5
-  body_size_y_max: 5.1
-  lead_width_min: 0.2
-  lead_width_max: 0.3
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+  body_size_x:
+    nominal: 4
+    tolerance: 0.1
+  body_size_y:
+    nominal: 5
+    tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
 
-  EP_size_x_min: 2.55
-  EP_size_x: 2.65
-  EP_size_x_max: 2.75
-  EP_size_y_min: 3.55
-  EP_size_y: 3.65
-  EP_size_y_max: 3.75
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
+
+  EP_size_x:
+    minimum: 2.55
+    nominal: 2.65
+    maximum: 2.75
+  EP_size_y:
+    minimum: 3.55
+    nominal: 3.65
+    maximum: 3.75
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 4]
@@ -247,24 +309,43 @@ QFN-20-1EP_5x5mm_P0.65mm_EP3.35x3.35mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 276)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=276'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
     nominal: 5
+    tolerance: 0
   body_size_y:
     nominal: 5
-  lead_width_min: 0.25
-  lead_width_max: 0.35
-  lead_len_min: 0.35
-  lead_len_max: 0.45
+    tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
+
+  lead_width:
+    minimum: 0.25
+    nominal: 0.3
+    maximum: 0.35
+  lead_len:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.45
+
+  EP_size_x:
+    minimum: 3.15
+    nominal: 3.25
+    maximum: 3.35
   # For backwards compatibility use maximum size for EP
-  EP_size_x: 3.35
-  EP_size_y: 3.35
+  EP_size_x_overwrite: 3.35
+  EP_size_y:
+    minimum: 3.15
+    nominal: 3.25
+    maximum: 3.35
+  EP_size_y_overwrite: 3.35
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
@@ -297,27 +378,46 @@ QFN-24-1EP_3x3mm_P0.4mm_EP1.75x1.6mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf (page 39)'
+  size_source: 'https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf#page=39'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
-  body_size_x_min: 2.9
-  body_size_x: 3
-  body_size_x_max: 3.1
-  body_size_y_min: 2.9
-  body_size_y: 3
-  body_size_y_max: 3.1
-  lead_width_min: 0.15
-  lead_width_max: 0.25
-  lead_len_min: 0.25
-  lead_len_max: 0.35
+  body_size_x:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_height:
+    minimum: 0.95
+    nominal: 1
+    maximum: 1.05
+
+  lead_width:
+    minimum: 0.15
+    nominal: 0.2
+    maximum: 0.25
+  lead_len:
+    minimum: 0.25
+    nominal: 0.3
+    maximum: 0.35
 
   # Choosen for backwards compatibility
-  EP_size_x: 1.75
-  EP_size_y: 1.6
+  EP_size_x:
+    minimum: 1.65
+    nominal: 1.7
+    maximum: 1.75
+  EP_size_x_overwrite: 1.75
+  EP_size_y:
+    minimum: 1.49
+    nominal: 1.54
+    maximum: 1.59
+  EP_size_y_overwrite: 1.6
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [2, 2]
@@ -355,6 +455,10 @@ QFN-24-1EP_3x4mm_P0.4mm_EP1.65x2.65mm:
   body_size_y:
     nominal: 4
     tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
+
   lead_width:
     nominal: 0.2
     tolerance: 0.05
@@ -371,7 +475,6 @@ QFN-24-1EP_3x4mm_P0.4mm_EP1.65x2.65mm:
     tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [2, 3]
@@ -399,23 +502,43 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 278)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=278'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
-  body_size_x: 4
-  body_size_y: 4
-  lead_width_min: 0.2
-  lead_width_max: 0.3
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+  body_size_x:
+    nominal: 4
+    tolerance: 0
+  body_size_y:
+    nominal: 4
+    tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.85
+    maximum: 0.9
+
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
 
   # size choosen for backwards compatibility
-  EP_size_x: 2.6
-  EP_size_y: 2.6
+  EP_size_x:
+    minimum: 2.4
+    nominal: 2.5
+    maximum: 2.6
+  EP_size_x_overwrite: 2.6
+  EP_size_y:
+    minimum: 2.4
+    nominal: 2.5
+    maximum: 2.6
+  EP_size_y_overwrite: 2.6
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
@@ -448,21 +571,37 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.6mm:
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
+    minimum: 3.9
     nominal: 4
-    tolerance: 0.1
+    maximum: 4.1
   body_size_y:
+    minimum: 3.9
     nominal: 4
-    tolerance: 0.1
-  lead_width_min: 0.18
-  lead_width_max: 0.3
-  lead_len_min: 0.3
-  lead_len_max: 0.4
+    maximum: 4.1
+  body_height:
+    minimum: 0.85
+    nominal: 0.9
+    maximum: 0.95
 
-  EP_size_x: 2.7
-  EP_size_y: 2.6
+  lead_width:
+    minimum: 0.18
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.35
+    maximum: 0.4
+
+  EP_size_x:
+    minimum: 2.65
+    nominal: 2.7
+    maximum: 2.75
+  EP_size_y:
+    minimum: 2.55
+    nominal: 2.6
+    maximum: 2.65
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
@@ -501,6 +640,10 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   body_size_y:
     nominal: 4
     tolerance: 0.1
+  body_height:
+    nominal: 0.9
+    tolerance: 0.1
+
   lead_width:
     nominal: 0.23
     tolerance: 0.05
@@ -516,7 +659,6 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
     tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
@@ -548,31 +690,38 @@ TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack:
   custom_name_format: 'TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack{vias:s}'
   ipc_class: 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
-  #body_size_x_min: 9.9
-  body_size_x: 4.0
-  #body_size_x_max: 10.1
-  #body_size_y_min: 9.9
-  body_size_y: 4.0
-  #body_size_y_max: 10.1
+  body_size_x:
+    nominal: 4.0
+  body_size_y:
+    nominal: 4.0
+  body_height:
+    minimum: 0.5
+    nominal: 0.55
+    maximum: 0.65
+
   lead_to_edge:
     minimum: 0
     maximum: 0.15
-  lead_width_min: 0.18
-  lead_width_max: 0.35
+  lead_width:
+    minimum: 0.18
+    nominal: 0.25
+    maximum: 0.35
   body_to_inside_lead_edge:
     minimum: 0.3
+    nominal: 0.35
     maximum: 0.4
 
-  EP_size_x_min: 2.7
-  EP_size_x: 2.8
-  EP_size_x_max: 2.9
-  EP_size_y_min: 2.7
-  EP_size_y: 2.8
-  EP_size_y_max: 2.9
+  EP_size_x:
+    minimum: 2.7
+    nominal: 2.8
+    maximum: 2.9
+  EP_size_y:
+    minimum: 2.7
+    nominal: 2.8
+    maximum: 2.9
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [3, 3]
@@ -599,7 +748,7 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.4x3.4mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.thatcorp.com/datashts/THAT_5173_Datasheet.pdf'
+  size_source: 'http://www.thatcorp.com/datashts/THAT_5173_Datasheet.pdf#page=17'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -609,6 +758,9 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.4x3.4mm:
   body_size_y:
     nominal: 5
     tolerance: 0.1
+  body_height:
+    nominal: 0.9
+    tolerance: 0.05
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -624,7 +776,6 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.4x3.4mm:
     tolerance: 0.05
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
@@ -666,6 +817,10 @@ QFN-28-1EP_3x6mm_P0.5mm_EP1.7x4.75mm:
   body_size_y:
     nominal: 6
     tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
+
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -673,11 +828,14 @@ QFN-28-1EP_3x6mm_P0.5mm_EP1.7x4.75mm:
     nominal: 0.4
     tolerance: 0.1
 
-  EP_size_x: 1.7
-  EP_size_y: 4.75
+  EP_size_x:
+    nominal: 1.7
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 4.75
+    tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 4]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [2, 4]
@@ -705,7 +863,7 @@ QFN-28-1EP_4x4mm_P0.4mm_EP2.4x2.4mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 280)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=280'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -715,18 +873,32 @@ QFN-28-1EP_4x4mm_P0.4mm_EP2.4x2.4mm:
   body_size_y:
     nominal: 4
     tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.85
+    maximum: 0.9
+
   lead_width:
     minimum: 0.17
+    nominal: 0.2
     maximum: 0.25
   lead_len:
     minimum: 0.3
+    nominal: 0.4
     maximum: 0.5
 
-  EP_size_x: 2.4
-  EP_size_y: 2.4
+  EP_size_x:
+    minimum: 2.5
+    nominal: 2.6
+    maximum: 2.7
+  EP_size_x_overwrite: 2.4
+  EP_size_y:
+    minimum: 2.5
+    nominal: 2.6
+    maximum: 2.7
+  EP_size_y_overwrite: 2.4
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 3]
@@ -754,32 +926,43 @@ QFN-28-1EP_4x4mm_P0.45mm_EP2.4x2.4mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/8008S.pdf (Page 16)'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/8008S.pdf#page=16'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
+    minimum: 3.95
     nominal: 4
-    tolerance: 0.05
+    maximum: 4.05
   body_size_y:
+    minimum: 3.95
     nominal: 4
-    tolerance: 0.05
+    maximum: 4.05
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
+
   lead_width:
     minimum: 0.17
+    nominal: 0.22
     maximum: 0.27
   lead_len:
     minimum: 0.35
+    nominal: 0.4
     maximum: 0.45
 
   EP_size_x:
+    minimum: 2.35
     nominal: 2.4
-    tolerance: 0.05
+    maximum: 2.45
   EP_size_y:
+    minimum: 2.35
     nominal: 2.4
-    tolerance: 0.05
+    maximum: 2.45
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [3, 3]
@@ -807,16 +990,22 @@ QFN-28_4x4mm_P0.5mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.st.com/resource/en/datasheet/stm32f031k6.pdf (Page 280)'
+  size_source: 'http://www.st.com/resource/en/datasheet/stm32f031k6.pdf#page=90'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
-    nominal: 4
-    tolerance: 0
+    minimum: 3.9
+    nominal: 4.0
+    maximum: 4.1
   body_size_y:
-    nominal: 4
-    tolerance: 0
+    minimum: 3.9
+    nominal: 4.0
+    maximum: 4.1
+  body_height:
+    minimum: 0.5
+    nominal: 0.55
+    maximum: 0.6
   lead_width:
     minimum: 0.17
     maximum: 0.25
@@ -827,8 +1016,9 @@ QFN-28_4x4mm_P0.5mm:
   pitch: 0.5
   num_pins_x: 7
   num_pins_y: 7
-  chamfer_edge_pins: 0.15
-  edge_heel_reduction: 0.1
+  edge_heel_reduction: 0.12
+  chamfer_edge_pins: 0.16
+
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
@@ -838,7 +1028,7 @@ QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/3555fe.pdf (Page 32)'
+  size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/3555fe.pdf#page=32'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -848,6 +1038,9 @@ QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   body_size_y:
     nominal: 5
     tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -863,7 +1056,6 @@ QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
     tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 4]
@@ -891,7 +1083,7 @@ QFN-28-1EP_5x5mm_P0.5mm_EP3.35x3.35mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 283)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=283'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -901,6 +1093,10 @@ QFN-28-1EP_5x5mm_P0.5mm_EP3.35x3.35mm:
   body_size_y:
     nominal: 5
     tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
   lead_width:
     minimum: 0.18
     maximum: 0.3
@@ -908,11 +1104,19 @@ QFN-28-1EP_5x5mm_P0.5mm_EP3.35x3.35mm:
     minimum: 0.35
     maximum: 0.45
 
-  EP_size_x: 3.35
-  EP_size_y: 3.35
+  EP_size_x:
+    minimum: 3.15
+    nominal: 3.25
+    maximum: 3.35
+  EP_size_x_overwrite: 3.35
+  EP_size_y:
+    minimum: 3.15
+    nominal: 3.25
+    maximum: 3.35
+  EP_size_y_overwrite: 3.35
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [3, 3]
@@ -950,6 +1154,9 @@ QFN-28-1EP_5x6mm_P0.5mm_EP3.65x4.65mm:
   body_size_y:
     nominal: 6
     tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -965,7 +1172,6 @@ QFN-28-1EP_5x6mm_P0.5mm_EP3.65x4.65mm:
     tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 4]
-  heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [3, 4]
@@ -993,7 +1199,7 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.25x4.25mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 289)'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=289'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -1003,6 +1209,11 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.25x4.25mm:
   body_size_y:
     nominal: 6
     tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
+
   lead_width:
     minimum: 0.23
     maximum: 0.35
@@ -1010,11 +1221,18 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.25x4.25mm:
     minimum: 0.5
     maximum: 0.7
 
-  EP_size_x: 4.25
-  EP_size_y: 4.25
+  EP_size_x:
+    minimum: 3.65
+    nominal: 3.7
+    maximum: 4.2
+  EP_size_x_overwrite: 4.25
+  EP_size_y:
+    minimum: 3.65
+    nominal: 3.7
+    maximum: 4.2
+  EP_size_y_overwrite: 4.25
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [4, 4]
@@ -1042,7 +1260,7 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf (Page 289)'
+  size_source: 'https://www.semtech.com/uploads/documents/sx1272.pdf#page=125'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -1076,7 +1294,7 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
     maximum: 4.9
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
 
   thermal_vias:
     count: [4, 4]
