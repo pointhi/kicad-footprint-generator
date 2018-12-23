@@ -36,7 +36,7 @@ thickness2 = 0.15
 wCrtYd = 0.05
 wFab = 0.1
 wSilkS = 0.12
-crtYd = 0.3
+crtYd = 0.25
 silkClearance = 0.2
 
 xCenter = 0.0
