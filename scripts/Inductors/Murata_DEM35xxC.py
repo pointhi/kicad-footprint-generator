@@ -48,8 +48,7 @@ xRightCrtYd = max(xPadRight + padWidth / 2, xFabRight) + crtYd
 xLeftCrtYd = - xRightCrtYd
 xPadLeft = -xPadRight
 xFabLeft = -xFabRight
-xChamfer = xFabLeft + 1.0
-xSilkTopLeft = xCenter
+xSilkTopLeft = -xSilkRight
 xSilkBottomLeft = -xSilkRight
 
 yCenter = 0.0
@@ -60,7 +59,6 @@ yBottomCrtYd = yFabBottom + crtYd
 yTopCrtYd = -yBottomCrtYd
 ySilkTop = -ySilkBottom
 yFabTop = -yFabBottom
-yChamfer = yFabTop + 1
 
 yValue = yFabBottom + 1.25
 yRef = yFabTop - 1.25
@@ -76,12 +74,11 @@ f.append(RectLine(start=[xLeftCrtYd, yTopCrtYd],
                   end=[xRightCrtYd, yBottomCrtYd],
                   layer="F.CrtYd", width=wCrtYd))
 
-f.append(PolygoneLine(polygone=[[xFabLeft, yChamfer],
-                                [xChamfer, yFabTop],
+f.append(PolygoneLine(polygone=[[xFabLeft, yFabTop],
                                 [xFabRight, yFabTop],
                                 [xFabRight, yFabBottom],
                                 [xFabLeft, yFabBottom],
-                                [xFabLeft, yChamfer]],
+                                [xFabLeft, yFabTop]],
                       layer="F.Fab", width=wFab))
 
 f.append(Line(start=[xSilkTopLeft, ySilkTop],
