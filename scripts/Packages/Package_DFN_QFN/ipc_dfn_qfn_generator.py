@@ -6,6 +6,7 @@ import argparse
 import yaml
 import math
 from math import sqrt
+import warnings
 
 sys.path.append(os.path.join(sys.path[0], "..", "..", ".."))  # load parent path of KicadModTree
 
@@ -26,6 +27,8 @@ DEFAULT_MIN_ANNULAR_RING = 0.15
 
 SILK_MIN_LEN = 0.1
 
+DEBUG_LEVEL = 0
+
 def roundToBase(value, base):
     return round(value/base) * base
 
@@ -35,10 +38,12 @@ class DFN():
         with open(ipc_doc_file, 'r') as ipc_stream:
             try:
                 self.ipc_defintions = yaml.load(ipc_stream)
+                if 'ipc_generic_rules' in self.ipc_defintions:
+                    self.configuration['min_ep_to_pad_clearance'] = self.ipc_defintions['ipc_generic_rules'].get('min_ep_to_pad_clearance', 0.2)
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def calcPadDetails(self, device_dimensions, ipc_data, ipc_round_base):
+    def calcPadDetails(self, device_dimensions, EP_size, ipc_data, ipc_round_base):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
         # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -76,6 +81,24 @@ class DFN():
                 pull_back=pull_back
                 )
 
+        min_ep_to_pad_clearance = configuration['min_ep_to_pad_clearance']
+
+        heel_reduction_max = 0
+
+        if Gmin_x - 2*min_ep_to_pad_clearance < EP_size['x']:
+            heel_reduction_max = ((EP_size['x'] + 2*min_ep_to_pad_clearance - Gmin_x)/2)
+            #print('{}, {}, {}'.format(Gmin_x, EP_size['x'], min_ep_to_pad_clearance))
+            Gmin_x = EP_size['x'] + 2*min_ep_to_pad_clearance
+        if Gmin_y - 2*min_ep_to_pad_clearance < EP_size['y']:
+            heel_reduction = ((EP_size['y'] + 2*min_ep_to_pad_clearance - Gmin_y)/2)
+            if heel_reduction>heel_reduction_max:
+                heel_reduction_max = heel_reduction
+            Gmin_y = EP_size['y'] + 2*min_ep_to_pad_clearance
+
+        heel_reduction_max += device_dimensions.get('heel_reduction', 0) #include legacy stuff
+        if heel_reduction_max > 0 and DEBUG_LEVEL >= 1:
+            print('Heel reduced by {:.4f} to reach minimum EP to pad clearances'.format(heel_reduction_max))
+
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
         Pad['right'] = {'center':[(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -102,7 +125,11 @@ class DFN():
               dimensions['EP_center_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_center_x')
               dimensions['EP_center_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_center_y')
 
-        dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
+        if 'heel_reduction' in device_size_data:
+            print(
+                "\033[1;35mThe use of manual heel reduction is dprecated. It is automatically calculated from the minimum EP to pad clearance (ipc config file)\033[0m"
+            )
+            dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
 
         if 'lead_to_edge' in device_size_data:
             dimensions['lead_to_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
@@ -152,19 +179,6 @@ class DFN():
         ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
-        pad_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base)
-
-
-        pad_suffix = '_Pad{pad_x:.2f}x{pad_y:.2f}mm'.format(pad_x=pad_details['left']['size'][0],
-            pad_y=pad_details['left']['size'][1])
-        pad_suffix = '' if device_params.get('include_pad_size', 'none') not in ('fp_name_only', 'both') else pad_suffix
-        pad_suffix_3d = '' if device_params.get('include_pad_size', 'none') not in ('both') else pad_suffix
-
-        suffix = device_params.get('suffix', '')
-        suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
-
-        model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
-
         if device_dimensions['has_EP']:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
             EP_size = {
@@ -178,6 +192,19 @@ class DFN():
         else:
             name_format = self.configuration['fp_name_format_string_no_trailing_zero']
             EP_size = {'x':0, 'y':0}
+
+        pad_details = self.calcPadDetails(device_dimensions, EP_size, ipc_data_set, ipc_round_base)
+
+
+        pad_suffix = '_Pad{pad_x:.2f}x{pad_y:.2f}mm'.format(pad_x=pad_details['left']['size'][0],
+            pad_y=pad_details['left']['size'][1])
+        pad_suffix = '' if device_params.get('include_pad_size', 'none') not in ('fp_name_only', 'both') else pad_suffix
+        pad_suffix_3d = '' if device_params.get('include_pad_size', 'none') not in ('both') else pad_suffix
+
+        suffix = device_params.get('suffix', '')
+        suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
+
+        model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
         if 'custom_name_format' in device_params:
             name_format = device_params['custom_name_format']
@@ -448,12 +475,16 @@ if __name__ == "__main__":
     parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='../ipc_definitions.yaml')
     parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle')
     parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
+    parser.add_argument('-v', '--verbose', action='count', help='set debug level')
     args = parser.parse_args()
 
     if args.density == 'L':
         ipc_density = 'least'
     elif args.density == 'M':
         ipc_density = 'most'
+
+    if args.verbose:
+        DEBUG_LEVEL = args.verbose
 
     ipc_doc_file = args.ipc_doc
 
