@@ -338,4 +338,4 @@ VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-#include_suffix_in_3dpath: 'False'
+  #include_suffix_in_3dpath: 'False'
