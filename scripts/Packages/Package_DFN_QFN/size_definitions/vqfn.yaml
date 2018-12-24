@@ -2,7 +2,7 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/20%20Lead%20VQFN%203x3x0_9mm_1_7EP%20U2B%20C04-21496a.pdf'
+  size_source: 'http://www.ti.com/lit/ds/sbos354a/sbos354a.pdf'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -78,10 +78,10 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
 
   EP_size_x:
     nominal: 1.68
-    tolerance: 0.1
+    tolerance: 0.07
   EP_size_y:
     nominal: 1.68
-    tolerance: 0.1
+    tolerance: 0.07
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   heel_reduction: 0.05 #for relatively large EP pads (increase clearance)

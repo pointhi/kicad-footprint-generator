@@ -2,7 +2,7 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.23x1.23mm:
   device_type: 'TQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0136.PDF (T1633-5)'
+  size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0136.PDF (T1633-5), https://pdfserv.maximintegrated.com/land_patterns/90-0032.PDF'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
