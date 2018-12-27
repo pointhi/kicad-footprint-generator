@@ -81,23 +81,23 @@ Texas_S-PWSON-N8:
   library: Package_SON
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/lp2951.pdf (page 27)'
+  size_source: 'http://www.ti.com/lit/ds/symlink/lp2951.pdf#page=27'
   ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
   custom_name_format: 'Texas_S-PWSON-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
   #ipc_density: 'least' #overwrite global value for this device.
-  #body_size_x_min: 2.85
   body_size_x:
-    nominal: 3
-    tolerance: 0.1
-  #body_size_x_max: 3.15
-  #body_size_y_min: 2.85
+    minimum: 2.9
+    maximum: 3.1
   body_size_y:
-    nominal: 3
-    tolerance: 0.1
-  #body_size_y_max: 3.15
+    minimum: 2.9
+    maximum: 3.1
+  body_height:
+    minimum: 0.7
+    maximum: 0.8
+
   lead_width:
     nominal: 0.25
-    tolerance: 0.1
+    tolerance: 0.05
   lead_len:
     minimum: 0.4
     maximum: 0.6
