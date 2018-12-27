@@ -298,7 +298,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
-QFN-16-1EP_4x4mm_P0.5mm_EP2.46x2.46mm:
+QFN-16-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
@@ -326,11 +326,9 @@ QFN-16-1EP_4x4mm_P0.5mm_EP2.46x2.46mm:
   EP_size_x:
     nominal: 2.45
     tolerance: [-0.15, 0.1]
-  EP_size_x_overwrite: 2.46
   EP_size_y:
     nominal: 2.45
     tolerance: [-0.15, 0.1]
-  EP_size_y_overwrite: 2.46
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
@@ -470,6 +468,70 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
   #pin_count_grid:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm_PullBack:
+  device_type: 'QFN'
+  #manufacturer: 'AMS'
+  #part_number: 'mpn'
+  size_source: 'https://ams.com/documents/20143/36005/AS5055A_DS000304_2-00.pdf#page=24'
+  ipc_class: 'qfn_pull_back' #'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 4
+    tolerance: 0
+  body_size_y:
+    nominal: 4
+    tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
+
+  lead_width:
+    minimum: 0.25
+    nominal: 0.3
+    maximum: 0.35
+  body_to_inside_lead_edge:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.45
+  lead_to_edge:
+    minimum: 0
+    maximum: 0.15
+
+  EP_size_x:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  EP_size_y:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.65
+  num_pins_x: 4
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  suffix: '_PullBack'
   #include_suffix_in_3dpath: 'False'
 
 QFN-16-1EP_5x5mm_P0.8mm_EP2.7x2.7mm:
