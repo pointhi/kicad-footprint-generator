@@ -21,8 +21,15 @@ class TolerancedSize():
                 self.minimum = self.nominal - tolerance
                 self.maximum = self.nominal + tolerance
             elif len(tolerance) == 2:
-                self.minimum = self.nominal - tolerance[0]
-                self.maximum = self.nominal + tolerance[1]
+                if tolerance[0] < 0:
+                    self.minimum = self.nominal + tolerance[0]
+                    self.maximum = self.nominal + tolerance[1]
+                elif tolerance[1] < 0:
+                    self.minimum = self.nominal + tolerance[1]
+                    self.maximum = self.nominal + tolerance[0]
+                else:
+                    self.minimum = self.nominal - tolerance[0]
+                    self.maximum = self.nominal + tolerance[1]
         else:
             self.minimum = self.nominal
             self.maximum = self.nominal
