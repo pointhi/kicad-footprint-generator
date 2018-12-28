@@ -17,6 +17,7 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
   body_height:
     nominal: 0.75
     tolerance: 0.05
+
   lead_width:
     minimum: 0.2
     maximum: 0.3
@@ -75,6 +76,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   body_height:
     nominal: 0.75
     tolerance: 0.05
+
   lead_width:
     nominal: 0.25
     tolerance: 0.05
@@ -126,6 +128,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
+
   lead_width:
     minimum: 0.18
     maximum: 0.3
@@ -154,6 +157,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.9x1.9mm:
   body_height:
     minimum: 0.5
     maximum: 0.65
+
   lead_width:
     minimum: 0.18
     maximum: 0.3
@@ -207,6 +211,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
   body_height:
     nominal: 0.9
     tolerance: 0.05
+
   lead_width:
     minimum: 0.25
     maximum: 0.35
@@ -259,6 +264,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
   body_height:
     nominal: 0.75
     tolerance: 0.05
+
   lead_width:
     nominal: 0.3
     tolerance: 0.05
@@ -435,6 +441,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
   body_height:
     nominal: 0.75
     tolerance: 0.05
+
   lead_width:
     minimum: 0.25
     maximum: 0.35
@@ -550,6 +557,7 @@ QFN-16-1EP_5x5mm_P0.8mm_EP2.7x2.7mm:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
+
   lead_width:
     minimum: 0.28
     maximum: 0.40
