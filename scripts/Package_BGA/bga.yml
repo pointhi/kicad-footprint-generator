@@ -28,6 +28,15 @@ LFBGA-144_10x10mm_Layout12x12_P0.8mm:
   paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
+Texas_DSBGA-28_1.9x3.0mm_Layout4x7_P0.4mm:
+  description: "Texas Instruments, DSBGA, 3.0x1.9x0.625mm, 28 ball 7x4 area grid, NSMD pad definition (http://www.ti.com/lit/ds/symlink/bq51050b.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
+  pkg_width: 1.9
+  pkg_height: 3.0
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.05
+  layout_x: 4
+  layout_y: 7
 Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
   description: "Texas Instruments, DSBGA, 3.33x3.488x0.625mm, 49 ball 7x7 area grid, NSMD pad definition (http://www.ti.com/lit/ds/symlink/msp430f2234.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
   pkg_width: 3.33
