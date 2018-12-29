@@ -1,5 +1,5 @@
 AK300:
-  description: "Altech AK300 serie connector"
+  description: "Altech AK300 serie terminal block"
   datasheet: "http://www.altechcorp.com/PDFS/PCBMETRC.PDF"
   tags: "Altech AK300 serie connector"
   manufacture: 'Altech' # Model name
@@ -18,4 +18,4 @@ AK300:
   DD: 1.5               # Drill diameter
   PD: 3.0               # Pad diameter
   rotation: 0           # Rotation if required
-  dest_dir_3D_prefix: 'Connector_Altech.3dshapes'  # Destination directory
+  dest_dir_3D_prefix: 'TerminalBlock_Altech.3dshapes'  # Destination directory

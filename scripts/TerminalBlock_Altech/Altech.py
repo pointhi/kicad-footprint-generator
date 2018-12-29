@@ -4,14 +4,14 @@ import sys
 import os
 import math
 
-sys.path.append(os.path.join(sys.path[0], "..", "..", ".."))  # load parent path of KicadModTree
+sys.path.append(os.path.join(sys.path[0], "..", ".."))  # load parent path of KicadModTree
 import argparse
 import yaml
 from KicadModTree import *
 
-sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
+sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
 
-sys.path.append(os.path.join(sys.path[0], "..", "..", "general"))  # load parent path of tools
+sys.path.append(os.path.join(sys.path[0], "..", "general"))  # load parent path of tools
 from StandardBox import *
 
 def qfn(args):
@@ -45,12 +45,9 @@ def qfn(args):
     for pinnumber in pinnumbers:
         footprint_name = ''
         footprint_name = footprint_name + manufacture + '_' + serie
-        footprint_name = footprint_name + '_1x'
-        if pinnumber < 10:
-            footprint_name = footprint_name + '0'
-            
-        footprint_name = footprint_name + str(pinnumber) + '_P' + str(PS) + "mm"
-        footprint_name = footprint_name + '_Vertical'
+        footprint_name = footprint_name + '_1x' + '{:02d}'.format(pinnumber)
+        footprint_name = footprint_name + '_P' + '{:.2f}'.format(PS) + "mm"
+        footprint_name = footprint_name + '_45-Degree'
     
         f = Footprint(footprint_name)
 
