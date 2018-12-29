@@ -37,3 +37,65 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.23x1.23mm:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
+
+TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack:
+  device_type: 'TQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://ams.com/documents/20143/36005/AS1115_DS000206_1-00.pdf/3d3e6d35-b184-1329-adf9-2d769eb2404f'
+  custom_name_format: 'TQFN-24-1EP_4x4mm_P0.5mm_EP2.8x2.8mm_PullBack{vias:s}'
+  ipc_class: 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    nominal: 4.0
+  body_size_y:
+    nominal: 4.0
+  body_height:
+    minimum: 0.5
+    nominal: 0.55
+    maximum: 0.65
+
+  lead_to_edge:
+    minimum: 0
+    maximum: 0.15
+  lead_width:
+    minimum: 0.18
+    nominal: 0.25
+    maximum: 0.35
+  body_to_inside_lead_edge:
+    minimum: 0.3
+    nominal: 0.35
+    maximum: 0.4
+
+  EP_size_x:
+    minimum: 2.7
+    nominal: 2.8
+    maximum: 2.9
+  EP_size_y:
+    minimum: 2.7
+    nominal: 2.8
+    maximum: 2.9
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.3
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 6
+  num_pins_y: 6
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #include_suffix_in_3dpath: 'False'
