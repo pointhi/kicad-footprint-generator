@@ -1,0 +1,37 @@
+Texas_X2QFN-12_1.6x1.6mm_P0.4mm:
+  device_type: 'X2QFN'
+  manufacturer: 'Texas'
+  #part_number: 'mpn'
+  size_source: 'http://www.ti.com/lit/ml/mpqf391c/mpqf391c.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    minimum: 1.55
+    maximum: 1.65
+  body_size_y:
+    minimum: 1.55
+    maximum: 1.65
+  body_height:
+    maximum: 0.4
+
+  lead_width:
+    minimum: 0.15
+    maximum: 0.25
+  lead_len_V:
+    minimum: 0.2
+    maximum: 0.4
+  lead_len_H:
+    minimum: 0.4
+    maximum: 0.6
+
+  heel_reduction: 0.075
+
+  pitch: 0.4
+  num_pins_x: 4
+  num_pins_y: 2
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
