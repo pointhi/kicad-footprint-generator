@@ -2,7 +2,7 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'https://www.marvell.com/documents/bqcwxsoiqfjkcjdjhkvc/'
+  size_source: 'https://www.marvell.com/documents/bqcwxsoiqfjkcjdjhkvc/#page=19'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:

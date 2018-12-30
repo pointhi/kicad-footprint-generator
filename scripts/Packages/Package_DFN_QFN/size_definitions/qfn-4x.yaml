@@ -421,11 +421,11 @@ QFN-48-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
-QFN-48-1EP_6x6mm_P0.5mm_EP4.2x4.2mm:
+QFN-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'https://static.dev.sifive.com/SiFive-FE310-G000-datasheet-v1p5.pdf#page=18'
+  size_source: 'https://static.dev.sifive.com/SiFive-FE310-G000-datasheet-v1p5.pdf#page=20'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:

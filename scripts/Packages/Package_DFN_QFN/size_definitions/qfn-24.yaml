@@ -492,8 +492,8 @@ QFN-24-1EP_5x5mm_P0.65mm_EP3.6x3.6mm:
     maximum: 1
 
   lead_width:
-    nominal: 0.2
-    tolerance: 0
+    minimum: 0.18
+    maximum: 0.3
   lead_len:
     minimum: 0.3
     maximum: 0.5
