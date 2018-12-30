@@ -4,7 +4,7 @@ group_definitions:
 device_definition:
     ACH_top_entry_1:
         series: 'ACH'
-        mpn_format_string: 'BBM{pincount:02d}B-ACHSS-A-GAN-ETF'
+        mpn_format_string: 'BM{pincount:02d}B-ACHSS-A-GAN-ETF'
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [1]]
@@ -35,7 +35,7 @@ device_definition:
 
     ACH_top_entry_23:
         series: 'ACH'
-        mpn_format_string: 'BBM{pincount:02d}B-ACHSS-GAN-ETF'
+        mpn_format_string: 'BM{pincount:02d}B-ACHSS-GAN-ETF'
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [2,3]]
@@ -65,7 +65,7 @@ device_definition:
 
     ACH_top_entry_45:
         series: 'ACH'
-        mpn_format_string: 'BBM{pincount:02d}B-ACHSS-A-GAN-ETF'
+        mpn_format_string: 'BM{pincount:02d}B-ACHSS-A-GAN-ETF'
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eACH.pdf'
         pinrange: ['list', [4,5]]
@@ -290,7 +290,7 @@ device_definition:
 
     SFH_side_entry:
         series: 'SFH'
-        mpn_format_string: 'SM{pincount:02}B-SHLS-TF'
+        mpn_format_string: 'SM{pincount:02}B-SFHRS-TF'
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eSFH.pdf'
         pinrange: ['list', [2]]
@@ -513,7 +513,7 @@ device_definition:
 
     ZE_side_entry:
         series: 'ZE'
-        mpn_format_string: 'SM{pincount:02}B-ZESS-TBT'
+        mpn_format_string: 'SM{pincount:02}B-ZESS-TB'
         orientation: 'H'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eZE.pdf'
         pinrange: ['range', [2, 17]]
@@ -537,7 +537,7 @@ device_definition:
 
     ZE_top_entry:
         series: 'ZE'
-        mpn_format_string: 'BM{pincount:02}B-ZESS-TB'
+        mpn_format_string: 'BM{pincount:02}B-ZESS-TBT'
         orientation: 'V'
         datasheet: 'http://www.jst-mfg.com/product/pdf/eng/eZE.pdf'
         pinrange: ['range', [2, 17]]

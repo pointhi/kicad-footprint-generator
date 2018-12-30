@@ -6,8 +6,8 @@ orientation_options:
     H: 'Horizontal'
     V: 'Vertical'
 entry_direction:
-    H: 'top entry'
-    V: 'side entry'
+    H: 'horizontal'
+    V: 'vertical'
 
 #keyword_fp_string: 'connector {man:s} {series:s} {mpn:s} {entry:s} {orientation:s}'
 keyword_fp_string: 'connector {man:s} {series:s} {entry:s}'
