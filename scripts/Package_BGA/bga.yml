@@ -1,3 +1,13 @@
+BGA-624_21.0x21.0mm_Layout25x25_P0.8mm:
+  description: "BGA-624, 25x25 grid, 21x21mm package, pitch 0.8mm; https://www.nxp.com/docs/en/package-information/SOT1529-1.pdf"
+  pkg_width: 21.0
+  pkg_height: 21.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.0625
+  layout_x: 25
+  layout_y: 25
+  row_skips: [[1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
 LFBGA-100_10x10mm_Layout10x10_P0.8mm:
   description: "LFBGA-100, 10x10 raster, 10x10mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f103tb.pdf#page=87"
   pkg_width: 10.0
@@ -18,6 +28,15 @@ LFBGA-144_10x10mm_Layout12x12_P0.8mm:
   paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
+Texas_DSBGA-28_1.9x3.0mm_Layout4x7_P0.4mm:
+  description: "Texas Instruments, DSBGA, 3.0x1.9x0.625mm, 28 ball 7x4 area grid, NSMD pad definition (http://www.ti.com/lit/ds/symlink/bq51050b.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
+  pkg_width: 1.9
+  pkg_height: 3.0
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.05
+  layout_x: 4
+  layout_y: 7
 Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
   description: "Texas Instruments, DSBGA, 3.33x3.488x0.625mm, 49 ball 7x7 area grid, NSMD pad definition (http://www.ti.com/lit/ds/symlink/msp430f2234.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
   pkg_width: 3.33
@@ -36,6 +55,16 @@ Texas_DSBGA-64_3.415x3.535mm_Layout8x8_P0.4mm:
   layout_x: 8
   layout_y: 8
   mask_margin: 0.05
+Texas_DSBGA-8_1.5195x1.5195mm_Layout3x3_P0.5mm:
+  description: "Texas Instruments, DSBGA, 1.5195x1.5195x0.600mm, 8 ball 3x3 area grid, YZR pad definition (http://www.ti.com/lit/ml/mxbg270/mxbg270.pdf)"
+  pkg_width: 1.5195
+  pkg_height: 1.5195
+  pitch: 0.5
+  pad_diameter: 0.2625
+  layout_x: 3
+  layout_y: 3
+  mask_margin: 0.05
+  row_skips: [[], [2], []]
 Texas_MicroStar_Junior_BGA-113_7.0x7.0mm_Layout12x12_P0.5mm:
   description: "Texas Instruments, BGA Microstar Junior, 7x7mm, 113 ball 12x12 grid, NSMD pad definition (http://www.ti.com/lit/ml/mpbg674/mpbg674.pdf, http://www.ti.com/lit/wp/ssyz015b/ssyz015b.pdf)"
   pkg_width: 7
@@ -66,6 +95,16 @@ TFBGA-100_8x8mm_Layout10x10_P0.8mm:
   paste_margin: 0.000001
   layout_x: 10
   layout_y: 10
+TFBGA-121_10x10mm_Layout11x11_P0.8mm:
+  description: "TFBGA-121, 11x11 raster, 10x10mm package, pitch 0.8mm; http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#p495"
+  pkg_width: 10.0
+  pkg_height: 10.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 11
+  layout_y: 11
 TFBGA-216_13x13mm_Layout15x15_P0.8mm:
   description: "TFBGA-216, 15x15 raster, 13x13mm package, pitch 0.8mm; http://www.st.com/resource/en/datasheet/stm32f746zg.pdf#page=219"
   pkg_width: 13.0
@@ -108,7 +147,7 @@ UCBGA-49_3x3mm_Layout7x7_P0.4mm:
   paste_margin: 0.000001
   layout_x: 7
   layout_y: 7
-UCBGA-81_4x4mm_Layout9x9_P0.4mm:  
+UCBGA-81_4x4mm_Layout9x9_P0.4mm:
   description: "UCBGA-81, 9x9 raster, 4x4mm package, pitch 0.4mm; https://www.latticesemi.com/view_document?document_id=213"
   pkg_width: 4
   pkg_height: 4
@@ -191,3 +230,14 @@ UFBGA-201_10x10mm_Layout15x15_P0.65mm:
   layout_x: 15
   layout_y: 15
   row_skips: [[], [], [], [], [[5, 12]], [5, 11], [5, 11], [5, 11], [5, 11], [5, 11], [[5, 12]], [], [], [], []]
+WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm_NSMD:
+  description: "WLP-4, 2x2 raster, 0.73x0.73mm package, pitch 0.35mm; https://datasheets.maximintegrated.com/en/ds/MAX40200.pdf"
+  pkg_width: 0.728
+  pkg_height: 0.728
+  pitch: 0.35
+  pad_diameter: 0.2
+  mask_margin: 0.02
+  paste_margin: 0.000001
+  layout_x: 2
+  layout_y: 2
+  row_skips: [[], []]

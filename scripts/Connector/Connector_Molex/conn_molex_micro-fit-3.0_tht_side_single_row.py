@@ -51,8 +51,24 @@ pitch = 3.0
 drill = 1.02
 peg_drill = 3.0
 pad_to_pad_clearance = 1.5 # Voltage rating is up to 600V (http://www.molex.com/pdm_docs/ps/PS-43045.pdf)
+max_annular_ring = 0.5
+min_annular_ring = 0.15
 
-pad_size = [pitch - pad_to_pad_clearance, pitch - pad_to_pad_clearance]
+
+pad_size = [pitch - pad_to_pad_clearance, drill + 2*max_annular_ring]
+if pad_size[0] - drill < 2*min_annular_ring:
+    pad_size[0] = drill + 2*min_annular_ring
+if pad_size[0] - drill > 2*max_annular_ring:
+    pad_size[0] = drill + 2*max_annular_ring
+
+if pad_size[1] - drill < 2*min_annular_ring:
+    pad_size[1] = drill + 2*min_annular_ring
+if pad_size[1] - drill > 2*max_annular_ring:
+    pad_size[1] = drill + 2*max_annular_ring
+
+pad_shape=Pad.SHAPE_OVAL
+if pad_size[1] == pad_size[0]:
+    pad_shape=Pad.SHAPE_CIRCLE
 
 def generate_one_footprint(pins, configuration):
     pins_per_row = pins
@@ -114,9 +130,16 @@ def generate_one_footprint(pins, configuration):
     #
     # Add pads
     #
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+
     kicad_mod.append(PadArray(start=[pad1_x, pad_row_1_y], initial=1,
         pincount=pins_per_row, increment=1,  x_spacing=pitch, size=pad_size,
-        type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE, layers=Pad.LAYERS_THT, drill=drill))
+        type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT, drill=drill,
+        **optional_pad_params))
 
     ######################## Fabrication Layer ###########################
     main_body_poly= [
@@ -140,17 +163,56 @@ def generate_one_footprint(pins, configuration):
         width=configuration['fab_line_width'], layer="F.Fab"))
 
     ######################## SilkS Layer ###########################
+
+    off = configuration['silk_fab_offset']
+    pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
+
+    r_no_silk = max(pad_size)/2 + pad_silk_off # simplified to circle instead of oval
+    dy = abs(body_edge['bottom']) + off
+    pin_center_silk_x = 0 if dy >= r_no_silk else sqrt(r_no_silk**2-dy**2)
+    pin1_center_silk_x = pad_size[0]/2 + pad_silk_off # simplified to rectangle instead of rounded rect
+
     poly_s_t= [
-        {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-        {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['top'] + 1 - configuration['silk_fab_offset']},
-        {'x': body_edge['left'] + 1 - configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-        {'x': body_edge['right'] - 1 + configuration['silk_fab_offset'], 'y': body_edge['top'] - configuration['silk_fab_offset']},
-        {'x': body_edge['right'] + configuration['silk_fab_offset'], 'y': body_edge['top'] + 1 - configuration['silk_fab_offset']},
-        {'x': body_edge['right']+ configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
-        {'x': body_edge['left'] - configuration['silk_fab_offset'], 'y': body_edge['bottom'] + configuration['silk_fab_offset']},
+        {'x': body_edge['left'] - off, 'y': body_edge['bottom'] + off},
+        {'x': body_edge['left'] - off, 'y': body_edge['top'] + 1 - off},
+        {'x': body_edge['left'] + 1 - off, 'y': body_edge['top'] - off},
+        {'x': body_edge['right'] - 1 + off, 'y': body_edge['top'] - off},
+        {'x': body_edge['right'] + off, 'y': body_edge['top'] + 1 - off},
+        {'x': body_edge['right'] + off, 'y': body_edge['bottom'] + off}
     ]
     kicad_mod.append(PolygoneLine(polygone=poly_s_t,
         width=configuration['silk_line_width'], layer="F.SilkS"))
+
+    if pin_center_silk_x == 0:
+        kicad_mod.append(Line(
+            start=[body_edge['left']-off, body_edge['bottom']],
+            end=[body_edge['right']-off, body_edge['bottom']],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
+    else:
+        kicad_mod.append(Line(
+            start=[body_edge['left']-off, body_edge['bottom']+off],
+            end=[-pin1_center_silk_x, body_edge['bottom']+off],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
+        kicad_mod.append(Line(
+            start=[body_edge['right']+off, body_edge['bottom']+off],
+            end=[(pins_per_row-1)*pitch + pin_center_silk_x, body_edge['bottom']+off],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
+        kicad_mod.append(Line(
+            start=[pin1_center_silk_x, body_edge['bottom']+off],
+            end=[pitch - pin_center_silk_x, body_edge['bottom']+off],
+            layer="F.SilkS", width=configuration['silk_line_width']
+        ))
+        for i in range(1, pins_per_row-1):
+            xl = i*pitch + pin_center_silk_x
+            xr = (i+1)*pitch - pin_center_silk_x
+            kicad_mod.append(Line(
+                start=[xl, body_edge['bottom']+off],
+                end=[xr, body_edge['bottom']+off],
+                layer="F.SilkS", width=configuration['silk_line_width']
+            ))
 
     ######################## CrtYd Layer ###########################
     CrtYd_offset = configuration['courtyard_offset']['connector']
@@ -194,6 +256,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -207,6 +270,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pincount in pins_per_row_range:
         generate_one_footprint(pincount, configuration)

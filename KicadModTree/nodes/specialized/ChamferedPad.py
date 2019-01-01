@@ -276,28 +276,33 @@ class ChamferedPad(Node):
         if self.maximum_radius and radius > self.maximum_radius:
             radius = self.maximum_radius
 
-        if is_chamfered and self.chamfer_size[0] == self.chamfer_size[1] and self.radius_ratio > 0:
-            # We prefer the use of rounded rectangle over chamfered pads.
-            r_chamfer = self.chamfer_size[0] + sqrt(2)*self.chamfer_size[0]/2
-            if radius >= r_chamfer:
-                is_chamfered = False
-
         if is_chamfered:
             outside = Vector2D(self.size.x/2, self.size.y/2)
 
             inside = [Vector2D(outside.x, outside.y-self.chamfer_size.y),
                       Vector2D(outside.x-self.chamfer_size.x, outside.y)
                       ]
-            polygon_width = 0
-            if radius > 0:
-                shortest_sidlength = min(self.size-self.chamfer_size)
-                if radius > shortest_sidlength/2:
-                    radius = shortest_sidlength/2
-                polygon_width = radius*2
-                outside -= radius
-                inside[0] -= radius
-                inside[1] -= radius
 
+            polygon_width = 0
+            if self.radius_ratio > 0:
+                if self.chamfer_size[0] != self.chamfer_size[1]:
+                    raise NotImplementedError('rounded chamfered pads are only supported for 45 degree chamfers')
+                # We prefer the use of rounded rectangle over chamfered pads.
+                r_chamfer = self.chamfer_size[0] + sqrt(2)*self.chamfer_size[0]/2
+                if radius >= r_chamfer:
+                    is_chamfered = False
+                elif radius > 0:
+                    shortest_sidlength = min(min(self.size-self.chamfer_size), self.chamfer_size[0]*sqrt(2))
+                    if radius > shortest_sidlength/2:
+                        radius = shortest_sidlength/2
+                    polygon_width = radius*2
+                    outside -= radius
+                    inside[0].y -= radius*(2/sqrt(2)-1)
+                    inside[0].x -= radius
+                    inside[1].x -= radius*(2/sqrt(2)-1)
+                    inside[1].y -= radius
+
+        if is_chamfered:
             points = []
             corner_vectors = [
                 Vector2D(-1, -1), Vector2D(1, -1), Vector2D(1, 1), Vector2D(-1, 1)

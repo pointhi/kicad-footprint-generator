@@ -82,13 +82,24 @@ def generate_one_footprint(pins, configuration):
     if size[1] - drill > 2*pad_copper_y_solder_length:
         size[1] = drill + 2*pad_copper_y_solder_length
 
-    pa1 = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-        increment=2, size=size, drill=drill, layers=Pad.LAYERS_THT)
-    pa2 = PadArray(pincount=pins, x_spacing=pitch, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
-        start=[0,row_pitch], initial=2, increment=2, size=size, drill=drill, layers=Pad.LAYERS_THT)
+    if size[0] == size[1]:
+        pad_shape = Pad.SHAPE_CIRCLE
+    else:
+        pad_shape = Pad.SHAPE_OVAL
 
-    kicad_mod.append(pa1)
-    kicad_mod.append(pa2)
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+
+    for row_idx in range(2):
+        kicad_mod.append(PadArray(
+            pincount=pins, x_spacing=pitch,
+            type=Pad.TYPE_THT, shape=pad_shape,
+            start=[0, row_idx*row_pitch], initial=row_idx+1, increment=2,
+            size=size, drill=drill, layers=Pad.LAYERS_THT,
+            **optional_pad_params))
 
     #draw the component outline
     x1 = A/2 - B/2
@@ -184,6 +195,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -197,6 +209,8 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pincount in pin_range:
         generate_one_footprint(pincount, configuration)

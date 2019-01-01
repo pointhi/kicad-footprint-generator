@@ -775,25 +775,36 @@ def makeResistorRadial(seriesname, rm, w, h, ddrill, R_POW, innerw=0,innerh=0,rm
 
     if type=="round" or type == "concentric":
         if w==h:
-            dimdesc = "diameter={0}mm".format(w)
-            dimdesct = "diameter {0}mm".format(w)
+            dimdesc = "diameter={0}mm, height={1}mm".format(w, height3d)
+            dimdesct = "diameter {0}mm height {1}mm".format(w, height3d)
         else:
             dimdesc = "diameterX*diameterY={0}*{1}mm^2".format(w, h)
             dimdesct = "diameterX {0}mm diameterY {1}mm".format(w, h)
-        footprint_name = classname + "{2}_D{1:0.1f}mm{0}".format(fnpins, w, snfp)
+        if classname[0].upper() == "C":
+            footprint_name = classname + "{2}_D{1:0.1f}mm_H{3:0.1f}mm{0}".format(fnpins, w, snfp, height3d) # radial caps
+        else:
+            footprint_name = classname + "{2}_D{1:0.1f}mm{0}".format(fnpins, w, snfp)
     elif type=="disc" or type == "disc45":
         footprint_name = classname+"{3}_D{1:0.1f}mm_W{2:0.1f}mm{0}".format(fnpins, w, h, snfp)
     else:
-        footprint_name = classname+"{3}_L{1:0.1f}mm_W{2:0.1f}mm{0}".format(fnpins, w, h, snfp)
-    description = classnamefancy+"{3}, Radial, pin pitch={0}, {1}, {2}".format(pind, pow_rat, dimdesc, sn)
-    tags = classnamefancy+"{3} Radial pin pitch {0} {1} {2}".format(pind, pow_rat, dimdesct, snt)
+        if classname[0].upper() == "C":
+            footprint_name = classname+"{3}_L{1:0.1f}mm_W{2:0.1f}mm_H{4:0.1f}mm{0}".format(fnpins, w, h, snfp, height3d) #rect (box) caps
+        else:
+            footprint_name = classname+"{3}_L{1:0.1f}mm_W{2:0.1f}mm{0}".format(fnpins, w, h, snfp)
+    
+    if classname[0].upper() == "C":
+        description = classnamefancy+"{2}, Radial, pin pitch={0}, {1}".format(pind, dimdesc, sn)
+        tags = classnamefancy+"{2} Radial pin pitch {0} {1}".format(pind, dimdesct, snt)
+    else:
+        description = classnamefancy+"{3}, Radial, pin pitch={0}, {1}, {2}".format(pind, pow_rat, dimdesc, sn)
+        tags = classnamefancy+"{3} Radial pin pitch {0} {1} {2}".format(pind, pow_rat, dimdesct, snt)
 
 
     for t in specialtags:
         description = description + ", " + t
         tags = tags + " " + t
     if (specialfpname != ""):
-        footprint_name = specialfpname;
+        footprint_name = specialfpname
 
     if len(add_description) > 0:
         description = description + ", " + add_description

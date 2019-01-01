@@ -29,8 +29,7 @@
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../kicad-footprint-generator")
-sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../..")
 
 from KicadModTree import Footprint, Translation, Pad, Model, KicadFileHandler
 from canvas import Layer, PadLayer, Keepout, OutDir
@@ -61,7 +60,7 @@ class pinSocketVerticalTHT (object):
 
         param = self.params
 
-        lib_name ="Conn_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
+        lib_name ="Connector_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
         footprint_name = self.makeModelName("")
         description = "Through hole straight socket strip, {0}x{1:02}, {2:03.2f}mm pitch".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
         tags = "Through hole socket strip THT {0}x{1:02} {2:03.2f}mm".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
@@ -83,8 +82,8 @@ class pinSocketVerticalTHT (object):
 
         description += ", script generated"
 
-        print "###################"
-        print footprint_name, "in", lib_name
+        print("###################")
+        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name)
@@ -231,7 +230,7 @@ class pinSocketHorizontalTHT (object):
 
         param = self.params
 
-        lib_name ="Conn_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
+        lib_name ="Connector_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
         footprint_name = self.makeModelName("")
         description = "Through hole angled socket strip, {0}x{1:02}, {2:03.2f}mm pitch, {3}mm socket length"\
                        .format(param.num_pin_rows, param.num_pins, param.pin_pitch, param.body_width)
@@ -254,8 +253,8 @@ class pinSocketHorizontalTHT (object):
 
         description += ", script generated"
 
-        print "###################"
-        print footprint_name, "in", lib_name
+        print("###################")
+        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name)
@@ -383,7 +382,7 @@ class pinSocketVerticalSMD (object):
 
         param = self.params
 
-        lib_name ="Conn_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
+        lib_name ="Connector_PinSocket_{0:03.2f}mm".format(param.pin_pitch)
         footprint_name = self.makeModelName("")
         description = "surface-mounted straight socket strip, {0}x{1:02}, {2:03.2f}mm pitch".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
         tags = "Surface mounted socket strip SMD {0}x{1:02} {2:03.2f}mm".format(param.num_pin_rows, param.num_pins, param.pin_pitch)
@@ -416,8 +415,8 @@ class pinSocketVerticalSMD (object):
 
         description += ", script generated"
 
-        print "###################"
-        print footprint_name, "in", lib_name
+        print("###################")
+        print(footprint_name, "in", lib_name)
 
         # init kicad footprint
         kicad_mod = Footprint(footprint_name)

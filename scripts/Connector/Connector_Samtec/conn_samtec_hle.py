@@ -65,7 +65,7 @@ min_annular_ring = 0.15
 variant_params = {
     'smd-be-a': {
         'smd': True,
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'npth_drill': be_npth_drill,
         'peg_drill': a_npth_drill,
         'pad_size': pad_size_smd_be,
@@ -75,7 +75,7 @@ variant_params = {
         },
     'smd-be-lc': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'npth_drill': be_npth_drill,
         'peg_drill': lc_npth_drill,
         'pad_size': pad_size_smd_be,
@@ -85,7 +85,7 @@ variant_params = {
         },
     'smd-be': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'npth_drill': be_npth_drill,
         'pad_size': pad_size_smd_be,
         'pad_pitch_y': pad_pitch_y_smd_be,
@@ -94,7 +94,7 @@ variant_params = {
         },
     'smd-a': {
         'smd': True,
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'peg_drill': a_npth_drill,
         'pad_size': pad_size_smd,
         'pad_pitch_y': pad_pitch_y_smd,
@@ -103,7 +103,7 @@ variant_params = {
         },
     'smd-lc': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'peg_drill': lc_npth_drill,
         'pad_size': pad_size_smd,
         'pad_pitch_y': pad_pitch_y_smd,
@@ -112,20 +112,20 @@ variant_params = {
         },
     'smd': {
         'smd': True,
-        'pins_per_row_range': range(2,50),
+        'pins_per_row_range': range(2,51),
         'pad_size': pad_size_smd,
         'pad_pitch_y': pad_pitch_y_smd,
         'datasheets': [datasheet_smd, footprint_smd],
         'part_code': "HLE-1{n:02}-02-xxx-DV",
         },
     'tht-te': {
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'pad_drill': drill,
         'datasheets': [datasheet_tht, footprint_tht],
         'part_code': "HLE-1{n:02}-02-xx-DV-TE",
         },
     'tht-pe': {
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'npth_drill': pe_npth_drill,
         'pad_drill': drill,
         'pad_pitch_y': pad_pitch_y_pe,
@@ -136,7 +136,7 @@ variant_params = {
             ],
         },
     'tht-pe-lc': {
-        'pins_per_row_range': range(4,50),
+        'pins_per_row_range': range(4,51),
         'npth_drill': pe_npth_drill,
         'peg_drill': lc_npth_drill,
         'pad_drill': drill,
@@ -149,8 +149,8 @@ variant_params = {
 def generate_one_footprint(pins_per_row, variant, configuration):
     is_smd = variant_params[variant].get('smd', False)
 
-    mpn = variant_params[variant]['part_code'].format(n=pins_per_row*2)
-    alt_mpn = [code.format(n=pins_per_row*2) for code in variant_params[variant].get('alternative_codes', [])]
+    mpn = variant_params[variant]['part_code'].format(n=pins_per_row)
+    alt_mpn = [code.format(n=pins_per_row) for code in variant_params[variant].get('alternative_codes', [])]
 
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
@@ -279,12 +279,21 @@ def generate_one_footprint(pins_per_row, variant, configuration):
                     drill=npth_drill, layers=Pad.LAYERS_NPTH))
 
     # Pads
+    optional_pad_params = {}
+    if not is_smd:
+        if configuration['kicad4_compatible']:
+            optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+        else:
+            optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+
     kicad_mod.append(PadArray(start=[pad1_x, pad_row1_y], initial=1,
         pincount=pins_per_row, increment=2,  x_spacing=pitch, size=pad_size,
-        type=pad_type, shape=pad_shape, layers=pad_layer, drill=pad_drill))
+        type=pad_type, shape=pad_shape, layers=pad_layer, drill=pad_drill,
+        **optional_pad_params))
     kicad_mod.append(PadArray(start=[pad1_x, pad_row2_y], initial=2,
         pincount=pins_per_row, increment=2, x_spacing=pitch, size=pad_size,
-        type=pad_type, shape=pad_shape, layers=pad_layer, drill=pad_drill))
+        type=pad_type, shape=pad_shape, layers=pad_layer, drill=pad_drill,
+        **optional_pad_params))
 
     # ######################## Fabrication Layer ###########################
 
@@ -414,6 +423,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../conn_config_KLCv3.yaml')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
@@ -427,6 +437,9 @@ if __name__ == "__main__":
             configuration.update(yaml.load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
+
+    configuration['kicad4_compatible'] = args.kicad4_compatible
+
     for variant in variant_params:
         for pins_per_row in variant_params[variant]['pins_per_row_range']:
             generate_one_footprint(pins_per_row, variant, configuration)

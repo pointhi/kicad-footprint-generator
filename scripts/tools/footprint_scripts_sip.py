@@ -126,7 +126,10 @@ def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bott
     h_crt = h_fab+pin_bottom_offset+pad[1]/2 + 2 * crt_offset
     l_crt = min(l_fab, -padx / 2) - crt_offset
     t_crt = t_fab  - crt_offset
-    
+
+    # Pin 1 maker
+    l_pin1 = l_slk + left_offset - padx / 2 - 2 * lw_slk
+    h_pin1 = pin_bottom_offset + pady / 2 - lw_slk
     
     print(footprint_name)
     
@@ -165,10 +168,10 @@ def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bott
     # create SILKSCREEN-layer
     addRectWithKeepout(kicad_mod, l_slk, t_slk, w_slk, h_slk, keepouts=keepout, layer='F.SilkS', width=lw_slk)
     addPolyLineWithKeepout(kicad_mod, [
-                                        [l_slk-2*lw_slk, t_slk], 
-                                        [l_slk-2*lw_slk, t_slk+h_slk], 
-                                        ], keepouts=keepout, layer='F.SilkS', width=lw_slk)
-    
+                                        [l_pin1, t_slk + h_slk],
+                                        [l_pin1, t_slk + h_slk + h_pin1]
+                                        ], layer='F.SilkS', width=lw_slk)
+
     # create courtyard
     kicad_mod.append(
         RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt), roundCrt(t_crt + h_crt)],
