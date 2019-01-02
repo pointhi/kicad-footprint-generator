@@ -259,7 +259,9 @@ class StandardBox(Node):
         #
         # Add a chamfer
         #
-        dd = 0.5
+        dd = w * 0.25
+        if dd > 1.0:
+            dd = 1.0
         if w < 2.0:
             dd = w / 3.0
         if h < 2.0:
@@ -378,9 +380,9 @@ class StandardBox(Node):
         #
         #
         for n in ffabline:
-            new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer, width=n.width)
+            new_node = Line(start=Point2D(round(n.sx, 2), round(n.sy, 2)), end=Point2D(round(n.ex, 2), round(n.ey, 2)), layer=n.layer, width=n.width)
             if n.width < 0.0:
-                new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer)
+                new_node = Line(start=Point2D(round(n.sx, 2), round(n.sy, 2)), end=Point2D(round(n.ex, 2), round(n.ey, 2)), layer=n.layer)
             new_node._parent = self
             self.virtual_childs.append(new_node)
 
@@ -391,11 +393,11 @@ class StandardBox(Node):
         x1 = self.at.x - 0.5
         y1 = self.at.y - 0.5
         #
-        new_node = Line(start=Point2D(x1, y1 + self.p1m), end=Point2D(x1, y1), layer='F.SilkS', width=self.FSilkSWidth)
+        new_node = Line(start=Point2D(round(x1, 2), round(y1 + self.p1m, 2)), end=Point2D(round(x1, 2), round(y1, 2)), layer='F.SilkS', width=self.FSilkSWidth)
         new_node._parent = self
         self.virtual_childs.append(new_node)
         #
-        new_node = Line(start=Point2D(x1, y1), end=Point2D(x1 + self.p1m, y1), layer='F.SilkS', width=self.FSilkSWidth)
+        new_node = Line(start=Point2D(round(x1, 2), round(y1, 2)), end=Point2D(round(x1 + self.p1m, 2), round(y1, 2)), layer='F.SilkS', width=self.FSilkSWidth)
         new_node._parent = self
         self.virtual_childs.append(new_node)
 
@@ -664,9 +666,9 @@ class StandardBox(Node):
         #
         #
         for n in self.fsilksline:
-            new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer, width=n.width)
+            new_node = Line(start=Point2D(round(n.sx, 2), round(n.sy, 2)), end=Point2D(round(n.ex, 2), round(n.ey, 2)), layer=n.layer, width=n.width)
             if n.width < 0.0:
-                new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer)
+                new_node = Line(start=Point2D(round(n.sx, 2), round(n.sy, 2)), end=Point2D(round(n.ex, 2), round(n.ey, 2)), layer=n.layer)
             new_node._parent = self
             self.virtual_childs.append(new_node)
 
@@ -972,9 +974,9 @@ class StandardBox(Node):
         #
         #
         for n in self.fcrtydline:
-            new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer, width=n.width)
+            new_node = Line(start=Point2D(round(n.sx, 2), round(n.sy, 2)), end=Point2D(round(n.ex, 2), round(n.ey, 2)), layer=n.layer, width=n.width)
             if n.width < 0.0:
-                new_node = Line(start=Point2D(n.sx, n.sy), end=Point2D(n.ex, n.ey), layer=n.layer)
+                new_node = Line(start=Point2D(round(n.sx, 2), round(n.sy, 2)), end=Point2D(round(n.ex, 2), round(n.ey, 2)), layer=n.layer)
             new_node._parent = self
             self.virtual_childs.append(new_node)
 
@@ -1016,6 +1018,17 @@ class StandardBox(Node):
                     self.pad.append(new_pad)
                 else:
                     new_pad = Pad(number=c, type=Pad.TYPE_THT, shape=Pad.SHAPE_CIRCLE,
+                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=Pad.LAYERS_THT)
+                    self.footprint.append(new_pad)
+                    self.pad.append(new_pad)
+            if n[0] == 'thtr':
+                if c == '1':
+                    new_pad = Pad(number=c, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT,
+                                  at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=Pad.LAYERS_THT)
+                    self.footprint.append(new_pad)
+                    self.pad.append(new_pad)
+                else:
+                    new_pad = Pad(number=c, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL,
                                   at=[x, 0.0 - y], size=[sx, sy], drill=dh, layers=Pad.LAYERS_THT)
                     self.footprint.append(new_pad)
                     self.pad.append(new_pad)
