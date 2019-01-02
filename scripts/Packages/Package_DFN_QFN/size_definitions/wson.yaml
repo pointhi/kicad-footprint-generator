@@ -37,7 +37,7 @@ SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
-WSON-8-1EP_5x6mm_P1.27mm_EP3.4x4.0mm:
+WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.0mm:
   device_type: 'WSON'
   library: Package_SON
   #manufacturer: 'man'
@@ -67,6 +67,64 @@ WSON-8-1EP_5x6mm_P1.27mm_EP3.4x4.0mm:
   EP_num_paste_pads: [2, 2]
 
   pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_PullBack'
+  #include_suffix_in_3dpath: 'False'
+  #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
+Texas_S-PWSON-N8:
+  device_type: 'WSON'
+  library: Package_SON
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.ti.com/lit/ds/symlink/lp2951.pdf#page=27'
+  ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
+  custom_name_format: 'Texas_S-PWSON-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    minimum: 2.9
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    maximum: 3.1
+  body_height:
+    minimum: 0.7
+    maximum: 0.8
+
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    minimum: 0.4
+    maximum: 0.6
+
+  EP_size_x:
+    nominal: 1.2
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2
+    tolerance: 0.1
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [1, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
   num_pins_x: 0
   num_pins_y: 4
   #chamfer_edge_pins: 0.25
