@@ -20,6 +20,7 @@ from quad_dual_pad_border import add_dual_or_quad_pad_border
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
 category = 'NoLead'
+default_library = 'Package_DFN_QFN'
 
 DEFAULT_PASTE_COVERAGE = 0.65
 DEFAULT_VIA_PASTE_CLEARANCE = 0.15
@@ -75,7 +76,8 @@ class NoLead():
         else:
             Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
                     ipc_data, ipc_round_base, manf_tol,
-                    device_dimensions['body_size_x'], device_dimensions['lead_width'],
+                    body_size=device_dimensions['body_size_x'],
+                    lead_width=device_dimensions['lead_width'],
                     lead_len=device_dimensions.get('lead_len_H'),
                     body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
                     heel_reduction=device_dimensions.get('heel_reduction', 0),
@@ -84,7 +86,8 @@ class NoLead():
 
             Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
                     ipc_data, ipc_round_base, manf_tol,
-                    device_dimensions['body_size_y'], device_dimensions['lead_width'],
+                    body_size=device_dimensions['body_size_y'],
+                    lead_width=device_dimensions['lead_width'],
                     lead_len=device_dimensions.get('lead_len_V'),
                     body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
                     heel_reduction=device_dimensions.get('heel_reduction', 0),
@@ -184,8 +187,7 @@ class NoLead():
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
-        lib_name = self.configuration['lib_name_format_string'].format(category=category)
-        lib_name = device_params.get('library', lib_name)
+        lib_name = device_params.get('library', default_library)
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
