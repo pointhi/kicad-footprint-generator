@@ -197,7 +197,18 @@ class DFN():
                 }
         else:
             name_format = self.configuration['fp_name_format_string_no_trailing_zero']
+            if device_params.get('use_name_format', 'QFN') == 'LGA':
+                name_format = self.configuration['fp_name_lga_format_string_no_trailing_zero']
+                if device_params['num_pins_x'] == 0 or device_params['num_pins_y'] == 0:
+                    layout = ''
+                else:
+                    layout = self.configuration['lga_layout_border'].format(
+                        nx=device_params['num_pins_x'], ny=device_params['num_pins_y'])
+
             EP_size = {'x':0, 'y':0}
+
+        if 'custom_name_format' in device_params:
+            name_format = device_params['custom_name_format']
 
         pad_details = self.calcPadDetails(device_dimensions, EP_size, ipc_data_set, ipc_round_base)
 
@@ -212,9 +223,6 @@ class DFN():
 
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
-        if 'custom_name_format' in device_params:
-            name_format = device_params['custom_name_format']
-
         size_x = device_dimensions['body_size_x'].nominal
         size_y = device_dimensions['body_size_y'].nominal
 
@@ -226,6 +234,7 @@ class DFN():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
+            layout=layout,
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
             suffix=pad_suffix,
@@ -241,6 +250,7 @@ class DFN():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
+            layout=layout,
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
             suffix=pad_suffix_3d,

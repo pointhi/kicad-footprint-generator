@@ -3,7 +3,7 @@ Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:
   manufacturer: 'Texas'
   part_number: 'SIL0010A'
   size_source: 'http://www.ti.com/lit/ml/mpds579b/mpds579b.pdf'
-  ipc_class: 'LGA'
+  ipc_class: 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
 
@@ -65,7 +65,7 @@ Texas_MicroSiP-8-1EP_2.8x3.0mm_P0.65mm_EP1.9x1.1mm_ThermalVia:
   manufacturer: 'Texas'
   part_number: 'SIL0008D'
   size_source: 'http://www.ti.com/lit/ds/symlink/tps82130.pdf#page19'
-  ipc_class: 'LGA'
+  ipc_class: 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
 
