@@ -1,3 +1,47 @@
+LFCSP-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
+  device_type: 'LFCSP'
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/AD7682_7689.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  library: 'Package_CSP'
+  body_size_x:
+    minimum: 3.9
+    nominal: 4
+    maximum: 4.1
+  body_size_y:
+    minimum: 3.9
+    nominal: 4
+    maximum: 4.1
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x: 2.5
+  EP_size_y: 2.5
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 5
+  num_pins_y: 5
+
 QFN-20-1EP_3x3mm_P0.45mm_EP1.6x1.6mm:
   device_type: 'QFN'
   #manufacturer: 'man'

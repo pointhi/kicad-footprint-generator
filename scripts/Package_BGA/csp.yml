@@ -1,3 +1,15 @@
+WLCSP-12_1.403x1.555mm_P0.4mm_Stagger:
+  description: "WLCSP-12, 6x4 raster staggered array, 1.403x1.555mm package, pitch 0.4mm; http://ww1.microchip.com/downloads/en/devicedoc/atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet.pdf#page=208"
+  pkg_width: 1.403
+  pkg_height: 1.555
+  pitch_x: 0.2
+  pitch_y: 0.346333
+  pad_diameter: 0.215
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 6
+  layout_y: 4
+  row_skips: [[2, 4, 6], [1, 3, 5], [2, 4, 6], [1, 3, 5]]
 ST_WLCSP-25_Die425:
   description: "WLCSP-25, 5x5 raster, 2.097x2.493mm package, pitch 0.4mm; http://www.st.com/resource/en/datasheet/stm32l031f6.pdf#page=112"
   pkg_width: 2.097
