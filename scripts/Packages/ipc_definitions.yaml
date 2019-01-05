@@ -1,3 +1,6 @@
+ipc_generic_rules:
+  min_ep_to_pad_clearance: 0.2
+
 # IPC IPC-7351 http://pcbget.ru/Files/Standarts/IPC_7351.pdf
 # Page 23
 # Updated with IPC-7351 B values (sadly no openly accessible document available)
