@@ -77,6 +77,8 @@ class PadArray(Node):
           shape for marking pad 1 for through hole components. (deafult: ``Pad.SHAPE_ROUNDRECT``)
         * *tht_pad1_id* (``int, string``) --
           pad number used for "pin 1" (default: 1)
+        * *exclude_pin_list* (``int, Vector1D``) --
+          which pin number should be skipped"
 
     :Example:
 
@@ -101,6 +103,14 @@ class PadArray(Node):
         self.pincount = kwargs.get('pincount')
         if type(self.pincount) is not int or self.pincount <= 0:
             raise ValueError('{pc} is an invalid value for pincount'.format(pc=self.pincount))
+
+        self.exclude_pin_list = []
+        if kwargs.get('exclude_pin_list'):
+            self.exclude_pin_list = kwargs.get('exclude_pin_list')
+            if type(self.exclude_pin_list) not in [list, tuple]:
+                raise TypeError('exclude pin list must be specified like "exclude_pin_list=[0,1]"')
+            elif any([type(i) not in [int] for i in self.exclude_pin_list]):
+                raise ValueError('exclude pin list must be integer value')
 
     # Where to start the aray
     def _initStartingPosition(self, **kwargs):
@@ -221,43 +231,46 @@ class PadArray(Node):
             delta_pos = Vector2D(0, 0)
 
         for i, number in enumerate(pad_numbers):
-            current_pad_pos = Vector2D(
-                x_start + i * x_spacing,
-                y_start + i * y_spacing
-                )
-            current_pad_params = copy(kwargs)
-            if i == 0 or i == len(pad_numbers)-1:
-                current_pad_pos += delta_pos
-                current_pad_params = end_pad_params
+            includePad = (i + self.initialPin) not in self.exclude_pin_list
+            for exi in self.exclude_pin_list:
+                if (i + self.initialPin) == exi:
+                    includePad = False
 
-            if kwargs.get('type') == Pad.TYPE_THT and number == kwargs.get('tht_pad1_id', 1):
-                current_pad_params['shape'] = kwargs.get('tht_pad1_shape', Pad.SHAPE_ROUNDRECT)
-                if 'radius_ratio' not in current_pad_params:
-                    current_pad_params['radius_ratio'] = 0.25
-                if 'maximum_radius' not in current_pad_params:
-                    current_pad_params['maximum_radius'] = 0.25
-            else:
-                current_pad_params['shape'] = padShape
-
-            if kwargs.get('chamfer_size'):
-                if i == 0 and 'chamfer_corner_selection_first' in kwargs:
-                    pads.append(
-                        ChamferedPad(
-                            number=number, at=current_pad_pos,
-                            corner_selection=kwargs.get('chamfer_corner_selection_first'),
-                            **current_pad_params
-                            ))
-                    continue
-
-                if i == len(pad_numbers)-1 and 'chamfer_corner_selection_last' in kwargs:
-                    pads.append(
-                        ChamferedPad(
-                            number=number, at=current_pad_pos,
-                            corner_selection=kwargs.get('chamfer_corner_selection_last'),
-                            **current_pad_params
-                            ))
-                    continue
-            pads.append(Pad(number=number, at=current_pad_pos, **current_pad_params))
+            if includePad:
+                current_pad_pos = Vector2D(
+                    x_start + i * x_spacing,
+                    y_start + i * y_spacing
+                    )
+                current_pad_params = copy(kwargs)
+                if i == 0 or i == len(pad_numbers)-1:
+                    current_pad_pos += delta_pos
+                    current_pad_params = end_pad_params
+                if kwargs.get('type') == Pad.TYPE_THT and number == kwargs.get('tht_pad1_id', 1):
+                    current_pad_params['shape'] = kwargs.get('tht_pad1_shape', Pad.SHAPE_ROUNDRECT)
+                    if 'radius_ratio' not in current_pad_params:
+                        current_pad_params['radius_ratio'] = 0.25
+                    if 'maximum_radius' not in current_pad_params:
+                        current_pad_params['maximum_radius'] = 0.25
+                else:
+                    current_pad_params['shape'] = padShape
+                if kwargs.get('chamfer_size'):
+                    if i == 0 and 'chamfer_corner_selection_first' in kwargs:
+                        pads.append(
+                            ChamferedPad(
+                                number=number, at=current_pad_pos,
+                                corner_selection=kwargs.get('chamfer_corner_selection_first'),
+                                **current_pad_params
+                                ))
+                        continue
+                    if i == len(pad_numbers)-1 and 'chamfer_corner_selection_last' in kwargs:
+                        pads.append(
+                            ChamferedPad(
+                                number=number, at=current_pad_pos,
+                                corner_selection=kwargs.get('chamfer_corner_selection_last'),
+                                **current_pad_params
+                                ))
+                        continue
+                pads.append(Pad(number=number, at=current_pad_pos, **current_pad_params))
 
         return pads
 
