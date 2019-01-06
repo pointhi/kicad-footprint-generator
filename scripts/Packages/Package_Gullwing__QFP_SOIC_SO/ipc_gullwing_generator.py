@@ -148,8 +148,11 @@ class Gullwing():
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
         ipc_reference = 'ipc_spec_gw_large_pitch' if device_params['pitch'] >= 0.625 else 'ipc_spec_gw_small_pitch'
+        if device_params.get('force_small_pitch_ipc_definition', False):
+            ipc_reference = 'ipc_spec_gw_small_pitch'
 
-        ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
+        used_density = device_params.get('ipc_density', ipc_density)
+        ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
         pitch = device_params['pitch']
