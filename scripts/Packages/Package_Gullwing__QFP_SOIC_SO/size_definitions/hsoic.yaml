@@ -2,7 +2,7 @@ FileHeader:
   library_Suffix: 'SO'
   device_type: 'HSOIC'
 
-HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm_ThermalVias:
+Texas_R-PDSO-G8_EP2.95x4.9mm_Mask2.4x3.1mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/lmr14030.pdf#page=28, http://www.ti.com/lit/ml/msoi002j/msoi002j.pdf'
   custom_name_format: 'Texas_R-PDSO-G{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm_Mask{mask_size_x:g}x{mask_size_y:g}mm{vias:s}'
   body_size_x:
@@ -40,9 +40,6 @@ HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm_ThermalVias:
 
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 3]
-  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
-  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
-  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [2, 3]
