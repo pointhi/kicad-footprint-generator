@@ -39,6 +39,8 @@ class NoLead():
         with open(ipc_doc_file, 'r') as ipc_stream:
             try:
                 self.ipc_defintions = yaml.load(ipc_stream)
+
+                self.configuration['min_ep_to_pad_clearance'] = 0.2
                 if 'ipc_generic_rules' in self.ipc_defintions:
                     self.configuration['min_ep_to_pad_clearance'] = self.ipc_defintions['ipc_generic_rules'].get('min_ep_to_pad_clearance', 0.2)
             except yaml.YAMLError as exc:
