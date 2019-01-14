@@ -160,7 +160,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
     silk_y_min = y_min - configuration['silk_fab_offset']
     silk_y_max = y_max + configuration['silk_fab_offset']
 
-    footprint_name = "Converter_DCDC_XP_POWER-{:s}_{:s}_THT".format(fpid,rows)
+    footprint_name = "Converter_DCDC_XP_POWER-{:s}_THT".format(fpid)
     ser = ""
     if fpid.startswith("IA_"):
         ser="SF_IA"
