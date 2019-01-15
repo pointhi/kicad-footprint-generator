@@ -1,0 +1,29 @@
+Broadcom_DFN-6_2.0x2.0mm:
+  size_source: 'https://docs.broadcom.com/docs/AV02-4755EN'
+  library: 'OptoDevice'
+  manufacturer: 'Broadcom'
+  device_type: 'DFN'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  body_size_x:
+    minimum: 1.9
+    nominal: 2
+    maximum: 2.1
+  body_size_y:
+    minimum: 1.9
+    nominal: 2
+    maximum: 2.1
+  body_height:
+    minimum: 0.55
+    nominal: 0.65
+    maximum: 0.75
+  lead_width:
+    minimum: 0.25
+    nominal: 0.3
+    maximum: 0.35
+  lead_len:
+    minimum: 0.6
+    nominal: 0.75
+    maximum: 0.9
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 3
