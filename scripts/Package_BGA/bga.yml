@@ -251,3 +251,23 @@ WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm_NSMD:
   layout_x: 2
   layout_y: 2
   row_skips: [[], []]
+Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.4mm_NSMD:
+  description: "Lattice caBGA-381 footprint for ECP5 FPGAs, based on http://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 17.0
+  pkg_height: 17.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.075
+  layout_x: 20
+  layout_y: 20
+  row_skips: [[1, 20], [], [], [], [], [], [], [], [], [], [], [], [], [], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [], [], [], [], [1, 4, 9, 10, 13, 18, 20]]
+Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.6mm_SMD:
+  description: "Lattice caBGA-381 footprint for ECP5 FPGAs, based on http://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 17.0
+  pkg_height: 17.0
+  pitch: 0.8
+  pad_diameter: 0.6
+  mask_margin: -0.05
+  layout_x: 20
+  layout_y: 20
+  row_skips: [[1, 20], [], [], [], [], [], [], [], [], [], [], [], [], [], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [], [], [], [], [1, 4, 9, 10, 13, 18, 20]]
