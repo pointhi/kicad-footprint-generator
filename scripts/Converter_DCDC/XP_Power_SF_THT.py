@@ -127,7 +127,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
         caselength = 21.85
         x_max = 3.20
         x_min = x_max - casewidth
-        y_min = (caselength - 17.78)/2
+        y_min = -(caselength - 17.78)/2
         y_max = y_min + caselength
         pins = [1, 2, 3, 6, 7, 8]
         xpos = [1, 1, 1, 1, 1, 1]
@@ -138,7 +138,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
         caselength = 21.85
         x_max = 3.20
         x_min = x_max - casewidth
-        y_min = (caselength - 17.78)/2
+        y_min = -(caselength - 17.78)/2
         y_max = y_min + caselength
         pins = [1, 2, 3, 6, 7]
         xpos = [1, 1, 1, 1, 1]
@@ -149,7 +149,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
         caselength = 21.85
         x_max = 3.20
         x_min = x_max - casewidth
-        y_min = (caselength - 17.78)/2
+        y_min = -(caselength - 17.78)/2
         y_max = y_min + caselength
         pins = [1, 2, 6, 7, 8]
         xpos = [1, 1, 1, 1, 1]
@@ -244,7 +244,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
 
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
 
-    lib_name = configuration['lib_name_format_string'].format(series=ser, man=manufacturer)
+    lib_name = configuration['lib_name_format_string'].format(series=ser)
     model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
         model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
     kicad_mod.append(Model(filename=model_name))
