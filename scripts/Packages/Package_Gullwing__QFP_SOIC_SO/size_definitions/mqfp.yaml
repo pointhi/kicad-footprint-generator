@@ -1,0 +1,32 @@
+FileHeader:
+  library_Suffix: 'QFP'
+  device_type: 'MQFP'
+
+MQFP-44_10x10mm_P0.8mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ad7722.pdf'
+  body_size_x:
+    minimum: 9.8
+    nominal: 10
+    maximum: 10.2
+  body_size_y:
+    minimum: 9.8
+    nominal: 10
+    maximum: 10.2
+  overall_size_x:
+    minimum: 13.65
+    nominal: 13.9
+    maximum: 14.15
+  overall_size_y:
+    minimum: 13.65
+    nominal: 13.9
+    maximum: 14.15
+  lead_width:
+    minimum: 0.3
+    maximum: 0.45
+  lead_len:
+    minimum: 0.73
+    nominal: 0.88
+    maximum: 1.03
+  pitch: 0.8
+  num_pins_x: 11
+  num_pins_y: 11

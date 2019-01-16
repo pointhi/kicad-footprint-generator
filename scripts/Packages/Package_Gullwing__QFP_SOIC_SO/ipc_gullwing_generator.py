@@ -32,10 +32,14 @@ class Gullwing():
         with open(ipc_doc_file, 'r') as ipc_stream:
             try:
                 self.ipc_defintions = yaml.load(ipc_stream)
+
+                self.configuration['min_ep_to_pad_clearance'] = 0.2
+                if 'ipc_generic_rules' in self.ipc_defintions:
+                    self.configuration['min_ep_to_pad_clearance'] = self.ipc_defintions['ipc_generic_rules'].get('min_ep_to_pad_clearance', 0.2)
             except yaml.YAMLError as exc:
                 print(exc)
 
-    def calcPadDetails(self, device_dimensions, ipc_data, ipc_round_base):
+    def calcPadDetails(self, device_dimensions, EP_size, ipc_data, ipc_round_base):
         # Zmax = Lmin + 2JT + √(CL^2 + F^2 + P^2)
         # Gmin = Smax − 2JH − √(CS^2 + F^2 + P^2)
         # Xmax = Wmin + 2JS + √(CW^2 + F^2 + P^2)
@@ -66,6 +70,20 @@ class Gullwing():
                 lead_len=device_dimensions.get('lead_len'),
                 heel_reduction=device_dimensions.get('heel_reduction', 0)
                 )
+
+        min_ep_to_pad_clearance = configuration['min_ep_to_pad_clearance']
+
+        heel_reduction_max = 0
+
+        if Gmin_x - 2*min_ep_to_pad_clearance < EP_size['x']:
+            heel_reduction_max = ((EP_size['x'] + 2*min_ep_to_pad_clearance - Gmin_x)/2)
+            #print('{}, {}, {}'.format(Gmin_x, EP_size['x'], min_ep_to_pad_clearance))
+            Gmin_x = EP_size['x'] + 2*min_ep_to_pad_clearance
+        if Gmin_y - 2*min_ep_to_pad_clearance < EP_size['y']:
+            heel_reduction = ((EP_size['y'] + 2*min_ep_to_pad_clearance - Gmin_y)/2)
+            if heel_reduction>heel_reduction_max:
+                heel_reduction_max = heel_reduction
+            Gmin_y = EP_size['y'] + 2*min_ep_to_pad_clearance
 
         Pad = {}
         Pad['left'] = {'center':[-(Zmax_x+Gmin_x)/4, 0], 'size':[(Zmax_x-Gmin_x)/2,Xmax]}
@@ -130,17 +148,14 @@ class Gullwing():
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
         ipc_reference = 'ipc_spec_gw_large_pitch' if device_params['pitch'] >= 0.625 else 'ipc_spec_gw_small_pitch'
+        if device_params.get('force_small_pitch_ipc_definition', False):
+            ipc_reference = 'ipc_spec_gw_small_pitch'
 
-        ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
+        used_density = device_params.get('ipc_density', ipc_density)
+        ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
         pitch = device_params['pitch']
-        pad_details = self.calcPadDetails(dimensions, ipc_data_set, ipc_round_base)
-
-        suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
-            pad_y=pad_details['left']['size'][1])
-        suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
-        model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
         name_format = self.configuration['fp_name_format_string_no_trailing_zero']
         EP_size = {'x':0, 'y':0}
@@ -148,14 +163,30 @@ class Gullwing():
 
         if dimensions['has_EP']:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
-            EP_size = {'x':dimensions['EP_size_x'].nominal, 'y':dimensions['EP_size_y'].nominal}
+            if 'EP_size_x_overwrite' in device_params:
+                EP_size = {
+                    'x':device_params['EP_size_x_overwrite'],
+                    'y':device_params['EP_size_y_overwrite']
+                    }
+            else:
+                EP_size = {
+                    'x':device_dimensions['EP_size_x'].nominal,
+                    'y':device_dimensions['EP_size_y'].nominal
+                    }
             if 'EP_mask_x' in dimensions:
                 name_format = self.configuration['fp_name_EP_custom_mask_format_string_no_trailing_zero']
                 EP_mask_size = {'x':dimensions['EP_mask_x'].nominal, 'y':dimensions['EP_mask_y'].nominal}
         EP_size = Vector2D(EP_size)
 
+        pad_details = self.calcPadDetails(dimensions, EP_size, ipc_data_set, ipc_round_base)
+
         if 'custom_name_format' in device_params:
             name_format = device_params['custom_name_format']
+
+        suffix = device_params.get('suffix', '').format(pad_x=pad_details['left']['size'][0],
+            pad_y=pad_details['left']['size'][1])
+        suffix_3d = suffix if device_params.get('include_suffix_in_3dpath', 'True') == 'True' else ""
+        model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
         fp_name = name_format.format(
             man=device_params.get('manufacturer',''),
