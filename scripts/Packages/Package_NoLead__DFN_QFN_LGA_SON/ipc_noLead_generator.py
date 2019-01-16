@@ -19,7 +19,8 @@ from quad_dual_pad_border import add_dual_or_quad_pad_border
 
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
-category = 'DFN_QFN'
+category = 'NoLead'
+default_library = 'Package_DFN_QFN'
 
 DEFAULT_PASTE_COVERAGE = 0.65
 DEFAULT_VIA_PASTE_CLEARANCE = 0.15
@@ -32,12 +33,14 @@ DEBUG_LEVEL = 0
 def roundToBase(value, base):
     return round(value/base) * base
 
-class DFN():
+class NoLead():
     def __init__(self, configuration):
         self.configuration = configuration
         with open(ipc_doc_file, 'r') as ipc_stream:
             try:
                 self.ipc_defintions = yaml.load(ipc_stream)
+
+                self.configuration['min_ep_to_pad_clearance'] = 0.2
                 if 'ipc_generic_rules' in self.ipc_defintions:
                     self.configuration['min_ep_to_pad_clearance'] = self.ipc_defintions['ipc_generic_rules'].get('min_ep_to_pad_clearance', 0.2)
             except yaml.YAMLError as exc:
@@ -62,24 +65,36 @@ class DFN():
         pull_back_0 = TolerancedSize(nominal=0)
         pull_back = device_dimensions.get('lead_to_edge', pull_back_0)
 
+        if 'lead_center_pos_x' in device_dimensions or 'lead_center_pos_y' in device_dimensions:
+            Gmin_x, Zmax_x, Xmax = ipc_pad_center_plus_size(ipc_data, ipc_round_base, manf_tol,
+                    center_position=device_dimensions.get('lead_center_pos_x', TolerancedSize(nominal=0)),
+                    lead_length=device_dimensions.get('lead_len_H'),
+                    lead_width=device_dimensions['lead_width'])
 
-        Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
-                ipc_data, ipc_round_base, manf_tol,
-                device_dimensions['body_size_x'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len_H'),
-                body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
-                heel_reduction=device_dimensions.get('heel_reduction', 0),
-                pull_back=pull_back
-                )
+            Gmin_y, Zmax_y, Xmax_y_ignored = ipc_pad_center_plus_size(ipc_data, ipc_round_base, manf_tol,
+                    center_position=device_dimensions.get('lead_center_pos_y', TolerancedSize(nominal=0)),
+                    lead_length=device_dimensions.get('lead_len_H'),
+                    lead_width=device_dimensions['lead_width'])
+        else:
+            Gmin_x, Zmax_x, Xmax = ipc_body_edge_inside_pull_back(
+                    ipc_data, ipc_round_base, manf_tol,
+                    body_size=device_dimensions['body_size_x'],
+                    lead_width=device_dimensions['lead_width'],
+                    lead_len=device_dimensions.get('lead_len_H'),
+                    body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
+                    heel_reduction=device_dimensions.get('heel_reduction', 0),
+                    pull_back=pull_back
+                    )
 
-        Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
-                ipc_data, ipc_round_base, manf_tol,
-                device_dimensions['body_size_y'], device_dimensions['lead_width'],
-                lead_len=device_dimensions.get('lead_len_V'),
-                body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
-                heel_reduction=device_dimensions.get('heel_reduction', 0),
-                pull_back=pull_back
-                )
+            Gmin_y, Zmax_y, Xmax_y_ignored = ipc_body_edge_inside_pull_back(
+                    ipc_data, ipc_round_base, manf_tol,
+                    body_size=device_dimensions['body_size_y'],
+                    lead_width=device_dimensions['lead_width'],
+                    lead_len=device_dimensions.get('lead_len_V'),
+                    body_to_inside_lead_edge=device_dimensions.get('body_to_inside_lead_edge'),
+                    heel_reduction=device_dimensions.get('heel_reduction', 0),
+                    pull_back=pull_back
+                    )
 
         min_ep_to_pad_clearance = configuration['min_ep_to_pad_clearance']
 
@@ -134,6 +149,16 @@ class DFN():
         if 'lead_to_edge' in device_size_data:
             dimensions['lead_to_edge'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_to_edge')
 
+        if 'lead_center_pos_x' in device_size_data:
+            dimensions['lead_center_pos_x'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_pos_x')
+        if 'lead_center_to_center_x' in device_size_data:
+            dimensions['lead_center_pos_x'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_to_center_x')/2
+
+        if 'lead_center_pos_y' in device_size_data:
+            dimensions['lead_center_pos_y'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_pos_y')
+        if 'lead_center_to_center_y' in device_size_data:
+            dimensions['lead_center_pos_y'] = TolerancedSize.fromYaml(device_size_data, base_name='lead_center_to_center_y')/2
+
         dimensions['lead_len_H'] = None
         dimensions['lead_len_V'] = None
         if 'lead_len_H' in device_size_data and 'lead_len_V' in device_size_data:
@@ -153,7 +178,7 @@ class DFN():
 
     def generateFootprint(self, device_params, fp_id):
         print('Building footprint for parameter set: {}'.format(fp_id))
-        device_dimensions = DFN.deviceDimensions(device_params, fp_id)
+        device_dimensions = NoLead.deviceDimensions(device_params, fp_id)
 
         if device_dimensions['has_EP'] and 'thermal_vias' in device_params:
             self.__createFootprintVariant(device_params, device_dimensions, True)
@@ -164,8 +189,7 @@ class DFN():
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
         silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
-        lib_name = self.configuration['lib_name_format_string'].format(category=category)
-        lib_name = device_params.get('library', lib_name)
+        lib_name = device_params.get('library', default_library)
 
         pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
 
@@ -179,6 +203,7 @@ class DFN():
         ipc_data_set = self.ipc_defintions[ipc_reference][used_density]
         ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
+        layout = ''
         if device_dimensions['has_EP']:
             name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
             if 'EP_size_x_overwrite' in device_params:
@@ -197,7 +222,16 @@ class DFN():
                 }
         else:
             name_format = self.configuration['fp_name_format_string_no_trailing_zero']
+            if device_params.get('use_name_format', 'QFN') == 'LGA':
+                name_format = self.configuration['fp_name_lga_format_string_no_trailing_zero']
+                if device_params['num_pins_x'] > 0 and device_params['num_pins_y'] > 0:
+                    layout = self.configuration['lga_layout_border'].format(
+                        nx=device_params['num_pins_x'], ny=device_params['num_pins_y'])
+
             EP_size = {'x':0, 'y':0}
+
+        if 'custom_name_format' in device_params:
+            name_format = device_params['custom_name_format']
 
         pad_details = self.calcPadDetails(device_dimensions, EP_size, ipc_data_set, ipc_round_base)
 
@@ -212,9 +246,6 @@ class DFN():
 
         model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
 
-        if 'custom_name_format' in device_params:
-            name_format = device_params['custom_name_format']
-
         size_x = device_dimensions['body_size_x'].nominal
         size_y = device_dimensions['body_size_y'].nominal
 
@@ -226,6 +257,7 @@ class DFN():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
+            layout=layout,
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
             suffix=pad_suffix,
@@ -241,12 +273,20 @@ class DFN():
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
+            layout=layout,
             ep_size_x = EP_size['x'],
             ep_size_y = EP_size['y'],
             suffix=pad_suffix_3d,
             suffix2=suffix_3d,
             vias=''
             ).replace('__','_').lstrip('_')
+
+        if 'fp_name_prefix' in device_params:
+            prefix = device_params['fp_name_prefix']
+            if not prefix.endswith('_'):
+                prefix += '_'
+            fp_name = prefix + fp_name
+            fp_name_2 = prefix + fp_name_2
 
         model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'\
             .format(
@@ -513,7 +553,7 @@ if __name__ == "__main__":
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for filepath in args.files:
-        dfn = DFN(configuration)
+        no_lead = NoLead(configuration)
 
         with open(filepath, 'r') as command_stream:
             try:
@@ -521,4 +561,4 @@ if __name__ == "__main__":
             except yaml.YAMLError as exc:
                 print(exc)
         for pkg in cmd_file:
-            dfn.generateFootprint(cmd_file[pkg], pkg)
+            no_lead.generateFootprint(cmd_file[pkg], pkg)
