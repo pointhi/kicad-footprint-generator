@@ -1,0 +1,476 @@
+LFCSP-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
+  device_type: 'LFCSP'
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/AD7682_7689.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  library: 'Package_CSP'
+  body_size_x:
+    minimum: 3.9
+    nominal: 4
+    maximum: 4.1
+  body_size_y:
+    minimum: 3.9
+    nominal: 4
+    maximum: 4.1
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x: 2.5
+  EP_size_y: 2.5
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 5
+  num_pins_y: 5
+
+QFN-20-1EP_3x3mm_P0.45mm_EP1.6x1.6mm:
+  device_type: 'QFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet.pdf#page=212'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_height:
+    minimum: 0.75
+    nominal: 0.8
+    maximum: 0.85
+
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.45
+
+  # For backwards compatibility use 1.6mm even though nominal would be 1.55
+  EP_size_x:
+    minimum: 1.4
+    nominal: 1.55
+    maximum: 1.7
+  EP_size_x_overwrite: 1.6
+  EP_size_y:
+    minimum: 1.4
+    nominal: 1.55
+    maximum: 1.7
+  EP_size_y_overwrite: 1.6
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.45
+  num_pins_x: 5
+  num_pins_y: 5
+  chamfer_edge_pins: 0.15
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+QFN-20-1EP_3x4mm_P0.5mm_EP1.65x2.65mm:
+  device_type: 'QFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_20_05-08-1742.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 3
+    tolerance: 0.1
+  body_size_y:
+    nominal: 4
+    tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
+
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
+
+  EP_size_x:
+    nominal: 1.65
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2.65
+    tolerance: 0.1
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 6
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+QFN-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
+  device_type: 'QFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=274'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 4
+    tolerance: 0
+  body_size_y:
+    nominal: 4
+    tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
+
+  lead_width:
+    minimum: 0.18
+    nominal: 0.25
+    maximum: 0.30
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  EP_size_x_overwrite: 2.5
+  EP_size_y:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  EP_size_y_overwrite: 2.5
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 5
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.15
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+QFN-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
+  device_type: 'QFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/doc2535.pdf#page=164'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 4
+    tolerance: 0
+  body_size_y:
+    nominal: 4
+    tolerance: 0
+  body_height:
+    minimum: 0.7
+    nominal: 0.75
+    maximum: 0.8
+
+  lead_width:
+    minimum: 0.18
+    nominal: 0.23
+    maximum: 0.30
+  lead_len:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.55
+
+  EP_size_x:
+    minimum: 2.45
+    nominal: 2.6
+    maximum: 2.75
+  EP_size_y:
+    minimum: 2.45
+    nominal: 2.6
+    maximum: 2.75
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 5
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.15
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+MLF-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
+  device_type: 'MLF'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/doc8246.pdf#page=263'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 4
+    tolerance: 0
+  body_size_y:
+    nominal: 4
+    tolerance: 0
+  body_height:
+    minimum: 0.7
+    nominal: 0.75
+    maximum: 0.8
+
+  lead_width:
+    minimum: 0.18
+    nominal: 0.23
+    maximum: 0.30
+  lead_len:
+    minimum: 0.35
+    nominal: 0.45
+    maximum: 0.55
+
+  EP_size_x:
+    minimum: 2.45
+    nominal: 2.6
+    maximum: 2.75
+  EP_size_y:
+    minimum: 2.45
+    nominal: 2.6
+    maximum: 2.75
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 5
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.15
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+QFN-20-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
+  device_type: 'QFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_20_05-08-1711.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 4
+    tolerance: 0.1
+  body_size_y:
+    nominal: 5
+    tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
+
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.1
+
+  EP_size_x:
+    minimum: 2.55
+    nominal: 2.65
+    maximum: 2.75
+  EP_size_y:
+    minimum: 3.55
+    nominal: 3.65
+    maximum: 3.75
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 3]
+
+  thermal_vias:
+    count: [3, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.55
+    #grid: [1, 1]
+    # bottom_pad_size:
+    # paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 6
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+QFN-20-1EP_5x5mm_P0.65mm_EP3.35x3.35mm:
+  device_type: 'QFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=276'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 5
+    tolerance: 0
+  body_size_y:
+    nominal: 5
+    tolerance: 0
+  body_height:
+    minimum: 0.8
+    nominal: 0.9
+    maximum: 1
+
+  lead_width:
+    minimum: 0.25
+    nominal: 0.3
+    maximum: 0.35
+  lead_len:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.45
+
+  EP_size_x:
+    minimum: 3.15
+    nominal: 3.25
+    maximum: 3.35
+  # For backwards compatibility use maximum size for EP
+  EP_size_x_overwrite: 3.35
+  EP_size_y:
+    minimum: 3.15
+    nominal: 3.25
+    maximum: 3.35
+  EP_size_y_overwrite: 3.35
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.65
+  num_pins_x: 5
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'

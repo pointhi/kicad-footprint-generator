@@ -2,7 +2,121 @@ FileHeader:
   library_Suffix: 'QFP'
   device_type: 'LQFP'
 
-LQFP-48:
+LQFP-32_5x5mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT401-1.pdf'
+  body_size_x:
+    minimum: 4.9
+    maximum: 5.1
+  body_size_y:
+    minimum: 4.9
+    maximum: 5.1
+  overall_size_x:
+    minimum: 6.85
+    maximum: 7.15
+  overall_size_y:
+    minimum: 6.85
+    maximum: 7.15
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 8
+  num_pins_y: 8
+
+LQFP-32_7x7mm_P0.8mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT358-1.pdf'
+  body_size_x:
+    minimum: 6.9
+    maximum: 7.1
+  body_size_y:
+    minimum: 6.9
+    maximum: 7.1
+  overall_size_x:
+    minimum: 8.85
+    maximum: 9.15
+  overall_size_y:
+    minimum: 8.85
+    maximum: 9.15
+  lead_width:
+    minimum: 0.3
+    maximum: 0.4
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.8
+  num_pins_x: 8
+  num_pins_y: 8
+
+LQFP-36_7x7mm_P0.65mm:
+  size_source: 'https://www.onsemi.com/pub/Collateral/561AV.PDF'
+  # ipc_density: 'least'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 7
+    tolerance: 0.1
+  body_size_y:
+    nominal: 7
+    tolerance: 0.1
+  overall_size_x:
+    nominal: 9
+    tolerance: 0.2
+  overall_size_y:
+    nominal: 9
+    tolerance: 0.2
+  lead_width:
+    nominal: 0.3
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.5
+    tolerance: 0.2
+  pitch: 0.65
+  num_pins_x: 9
+  num_pins_y: 9
+
+LQFP-44_10x10mm_P0.8mm:
+  size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ASS23225W.pdf?&fsrch=1'
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    minimum: 0.3
+    maximum: 0.45
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.8
+  num_pins_x: 11
+  num_pins_y: 11
+
+LQFP-48_7x7mm_P0.5mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ltc2358-16.pdf'
+  body_size_x:
+    nominal: 7
+  body_size_y:
+    nominal: 7
+  overall_size_x:
+    nominal: 9
+  overall_size_y:
+    nominal: 9
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+
+LQFP-48-1ep:
   size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
   body_size_x:
     nominal: 7
@@ -52,3 +166,508 @@ LQFP-48:
     grid: [1, 1]
     # bottom_pad_size:
     # paste_avoid_via: True
+
+LQFP-52_10x10mm_P0.65mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/98ARL10526D.pdf'
+  # ipc_density: 'least'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    nominal: 0.325
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 13
+  num_pins_y: 13
+
+LQFP-52-1EP_10x10mm_P0.65mm_EP4.8x4.8mm:
+  size_source: 'https://www.onsemi.com/pub/Collateral/848H-01.PDF'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 10
+    tolerance: 0
+  body_size_y:
+    nominal: 10
+    tolerance: 0
+  overall_size_x:
+    nominal: 12
+    tolerance: 0
+  overall_size_y:
+    nominal: 12
+    tolerance: 0
+  lead_width:
+    minimum: 0.22
+    maximum: 0.4
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 13
+  num_pins_y: 13
+
+  EP_size_x: 4.8
+  EP_size_y: 4.8
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [4, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1, 1]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
+LQFP-52_14x14mm_P1mm:
+  size_source: 'http://www.holtek.com/documents/10179/116711/HT1632Cv170.pdf'
+  body_size_x:
+    nominal: 14
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    nominal: 14
+    minimum: 13.9
+    maximum: 14.1
+  overall_size_x:
+    nominal: 16
+    minimum: 15.8
+    maximum: 16.2
+  overall_size_y:
+    nominal: 16
+    minimum: 15.8
+    maximum: 16.2
+  lead_width:
+    minimum: 0.39
+    maximum: 0.48
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 1
+  num_pins_x: 13
+  num_pins_y: 13
+
+LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
+  size_source: 'https://www.nxp.com/files-static/shared/doc/package_info/98ARH98426A.pdf'
+  # ipc_density: 'least'
+  # force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+
+  EP_size_x: 6.5
+  EP_size_y: 6.5
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [5, 5]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [5, 5]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.2, 1.2]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
+LQFP-64_7x7mm_P0.4mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT414-1.pdf'
+  body_size_x:
+    minimum: 6.9
+    maximum: 7.1
+  body_size_y:
+    minimum: 6.9
+    maximum: 7.1
+  overall_size_x:
+    minimum: 8.85
+    maximum: 9.15
+  overall_size_y:
+    minimum: 8.85
+    maximum: 9.15
+  lead_width:
+    minimum: 0.13
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 16
+  num_pins_y: 16
+
+LQFP-64_10x10mm_P0.5mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606_7606-6_7606-4.pdf'
+  body_size_x:
+    minimum: 9.8
+    nominal: 10
+    maximum: 10.2
+  body_size_y:
+    minimum: 9.8
+    nominal: 10
+    maximum: 10.2
+  overall_size_x:
+    minimum: 11.8
+    nominal: 12
+    maximum: 12.2
+  overall_size_y:
+    minimum: 11.8
+    nominal: 12
+    maximum: 12.2
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+
+LQFP-64_14x14mm_P0.8mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT791-1.pdf'
+  body_size_x:
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    minimum: 13.9
+    maximum: 14.1
+  overall_size_x:
+    minimum: 15.85
+    maximum: 16.15
+  overall_size_y:
+    minimum: 15.85
+    maximum: 16.15
+  lead_width:
+    minimum: 0.3
+    maximum: 0.45
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.8
+  num_pins_x: 16
+  num_pins_y: 16
+
+LQFP-80_10x10mm_P0.4mm:
+  size_source: 'https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q80.10x10.pdf'
+  body_size_x:
+    nominal: 10
+  body_size_y:
+    nominal: 10
+  overall_size_x:
+    nominal: 12
+  overall_size_y:
+    nominal: 12
+  lead_width:
+    minimum: 0.13
+    nominal: 0.16
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 20
+  num_pins_y: 20
+
+LQFP-80_12x12mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT315-1.pdf'
+  body_size_x:
+    minimum: 11.9
+    maximum: 12.1
+  body_size_y:
+    minimum: 11.9
+    maximum: 12.1
+  overall_size_x:
+    minimum: 13.85
+    maximum: 14.15
+  overall_size_y:
+    minimum: 13.85
+    maximum: 14.15
+  lead_width:
+    minimum: 0.13
+    maximum: 0.27
+  lead_len:
+    minimum: 0.3
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 20
+  num_pins_y: 20
+
+LQFP-80_14x14mm_P0.65mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/AD9852.pdf'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    minimum: 13.8
+    nominal: 14
+    maximum: 14.2
+  body_size_y:
+    minimum: 13.8
+    nominal: 14
+    maximum: 14.2
+  overall_size_x:
+    minimum: 15.8
+    nominal: 16
+    maximum: 16.2
+  overall_size_y:
+    minimum: 15.8
+    nominal: 16
+    maximum: 16.2
+  lead_width:
+    minimum: 0.22
+    nominal: 0.32
+    maximum: 0.38
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 20
+  num_pins_y: 20
+
+LQFP-100_14x14mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT407-1.pdf'
+  body_size_x:
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    minimum: 13.9
+    maximum: 14.1
+  overall_size_x:
+    minimum: 15.75
+    maximum: 16.25
+  overall_size_y:
+    minimum: 15.75
+    maximum: 16.25
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 25
+  num_pins_y: 25
+
+LQFP-128_14x14mm_P0.4mm:
+  size_source: 'https://www.renesas.com/eu/en/package-image/pdf/outdrawing/q128.14x14.pdf'
+  body_size_x:
+    nominal: 14
+  body_size_y:
+    nominal: 14
+  overall_size_x:
+    nominal: 16
+  overall_size_y:
+    nominal: 16
+  lead_width:
+    minimum: 0.13
+    nominal: 0.16
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 32
+  num_pins_y: 32
+
+LQFP-128_14x20mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT425-1.pdf'
+  body_size_x:
+    minimum: 13.9
+    maximum: 14.1
+  body_size_y:
+    minimum: 19.9
+    maximum: 20.1
+  overall_size_x:
+    minimum: 15.85
+    maximum: 16.15
+  overall_size_y:
+    minimum: 21.85
+    maximum: 22.15
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 26
+  num_pins_y: 38
+
+LQFP-144_20x20mm_P0.5mm:
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=425'
+  body_size_x:
+    nominal: 20
+  body_size_y:
+    nominal: 20
+  overall_size_x:
+    nominal: 22
+  overall_size_y:
+    nominal: 22
+  lead_width:
+    minimum: 0.17
+    nominal: 0.22
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 36
+  num_pins_y: 36
+
+LQFP-160_24x24mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT435-1.pdf'
+  body_size_x:
+    minimum: 23.9
+    maximum: 24.1
+  body_size_y:
+    minimum: 23.9
+    maximum: 24.1
+  overall_size_x:
+    minimum: 25.85
+    maximum: 26.15
+  overall_size_y:
+    minimum: 25.85
+    maximum: 26.15
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 40
+  num_pins_y: 40
+
+LQFP-176_20x20mm_P0.4mm:
+  size_source: 'https://www.onsemi.com/pub/Collateral/566DB.PDF'
+  body_size_x:
+    nominal: 20
+    tolerance: 0.1
+  body_size_y:
+    nominal: 20
+    tolerance: 0.1
+  overall_size_x:
+    nominal: 22
+    tolerance: 0.2
+  overall_size_y:
+    nominal: 22
+    tolerance: 0.2
+  lead_width:
+    nominal: 0.15
+    tolerance: [0.04, 0.05]
+  lead_len:
+    nominal: 0.5
+    tolerance: 0.2
+  pitch: 0.4
+  num_pins_x: 44
+  num_pins_y: 44
+
+LQFP-176_24x24mm_P0.5mm:
+  size_source: 'https://www.st.com/resource/en/datasheet/stm32f207vg.pdf#page=163'
+  body_size_x:
+    minimum: 23.9
+    maximum: 24.1
+  body_size_y:
+    minimum: 23.9
+    maximum: 24.1
+  overall_size_x:
+    minimum: 25.9
+    maximum: 26.1
+  overall_size_y:
+    minimum: 25.9
+    maximum: 26.1
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 44
+  num_pins_y: 44
+
+LQFP-208_28x28mm_P0.5mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT459-1.pdf'
+  body_size_x:
+    minimum: 27.9
+    maximum: 28.1
+  body_size_y:
+    minimum: 27.9
+    maximum: 28.1
+  overall_size_x:
+    minimum: 29.85
+    maximum: 30.15
+  overall_size_y:
+    minimum: 29.85
+    maximum: 30.15
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 52
+  num_pins_y: 52
+
+LQFP-216_24x24mm_P0.4mm:
+  size_source: 'https://www.onsemi.com/pub/Collateral/561BE.PDF'
+  body_size_x:
+    nominal: 24
+    tolerance: 0
+  body_size_y:
+    nominal: 24
+    tolerance: 0
+  overall_size_x:
+    nominal: 26
+    tolerance: 0
+  overall_size_y:
+    nominal: 26
+    tolerance: 0
+  lead_width:
+    minimum: 0.13
+    maximum: 0.23
+  lead_len:
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.4
+  num_pins_x: 54
+  num_pins_y: 54

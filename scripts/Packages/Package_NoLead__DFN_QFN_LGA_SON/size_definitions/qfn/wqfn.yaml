@@ -1,22 +1,33 @@
-UQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
-  device_type: 'UQFN'
+WQFN-16-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
+  device_type: 'WQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/16L_UQFN_4x4x0_5mm_JQ_C04257A.pdf'
+  size_source: 'http://www.ti.com/lit/ds/symlink/ldc1312.pdf#page=59'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
-  body_size_x: 4
-  body_size_y: 4
-  lead_width_min: 0.25
-  lead_width_max: 0.35
-  lead_len_min: 0.3
-  lead_len_max: 0.5
+  body_size_x:
+    minimum: 3.9
+    maximum: 4.1
+  body_size_y:
+    minimum: 3.9
+    maximum: 4.1
+  body_height:
+    maximum: 0.8
 
-  EP_size_x_min: 2.5
-  EP_size_x_max: 2.7
-  EP_size_y_min: 2.5
-  EP_size_y_max: 2.7
+  lead_width:
+    minimum: 0.2
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    nominal: 2.6
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2.6
+    tolerance: 0.1
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
@@ -34,7 +45,7 @@ UQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
     # bottom_pad_size:
     paste_avoid_via: False
 
-  pitch: 0.65
+  pitch: 0.5
   num_pins_x: 4
   num_pins_y: 4
   #chamfer_edge_pins: 0.25

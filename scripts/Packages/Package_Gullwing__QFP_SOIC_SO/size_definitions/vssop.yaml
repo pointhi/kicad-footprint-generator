@@ -1,0 +1,25 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'VSSOP'
+
+VSSOP-10_3x3mm_P0.5mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/ads1115.pdf'
+  body_size_x:
+    minimum: 2.90
+    maximum: 3.10
+  body_size_y:
+    minimum: 2.90
+    maximum: 3.10
+  overall_size_y:
+    minimum: 4.85 #Datasheet value is 4.75 and 5.05 but this generate a 4.3 pin separation
+    maximum: 5.15 #by adding 0.1 in both pin separation is correct. 
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.4
+    maximum: 0.7
+  pitch: 0.5
+  num_pins_y: 5
+  num_pins_x: 0
+

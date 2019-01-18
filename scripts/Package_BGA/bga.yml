@@ -28,6 +28,15 @@ LFBGA-144_10x10mm_Layout12x12_P0.8mm:
   paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
+Texas_DSBGA-28_1.9x3.0mm_Layout4x7_P0.4mm:
+  description: "Texas Instruments, DSBGA, 3.0x1.9x0.625mm, 28 ball 7x4 area grid, NSMD pad definition (http://www.ti.com/lit/ds/symlink/bq51050b.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
+  pkg_width: 1.9
+  pkg_height: 3.0
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.05
+  layout_x: 4
+  layout_y: 7
 Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
   description: "Texas Instruments, DSBGA, 3.33x3.488x0.625mm, 49 ball 7x7 area grid, NSMD pad definition (http://www.ti.com/lit/ds/symlink/msp430f2234.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf)"
   pkg_width: 3.33
@@ -164,11 +173,21 @@ UFBGA-100_7x7mm_Layout12x12_P0.5mm:
   pkg_height: 7.0
   pitch: 0.5
   pad_diameter: 0.28
-  mask_margin: 0.045
+  mask_margin:  0.045
   paste_margin: 0.000001
   layout_x: 12
   layout_y: 12
   row_skips: [[], [], [6, 7], [[4, 10]], [[4, 10]], [[3, 11]], [[3, 11]], [[4, 10]], [[4, 10]], [6, 7], [], []]
+XBGA-121_10x10mm_Layout11x11_P0.8mm:
+  description: "XBGA-121, 11x11 raster, 10x10mm package, pitch 0.6mm; http://ww1.microchip.com/downloads/en/DeviceDoc/39969b.pdf"
+  pkg_width: 10.0
+  pkg_height: 10.0
+  pitch: 0.8
+  pad_diameter: 0.32
+  mask_margin: 0.04
+  paste_margin: 0.0001
+  layout_x: 11
+  layout_y: 11
 UFBGA-132_7x7mm_Layout12x12_P0.5mm:
   description: "UFBGA-132, 12x12 raster, 7x7mm package, pitch 0.5mm; http://www.st.com/resource/en/datasheet/stm32l152zc.pdf#page=123"
   pkg_width: 7.0
@@ -232,3 +251,23 @@ WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm_NSMD:
   layout_x: 2
   layout_y: 2
   row_skips: [[], []]
+Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.4mm_NSMD:
+  description: "Lattice caBGA-381 footprint for ECP5 FPGAs, based on http://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 17.0
+  pkg_height: 17.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.075
+  layout_x: 20
+  layout_y: 20
+  row_skips: [[1, 20], [], [], [], [], [], [], [], [], [], [], [], [], [], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [], [], [], [], [1, 4, 9, 10, 13, 18, 20]]
+Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.6mm_SMD:
+  description: "Lattice caBGA-381 footprint for ECP5 FPGAs, based on http://www.latticesemi.com/view_document?document_id=213"
+  pkg_width: 17.0
+  pkg_height: 17.0
+  pitch: 0.8
+  pad_diameter: 0.6
+  mask_margin: -0.05
+  layout_x: 20
+  layout_y: 20
+  row_skips: [[1, 20], [], [], [], [], [], [], [], [], [], [], [], [], [], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [], [], [], [], [1, 4, 9, 10, 13, 18, 20]]

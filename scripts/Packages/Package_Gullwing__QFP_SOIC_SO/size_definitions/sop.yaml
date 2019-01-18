@@ -47,3 +47,29 @@ SOP-8-1EP_4.57x4.57mm_P1.27mm_EP4.57x4.45mm:
     grid: [2.54, 1.27]
     # bottom_pad_size:
     paste_avoid_via: False
+
+
+SOP-8_6.62x9.15mm_P2.54mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/iso1050.pdf'
+  body_size_x:
+    minimum: 6.37
+    maximum: 6.87
+  body_size_y:
+    minimum: 8.75
+    maximum: 9.55
+  body_height:
+    maximum: 4.85
+
+  overall_size_x:
+    minimum: 10.1
+    maximum: 10.7
+  lead_width:
+    minimum: 0.355
+    maximum: 0.555
+  lead_len:
+    minimum: 1.15
+    maximum: 1.45
+
+  pitch: 2.54
+  num_pins_x: 0
+  num_pins_y: 4

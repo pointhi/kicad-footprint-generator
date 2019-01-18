@@ -1,9 +1,10 @@
 Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:
   device_type: 'MicroSiP'
+  library: Package_LGA
   manufacturer: 'Texas'
   part_number: 'SIL0010A'
   size_source: 'http://www.ti.com/lit/ml/mpds579b/mpds579b.pdf'
-  ipc_class: 'LGA'
+  ipc_class: 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
 
@@ -62,35 +63,37 @@ Texas_MicroSiP-10-1EP_3.8x3.0mm_P0.6mm_EP0.7x2.9mm_ThermalVia:
 
 Texas_MicroSiP-8-1EP_2.8x3.0mm_P0.65mm_EP1.9x1.1mm_ThermalVia:
   device_type: 'MicroSiP'
+  library: Package_LGA
   manufacturer: 'Texas'
   part_number: 'SIL0008D'
-  size_source: 'http://www.ti.com/lit/ds/symlink/tps82130.pdf#page19'
-  ipc_class: 'LGA'
+  size_source: 'http://www.ti.com/lit/ds/symlink/tps82130.pdf#page=19'
+  ipc_class: 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
 
   body_size_x:
-    nominal: 2.8
-    tolerance: 0.1
+    minimum: 2.7
+    maximum: 2.9
   body_size_y:
-    nominal: 3
-    tolerance: 0.1
+    minimum: 2.9
+    maximum: 3.1
 
   lead_width:
-    nominal: 0.5
-    tolerance: 0.02
+    minimum: 0.38
+    maximum: 0.42
   lead_len:
-    nominal: 0.4
-    tolerance: 0.02
-  lead_center_pos_x:
-    nominal: 1.05
+    minimum: 0.48
+    maximum: 0.52
+  lead_to_edge:
+    nominal: 0.1
     tolerance: 0
 
-
-  EP_size_x_min: 1.0
-  EP_size_x_max: 1.2
-  EP_size_y_min: 1.8
-  EP_size_y_max: 2.0
+  EP_size_x:
+    minimum: 1.0
+    maximum: 1.2
+  EP_size_y:
+    minimum: 1.8
+    maximum: 2.0
   EP_num_paste_pads: [1, 3]
   #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
@@ -103,7 +106,7 @@ Texas_MicroSiP-8-1EP_2.8x3.0mm_P0.65mm_EP1.9x1.1mm_ThermalVia:
     EP_num_paste_pads: [1, 3]
     #paste_between_vias: 1
     #paste_rings_outside: 1
-    EP_paste_coverage: 0.85
+    EP_paste_coverage: 0.75
     #grid: [1, 1]
     # bottom_pad_size:
     paste_avoid_via: False
