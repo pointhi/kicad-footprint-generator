@@ -6,29 +6,29 @@ SOP-8-1EP_4.57x4.57mm_P1.27mm_EP4.57x4.45mm:
   size_source: 'https://ww2.minicircuits.com/case_style/XX112.pdf'
   body_size_x:
     nominal: 4.57
-    tolerance: 0.01
+    tolerance: 0.254
   body_size_y:
     nominal: 4.57
-    tolerance: 0.01
+    tolerance: 0.254
   overall_size_x:
     nominal: 10.16
-    tolerance: 0.01
+    tolerance: 0.254
   lead_width:
     nominal: 0.38
-    tolerance: 0.01
+    tolerance: 0.254
   lead_len:
     nominal: 1.78
-    tolerance: 0.01
+    tolerance: 0.254
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
 
   EP_size_x:
     nominal: 4.57
-    tolerance: 0.01
+    tolerance: 0.254
   EP_size_y:
     nominal: 4.45
-    tolerance: 0.01
+    tolerance: 0.254
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
   #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
@@ -43,7 +43,7 @@ SOP-8-1EP_4.57x4.57mm_P1.27mm_EP4.57x4.45mm:
     EP_num_paste_pads: [2, 2]
     # paste_between_vias: 1
     # paste_rings_outside: 1
-    EP_paste_coverage: 0.65
+    EP_paste_coverage: 0.70
     grid: [2.54, 1.27]
     # bottom_pad_size:
     paste_avoid_via: False
