@@ -23,8 +23,8 @@ fab_pin1_marker_type = 1
 pin1_marker_offset = 0.3
 pin1_marker_linelen = 1.25
 
-drill_size = 0.75
-pad_to_pad_clearance = 0.79
+drill_size = 0.85#0.5 pin diameter, 0.35 pin pitch tolerance
+pad_to_pad_clearance = 0.69
 pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
