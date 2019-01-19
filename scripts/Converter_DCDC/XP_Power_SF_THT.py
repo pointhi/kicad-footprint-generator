@@ -181,9 +181,9 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
 
     ########################### Pin 1 marker ################################
     poly_pin1_marker = [
-        {'x':silk_x_max+pin1_marker_offset-pin1_marker_linelen, 'y':silk_y_min-pin1_marker_offset},
-        {'x':silk_x_max+pin1_marker_offset, 'y':silk_y_min-pin1_marker_offset},
-        {'x':silk_x_max+pin1_marker_offset, 'y':silk_y_min-pin1_marker_offset+pin1_marker_linelen}
+        {'x':silk_x_min-pin1_marker_offset+pin1_marker_linelen, 'y':silk_y_min-pin1_marker_offset},
+        {'x':silk_x_min-pin1_marker_offset, 'y':silk_y_min-pin1_marker_offset},
+        {'x':silk_x_min-pin1_marker_offset, 'y':silk_y_min-pin1_marker_offset+pin1_marker_linelen}
     ]
     kicad_mod.append(PolygoneLine(polygone=poly_pin1_marker, layer='F.SilkS', width=configuration['silk_line_width']))
     if fab_pin1_marker_type == 1:
