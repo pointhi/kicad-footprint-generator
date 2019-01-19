@@ -206,6 +206,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
     part_y_min = y_min
     part_y_max = y_max
 
+    #Note, we use the connector courtyard clearance of 0.5 mm because the unusually large case tolerance of 0.5mm of XP Powers DC DC converters
     cx1 = roundToBase(part_x_min-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
     cy1 = roundToBase(part_y_min-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
 
