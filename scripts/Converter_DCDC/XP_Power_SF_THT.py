@@ -39,7 +39,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
         casemaxlength = 19.30
         x_max = 1.40
         x_min = x_max - (casemaxwidth - casetolerance)
-        y_min = -2.03
+        y_min = -1.53
         y_max = y_min + (casemaxlength - casetolerance)
         pins = [1, 2, 4, 5, 6]
         xpos = [1, 1, 1, 1, 1]
@@ -50,7 +50,7 @@ def generate_one_footprint(fpid, rows, datasheet, configuration):
         casemaxlength = 19.30
         x_max = 1.40
         x_min = x_max - (casemaxwidth - casetolerance)
-        y_min = -2.03
+        y_min = -1.53
         y_max = y_min + (casemaxlength - casetolerance)
         pins = [1, 2, 4, 5, 6]
         xpos = [1, 1, 1, 1, 1]
