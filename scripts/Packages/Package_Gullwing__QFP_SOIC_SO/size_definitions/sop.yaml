@@ -27,6 +27,7 @@ SOP-8-1EP_4.57x4.57mm_P1.27mm_EP4.57x4.45mm:
     nominal: 4.57
     tolerance: 0.254
   EP_size_y:
+    # not directly given in datasheet. EP edge coincides with pads. (3*1.27+0.64 = 4.45)
     nominal: 4.45
     tolerance: 0.254
   # EP_paste_coverage: 0.65
