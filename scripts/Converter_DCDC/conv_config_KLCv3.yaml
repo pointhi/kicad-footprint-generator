@@ -1,0 +1,3 @@
+lib_name_format_string_full: 'Converter_DCDC_{man:s}_{series:s}{suffix:s}'
+lib_name_format_string: 'Converter_DCDC'
+lib_name_specific_function_format_string: 'Converter_DCDC_{category:s}'
