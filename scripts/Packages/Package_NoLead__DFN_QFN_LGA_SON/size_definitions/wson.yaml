@@ -142,26 +142,34 @@ WSON-8-1EP_6x5mm_P1.27mm_E3.4x4.3mm:
   #ipc_density: 'least' #overwrite global value for this device.
   #body_size_x_min: 2.85
   body_size_x:
+    minimum: 5.9
     nominal: 6
-    tolerance: 0.1
-  #body_size_x_max: 3.15
-  #body_size_y_min: 2.85
+    maximum: 6.1
   body_size_y:
+    minimum: 4.9
     nominal: 5
-    tolerance: 0.1
-  #body_size_y_max: 3.15
-  lead_width_min: 0.35
-  lead_width_max: 0.48
-  lead_len_min: 0.55
-  lead_len_max: 0.65
-
+    maximum: 5.1
+  body_height:
+    minimum: 0.70
+    nominal: 0.75
+    maximum: 0.80
+  lead_width:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.48
+  lead_len:
+    minimum: 0.55
+    nominal: 0.6
+    maximum: 0.65
 
   EP_size_x:
+    minimum: 3.35
     nominal: 3.4
-    tolerance: 0.05
+    maximum: 3.45
   EP_size_y:
+    minimum: 4.25
     nominal: 4.3
-    tolerance: 0.05
+    maximum: 4.35
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
