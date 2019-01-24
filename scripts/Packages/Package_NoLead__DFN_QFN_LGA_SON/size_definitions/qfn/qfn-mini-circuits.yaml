@@ -1,0 +1,34 @@
+QFN-12-1EP_3x3mm_P0.51mm_EP1.45x1.45mm:
+  device_type: 'QFN'
+  size_source: 'https://ww2.minicircuits.com/case_style/DQ1225.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    nominal: 3
+    tolerance: 0.254
+  body_size_y:
+    nominal: 3
+    tolerance: 0.254
+  body_height:
+    nominal: 0.89
+    tolerance: 0.254
+
+  lead_width:
+    nominal: 0.23
+    tolerance: 0.0508 # from suggested layout
+  lead_len:
+    nominal: 0.41
+    tolerance: 0.0508
+
+  EP_size_x:
+    nominal: 1.45
+    tolerance: 0.254
+  EP_size_y:
+    nominal: 1.45
+    tolerance: 0.254
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.51
+  num_pins_x: 3
+  num_pins_y: 3
