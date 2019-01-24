@@ -2,6 +2,31 @@ FileHeader:
   library_Suffix: 'SO'
   device_type: 'SOP'
 
+
+SOP-8_3.76x4.96mm_P1.27mm:
+  size_source: 'https://ww2.minicircuits.com/case_style/XX211.pdf'
+  body_size_x:
+    nominal: 3.76 # max (4.14) - tolerance, rounded to 2 digits (+10um)
+    tolerance: 0.381
+  body_size_y:
+    nominal: 4.96 # max (5.33) - tolerance, rounded to 2 digits (+10um)
+    tolerance: 0.381
+  body_height:
+    maximum: 1.96
+  overall_size_x:
+    minimum: 5.59
+    maximum: 6.35
+  lead_width:
+    nominal: 0.43
+    tolerance: 0.127
+  lead_len:
+    nominal: 0.76
+    tolerance: 0.381
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+
 SOP-8_6.62x9.15mm_P2.54mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/iso1050.pdf'
   body_size_x:
