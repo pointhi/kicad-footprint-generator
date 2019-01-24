@@ -5,27 +5,27 @@ QFN-12-1EP_3x3mm_P0.51mm_EP1.45x1.45mm:
   #ipc_density: 'least' #overwrite global value for this device.
   body_size_x:
     nominal: 3
-    tolerance: 0.254
+    tolerance: 0.1016
   body_size_y:
     nominal: 3
-    tolerance: 0.254
+    tolerance: 0.1016
   body_height:
     nominal: 0.89
-    tolerance: 0.254
+    tolerance: 0.1016
 
   lead_width:
     nominal: 0.23
-    tolerance: 0.0508 # from suggested layout
+    tolerance: 0.1016
   lead_len:
     nominal: 0.41
-    tolerance: 0.0508
+    tolerance: 0.1016
 
   EP_size_x:
     nominal: 1.45
-    tolerance: 0.254
+    tolerance: 0.1016
   EP_size_y:
     nominal: 1.45
-    tolerance: 0.254
+    tolerance: 0.1016
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
