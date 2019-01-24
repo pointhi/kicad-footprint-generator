@@ -6,22 +6,22 @@ FileHeader:
 SOP-8_4.14x5.33mm_P1.27mm:
   size_source: 'https://ww2.minicircuits.com/case_style/XX211.pdf'
   body_size_x:
-    nominal: 4.14
-    tolerance: 0.762
+    nominal: 3.759 # max (4.14) - tolerance
+    tolerance: 0.381
   body_size_y:
-    nominal: 5.33
-    tolerance: 0.762
+    nominal: 4.949 # max (5.33) - tolerance
+    tolerance: 0.381
   body_height:
-    max: 1.96
+    maximum: 1.96
   overall_size_x:
-    nominal: 6.35
-    tolerance: 0.762
+    minimum: 5.59
+    maximum: 6.35
   lead_width:
     nominal: 0.43
     tolerance: 0.127
   lead_len:
     nominal: 0.76
-    tolerance: 0.127
+    tolerance: 0.381
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
