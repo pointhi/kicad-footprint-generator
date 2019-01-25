@@ -155,7 +155,7 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.15x7.15mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/229321fa.pdf (page 27)'
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/229321fa.pdf#page=27'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -165,6 +165,9 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.15x7.15mm:
   body_size_y:
     nominal: 9.0
     tolerance: 0.1
+  body_height:
+    nominal: 0.75
+    tolerance: 0.05
   lead_width:
     nominal: 0.25
     tolerance: 0.05
