@@ -341,38 +341,46 @@ VQFN-28-1EP_4x4mm_P0.45mm_EP2.4x2.4mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-9505-AT42-QTouch-BSW-AT42QT1060_Datasheet.pdf'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-9505-AT42-QTouch-BSW-AT42QT1060_Datasheet.pdf#page=28'
   ipc_class: 'qfn'
   #ipc_density: 'least'
   body_size_x:
     minimum: 3.95
+    nominal: 4
     maximum: 4.05
   body_size_y:
     minimum: 3.95
+    nominal: 4
     maximum: 4.05
   body_height:
     minimum: 0.8
+    nominal: 0.9
     maximum: 1
   lead_width:
     minimum: 0.17
+    nominal: 0.22
     maximum: 0.27
   lead_len:
     minimum: 0.35
+    nominal: 0.4
     maximum: 0.45
 
   EP_size_x:
+    minimum: 2.35
     nominal: 2.4
-    tolerance: 0.05
+    maximum: 2.45
   EP_size_y:
+    minimum: 2.35
     nominal: 2.4
-    tolerance: 0.05
-  EP_num_paste_pads: [2, 3]
+    maximum: 2.45
+  EP_num_paste_pads: [2, 2]
 
   thermal_vias:
     count: [3,3]
     drill: 0.3
     paste_via_clearance: 0.1
     paste_avoid_via: False
+    EP_paste_coverage: 0.7
 
 
   pitch: 0.4
@@ -439,33 +447,41 @@ VQFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/32L_VQFN_5x5x0_9mm_3_1EP_RXB_C04-21395a.pdf'
+  size_source: 'http://ww1.microchip.com/downloads/en/devicedoc/atmel-9520-at42-qtouch-bsw-at42qt1110_datasheet.pdf#page=42'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
     minimum: 4.9
+    nominal: 5
     maximum: 5.1
   body_size_y:
     minimum: 4.9
+    nominal: 5
     maximum: 5.1
   body_height:
+    minimum: 0.8
+    nominal: 0.85
     maximum: 1
   lead_width:
     minimum: 0.18
+    nominal: 0.23
     maximum: 0.3
   lead_len:
     minimum: 0.3
+    nominal: 0.4
     maximum: 0.5
 
   EP_size_x:
+    minimum: 2.95
     nominal: 3.1
-    tolerance: 0.15
+    maximum: 3.25
   EP_size_y:
+    minimum: 2.95
     nominal: 3.1
-    tolerance: 0.15
+    maximum: 3.25
   # EP_paste_coverage: 0.65
-  EP_num_paste_pads: [2, 3]
+  EP_num_paste_pads: [2, 2]
   # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
@@ -476,7 +492,7 @@ VQFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm:
     # EP_num_paste_pads: [2, 2]
     # paste_between_vias: 1
     # paste_rings_outside: 1
-    # EP_paste_coverage: 0.75
+    EP_paste_coverage: 0.7
     grid: [1.2, 1.2]
     # bottom_pad_size:
     paste_avoid_via: False
