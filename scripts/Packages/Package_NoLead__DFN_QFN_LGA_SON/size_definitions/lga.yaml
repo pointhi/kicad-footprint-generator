@@ -160,12 +160,12 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y:
   body_size_y: 5.0
   body_size_y_max: 5.0
   lead_width_min: 0.45
-  lead_width_max: 0.55
+  lead_width_max: 0.45
   lead_to_edge:
-    minimum: 0.095
-    maximum: 0.15
-  lead_len_min: 0.75
-  lead_len_max: 0.85
+    minimum: -0.1
+    maximum: -0.1
+  lead_len_min: 0.95
+  lead_len_max: 0.95
   pitch: 1.25
   num_pins_x: 0
   num_pins_y: 4
