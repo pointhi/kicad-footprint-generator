@@ -2,6 +2,40 @@ FileHeader:
   library_Suffix: 'SO'
   device_type: 'HTSSOP'
 
+
+HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3x3mm:
+  size_source: 'https://www.st.com/resource/en/datasheet/stp08cp05.pdf#page=20'
+  body_size_x:
+    minimum: 4.3
+    nominal: 4.4
+    maximum: 4.5
+  body_size_y:
+    minimum: 4.9
+    nominal: 5
+    maximum: 5.1
+  overall_size_x:
+    minimum: 6.2
+    nominal: 6.4
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+
+  EP_size_x:
+    nominal: 3
+  EP_size_y:
+    nominal: 3
+  EP_num_paste_pads: [2, 2]
+
+
 HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias:
   size_source: 'http://www.analog.com/media/en/technical-documentation/data-sheets/LTC7810.pdf'
   body_size_x:
@@ -46,6 +80,45 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias:
     grid: [1.5, 1.5]
     # bottom_pad_size:
     paste_avoid_via: False
+
+  
+
+HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.2x5mm:
+  size_source: 'https://www.st.com/resource/en/datasheet/stp16cp05.pdf#page=25'
+  body_size_x:
+    minimum: 4.3
+    nominal: 4.4
+    maximum: 4.5
+  body_size_y:
+    minimum: 7.7
+    nominal: 7.8
+    maximum: 7.9
+  overall_size_x:
+    minimum: 6.2
+    nominal: 6.4
+    maximum: 6.6
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.45
+    nominal: 0.6
+    maximum: 0.75
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 12
+
+
+  EP_size_x:
+    minimum: 3
+    nominal: 3.2
+    maximum: 3.4
+  EP_size_y:
+    minimum: 4.8
+    nominal: 5
+    maximum: 5.2
+  EP_num_paste_pads: [2, 3]
+
 
 HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.4x7.8mm_Mask2.4x4.68mm_ThermalVias:
   size_source: 'http://www.ti.com/lit/ds/symlink/tps703.pdf'
