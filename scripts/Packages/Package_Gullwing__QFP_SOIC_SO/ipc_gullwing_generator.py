@@ -102,7 +102,7 @@ class Gullwing():
             'lead_len': TolerancedSize.fromYaml(device_size_data, base_name='lead_len')
         }
         dimensions['has_EP'] = False
-        if 'EP_size_x' in device_size_data:
+        if 'EP_size_x_min' in device_size_data and 'EP_size_x_max' in device_size_data or 'EP_size_x' in device_size_data:
             dimensions['EP_size_x'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_x')
             dimensions['EP_size_y'] = TolerancedSize.fromYaml(device_size_data, base_name='EP_size_y')
             dimensions['has_EP'] = True
@@ -170,8 +170,8 @@ class Gullwing():
                     }
             else:
                 EP_size = {
-                    'x':device_dimensions['EP_size_x'].nominal,
-                    'y':device_dimensions['EP_size_y'].nominal
+                    'x':dimensions['EP_size_x'].nominal,
+                    'y':dimensions['EP_size_y'].nominal
                     }
             if 'EP_mask_x' in dimensions:
                 name_format = self.configuration['fp_name_EP_custom_mask_format_string_no_trailing_zero']
