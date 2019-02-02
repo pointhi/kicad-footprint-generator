@@ -125,4 +125,13 @@ BatteryHolder_MPD_BK-18650-PC2:
   size: [76.96, 20.98]
   pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.57], ["tht", "2", 72.90, 0, 3.0, 3.0, 1.57], ["npth", "", 8.445, 0.0, 3.2, 0, 3.2], ["npth", "", 64.055, 0.0, 3.2, 0, 3.2]]
 
+BatteryHolder_TruPower_BH-331P_3xAA:
+  description: "Keystone Battery Holder, BH-331P, Battery Type 3xAA"
+  datasheet: "https://static.rapidonline.com/pdf/18-2967_v1.pdf"
+  tags: "Battery Holder, BH-331P, Battery Type 3xAA"
+  extratexts: [[-4.5, 0.0, "+", "F.SilkS", 3.0, 3.0]]
+  at: [-2.3, 9.15]
+  size: [58.3, 48.0]
+  pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.2], ["tht", "2", 0, -12.8, 3.0, 3.0, 1.2], ["npth", "", 26.7, 0.0, 3.5, 0, 3.5], ["npth", "", 26.7, -30.0, 3.5, 0, 3.5]]
+
 
