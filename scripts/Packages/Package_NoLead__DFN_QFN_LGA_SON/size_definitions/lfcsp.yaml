@@ -8,22 +8,26 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
   body_size_x:
+    minimum: 2.9
     nominal: 3
-    tolerance: 0.1
+    minimum: 3.1
   body_size_y:
+    minimum: 2.9
     nominal: 3
-    tolerance: 0.1
+    minimum: 3.1
   body_height:
+    minimum: 0.7
     nominal: 0.75
-    tolerance: 0.05
+    maximum: 0.8
 
   lead_width:
     maximum: 0.30
     nominal: 0.23
     minimum: 0.18
   lead_len:
+    minimum: 0.3
     nominal: 0.4
-    tolerance: 0.1
+    maximum: 0.5
 
   EP_size_x:
     maximum: 1.75
