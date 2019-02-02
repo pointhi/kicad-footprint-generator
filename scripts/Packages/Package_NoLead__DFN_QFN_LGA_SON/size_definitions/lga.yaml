@@ -158,6 +158,8 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y:
   body_size_y:
     nominal: 5
     tolerance: 0
+  body_height:
+    maximum: 1.2    
   lead_width:
     nominal: 0.5
     tolerance: 0.05
