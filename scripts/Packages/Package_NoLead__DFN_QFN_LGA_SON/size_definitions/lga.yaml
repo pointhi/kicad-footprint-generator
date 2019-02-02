@@ -152,20 +152,21 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y:
   manufacturer: 'NXP'
   part_number: 'MPL115A1'
   size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf'
-  ipc_class: 'qfn_pull_back'
-  body_size_x_min: 3.0
-  body_size_x: 3.0
-  body_size_x_max: 3.0
-  body_size_y_min: 5.0
-  body_size_y: 5.0
-  body_size_y_max: 5.0
-  lead_width_min: 0.45
-  lead_width_max: 0.45
-  lead_to_edge:
-    minimum: -0.1
-    maximum: -0.1
-  lead_len_min: 0.95
-  lead_len_max: 0.95
+  body_size_x:
+    nominal: 3
+    tolerance: 0
+  body_size_y:
+    nominal: 5
+    tolerance: 0
+  lead_width:
+    nominal: 0.5
+    tolerance: 0.05
+  lead_center_pos_x: 
+    nominal: 1
+    tolerance: 0
+  lead_len:
+    nominal: 0.8
+    tolerance: 0.05
   pitch: 1.25
   num_pins_x: 0
   num_pins_y: 4
