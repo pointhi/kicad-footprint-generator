@@ -131,7 +131,7 @@ BatteryHolder_TruPower_BH-331P_3xAA:
   tags: "Battery Holder, BH-331P, Battery Type 3xAA"
   extratexts: [[-4.5, 0.0, "+", "F.SilkS", 3.0, 3.0]]
   at: [-2.3, 9.15]
-  size: [58.3, 48.0]
+  size: [58.0, 48.3]
   pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.2], ["tht", "2", 0, -12.8, 3.0, 3.0, 1.2], ["npth", "", 26.7, 0.0, 3.5, 0, 3.5], ["npth", "", 26.7, -30.0, 3.5, 0, 3.5]]
 
 
