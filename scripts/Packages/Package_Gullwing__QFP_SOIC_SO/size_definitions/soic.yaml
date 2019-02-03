@@ -164,6 +164,59 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
     # bottom_pad_size:
     paste_avoid_via: False
 
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm:
+  size_source: 'http://www.allegromicro.com/~/media/Files/Datasheets/A4950-Datasheet.ashx#page=8'
+  body_size_x:
+    nominal: 3.9
+    tolerance: 0.1
+  body_size_y:
+    nominal: 4.9
+    tolerance: 0.1
+  body_height:
+    maximum: 1.7
+
+  overall_size_x:
+    nominal: 6.0
+    tolerance: 0.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width:
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x:
+    nominal: 2.41
+    tolerance: 0 # no tolerance given
+  # EP_size_x_overwrite: 2.41
+  #EP_mask_x:
+
+  EP_size_y:
+    nominal: 3.3
+    tolerance: 0 # no tolerance given
+  # EP_size_y_overwrite: 3.1
+  #EP_mask_y:
+
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.4, 1.2]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
 SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.0mm:
   size_source: 'https://www.renesas.com/eu/en/www/doc/datasheet/hip2100.pdf#page=13'
   body_size_x:
