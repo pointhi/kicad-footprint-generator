@@ -383,7 +383,7 @@ VQFN-28-1EP_4x4mm_P0.45mm_EP2.4x2.4mm:
     EP_paste_coverage: 0.7
 
 
-  pitch: 0.4
+  pitch: 0.45
   num_pins_x: 7
   num_pins_y: 7
 
