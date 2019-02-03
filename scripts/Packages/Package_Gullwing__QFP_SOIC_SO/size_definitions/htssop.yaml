@@ -13,6 +13,8 @@ HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3x3mm:
     minimum: 4.9
     nominal: 5
     maximum: 5.1
+  body_height:
+    maximum: 1.2
   overall_size_x:
     minimum: 6.2
     nominal: 6.4
@@ -93,6 +95,8 @@ HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.2x5mm:
     minimum: 7.7
     nominal: 7.8
     maximum: 7.9
+  body_height:
+    maximum: 1.2
   overall_size_x:
     minimum: 6.2
     nominal: 6.4
