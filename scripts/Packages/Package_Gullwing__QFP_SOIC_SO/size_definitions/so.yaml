@@ -1,0 +1,28 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'SO'
+    
+SO-8_4.0x5.0mm_P1.27mm:
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/PCF8523.pdf'
+  body_size_x:
+    minimum: 3.8
+    maximum: 4.0
+    # alternatively one can also specify the tolerance instead of minimum and maximum values. 
+    # If minimum and maximum values are given then the nominal value is optional. 
+    # It should only be included if it is given in the datasheet. 
+    # (If it is in the datasheet then it must be included.)
+  body_size_y:
+    minimum: 4.8
+    maximum: 5.0
+  overall_size_x:
+    minimum: 5.8
+    maximum: 6.2
+  lead_width:
+    minimum: 0.36
+    maximum: 0.49
+  lead_len:
+    minimum: 0.4
+    maximum: 1.0
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
