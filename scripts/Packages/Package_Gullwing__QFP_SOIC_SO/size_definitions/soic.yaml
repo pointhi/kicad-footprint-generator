@@ -164,6 +164,60 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
     # bottom_pad_size:
     paste_avoid_via: False
 
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.0mm:
+  size_source: 'https://www.renesas.com/eu/en/www/doc/datasheet/hip2100.pdf#page=13'
+  body_size_x:
+    minimum: 3.8 # rounded from 3.811
+    maximum: 4.0 # rounded from 3.99
+  body_size_y:
+    minimum: 4.8
+    maximum: 5.0 # rounded from 4.98
+  body_height:
+    minimum: 1.43
+    maximum: 1.68
+
+  overall_size_x:
+    minimum: 5.84
+    maximum: 6.2
+  lead_len:
+    minimum: 0.41
+    maximum: 0.89
+  lead_width:
+    minimum: 0.35
+    maximum: 0.49
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x:
+    nominal: 2.514 # only maximum given but that is not supported by the script
+    tolerance: 0
+  # EP_size_x_overwrite:
+  #EP_mask_x:
+
+  EP_size_y:
+    nominal: 3.0 # only maximum given but that is not supported by the script
+    tolerance: 0
+  # EP_size_y_overwrite:
+  #EP_mask_y:
+
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.4, 1.0]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
 SOIC-16_4.55x10.3mm_P1.27mm:
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12858&prodName=TLP291-4'
   body_size_x:
