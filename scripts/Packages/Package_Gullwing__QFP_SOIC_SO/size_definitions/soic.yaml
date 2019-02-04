@@ -296,7 +296,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm:
     # bottom_pad_size:
     paste_avoid_via: False
 
-SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.0mm:
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
   size_source: 'https://www.renesas.com/eu/en/www/doc/datasheet/hip2100.pdf#page=13'
   body_size_x:
     minimum: 3.8 # rounded from 3.811
@@ -329,7 +329,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.0mm:
   #EP_mask_x:
 
   EP_size_y:
-    nominal: 3.0 # only maximum given but that is not supported by the script
+    nominal: 3.2 # only maximum given but that is not supported by the script
     tolerance: 0
   # EP_size_y_overwrite:
   #EP_mask_y:
