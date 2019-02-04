@@ -283,6 +283,9 @@ Texas_S-PVQFN-N24_EP:
   body_size_y:
     minimum: 3.9
     maximum: 4.1
+  body_height:
+    maximum: 1
+
   lead_width:
     minimum: 0.18
     maximum: 0.3
@@ -436,7 +439,7 @@ Texas_S-PVQFN-N36_EP:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/slvsba5d/slvsba5d.pdf#page=32'
+  size_source: 'http://www.ti.com/lit/ds/slvsba5d/slvsba5d.pdf#page=31'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -604,7 +607,7 @@ Texas_S-PVQFN-N40_EP4.15x4.15mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2755.pdf#page=68'
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2755.pdf#page=70'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -660,7 +663,7 @@ Texas_S-PVQFN-N40_EP4.6x4.6mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2755.pdf#page=68'
+  size_source: 'http://www.ti.com/lit/ds/symlink/dac7750.pdf#page=55'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
