@@ -439,14 +439,13 @@ class Gullwing():
                 layer="F.SilkS", y_mirror=0))
 
             if device_params['num_pins_y'] > 0:
-                if silk_corner_bottom_right['y']-min_lenght >= right_pads_silk_bottom:
-                    poly_bottom_right[-1]['y']=right_pads_silk_bottom
+                if len(poly_bottom_right)>2:
                     kicad_mod.append(PolygoneLine(
                         polygone=poly_bottom_right,
                         width=configuration['silk_line_width'],
                         layer="F.SilkS", y_mirror=0, x_mirror=0))
                     kicad_mod.append(Line(
-                        start={'x': -silk_corner_bottom_right['x'], 'y': -right_pads_silk_bottom},
+                        start={'x': -silk_right, 'y': -right_pads_silk_bottom},
                         end={'x': bounding_box['left'], 'y': -right_pads_silk_bottom},
                         width=configuration['silk_line_width'],
                         layer="F.SilkS"))
@@ -457,7 +456,7 @@ class Gullwing():
                         width=configuration['silk_line_width'],
                         layer="F.SilkS"))
             else:
-                if silk_corner_bottom_right['x']-min_lenght >= bottom_pads_silk_right:
+                if len(poly_bottom_right)>2:
                     poly_bottom_right[0]['x']=bottom_pads_silk_right
                     kicad_mod.append(PolygoneLine(
                         polygone=poly_bottom_right,
