@@ -214,3 +214,113 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
     grid: [1.1, 1.3]
     # bottom_pad_size:
     paste_avoid_via: False
+
+#####################################################################################################
+
+MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/3805fg.pdf#page=18'
+
+  body_size_x:
+    nominal: 3
+    tolerance: 0.102
+  body_size_y:
+    nominal: 3
+    tolerance: 0.102
+  body_height:
+    maximum: 1.1
+
+  overall_size_x:
+    nominal: 4.9
+    tolerance: 0.152
+  lead_width:
+    minimum: 0.18
+    maximum: 0.27
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.152
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+
+  EP_size_x:
+    nominal: 1.68
+    tolerance: 0
+  # EP_size_x_overwrite:
+  # EP_mask_x:
+  EP_size_y:
+    nominal: 1.88
+    tolerance: 0
+  # EP_size_y_overwrite:
+  # EP_mask_y:
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.1, 1.3]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+MSOP-10-1EP_3x3mm_P0.5mm_EP1.73x1.98mm:
+  size_source: 'www.allegromicro.com/~/media/Files/Datasheets/A4952-3-Datasheet.ashx?la=en#page=10'
+
+  body_size_x:
+    nominal: 3
+    tolerance: 0.1
+  body_size_y:
+    nominal: 3
+    tolerance: 0.1
+  body_height:
+    # calculated using toleranced size class
+    # (0.86 +/- 0.05) + (0.05 ... 0.15)
+    # min_rms: 0.8892893218813452, max_rms: 1.0307106781186548
+    minimum: 0.89
+    maximum: 1.03
+
+  overall_size_x:
+    nominal: 4.88
+    tolerance: 0.2
+  lead_width:
+    minimum: 0.18
+    maximum: 0.27
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.1
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+
+  EP_size_x:
+    nominal: 1.73
+    tolerance: 0
+  # EP_size_x_overwrite:
+  # EP_mask_x:
+  EP_size_y:
+    nominal: 1.98
+    tolerance: 0
+  # EP_size_y_overwrite:
+  # EP_mask_y:
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1, 1.2]
+    # bottom_pad_size:
+    paste_avoid_via: False
