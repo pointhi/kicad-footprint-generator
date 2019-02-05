@@ -50,8 +50,8 @@ SOIC-4_4.55x2.6mm_P1.27mm:
   num_pins_x: 0
   num_pins_y: 2
 
-SOIC-8-1EP_3.9x4.9mm_P1.27mm:
-  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/AD8210.pdf#page=15'
+SOIC-8_3.9x4.9mm_P1.27mm:
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_8.pdf'
   body_size_x:
     minimum: 3.8
     maximum: 4.0
@@ -353,7 +353,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
 SOIC-14_3.9x8.7mm_P1.27mm:
   #round to two significant digits to comply with old name
   custom_name_format: SOIC-{pincount:d}_{size_x:.2g}x{size_y:.2g}mm_P{pitch:g}mm
-  size_source: 'http://www.ti.com/lit/ds/sbos224d/sbos224d.pdf#page=26'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_14.pdf'
   body_size_x:
     minimum: 3.8
     maximum: 4.0
@@ -405,7 +405,7 @@ SOIC-14W_7.5x9.0mm_P1.27mm:
   num_pins_y: 7
 
 SOIC-16_3.9x9.9mm_P1.27mm:
-  size_source: 'www.st.com/resource/en/datasheet/l272.pdf#page=9'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_16.pdf'
   body_size_x:
     minimum: 3.8
     maximum: 4.0
@@ -422,8 +422,8 @@ SOIC-16_3.9x9.9mm_P1.27mm:
     minimum: 0.4
     maximum: 1.27
   lead_width:
-    minimum: 0.35
-    maximum: 0.46
+    minimum: 0.31
+    maximum: 0.51
 
   pitch: 1.27
   num_pins_x: 0
@@ -482,31 +482,26 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
 SOIC-16W_7.5x12.8mm_P1.27mm:
   #round to two significant digits to comply with old name
   custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
-  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ri_soic_ic/ri_16_2.pdf'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ri_soic_ic/ri_16_1.pdf'
   body_size_x:
     minimum: 7.4
-    nominal: 7.5
     maximum: 7.6
   body_size_y:
-    minimum: 12.65
-    nominal: 12.75
-    maximum: 12.85
+    minimum: 12.6
+    maximum: 13
   body_height:
-    minimum: 2.44
-    nominal: 2.54
-    maximum: 2.64
+    minimum: 2.35
+    maximum: 2.65
 
   overall_size_x:
-    minimum: 10.11
-    nominal: 10.31
-    maximum: 10.51
+    minimum: 10
+    maximum: 10.65
   lead_len:
-    minimum: 0.51
-    nominal: 0.76
-    maximum: 1.01
+    minimum: 0.4
+    maximum: 1.27
   lead_width:
-    minimum: 0.36
-    maximum: 0.46
+    minimum: 0.31
+    maximum: 0.51
 
   pitch: 1.27
   num_pins_x: 0
