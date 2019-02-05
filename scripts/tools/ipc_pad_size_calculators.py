@@ -148,7 +148,7 @@ class TolerancedSize():
                 tolerance=yaml.get("tolerance")
                 )
     def __str__(self):
-        return 'nom: {}, min: {}, max: {}'.format(self.nominal, self.minimum, self.maximum)
+        return 'nom: {}, min: {}, max: {}  | min_rms: {}, max_rms: {}'.format(self.nominal, self.minimum, self.maximum, self.minimum_RMS, self.maximum_RMS)
 
 def ipc_body_edge_inside(ipc_data, ipc_round_base, manf_tol, body_size, lead_width,
         lead_len=None, lead_inside=None, heel_reduction=0):
