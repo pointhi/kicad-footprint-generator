@@ -324,3 +324,162 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.73x1.98mm:
     grid: [1, 1.2]
     # bottom_pad_size:
     paste_avoid_via: False
+
+#####################################################################################################
+
+MSOP-12-1EP_3x4mm_P0.65mm_EP1.65x2.85mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/3652fe.pdf#page=24'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 3
+    tolerance: 0.102
+  body_size_y:
+    nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
+    tolerance: 0.102
+  body_height:
+    maximum: 1.1
+
+  overall_size_x:
+    nominal: 4.9
+    tolerance: 0.152
+  lead_width:
+    minimum: 0.22
+    maximum: 0.38
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.152
+
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 6
+
+  EP_size_x:
+    nominal: 1.651
+    tolerance: 0.102
+  EP_size_x_overwrite: 1.65 # avoid changes to symbol
+  # EP_mask_x:
+  EP_size_y:
+    nominal: 2.845
+    tolerance: 0.102
+  EP_size_y_overwrite: 2.85 # avoid changes to symbol
+  # EP_mask_y:
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+MSOP-12-1EP_3x4mm_P0.65mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/6957fb.pdf#page=36'
+  force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 3
+    tolerance: 0.102
+  body_size_y:
+    nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
+    tolerance: 0.102
+  body_height:
+    maximum: 1.1
+
+  overall_size_x:
+    nominal: 4.9
+    tolerance: 0.152
+  lead_width:
+    minimum: 0.22
+    maximum: 0.38
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.152
+
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 6
+
+######################################################################################################
+
+MSOP-16-1EP_3x4mm_P0.5mm_EP1.65x2.85mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/3652fe.pdf#page=24'
+  body_size_x:
+    nominal: 3
+    tolerance: 0.102
+  body_size_y:
+    nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
+    tolerance: 0.102
+  body_height:
+    maximum: 1.1
+
+  overall_size_x:
+    nominal: 4.9
+    tolerance: 0.152
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.152
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 8
+
+  EP_size_x:
+    nominal: 1.651
+    tolerance: 0.102
+  EP_size_x_overwrite: 1.65 # avoid changes to symbol
+  # EP_mask_x:
+  EP_size_y:
+    nominal: 2.845
+    tolerance: 0.102
+  EP_size_y_overwrite: 2.85 # avoid changes to symbol
+  # EP_mask_y:
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+
+MSOP-16-1EP_3x4mm_P0.5mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/436412f.pdf#page=22'
+  body_size_x:
+    nominal: 3
+    tolerance: 0.102
+  body_size_y:
+    nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
+    tolerance: 0.102
+  body_height:
+    maximum: 1.1
+
+  overall_size_x:
+    nominal: 4.9
+    tolerance: 0.152
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.152
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 8
