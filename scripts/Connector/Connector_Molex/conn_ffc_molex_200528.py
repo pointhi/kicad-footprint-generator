@@ -227,16 +227,10 @@ def make_module(pin_count, configuration):
 
 
     ##################### Output and 3d model ############################
-    model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
-
     if lib_by_conn_category:
         lib_name = configuration['lib_name_specific_function_format_string'].format(category=conn_category)
     else:
         lib_name = configuration['lib_name_format_string'].format(series=series, man=manufacturer)
-
-    model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
-        model3d_path_prefix=model3d_path_prefix, lib_name=lib_name, fp_name=footprint_name)
-    kicad_mod.append(Model(filename=model_name))
 
     output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
     if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
