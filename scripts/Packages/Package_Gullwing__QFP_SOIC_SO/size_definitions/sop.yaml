@@ -2,6 +2,59 @@ FileHeader:
   library_Suffix: 'SO'
   device_type: 'SOP'
 
+SOP-4_3.8x4.1mm_P2.54mm:
+  size_source: 'http://www.ixysic.com/home/pdfs.nsf/www/CPC1017N.pdf/$file/CPC1017N.pdf'
+  body_size_x:
+    nominal: 3.8 #rounded to avoid changing the symbol
+    tolerance: 0.025
+  body_size_y:
+    nominal: 4.1 #rounded to avoid changing the symbol
+    tolerance: 0.025
+  body_height:
+    # calculated from (2.03 +/-0.025) + (0.64 +/-0.04)
+    nominal: 2.094
+    tolerance: 0.047
+
+  overall_size_x:
+    nominal: 6.096
+    tolerance: 0.102
+  lead_width:
+    nominal: 0.381
+    tolerance: 0 # not given
+  lead_len:
+    nominal: 0.559
+    tolerance: 0.127
+
+  pitch: 2.54
+  num_pins_x: 0
+  num_pins_y: 2
+
+SOP-4_4.4x2.6mm_P1.27mm:
+  size_source: 'http://www.vishay.com/docs/83510/tcmt1100.pdf'
+  body_size_x:
+    nominal: 4.4
+    tolerance: 0 # only typical size given
+  body_size_y:
+    nominal: 2.6
+    tolerance: 0.2
+  body_height:
+    # calculated from (2.0 +/-0.1) + (0.1 +/-0.1)
+    nominal: 2.1
+    tolerance: 0.14
+
+  overall_size_x:
+    nominal: 7
+    tolerance: 0.3
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.6
+    tolerance: [-0.3, 0.2]
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 2
 
 SOP-8_3.76x4.96mm_P1.27mm:
   size_source: 'https://ww2.minicircuits.com/case_style/XX211.pdf'
@@ -51,3 +104,56 @@ SOP-8_6.62x9.15mm_P2.54mm:
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 4
+
+SOP-16_4.4.55x10.3mm_P1.27mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12855&prodName=TLP290-4'
+  body_size_x:
+    nominal: 4.55
+    tolerance: [-0.15, 0.25]
+  body_size_y:
+    nominal: 10.3
+    tolerance: [-0.15, 0.25]
+  body_height:
+    nominal: 2.1
+    tolerance: 0.14
+
+  overall_size_x:
+    nominal: 7
+    tolerance: 0.4
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    minimum: 0.5
+    maximum: 0.5
+    # Only minimum given in the datasheet.
+    # With 0 tolerance we already get longer pads than suggested by the datasheet -> should be ok
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+
+SOP-18_7.0x12.5mm_P1.27mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=30523'
+  body_size_x:
+    nominal: 7
+    tolerance: 0.2
+  body_size_y:
+    nominal: 12.5
+    tolerance: 0.2
+  body_height:
+    maximum: 2.45
+
+  overall_size_x:
+    nominal: 10.3
+    tolerance: 0.3
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.7
+    tolerance: 0.2
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 9
