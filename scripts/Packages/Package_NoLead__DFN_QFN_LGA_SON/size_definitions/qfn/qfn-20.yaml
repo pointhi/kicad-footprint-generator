@@ -14,7 +14,7 @@ QFN-20-1EP_3x3mm_P0.45mm_EP1.6x1.6mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     minimum: 0.75
     nominal: 0.8
     maximum: 0.85
@@ -79,7 +79,7 @@ QFN-20-1EP_3x4mm_P0.5mm_EP1.65x2.65mm:
   body_size_y:
     nominal: 4
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -135,7 +135,7 @@ QFN-20-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   body_size_y:
     nominal: 4
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -199,7 +199,7 @@ QFN-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   body_size_y:
     nominal: 4
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
@@ -261,7 +261,7 @@ MLF-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   body_size_y:
     nominal: 4
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
@@ -323,7 +323,7 @@ QFN-20-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   body_size_y:
     nominal: 5
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -381,7 +381,7 @@ QFN-20-1EP_5x5mm_P0.65mm_EP3.35x3.35mm:
   body_size_y:
     nominal: 5
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1

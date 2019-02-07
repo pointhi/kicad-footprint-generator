@@ -80,7 +80,7 @@ UQFN-16-1EP_4x4mm_P0.65mm_EP2.6x2.6mm:
     nominal: 4
   body_size_y:
     nominal: 4
-  body_height:
+  overall_height:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
@@ -135,7 +135,7 @@ UQFN-20-1EP_3x3mm_P0.4mm_EP1.85x1.85mm:
     nominal: 3
   body_size_y:
     nominal: 3
-  body_height:
+  overall_height:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55

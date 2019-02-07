@@ -12,7 +12,7 @@ QFN-40-1EP_5x5mm_P0.4mm_EP3.6x3.6mm:
   body_size_y:
     nominal: 5
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
@@ -131,7 +131,7 @@ QFN-42-1EP_5x6mm_P0.4mm_EP3.7x4.7mm:
   body_size_y:
     nominal: 6
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -190,7 +190,7 @@ QFN-44-1EP_7x7mm_P0.5mm_EP5.2x5.2mm:
     minimum: 6.9
     nominal: 7
     maximum: 7.1
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -252,7 +252,7 @@ QFN-44-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   body_size_y:
     nominal: 7
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -309,7 +309,7 @@ QFN-44-1EP_8x8mm_P0.65mm_EP6.45x6.45mm:
   body_size_y:
     nominal: 8
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -373,7 +373,7 @@ QFN-48-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
     minimum: 4.95
     nominal: 5
     maximum: 5.05
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
@@ -435,7 +435,7 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.2x4.2mm:
   body_size_y:
     nominal: 6
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.85
     tolerance: 0.08
 
@@ -494,7 +494,7 @@ QFN-48-1EP_6x6mm_P0.5mm_EP4.3x4.3mm:
     minimum: 5.95
     nominal: 6
     maximum: 6.05
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
@@ -556,7 +556,7 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.6x4.6mm:
   body_size_y:
     nominal: 6
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
@@ -618,7 +618,7 @@ QFN-48-1EP_6x6mm_P0.4mm_EP4.66x4.66mm:
   body_size_y:
     nominal: 6
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1
 
@@ -677,7 +677,7 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.30x5.30mm:
   body_size_y:
     nominal: 7
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
@@ -739,7 +739,7 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.45x5.45mm:
   body_size_y:
     minimum: 6.9
     maximum: 7.1
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1
 
@@ -800,7 +800,7 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.6x5.6mm:
     minimum: 6.9
     nominal: 7
     maximum: 7.1
-  body_height:
+  overall_height:
     minimum: 0.5
     nominal: 0.55
     maximum: 0.6
@@ -862,7 +862,7 @@ QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   body_size_y:
     nominal: 7
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 

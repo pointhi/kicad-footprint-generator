@@ -12,7 +12,7 @@ WQFN-16-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   body_size_y:
     minimum: 3.9
     maximum: 4.1
-  body_height:
+  overall_height:
     maximum: 0.8
 
   lead_width:

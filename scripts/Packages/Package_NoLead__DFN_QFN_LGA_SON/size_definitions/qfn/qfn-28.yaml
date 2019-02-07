@@ -12,7 +12,7 @@ QFN-28-1EP_3x6mm_P0.5mm_EP1.7x4.75mm:
   body_size_y:
     nominal: 6
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -68,7 +68,7 @@ QFN-28-1EP_4x4mm_P0.4mm_EP2.4x2.4mm:
   body_size_y:
     nominal: 4
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 0.9
@@ -133,7 +133,7 @@ QFN-28-1EP_4x4mm_P0.45mm_EP2.4x2.4mm:
     minimum: 3.95
     nominal: 4
     maximum: 4.05
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -197,7 +197,7 @@ QFN-28_4x4mm_P0.5mm:
     minimum: 3.9
     nominal: 4.0
     maximum: 4.1
-  body_height:
+  overall_height:
     minimum: 0.5
     nominal: 0.55
     maximum: 0.6
@@ -233,7 +233,7 @@ QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm:
   body_size_y:
     nominal: 5
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
   lead_width:
@@ -288,7 +288,7 @@ QFN-28-1EP_5x5mm_P0.5mm_EP3.35x3.35mm:
   body_size_y:
     nominal: 5
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -349,7 +349,7 @@ QFN-28-1EP_5x6mm_P0.5mm_EP3.65x4.65mm:
   body_size_y:
     nominal: 6
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
   lead_width:
@@ -404,7 +404,7 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.25x4.25mm:
   body_size_y:
     nominal: 6
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -467,7 +467,7 @@ QFN-28-1EP_6x6mm_P0.65mm_EP4.8x4.8mm:
     minimum: 5.9
     nominal: 6
     maximum: 6.1
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1
   lead_width:

@@ -14,7 +14,7 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -73,7 +73,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   body_size_y:
     nominal: 3
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -124,7 +124,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
     minimum: 2.9
     nominal: 3.0
     maximum: 3.1
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -154,7 +154,7 @@ QFN-16-1EP_3x3mm_P0.5mm_EP1.9x1.9mm:
     nominal: 3.0
   body_size_y:
     nominal: 3.0
-  body_height:
+  overall_height:
     minimum: 0.5
     maximum: 0.65
 
@@ -208,7 +208,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm:
     minimum: 3.9
     nominal: 4
     maximum: 4.1
-  body_height:
+  overall_height:
     nominal: 0.9
     tolerance: 0.05
 
@@ -261,7 +261,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.15x2.15mm:
   body_size_y:
     nominal: 4
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -318,7 +318,7 @@ QFN-16-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   body_size_y:
     nominal: 4
     tolerance: 0
-  body_height:
+  overall_height:
     nominal: 0.9
     tolerance: 0.1
 
@@ -375,7 +375,7 @@ QFN-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   body_size_y:
     nominal: 4
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.7
     nominal: 0.75
     maximum: 0.8
@@ -438,7 +438,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm:
     minimum: 3.85
     nominal: 4
     maximum: 4.15
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
 
@@ -491,7 +491,7 @@ QFN-16-1EP_4x4mm_P0.65mm_EP2.7x2.7mm_PullBack:
   body_size_y:
     nominal: 4
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -553,7 +553,7 @@ QFN-16-1EP_5x5mm_P0.8mm_EP2.7x2.7mm:
     nominal: 5
   body_size_y:
     nominal: 5
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1

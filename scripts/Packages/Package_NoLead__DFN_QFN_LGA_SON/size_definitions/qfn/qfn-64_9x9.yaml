@@ -165,7 +165,7 @@ QFN-64-1EP_9x9mm_P0.5mm_EP7.15x7.15mm:
   body_size_y:
     nominal: 9.0
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.75
     tolerance: 0.05
   lead_width:
