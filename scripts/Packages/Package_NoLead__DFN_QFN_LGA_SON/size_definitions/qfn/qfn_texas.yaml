@@ -12,7 +12,7 @@ Texas_RUM0016A:
   body_size_y:
     nominal: 4
     tolerance: 0.1
-  body_height:
+  overall_height:
     maximum: 0.8
 
   lead_width:
@@ -65,7 +65,7 @@ Texas_S-PVQFN-N16_EP:
   body_size_y:
     minimum: 3.9
     maximum: 4.1
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -119,7 +119,7 @@ Texas_S-PVQFN-N20_EP2.4x2.4:
   body_size_y:
     minimum: 3.85
     maximum: 4.15
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -173,7 +173,7 @@ Texas_S-PVQFN-N20_EP2.7x2.7:
   body_size_y:
     minimum: 3.85
     maximum: 4.15
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -227,7 +227,7 @@ Texas_S-PVQFN-N20_EP3.15x3.15:
   body_size_y:
     minimum: 4.85
     maximum: 5.15
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -283,7 +283,7 @@ Texas_S-PVQFN-N24_EP:
   body_size_y:
     minimum: 3.9
     maximum: 4.1
-  body_height:
+  overall_height:
     maximum: 1
 
   lead_width:
@@ -338,7 +338,7 @@ Texas_R-PWQFN-N28_EP:
   body_size_y:
     minimum: 4.4
     maximum: 4.6
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -394,7 +394,7 @@ Texas_S-PVQFN-N32_EP:
   body_size_y:
     minimum: 4.9
     maximum: 5.1
-  body_height:
+  overall_height:
     maximum: 1.0
 
   lead_width:
@@ -449,7 +449,7 @@ Texas_S-PVQFN-N36_EP:
   body_size_y:
     minimum: 5.9
     maximum: 6.1
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -505,7 +505,7 @@ Texas_S-PVQFN-N40_EP2.9x2.9mm:
   body_size_y:
     minimum: 5.85
     maximum: 6.15
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -561,7 +561,7 @@ Texas_S-PVQFN-N40_EP3.52x2.62mm:
   body_size_y:
     minimum: 5.85
     maximum: 6.15
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -617,7 +617,7 @@ Texas_S-PVQFN-N40_EP4.15x4.15mm:
   body_size_y:
     minimum: 5.85
     maximum: 6.15
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -673,7 +673,7 @@ Texas_S-PVQFN-N40_EP4.6x4.6mm:
   body_size_y:
     minimum: 5.85
     maximum: 6.15
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -729,7 +729,7 @@ Texas_S-PVQFN-N48_EP: #RGZ0048A
   body_size_y:
     minimum: 6.9
     maximum: 7.1
-  body_height:
+  overall_height:
     maximum: 1.0
 
   lead_width:
@@ -784,7 +784,7 @@ Texas_S-PVQFN-N64_EP: #RGC0064B
   body_size_y:
     minimum: 8.9
     maximum: 9.1
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 1.0
 
@@ -840,7 +840,7 @@ Texas_VQFN_RGE0024H:
   body_size_y:
     minimum: 3.9
     maximum: 4.1
-  body_height:
+  overall_height:
     maximum: 1.0
 
   lead_width:
