@@ -139,7 +139,7 @@ UQFN-20-1EP_3x3mm_P0.4mm_EP1.85x1.85mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
-  
+
   lead_width:
     minimum: 0.15
     nominal: 0.20
@@ -178,6 +178,250 @@ UQFN-20-1EP_3x3mm_P0.4mm_EP1.85x1.85mm:
   pitch: 0.4
   num_pins_x: 5
   num_pins_y: 5
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+UQFN-20-1EP_4x4mm_P0.5mm_EP2.8x2.8mm:
+  device_type: 'UQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/40001839B.pdf#page=464'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 4
+  body_size_y:
+    nominal: 4
+  overall_height:
+    minimum: 0.45
+    nominal: 0.5
+    maximum: 0.55
+
+  lead_width:
+    minimum: 0.2
+    nominal: 0.25
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  EP_size_x_overwrite: 2.8
+  EP_size_y:
+    minimum: 2.6
+    nominal: 2.7
+    maximum: 2.8
+  EP_size_y_overwrite: 2.8
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 5
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+UQFN-28-1EP_4x4mm_P0.4mm_EP2.35x2.35mm:
+  device_type: 'UQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=338'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 4
+  body_size_y:
+    nominal: 4
+  overall_height:
+    minimum: 0.45
+    nominal: 0.5
+    maximum: 0.55
+
+  lead_width:
+    minimum: 0.15
+    nominal: 0.2
+    maximum: 0.25
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 2.55
+    nominal: 2.65
+    maximum: 2.75
+  EP_size_x_overwrite: 2.35
+  EP_size_y:
+    minimum: 2.55
+    nominal: 2.65
+    maximum: 2.75
+  EP_size_y_overwrite: 2.35
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.4
+  num_pins_x: 7
+  num_pins_y: 7
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+UQFN-40-1EP_5x5mm_P0.4mm_EP3.8x3.8mm:
+  device_type: 'UQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=345'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 5
+  body_size_y:
+    nominal: 5
+  overall_height:
+    minimum: 0.45
+    nominal: 0.5
+    maximum: 0.55
+
+  lead_width:
+    minimum: 0.15
+    nominal: 0.2
+    maximum: 0.25
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 3.6
+    nominal: 3.7
+    maximum: 3.8
+  EP_size_x_overwrite: 3.8
+  EP_size_y:
+    minimum: 3.6
+    nominal: 3.7
+    maximum: 3.8
+  EP_size_y_overwrite: 3.8
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    #EP_paste_coverage: 0.7
+    grid: [1.3, 1.3]
+    # bottom_pad_size:
+    #paste_avoid_via: False
+
+  pitch: 0.4
+  num_pins_x: 10
+  num_pins_y: 10
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+UQFN-48-1EP_6x6mm_P0.4mm_EP4.45x4.45mm:
+  device_type: 'UQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=347'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 6
+  body_size_y:
+    nominal: 6
+  overall_height:
+    minimum: 0.45
+    nominal: 0.5
+    maximum: 0.55
+
+  lead_width:
+    minimum: 0.15
+    nominal: 0.2
+    maximum: 0.25
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 4.45
+    nominal: 4.6
+    maximum: 4.75
+  EP_size_x_overwrite: 4.45
+  EP_size_y:
+    minimum: 4.45
+    nominal: 4.6
+    maximum: 4.75
+  EP_size_y_overwrite: 4.45
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    #EP_paste_coverage: 0.7
+    grid: [1.4, 1.4]
+    # bottom_pad_size:
+    #paste_avoid_via: False
+
+  pitch: 0.4
+  num_pins_x: 12
+  num_pins_y: 12
   #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
