@@ -139,6 +139,7 @@ UQFN-20-1EP_3x3mm_P0.4mm_EP1.85x1.85mm:
     minimum: 0.45
     nominal: 0.5
     maximum: 0.55
+  
   lead_width:
     minimum: 0.15
     nominal: 0.20
@@ -148,11 +149,18 @@ UQFN-20-1EP_3x3mm_P0.4mm_EP1.85x1.85mm:
     nominal: 0.4
     maximum: 0.5
 
-  EP_size_x: 1.85
-  EP_size_y: 1.85
+  EP_size_x:
+    minimum: 1.65
+    nominal: 1.75
+    maximum: 1.85
+  EP_size_x_overwrite: 1.85
+  EP_size_y:
+    minimum: 1.65
+    nominal: 1.75
+    maximum: 1.85
+  EP_size_y_overwrite: 1.85
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
-  heel_reduction: 0.08 #for relatively large EP pads (increase clearance)
 
   thermal_vias:
     count: [2, 2]
