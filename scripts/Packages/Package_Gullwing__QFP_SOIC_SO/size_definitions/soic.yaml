@@ -58,7 +58,7 @@ SOIC-8_3.9x4.9mm_P1.27mm:
   body_size_y:
     minimum: 4.8
     maximum: 5.0
-  body_height:
+  overall_height:
     minimum: 1.35
     maximum: 1.75
 
@@ -86,7 +86,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3.0mm:
     minimum: 4.8
     nominal: 4.9
     maximum: 5.0
-  body_height:
+  overall_height:
     minimum: 1.25
     maximum: 1.65
 
@@ -143,7 +143,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
     minimum: 4.8
     nominal: 4.9
     maximum: 5.0
-  body_height:
+  overall_height:
     minimum: 1.25
     maximum: 1.65
 
@@ -198,7 +198,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
   body_size_y:
     minimum: 4.8
     maximum: 5.0
-  body_height:
+  overall_height:
     maximum: 1.7
 
   overall_size_x:
@@ -251,7 +251,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm:
   body_size_y:
     nominal: 4.9
     tolerance: 0.1
-  body_height:
+  overall_height:
     maximum: 1.7
 
   overall_size_x:
@@ -304,7 +304,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
   body_size_y:
     minimum: 4.8
     maximum: 5.0 # rounded from 4.98
-  body_height:
+  overall_height:
     minimum: 1.43
     maximum: 1.68
 
@@ -360,7 +360,7 @@ SOIC-14_3.9x8.7mm_P1.27mm:
   body_size_y:
     minimum: 8.55
     maximum: 8.75
-  body_height:
+  overall_height:
     maximum: 1.75
 
   overall_size_x:
@@ -386,7 +386,7 @@ SOIC-14W_7.5x9.0mm_P1.27mm:
   body_size_y:
     minimum: 8.8
     maximum: 9.2
-  body_height:
+  overall_height:
     minimum: 2.35
     maximum: 2.65
 
@@ -412,7 +412,7 @@ SOIC-16_3.9x9.9mm_P1.27mm:
   body_size_y:
     minimum: 9.8
     maximum: 10
-  body_height:
+  overall_height:
     maximum: 1.75
 
   overall_size_x:
@@ -461,7 +461,7 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
   body_size_y:
     minimum: 10.1
     maximum: 10.5
-  body_height:
+  overall_height:
     minimum: 2.35
     maximum: 2.65
 
@@ -489,7 +489,7 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
   body_size_y:
     minimum: 12.6
     maximum: 13
-  body_height:
+  overall_height:
     minimum: 2.35
     maximum: 2.65
 
@@ -517,7 +517,7 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   body_size_y:
     minimum: 11.35
     maximum: 11.75
-  body_height:
+  overall_height:
     minimum: 2.35
     maximum: 2.65
 
@@ -545,7 +545,7 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   body_size_y:
     minimum: 12.6
     maximum: 13.0
-  body_height:
+  overall_height:
     minimum: 2.35
     maximum: 2.65
 
@@ -573,7 +573,7 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   body_size_y:
     minimum: 15.2
     maximum: 15.6
-  body_height:
+  overall_height:
     minimum: 2.35
     maximum: 2.65
 
@@ -601,7 +601,7 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   body_size_y:
     minimum: 17.7
     maximum: 18.1
-  body_height:
+  overall_height:
     minimum: 2.35
     maximum: 2.65
 
@@ -629,7 +629,7 @@ SOIC-28W_7.5x18.7mm_P1.27mm:
   body_size_y:
     nominal: 18.7
     tolerance: 0.3
-  body_height:
+  overall_height:
     nominal: 2.2
     tolerance: 0.1
 
