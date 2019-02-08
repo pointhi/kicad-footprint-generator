@@ -11,7 +11,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
   body_size_y:
     nominal: 3
     tolerance: 0.102
-  body_height:
+  overall_height:
     maximum: 1.1
 
   overall_size_x:
@@ -61,7 +61,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm:
   body_size_y:
     nominal: 3
     tolerance: 0.1
-  body_height:
+  overall_height:
     maximum: 1.09
 
   overall_size_x:
@@ -111,7 +111,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_Mask1.73x2.36mm:
   body_size_y:
     nominal: 3.0
     tolerance: 0.1
-  body_height:
+  overall_height:
     nominal: 0.94
     tolerance: 0.1
 
@@ -166,7 +166,7 @@ MSOP-8-1EP_3x3mm_P0.65mm_EP1.95x2.15mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     nominal: 1.1
 
   overall_size_x:
@@ -226,7 +226,7 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
   body_size_y:
     nominal: 3
     tolerance: 0.102
-  body_height:
+  overall_height:
     maximum: 1.1
 
   overall_size_x:
@@ -278,7 +278,7 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.73x1.98mm:
   body_size_y:
     nominal: 3
     tolerance: 0.1
-  body_height:
+  overall_height:
     # calculated using toleranced size class
     # (0.86 +/- 0.05) + (0.05 ... 0.15)
     # min_rms: 0.8892893218813452, max_rms: 1.0307106781186548
@@ -336,7 +336,7 @@ MSOP-12-1EP_3x4mm_P0.65mm_EP1.65x2.85mm:
   body_size_y:
     nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
     tolerance: 0.102
-  body_height:
+  overall_height:
     maximum: 1.1
 
   overall_size_x:
@@ -388,7 +388,7 @@ MSOP-12-1EP_3x4mm_P0.65mm:
   body_size_y:
     nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
     tolerance: 0.102
-  body_height:
+  overall_height:
     maximum: 1.1
 
   overall_size_x:
@@ -415,7 +415,7 @@ MSOP-16-1EP_3x4mm_P0.5mm_EP1.65x2.85mm:
   body_size_y:
     nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
     tolerance: 0.102
-  body_height:
+  overall_height:
     maximum: 1.1
 
   overall_size_x:
@@ -467,7 +467,7 @@ MSOP-16-1EP_3x4mm_P0.5mm:
   body_size_y:
     nominal: 4 # rounded to avoid changes to the symbol datasheet: 4.039
     tolerance: 0.102
-  body_height:
+  overall_height:
     maximum: 1.1
 
   overall_size_x:

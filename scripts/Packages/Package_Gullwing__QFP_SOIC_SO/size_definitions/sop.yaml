@@ -10,7 +10,7 @@ SOP-4_3.8x4.1mm_P2.54mm:
   body_size_y:
     nominal: 4.1 #rounded to avoid changing the symbol
     tolerance: 0.025
-  body_height:
+  overall_height:
     # calculated from (2.03 +/-0.025) + (0.64 +/-0.04)
     nominal: 2.094
     tolerance: 0.047
@@ -37,7 +37,7 @@ SOP-4_4.4x2.6mm_P1.27mm:
   body_size_y:
     nominal: 2.6
     tolerance: 0.2
-  body_height:
+  overall_height:
     # calculated from (2.0 +/-0.1) + (0.1 +/-0.1)
     nominal: 2.1
     tolerance: 0.14
@@ -64,7 +64,7 @@ SOP-8_3.76x4.96mm_P1.27mm:
   body_size_y:
     nominal: 4.96 # max (5.33) - tolerance, rounded to 2 digits (+10um)
     tolerance: 0.381
-  body_height:
+  overall_height:
     maximum: 1.96
   overall_size_x:
     minimum: 5.59
@@ -88,7 +88,7 @@ SOP-8_6.62x9.15mm_P2.54mm:
   body_size_y:
     minimum: 8.75
     maximum: 9.55
-  body_height:
+  overall_height:
     maximum: 4.85
 
   overall_size_x:
@@ -113,7 +113,7 @@ SOP-16_4.4.55x10.3mm_P1.27mm:
   body_size_y:
     nominal: 10.3
     tolerance: [-0.15, 0.25]
-  body_height:
+  overall_height:
     nominal: 2.1
     tolerance: 0.14
 
@@ -141,7 +141,7 @@ SOP-18_7.0x12.5mm_P1.27mm:
   body_size_y:
     nominal: 12.5
     tolerance: 0.2
-  body_height:
+  overall_height:
     maximum: 2.45
 
   overall_size_x:
