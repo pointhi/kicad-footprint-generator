@@ -80,7 +80,7 @@ def make_module(pin_count, configuration):
     pin_y = -(0.4 - (lead_size[1] / 2)) - 0.71
     lever_size = (C, 4)
     toe_ins_corner = ((A / 2) - toe_size[0], pin_y + (0.4 - (lead_size[1] / 2)))
-    lever_out_corner = (toe_ins_corner[0],
+    lever_out_corner = (C / 2,
         (toe_ins_corner[1] - toe_size[1]) + 5.25)
     pad_silk_off = (configuration['silk_pad_clearance'] +
                     (configuration['silk_line_width'] / 2))
@@ -121,8 +121,8 @@ def make_module(pin_count, configuration):
         {'x': -toe_ins_corner[0], 'y': toe_ins_corner[1]},
         {'x': -toe_ins_corner[0], 'y': toe_ins_corner[1] - toe_size[1]},
         {'x': -(A / 2), 'y': toe_ins_corner[1] - toe_size[1]},
-        {'x': -(A / 2), 'y': (toe_ins_corner[1] - toe_size[1]) + 3.96},
-        {'x': (A / 2), 'y': (toe_ins_corner[1] - toe_size[1]) + 3.96},
+        {'x': -(A / 2), 'y': (toe_ins_corner[1] - toe_size[1]) + foot_y},
+        {'x': (A / 2), 'y': (toe_ins_corner[1] - toe_size[1]) + foot_y},
         {'x': (A / 2), 'y': toe_ins_corner[1] - toe_size[1]},
         {'x': toe_ins_corner[0], 'y': toe_ins_corner[1] - toe_size[1]}
     ]
@@ -170,12 +170,12 @@ def make_module(pin_count, configuration):
 
     silk_outline2 = [
         {'x': -(A / 2) - fab_silk_off, 'y': (mp_pos[1] + (mp_size[1] / 2)) + pad_silk_off},
-        {'x': -(A / 2) - fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + 3.96) + fab_silk_off},
-        {'x': -lever_out_corner[0] - fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + 3.96) + fab_silk_off},
+        {'x': -(A / 2) - fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + foot_y) + fab_silk_off},
+        {'x': -lever_out_corner[0] - fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + foot_y) + fab_silk_off},
         {'x': -lever_out_corner[0] - fab_silk_off, 'y': lever_out_corner[1] + fab_silk_off},
         {'x': lever_out_corner[0] + fab_silk_off, 'y': lever_out_corner[1] + fab_silk_off},
-        {'x': lever_out_corner[0] + fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + 3.96) + fab_silk_off},
-        {'x': (A / 2) + fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + 3.96) + fab_silk_off},
+        {'x': lever_out_corner[0] + fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + foot_y) + fab_silk_off},
+        {'x': (A / 2) + fab_silk_off, 'y': ((toe_ins_corner[1] - toe_size[1]) + foot_y) + fab_silk_off},
         {'x': (A / 2) + fab_silk_off, 'y': (mp_pos[1] + (mp_size[1] / 2)) + pad_silk_off},
     ]
 
@@ -205,9 +205,9 @@ def make_module(pin_count, configuration):
     ## CrtYd ##
 
     bounding_box = {
-        'top': pin_y + (-(pad_size[1] / 2) - (configuration['silk_line_width'] / 2)),
+        'top': pin_y - (pad_size[1] / 2),
         'left': (-mp_pos[0] - (mp_size[0] / 2)),
-        'bottom': lever_out_corner[1] + fab_silk_off + (configuration['silk_line_width'] / 2),
+        'bottom': lever_out_corner[1],
         'right': (mp_pos[0] + (mp_size[0] / 2))}
 
     cx1 = roundToBase(bounding_box['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
