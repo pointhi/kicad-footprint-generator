@@ -68,13 +68,15 @@ for itr in range (1, 20 + 1):
     kicad_mod.setTags("Stocko RFK MKS 16xx")
 
     #CREATE PIN
-    #first square pin
-    kicad_mod.append(Pad(number = 1, type = Pad.TYPE_THT, shape = Pad.SHAPE_RECT,
-                        at=[0, 0], size=[pad_size_y, pad_size_y], drill=drill, layers=Pad.LAYERS_THT))
+
+    #first rectangle pin
+    kicad_mod.append(Pad(number = 1, type = Pad.TYPE_THT, shape = Pad.SHAPE_ROUNDRECT,
+                        at=[0, 0], size=[pad_size_x, pad_size_y], drill=drill, layers=Pad.LAYERS_THT,
+                        radius_ratio=0.25))
     #circle pin
     for pin_cnt in range (2, pin_count + 1):
         kicad_mod.append(Pad(number = pin_cnt, type = Pad.TYPE_THT, shape = Pad.SHAPE_OVAL,
-                        at=[(pin_cnt - 1) * pad_span, 0], size=[pad_size_x, pad_size_y], drill = drill, layers = Pad.LAYERS_THT))
+                        at=[(pin_cnt - 1) * pad_span, 0], size=[pad_size_x, pad_size_y], drill=drill, layers = Pad.LAYERS_THT))
 
     #CREATE SILKSCREEN
     #name
