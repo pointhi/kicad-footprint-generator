@@ -209,3 +209,28 @@ ST_HLGA-10_2.5x2.5mm_P0.6mm:
   #pad_length_addition: 0.5
   #suffix: '_ClockwisePinNumbering'
   #include_suffix_in_3dpath: 'False'
+
+Broadcom_LGA-8_2.0x2.0mm:
+  device_type: 'LGA'
+  size_source: 'https://docs.broadcom.com/docs/AV02-4755EN'
+  library: 'OptoDevice'
+  manufacturer: 'Broadcom'
+  ipc_class: 'qfn_pull_back'
+  body_size_x:
+    nominal: 2
+    tolerance: 0.1
+  body_size_y:
+    nominal: 2
+    tolerance: 0.1
+  overall_height:
+    nominal: 0.34
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.31
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.35
+    tolerance: 0.1
+  pitch: 0.53
+  num_pins_x: 0
+  num_pins_y: 4
