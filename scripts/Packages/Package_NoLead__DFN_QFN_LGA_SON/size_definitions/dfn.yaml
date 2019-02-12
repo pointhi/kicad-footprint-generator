@@ -471,3 +471,28 @@ VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
+
+Broadcom_DFN-6_2.0x2.0mm:
+  device_type: 'DFN'
+  size_source: 'https://docs.broadcom.com/docs/AV02-4755EN'
+  library: 'OptoDevice'
+  manufacturer: 'Broadcom'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  body_size_x:
+    nominal: 2
+    tolerance: 0.1
+  body_size_y:
+    nominal: 2
+    tolerance: 0.1
+  overall_height:
+    nominal: 0.65
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.3
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.75
+    tolerance: 0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 3
