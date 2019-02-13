@@ -233,7 +233,7 @@ MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm:
     nominal: 4.9
     tolerance: 0.152
   lead_width:
-    minimum: 0.18
+    minimum: 0.17
     maximum: 0.27
   lead_len:
     nominal: 0.53
