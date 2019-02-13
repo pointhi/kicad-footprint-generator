@@ -8,10 +8,10 @@ WQFN-14-1EP_2.5x2.5mm_P0.5mm_EP1.45x1.45mm:
   # custom_name_format:
   body_size_x:
     nominal: 2.5
-    tolerance: 0
+    tolerance: 0.05
   body_size_y:
     nominal: 2.5
-    tolerance: 0
+    tolerance: 0.05
   overall_height:
     nominal: 0.75
     tolerance: 0.05
