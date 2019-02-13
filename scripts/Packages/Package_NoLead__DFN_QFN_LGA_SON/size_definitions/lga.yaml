@@ -231,6 +231,8 @@ Broadcom_LGA-8_2.0x2.0mm:
   lead_len:
     nominal: 0.35
     tolerance: 0.1
+  lead_to_edge:
+    nominal: 0.05
   pitch: 0.53
   num_pins_x: 0
   num_pins_y: 4
