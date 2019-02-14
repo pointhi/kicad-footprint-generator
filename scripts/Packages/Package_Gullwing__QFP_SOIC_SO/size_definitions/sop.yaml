@@ -5,10 +5,10 @@ FileHeader:
 SOP-4_3.8x4.1mm_P2.54mm:
   size_source: 'http://www.ixysic.com/home/pdfs.nsf/www/CPC1017N.pdf/$file/CPC1017N.pdf'
   body_size_x:
-    nominal: 3.8 #rounded to avoid changing the symbol
+    nominal: 3.8 #rounded to avoid changing the symbol (given as 3.81)
     tolerance: 0.025
   body_size_y:
-    nominal: 4.1 #rounded to avoid changing the symbol
+    nominal: 4.1 #rounded to avoid changing the symbol (givne as 4.089)
     tolerance: 0.025
   overall_height:
     # calculated from (2.03 +/-0.025) + (0.64 +/-0.04)
