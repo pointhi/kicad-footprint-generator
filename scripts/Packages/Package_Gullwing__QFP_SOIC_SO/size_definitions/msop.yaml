@@ -408,7 +408,7 @@ MSOP-12-1EP_3x4mm_P0.65mm:
 ######################################################################################################
 
 MSOP-16-1EP_3x4mm_P0.5mm_EP1.65x2.85mm:
-  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/3652fe.pdf#page=24'
+  size_source: 'http://cds.linear.com/docs/en/datasheet/37551fd.pdf#page=23'
   body_size_x:
     nominal: 3
     tolerance: 0.102
