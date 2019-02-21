@@ -26,3 +26,28 @@ SO-8_4.0x5.0mm_P1.27mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
+
+SO-4_4.4x3.9mm_P2.54mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=10047&prodName=TLP3123'
+  body_size_x:
+    minimum: 4.15
+    maximum: 4.65
+    # alternatively one can also specify the tolerance instead of minimum and maximum values. 
+    # If minimum and maximum values are given then the nominal value is optional. 
+    # It should only be included if it is given in the datasheet. 
+    # (If it is in the datasheet then it must be included.)
+  body_size_y:
+    minimum: 3.65
+    maximum: 4.15
+  overall_size_x:
+    minimum: 6.6
+    maximum: 7.4
+  lead_width:
+    minimum: 0.3
+    maximum: 0.5
+  lead_len:
+    minimum: 0.3
+    maximum: 0.9
+  pitch: 2.54
+  num_pins_x: 0
+  num_pins_y: 2
