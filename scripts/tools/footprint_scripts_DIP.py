@@ -31,7 +31,7 @@ from drawing_tools import *  # NOQA
 #       <----RM---->
 def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bottom, ddrill, pad, smd_pads=False,
             socket_width=0, socket_height=0, socket_pinrow_distance_offset=0, tags_additional=[],
-            lib_name="Housings_DIP", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], DIPName='DIP', DIPDescription='though-hole mounted DIP', DIPTags='THT DIP DIL PDIP', 
+            lib_name="Package_DIP", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], DIPName='DIP', DIPDescription='though-hole mounted DIP', DIPTags='THT DIP DIL PDIP', 
             prefix_name = "", skip_pin = [], skip_count = False, right_cnt_start = -1):
 
     pinrow_distance = pinrow_distance_in + socket_pinrow_distance_offset
