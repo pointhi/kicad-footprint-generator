@@ -9,7 +9,7 @@ QFN-12-1EP_3x3mm_P0.51mm_EP1.45x1.45mm:
   body_size_y:
     nominal: 3
     tolerance: 0.1016
-  body_height:
+  overall_height:
     nominal: 0.89
     tolerance: 0.1016
 

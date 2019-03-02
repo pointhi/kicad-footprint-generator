@@ -12,7 +12,7 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   body_size_y:
     minimum: 2.9
     maximum: 3.1
-  body_height:
+  overall_height:
     maximum: 1
   lead_width:
     minimum: 0.18
@@ -67,7 +67,7 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm:
   body_size_y:
     minimum: 2.9
     maximum: 3.1
-  body_height:
+  overall_height:
     maximum: 1
   lead_width:
     minimum: 0.18
@@ -124,7 +124,7 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.8x1.8mm:
     minimum: 2.85
     nominal: 3
     maximum: 3.15
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -183,7 +183,7 @@ VQFN-20-1EP_3x3mm_P0.4mm_EP1.7x1.7mm:
     nominal: 3
   body_size_y:
     nominal: 3
-  body_height:
+  overall_height:
     minimum: 0.8
     maximum: 0.9
   lead_width:
@@ -237,7 +237,7 @@ VQFN-20-1EP_3x3mm_P0.45mm_EP1.55x1.55mm:
     minimum: 2.9
     nominal: 3
     maximum: 3.1
-  body_height:
+  overall_height:
     minimum: 0.75
     nominal: 0.8
     maximum: 0.85
@@ -295,7 +295,7 @@ VQFN-24-1EP_4x4mm_P0.5mm:
     minimum: 3.9
     nominal: 4.0
     maximum: 4.1
-  body_height:
+  overall_height:
     maximum: 1
   lead_width:
     minimum: 0.2
@@ -352,7 +352,7 @@ VQFN-28-1EP_4x4mm_P0.45mm_EP2.4x2.4mm:
     minimum: 3.95
     nominal: 4
     maximum: 4.05
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.9
     maximum: 1
@@ -401,7 +401,7 @@ VQFN-28-1EP_4x5mm_P0.5mm_EP2.55x3.55mm:
   body_size_y:
     minimum: 4.9
     maximum: 5.1
-  body_height:
+  overall_height:
     maximum: 1
   lead_width:
     minimum: 0.18
@@ -459,7 +459,7 @@ VQFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm:
     minimum: 4.9
     nominal: 5
     maximum: 5.1
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 1

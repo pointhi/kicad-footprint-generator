@@ -12,7 +12,7 @@ QFN-76-1EP_9x9mm_P0.4mm_EP3.8x3.8mm:
   body_size_y:
     nominal: 9
     tolerance: 0
-  body_height:
+  overall_height:
     minimum: 0.8
     nominal: 0.85
     maximum: 1
