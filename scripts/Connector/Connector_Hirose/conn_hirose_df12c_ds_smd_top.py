@@ -54,7 +54,7 @@ def generate_one_footprint(idx, pins, configuration):
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=int(pins/2), mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
@@ -65,7 +65,6 @@ def generate_one_footprint(idx, pins, configuration):
         entry=configuration['entry_direction'][orientation]))
 
     ########################## Dimensions ##############################
-
     if(idx == 6):
         A = 5.6
         B = 3
@@ -110,11 +109,11 @@ def generate_one_footprint(idx, pins, configuration):
 
     kicad_mod.append(PadArray(start=[-B/2, -2], initial="",
         pincount=CPins,  x_spacing=pitch, size=pad_size_paste,
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Paste"]))
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Paste"]))
 
     kicad_mod.append(PadArray(start=[-B/2, 2], initial="",
         pincount=CPins,  x_spacing=pitch, size=pad_size_paste,
-        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Paste"]))
+        type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Paste"]))
 
     ######################## Fabrication Layer ###########################
     main_body_out_poly= [
@@ -147,22 +146,26 @@ def generate_one_footprint(idx, pins, configuration):
         width=configuration['fab_line_width'], layer="F.Fab"))
 
     ######################## SilkS Layer ###########################
+    offset = (pad_size[0]/2)+0.2+.06
+
     poly_left= [
-        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
+        {'x': -(B/2) - offset, 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
         {'x': -(A/2) - configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
         {'x': body_edge_out['left'] - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
-        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
-        {'x': -(B/2) - 0.15 - configuration['silk_fab_offset'], 'y': body_edge_out['top'] - 0.75}
+        {'x': -(B/2) - offset, 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
+        {'x': -(B/2) - offset, 'y': body_edge_out['top'] - (pad_size[1]/3)}
     ]
+
     kicad_mod.append(PolygoneLine(polygone=poly_left,
         width=configuration['silk_line_width'], layer="F.SilkS"))
 
     poly_right= [
-        {'x': (B/2) + 0.15 + configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
+        {'x': (B/2) + offset, 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
         {'x': (A/2) + configuration['silk_fab_offset'], 'y': body_edge_out['bottom'] + configuration['silk_fab_offset']},
         {'x': body_edge_out['right'] + configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']},
-        {'x': (B/2) + 0.15 + configuration['silk_fab_offset'], 'y': body_edge_out['top'] - configuration['silk_fab_offset']}
+        {'x': (B/2) + offset, 'y': body_edge_out['top'] - configuration['silk_fab_offset']}
     ]
+
     kicad_mod.append(PolygoneLine(polygone=poly_right,
         width=configuration['silk_line_width'], layer="F.SilkS"))
 
