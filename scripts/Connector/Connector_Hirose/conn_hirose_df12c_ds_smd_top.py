@@ -65,13 +65,13 @@ def generate_one_footprint(idx, pins, configuration):
         entry=configuration['entry_direction'][orientation]))
 
     ########################## Dimensions ##############################
-    if(idx == 6):
+    if(idx == 6):       #14 Pins
         A = 5.6
         B = 3
-    elif (idx == 7):
+    elif (idx == 7):    #32 Pins
         A = 10.1
         B = 7.5
-    elif (idx == 8):
+    elif (idx == 8):    #36 Pins
         A = 11.1
         B = 8.5
     else:
