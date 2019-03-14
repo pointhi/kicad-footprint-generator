@@ -30,8 +30,8 @@ SO-8_4.0x5.0mm_P1.27mm:
 SO-4_4.4x3.9mm_P2.54mm:
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=10047&prodName=TLP3123'
   body_size_x:
-    minimum: 4.15
-    maximum: 4.65
+    nominal: 4.4
+    tolerance: 0.25
     # alternatively one can also specify the tolerance instead of minimum and maximum values. 
     # If minimum and maximum values are given then the nominal value is optional. 
     # It should only be included if it is given in the datasheet. 
