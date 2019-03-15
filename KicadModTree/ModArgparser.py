@@ -144,7 +144,7 @@ class ModArgparser(object):
 
         with open(filepath, 'r') as stream:
             try:
-                parsed = yaml.load(stream)  # parse file
+                parsed = yaml.safe_load(stream)  # parse file
 
                 if parsed is None:
                     print("empty file!")
