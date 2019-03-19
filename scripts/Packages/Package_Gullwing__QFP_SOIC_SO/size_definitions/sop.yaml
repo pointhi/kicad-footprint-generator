@@ -157,3 +157,29 @@ SOP-18_7.0x12.5mm_P1.27mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 9
+  
+STC_SOP-16_3.9x9.9mm_P1.27mm:
+  size_source: 'https://www.stcmicro.com/datasheet/STC15F2K60S2-en.pdf'
+  manufacturer: 'STC'
+  body_size_x: # E1
+    minimum: 3.8
+    maximum: 4.0
+  body_size_y: # D
+    minimum: 9.8
+    maximum: 10
+  overall_height: # A
+    minimum: 1.35
+    maximum: 1.75
+  overall_size_x: # E
+    minimum: 5.8
+    maximum: 6.2
+  lead_len: # L
+    minimum: 0.45
+    maximum: 0.8
+  lead_width: # b
+    minimum: 0.35
+    maximum: 0.45
+
+  pitch: 1.27 # e
+  num_pins_x: 0
+  num_pins_y: 8
