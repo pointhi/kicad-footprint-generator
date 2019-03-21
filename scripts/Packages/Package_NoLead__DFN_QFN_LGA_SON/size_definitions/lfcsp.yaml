@@ -106,7 +106,7 @@ LFCSP-64-1EP_9x9mm_P0.5mm_EP5.21x5.21mm:
   EP_num_paste_pads: [2, 2]
   #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
   thermal_vias:
-    count: [3, 3]
+    count: [4, 4]
     drill: 0.3
     # min_annular_ring: 0.15
     paste_via_clearance: 0.1
