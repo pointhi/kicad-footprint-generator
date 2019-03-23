@@ -27,7 +27,7 @@ pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 def generate_one_footprint(pincount, configuration):
-    mpn = "S{pincount:02}B-EH".format(pincount=pincount) #JST part number format string
+    mpn = "S{pincount}B-EH".format(pincount=pincount) #JST part number format string
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
@@ -231,5 +231,5 @@ if __name__ == "__main__":
 
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
-    for pincount in range(2, 17):
+    for pincount in range(2, 16):
         generate_one_footprint(pincount, configuration)

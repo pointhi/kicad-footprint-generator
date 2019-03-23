@@ -42,7 +42,7 @@ pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 #FP name strings
-part_base = "B{n:02}B-XH-{variant:s}" #JST part number format string
+part_base = "B{n}B-XH-{variant:s}" #JST part number format string
 
 variant_params = {
     'A':{
@@ -53,7 +53,7 @@ variant_params = {
     'AM':{
         'boss': True,
         'back_protrusion': False,
-        'pin_range': range(1,13)
+        'pin_range': chain(range(1,11), [12])
     }
 }
 
