@@ -37,17 +37,17 @@ SO-4_4.4x3.9mm_P2.54mm:
     # It should only be included if it is given in the datasheet. 
     # (If it is in the datasheet then it must be included.)
   body_size_y:
-    minimum: 3.65
-    maximum: 4.15
+    nominal: 3.9
+    tolerance: 0.25
   overall_size_x:
-    minimum: 6.6
-    maximum: 7.4
+    nominal: 7.0
+    tolerance: 0.4
   lead_width:
-    minimum: 0.3
-    maximum: 0.5
+    nominal: 0.4
+    tolerance: 0.1
   lead_len:
-    minimum: 0.3
-    maximum: 0.9
+    nominal: 0.6
+    tolerance: 0.3
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 2
