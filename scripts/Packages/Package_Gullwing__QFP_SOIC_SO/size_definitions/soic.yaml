@@ -52,9 +52,9 @@ SOIC-4_4.55x2.6mm_P1.27mm:
 
 SOIC-8_3.9x4.9mm_P1.27mm:
   size_source: 'JEDEC MS-012AA, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_8.pdf'
-  body_size_x:
-    minimum: 3.8
-    maximum: 4.0
+  body_size_x: # from JEDEC
+    nominal: 3.9
+    tolerance: 0.1
   body_size_y:
     minimum: 4.8
     maximum: 5.0
@@ -62,13 +62,13 @@ SOIC-8_3.9x4.9mm_P1.27mm:
     minimum: 1.35
     maximum: 1.75
 
-  overall_size_x:
-    minimum: 5.8
-    maximum: 6.2
+  overall_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 6
+    tolerance: 0.2
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -354,22 +354,22 @@ SOIC-14_3.9x8.7mm_P1.27mm:
   #round to two significant digits to comply with old name
   custom_name_format: SOIC-{pincount:d}_{size_x:.2g}x{size_y:.2g}mm_P{pitch:g}mm
   size_source: 'JEDEC MS-012AB, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_14.pdf'
-  body_size_x:
-    minimum: 3.8
-    maximum: 4.0
+  body_size_x: # from JEDEC
+    nominal: 3.9
+    tolerance: 0.1
   body_size_y:
     minimum: 8.55
     maximum: 8.75
   overall_height:
     maximum: 1.75
 
-  overall_size_x:
-    minimum: 5.8
-    maximum: 6.2
+  overall_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 6
+    tolerance: 0.2
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -380,9 +380,9 @@ SOIC-14_3.9x8.7mm_P1.27mm:
 SOIC-14W_7.5x9.0mm_P1.27mm:
   custom_name_format: SOIC-{pincount:d}W_{size_x:g}x{size_y:g}mm_P{pitch:g}mm
   size_source: 'JEDEC MS-013AF, https://www.analog.com/media/en/package-pcb-resources/package/54614177245586rw_14.pdf'
-  body_size_x:
-    minimum: 7.4
-    maximum: 7.6
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
   body_size_y:
     minimum: 8.8
     maximum: 9.2
@@ -390,13 +390,13 @@ SOIC-14W_7.5x9.0mm_P1.27mm:
     minimum: 2.35
     maximum: 2.65
 
-  overall_size_x:
-    minimum: 10
-    maximum: 10.65
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -406,22 +406,22 @@ SOIC-14W_7.5x9.0mm_P1.27mm:
 
 SOIC-16_3.9x9.9mm_P1.27mm:
   size_source: 'JEDEC MS-012AC, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_16.pdf'
-  body_size_x:
-    minimum: 3.8
-    maximum: 4.0
+  body_size_x: # from JEDEC
+    nominal: 3.9
+    tolerance: 0.1
   body_size_y:
     minimum: 9.8
     maximum: 10
   overall_height:
     maximum: 1.75
 
-  overall_size_x:
-    minimum: 5.8
-    maximum: 6.2
+  overall_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 6
+    tolerance: 0.2
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -455,9 +455,9 @@ SOIC-16_4.55x10.3mm_P1.27mm:
 SOIC-16W_7.5x10.3mm_P1.27mm:
   custom_name_format: SOIC-{pincount:d}W_{size_x:g}x{size_y:g}mm_P{pitch:g}mm
   size_source: 'JEDEC MS-013AA, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/rw_16.pdf'
-  body_size_x:
-    minimum: 7.4
-    maximum: 7.6
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
   body_size_y:
     minimum: 10.1
     maximum: 10.5
@@ -465,13 +465,13 @@ SOIC-16W_7.5x10.3mm_P1.27mm:
     minimum: 2.35
     maximum: 2.65
 
-  overall_size_x:
-    minimum: 10
-    maximum: 10.65
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -493,13 +493,13 @@ SOIC-16W_7.5x12.8mm_P1.27mm:
     minimum: 2.35
     maximum: 2.65
 
-  overall_size_x:
-    minimum: 10
-    maximum: 10.65
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -511,9 +511,9 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
   #round to two significant digits to comply with old name
   custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
   size_source: 'JEDEC MS-013AB, https://www.analog.com/media/en/package-pcb-resources/package/33254132129439rw_18.pdf'
-  body_size_x:
-    minimum: 7.4
-    maximum: 7.6
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
   body_size_y:
     minimum: 11.35
     maximum: 11.75
@@ -521,13 +521,13 @@ SOIC-18W_7.5x11.6mm_P1.27mm:
     minimum: 2.35
     maximum: 2.65
 
-  overall_size_x:
-    minimum: 10
-    maximum: 10.65
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -539,9 +539,9 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
   #round to two significant digits to comply with old name
   custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
   size_source: 'JEDEC MS-013AC, https://www.analog.com/media/en/package-pcb-resources/package/233848rw_20.pdf'
-  body_size_x:
-    minimum: 7.4
-    maximum: 7.6
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
   body_size_y:
     minimum: 12.6
     maximum: 13.0
@@ -549,13 +549,13 @@ SOIC-20W_7.5x12.8mm_P1.27mm:
     minimum: 2.35
     maximum: 2.65
 
-  overall_size_x:
-    minimum: 10
-    maximum: 10.65
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -567,9 +567,9 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
   #round to two significant digits to comply with old name
   custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
   size_source: 'JEDEC MS-013AD, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RW_24.pdf'
-  body_size_x:
-    minimum: 7.4
-    maximum: 7.6
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
   body_size_y:
     minimum: 15.2
     maximum: 15.6
@@ -577,13 +577,13 @@ SOIC-24W_7.5x15.4mm_P1.27mm:
     minimum: 2.35
     maximum: 2.65
 
-  overall_size_x:
-    minimum: 10
-    maximum: 10.65
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
@@ -595,9 +595,9 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
   #round to two significant digits to comply with old name
   custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
   size_source: 'JEDEC MS-013AE, https://www.analog.com/media/en/package-pcb-resources/package/35833120341221rw_28.pdf'
-  body_size_x:
-    minimum: 7.4
-    maximum: 7.6
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
   body_size_y:
     minimum: 17.7
     maximum: 18.1
@@ -605,13 +605,13 @@ SOIC-28W_7.5x17.9mm_P1.27mm:
     minimum: 2.35
     maximum: 2.65
 
-  overall_size_x:
-    minimum: 10
-    maximum: 10.65
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
   lead_len:
     minimum: 0.4
     maximum: 1.27
-  lead_width:
+  lead_width: # from JEDEC (agrees with linked datasheet)
     minimum: 0.31
     maximum: 0.51
 
