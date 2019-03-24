@@ -159,7 +159,7 @@ SOP-18_7.0x12.5mm_P1.27mm:
   num_pins_y: 9
   
 STC_SOP-16_3.9x9.9mm_P1.27mm:
-  size_source: 'https://www.stcmicro.com/datasheet/STC15F2K60S2-en.pdf'
+  size_source: 'https://www.stcmicro.com/datasheet/STC15F2K60S2-en.pdf#page=156'
   manufacturer: 'STC'
   body_size_x: # E1
     minimum: 3.8
