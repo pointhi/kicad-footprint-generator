@@ -5,7 +5,18 @@ def roundToBase(value, base):
     return round(value/base) * base
 
 class TolerancedSize():
-    def __init__(self, minimum=None, nominal=None, maximum=None, tolerance=None):
+    def to_metric(value, unit):
+        if unit == "inch":
+            factor = 25.4
+        elif unit == "mil":
+            factor = 25.4/1000
+        else:
+            factor = 1
+        return value * factor
+
+    def __init__(self, minimum=None, nominal=None, maximum=None, tolerance=None, unit=None):
+
+
         if nominal is not None:
             self.nominal = nominal
         else:
@@ -36,6 +47,10 @@ class TolerancedSize():
 
         if self.maximum < self.minimum:
             raise ValueError("Maximum is smaller than minimum. Tolerance ranges given wrong or parameters confused.")
+
+        self.minimum = TolerancedSize.to_metric(self.minimum, unit)
+        self.nominal = TolerancedSize.to_metric(self.nominal, unit)
+        self.maximum = TolerancedSize.to_metric(self.maximum, unit)
 
         self.ipc_tol = self.maximum - self.minimum
         self.ipc_tol_RMS = self.ipc_tol
@@ -131,7 +146,8 @@ class TolerancedSize():
                     minimum=dim.get("minimum"),
                     nominal=dim.get("nominal"),
                     maximum=dim.get("maximum"),
-                    tolerance=dim.get("tolerance")
+                    tolerance=dim.get("tolerance"),
+                    unit=dim.get("unit")
                     )
 
             return TolerancedSize(
@@ -145,7 +161,8 @@ class TolerancedSize():
                 minimum=yaml.get("minimum"),
                 nominal=yaml.get("nominal"),
                 maximum=yaml.get("maximum"),
-                tolerance=yaml.get("tolerance")
+                tolerance=yaml.get("tolerance"),
+                unit=dim.get("unit")
                 )
     def __str__(self):
         return 'nom: {}, min: {}, max: {}  | min_rms: {}, max_rms: {}'.format(self.nominal, self.minimum, self.maximum, self.minimum_RMS, self.maximum_RMS)
