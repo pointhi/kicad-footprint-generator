@@ -1,5 +1,6 @@
 from __future__ import division
 import math
+import re
 
 def roundToBase(value, base):
     return round(value/base) * base
@@ -138,32 +139,75 @@ class TolerancedSize():
         return result
 
     @staticmethod
-    def fromYaml(yaml, base_name=None):
-        if base_name is not None:
-            if type(yaml.get(base_name)) is dict:
-                dim = yaml.get(base_name)
-                return TolerancedSize(
-                    minimum=dim.get("minimum"),
-                    nominal=dim.get("nominal"),
-                    maximum=dim.get("maximum"),
-                    tolerance=dim.get("tolerance"),
-                    unit=dim.get("unit")
-                    )
+    def fromString(input, unit=None):
+        minimum = None
+        nominal = None
+        maximum = None
+        tolerance = None
 
-            return TolerancedSize(
-                minimum=yaml.get(base_name+"_min"),
-                nominal=yaml.get(base_name),
-                maximum=yaml.get(base_name+"_max"),
-                tolerance=yaml.get(base_name+"_tol")
-                )
+        s = re.sub(r'\s+', '', str(input))
+        if type(input) in [int, float]:
+            nominal = input
+        elif "+/-" in s:
+            tokens = s.split("+/-")
+            nominal = float(tokens[0])
+            tolerance = float(tokens[1])
+        elif '+' in s and '-' in s:
+            if s.count('+') > 1 or s.count('-') > 1:
+                raise ValueError("Illegal dimension specifier: {}\n\tToo many tolerance specifiers. Expected nom+tolp-toln".format(input))
+            idxp = s.find('+')
+            idxn = s.find('-')
+
+            nominal = float(s[0:min(idxp, idxn)])
+            tolerance=[
+                float(s[idxn : idxp if idxn<idxp else None]),
+                float(s[idxp : idxn if idxn>idxp else None])]
+        elif '...' in s or '..' in s:
+            s = s.replace('...', '..')
+            tokens = s.split('..')
+            if len(tokens) > 3:
+                raise ValueError("Illegal dimension specifier: {}\n\tToo many tokens seperated by '...' (Valid options are min...max or min...nom...max)".format(input))
+            minimum = float(tokens[0])
+            maximum = float(tokens[-1])
+            if len(tokens) == 3:
+                nominal = float(tokens[1])
         else:
+            try:
+                nominal = float(s)
+            except Exception as e:
+                raise ValueError("Dimension specifier not recogniced: {}\n\t Valid options are nom, nom+/-tol, nom+tolp-toln, min...max or min...nom...max".format(input)) from e
+
+        return TolerancedSize(
+            minimum=minimum,
+            nominal=nominal,
+            maximum=maximum,
+            tolerance=tolerance,
+            unit=unit
+            )
+
+    @staticmethod
+    def fromYaml(yaml, base_name=None, unit=None):
+        if base_name is not None:
+            if base_name+"_min" in yaml or base_name+"_max" in yaml or base_name+"_tol" in yaml:
+                return TolerancedSize(
+                    minimum=yaml.get(base_name+"_min"),
+                    nominal=yaml.get(base_name),
+                    maximum=yaml.get(base_name+"_max"),
+                    tolerance=yaml.get(base_name+"_tol")
+                    )
+            return TolerancedSize.fromYaml(yaml.get(base_name), unit=unit)
+
+        elif type(yaml) is dict:
             return TolerancedSize(
                 minimum=yaml.get("minimum"),
                 nominal=yaml.get("nominal"),
                 maximum=yaml.get("maximum"),
                 tolerance=yaml.get("tolerance"),
-                unit=dim.get("unit")
+                unit=unit
                 )
+        else:
+            return TolerancedSize.fromString(yaml, unit)
+
     def __str__(self):
         return 'nom: {}, min: {}, max: {}  | min_rms: {}, max_rms: {}'.format(self.nominal, self.minimum, self.maximum, self.minimum_RMS, self.maximum_RMS)
 
