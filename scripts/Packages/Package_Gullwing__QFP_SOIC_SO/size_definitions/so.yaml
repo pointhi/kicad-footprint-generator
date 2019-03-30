@@ -32,10 +32,6 @@ SO-4_4.4x3.9mm_P2.54mm:
   body_size_x:
     nominal: 4.4
     tolerance: 0.25
-    # alternatively one can also specify the tolerance instead of minimum and maximum values. 
-    # If minimum and maximum values are given then the nominal value is optional. 
-    # It should only be included if it is given in the datasheet. 
-    # (If it is in the datasheet then it must be included.)
   body_size_y:
     nominal: 3.9
     tolerance: 0.25
