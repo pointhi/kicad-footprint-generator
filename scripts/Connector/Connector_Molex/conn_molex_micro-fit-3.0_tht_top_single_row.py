@@ -51,8 +51,8 @@ variant_params = {
 
 pins_per_row_range = range(2,13)
 pitch = 3.0
-drill = 1.0
-peg_drill = 1.0
+drill = 1.02
+peg_drill = 1.27
 pad_to_pad_clearance = 1.5 # Voltage rating is up to 600V (http://www.molex.com/pdm_docs/ps/PS-43650.pdf)
 max_annular_ring = 0.5
 min_annular_ring = 0.15
