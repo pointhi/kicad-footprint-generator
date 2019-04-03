@@ -1,40 +1,31 @@
-HVSON-8-1EP_3.25x2.35mm_P0.8mm_E1.1x1.75mm:
+HVSON-8-1EP_4x4mm_P0.8mm_E2.2x3.1mm:
   device_type: 'HVSON'
   library: Package_SON
-  #manufacturer: 'NXP'
-  size_source: 'https://www.nxp.com/docs/en/data-sheet/PCF8523.pdf (page 66)'
-  ipc_class: 'qfn_pull_back' #'qfn' | 'qfn_pull_back'
+  manufacturer: 'NXP'
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/PCF8523.pdf (page 57)'
+  ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
-  #body_size_x_min: 2.85
   body_size_x:
     minimum: 3.9
-    nominal: 4.0
     maximum: 4.1
   body_size_y:
     minimum: 3.9
-    nominal: 4.0
     maximum: 4.1
-  # overall_height:
+  overall_height:
     minimum: 1.00
-  #  nominal: 1.0
-  #  maximum: 0.80
   lead_width:
     minimum: 0.30
-    nominal: 0.35
     maximum: 0.40
   lead_len:
-  #  minimum: 0.4
-    nominal: 0.95
-  #  maximum: 0.65
+    minimum: 0.4
+    maximum: 0.65
 
   EP_size_x:
-  #  minimum: 3.35
-    nominal: 1.1
-  #  maximum: 3.45
+    minimum: 2.05
+    maximum: 2.35
   EP_size_y:
-  #  minimum: 4.25
-    nominal: 1.75
-  #  maximum: 4.35
+    minimum: 2.95
+    maximum: 3.25
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [2, 2]
 
