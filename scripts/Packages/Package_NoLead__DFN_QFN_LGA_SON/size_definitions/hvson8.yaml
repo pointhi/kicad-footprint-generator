@@ -1,7 +1,6 @@
 HVSON-8-1EP_4x4mm_P0.8mm_EP2.2x3.1mm:
   device_type: 'HVSON'
   library: Package_SON
-  manufacturer: 'NXP'
   size_source: 'https://www.nxp.com/docs/en/data-sheet/PCF8523.pdf (page 57)'
   ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
