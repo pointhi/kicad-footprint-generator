@@ -1,4 +1,4 @@
-HVSON-8-1EP_4x4mm_P0.8mm_E2.2x3.1mm:
+HVSON-8-1EP_4x4mm_P0.8mm_EP2.2x3.1mm:
   device_type: 'HVSON'
   library: Package_SON
   manufacturer: 'NXP'
