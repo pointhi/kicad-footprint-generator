@@ -35,7 +35,7 @@ series_long = 'DF12E SMD'
 manufacturer = 'Hirose'
 orientation = 'V'
 number_of_rows = 2
-datasheet = 'https://www.hirose.com/product/en/download_file/key_name/DF12E%283.0%29%2D50DP%2D0.5V%2881%29/category/Drawing%20(2D)/doc_file_id/38672/'
+datasheet = 'https://www.hirose.com/product/document?clcode=CL0537-0834-6-81&productname=DF12E(3.0)-50DP-0.5V(81)&series=DF12&documenttype=2DDrawing&lang=en&documentid=0000992393'
 
 #Hirose part number
 part_code = "DF12E3.0-{n:02}DP-0.5V"
@@ -70,7 +70,7 @@ def generate_one_footprint(idx, pins, configuration):
         B = 19.5
     elif(idx == 7):     #14 Pins
         A = 5.7
-        B = 3
+        B = 3.0
     elif (idx == 8):    #32 Pins
         A = 10.2
         B = 7.5
@@ -79,7 +79,7 @@ def generate_one_footprint(idx, pins, configuration):
         B = 8.5
     else:
         A = 4.7 + (idx * 2.5)
-        B = A - 2.6
+        B = A - 2.7
 
     body_edge_out={
         'left': round(-A/2 ,2),
@@ -88,11 +88,11 @@ def generate_one_footprint(idx, pins, configuration):
         'bottom': 1.9
         }
 
-    C = A - 1.5
+    D = A - 1.5
 
     body_edge_in={
-        'left': round(-C/2 ,2),
-        'right': round(C/2 ,2),
+        'left': round(-D/2 ,2),
+        'right': round(D/2 ,2),
         'top': -1.225,
         'bottom': 1.225
         }
@@ -101,6 +101,7 @@ def generate_one_footprint(idx, pins, configuration):
     #
     # Add pads
     #
+    #Pad only with F.Cu and F.Mask
     CPins=int(pins / 2)
     kicad_mod.append(PadArray(start=[-B/2, 1.8], initial=1,
         pincount=CPins, increment=1,  x_spacing=pitch, size=pad_size,
@@ -110,6 +111,7 @@ def generate_one_footprint(idx, pins, configuration):
         pincount=CPins, increment=1,  x_spacing=pitch, size=pad_size,
         type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Mask"]))
 
+    #F.Paste
     kicad_mod.append(PadArray(start=[-B/2, 2], initial="",
         pincount=CPins,  x_spacing=pitch, size=pad_size_paste,
         type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Paste"]))
