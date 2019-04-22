@@ -203,13 +203,13 @@ if __name__ == '__main__':
     
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     # with open(args.series_config, 'r') as config_stream:
         # try:
-            # configuration.update(yaml.load(config_stream))
+            # configuration.update(yaml.safe_load(config_stream))
         # except yaml.YAMLError as exc:
             # print(exc)
     
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     for filepath in args.files:
         with open(filepath, 'r') as command_stream:
             try:
-                cmd_file = yaml.load(command_stream)
+                cmd_file = yaml.safe_load(command_stream)
             except yaml.YAMLError as exc:
                 print(exc)
         for pkg in cmd_file:

@@ -188,7 +188,7 @@ def create_footprint(name, configuration, **kwargs):
 def parse_and_execute_yml_file(filepath, configuration):
     with open(filepath, 'r') as stream:
         try:
-            yaml_parsed = yaml.load(stream)
+            yaml_parsed = yaml.safe_load(stream)
             for footprint in yaml_parsed:
                 print("generate {name}.kicad_mod".format(name=footprint))
                 create_footprint(footprint, configuration , **yaml_parsed.get(footprint))
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 

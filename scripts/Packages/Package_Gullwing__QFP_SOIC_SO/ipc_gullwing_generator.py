@@ -31,7 +31,7 @@ class Gullwing():
         self.configuration = configuration
         with open(ipc_doc_file, 'r') as ipc_stream:
             try:
-                self.ipc_defintions = yaml.load(ipc_stream)
+                self.ipc_defintions = yaml.safe_load(ipc_stream)
 
                 self.configuration['min_ep_to_pad_clearance'] = 0.2
                 if 'ipc_generic_rules' in self.ipc_defintions:
@@ -587,13 +587,13 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
 
@@ -608,7 +608,7 @@ if __name__ == "__main__":
 
         with open(filepath, 'r') as command_stream:
             try:
-                cmd_file = yaml.load(command_stream)
+                cmd_file = yaml.safe_load(command_stream)
             except yaml.YAMLError as exc:
                 print(exc)
         header = cmd_file.pop('FileHeader')
