@@ -77,7 +77,7 @@ class CapacitorTrimmer(object):
 
     def _load_config(self, config_file):
         try:
-            devices = yaml.load_all(open(config_file))
+            devices = yaml.safe_load_all(open(config_file))
         except FileNotFoundError as fnfe:
             print(fnfe)
             return

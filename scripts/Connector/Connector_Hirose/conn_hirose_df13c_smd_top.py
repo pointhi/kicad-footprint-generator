@@ -210,13 +210,13 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
     idx = 0

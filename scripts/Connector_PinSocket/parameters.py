@@ -115,7 +115,7 @@ class params (PartParametersBase):
             parameter_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + "parameters.yaml"
 
         try:
-            devices = yaml.load_all(open(parameter_file))
+            devices = yaml.safe_load_all(open(parameter_file))
             for device in devices:
                 params = self._import_params(device)
                 if not params == False:
