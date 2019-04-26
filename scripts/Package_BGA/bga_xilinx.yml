@@ -1,0 +1,152 @@
+# Artix-7 FPGA Packages
+# Notes:
+#  - Often names are similiar, e.g. FB, FBG and FBV. I choose FBG as it is the common one.
+#    The addition stems from different solder types for the BGA balls
+#  - Xilinx_CPG236 and Xilinx_CPG238 are the same, different name comes from bank differences
+#  - Xilinx_CSG324 and Xilinx_CSG325 are the same, different name comes from bank differences
+#  - Xilinx_RS484 and Xilinx_SBG484 have same landing pattern but different heights/3D packages
+#  - Xilinx_RB484, Xilinx_FBG484 and Xilinx_FGG484 have same landing pattern but different heights/3D packages
+#  - Xilinx_RB676, Xilinx_FBG676 and Xilinx_FGG676 have same landing pattern but different heights/3D packages
+
+Xilinx_CPG236:
+  description: "Artix-7 BGA, 19x19 grid, 10x10mm package, 0.5mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 266, NSMD pad definition Appendix A"
+  additional_tags: "CP236 CPG236"
+  pkg_width: 10
+  pkg_height: 10
+  pitch: 0.5
+  pad_diameter: 0.275
+  mask_margin: 0.05
+  layout_x: 19
+  layout_y: 19
+  row_skips: [[], [], [], [[4,17]], [[4,17]], [[4,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,7],[9,12],[14,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,17]], [[4,17]], [[4,17]], [], [], []]
+Xilinx_CPG238:
+  description: "Artix-7 BGA, 19x19 grid, 10x10mm package, 0.5mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 267, NSMD pad definition Appendix A"
+  additional_tags: "CPG238"
+  pkg_width: 10
+  pkg_height: 10
+  pitch: 0.5
+  pad_diameter: 0.275
+  mask_margin: 0.05
+  layout_x: 19
+  layout_y: 19
+  row_skips: [[], [], [], [[4,17]], [[4,17]], [[4,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,7],[9,12],[14,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,7],[14,17]], [[4,17]], [[4,17]], [[4,17]], [], [], []]
+Xilinx_CSG324:
+  description: "Artix-7 BGA, 18x18 grid, 15x15mm package, 0.8mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 268, NSMD pad definition Appendix A"
+  additional_tags: "CS324 CSG324"
+  pkg_width: 15
+  pkg_height: 15
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.05
+  layout_x: 18
+  layout_y: 18
+Xilinx_CSG325:
+  description: "Artix-7 BGA, 18x18 grid, 15x15mm package, 0.8mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 268, NSMD pad definition Appendix A"
+  additional_tags: "CS325 CSG235"
+  pkg_width: 15
+  pkg_height: 15
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.05
+  layout_x: 18
+  layout_y: 18
+Xilinx_SBG484:
+  description: "Artix-7 BGA, 22x22 grid, 19x19mm package, 0.8mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 270, NSMD pad definition Appendix A"
+  additional_tags: "SB484 SBG484 SBV484"
+  pkg_width: 19
+  pkg_height: 19
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.05
+  layout_x: 22
+  layout_y: 22
+Xilinx_RS484:
+  description: "Artix-7 BGA, 22x22 grid, 19x19mm package, 0.8mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 279, NSMD pad definition Appendix A"
+  additional_tags: "RS484"
+  pkg_width: 19
+  pkg_height: 19
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.05
+  layout_x: 22
+  layout_y: 22
+Xilinx_FTG256:
+  description: "Artix-7 BGA, 16x16 grid, 17x17mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 269, NSMD pad definition Appendix A"
+  additional_tags: "FT256 FTG256"
+  pkg_width: 17
+  pkg_height: 17
+  pitch: 1
+  pad_diameter: 0.4
+  mask_margin: 0.05
+  layout_x: 16
+  layout_y: 16
+Xilinx_FBG484:
+  description: "Artix-7 BGA, 22x22 grid, 23x23mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 271, NSMD pad definition Appendix A"
+  additional_tags: "FB484 FBG484 FBV484"
+  pkg_width: 23
+  pkg_height: 23
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 22
+  layout_y: 22
+Xilinx_FGG484:
+  description: "Artix-7 BGA, 22x22 grid, 23x23mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 275, NSMD pad definition Appendix A"
+  additional_tags: "FG484 FGG484"
+  pkg_width: 23
+  pkg_height: 23
+  pitch: 1
+  pad_diameter: 0.5
+  mask_margin: 0.05
+  layout_x: 22
+  layout_y: 22
+Xilinx_RB484:
+  description: "Artix-7 BGA, 22x22 grid, 23x23mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 278, NSMD pad definition Appendix A"
+  additional_tags: "RB484"
+  pkg_width: 23
+  pkg_height: 23
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 22
+  layout_y: 22
+Xilinx_FBG676:
+  description: "Artix-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 273, NSMD pad definition Appendix A"
+  additional_tags: "FB676 FBG676 FBV676"
+  pkg_width: 27
+  pkg_height: 27
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 26
+  layout_y: 26
+Xilinx_FGG676:
+  description: "Artix-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 276, NSMD pad definition Appendix A"
+  additional_tags: "FG676 FGG676"
+  pkg_width: 27
+  pkg_height: 27
+  pitch: 1
+  pad_diameter: 0.5
+  mask_margin: 0.05
+  layout_x: 26
+  layout_y: 26
+Xilinx_RB676:
+  description: "Artix-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 280, NSMD pad definition Appendix A"
+  additional_tags: "RB676"
+  pkg_width: 27
+  pkg_height: 27
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 26
+  layout_y: 26
+Xilinx_FFG1156:
+  description: "Artix-7 BGA, 34x34 grid, 35x35mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf p. 277, NSMD pad definition Appendix A"
+  additional_tags: "FF1156 FFG1156 FFV1156"
+  pkg_width: 35
+  pkg_height: 35
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 34
+  layout_y: 34
