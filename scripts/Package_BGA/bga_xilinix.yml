@@ -2,7 +2,7 @@
 # Notes:
 #  - Often names are similiar, e.g. FB, FBG and FBV. I choose FBG as it is the common one.
 #    The addition stems from different solder types for the BGA balls
-#  - Xilinx_CPG236 and Xilinx_CPG236 are the same, different name comes from bank differences
+#  - Xilinx_CPG236 and Xilinx_CPG238 are the same, different name comes from bank differences
 #  - Xilinx_CSG324 and Xilinx_CSG325 are the same, different name comes from bank differences
 #  - Xilinx_RS484 and Xilinx_SBG484 have same landing pattern but different heights/3D packages
 #  - Xilinx_RB484, Xilinx_FBG484 and Xilinx_FGG484 have same landing pattern but different heights/3D packages
