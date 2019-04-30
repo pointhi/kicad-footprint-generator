@@ -25,6 +25,11 @@ def generateFootprint(config, fp_params, fp_id):
     layoutX = fp_params["layout_x"]
     layoutY = fp_params["layout_y"]
     
+    if "additional_tags" in fp_params:
+        additionalTag = " " + fp_params["additional_tags"]
+    else:
+        additionalTag = ""
+    
     if "row_names" in fp_params:
         rowNames = fp_params["row_names"]
     else:
@@ -177,7 +182,7 @@ def generateFootprint(config, fp_params, fp_id):
     f.append(Model(filename="{}Package_{}.3dshapes/{}.wrl".format(
                   config['3d_model_prefix'], package_type, fp_id)))
 
-    f.setTags("{} {} {}".format(package_type, balls, pitch_string))
+    f.setTags("{} {} {}{}".format(package_type, balls, pitch_string, additionalTag))
 
     output_dir = 'Package_{lib_name:s}.pretty/'.format(lib_name=package_type)
     if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
