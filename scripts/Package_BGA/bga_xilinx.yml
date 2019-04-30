@@ -132,7 +132,8 @@ Xilinx_FGG676:
   layout_y: 26
 Xilinx_RB676:
   description: "Artix-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=280, NSMD pad definition Appendix A"
-
+  additional_tags: "RB676"
+  pkg_width: 27
   pkg_height: 27
   pitch: 1
   pad_diameter: 0.53
