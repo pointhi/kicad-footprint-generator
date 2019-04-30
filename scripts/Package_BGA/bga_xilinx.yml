@@ -150,3 +150,60 @@ Xilinx_FFG1156:
   mask_margin: 0.05
   layout_x: 34
   layout_y: 34
+  
+# Spartan-7 FPGA Packages
+# Notes:
+Xilinx_CPGA196:
+  description: "Spartan-7 BGA, 14x14 grid, 8x8mm package, 0.5mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=260, NSMD pad definition Appendix A"
+  pkg_width: 8
+  pkg_height: 8
+  pitch: 0.5
+  pad_diameter: 0.275
+  mask_margin: 0.05
+  layout_x: 14
+  layout_y: 14
+Xilinx_FTGB196:
+  description: "Spartan-7 BGA, 14x14 grid, 13x13mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=261, NSMD pad definition Appendix A"
+  pkg_width: 15
+  pkg_height: 15
+  pitch: 1
+  pad_diameter: 0.5
+  mask_margin: 0.05
+  layout_x: 14
+  layout_y: 14
+Xilinx_CSGA225:
+  description: "Spartan-7 BGA, 15x15 grid, 13x13mm package, 0.8mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=262, NSMD pad definition Appendix A"
+  pkg_width: 13
+  pkg_height: 13
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.05
+  layout_x: 15
+  layout_y: 15
+Xilinx_CSGA324:
+  description: "Spartan-7 BGA, 18x18 grid, 15x15mm package, 0.8mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=263, NSMD pad definition Appendix A"
+  pkg_width: 15
+  pkg_height: 15
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.05
+  layout_x: 18
+  layout_y: 18
+Xilinx_FGGA484:
+  description: "Spartan-7 BGA, 22x22 grid, 23x23mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=264, NSMD pad definition Appendix A"
+  pkg_width: 23
+  pkg_height: 23
+  pitch: 1
+  pad_diameter: 0.5
+  mask_margin: 0.05
+  layout_x: 22
+  layout_y: 22
+Xilinx_FGGA676:
+  description: "Spartan-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=265, NSMD pad definition Appendix A"
+  pkg_width: 27
+  pkg_height: 27
+  pitch: 1
+  pad_diameter: 0.5
+  mask_margin: 0.05
+  layout_x: 26
+  layout_y: 26
