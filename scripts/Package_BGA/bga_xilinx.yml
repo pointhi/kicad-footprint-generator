@@ -213,3 +213,107 @@ Xilinx_FGGA676:
   mask_margin: 0.05
   layout_x: 26
   layout_y: 26
+  
+  # Virtex-7 FPGA Packages
+# Notes: 
+#  - FFG1157 and FFG1158 have same footprint and same 3D package and are therefore in one footprint
+#  - FFG1926, FFG1927, FFG1928 and FFG1930 have same footprint and same 3D package and are therefore in one footprint
+#  - FLG1925, FLG1926, FLG1928 and FLG1930 have same footprint and same 3D package and are therefore in one footprint 
+#  - RF1157 and RF1158 have same footprint and same 3D package and are therefore in one footprint
+Xilinx_FFG1157_FFG1158:
+  description: "Virtex-7 BGA, 34x34 grid, 35x35mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=299, NSMD pad definition Appendix A"
+  additional_tags: "FF1157 FFG1157 FFV1157 FF1158 FFG1158 FFV1158"
+  pkg_width: 35
+  pkg_height: 35
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 34
+  layout_y: 34
+Xilinx_FFG1761:
+  description: "Virtex-7 BGA, 42x42 grid, 42.5x42.5mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=300, NSMD pad definition Appendix A"
+  additional_tags: "FF1761 FFG1761"
+  pkg_width: 42.5
+  pkg_height: 42.5
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 42
+  layout_y: 42
+  row_skips: [[1,42], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,42]] 
+Xilinx_FFV1761:
+  description: "Virtex-7 BGA, 42x42 grid, 42.5x42.5mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=301, NSMD pad definition Appendix A"
+  additional_tags: "FFV1761"
+  pkg_width: 42.5
+  pkg_height: 42.5
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 42
+  layout_y: 42
+  row_skips: [[1,42], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,42]] 
+Xilinx_FHG1761:
+  description: "Virtex-7 BGA, 42x42 grid, 45x45mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=302, NSMD pad definition Appendix A"
+  additional_tags: "FH1761 FHG1761"
+  pkg_width: 45
+  pkg_height: 45
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 42
+  layout_y: 42
+  row_skips: [[1,42], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,42]] 
+Xilinx_FFG1926_FFG1927_FFG1928_FFG1930:
+  description: "Virtex-7 BGA, 44x44 grid, 45x45mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=303, NSMD pad definition Appendix A"
+  additional_tags: "FF1926 FFG1926 FF1927 FFG1927 FFV1927 FF1928 FFG1928 FF1930 FFG1930"
+  pkg_width: 45
+  pkg_height: 45
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 44
+  layout_y: 44
+  row_skips: [[1,2,43,44], [1,44], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,44], [1,2,43,44]] 
+Xilinx_FLG1925_FLG1926_FLG1928_FLG1930:
+  description: "Virtex-7 BGA, 44x44 grid, 45x45mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=304, NSMD pad definition Appendix A"
+  additional_tags: "FL1925 FLG1925 FL1926 FLG1926 FL1928 FLG1928 FL1930 FLG1930"
+  pkg_width: 45
+  pkg_height: 45
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 44
+  layout_y: 44
+  row_skips: [[1,2,43,44], [1,44], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,44], [1,2,43,44]] 
+Xilinx_RF1157_RF1158:
+  description: "Virtex-7 BGA, 34x34 grid, 35x35mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=305, NSMD pad definition Appendix A"
+  additional_tags: "RF1157 RF1158"
+  pkg_width: 35
+  pkg_height: 35
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 34
+  layout_y: 34
+Xilinx_RF1761:
+  description: "Virtex-7 BGA, 42x42 grid, 42.5x42.5mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=306, NSMD pad definition Appendix A"
+  additional_tags: "RF1761"
+  pkg_width: 42.5
+  pkg_height: 42.5
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 42
+  layout_y: 42
+  row_skips: [[1,42], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,42]]
+Xilinx_RF1930:
+  description: "Virtex-7 BGA, 44x44 grid, 45x45mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=307, NSMD pad definition Appendix A"
+  additional_tags: "RF1930"
+  pkg_width: 45
+  pkg_height: 45
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 44
+  layout_y: 44
+  row_skips: [[1,2,43,44], [1,44], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,44], [1,2,43,44]] 
