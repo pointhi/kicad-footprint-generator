@@ -137,7 +137,17 @@ class RingPad(Node):
         #kicad_mod.append(c)
         layers = ['F.Cu']
         if self.num_paste_zones == 1:
-            layers.append('F.Paste')
+            if self.solder_paste_margin == 0:
+                layers.append('F.Paste')
+            else:
+                self.pads.append(
+                    RingPadPrimitive(
+                        number="",
+                        at=self.at,
+                        width=self.width+2*self.solder_paste_margin,
+                        layers=['F.Paste'],
+                        radius=self.radius
+                        ))
 
 
         if self.solder_mask_margin == 0:
