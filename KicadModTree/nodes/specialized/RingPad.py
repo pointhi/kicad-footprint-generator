@@ -23,6 +23,27 @@ from KicadModTree.nodes.base.Pad import Pad
 from KicadModTree.nodes.base.Circle import Circle
 from math import sqrt, sin, cos, pi
 
+
+# Hacky solution as the sericalizer stuff does not work with inharitance
+#class RingPadPrimitive(Pad):
+class RingPadPrimitive(Node):
+    def __init__(self, radius, width, at, layers, number):
+        Node.__init__(self)
+        #Pad.__init__(
+        self.pad = Pad(
+            #self,
+            number=number,
+            type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
+            at=(at+Vector2D(radius, 0)), size=width, layers=layers,
+            primitives=[Circle(
+                center=(-radius, 0),
+                radius=radius,
+                width=width
+                )]
+            )
+    def getVirtualChilds(self):
+        return [self.pad]
+
 class RingPad(Node):
     r"""Add a RingPad to the render tree
 
@@ -100,22 +121,37 @@ class RingPad(Node):
     def _generatePads(self):
         self._generateCopperPads()
 
+    def _generateMaskPads(self):
+        w = self.width+2*self.solder_mask_margin
+        self.pads.append(
+            RingPadPrimitive(
+                number="",
+                at=self.at,
+                width=self.width+2*self.solder_mask_margin,
+                layers=['F.Mask'],
+                radius=self.radius
+                ))
+
     def _generateCopperPads(self):
         self.pads = []
         #kicad_mod.append(c)
-        layers = ['F.Cu', 'F.Mask']
+        layers = ['F.Cu']
         if self.num_paste_zones == 1:
             layers.append('F.Paste')
 
-        self.pads.append(Pad(number=self.number,
-                             type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
-                             at=(self.at+Vector2D(self.radius, 0)), size=self.width, layers=layers,
-                             primitives=[Circle(
-                                    center=(-self.radius, 0),
-                                    radius=self.radius,
-                                    width=self.width
-                                    )],
-                             solder_mask_margin=self.solder_mask_margin))
+
+        if self.solder_mask_margin == 0:
+            layers.append('F.Mask') # bug in kicad so any clearance other than 0 needs a workaround
+        else:
+            self._generateMaskPads()
+        self.pads.append(
+            RingPadPrimitive(
+                number=self.number,
+                at=self.at,
+                width=self.width,
+                layers=layers,
+                radius=self.radius
+                ))
 
         a = 2*pi/self.num_anchor
         for i in range(1,self.num_anchor):
