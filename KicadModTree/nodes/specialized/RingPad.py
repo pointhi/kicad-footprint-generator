@@ -181,8 +181,9 @@ class RingPad(Node):
                 ))
 
         a = 2*pi/self.num_anchor
+        pos = Vector2D(self.radius, 0)
         for i in range(1,self.num_anchor):
-            pos = Vector2D(cos(a*i), sin(a*i))*self.radius
+            pos.rotate(a)
             self.pads.append(Pad(number=self.number,
                                  type=Pad.TYPE_SMT, shape=Pad.SHAPE_CIRCLE,
                                  at=(self.at+pos), size=self.width-0.0001,

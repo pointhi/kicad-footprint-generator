@@ -19,7 +19,7 @@ from builtins import round
 import warnings
 
 from KicadModTree.util.kicad_util import formatFloat
-from math import sqrt
+from math import sqrt, sin, cos
 
 
 class Vector2D(object):
@@ -196,8 +196,8 @@ class Vector2D(object):
 
         op = Vector2D(origin)
 
-        temp = op.x + math.cos(angle) * (point.x - op.x) - math.sin(angle) * (point.y - op.y)
-        point.y = op.y + math.sin(angle) * (point.x - op.x) + math.cos(angle) * (point.y - op.y)
+        temp = op.x + cos(angle) * (point.x - op.x) - sin(angle) * (point.y - op.y)
+        point.y = op.y + sin(angle) * (point.x - op.x) + cos(angle) * (point.y - op.y)
         point.x = temp
 
         return point
