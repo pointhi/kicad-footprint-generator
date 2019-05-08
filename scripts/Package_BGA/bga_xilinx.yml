@@ -81,7 +81,7 @@ Xilinx_FTG256:
   layout_x: 16
   layout_y: 16
 Xilinx_FBG484:
-  description: "Artix-7 BGA, 22x22 grid, 23x23mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=271, NSMD pad definition Appendix A"
+  description: "Artix-7 and Kintex-7 BGA, 22x22 grid, 23x23mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=271, ttps://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=281, NSMD pad definition Appendix A"
   additional_tags: "FB484 FBG484 FBV484"
   pkg_width: 23
   pkg_height: 23
@@ -111,7 +111,7 @@ Xilinx_RB484:
   layout_x: 22
   layout_y: 22
 Xilinx_FBG676:
-  description: "Artix-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=273, NSMD pad definition Appendix A"
+  description: "Artix-7 and Kintex-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=273, https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=284, NSMD pad definition Appendix A"
   additional_tags: "FB676 FBG676 FBV676"
   pkg_width: 27
   pkg_height: 27
@@ -141,7 +141,7 @@ Xilinx_RB676:
   layout_x: 26
   layout_y: 26
 Xilinx_FFG1156:
-  description: "Artix-7 BGA, 34x34 grid, 35x35mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=277, NSMD pad definition Appendix A"
+  description: "Artix-7 and Kintex-7 BGA, 34x34 grid, 35x35mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=277, https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=296, NSMD pad definition Appendix A"
   additional_tags: "FF1156 FFG1156 FFV1156"
   pkg_width: 35
   pkg_height: 35
@@ -317,3 +317,64 @@ Xilinx_RF1930:
   layout_x: 44
   layout_y: 44
   row_skips: [[1,2,43,44], [1,44], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [1,44], [1,2,43,44]] 
+
+# Kintex-7 FPGA Packages
+# Notes: 
+#  - FBG484 has the same name for Artix and Kintex devices, although the 3d model is slightly different
+#  - FBG676 has the same name for Artix and Kintex devices, although the 3d model is slightly different
+#  - FF900, FFG900, FFV900, FF901, FFG901 and FFV901 have same footprint and same 3D package and are therefore in one footprint
+#  - FFG1156 has the same name for Artix and Kintex devices
+
+# For Xilinx_FBG484 refer to Artix-7 models
+# For Xilinx_FBG676 refer to Artix-7 models
+Xilinx_FBG900:
+  description: "Kintex-7 BGA, 30x30 grid, 31x31mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=289, NSMD pad definition Appendix A"
+  additional_tags: "FB900 FBG900 FBV900"
+  pkg_width: 31
+  pkg_height: 31
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 30
+  layout_y: 30
+Xilinx_FFG676:
+  description: "Kintex-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=292, NSMD pad definition Appendix A"
+  additional_tags: "FF676 FFG676 FFV676"
+  pkg_width: 27
+  pkg_height: 27
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 26
+  layout_y: 26
+Xilinx_FFG900_FFG901:
+  description: "Kintex-7 BGA, 30x30 grid, 31x31mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=294, NSMD pad definition Appendix A"
+  additional_tags: "FF900 FFG900 FFV900 FF901 FFG901 FFV901"
+  pkg_width: 31
+  pkg_height: 31
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 30
+  layout_y: 30
+# For Xilinx_FFG1156 refer to Artix-7 
+Xilinx_RF676:
+  description: "Kintex-7 BGA, 26x26 grid, 27x27mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=297, NSMD pad definition Appendix A"
+  additional_tags: "RF676"
+  pkg_width: 27
+  pkg_height: 27
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 26
+  layout_y: 26
+Xilinx_RF900:
+  description: "Kintex-7 BGA, 30x30 grid, 31x31mm package, 1mm pitch; https://www.xilinx.com/support/documentation/user_guides/ug475_7Series_Pkg_Pinout.pdf#page=298, NSMD pad definition Appendix A"
+  additional_tags: "RF900"
+  pkg_width: 31
+  pkg_height: 31
+  pitch: 1
+  pad_diameter: 0.53
+  mask_margin: 0.05
+  layout_x: 30
+  layout_y: 30
