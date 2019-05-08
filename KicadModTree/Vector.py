@@ -191,6 +191,17 @@ class Vector2D(object):
     def __copy__(self):
         return Vector2D(self.x, self.y)
 
+    def rotate(self, angle, origin={'x':0, 'y':0}, apply_on_copy = False):
+        point = self if not apply_on_copy else copy(self)
+
+        op = Vector2D(origin)
+
+        temp = op.x + math.cos(angle) * (point.x - op.x) - math.sin(angle) * (point.y - op.y)
+        point.y = op.y + math.sin(angle) * (point.x - op.x) + math.cos(angle) * (point.y - op.y)
+        point.x = temp
+
+        return point
+
 
 class Vector3D(Vector2D):
     r"""Representation of a 3D Vector in space
