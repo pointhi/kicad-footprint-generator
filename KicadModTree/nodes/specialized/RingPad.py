@@ -66,9 +66,13 @@ class RingPad(Node):
         * *num_paste_zones* (``int``)
           number of paste zones
         * *paste_to_paste_clearance* (``float``)
-          clearance between two paste zones, needed only if number of paste zones > 1
+          clearance between two paste zones,
+          needed only if number of paste zones > 1
+          default: 2*abs(solder_paste_margin)
         * *paste_round_radius* (``float``)
-          round over radius for paste zones, must be larger than 0, Only used if number of paste zones > 1
+          round over radius for paste zones, must be larger than 0,
+          Only used if number of paste zones > 1
+          default: 25\% of ring width
         * *solder_paste_margin* (``float``) --
           solder paste margin of the pad (default: 0)
         * *solder_mask_margin* (``float``) --
@@ -78,13 +82,13 @@ class RingPad(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
+        self.solder_paste_margin = kwargs.get('solder_paste_margin', 0)
+        self.solder_mask_margin = kwargs.get('solder_mask_margin', 0)
         self._initPosition(**kwargs)
         self._initSize(**kwargs)
         self._initNumber(**kwargs)
         self._initPasteSettings(**kwargs)
         self._initNumAnchor(**kwargs)
-        self.solder_paste_margin = kwargs.get('solder_paste_margin', 0)
-        self.solder_mask_margin = kwargs.get('solder_mask_margin', 0)
         self._generatePads()
 
     def _initSize(self, **kwargs):
@@ -117,6 +121,19 @@ class RingPad(Node):
         self.num_paste_zones = int(kwargs.get('num_paste_zones', 1))
         if self.num_paste_zones < 1:
             raise ValueError('num_paste_zones must be a positive integer')
+
+        if self.num_paste_zones > 1:
+            self.paste_round_radius = float(
+                kwargs.get('paste_round_radius'), self.width*0.25)
+            self.paste_to_paste_clearance = float(
+                    kwargs.get('paste_to_paste_clearance'),
+                    abs(self.solder_paste_ratio)*2
+                    )
+
+            if self.paste_round_radius <= 0:
+                raise ValueError('paste_round_radius must be > 0')
+            if self.paste_to_paste_clearance <= 0:
+                raise ValueError('paste_to_paste_clearance must be > 0')
 
     def _generatePads(self):
         self._generateCopperPads()
