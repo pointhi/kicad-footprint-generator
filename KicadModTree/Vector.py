@@ -19,7 +19,7 @@ from builtins import round
 import warnings
 
 from KicadModTree.util.kicad_util import formatFloat
-from math import sqrt, sin, cos
+from math import sqrt, sin, cos, hypot, atan2, degrees, radians
 
 
 class Vector2D(object):
@@ -191,16 +191,40 @@ class Vector2D(object):
     def __copy__(self):
         return Vector2D(self.x, self.y)
 
-    def rotate(self, angle, origin={'x':0, 'y':0}, apply_on_copy = False):
+    def rotate(self, angle, origin={'x':0, 'y':0}, apply_on_copy = False, use_degrees=False):
         point = self if not apply_on_copy else copy(self)
 
         op = Vector2D(origin)
+
+        if use_degrees:
+            angle = radians(angle)
 
         temp = op.x + cos(angle) * (point.x - op.x) - sin(angle) * (point.y - op.y)
         point.y = op.y + sin(angle) * (point.x - op.x) + cos(angle) * (point.y - op.y)
         point.x = temp
 
         return point
+
+    def to_polar(self, origin={'x':0, 'y':0}, use_degrees=False):
+        op = Vector2D(origin)
+
+        diff = self - op
+        radius = hypot(diff.x, diff.y)
+
+        angle = atan2(diff.y, diff.x)
+        if use_degrees:
+            angle = degrees(angle)
+
+        return (radius, angle)
+
+    def from_polar(radius, angle, origin={'x':0, 'y':0}, use_degrees=False):
+        if use_degrees:
+            angle=radians(angle)
+
+        x = radius * cos(angle)
+        y = radius * sin(angle)
+
+        return Vector2D({'x': x, 'y': y})+Vector2D(origin)
 
 
 class Vector3D(Vector2D):
