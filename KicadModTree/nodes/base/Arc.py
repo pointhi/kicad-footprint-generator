@@ -118,6 +118,11 @@ class Arc(Node):
         else:
             raise KeyError('Arcs defined with center and endpoint must define the start point.')
 
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        self.center_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        self.start_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        return self
+
     def calculateBoundingBox(self):
         # TODO: finish implementation
         min_x = min(self.start_pos.x, self._calulateEndPos().x)

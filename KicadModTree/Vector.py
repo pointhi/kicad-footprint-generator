@@ -191,21 +191,19 @@ class Vector2D(object):
     def __copy__(self):
         return Vector2D(self.x, self.y)
 
-    def rotate(self, angle, origin=(0, 0), apply_on_copy=False, use_degrees=False):
-        point = self if not apply_on_copy else copy(self)
-
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
         op = Vector2D(origin)
 
         if use_degrees:
             angle = radians(angle)
 
-        temp = op.x + cos(angle) * (point.x - op.x) - sin(angle) * (point.y - op.y)
-        point.y = op.y + sin(angle) * (point.x - op.x) + cos(angle) * (point.y - op.y)
-        point.x = temp
+        temp = op.x + cos(angle) * (self.x - op.x) - sin(angle) * (self.y - op.y)
+        self.y = op.y + sin(angle) * (self.x - op.x) + cos(angle) * (self.y - op.y)
+        self.x = temp
 
-        return point
+        return self
 
-    def to_polar(self, origin=(0, 0), use_degrees=False):
+    def to_polar(self, origin=(0, 0), use_degrees=True):
         op = Vector2D(origin)
 
         diff = self - op
@@ -218,7 +216,7 @@ class Vector2D(object):
         return (radius, angle)
 
     @staticmethod
-    def from_polar(radius, angle, origin=(0, 0), use_degrees=False):
+    def from_polar(radius, angle, origin=(0, 0), use_degrees=True):
         if use_degrees:
             angle = radians(angle)
 

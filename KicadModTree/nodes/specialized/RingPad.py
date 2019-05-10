@@ -143,7 +143,7 @@ class RingPad(Node):
         self._generatePastePads()
 
     def _generatePastePads(self):
-        a = 2*pi/self.num_paste_zones
+        a = 360/self.num_paste_zones
         pos = Vector2D(self.radius, 0).rotate(a/2)
         paste_width = self.width + 2*self.solder_paste_margin
 
@@ -195,7 +195,7 @@ class RingPad(Node):
                 radius=self.radius
                 ))
 
-        a = 2*pi/self.num_anchor
+        a = 360/self.num_anchor
         pos = Vector2D(self.radius, 0)
         for i in range(1, self.num_anchor):
             pos.rotate(a)

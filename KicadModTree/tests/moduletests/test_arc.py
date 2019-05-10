@@ -174,212 +174,212 @@ class ArcTests(unittest.TestCase):
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(1, 0)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(1, 0)+center).rotate(45, origin=center),
               angle=-90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(0, -1.2)+center).rotate(math.pi/4, origin=center),
-              angle=-90
-              ))
-
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(-1.4, 0)+center).rotate(math.pi/4, origin=center),
-              angle=-90
-              ))
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(0, 1.6)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(0, -1.2)+center).rotate(45, origin=center),
               angle=-90
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(2, 0)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(-1.4, 0)+center).rotate(45, origin=center),
+              angle=-90
+              ))
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(0, 1.6)+center).rotate(45, origin=center),
+              angle=-90
+              ))
+
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(2, 0)+center).rotate(45, origin=center),
               angle=90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(0, 2.2)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(0, 2.2)+center).rotate(45, origin=center),
               angle=90
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(-2.4, 0)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(-2.4, 0)+center).rotate(45, origin=center),
               angle=90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(0, -2.6)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(0, -2.6)+center).rotate(45, origin=center),
               angle=90
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(3, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(0, -3)+center).rotate(math.pi/4, origin=center)
+              start=(Vector2D(3, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(0, -3)+center).rotate(45, origin=center)
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(0, -3.2)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(-3.2, 0)+center).rotate(math.pi/4, origin=center)
-              ))
-
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(-3.4, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(0, 3.4)+center).rotate(math.pi/4, origin=center)
-              ))
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(0, 3.6)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(3.6, 0)+center).rotate(math.pi/4, origin=center)
+              start=(Vector2D(0, -3.2)+center).rotate(45, origin=center),
+              end=(Vector2D(-3.2, 0)+center).rotate(45, origin=center)
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(4, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(0, 4)+center).rotate(math.pi/4, origin=center)
+              start=(Vector2D(-3.4, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(0, 3.4)+center).rotate(45, origin=center)
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(0, 4.2)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(-4.2, 0)+center).rotate(math.pi/4, origin=center)
-              ))
-
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(-4.4, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(0, -4.4)+center).rotate(math.pi/4, origin=center)
-              ))
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(0, -4.6)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(4.6, 0)+center).rotate(math.pi/4, origin=center)
+              start=(Vector2D(0, 3.6)+center).rotate(45, origin=center),
+              end=(Vector2D(3.6, 0)+center).rotate(45, origin=center)
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(5, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(0, -5)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(4, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(0, 4)+center).rotate(45, origin=center)
+              ))
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(0, 4.2)+center).rotate(45, origin=center),
+              end=(Vector2D(-4.2, 0)+center).rotate(45, origin=center)
+              ))
+
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(-4.4, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(0, -4.4)+center).rotate(45, origin=center)
+              ))
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(0, -4.6)+center).rotate(45, origin=center),
+              end=(Vector2D(4.6, 0)+center).rotate(45, origin=center)
+              ))
+
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(5, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(0, -5)+center).rotate(45, origin=center),
               long_way=True
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(0, -5.2)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(-5.2, 0)+center).rotate(math.pi/4, origin=center),
-              long_way=True
-              ))
-
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(-5.4, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(0, 5.4)+center).rotate(math.pi/4, origin=center),
-              long_way=True
-              ))
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(0, 5.6)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(5.6, 0)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(0, -5.2)+center).rotate(45, origin=center),
+              end=(Vector2D(-5.2, 0)+center).rotate(45, origin=center),
               long_way=True
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(6, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(-6, 0)+center).rotate(math.pi/4, origin=center)
-              ))
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(-6.2, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(6.2, 0)+center).rotate(math.pi/4, origin=center)
-              ))
-
-        kicad_mod.append(
-          Arc(
-              center=center,
-              start=(Vector2D(6.6, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(-6.6, 0)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(-5.4, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(0, 5.4)+center).rotate(45, origin=center),
               long_way=True
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              start=(Vector2D(-6.8, 0)+center).rotate(math.pi/4, origin=center),
-              end=(Vector2D(6.8, 0)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(0, 5.6)+center).rotate(45, origin=center),
+              end=(Vector2D(5.6, 0)+center).rotate(45, origin=center),
               long_way=True
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(7, 0)+center).rotate(math.pi/4, origin=center),
+              start=(Vector2D(6, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(-6, 0)+center).rotate(45, origin=center)
+              ))
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(-6.2, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(6.2, 0)+center).rotate(45, origin=center)
+              ))
+
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(6.6, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(-6.6, 0)+center).rotate(45, origin=center),
+              long_way=True
+              ))
+        kicad_mod.append(
+          Arc(
+              center=center,
+              start=(Vector2D(-6.8, 0)+center).rotate(45, origin=center),
+              end=(Vector2D(6.8, 0)+center).rotate(45, origin=center),
+              long_way=True
+              ))
+
+        kicad_mod.append(
+          Arc(
+              center=center,
+              midpoint=(Vector2D(7, 0)+center).rotate(45, origin=center),
               angle=90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(0, -7.2)+center).rotate(math.pi/4, origin=center),
+              midpoint=(Vector2D(0, -7.2)+center).rotate(45, origin=center),
               angle=90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(-7.4, 0)+center).rotate(math.pi/4, origin=center),
+              midpoint=(Vector2D(-7.4, 0)+center).rotate(45, origin=center),
               angle=90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(0, 7.6)+center).rotate(math.pi/4, origin=center),
+              midpoint=(Vector2D(0, 7.6)+center).rotate(45, origin=center),
               angle=90
               ))
 
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(8, 0)+center).rotate(math.pi/4, origin=center),
+              midpoint=(Vector2D(8, 0)+center).rotate(45, origin=center),
               angle=-90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(0, -8.2)+center).rotate(math.pi/4, origin=center),
+              midpoint=(Vector2D(0, -8.2)+center).rotate(45, origin=center),
               angle=-90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(-8.4, 0)+center).rotate(math.pi/4, origin=center),
+              midpoint=(Vector2D(-8.4, 0)+center).rotate(45, origin=center),
               angle=-90
               ))
         kicad_mod.append(
           Arc(
               center=center,
-              midpoint=(Vector2D(0, 8.6)+center).rotate(math.pi/4, origin=center),
+              midpoint=(Vector2D(0, 8.6)+center).rotate(45, origin=center),
               angle=-90
               ))
 

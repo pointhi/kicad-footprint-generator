@@ -44,10 +44,18 @@ class Circle(Node):
         self.center_pos = Vector2D(kwargs['center'])
         self.radius = kwargs['radius']
 
-        self.end_pos = Vector2D([self.center_pos.x+self.radius, self.center_pos.y])
+        self._calcEndPos()
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
+
+    def _calcEndPos(self):
+        self.end_pos = Vector2D([self.center_pos.x+self.radius, self.center_pos.y])
+
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        self.center_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        self._calcEndPos()
+        return self
 
     def calculateBoundingBox(self):
         min_x = self.center_pos.x-self.radius

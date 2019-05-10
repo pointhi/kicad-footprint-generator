@@ -47,6 +47,11 @@ class Line(Node):
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        self.start_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        self.end_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        return self
+
     def calculateBoundingBox(self):
         render_start_pos = self.getRealPosition(self.start_pos)
         render_end_pos = self.getRealPosition(self.end_pos)

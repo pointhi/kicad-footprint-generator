@@ -143,6 +143,11 @@ class PolygonPoints(object):
 
         self.nodes.insert(idx_self+1, other[idx_other])
 
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        for p in self.nodes:
+            p.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        return self
+
     def __iter__(self):
         for n in self.nodes:
             yield n
