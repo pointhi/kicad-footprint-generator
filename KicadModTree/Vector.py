@@ -217,6 +217,7 @@ class Vector2D(object):
 
         return (radius, angle)
 
+    @staticmethod
     def from_polar(radius, angle, origin=(0, 0), use_degrees=False):
         if use_degrees:
             angle = radians(angle)
