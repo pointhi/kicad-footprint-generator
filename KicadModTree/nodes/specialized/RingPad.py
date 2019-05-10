@@ -25,13 +25,13 @@ from math import sqrt, sin, cos, pi
 
 
 # Hacky solution as the sericalizer stuff does not work with inharitance
-#class RingPadPrimitive(Pad):
+# class RingPadPrimitive(Pad):
 class RingPadPrimitive(Node):
     def __init__(self, radius, width, at, layers, number):
         Node.__init__(self)
-        #Pad.__init__(
+        # Pad.__init__(
         self.pad = Pad(
-            #self,
+            # self,
             number=number,
             type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
             at=(at+Vector2D(radius, 0)), size=width, layers=layers,
@@ -41,8 +41,10 @@ class RingPadPrimitive(Node):
                 width=width
                 )]
             )
+
     def getVirtualChilds(self):
         return [self.pad]
+
 
 class RingPad(Node):
     r"""Add a RingPad to the render tree
@@ -124,11 +126,12 @@ class RingPad(Node):
 
         if self.num_paste_zones > 1:
             self.paste_round_radius = float(
-                kwargs.get('paste_round_radius'), self.width*0.25)
+                kwargs.get('paste_round_radius', self.width*0.25))
             self.paste_to_paste_clearance = float(
-                    kwargs.get('paste_to_paste_clearance'),
-                    abs(self.solder_paste_ratio)*2
-                    )
+                    kwargs.get(
+                        'paste_to_paste_clearance',
+                        abs(self.solder_paste_margin)*2
+                        ))
 
             if self.paste_round_radius <= 0:
                 raise ValueError('paste_round_radius must be > 0')
@@ -137,6 +140,18 @@ class RingPad(Node):
 
     def _generatePads(self):
         self._generateCopperPads()
+        self._generatePastePads()
+
+    def _generatePastePads(self):
+        a = 2*pi/self.num_paste_zones
+        pos = Vector2D(self.radius, 0).rotate(a/2)
+        paste_width = self.width + 2*self.solder_paste_margin
+
+        self.pads.append(Pad(number=self.number,
+                             type=Pad.TYPE_SMT, shape=Pad.SHAPE_CIRCLE,
+                             at=(self.at+pos), size=paste_width-0.0001,
+                             layers=['F.Paste'],
+                             ))
 
     def _generateMaskPads(self):
         w = self.width+2*self.solder_mask_margin
@@ -151,7 +166,7 @@ class RingPad(Node):
 
     def _generateCopperPads(self):
         self.pads = []
-        #kicad_mod.append(c)
+        # kicad_mod.append(c)
         layers = ['F.Cu']
         if self.num_paste_zones == 1:
             if self.solder_paste_margin == 0:
@@ -166,9 +181,9 @@ class RingPad(Node):
                         radius=self.radius
                         ))
 
-
         if self.solder_mask_margin == 0:
-            layers.append('F.Mask') # bug in kicad so any clearance other than 0 needs a workaround
+            # bug in kicad so any clearance other than 0 needs a workaround
+            layers.append('F.Mask')
         else:
             self._generateMaskPads()
         self.pads.append(
@@ -182,7 +197,7 @@ class RingPad(Node):
 
         a = 2*pi/self.num_anchor
         pos = Vector2D(self.radius, 0)
-        for i in range(1,self.num_anchor):
+        for i in range(1, self.num_anchor):
             pos.rotate(a)
             self.pads.append(Pad(number=self.number,
                                  type=Pad.TYPE_SMT, shape=Pad.SHAPE_CIRCLE,

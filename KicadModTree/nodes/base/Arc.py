@@ -57,7 +57,7 @@ class Arc(Node):
         self.width = kwargs.get('width')
 
     def _initAngle(self, angle):
-        self.angle = angle%(2*360)
+        self.angle = angle % (2*360)
         if self.angle > 360:
             self.angle -= 2*360
 
@@ -83,7 +83,7 @@ class Arc(Node):
                 origin=self.center_pos, use_degrees=True)
 
             self.start_pos = Vector2D.from_polar(
-                radius = mp_r, angle=mp_a-self.angle/2,
+                radius=mp_r, angle=mp_a-self.angle/2,
                 origin=self.center_pos, use_degrees=True)
         else:
             raise KeyError('Arcs defined with center and angle must either define the start or midpoint.')

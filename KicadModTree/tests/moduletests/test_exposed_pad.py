@@ -1335,7 +1335,7 @@ class ExposedPadTests(unittest.TestCase):
 
         file_handler = KicadFileHandler(kicad_mod)
         result = file_handler.serialize(timestamp=0)
-        file_handler.writeFile('test_ep1.kicad_mod')
+        # file_handler.writeFile('test_ep1.kicad_mod')
         self.assertEqual(result, RESULT_EP_PASTE_GEN_INNER2)
 
     def testExposedPasteAutogenInnerAndOuther(self):
