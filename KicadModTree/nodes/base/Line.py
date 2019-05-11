@@ -48,19 +48,39 @@ class Line(Node):
         self.width = kwargs.get('width')
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate line around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *orign* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
         self.start_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         self.end_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         return self
 
     def translate(self, distance_vector):
+        r""" Translate line
+
+        :params:
+            * *distance_vector* (``Vector2D``)
+                2D vector defining by how much and in what direction to translate.
+        """
+
         self.start_pos += distance_vector
         self.end_pos += distance_vector
         return self
 
-    def cut(self, other, second_point=(0, 0)):
+    def cut(self, other, reference_point=(0, 0)):
         pass
 
     def to_homogeneous(self):
+        r""" Get homogeneous representation of the line
+        """
         p1 = self.start_pos.to_homogeneous()
         p2 = self.end_pos.to_homogeneous()
         return p1.cross_product(p2)

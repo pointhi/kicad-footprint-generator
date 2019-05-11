@@ -192,6 +192,17 @@ class Vector2D(object):
         return Vector2D(self.x, self.y)
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate vector around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *orign* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
         op = Vector2D(origin)
 
         if use_degrees:
@@ -204,6 +215,15 @@ class Vector2D(object):
         return self
 
     def to_polar(self, origin=(0, 0), use_degrees=True):
+        r""" Get polar representation of the vector
+
+        :params:
+            * *orign* (``Vector2D``)
+                origin point for polar conversion. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                angle in degrees. default:True
+        """
+
         op = Vector2D(origin)
 
         diff = self - op
@@ -217,6 +237,19 @@ class Vector2D(object):
 
     @staticmethod
     def from_polar(radius, angle, origin=(0, 0), use_degrees=True):
+        r""" Generate a vector from its polar representation
+
+        :params:
+            * *radius* (``float``)
+                lenght of the vector
+            * *angle* (``float``)
+                angle of the vector
+            * *orign* (``Vector2D``)
+                origin point for polar conversion. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                angle in degrees. default:True
+        """
+
         if use_degrees:
             angle = radians(angle)
 
@@ -226,10 +259,20 @@ class Vector2D(object):
         return Vector2D({'x': x, 'y': y})+Vector2D(origin)
 
     def to_homogeneous(self):
+        r""" Get homogeneous representation
+        """
+
         return Vector3D(self.x, self.y, 1)
 
     @staticmethod
     def from_homogeneous(source):
+        r""" Recover 2d vector from its homogeneous representation
+
+        :params:
+            * *source* (``Vector3D``)
+                3d homogeneous representation
+        """
+
         return Vector2D(source.x/source.z, source.y/source.z)
 
 

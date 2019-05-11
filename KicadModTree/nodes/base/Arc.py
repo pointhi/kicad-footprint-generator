@@ -119,11 +119,29 @@ class Arc(Node):
             raise KeyError('Arcs defined with center and endpoint must define the start point.')
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate arc around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *orign* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
         self.center_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         self.start_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         return self
 
     def translate(self, distance_vector):
+        r""" Translate arc
+
+        :params:
+            * *distance_vector* (``Vector2D``)
+                2D vector defining by how much and in what direction to translate.
+        """
+
         self.center_pos += distance_vector
         self.start_pos += distance_vector
         return self
