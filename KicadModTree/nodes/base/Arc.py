@@ -146,6 +146,10 @@ class Arc(Node):
         self.start_pos += distance_vector
         return self
 
+    def getRadius(self):
+        r, a = (self.start_pos - self.center_pos).to_polar()
+        return r
+
     def calculateBoundingBox(self):
         # TODO: finish implementation
         min_x = min(self.start_pos.x, self._calulateEndPos().x)

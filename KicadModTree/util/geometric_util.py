@@ -19,6 +19,36 @@ from KicadModTree.Vector import *
 
 
 class BaseNodeIntersection():
+    @staticmethod
+    def intersectTwoNodes(*nodes):
+        if len(nodes) < 2 or len(nodes) > 3:
+            raise KeyError("intersectTwoNodes expects two node objects or a node and two vectors")
+
+        circles = []
+        lines = []
+        vectors = []
+
+        for n in nodes:
+            if type(n) is Circle:
+                circles.append(n)
+            elif type(n) is Arc:
+                circles.append(Circle(center=n.center_pos, radius=n.getRadius()))
+            elif type(n) is Line:
+                lines.append(n)
+            else:
+                vectors.append(n)
+
+        if len(vectors) == 2:
+            lines.append(Line(start=vectors[0], end=vectors[1]))
+
+        if len(lines) == 2:
+            return BaseNodeIntersection.intersectTwoLines(*lines)
+        if len(circles) == 2:
+            raise NotImplementedError('intersection between circles is not supported')
+        if len(lines) == 1 and len(circles) == 1:
+            return BaseNodeIntersection.intersectLineWithCircle(lines[0], circles[0])
+
+        raise NotImplementedError('unsupported combination of parameter types')
 
     @staticmethod
     def intersectTwoLines(line1, line2):
@@ -48,17 +78,15 @@ class BaseNodeIntersection():
         if discriminant < 0:
             return intersection
 
-        intersection.append(
-            Vector2D({
-                'x': (D*d.y + math.copysign(1, d.y)*d.x*math.sqrt(discriminant))/dr**2,
-                'y': (-D*d.x + abs(d.y)*math.sqrt(discriminant))/dr**2
-                }) + circle.center_pos)
+        def calcPoint(x):
+            return Vector2D({
+                'x': (D*d.y + x*math.copysign(1, d.y)*d.x*math.sqrt(discriminant))/dr**2,
+                'y': (-D*d.x + x*abs(d.y)*math.sqrt(discriminant))/dr**2
+                }) + circle.center_pos
+
+        intersection.append(calcPoint(1))
         if discriminant == 0:
             return intersection
 
-        intersection.append(
-            Vector2D({
-                'x': (D*d.y - math.copysign(1, d.y)*d.x*math.sqrt(discriminant))/dr**2,
-                'y': (-D*d.x - abs(d.y)*math.sqrt(discriminant))/dr**2
-                }) + circle.center_pos)
+        intersection.append(calcPoint(-1))
         return intersection
