@@ -14,13 +14,13 @@
 # (C) 2016-2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 import math
-from KicadModTree.nodes.base import *
 from KicadModTree.Vector import *
-
+import copy
 
 class BaseNodeIntersection():
     @staticmethod
     def intersectTwoNodes(*nodes):
+        import KicadModTree.nodes.base.Line
         if len(nodes) < 2 or len(nodes) > 3:
             raise KeyError("intersectTwoNodes expects two node objects or a node and two vectors")
 
@@ -29,11 +29,9 @@ class BaseNodeIntersection():
         vectors = []
 
         for n in nodes:
-            if type(n) is Circle:
+            if hasattr(n, 'getRadius') and hasattr(n, 'center_pos'):
                 circles.append(n)
-            elif type(n) is Arc:
-                circles.append(Circle(center=n.center_pos, radius=n.getRadius()))
-            elif type(n) is Line:
+            elif hasattr(n, 'end_pos') and hasattr(n, 'start_pos'):
                 lines.append(n)
             else:
                 vectors.append(n)
@@ -58,22 +56,22 @@ class BaseNodeIntersection():
 
         ip = l1.cross_product(l2)
         if ip.z == 0:
-            return None
+            return []
 
-        return Vector2D.from_homogeneous(ip)
+        return [Vector2D.from_homogeneous(ip)]
 
     @staticmethod
     def intersectLineWithCircle(line, circle):
         # from http://mathworld.wolfram.com/Circle-LineIntersection.html
         # Equations are for circle center on (0, 0) so we translate everything
         # to the orign (well the line anyways as we do only need the radius of the circle)
-        lt = Line(start=line.start_pos, end=line.end_pos).translate(-circle.center_pos)
+        lt = copy.copy(line).translate(-circle.center_pos)
 
         d = lt.end_pos - lt.start_pos
         dr = math.hypot(d.x, d.y)
         D = lt.start_pos.x*lt.end_pos.y - lt.end_pos.x*lt.start_pos.y
 
-        discriminant = circle.radius**2 * dr**2 - D**2
+        discriminant = circle.getRadius()**2 * dr**2 - D**2
         intersection = []
         if discriminant < 0:
             return intersection

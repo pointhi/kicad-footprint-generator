@@ -15,6 +15,7 @@
 
 from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
+from KicadModTree.util.geometric_util import BaseNodeIntersection
 
 
 class Line(Node):
@@ -47,6 +48,12 @@ class Line(Node):
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
+    def __copy__(self):
+        return Line(
+                start=self.start_pos, end=self.end_pos,
+                layer=self.layer, width=self.width
+                )
+
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
         r""" Rotate line around given origin
 
@@ -75,8 +82,42 @@ class Line(Node):
         self.end_pos += distance_vector
         return self
 
-    def cut(self, other, reference_point=(0, 0)):
-        pass
+    def _isPointOnLine(self, point, tolerance=1e-7):
+        ll, la = (self.end_pos - self.start_pos).to_polar()
+        pl, pa = (point - self.start_pos).to_polar()
+        return abs(la - pa) < tolerance and pl <= ll
+
+    def _sortPointsRelativeToStart(self, points):
+        if len(points) < 2:
+            return points
+
+        if len(points) > 2:
+            raise NotImplementedError("Sorting for more than 2 points not supported")
+
+        if self.start_pos.distance_to(points[0]) < self.start_pos.distance_to(points[1]):
+            return points
+        else:
+            return [points[1], points[0]]
+
+
+    def cut(self, *other):
+        ip = BaseNodeIntersection.intersectTwoNodes(self, *other)
+        cp = []
+        for p in ip:
+            if self._isPointOnLine(p):
+                cp.append(p)
+
+        sp = self._sortPointsRelativeToStart(cp)
+        sp.insert(0,self.start_pos)
+        sp.append(self.end_pos)
+
+        lineargs = {'width': self.width, 'layer': self.layer}
+        r = []
+        for i in range(len(sp)-1):
+            r.append(Line(start=sp[i], end=sp[i+1], **lineargs))
+
+        return r
+
 
     def to_homogeneous(self):
         r""" Get homogeneous representation of the line
@@ -107,3 +148,26 @@ class Line(Node):
         render_text += ' ({})'.format(' '.join(render_strings))
 
         return render_text
+
+    def __iter__(self):
+        yield self.start_pos
+        yield self.end_pos
+
+    def __len__(self):
+        return 2
+
+    def __getitem__(self, key):
+        if key == 0 or key == 'start':
+            return self.start_pos
+        if key == 1 or key == 'end':
+            return self.end_pos
+
+        raise IndexError('Index {} is out of range'.format(key))
+
+    def __setitem__(self, key, item):
+        if key == 0 or key == 'start':
+            self.start_pos = item
+        elif key == 1 or key == 'end':
+            self.end_pos = item
+        else:
+            raise IndexError('Index {} is out of range'.format(key))

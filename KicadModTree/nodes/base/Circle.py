@@ -80,6 +80,9 @@ class Circle(Node):
         self._calcEndPos()
         return self
 
+    def getRadius(self):
+        return self.radius
+
     def calculateBoundingBox(self):
         min_x = self.center_pos.x-self.radius
         min_y = self.center_pos.y-self.radius

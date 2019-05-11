@@ -85,7 +85,8 @@ class Vector2D(object):
         :return: distance between self and other point
         """
         other = Vector2D.__arithmetic_parse(value)
-        return sqrt((other.x - self.x)**2 + (other.y - self.y)**2)
+        d = other - self
+        return hypot(d.x, d.y)
 
     @staticmethod
     def __arithmetic_parse(value):
