@@ -52,6 +52,19 @@ class Line(Node):
         self.end_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         return self
 
+    def translate(self, distance_vector):
+        self.start_pos += distance_vector
+        self.end_pos += distance_vector
+        return self
+
+    def cut(self, other, second_point=(0, 0)):
+        pass
+
+    def to_homogeneous(self):
+        p1 = self.start_pos.to_homogeneous()
+        p2 = self.end_pos.to_homogeneous()
+        return p1.cross_product(p2)
+
     def calculateBoundingBox(self):
         render_start_pos = self.getRealPosition(self.start_pos)
         render_end_pos = self.getRealPosition(self.end_pos)

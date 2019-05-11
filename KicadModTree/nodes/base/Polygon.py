@@ -53,6 +53,10 @@ class Polygon(Node):
         self.nodes.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         return self
 
+    def translate(self, distance_vector):
+        self.nodes.translate(distance_vector)
+        return self
+
     def calculateBoundingBox(self):
         return nodes.calculateBoundingBox()
 

@@ -80,6 +80,10 @@ class Text(Node):
         self.rotation -= a
         return self
 
+    def translate(self, distance_vector):
+        self.at += distance_vector
+        return self
+
     def calculateBoundingBox(self):
         width = len(self.text)*self.size['x']
         height = self.size['y']

@@ -249,6 +249,10 @@ class Pad(Node):
         self.rotation -= a
         return self
 
+    def translate(self, distance_vector):
+        self.at += distance_vector
+        return self
+
     # calculate the outline of a pad
     def calculateBoundingBox(self):
         return Node.calculateBoundingBox(self)

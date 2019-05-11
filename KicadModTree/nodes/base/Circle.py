@@ -57,6 +57,11 @@ class Circle(Node):
         self._calcEndPos()
         return self
 
+    def translate(self, distance_vector):
+        self.center_pos += distance_vector
+        self._calcEndPos()
+        return self
+
     def calculateBoundingBox(self):
         min_x = self.center_pos.x-self.radius
         min_y = self.center_pos.y-self.radius

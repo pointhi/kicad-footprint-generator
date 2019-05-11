@@ -148,6 +148,14 @@ class PolygonPoints(object):
             p.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         return self
 
+    def translate(self, distance_vector):
+        for p in self.nodes:
+            p += distance_vector
+        return self
+
+    def __copy__(self):
+        return PolygonPoints(nodes=self.nodes)
+
     def __iter__(self):
         for n in self.nodes:
             yield n

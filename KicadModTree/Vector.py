@@ -225,6 +225,13 @@ class Vector2D(object):
 
         return Vector2D({'x': x, 'y': y})+Vector2D(origin)
 
+    def to_homogeneous(self):
+        return Vector3D(self.x, self.y, 1)
+
+    @staticmethod
+    def from_homogeneous(source):
+        return Vector2D(source.x/source.z, source.y/source.z)
+
 
 class Vector3D(Vector2D):
     r"""Representation of a 3D Vector in space
@@ -297,6 +304,19 @@ class Vector3D(Vector2D):
             return self.__copy__()
 
         return Vector3D([round(v / base) * base for v in self])
+
+    def cross_product(self, other):
+        other = Vector3D.__arithmetic_parse(other)
+
+        return Vector3D({
+                    'x': self.y*other.z - self.z*other.y,
+                    'y': self.z*other.x - self.x*other.z,
+                    'z': self.x*other.y - self.y*other.x})
+
+    def dot_product(self, other):
+        other = Vector3D.__arithmetic_parse(other)
+
+        return self.x*other.x + self.y*other.y + self.z*other.z
 
     @staticmethod
     def __arithmetic_parse(value):

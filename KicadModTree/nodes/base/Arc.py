@@ -123,6 +123,11 @@ class Arc(Node):
         self.start_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
         return self
 
+    def translate(self, distance_vector):
+        self.center_pos += distance_vector
+        self.start_pos += distance_vector
+        return self
+
     def calculateBoundingBox(self):
         # TODO: finish implementation
         min_x = min(self.start_pos.x, self._calulateEndPos().x)
