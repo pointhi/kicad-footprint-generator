@@ -49,7 +49,386 @@ SOIC-4_4.55x2.6mm_P1.27mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 2
-  
+
+SOIC-8_3.9x4.9mm_P1.27mm:
+  size_source: 'JEDEC MS-012AA, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_8.pdf'
+  body_size_x: # from JEDEC
+    nominal: 3.9
+    tolerance: 0.1
+  body_size_y:
+    minimum: 4.8
+    maximum: 5.0
+  overall_height:
+    minimum: 1.35
+    maximum: 1.75
+
+  overall_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 6
+    tolerance: 0.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3.0mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ada4898-1_4898-2.pdf#page=29'
+  body_size_x:
+    minimum: 3.8
+    nominal: 3.9
+    maximum: 4.0
+  body_size_y:
+    minimum: 4.8
+    nominal: 4.9
+    maximum: 5.0
+  overall_height:
+    minimum: 1.25
+    maximum: 1.65
+
+  overall_size_x:
+    minimum: 5.8
+    nominal: 6.0
+    maximum: 6.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width:
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x:
+    nominal: 2.29
+    tolerance: 0 # no tolerance given
+  #EP_size_x_overwrite:
+  #EP_mask_x:
+
+  EP_size_y:
+    nominal: 3.0 # 2.29+2*0.356 = 3.002 rounded to 3.0
+    tolerance: 0 # no tolerance given
+  #EP_size_y_overwrite:
+  #EP_mask_y:
+
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.3, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.81mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/ada4898-1_4898-2.pdf#page=29'
+  body_size_x:
+    minimum: 3.8
+    nominal: 3.9
+    maximum: 4.0
+  body_size_y:
+    minimum: 4.8
+    nominal: 4.9
+    maximum: 5.0
+  overall_height:
+    minimum: 1.25
+    maximum: 1.65
+
+  overall_size_x:
+    minimum: 5.8
+    nominal: 6.0
+    maximum: 6.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width:
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x:
+    nominal: 2.41
+    tolerance: 0 # no tolerance given
+  # EP_size_x_overwrite: 2.41
+  #EP_mask_x:
+
+  EP_size_y:
+    nominal: 3.81 # 3.098+2*0.356
+    tolerance: 0 # no tolerance given
+  # EP_size_y_overwrite: 3.1
+  #EP_mask_y:
+
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.4, 1.4]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/lm5017.pdf#page=31'
+  body_size_x:
+    minimum: 3.8
+    maximum: 4.0
+  body_size_y:
+    minimum: 4.8
+    maximum: 5.0
+  overall_height:
+    maximum: 1.7
+
+  overall_size_x:
+    minimum: 5.8
+    maximum: 6.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width:
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x:
+    minimum: 2.11
+    maximum: 2.71
+  EP_size_x_overwrite: 2.95
+  EP_mask_x: 2.71
+
+  EP_size_y:
+    minimum: 2.8
+    maximum: 3.4
+  EP_size_y_overwrite: 4.9
+  EP_mask_y: 3.4
+
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.3, 1.3]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.3mm:
+  size_source: 'http://www.allegromicro.com/~/media/Files/Datasheets/A4950-Datasheet.ashx#page=8'
+  body_size_x:
+    nominal: 3.9
+    tolerance: 0.1
+  body_size_y:
+    nominal: 4.9
+    tolerance: 0.1
+  overall_height:
+    maximum: 1.7
+
+  overall_size_x:
+    nominal: 6.0
+    tolerance: 0.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width:
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x:
+    nominal: 2.41
+    tolerance: 0 # no tolerance given
+  # EP_size_x_overwrite: 2.41
+  #EP_mask_x:
+
+  EP_size_y:
+    nominal: 3.3
+    tolerance: 0 # no tolerance given
+  # EP_size_y_overwrite: 3.1
+  #EP_mask_y:
+
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.4, 1.2]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
+  size_source: 'https://www.renesas.com/eu/en/www/doc/datasheet/hip2100.pdf#page=13'
+  body_size_x:
+    minimum: 3.8 # rounded from 3.811
+    maximum: 4.0 # rounded from 3.99
+  body_size_y:
+    minimum: 4.8
+    maximum: 5.0 # rounded from 4.98
+  overall_height:
+    minimum: 1.43
+    maximum: 1.68
+
+  overall_size_x:
+    minimum: 5.84
+    maximum: 6.2
+  lead_len:
+    minimum: 0.41
+    maximum: 0.89
+  lead_width:
+    minimum: 0.35
+    maximum: 0.49
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x:
+    nominal: 2.514 # only maximum given but that is not supported by the script
+    tolerance: 0
+  # EP_size_x_overwrite:
+  #EP_mask_x:
+
+  EP_size_y:
+    nominal: 3.2 # only maximum given but that is not supported by the script
+    tolerance: 0
+  # EP_size_y_overwrite:
+  #EP_mask_y:
+
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    grid: [1.4, 1.0]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+SOIC-14_3.9x8.7mm_P1.27mm:
+  #round to two significant digits to comply with old name
+  custom_name_format: SOIC-{pincount:d}_{size_x:.2g}x{size_y:.2g}mm_P{pitch:g}mm
+  size_source: 'JEDEC MS-012AB, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_14.pdf'
+  body_size_x: # from JEDEC
+    nominal: 3.9
+    tolerance: 0.1
+  body_size_y:
+    minimum: 8.55
+    maximum: 8.75
+  overall_height:
+    maximum: 1.75
+
+  overall_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 6
+    tolerance: 0.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 7
+
+SOIC-14W_7.5x9.0mm_P1.27mm:
+  custom_name_format: SOIC-{pincount:d}W_{size_x:g}x{size_y:g}mm_P{pitch:g}mm
+  size_source: 'JEDEC MS-013AF, https://www.analog.com/media/en/package-pcb-resources/package/54614177245586rw_14.pdf'
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
+  body_size_y:
+    minimum: 8.8
+    maximum: 9.2
+  overall_height:
+    minimum: 2.35
+    maximum: 2.65
+
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 7
+
+SOIC-16_3.9x9.9mm_P1.27mm:
+  size_source: 'JEDEC MS-012AC, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_16.pdf'
+  body_size_x: # from JEDEC
+    nominal: 3.9
+    tolerance: 0.1
+  body_size_y:
+    minimum: 9.8
+    maximum: 10
+  overall_height:
+    maximum: 1.75
+
+  overall_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 6
+    tolerance: 0.2
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+
 SOIC-16_4.55x10.3mm_P1.27mm:
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12858&prodName=TLP291-4'
   body_size_x:
@@ -72,3 +451,198 @@ SOIC-16_4.55x10.3mm_P1.27mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 8
+
+SOIC-16W_7.5x10.3mm_P1.27mm:
+  custom_name_format: SOIC-{pincount:d}W_{size_x:g}x{size_y:g}mm_P{pitch:g}mm
+  size_source: 'JEDEC MS-013AA, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/rw_16.pdf'
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
+  body_size_y:
+    minimum: 10.1
+    maximum: 10.5
+  overall_height:
+    minimum: 2.35
+    maximum: 2.65
+
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+
+SOIC-16W_7.5x12.8mm_P1.27mm:
+  #round to two significant digits to comply with old name
+  custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ri_soic_ic/ri_16_1.pdf'
+  body_size_x:
+    minimum: 7.4
+    maximum: 7.6
+  body_size_y:
+    minimum: 12.6
+    maximum: 13
+  overall_height:
+    minimum: 2.35
+    maximum: 2.65
+
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+
+SOIC-18W_7.5x11.6mm_P1.27mm:
+  #round to two significant digits to comply with old name
+  custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  size_source: 'JEDEC MS-013AB, https://www.analog.com/media/en/package-pcb-resources/package/33254132129439rw_18.pdf'
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
+  body_size_y:
+    minimum: 11.35
+    maximum: 11.75
+  overall_height:
+    minimum: 2.35
+    maximum: 2.65
+
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 9
+
+SOIC-20W_7.5x12.8mm_P1.27mm:
+  #round to two significant digits to comply with old name
+  custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  size_source: 'JEDEC MS-013AC, https://www.analog.com/media/en/package-pcb-resources/package/233848rw_20.pdf'
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
+  body_size_y:
+    minimum: 12.6
+    maximum: 13.0
+  overall_height:
+    minimum: 2.35
+    maximum: 2.65
+
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 10
+
+SOIC-24W_7.5x15.4mm_P1.27mm:
+  #round to two significant digits to comply with old name
+  custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  size_source: 'JEDEC MS-013AD, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_wide-rw/RW_24.pdf'
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
+  body_size_y:
+    minimum: 15.2
+    maximum: 15.6
+  overall_height:
+    minimum: 2.35
+    maximum: 2.65
+
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 12
+
+SOIC-28W_7.5x17.9mm_P1.27mm:
+  #round to two significant digits to comply with old name
+  custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  size_source: 'JEDEC MS-013AE, https://www.analog.com/media/en/package-pcb-resources/package/35833120341221rw_28.pdf'
+  body_size_x: # from JEDEC (agrees with linked datasheet)
+    nominal: 7.5
+    tolerance: 0.1
+  body_size_y:
+    minimum: 17.7
+    maximum: 18.1
+  overall_height:
+    minimum: 2.35
+    maximum: 2.65
+
+  overall_size_x: # from JEDEC
+    nominal: 10.3
+    tolerance: 0.33
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+  lead_width: # from JEDEC (agrees with linked datasheet)
+    minimum: 0.31
+    maximum: 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 14
+
+SOIC-28W_7.5x18.7mm_P1.27mm:
+  #round to two significant digits to comply with old name
+  custom_name_format: SOIC-{pincount:d}W_{size_x:.2g}x{size_y:.3g}mm_P{pitch:g}mm
+  size_source: 'https://www.akm.com/akm/en/file/datasheet/AK5394AVS.pdf#page=23'
+  body_size_x:
+    nominal: 7.5
+    tolerance: 0.2
+  body_size_y:
+    nominal: 18.7
+    tolerance: 0.3
+  overall_height:
+    nominal: 2.2
+    tolerance: 0.1
+
+  overall_size_x:
+    nominal: 10.4
+    tolerance: 0.3
+  lead_len:
+    nominal: 0.75
+    tolerance: 0.2
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 14

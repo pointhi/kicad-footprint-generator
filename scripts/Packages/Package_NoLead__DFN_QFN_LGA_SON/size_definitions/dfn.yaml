@@ -91,7 +91,7 @@ DFN-6-1EP_3x2mm_P0.5mm_EP1.65x1.35mm:
   lead_len:
     nominal: 0.4
     tolerance: 0.1
-  
+
   EP_size_x: 1.65
   EP_size_y: 1.35
   # EP_paste_coverage: 0.65
@@ -181,6 +181,50 @@ MLF-6-1EP_1.6x1.6mm_P0.5mm_EP0.5x1.26mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm:
+  device_type: 'DFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://www.onsemi.com/pub/Collateral/NB3N551-D.PDF#page=7'
+  # ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    nominal: 2
+    tolerance: 0
+  body_size_y:
+    nominal: 2
+    tolerance: 0
+  overall_height:
+    minimum: 0.8
+    maximum: 1
+  lead_width:
+    minimum: 0.2
+    maximum: 0.3
+  lead_len:
+    minimum: 0.25
+    maximum: 0.35
+
+  EP_size_x:
+    minimum: 0.7
+    maximum: 0.9
+  EP_size_x_overwrite: 0.9
+  EP_size_y:
+    minimum: 1.1
+    maximum: 1.3
+  EP_size_y_overwrite: 1.3
+# EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_PullBack'
+  #include_suffix_in_3dpath: 'False'
+  #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
 DFN-8-1EP_2x2mm_P0.5mm_EP0.9x1.5mm:
   device_type: 'DFN'
   #manufacturer: 'man'
@@ -246,6 +290,102 @@ DFN-8-1EP_3x3mm_P0.65mm_EP1.7x2.05mm:
   pitch: 0.65
   num_pins_x: 0
   num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_PullBack'
+  #include_suffix_in_3dpath: 'False'
+  #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
+DFN-10-1EP_3x3mm_P0.5mm_EP1.7x2.5mm:
+  device_type: 'DFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://www.monolithicpower.com/pub/media/document/MPQ2483_r1.05.pdf'
+  # ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    minimum: 2.9
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    maximum: 3.1
+  overall_height:
+    minimum: 0.8
+    maximum: 1.0
+
+  lead_width:
+    minimum: 0.18
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 1.45
+    maximum: 17.5
+  EP_size_x_overwrite: 1.7
+
+  EP_size_y:
+    minimum: 2.25
+    maximum: 2.55
+  EP_size_y_overwrite: 2.5
+
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+
+Texas_S-PDSO-N10_EP1.2x2.0mm:
+  device_type: 'DFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.ti.com/lit/ds/symlink/tps7a91.pdf#page=30'
+  custom_name_format: 'Texas_S-PDSO-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
+  # ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    minimum: 2.4
+    maximum: 2.6
+  body_size_y:
+    minimum: 2.4
+    maximum: 2.6
+  overall_height:
+    minimum: 0.7
+    maximum: 0.8
+  lead_width:
+    minimum: 0.2
+    maximum: 0.3
+  lead_len:
+    minimum: 0.35
+    maximum: 0.45
+
+  EP_size_x:
+    minimum: 1.1
+    maximum: 1.3
+  EP_size_y:
+    minimum: 1.9
+    maximum: 2.1
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+  # heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
   #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
@@ -371,3 +511,28 @@ VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
+
+Broadcom_DFN-6_2.0x2.0mm:
+  device_type: 'DFN'
+  size_source: 'https://docs.broadcom.com/docs/AV02-4755EN'
+  library: 'OptoDevice'
+  manufacturer: 'Broadcom'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  body_size_x:
+    nominal: 2
+    tolerance: 0.1
+  body_size_y:
+    nominal: 2
+    tolerance: 0.1
+  overall_height:
+    nominal: 0.65
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.3
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.75
+    tolerance: 0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 3

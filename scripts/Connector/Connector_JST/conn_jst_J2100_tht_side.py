@@ -37,11 +37,12 @@ datasheet = 'http://www.jst-mfg.com/product/pdf/eng/eJFA-J2000.pdf'
 
 pitch = 2.50
 
-pin_range = [3,4,5,6,8,10] #number of pins in each row
+#pin_range = [3,4,5,6,8,10] #number of pins in each row
+pin_range = [6, 8, 10, 12, 16, 20]
 row_pitch = 2.50
 
 #FP name strings
-part_base = "S{n:02}B-J21DK-GG" #JST part number format string
+part_base = "S{n:02}B-J21DK-GG{s}R" #JST part number format string
 
 drill = 0.86 # 0.85 -0.03/+0.05 -> 0.86 +/-0.04
 mh_drill = 2
@@ -55,19 +56,21 @@ def incrementPadNumber(old_number):
     return old_number[0] + str(int(old_number[1:])+1)
 #FP description and tags
 
-def generate_one_footprint(pins, configuration):
+def generate_one_footprint(pins, configuration, keying):
     #calculate fp dimensions
-    A = (pins - 1) * pitch
+    pins_per_row = int(pins / number_of_rows)
+    A = (pins_per_row - 1) * pitch
     B = A + 5.2
 
     #generate the name
-    mpn = part_base.format(n=number_of_rows*pins)
+    mpn = part_base.format(n=pins, s=keying)
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
+    print('Building footprint: {}'.format(footprint_name))
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series, mpn, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
@@ -97,12 +100,10 @@ def generate_one_footprint(pins, configuration):
 
     for row_idx in range(2):
         kicad_mod.append(PadArray(
-            initial=ROW_NAMES[row_idx]+'1', start=[0, -(row_idx)*row_pitch],
-            x_spacing=pitch, pincount=pins, increment=incrementPadNumber,
-            size=pad_size, drill=drill,
-            type=Pad.TYPE_THT, shape=pad_shape, layers=Pad.LAYERS_THT,
-            tht_pad1_id=ROW_NAMES[0]+'1',
-            **optional_pad_params))
+            initial=row_idx*pins_per_row+1, start=[0, -(row_idx)*row_pitch],
+            x_spacing=pitch, pincount=pins_per_row, increment=1,
+            size=pad_size, drill=drill, type=Pad.TYPE_THT,
+            shape=pad_shape, layers=Pad.LAYERS_THT, **optional_pad_params))
 
     #draw the component outline
     x1 = A/2 - B/2
@@ -149,12 +150,12 @@ def generate_one_footprint(pins, configuration):
     kicad_mod.append(PolygoneLine(polygone=side, x_mirror=A/2, layer="F.SilkS", width=configuration['silk_line_width']))
 
     #add mounting holes
-    if pins == 3:
-        m = Pad(at=[pitch,7],layers=["*.Cu","*.Mask"],shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=mh_size,drill=mh_drill)
+    if pins == 6:
+        m = Pad(at=[pitch,7],layers=Pad.LAYERS_THT,shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=mh_size,drill=mh_drill)
         kicad_mod.append(m)
     else:
-        m1 = Pad(at=[0,7],layers=["*.Cu",'*.Mask'],shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=mh_size,drill=mh_drill)
-        m2 = Pad(at=[A,7],layers=["*.Cu",'*.Mask'],shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=mh_size,drill=mh_drill)
+        m1 = Pad(at=[0,7],layers=Pad.LAYERS_THT,shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=mh_size,drill=mh_drill)
+        m2 = Pad(at=[A,7],layers=Pad.LAYERS_THT,shape=Pad.SHAPE_CIRCLE,type=Pad.TYPE_THT,size=mh_size,drill=mh_drill)
 
         kicad_mod.append(m1)
         kicad_mod.append(m2)
@@ -209,17 +210,19 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
 
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
-    for pins_per_row in pin_range:
-        generate_one_footprint(pins_per_row, configuration)
+    #for pins_per_row in pin_range:
+        #generate_one_footprint(pins_per_row, configuration)
+    for pin_count in pin_range:
+        generate_one_footprint(pin_count, configuration, 'X')

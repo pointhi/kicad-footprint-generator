@@ -408,13 +408,13 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
     configuration['kicad4_compatible'] = args.kicad4_compatible
@@ -422,7 +422,7 @@ if __name__ == "__main__":
     for filepath in args.files:
         with open(filepath, 'r') as stream:
             try:
-                yaml_file = yaml.load(stream)
+                yaml_file = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
         series_definitions = yaml_file['device_definition']

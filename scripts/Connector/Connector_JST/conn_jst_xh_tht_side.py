@@ -40,7 +40,7 @@ pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 #FP name strings
-part_base = "S{n:02}B-XH-{variant:s}" #JST part number format string
+part_base = "S{n}B-XH-{variant:s}" #JST part number format string
 
 fab_pin1_marker_type = 2
 fab_first_marker_w = 1.25
@@ -242,13 +242,13 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
 

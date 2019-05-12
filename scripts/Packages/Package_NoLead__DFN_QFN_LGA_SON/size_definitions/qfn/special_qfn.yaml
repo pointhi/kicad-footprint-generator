@@ -12,7 +12,7 @@ Texas_X2QFN-12_1.6x1.6mm_P0.4mm:
   body_size_y:
     minimum: 1.55
     maximum: 1.65
-  body_height:
+  overall_height:
     maximum: 0.4
 
   lead_width:
