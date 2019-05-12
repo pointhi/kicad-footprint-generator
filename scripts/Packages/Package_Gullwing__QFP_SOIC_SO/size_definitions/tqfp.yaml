@@ -103,6 +103,9 @@ TQFP-100-1EP_14x14mm_P0.5mm_EP5.0x5.0mm:
     nominal: 16
   overall_size_y:
     nominal: 16
+  overall_height:
+    minimum: 1
+    maximum: 1.2
   lead_width:
     minimum: 0.17
     nominal: 0.22
