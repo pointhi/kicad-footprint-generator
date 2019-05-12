@@ -15,9 +15,10 @@
 
 from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
+from KicadModTree.util.geometric_util import geometricCircle, BaseNodeIntersection
 
 
-class Circle(Node):
+class Circle(Node, geometricCircle):
     r"""Add a Circle to the render tree
 
     :param \**kwargs:
@@ -41,16 +42,10 @@ class Circle(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = Vector2D(kwargs['center'])
-        self.radius = kwargs['radius']
-
-        self._calcEndPos()
+        geometricCircle.__init__(self, Vector2D(kwargs['center']), float(kwargs['radius']))
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
-
-    def _calcEndPos(self):
-        self.end_pos = Vector2D([self.center_pos.x+self.radius, self.center_pos.y])
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
         r""" Rotate circle around given origin
@@ -65,7 +60,6 @@ class Circle(Node):
         """
 
         self.center_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
-        self._calcEndPos()
         return self
 
     def translate(self, distance_vector):
@@ -77,7 +71,6 @@ class Circle(Node):
         """
 
         self.center_pos += distance_vector
-        self._calcEndPos()
         return self
 
     def getRadius(self):

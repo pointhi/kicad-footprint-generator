@@ -186,7 +186,7 @@ class KicadFileHandler(FileHandler):
 
     def _serialize_CirclePoints(self, node):
         center_pos = node.getRealPosition(node.center_pos)
-        end_pos = node.getRealPosition(node.end_pos)
+        end_pos = node.getRealPosition(node.center_pos + (node.radius, 0))
 
         return [
                 ['center', center_pos.x, center_pos.y],

@@ -16,9 +16,10 @@
 from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 import math
+from KicadModTree.util.geometric_util import geometricArc, BaseNodeIntersection
 
 
-class Arc(Node):
+class Arc(Node, geometricArc):
     r"""Add an Arc to the render tree
 
     :param \**kwargs:
@@ -51,104 +52,10 @@ class Arc(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self._initArcParams(**kwargs)
+        geometricArc.__init__(self, **kwargs)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
-
-    def _initAngle(self, angle):
-        self.angle = angle % (2*360)
-        if self.angle > 360:
-            self.angle -= 2*360
-
-    def _initArcParams(self, **kwargs):
-        if 'center' in kwargs:
-            if 'angle' in kwargs:
-                self._initFromCenterAndAngle(**kwargs)
-            elif 'end' in kwargs:
-                self._initFromCenterAndEnd(**kwargs)
-            else:
-                raise KeyError('Arcs defined with center point must define either an angle or endpoint')
-        else:
-            raise NotImplementedError('3 point arcs are not implemented, center is always required.')
-
-    def _initFromCenterAndAngle(self, **kwargs):
-        self.center_pos = Vector2D(kwargs['center'])
-        self._initAngle(kwargs['angle'])
-
-        if 'start' in kwargs:
-            self.start_pos = Vector2D(kwargs['start'])
-        elif 'midpoint' in kwargs:
-            mp_r, mp_a = Vector2D(kwargs['midpoint']).to_polar(
-                origin=self.center_pos, use_degrees=True)
-
-            self.start_pos = Vector2D.from_polar(
-                radius=mp_r, angle=mp_a-self.angle/2,
-                origin=self.center_pos, use_degrees=True)
-        else:
-            raise KeyError('Arcs defined with center and angle must either define the start or midpoint.')
-
-    def _initFromCenterAndEnd(self, **kwargs):
-        self.center_pos = Vector2D(kwargs['center'])
-        if 'start' in kwargs:
-            self.start_pos = Vector2D(kwargs['start'])
-            sp_r, sp_a = self.start_pos.to_polar(
-                origin=self.center_pos, use_degrees=True)
-            ep_r, ep_a = Vector2D(kwargs['end']).to_polar(
-                origin=self.center_pos, use_degrees=True)
-
-            if abs(sp_r - ep_r) > 1e-7:
-                warnings.warn(
-                    """Start and end point are not an same arc.
-                    Extended line from center to end point used to determine angle."""
-                )
-            # print("sr: {} sa: {} -- er: {} ea: {}".format(sp_r, sp_a, ep_r, ep_a))
-            self._initAngle(ep_a - sp_a)
-
-            if kwargs.get('long_way', False):
-                if abs(self.angle) < 180:
-                    self.angle = -math.copysign((360-abs(self.angle)), self.angle)
-                if self.angle == -180:
-                    self.angle = 180
-            else:
-                if abs(self.angle) > 180:
-                    self.angle = -math.copysign((abs(self.angle) - 360), self.angle)
-                if self.angle == 180:
-                    self.angle = -180
-        else:
-            raise KeyError('Arcs defined with center and endpoint must define the start point.')
-
-    def rotate(self, angle, origin=(0, 0), use_degrees=True):
-        r""" Rotate arc around given origin
-
-        :params:
-            * *angle* (``float``)
-                rotation angle
-            * *orign* (``Vector2D``)
-                origin point for the rotation. default: (0, 0)
-            * *use_degrees* (``boolean``)
-                rotation angle is given in degrees. default:True
-        """
-
-        self.center_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
-        self.start_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
-        return self
-
-    def translate(self, distance_vector):
-        r""" Translate arc
-
-        :params:
-            * *distance_vector* (``Vector2D``)
-                2D vector defining by how much and in what direction to translate.
-        """
-
-        self.center_pos += distance_vector
-        self.start_pos += distance_vector
-        return self
-
-    def getRadius(self):
-        r, a = (self.start_pos - self.center_pos).to_polar()
-        return r
 
     def calculateBoundingBox(self):
         # TODO: finish implementation

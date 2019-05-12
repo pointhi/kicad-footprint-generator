@@ -15,10 +15,10 @@
 
 from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
-from KicadModTree.util.geometric_util import BaseNodeIntersection
+from KicadModTree.util.geometric_util import geometricLine, BaseNodeIntersection
 
 
-class Line(Node):
+class Line(Node, geometricLine):
     r"""Add a Line to the render tree
 
     :param \**kwargs:
@@ -42,100 +42,10 @@ class Line(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.start_pos = Vector2D(kwargs['start'])
-        self.end_pos = Vector2D(kwargs['end'])
+        geometricLine.__init__(self, Vector2D(kwargs['start']), Vector2D(kwargs['end']))
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
-
-    def __copy__(self):
-        return Line(
-                start=self.start_pos, end=self.end_pos,
-                layer=self.layer, width=self.width
-                )
-
-    def rotate(self, angle, origin=(0, 0), use_degrees=True):
-        r""" Rotate line around given origin
-
-        :params:
-            * *angle* (``float``)
-                rotation angle
-            * *orign* (``Vector2D``)
-                origin point for the rotation. default: (0, 0)
-            * *use_degrees* (``boolean``)
-                rotation angle is given in degrees. default:True
-        """
-
-        self.start_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
-        self.end_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
-        return self
-
-    def translate(self, distance_vector):
-        r""" Translate line
-
-        :params:
-            * *distance_vector* (``Vector2D``)
-                2D vector defining by how much and in what direction to translate.
-        """
-
-        self.start_pos += distance_vector
-        self.end_pos += distance_vector
-        return self
-
-    def _isPointOnLine(self, point, tolerance=1e-7):
-        ll, la = (self.end_pos - self.start_pos).to_polar()
-        pl, pa = (point - self.start_pos).to_polar()
-        return abs(la - pa) < tolerance and pl <= ll
-
-    def _sortPointsRelativeToStart(self, points):
-        if len(points) < 2:
-            return points
-
-        if len(points) > 2:
-            raise NotImplementedError("Sorting for more than 2 points not supported")
-
-        if self.start_pos.distance_to(points[0]) < self.start_pos.distance_to(points[1]):
-            return points
-        else:
-            return [points[1], points[0]]
-
-
-    def cut(self, *other):
-        ip = BaseNodeIntersection.intersectTwoNodes(self, *other)
-        cp = []
-        for p in ip:
-            if self._isPointOnLine(p):
-                cp.append(p)
-
-        sp = self._sortPointsRelativeToStart(cp)
-        sp.insert(0,self.start_pos)
-        sp.append(self.end_pos)
-
-        lineargs = {'width': self.width, 'layer': self.layer}
-        r = []
-        for i in range(len(sp)-1):
-            r.append(Line(start=sp[i], end=sp[i+1], **lineargs))
-
-        return r
-
-
-    def to_homogeneous(self):
-        r""" Get homogeneous representation of the line
-        """
-        p1 = self.start_pos.to_homogeneous()
-        p2 = self.end_pos.to_homogeneous()
-        return p1.cross_product(p2)
-
-    def calculateBoundingBox(self):
-        render_start_pos = self.getRealPosition(self.start_pos)
-        render_end_pos = self.getRealPosition(self.end_pos)
-
-        min_x = min([render_start_pos.x, render_end_pos.x])
-        min_y = min([render_start_pos.y, render_end_pos.y])
-        max_x = max([render_start_pos.x, render_end_pos.x])
-        max_y = max([render_start_pos.y, render_end_pos.y])
-
-        return Node.calculateBoundingBox({'min': Vector2D(min_x, min_y), 'max': Vector2D(max_x, max_y)})
 
     def _getRenderTreeText(self):
         render_strings = ['fp_line']
@@ -149,25 +59,13 @@ class Line(Node):
 
         return render_text
 
-    def __iter__(self):
-        yield self.start_pos
-        yield self.end_pos
+    def calculateBoundingBox(self):
+        render_start_pos = self.getRealPosition(self.start_pos)
+        render_end_pos = self.getRealPosition(self.end_pos)
 
-    def __len__(self):
-        return 2
+        min_x = min([render_start_pos.x, render_end_pos.x])
+        min_y = min([render_start_pos.y, render_end_pos.y])
+        max_x = max([render_start_pos.x, render_end_pos.x])
+        max_y = max([render_start_pos.y, render_end_pos.y])
 
-    def __getitem__(self, key):
-        if key == 0 or key == 'start':
-            return self.start_pos
-        if key == 1 or key == 'end':
-            return self.end_pos
-
-        raise IndexError('Index {} is out of range'.format(key))
-
-    def __setitem__(self, key, item):
-        if key == 0 or key == 'start':
-            self.start_pos = item
-        elif key == 1 or key == 'end':
-            self.end_pos = item
-        else:
-            raise IndexError('Index {} is out of range'.format(key))
+        return Node.calculateBoundingBox({'min': Vector2D(min_x, min_y), 'max': Vector2D(max_x, max_y)})
