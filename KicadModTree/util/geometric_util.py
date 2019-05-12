@@ -29,8 +29,8 @@ class geometricLine():
     """
 
     def __init__(self, start, end):
-        self.start_pos = start
-        self.end_pos = end
+        self.start_pos = Vector2D(start)
+        self.end_pos = Vector2D(end)
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
         r""" Rotate around given origin
@@ -38,7 +38,7 @@ class geometricLine():
         :params:
             * *angle* (``float``)
                 rotation angle
-            * *orign* (``Vector2D``)
+            * *origin* (``Vector2D``)
                 origin point for the rotation. default: (0, 0)
             * *use_degrees* (``boolean``)
                 rotation angle is given in degrees. default:True
@@ -160,8 +160,8 @@ class geometricCircle():
     """
 
     def __init__(self, center, radius):
-        self.center_pos = center
-        self.radius = radius
+        self.center_pos = Vector2D(center)
+        self.radius = float(radius)
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
         r""" Rotate around given origin
@@ -169,7 +169,7 @@ class geometricCircle():
         :params:
             * *angle* (``float``)
                 rotation angle
-            * *orign* (``Vector2D``)
+            * *origin* (``Vector2D``)
                 origin point for the rotation. default: (0, 0)
             * *use_degrees* (``boolean``)
                 rotation angle is given in degrees. default:True
@@ -200,7 +200,7 @@ class geometricCircle():
                 default: 1e-7
         """
 
-        rad_p, ang_p = Vector2D(point).to_polar(orign=self.center_pos)
+        rad_p, ang_p = Vector2D(point).to_polar(origin=self.center_pos)
         return abs(self.radius - rad_p) < tolerance
 
     def sortPointsRelativeToStart(self, points):
@@ -220,8 +220,8 @@ class geometricCircle():
             * *other* (``Line``, ``Circle``, ``Arc``)
                 cut the element on any intersection with the given geometric element
         """
-
-        pass
+        raise NotImplemented("cut for circles not yet implemented")
+        # re use arc implementation with angle set to 360° and start point set to 0° (polar)
 
     def __iter__(self):
         yield self.center_pos
@@ -272,10 +272,15 @@ class geometricArc():
         else:
             raise NotImplementedError('3 point arcs are not implemented, center is always required.')
 
+    @staticmethod
+    def normalizeAngle(angle):
+        a = angle % (2*360)
+        if a > 360:
+            a -= 2*360
+        return a
+
     def _initAngle(self, angle):
-        self.angle = angle % (2*360)
-        if self.angle > 360:
-            self.angle -= 2*360
+        self.angle = geometricArc.normalizeAngle(angle)
 
     def _initFromCenterAndAngle(self, **kwargs):
         self.center_pos = Vector2D(kwargs['center'])
@@ -329,7 +334,7 @@ class geometricArc():
         :params:
             * *angle* (``float``)
                 rotation angle
-            * *orign* (``Vector2D``)
+            * *origin* (``Vector2D``)
                 origin point for the rotation. default: (0, 0)
             * *use_degrees* (``boolean``)
                 rotation angle is given in degrees. default:True
@@ -355,6 +360,53 @@ class geometricArc():
         r, a = (self.start_pos - self.center_pos).to_polar()
         return r
 
+    def _calulateEndPos(self):
+        radius, angle = self.start_pos.to_polar(
+            origin=self.center_pos, use_degrees=True)
+
+        return Vector2D.from_polar(
+            radius=radius, angle=angle+self.angle,
+            origin=self.center_pos, use_degrees=True)
+
+    def _toLocalCoordinates(self, point):
+        rad_s, ang_s = self.start_pos.to_polar(origin=self.center_pos)
+        rad_p, ang_p = Vector2D(point).to_polar(origin=self.center_pos)
+
+        ang_p_s = (ang_p - ang_s) % 360
+        if self.angle < 0:
+            ang_p_s -= 360
+
+        return (rad_p, ang_p_s)
+
+    def _compareAngles(self, a1, a2, tolerance=1e-7):
+        r""" compare which of the two angles given in the local coordinate system
+
+        :params:
+            * *a1* (``float``)
+                angle 1
+            * *a2* (``float``)
+                angle 2
+            * *tolerance* (``float``)
+                tolerance used to determine if the point is on the element
+                default: 1e-7
+
+        :return:
+            * -1: angle 1 is closer to start
+            *  0: both are of equal distance
+            *  1: angle 2 is closer to start
+        """
+
+        if abs(a1-a2) < tolerance:
+            return 0
+
+        if self.angle < 0:
+            if a1 < a2:
+                return 1
+        else:
+            if a1 > a2:
+                return 1
+        return -1
+
     def isPointOnSelf(self, point, tolerance=1e-7):
         r""" is the given point on this arc
 
@@ -366,12 +418,13 @@ class geometricArc():
                 default: 1e-7
         """
 
-        rad_p, ang_p = Vector2D(point).to_polar(orign=self.center_pos)
-        rad_s, ang_s = self.start_pos.to_polar(orign=self.center_pos)
-        ang_e = ang_s + self.angle
+        rad_p, ang_p_s = self._toLocalCoordinates(point)
+        rad_s, ang_s = self.start_pos.to_polar(origin=self.center_pos)
 
-        raise NotImplementedError("Not yet done")
-        return abs(rad_s - rad_p) < tolerance
+        # rotate to local coordinate system (start point is at 0 degree)
+        ang_e_s = self.angle - ang_s
+
+        return self._compareAngles(ang_p_s, ang_e_s) == -1 and abs(rad_s - rad_p) < tolerance
 
     def sortPointsRelativeToStart(self, points):
         r""" sort given points releative to start point
@@ -381,7 +434,20 @@ class geometricArc():
                 itterable of points
         """
 
-        pass
+        if len(points) > 2:
+            raise NotImplementedError("Sorting for more than 2 points not supported")
+
+        ps = []
+        for p in points:
+            ps.append(self._toLocalCoordinates(p))
+
+        if len(points) < 2:
+            return ps
+
+        if self._compareAngles(ps[0][1], ps[1][1]) == 1:
+            return [ps[1], ps[0]]
+        else:
+            return ps
 
     def cut(self, *other):
         r""" cut line with given other element
@@ -391,7 +457,25 @@ class geometricArc():
                 cut the element on any intersection with the given geometric element
         """
 
-        pass
+        ip = BaseNodeIntersection.intersectTwoNodes(self, *other)
+        cp = []
+        for p in ip:
+            if self.isPointOnSelf(p):
+                cp.append(p)
+
+        sp = self.sortPointsRelativeToStart(cp)
+        sp.insert(0, (self.getRadius(), 0))
+        sp.append(self._toLocalCoordinates(self._calulateEndPos()))
+
+        r = []
+        for i in range(len(sp)-1):
+            r.append(geometricArc(
+                center=self.center_pos,
+                start=Vector2D(self.start_pos).rotate(sp[i][1], origin=self.center_pos),
+                angle=sp[i+1][1]-sp[i][1]
+                ))
+
+        return r
 
     def __iter__(self):
         yield self.center_pos
@@ -464,8 +548,8 @@ class BaseNodeIntersection():
     def intersectLineWithCircle(line, circle):
         # from http://mathworld.wolfram.com/Circle-LineIntersection.html
         # Equations are for circle center on (0, 0) so we translate everything
-        # to the orign (well the line anyways as we do only need the radius of the circle)
-        lt = copy.copy(line).translate(-circle.center_pos)
+        # to the origin (well the line anyways as we do only need the radius of the circle)
+        lt = geometricLine(line.start_pos, line.end_pos).translate(-circle.center_pos)
 
         d = lt.end_pos - lt.start_pos
         dr = math.hypot(d.x, d.y)

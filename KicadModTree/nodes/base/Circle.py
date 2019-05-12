@@ -73,6 +73,9 @@ class Circle(Node, geometricCircle):
         self.center_pos += distance_vector
         return self
 
+    def cut(self, *other):
+        raise NotImplemented("cut for circles not yet implemented")
+
     def getRadius(self):
         return self.radius
 

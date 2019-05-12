@@ -57,6 +57,26 @@ class Arc(Node, geometricArc):
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
+    def _copyReplaceGeometry(self, geometry):
+        return Arc(
+            center=geometry.center_pos, start=geometry.start_pos, angle=geometry.angle,
+            layer=self.layer, width=self.width
+            )
+
+    def cut(self, *other):
+        r""" cut line with given other element
+
+        :params:
+            * *other* (``Line``, ``Circle``, ``Arc``)
+                cut the element on any intersection with the given geometric element
+        """
+        result = []
+        garcs = geometricArc.cut(self, *other)
+        for g in garcs:
+            result.append(self._copyReplaceGeometry(g))
+
+        return result
+
     def calculateBoundingBox(self):
         # TODO: finish implementation
         min_x = min(self.start_pos.x, self._calulateEndPos().x)
@@ -81,14 +101,6 @@ class Arc(Node, geometricArc):
         '''
 
         return Node.calculateBoundingBox({'min': Vector2D((min_x, min_y)), 'max': Vector2D((max_x, max_y))})
-
-    def _calulateEndPos(self):
-        radius, angle = self.start_pos.to_polar(
-            origin=self.center, use_degrees=True)
-
-        return Vector2D.from_polar(
-            radius=radius, angle=angle+self.angle,
-            origin=self.center, use_degrees=True)
 
     def _getRenderTreeText(self):
         render_strings = ['fp_arc']

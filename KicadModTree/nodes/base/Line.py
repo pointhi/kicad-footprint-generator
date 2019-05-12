@@ -47,6 +47,26 @@ class Line(Node, geometricLine):
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
+    def _copyReplaceGeometry(self, geometry):
+        return Line(
+            start=geometry.start_pos, end=geometry.end_pos,
+            layer=self.layer, width=self.width
+            )
+
+    def cut(self, *other):
+        r""" cut line with given other element
+
+        :params:
+            * *other* (``Line``, ``Circle``, ``Arc``)
+                cut the element on any intersection with the given geometric element
+        """
+        result = []
+        glines = geometricLine.cut(self, *other)
+        for g in glines:
+            result.append(self._copyReplaceGeometry(g))
+
+        return result
+
     def _getRenderTreeText(self):
         render_strings = ['fp_line']
         render_strings.append(self.start_pos.render('(start {x} {y})'))
