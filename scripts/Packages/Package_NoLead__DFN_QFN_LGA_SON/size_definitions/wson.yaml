@@ -95,6 +95,7 @@ SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
 
 WSON-8-1EP_3.0x2.5mm_P0.5mm_EP1.2x1.5mm:
   device_type: 'WSON'
+  suffix: '_PullBack'
   library: Package_SON
   size_source: 'http://www.ti.com/lit/ml/mpds400/mpds400.pdf'
   ipc_class: 'qfn_pull_back' #'qfn' | 'qfn_pull_back'
@@ -111,6 +112,7 @@ WSON-8-1EP_3.0x2.5mm_P0.5mm_EP1.2x1.5mm:
   lead_len:
     nominal: 0.5
     tolerance: 0.1
+  lead_to_edge: 0.1
 
   EP_size_x:
     nominal: 1.2
