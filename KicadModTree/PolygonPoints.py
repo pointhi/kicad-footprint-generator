@@ -149,7 +149,7 @@ class PolygonPoints(object):
         :params:
             * *angle* (``float``)
                 rotation angle
-            * *orign* (``Vector2D``)
+            * *origin* (``Vector2D``)
                 origin point for the rotation. default: (0, 0)
             * *use_degrees* (``boolean``)
                 rotation angle is given in degrees. default:True

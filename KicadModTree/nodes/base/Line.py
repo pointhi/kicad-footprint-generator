@@ -42,14 +42,24 @@ class Line(Node, geometricLine):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        geometricLine.__init__(self, Vector2D(kwargs['start']), Vector2D(kwargs['end']))
+        if 'geometry' in kwargs:
+            geometry = kwargs['geometry']
+            geometricLine.__init__(self, geometry.start_pos, geometry.end_pos)
+        else:
+            geometricLine.__init__(self, Vector2D(kwargs['start']), Vector2D(kwargs['end']))
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
-    def _copyReplaceGeometry(self, geometry):
+    def copyReplaceGeometry(self, geometry):
         return Line(
             start=geometry.start_pos, end=geometry.end_pos,
+            layer=self.layer, width=self.width
+            )
+
+    def copy(self):
+        return Line(
+            start=self.start_pos, end=self.end_pos,
             layer=self.layer, width=self.width
             )
 
@@ -63,7 +73,7 @@ class Line(Node, geometricLine):
         result = []
         glines = geometricLine.cut(self, *other)
         for g in glines:
-            result.append(self._copyReplaceGeometry(g))
+            result.append(self.copyReplaceGeometry(g))
 
         return result
 

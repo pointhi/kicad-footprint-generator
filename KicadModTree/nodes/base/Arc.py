@@ -26,6 +26,8 @@ class Arc(Node, geometricArc):
         See below
 
     :Keyword Arguments:
+        * *geometry* (``geometricArc``)
+          alternative to using geometric parameters
         * *center* (``Vector2D``) --
           center of arc
         * *start* (``Vector2D``) --
@@ -57,9 +59,12 @@ class Arc(Node, geometricArc):
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
-    def _copyReplaceGeometry(self, geometry):
+    def copyReplaceGeometry(self, geometry):
+        return Arc(geometry=geometry, layer=self.layer, width=self.width)
+
+    def copy(self):
         return Arc(
-            center=geometry.center_pos, start=geometry.start_pos, angle=geometry.angle,
+            center=self.center_pos, start=self.start_pos, angle=self.angle,
             layer=self.layer, width=self.width
             )
 
@@ -73,7 +78,7 @@ class Arc(Node, geometricArc):
         result = []
         garcs = geometricArc.cut(self, *other)
         for g in garcs:
-            result.append(self._copyReplaceGeometry(g))
+            result.append(self.copyReplaceGeometry(g))
 
         return result
 

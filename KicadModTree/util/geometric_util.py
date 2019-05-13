@@ -262,7 +262,12 @@ class geometricArc():
     """
 
     def __init__(self, **kwargs):
-        if 'center' in kwargs:
+        if 'geometry' in kwargs:
+            geometry = kwargs['geometry']
+            self.center_pos = Vector2D(geometry.center_pos)
+            self.start_pos = Vector2D(geometry.start_pos)
+            self.angle = float(geometry.angle)
+        elif 'center' in kwargs:
             if 'angle' in kwargs:
                 self._initFromCenterAndAngle(**kwargs)
             elif 'end' in kwargs:
@@ -312,7 +317,6 @@ class geometricArc():
                     """Start and end point are not an same arc.
                     Extended line from center to end point used to determine angle."""
                 )
-            # print("sr: {} sa: {} -- er: {} ea: {}".format(sp_r, sp_a, ep_r, ep_a))
             self._initAngle(ep_a - sp_a)
 
             if kwargs.get('long_way', False):
@@ -360,6 +364,20 @@ class geometricArc():
         r, a = (self.start_pos - self.center_pos).to_polar()
         return r
 
+    def getStartPoint(self):
+        return Vector2D(self.start_pos)
+
+    def getMidPoint(self):
+        return Vector2D(self.start_pos).rotate(self.angle/2, origin=self.center_pos)
+
+    def getEndPoint(self):
+        return Vector2D(self.start_pos).rotate(self.angle, origin=self.center_pos)
+
+    def setRadius(self, radius):
+        rad_s, ang_s = self.start_pos.to_polar(origin=self.center_pos)
+        self.start_pos = Vector2D.from_polar(radius=radius, angle=ang_s, origin=self.center_pos)
+        return self
+
     def _calulateEndPos(self):
         radius, angle = self.start_pos.to_polar(
             origin=self.center_pos, use_degrees=True)
@@ -375,7 +393,6 @@ class geometricArc():
         ang_p_s = (ang_p - ang_s) % 360
         if self.angle < 0:
             ang_p_s -= 360
-
         return (rad_p, ang_p_s)
 
     def _compareAngles(self, a1, a2, tolerance=1e-7):
@@ -422,7 +439,7 @@ class geometricArc():
         rad_s, ang_s = self.start_pos.to_polar(origin=self.center_pos)
 
         # rotate to local coordinate system (start point is at 0 degree)
-        ang_e_s = self.angle - ang_s
+        ang_e_s = self.angle
 
         return self._compareAngles(ang_p_s, ang_e_s) == -1 and abs(rad_s - rad_p) < tolerance
 

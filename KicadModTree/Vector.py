@@ -198,7 +198,7 @@ class Vector2D(object):
         :params:
             * *angle* (``float``)
                 rotation angle
-            * *orign* (``Vector2D``)
+            * *origin* (``Vector2D``)
                 origin point for the rotation. default: (0, 0)
             * *use_degrees* (``boolean``)
                 rotation angle is given in degrees. default:True
@@ -219,7 +219,7 @@ class Vector2D(object):
         r""" Get polar representation of the vector
 
         :params:
-            * *orign* (``Vector2D``)
+            * *origin* (``Vector2D``)
                 origin point for polar conversion. default: (0, 0)
             * *use_degrees* (``boolean``)
                 angle in degrees. default:True
@@ -245,7 +245,7 @@ class Vector2D(object):
                 lenght of the vector
             * *angle* (``float``)
                 angle of the vector
-            * *orign* (``Vector2D``)
+            * *origin* (``Vector2D``)
                 origin point for polar conversion. default: (0, 0)
             * *use_degrees* (``boolean``)
                 angle in degrees. default:True
