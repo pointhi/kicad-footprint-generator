@@ -27,26 +27,51 @@ from KicadModTree.nodes.base.Line import Line
 from math import sqrt, sin, cos, pi
 
 
-# Hacky solution as the sericalizer stuff does not work with inharitance
-# class RingPadPrimitive(Pad):
 class RingPadPrimitive(Node):
-    def __init__(self, radius, width, at, layers, number):
+    r"""Add a RingPad to the render tree
+
+    :param \**kwargs:
+        See below
+
+    :Keyword Arguments:
+      * *radius*: (``float``) --
+        middle radius of the ring
+      * *width*: (``float``) --
+        width of the ring (outer radius - inner radius)
+      * *at*: (``Vector2D``) --
+        position of the center
+      * *layers*: (``Pad.Layers``) --
+        layers used for creating the pad
+      * *number* (``int``, ``str``) --
+        number/name of the pad (default: \"\")
+    """
+
+    def __init__(self, **kwargs):
         Node.__init__(self)
-        # Pad.__init__(
-        self.pad = Pad(
-            # self,
-            number=number,
-            type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
-            at=(at+Vector2D(radius, 0)), size=width, layers=layers,
-            primitives=[Circle(
-                center=(-radius, 0),
-                radius=radius,
-                width=width
-                )]
-            )
+        self.at = Vector2D(kwargs.get('at', (0, 0)))
+        self.radius = float(kwargs['radius'])
+        self.width = float(kwargs['width'])
+        self.layers = kwargs['layers']
+        self.number = kwargs.get('number', "")
+
+    def copy(self):
+        return RingPadPrimitive(
+                    at=self.at, radius=self.radius,
+                    width=self.width, layers=self.layers,
+                    number=self.number
+                    )
 
     def getVirtualChilds(self):
-        return [self.pad]
+        return [Pad(number=self.number,
+                    type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
+                    at=(self.at+Vector2D(self.radius, 0)),
+                    size=self.width, layers=self.layers,
+                    primitives=[Circle(
+                        center=(-self.radius, 0),
+                        radius=self.radius,
+                        width=self.width
+                        )]
+                    )]
 
 
 class ArcPadPrimitive(Node):
@@ -58,27 +83,27 @@ class ArcPadPrimitive(Node):
     :Keyword Arguments:
         * *number* (``int``, ``str``) --
           number/name of the pad (default: \"\")
-        * *width* (``float``)
+        * *width* (``float``) --
           width of the pad
-        * *layers* (``Pad.Layers``)
+        * *layers* (``Pad.Layers``) --
           layers on which are used for the pad
-        * *round_radius_ratio* (``float``)
+        * *round_radius_ratio* (``float``) --
           round radius.
           default: 25\% of ring width
-        * *reference_arc* (``geometricArc``)
+        * *reference_arc* (``geometricArc``) --
           the reference arc used for this pad
-        * *start_line* (``geometricLine``)
+        * *start_line* (``geometricLine``) --
           line confining the side near the reference points start point
-        * *end_line* (``geometricLine``)
+        * *end_line* (``geometricLine``) --
           line confining the side near the reference points end point
         * *overlap_ratio* (``float``)
           overlap ratio of neighboring arc primitives default: 25%
-
     """
+
     def __init__(self, **kwargs):
         Node.__init__(self)
         self.reference_arc = geometricArc(geometry=kwargs['reference_arc'])
-        self.width = kwargs['width']
+        self.width = float(kwargs['width'])
         self.round_radius_ratio = kwargs.get('round_radius_ratio', 0.25)
         self.number = kwargs.get('number', "")
         self.layers = kwargs['layers']
@@ -158,7 +183,8 @@ class ArcPadPrimitive(Node):
             try:
                 result.append(current_arc.cut(line)[index_to_keep])
             except IndexError as e:
-                raise ValueError("Cutting the arc primitive with one of its endlines did not result in the expected number of arcs.")
+                raise ValueError("Cutting the arc primitive with one of its endlines " +
+                                 "did not result in the expected number of arcs.")
         return result
 
     def getVirtualChilds(self):
@@ -173,6 +199,7 @@ class ArcPadPrimitive(Node):
                     primitives=primitives
                     )]
 
+
 class RingPad(Node):
     r"""Add a RingPad to the render tree
 
@@ -186,19 +213,19 @@ class RingPad(Node):
           center position of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *inside_diameter* (``float``)
+        * *inside_diameter* (``float``) --
           diameter of the copper free inner zone
-        * *size* (``float``)
+        * *size* (``float``) --
           outside diameter of the pad
-        * *num_anchors* (``int``)
+        * *num_anchors* (``int``) --
           number of anchor pads around the circle
-        * *num_paste_zones* (``int``)
+        * *num_paste_zones* (``int``) --
           number of paste zones
-        * *paste_to_paste_clearance* (``float``)
+        * *paste_to_paste_clearance* (``float``) --
           clearance between two paste zones,
           needed only if number of paste zones > 1
           default: 2*abs(solder_paste_margin)
-        * *paste_round_radius_radius* (``float``)
+        * *paste_round_radius_radius* (``float``) --
           round over radius for paste zones, must be larger than 0,
           Only used if number of paste zones > 1
           default: 25\% of ring width
@@ -206,9 +233,8 @@ class RingPad(Node):
           solder paste margin of the pad (default: 0)
         * *solder_mask_margin* (``float``) --
           solder mask margin of the pad (default: 0)
-        * *overlap_ratio* (``float``)
+        * *overlap_ratio* (``float``) --
           overlap ratio of neighboring arc primitives default: 25%
-
     """
 
     def __init__(self, **kwargs):
@@ -272,7 +298,6 @@ class RingPad(Node):
         self._generateCopperPads()
         if self.num_paste_zones > 1:
             self._generatePastePads()
-
 
     def _generatePastePads(self):
         ref_angle = 360/self.num_paste_zones
