@@ -46,7 +46,11 @@ class Line(Node, geometricLine):
             geometry = kwargs['geometry']
             geometricLine.__init__(self, geometry.start_pos, geometry.end_pos)
         else:
-            geometricLine.__init__(self, Vector2D(kwargs['start']), Vector2D(kwargs['end']))
+            geometricLine.__init__(
+                self,
+                start=Vector2D(kwargs['start']),
+                end=Vector2D(kwargs['end'])
+                )
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')

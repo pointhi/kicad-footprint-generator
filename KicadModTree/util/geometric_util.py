@@ -28,9 +28,17 @@ class geometricLine():
           end point of the line
     """
 
-    def __init__(self, start, end):
-        self.start_pos = Vector2D(start)
-        self.end_pos = Vector2D(end)
+    def __init__(self, **kwargs):
+        if 'geometry' in kwargs:
+            geometry = kwargs['geometry']
+            self.start_pos = Vector2D(geometry.start_pos)
+            self.end_pos = Vector2D(geometry.end_pos)
+        else:
+            self.start_pos = Vector2D(kwargs['start'])
+            self.end_pos = Vector2D(kwargs['end'])
+
+    def copy(self):
+        return geometricLine(geometry=self)
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
         r""" Rotate around given origin
@@ -221,7 +229,8 @@ class geometricCircle():
                 cut the element on any intersection with the given geometric element
         """
         raise NotImplemented("cut for circles not yet implemented")
-        # re use arc implementation with angle set to 360° and start point set to 0° (polar)
+        # re use arc implementation with angle set to 360 deg
+        # and start point set to 0 deg (polar)
 
     def __iter__(self):
         yield self.center_pos
@@ -566,7 +575,7 @@ class BaseNodeIntersection():
         # from http://mathworld.wolfram.com/Circle-LineIntersection.html
         # Equations are for circle center on (0, 0) so we translate everything
         # to the origin (well the line anyways as we do only need the radius of the circle)
-        lt = geometricLine(line.start_pos, line.end_pos).translate(-circle.center_pos)
+        lt = line.copy().translate(-circle.center_pos)
 
         d = lt.end_pos - lt.start_pos
         dr = math.hypot(d.x, d.y)

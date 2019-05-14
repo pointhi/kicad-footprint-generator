@@ -86,6 +86,18 @@ class ArcPadPrimitive(Node):
         self.end_line = geometricLine(geometry=kwargs.get('end_line'))
         self.overlap_ratio = kwargs.get('overlap_ratio', 0.25)
 
+    def copy(self):
+        return ArcPadPrimitive(
+                    reference_arc=self.reference_arc,
+                    width=self.width,
+                    round_radius_ratio=self.round_radius_ratio,
+                    number=self.number,
+                    layers=self.layers,
+                    start_line=self.start_line,
+                    end_line=self.end_line,
+                    overlap_ratio=self.overlap_ratio
+                    )
+
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
         r""" Rotate around given origin
 
@@ -258,7 +270,9 @@ class RingPad(Node):
 
     def _generatePads(self):
         self._generateCopperPads()
-        self._generatePastePads()
+        if self.num_paste_zones > 1:
+            self._generatePastePads()
+
 
     def _generatePastePads(self):
         ref_angle = 360/self.num_paste_zones
@@ -274,13 +288,16 @@ class RingPad(Node):
         start_line = geometricLine(start=self.at+(0, y), end=self.at+(1, y))
         end_line = geometricLine(start=self.at+(0, -y), end=self.at+(1, -y)).rotate(ref_angle, origin=self.at)
 
-        self.pads.append(ArcPadPrimitive(
+        pad = ArcPadPrimitive(
                             number=self.number, width=self.paste_width,
                             round_radius_ratio=self.paste_round_radius_radius,
                             layers=['F.Paste'], reference_arc=ref_arc,
                             start_line=start_line, end_line=end_line,
                             overlap_ratio=self.overlap_ratio
-                            ))
+                            )
+        self.pads.append(pad)
+        for i in range(1, self.num_paste_zones):
+            self.pads.append(pad.copy().rotate(i*ref_angle, origin=self.at))
 
     def _generateMaskPads(self):
         w = self.width+2*self.solder_mask_margin
