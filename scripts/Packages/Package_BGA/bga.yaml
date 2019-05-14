@@ -268,7 +268,7 @@ UFBGA-201_10x10mm_Layout15x15_P0.65mm:
   layout_x: 15
   layout_y: 15
   row_skips: [[], [], [], [], [[5, 12]], [5, 11], [5, 11], [5, 11], [5, 11], [5, 11], [[5, 12]], [], [], [], []]
-WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm_NSMD:
+WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm:
   description: "WLP-4"
   size_source: "https://datasheets.maximintegrated.com/en/ds/MAX40200.pdf"
   body_size_x: 0.728
@@ -280,7 +280,7 @@ WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm_NSMD:
   layout_x: 2
   layout_y: 2
   row_skips: [[], []]
-Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.4mm_NSMD:
+Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.4mm:
   description: "Lattice caBGA-381, ECP5 FPGAs"
   size_source: "http://www.latticesemi.com/view_document?document_id=213"
   body_size_x: 17.0
