@@ -7,11 +7,11 @@ import argparse
 import yaml
 
 # load parent path of KicadModTree
-sys.path.append(os.path.join(sys.path[0], "..", ".."))
+sys.path.append(os.path.join(sys.path[0], "..", "..", ".."))
 
 from KicadModTree import *  # NOQA
 from KicadModTree.nodes.base.Pad import Pad  # NOQA
-sys.path.append(os.path.join(sys.path[0], "..", "tools"))  # load parent path of tools
+sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 
 from KicadModTree import *
 import itertools
@@ -201,7 +201,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('files', metavar='file', type=str, nargs='+',
                         help='list of files holding information about what devices should be created.')
-    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
+    parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     # parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../package_config_KLCv3.yaml')
 
     args = parser.parse_args()
