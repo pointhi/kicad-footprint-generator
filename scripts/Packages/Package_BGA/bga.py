@@ -20,8 +20,8 @@ from string import ascii_uppercase
 def generateFootprint(config, fpParams, fpId):
     print('Building footprint for parameter set: {}'.format(fpId))
     
-    pkgWidth = fpParams["pkg_width"]
-    pkgHeight = fpParams["pkg_height"]
+    pkgX = fpParams["body_size_x"]
+    pkgY = fpParams["body_size_y"]
     layoutX = fpParams["layout_x"]
     layoutY = fpParams["layout_y"]
     
@@ -63,7 +63,7 @@ def generateFootprint(config, fpParams, fpId):
     if "paste_ratio" in fpParams: f.setPasteMarginRatio(fpParams["paste_ratio"])
 
     s1 = [1.0, 1.0]
-    s2 = [min(1.0, round(pkgWidth / 4.3, 2))] * 2
+    s2 = [min(1.0, round(pkgX / 4.3, 2))] * 2
 
     t1 = 0.15 * s1[0]
     t2 = 0.15 * s2[0]
@@ -75,7 +75,7 @@ def generateFootprint(config, fpParams, fpId):
         if fpParams["pad_shape"] == "roundrect":
             padShape = Pad.SHAPE_ROUNDRECT
 
-    chamfer = min(config['fab_bevel_size_absolute'], min(pkgWidth, pkgHeight) * config['fab_bevel_size_relative'])
+    chamfer = min(config['fab_bevel_size_absolute'], min(pkgX, pkgY) * config['fab_bevel_size_relative'])
     
     silkOffset = config['silk_fab_offset']
     crtYdOffset = config['courtyard_offset']['bga']
@@ -91,22 +91,22 @@ def generateFootprint(config, fpParams, fpId):
         return x
 
     xCenter = 0.0
-    xLeftFab = xCenter - pkgWidth / 2.0
-    xRightFab = xCenter + pkgWidth / 2.0
+    xLeftFab = xCenter - pkgX / 2.0
+    xRightFab = xCenter + pkgX / 2.0
     xChamferFab = xLeftFab + chamfer
     xPadLeft = xCenter - pitchX * ((layoutX - 1) / 2.0)
     xPadRight = xCenter + pitchX * ((layoutX - 1) / 2.0)
-    xLeftCrtYd = crtYdRound(xCenter - (pkgWidth / 2.0 + crtYdOffset))
-    xRightCrtYd = crtYdRound(xCenter + (pkgWidth / 2.0 + crtYdOffset))
+    xLeftCrtYd = crtYdRound(xCenter - (pkgX / 2.0 + crtYdOffset))
+    xRightCrtYd = crtYdRound(xCenter + (pkgX / 2.0 + crtYdOffset))
 
     yCenter = 0.0
-    yTopFab = yCenter - pkgHeight / 2.0
-    yBottomFab = yCenter + pkgHeight / 2.0
+    yTopFab = yCenter - pkgY / 2.0
+    yBottomFab = yCenter + pkgY / 2.0
     yChamferFab = yTopFab + chamfer
     yPadTop = yCenter - pitchY * ((layoutY - 1) / 2.0)
     yPadBottom = yCenter + pitchY * ((layoutY - 1) / 2.0)
-    yTopCrtYd = crtYdRound(yCenter - (pkgHeight / 2.0 + crtYdOffset))
-    yBottomCrtYd = crtYdRound(yCenter + (pkgHeight / 2.0 + crtYdOffset))
+    yTopCrtYd = crtYdRound(yCenter - (pkgY / 2.0 + crtYdOffset))
+    yBottomCrtYd = crtYdRound(yCenter + (pkgY / 2.0 + crtYdOffset))
     yRef = yTopFab - 1.0
     yValue = yBottomFab + 1.0
 
@@ -181,7 +181,7 @@ def generateFootprint(config, fpParams, fpId):
     f.append(Model(filename="{}Package_{}.3dshapes/{}.wrl".format(
                   config['3d_model_prefix'], packageType, fpId)))
 
-    f.setDescription("{0}, {1}x{2}mm, {3} Ball, {4}x{5} Layout, {6}mm Pitch, {7}".format(fpParams["description"], pkgHeight, pkgWidth, balls, layoutX, layoutY, pitchString, fpParams["size_source"]))
+    f.setDescription("{0}, {1}x{2}mm, {3} Ball, {4}x{5} Layout, {6}mm Pitch, {7}".format(fpParams["description"], pkgY, pkgX, balls, layoutX, layoutY, pitchString, fpParams["size_source"]))
     f.setTags("{} {} {}{}".format(packageType, balls, pitchString, additionalTag))
 
     outputDir = 'Package_{lib_name:s}.pretty/'.format(lib_name=packageType)
