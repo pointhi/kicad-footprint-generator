@@ -26,3 +26,24 @@ SO-8_4.0x5.0mm_P1.27mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
+
+SO-4_4.4x3.9mm_P2.54mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=10047&prodName=TLP3123'
+  body_size_x:
+    nominal: 4.4
+    tolerance: 0.25
+  body_size_y:
+    nominal: 3.9
+    tolerance: 0.25
+  overall_size_x:
+    nominal: 7.0
+    tolerance: 0.4
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.6
+    tolerance: 0.3
+  pitch: 2.54
+  num_pins_x: 0
+  num_pins_y: 2

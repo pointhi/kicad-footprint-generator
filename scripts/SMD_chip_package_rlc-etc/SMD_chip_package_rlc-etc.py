@@ -34,13 +34,13 @@ class TwoTerminalSMDchip():
         self.configuration = configuration
         with open(command_file, 'r') as command_stream:
             try:
-                self.footprint_group_definitions = yaml.load(command_stream)
+                self.footprint_group_definitions = yaml.safe_load(command_stream)
             except yaml.YAMLError as exc:
                 print(exc)
         ipc_doc = configuration['ipc_definition']
         with open(ipc_doc, 'r') as ipc_stream:
             try:
-                self.ipc_defintions = yaml.load(ipc_stream)
+                self.ipc_defintions = yaml.safe_load(ipc_stream)
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -115,7 +115,7 @@ class TwoTerminalSMDchip():
             for device_size_doc in device_size_docs:
                 with open(size_definition_path+device_size_doc, 'r') as size_stream:
                     try:
-                        package_size_defintions.update(yaml.load(size_stream))
+                        package_size_defintions.update(yaml.safe_load(size_stream))
                     except yaml.YAMLError as exc:
                         print(exc)
 
@@ -332,13 +332,13 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
     args = parser.parse_args()

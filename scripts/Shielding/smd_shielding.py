@@ -146,7 +146,7 @@ def create_smd_shielding(name, **kwargs):
 def parse_and_execute_yml_file(filepath):
     with open(filepath, 'r') as stream:
         try:
-            yaml_parsed = yaml.load(stream)
+            yaml_parsed = yaml.safe_load(stream)
             for footprint in yaml_parsed:
                 print("generate {name}.kicad_mod".format(name=footprint))
                 create_smd_shielding(footprint, **yaml_parsed.get(footprint))

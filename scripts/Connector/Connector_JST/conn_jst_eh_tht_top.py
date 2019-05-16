@@ -26,7 +26,7 @@ pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 
 def generate_one_footprint(pincount, configuration):
-    mpn = "B{pincount:02}B-EH-A".format(pincount=pincount)
+    mpn = "B{pincount}B-EH-A".format(pincount=pincount)
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
@@ -166,17 +166,17 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
 
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
-    for pincount in range(2, 17):
+    for pincount in range(2, 16):
         generate_one_footprint(pincount, configuration)

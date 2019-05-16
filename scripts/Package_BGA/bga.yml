@@ -271,3 +271,12 @@ Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.6mm_SMD:
   layout_x: 20
   layout_y: 20
   row_skips: [[1, 20], [], [], [], [], [], [], [], [], [], [], [], [], [], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [], [], [], [], [1, 4, 9, 10, 13, 18, 20]]
+Analog_BGA-28_4.0x6.25mm_Layout4x7_P0.8mm_Ball0.45mm_Pad0.4:
+   description: "Analog BGA-28 4.0mm x 6.25mm package, pitch 0.4mm pad, based on https://www.analog.com/media/en/technical-documentation/data-sheets/8063fa.pdf"
+   pkg_width: 4.0
+   pkg_height: 6.25
+   pitch: 0.8
+   pad_diameter: 0.4
+   mask_margin: 0.05
+   layout_x: 4
+   layout_y: 7

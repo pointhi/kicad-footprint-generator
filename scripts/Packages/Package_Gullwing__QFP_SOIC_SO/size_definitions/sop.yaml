@@ -2,6 +2,59 @@ FileHeader:
   library_Suffix: 'SO'
   device_type: 'SOP'
 
+SOP-4_3.8x4.1mm_P2.54mm:
+  size_source: 'http://www.ixysic.com/home/pdfs.nsf/www/CPC1017N.pdf/$file/CPC1017N.pdf'
+  body_size_x:
+    nominal: 3.8 #rounded to avoid changing the symbol (given as 3.81)
+    tolerance: 0.025
+  body_size_y:
+    nominal: 4.1 #rounded to avoid changing the symbol (givne as 4.089)
+    tolerance: 0.025
+  overall_height:
+    # calculated from (2.03 +/-0.025) + (0.64 +/-0.04)
+    nominal: 2.094
+    tolerance: 0.047
+
+  overall_size_x:
+    nominal: 6.096
+    tolerance: 0.102
+  lead_width:
+    nominal: 0.381
+    tolerance: 0 # not given
+  lead_len:
+    nominal: 0.559
+    tolerance: 0.127
+
+  pitch: 2.54
+  num_pins_x: 0
+  num_pins_y: 2
+
+SOP-4_4.4x2.6mm_P1.27mm:
+  size_source: 'http://www.vishay.com/docs/83510/tcmt1100.pdf'
+  body_size_x:
+    nominal: 4.4
+    tolerance: 0 # only typical size given
+  body_size_y:
+    nominal: 2.6
+    tolerance: 0.2
+  overall_height:
+    # calculated from (2.0 +/-0.1) + (0.1 +/-0.1)
+    nominal: 2.1
+    tolerance: 0.14
+
+  overall_size_x:
+    nominal: 7
+    tolerance: 0.3
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.6
+    tolerance: [-0.3, 0.2]
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 2
 
 SOP-8_3.76x4.96mm_P1.27mm:
   size_source: 'https://ww2.minicircuits.com/case_style/XX211.pdf'
@@ -11,7 +64,7 @@ SOP-8_3.76x4.96mm_P1.27mm:
   body_size_y:
     nominal: 4.96 # max (5.33) - tolerance, rounded to 2 digits (+10um)
     tolerance: 0.381
-  body_height:
+  overall_height:
     maximum: 1.96
   overall_size_x:
     minimum: 5.59
@@ -35,7 +88,7 @@ SOP-8_6.62x9.15mm_P2.54mm:
   body_size_y:
     minimum: 8.75
     maximum: 9.55
-  body_height:
+  overall_height:
     maximum: 4.85
 
   overall_size_x:
@@ -51,3 +104,88 @@ SOP-8_6.62x9.15mm_P2.54mm:
   pitch: 2.54
   num_pins_x: 0
   num_pins_y: 4
+
+SOP-16_4.4.55x10.3mm_P1.27mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12855&prodName=TLP290-4'
+  body_size_x:
+    nominal: 4.55
+    tolerance: [-0.15, 0.25]
+  body_size_y:
+    nominal: 10.3
+    tolerance: [-0.15, 0.25]
+  overall_height:
+    nominal: 2.1
+    tolerance: 0.14
+
+  overall_size_x:
+    nominal: 7
+    tolerance: 0.4
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    minimum: 0.5
+    maximum: 0.5
+    # Only minimum given in the datasheet.
+    # With 0 tolerance we already get longer pads than suggested by the datasheet -> should be ok
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+
+SOP-18_7.0x12.5mm_P1.27mm:
+  size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=30523'
+  body_size_x:
+    nominal: 7
+    tolerance: 0.2
+  body_size_y:
+    nominal: 12.5
+    tolerance: 0.2
+  overall_height:
+    maximum: 2.45
+
+  overall_size_x:
+    nominal: 10.3
+    tolerance: 0.3
+  lead_width:
+    nominal: 0.4
+    tolerance: 0.1
+  lead_len:
+    nominal: 0.7
+    tolerance: 0.2
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 9
+  
+STC_SOP-16_3.9x9.9mm_P1.27mm:
+  size_source: 'https://www.stcmicro.com/datasheet/STC15F2K60S2-en.pdf#page=156'
+  manufacturer: 'STC'
+  body_size_x: # E1
+    minimum: 3.80
+    nominal: 3.90
+    maximum: 4.00
+  body_size_y: # D
+    minimum: 9.80
+    nominal: 9.90
+    maximum: 10.00
+  overall_height: # A
+    minimum: 1.35
+    nominal: 1.60
+    maximum: 1.75
+  overall_size_x: # E
+    minimum: 5.80
+    nominal: 6.00
+    maximum: 6.20
+  lead_len: # L
+    minimum: 0.45
+    nominal: 0.60
+    maximum: 0.80
+  lead_width: # b
+    minimum: 0.35
+    nominal: 0.40
+    maximum: 0.45
+
+  pitch: 1.27 # e
+  num_pins_x: 0
+  num_pins_y: 8

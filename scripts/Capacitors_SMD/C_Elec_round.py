@@ -261,20 +261,20 @@ if __name__ == "__main__":
     args = parser.parse_args()
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
     
     ipc_doc = args.ipc_definition
     with open(ipc_doc, 'r') as ipc_stream:
         try:
-            ipc_defintions = yaml.load(ipc_stream)
+            ipc_defintions = yaml.safe_load(ipc_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
@@ -284,7 +284,7 @@ if __name__ == "__main__":
     for filepath in args.files:
         with open(filepath, 'r') as stream:
             try:
-                yaml_parsed = yaml.load(stream)
+                yaml_parsed = yaml.safe_load(stream)
                 for footprint in yaml_parsed:
                     print("generate {name}.kicad_mod".format(name=footprint))
                     create_footprint(footprint, configuration , **yaml_parsed.get(footprint))

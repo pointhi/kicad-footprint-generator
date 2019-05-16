@@ -60,6 +60,8 @@ for itr in range (1, 20 + 1):
         silks_outline_x = fab_outline_x + 0.11
     else:
         pin_count = itr
+        fab_outline_x = 3.6
+        silks_outline_x = fab_outline_x + 0.11
 
     #init kicad footprint
     footprint_name = "Stocko_MKS_16{}-6-0-{}{:02d}_1x{}_P2.50mm_Vertical".format(50 + itr, pin_count, pin_count, pin_count)
