@@ -17,8 +17,6 @@ def roundToBase(value, base):
     return round(value/base) * base
 
 def generate_footprint(params, mpn, configuration):
-    kicad_mod = Footprint('prototype')
-
     fp_params = params['footprint']
     mech_params = params['mechanical']
     part_params = params['parts'][mpn]
@@ -28,6 +26,8 @@ def generate_footprint(params, mpn, configuration):
         size = "{}mm".format(size)
 
     fp_name = "Mounting_Wuerth_Inside-{size}_H{h}mm_{mpn}".format(size=size, h=part_params['h'], mpn=mpn)
+
+    kicad_mod = Footprint(fp_name)
 
     kicad_mod.setDescription("Mounting Hardware, inside through hole {size}, height {h}, Wureth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=part_params['h'], mpn=mpn, ds=part_params['datasheet']))
 
@@ -55,7 +55,7 @@ def generate_footprint(params, mpn, configuration):
             ))
 
     ########################### CrtYd #################################
-    rc = max(mech_params['od'], fp_params['ring']['od'])/2-configuration['courtyard_offset']['default']
+    rc = max(mech_params['od'], fp_params['ring']['od'])/2+configuration['courtyard_offset']['default']
     rc = roundToBase(rc, configuration['courtyard_grid'])
 
 

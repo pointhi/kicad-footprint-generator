@@ -351,7 +351,7 @@ class RingPad(Node):
         end_line = geometricLine(start=self.at+(0, -y), end=self.at+(1, -y)).rotate(ref_angle, origin=self.at)
 
         pad = ArcPadPrimitive(
-                            number=self.number, width=self.paste_width,
+                            number="", width=self.paste_width,
                             round_radius_ratio=self.paste_round_radius_radio,
                             layers=['F.Paste'], reference_arc=ref_arc,
                             start_line=start_line, end_line=end_line,
