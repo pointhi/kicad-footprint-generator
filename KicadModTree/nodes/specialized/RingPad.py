@@ -171,12 +171,8 @@ class ArcPadPrimitive(Node):
         return (self.width-line_width)/(required_arcs-1)
 
     def _getArcPrimitives(self):
-        print(self.width)
         line_width = self.width*self.round_radius_ratio*2
-        print(self.round_radius_ratio)
         step = self._getStep(line_width)
-        print(line_width)
-        print(step)
 
         r_inner = self.reference_arc.getRadius()-self.width/2+line_width/2
         r_outer = self.reference_arc.getRadius()+self.width/2-line_width/2
@@ -315,11 +311,11 @@ class RingPad(Node):
             else:
                 self.paste_round_radius_radio = float(
                     kwargs.get('paste_round_radius_radio', 0.25))
-            self.paste_to_paste_clearance = float(
-                    kwargs.get(
-                        'pa0ste_to_paste_clearance',
-                        -self.paste_width*self.solder_paste_margin*2
-                        ))
+
+            self.paste_to_paste_clearance = kwargs.get('paste_to_paste_clearance')
+            if self.paste_to_paste_clearance is None:
+                self.paste_to_paste_clearance = -self.solder_paste_margin
+
             if self.paste_round_radius_radio <= 0:
                 raise ValueError('paste_round_radius_radio must be > 0')
             if self.paste_to_paste_clearance <= 0:
