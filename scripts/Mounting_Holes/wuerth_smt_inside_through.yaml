@@ -1,0 +1,395 @@
+2.25mm:
+  footprint:
+    ring:
+      id: 3
+      od: 5.3
+      paste:
+        clearance: 0.6
+        id: 3.1
+        od: 5.12
+    npth: 3
+  mechanical:
+    id: 2.25
+    od: 4.35
+    od1: 2.8
+    h1: 1.4
+  parts:
+    9774010943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010943.pdf
+      h: 1
+    9774015943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015943.pdf
+      h: 1.5
+    9774020943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020943.pdf
+      h: 2
+    9774025943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025943.pdf
+      h: 2.5
+    9774030943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030943.pdf
+      h: 3
+    9774035943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774035943.pdf
+      h: 3.5
+    9774040943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040943.pdf
+      h: 4
+    9774045943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774045943.pdf
+      h: 4.5
+    9774050943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050943.pdf
+      h: 5
+    9774060943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060943.pdf
+      h: 6
+    9774070943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070943.pdf
+      h: 7
+    9774080943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080943.pdf
+      h: 8
+
+2.7mm:
+  footprint:
+    ring:
+      id: 3.7
+      od: 6
+      paste:
+        clearance: 0.65
+        id: 3.8
+        od: 5.84
+    npth: 3.7
+  mechanical:
+    id: 2.7
+    od: 5.1
+    od1: 3.5
+    h1: 1.4
+  parts:
+    9774010951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010951.pdf
+      h: 1
+    9774015951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015951.pdf
+      h: 1.5
+    9774020951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020951.pdf
+      h: 2
+    9774025951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025951.pdf
+      h: 2.5
+    9774030951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030951.pdf
+      h: 3
+    9774040951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040951.pdf
+      h: 4
+    9774050951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050951.pdf
+      h: 5
+    9774055951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774055951.pdf
+      h: 5.5
+    9774060951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060951.pdf
+      h: 6
+    9774065951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774065951.pdf
+      h: 6.5
+    9774070951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070951.pdf
+      h: 7
+    9774080951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080951.pdf
+      h: 8
+    9774090951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090951.pdf
+      h: 9
+    9774100951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100951.pdf
+      h: 10
+
+3.3mm:
+  footprint:
+    ring:
+      id: 4.4
+      od: 7.4
+      paste: # measured from eagle footprint (not dimensioned in datasheet)
+        clearance: 0.5
+        id: 4.72
+        od: 6.92
+    npth: 4.4
+  mechanical:
+    id: 3.3
+    od: 6
+    od1: 4.2
+    h1: 1.4
+  parts:
+    9774010960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010960.pdf,
+      h: 1
+    9774015960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015960.pdf,
+      h: 1.5
+    9774020960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020960.pdf,
+      h: 2
+    9774025960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025960.pdf,
+      h: 2.5
+    9774030960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030960.pdf,
+      h: 3
+    9774040960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040960.pdf,
+      h: 4
+    9774050960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050960.pdf,
+      h: 5
+    9774060960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060960.pdf,
+      h: 6
+    9774070960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070960.pdf,
+      h: 7
+    9774080960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080960.pdf,
+      h: 8
+    9774090960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090960.pdf,
+      h: 9
+    9774100960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100960.pdf,
+      h: 10
+    9774110960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774110960.pdf,
+      h: 11
+    9774120960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774120960.pdf,
+      h: 12
+    9774130960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774130960.pdf,
+      h: 13
+    9774140960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774140960.pdf,
+      h: 14
+    9774150960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774150960.pdf,
+      h: 15
+
+4.5mm:
+  footprint:
+    ring:
+      id: 5.4
+      od: 9.4
+      paste:
+        clearance: 0.8
+        id: 5.48
+        od: 9.27
+    npth: 5.4
+  mechanical:
+    id: 4.5
+    od: 8.2
+    od1: 5.2
+    h1: 1.4
+  parts:
+    9774010982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010982.pdf
+      h: 1
+    9774020982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020982.pdf
+      h: 2
+    9774030982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030982.pdf
+      h: 3
+    9774040982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040982.pdf
+      h: 4
+    9774050982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050982.pdf
+      h: 5
+    9774060982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060982.pdf
+      h: 6
+    9774070982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070982.pdf
+      h: 7
+    9774080982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080982.pdf
+      h: 8
+    9774090982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090982.pdf
+      h: 9
+    9774100982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100982.pdf
+      h: 10
+
+M2:
+  footprint:
+    ring:
+      id: 3
+      od: 5.3
+      paste: # from 2.25mm ID version (Has same mechanical dimensions)
+        clearance: 0.6
+        id: 3.1
+        od: 5.12
+    npth: 3
+  mechanical:
+    id: M2
+    od: 4.35
+    od1: 2.8
+    h1: 1.4
+  parts:
+    9774010243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010243.pdf
+      h: 1
+    9774015243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015243.pdf
+      h: 1.5
+    9774020243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020243.pdf
+      h: 2
+    9774025243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025243.pdf
+      h: 2.5
+    9774030243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030243.pdf
+      h: 3
+    9774035243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774035243.pdf
+      h: 3.5
+    9774040243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040243.pdf
+      h: 4
+    9774045243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774045243.pdf
+      h: 4.5
+    9774050243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050243.pdf
+      h: 5
+    9774060243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060243.pdf
+      h: 6
+    9774070243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070243.pdf
+      h: 7
+    9774080243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080243.pdf
+      h: 8
+
+
+M3:
+  footprint:
+    ring:
+      id: 4.4
+      od: 7.4
+      paste: # measured from eagle footprint (not dimensioned in datasheet)
+        clearance: 0.5
+        id: 4.72
+        od: 6.92
+    npth: 4.4
+  mechanical:
+    id: M3
+    od: 6
+    od1: 4.2
+    h1: 1.4
+  parts:
+    9774010360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010360.pdf
+      h: 1
+    9774015360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015360.pdf
+      h: 1.5
+    9774020360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020360.pdf
+      h: 2
+    9774025360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025360.pdf
+      h: 2.5
+    9774030360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030360R.pdf
+      h: 3
+    9774040360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040360.pdf
+      h: 4
+    9774050360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050360.pdf
+      h: 5
+    9774060360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060360.pdf
+      h: 6
+    9774070360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070360.pdf
+      h: 7
+    9774080360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080360.pdf
+      h: 8
+    9774090360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090360.pdf
+      h: 9
+    9774100360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100360.pdf
+      h: 10
+    9774110360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774110360.pdf
+      h: 11
+    9774120360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774120360.pdf
+      h: 12
+    9774130360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774130360.pdf
+      h: 13
+    9774140360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774140360.pdf
+      h: 14
+    9774150360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774150360.pdf
+      h: 15
+
+M4:
+  footprint:
+    ring:
+      id: 5.4
+      od: 9.4
+      paste:
+        clearance: 0.8
+        id: 5.48
+        od: 9.27
+    npth: 5.4
+  mechanical:
+    id: 4.5
+    od: 8.2
+    od1: 5.2
+    h1: 1.4
+  parts:
+    9774010482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010482.pdf
+      h: 1
+    9774020482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020482.pdf
+      h: 2
+    9774030482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030482.pdf
+      h: 3
+    9774040482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040482.pdf
+      h: 4
+    9774050482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050482.pdf
+      h: 5
+    9774060482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060482.pdf
+      h: 6
+    9774070482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070482.pdf
+      h: 7
+    9774080482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080482.pdf
+      h: 8
+    9774090482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090482.pdf
+      h: 9
+    9774100482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100482.pdf
+      h: 10

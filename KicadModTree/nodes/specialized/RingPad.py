@@ -255,6 +255,10 @@ class RingPad(Node):
           default: 25\% of ring width
         * *solder_paste_margin* (``float``) --
           solder paste margin of the pad (default: 0)
+        * *paste_outer_diameter* (``float``) --
+          together with paste inner diameter an alternative for defining the paste area
+        * *paste_inner_diameter* (``float``) --
+          together with paste outer diameter an alternative for defining the paste area
         * *solder_mask_margin* (``float``) --
           solder mask margin of the pad (default: 0)
         * *minimum_overlap* (``float``) --
@@ -300,7 +304,13 @@ class RingPad(Node):
 
     def _initPasteSettings(self, **kwargs):
         self.solder_paste_margin = kwargs.get('solder_paste_margin', 0)
-        self.paste_width = self.width + 2*self.solder_paste_margin
+        if 'paste_outer_diameter' in kwargs and 'paste_inner_diameter' in kwargs:
+            self.paste_width = (kwargs['paste_outer_diameter'] - kwargs['paste_inner_diameter'])/2
+            self.paste_center = (kwargs['paste_outer_diameter'] + kwargs['paste_inner_diameter'])/4
+        else:
+            self.paste_width = self.width + 2*self.solder_paste_margin
+            self.paste_center = self.radius
+
         self.num_paste_zones = int(kwargs.get('num_paste_zones', 1))
         if self.num_paste_zones < 1:
             raise ValueError('num_paste_zones must be a positive integer')
@@ -331,7 +341,7 @@ class RingPad(Node):
 
         ref_arc = geometricArc(
                     center=self.at,
-                    start=self.at+(self.radius, 0),
+                    start=self.at+(self.paste_center, 0),
                     angle=ref_angle)
 
         w = self.paste_width*self.paste_round_radius_radio*2
