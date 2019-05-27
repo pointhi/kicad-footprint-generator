@@ -625,3 +625,53 @@ M3R:
     9775116360:
       datasheet: https://katalog.we-online.com/em/datasheet/9775116360.pdf
       h1: 11.6
+
+snap:
+  series_prefix: WA-SMSSR-snap_rivet
+  footprint:
+    ring:
+      id: 4.4
+      od: 7.4
+      paste:
+        clearance: 0.8
+        id: 4.48
+        od: 7.27
+    npth: 4.4
+  mechanical:
+    id: 3.3
+    id1: 2.15
+    t1: 0.5
+    od: 6
+    od1: 4.2
+    h1: 1.4
+  parts:
+    9776100960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776100960R.pdf
+      h: 10
+    9776020960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776020960.pdf
+      h: 2
+    9776025960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776025960.pdf
+      h: 2.5
+    9776030960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776030960.pdf
+      h: 3
+    9776040960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776040960.pdf
+      h: 4
+    9776050960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776050960.pdf
+      h: 5
+    9776060960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776060960.pdf
+      h: 6
+    9776070960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776070960.pdf
+      h: 7
+    9776080960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776080960.pdf
+      h: 8
+    9776090960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776090960.pdf
+      h: 9
