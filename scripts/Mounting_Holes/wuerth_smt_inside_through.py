@@ -25,19 +25,27 @@ def generate_footprint(params, mpn, configuration):
     if 'M' not in size:
         size = "{}mm".format(size)
 
-    fp_name = "Mounting_Wuerth_Inside-{size}_H{h}mm_{mpn}".format(size=size, h=part_params['h'], mpn=mpn)
+    td = ""
+    if 'thread_depth' in part_params:
+        td = "_ThreadDepth{}mm".format(part_params['thread_depth'])
+
+    fp_name = "Mounting_Wuerth_{series}-{size}_H{h}mm{td}_{mpn}".format(
+                    size=size, h=part_params['h'], mpn=mpn, td=td, series=params['series_prefix'])
 
     kicad_mod = Footprint(fp_name)
+    kicad_mod.setAttribute('smd')
 
     kicad_mod.setDescription("Mounting Hardware, inside through hole {size}, height {h}, Wureth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=part_params['h'], mpn=mpn, ds=part_params['datasheet']))
 
     kicad_mod.setTags('Mounting {} {}'.format(size, mpn))
 
+    paste_count = fp_params['ring']['paste'].get('paste_count', 4)
+
     kicad_mod.append(
         RingPad(
             number='1', at=(0, 0),
             size=fp_params['ring']['od'], inner_diameter=fp_params['ring']['id'],
-            num_anchor=4, num_paste_zones=4,
+            num_anchor=4, num_paste_zones=paste_count,
             paste_round_radius_radio=0.25,
             paste_to_paste_clearance=fp_params['ring']['paste']['clearance'],
             paste_inner_diameter=fp_params['ring']['paste']['id'],
