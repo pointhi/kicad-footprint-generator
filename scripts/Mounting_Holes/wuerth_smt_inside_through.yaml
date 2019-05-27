@@ -511,3 +511,117 @@ M4:
     9774100482:
       datasheet: https://katalog.we-online.de/em/datasheet/9774100482.pdf
       h: 10
+
+3.2R:
+  series_prefix: WA-SMSR
+  footprint:
+    ring:
+      id: 4.5
+      od: 7.4
+      paste:
+        clearance: 0.8
+        id: 4.58
+        od: 7.27
+    npth: 4.4
+  mechanical:
+    id: 3.2
+    od: 6
+    od1: 4.2
+    h: 1
+  parts:
+    9775026960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775026960R.pdf
+      h1: 2.6
+    9775031960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775031960.pdf
+      h1: 3.1
+    9775036960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775036960.pdf
+      h1: 3.6
+    9775041960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775041960.pdf
+      h1: 4.1
+    9775046960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775046960.pdf
+      h1: 4.6
+    9775051960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775051960.pdf
+      h1: 5.1
+    9775056960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775056960.pdf
+      h1: 5.6
+    9775066960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775066960.pdf
+      h1: 6.6
+    9775076960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775076960.pdf
+      h1: 7.6
+    9775086960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775086960.pdf
+      h1: 8.6
+    9775096960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775096960.pdf
+      h1: 9.6
+    9775106960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775106960.pdf
+      h1: 10.6
+    9775116960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775116960.pdf
+      h1: 11.6
+
+M3R:
+  series_prefix: WA-SMSR
+  footprint:
+    ring:
+      id: 4.5
+      od: 7.4
+      paste:
+        clearance: 0.8
+        id: 4.58
+        od: 7.27
+    npth: 4.4
+  mechanical:
+    id: M3
+    od: 6
+    od1: 4.2
+    h: 1
+  parts:
+    9775026360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775026360.pdf
+      h1: 2.6
+    9775031360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775031360.pdf
+      h1: 3.1
+    9775036360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775036360.pdf
+      h1: 3.6
+    9775041360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775041360.pdf
+      h1: 4.1
+    9775046360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775046360.pdf
+      h1: 4.6
+    9775051360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775051360.pdf
+      h1: 5.1
+    9775056360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775056360.pdf
+      h1: 5.6
+    9775066360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775066360.pdf
+      h1: 6.6
+    9775076360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775076360.pdf
+      h1: 7.6
+    9775086360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775086360.pdf
+      h1: 8.6
+    9775096360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775096360.pdf
+      h1: 9.6
+    9775106360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775106360.pdf
+      h1: 10.6
+    9775116360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775116360.pdf
+      h1: 11.6

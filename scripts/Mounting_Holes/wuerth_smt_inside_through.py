@@ -29,13 +29,15 @@ def generate_footprint(params, mpn, configuration):
     if 'thread_depth' in part_params:
         td = "_ThreadDepth{}mm".format(part_params['thread_depth'])
 
+    h = part_params['h'] if 'h' in part_params else part_params['h1']
+
     fp_name = "Mounting_Wuerth_{series}-{size}_H{h}mm{td}_{mpn}".format(
-                    size=size, h=part_params['h'], mpn=mpn, td=td, series=params['series_prefix'])
+                    size=size, h=h, mpn=mpn, td=td, series=params['series_prefix'])
 
     kicad_mod = Footprint(fp_name)
     kicad_mod.setAttribute('smd')
 
-    kicad_mod.setDescription("Mounting Hardware, inside through hole {size}, height {h}, Wureth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=part_params['h'], mpn=mpn, ds=part_params['datasheet']))
+    kicad_mod.setDescription("Mounting Hardware, inside through hole {size}, height {h}, Wureth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=h, mpn=mpn, ds=part_params['datasheet']))
 
     kicad_mod.setTags('Mounting {} {}'.format(size, mpn))
 
