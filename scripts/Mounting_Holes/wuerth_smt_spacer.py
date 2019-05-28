@@ -21,7 +21,11 @@ def generate_footprint(params, mpn, configuration):
     mech_params = params['mechanical']
     part_params = params['parts'][mpn]
 
-    size = str(mech_params['id'])
+    if 'id' in mech_params:
+        size = str(mech_params['id'])
+    elif 'ext_thread' in mech_params:
+        size = str(mech_params['ext_thread']['od'])
+
     if 'M' not in size:
         size = "{}mm".format(size)
 

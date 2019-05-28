@@ -675,3 +675,61 @@ snap:
     9776090960:
       datasheet: https://katalog.we-online.com/em/datasheet/9776090960.pdf
       h: 9
+
+external_m3:
+  series_prefix: WA-SMSE-external
+  footprint:
+    ring:
+      id: 1
+      od: 7.4
+      paste:
+        paste_count: 2
+        clearance: 1.06
+        id: 1.2
+        od: 7.2
+    npth: 1
+  mechanical:
+    ext_thread:
+      od: M3
+      L: 6
+      undercut:
+        od: 2.2
+        L: [0.5, 1.25]
+        r: 0.2
+    od: 6
+    od1: 0.8
+    h1: 0.5
+  parts:
+    9771050360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771050360.pdf
+      h: 5
+    9771060360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771060360.pdf
+      h: 6
+    9771070360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771070360.pdf
+      h: 7
+    9771080360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771080360.pdf
+      h: 8
+    9771090360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771090360.pdf
+      h: 9
+    9771100360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771100360.pdf
+      h: 10
+    9771110360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771110360.pdf
+      h: 11
+    9771120360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771120360.pdf
+      h: 12
+    9771130360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771130360.pdf
+      h: 13
+    9771140360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771140360.pdf
+      h: 14
+    9771150360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771150360.pdf
+      h: 15
