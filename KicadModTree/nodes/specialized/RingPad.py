@@ -90,6 +90,9 @@ class ArcPadPrimitive(Node):
         * *round_radius_ratio* (``float``) --
           round radius.
           default: 25\% of ring width
+        * *max_round_radius* (``float``) --
+          maximum round radius, default: 0.25
+          Use none to ignore
         * *reference_arc* (``geometricArc``) --
           the reference arc used for this pad
         * *start_line* (``geometricLine``) --
@@ -104,9 +107,26 @@ class ArcPadPrimitive(Node):
         Node.__init__(self)
         self.reference_arc = geometricArc(geometry=kwargs['reference_arc'])
         self.width = float(kwargs['width'])
-        self.round_radius_ratio = kwargs.get('round_radius_ratio', 0.25)
+
         self.number = kwargs.get('number', "")
         self.layers = kwargs['layers']
+        self.minimum_overlap = kwargs.get('minimum_overlap', 0.1)
+
+        self.setRoundRadius(**kwargs)
+        self.setLimitingLines(**kwargs)
+
+    def setRoundRadius(self, **kwargs):
+        if 'round_radius' in kwargs:
+            self.round_radius = kwargs['round_radius']
+            return
+
+        round_radius_ratio = kwargs.get('round_radius_ratio', 0.25)
+        max_round_radius = kwargs.get('max_round_radius', 0.25)
+        r = self.width*round_radius_ratio
+        if max_round_radius is not None and max_round_radius > 0:
+            self.round_radius = min(r, max_round_radius)
+
+    def setLimitingLines(self, **kwargs):
         if kwargs.get('start_line') is not None:
             self.start_line = geometricLine(geometry=kwargs.get('start_line'))
         else:
@@ -115,13 +135,12 @@ class ArcPadPrimitive(Node):
             self.end_line = geometricLine(geometry=kwargs.get('end_line'))
         else:
             self.end_line = None
-        self.minimum_overlap = kwargs.get('minimum_overlap', 0.1)
 
     def copy(self):
         return ArcPadPrimitive(
                     reference_arc=self.reference_arc,
                     width=self.width,
-                    round_radius_ratio=self.round_radius_ratio,
+                    round_radius=self.round_radius,
                     number=self.number,
                     layers=self.layers,
                     start_line=self.start_line,
@@ -163,16 +182,17 @@ class ArcPadPrimitive(Node):
             self.end_line.translate(distance_vector)
         return self
 
-    def _getStep(self, line_width):
+    def _getStep(self):
+        line_width = self.round_radius*2
         if self.minimum_overlap >= line_width:
-            raise ValueError('arc line width (radius ratio) too small for requested overlap')
+            raise ValueError('arc line width (round radius) too small for requested overlap')
 
         required_arcs = ceil((self.width-self.minimum_overlap) / (line_width-self.minimum_overlap))
         return (self.width-line_width)/(required_arcs-1)
 
     def _getArcPrimitives(self):
-        line_width = self.width*self.round_radius_ratio*2
-        step = self._getStep(line_width)
+        line_width = self.round_radius*2
+        step = self._getStep()
 
         r_inner = self.reference_arc.getRadius()-self.width/2+line_width/2
         r_outer = self.reference_arc.getRadius()+self.width/2-line_width/2
@@ -248,11 +268,11 @@ class RingPad(Node):
         * *paste_round_radius_radio* (``float``) --
           round over radius ratio. default 0.25
           resulting radius must be larger than minimum overlap
-        * *paste_round_radius* (``float``) --
-          alternative for round radius ratio
-          round over radius for paste zones, must be larger than minimum overlap,
+        * *paste_max_round_radius* (``float``) --
+          maximum round radius.
           Only used if number of paste zones > 1
-          default: 25\% of ring width
+          default: 0.25
+          set to None to ignore
         * *solder_paste_margin* (``float``) --
           solder paste margin of the pad (default: 0)
         * *paste_outer_diameter* (``float``) --
@@ -316,11 +336,9 @@ class RingPad(Node):
             raise ValueError('num_paste_zones must be a positive integer')
 
         if self.num_paste_zones > 1:
-            if 'paste_round_radius' in kwargs:
-                self.paste_round_radius_radio = float(kwargs['paste_round_radius'])/self.paste_width
-            else:
-                self.paste_round_radius_radio = float(
-                    kwargs.get('paste_round_radius_radio', 0.25))
+            self.paste_max_round_radius = float(kwargs.get('paste_max_round_radius', 0.25))
+            self.paste_round_radius_radio = float(
+                kwargs.get('paste_round_radius_radio', 0.25))
 
             self.paste_to_paste_clearance = kwargs.get('paste_to_paste_clearance')
             if self.paste_to_paste_clearance is None:
@@ -328,6 +346,9 @@ class RingPad(Node):
 
             if self.paste_round_radius_radio <= 0:
                 raise ValueError('paste_round_radius_radio must be > 0')
+            if self.paste_max_round_radius is not None and self.paste_max_round_radius <= 0:
+                raise ValueError('paste_max_round_radius must be > 0')
+
             if self.paste_to_paste_clearance <= 0:
                 raise ValueError('paste_to_paste_clearance must be > 0')
 
@@ -344,21 +365,25 @@ class RingPad(Node):
                     start=self.at+(self.paste_center, 0),
                     angle=ref_angle)
 
-        w = self.paste_width*self.paste_round_radius_radio*2
+        pad = ArcPadPrimitive(
+                            number="", width=self.paste_width,
+                            round_radius_ratio=self.paste_round_radius_radio,
+                            max_round_radius=self.paste_max_round_radius,
+                            layers=['F.Paste'], reference_arc=ref_arc,
+                            minimum_overlap=self.minimum_overlap
+                            )
+
+        w = pad.round_radius*2
         y = (self.paste_to_paste_clearance + w)/2
 
         start_line = geometricLine(start=self.at+(0, y), end=self.at+(1, y))
         end_line = geometricLine(start=self.at+(0, -y), end=self.at+(1, -y)).rotate(ref_angle, origin=self.at)
+
         if self.num_paste_zones == 2:
             end_line = None
 
-        pad = ArcPadPrimitive(
-                            number="", width=self.paste_width,
-                            round_radius_ratio=self.paste_round_radius_radio,
-                            layers=['F.Paste'], reference_arc=ref_arc,
-                            start_line=start_line, end_line=end_line,
-                            minimum_overlap=self.minimum_overlap
-                            )
+        pad.setLimitingLines(start_line=start_line, end_line=end_line)
+
         self.pads.append(pad)
         for i in range(1, self.num_paste_zones):
             self.pads.append(pad.copy().rotate(i*ref_angle, origin=self.at))

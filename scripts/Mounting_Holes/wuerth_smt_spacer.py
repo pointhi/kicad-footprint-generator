@@ -53,6 +53,7 @@ def generate_footprint(params, mpn, configuration):
             size=fp_params['ring']['od'], inner_diameter=fp_params['ring']['id'],
             num_anchor=4, num_paste_zones=paste_count,
             paste_round_radius_radio=0.25,
+            paste_max_round_radius=0.1,
             paste_to_paste_clearance=fp_params['ring']['paste']['clearance'],
             paste_inner_diameter=fp_params['ring']['paste']['id'],
             paste_outer_diameter=fp_params['ring']['paste']['od']
