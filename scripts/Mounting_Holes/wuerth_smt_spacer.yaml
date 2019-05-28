@@ -341,6 +341,56 @@ M1.6_s:
       thread_depth: 2
       drill_depth: 3.13 # from 3d model
 
+M1.6_smt:
+  series_prefix: WA-SMSI_no-npth
+  footprint:
+    ring:
+      id: 0
+      od: 4
+      paste:
+        clearance: 0.3
+        id: 0.6 # 2*clearance to ensure proper handling (would need to implement a segment instead of an arc to really handle this. Too much work for now.)
+        od: 3.8
+  mechanical:
+    id: M1.6
+    od: 3.3
+  parts:
+    97730256330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730256330R.pdf
+      h: 2.5
+      thread_depth: 1.5
+      drill_depth: 1.63 # from 3d model
+    97730306330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730306330.pdf
+      h: 3
+      thread_depth: 1.8
+      drill_depth: 1.93 # from 3d model
+    97730356330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730356330.pdf
+      h: 3.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730406330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730406330.pdf
+      h: 4
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730456330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730456330.pdf
+      h: 4.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730506330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730506330.pdf
+      h: 5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730606330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730606330.pdf
+      h: 6
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+
 M2:
   series_prefix: WA-SMSI
   footprint:

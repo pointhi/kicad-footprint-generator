@@ -235,7 +235,7 @@ class ArcPadPrimitive(Node):
         return [Pad(
                     number=self.number,
                     type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM,
-                    at=at, size=self.width, layers=self.layers,
+                    at=at, size=self.width/2, layers=self.layers,
                     primitives=primitives
                     )]
 

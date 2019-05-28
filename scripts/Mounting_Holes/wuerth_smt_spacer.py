@@ -58,10 +58,11 @@ def generate_footprint(params, mpn, configuration):
             paste_inner_diameter=fp_params['ring']['paste']['id'],
             paste_outer_diameter=fp_params['ring']['paste']['od']
             ))
-    kicad_mod.append(
-        Pad(at=[0, 0], number="",
-            type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=fp_params['npth'],
-            drill=fp_params['npth'], layers=Pad.LAYERS_NPTH))
+    if 'npth' in fp_params:
+        kicad_mod.append(
+            Pad(at=[0, 0], number="",
+                type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=fp_params['npth'],
+                drill=fp_params['npth'], layers=Pad.LAYERS_NPTH))
 
     kicad_mod.append(
         Circle(
