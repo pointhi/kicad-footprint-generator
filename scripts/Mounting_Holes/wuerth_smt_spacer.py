@@ -104,7 +104,7 @@ def generate_footprint(params, mpn, configuration):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../tools/global_config_files/config_KLCv3.0.yaml')
-    parser.add_argument('--params', type=str, nargs='?', help='the part definition file', default='./wuerth_smt_inside_through.yaml')
+    parser.add_argument('--params', type=str, nargs='?', help='the part definition file', default='./wuerth_smt_spacer.yaml')
     args = parser.parse_args()
 
     with open(args.global_config, 'r') as config_stream:
