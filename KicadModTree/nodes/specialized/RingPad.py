@@ -253,7 +253,7 @@ class RingPad(Node):
           center position of the pad
         * *rotation* (``float``) --
           rotation of the pad
-        * *inside_diameter* (``float``) --
+        * *inner_diameter* (``float``) --
           diameter of the copper free inner zone
         * *size* (``float``) --
           outside diameter of the pad
@@ -308,6 +308,9 @@ class RingPad(Node):
 
         self.radius = (_id+_od)/4
         self.width = (_od-_id)/2
+        self.size = _od
+        self.is_circle = _id == 0
+
 
     def _initNumber(self, **kwargs):
         self.number = kwargs.get('number', "")  # default to an un-numbered pad
@@ -353,9 +356,22 @@ class RingPad(Node):
                 raise ValueError('paste_to_paste_clearance must be > 0')
 
     def _generatePads(self):
-        self._generateCopperPads()
+        self.pads = []
         if self.num_paste_zones > 1:
+            layers = ['F.Cu', 'F.Mask']
             self._generatePastePads()
+        else:
+            layers = ['F.Cu', 'F.Mask', 'F.Paste']
+
+        if not self.is_circle:
+            self._generateCopperPads()
+        else:
+            self.pads.append(
+                Pad(number=self.number,
+                    type=Pad.TYPE_SMT, shape=Pad.SHAPE_CIRCLE,
+                    at=(self.at), size=self.size,
+                    layers=layers
+                    ))
 
     def _generatePastePads(self):
         ref_angle = 360/self.num_paste_zones
@@ -400,7 +416,6 @@ class RingPad(Node):
                 ))
 
     def _generateCopperPads(self):
-        self.pads = []
         # kicad_mod.append(c)
         layers = ['F.Cu']
         if self.num_paste_zones == 1:
