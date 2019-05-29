@@ -342,7 +342,8 @@ M1.6_s:
       drill_depth: 3.13 # from 3d model
 
 M1.6_smt:
-  series_prefix: WA-SMSI_no-npth
+  series_prefix: WA-SMSI
+  suffix: NoNPTH
   footprint:
     ring:
       id: 0
@@ -564,6 +565,7 @@ M4:
 
 3.2R:
   series_prefix: WA-SMSR
+  suffix: ReverseMount
   footprint:
     ring:
       id: 4.5
@@ -621,6 +623,7 @@ M4:
 
 M3R:
   series_prefix: WA-SMSR
+  suffix: ReverseMount
   footprint:
     ring:
       id: 4.5
@@ -677,7 +680,8 @@ M3R:
       h1: 11.6
 
 snap:
-  series_prefix: WA-SMSSR-snap_rivet
+  series_prefix: WA-SMSSR
+  suffix: SnapRivet
   footprint:
     ring:
       id: 4.4
@@ -727,7 +731,7 @@ snap:
       h: 9
 
 external_m3:
-  series_prefix: WA-SMSE-external
+  series_prefix: WA-SMSE
   footprint:
     ring:
       id: 1

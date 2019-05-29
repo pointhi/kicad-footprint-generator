@@ -30,18 +30,29 @@ def generate_footprint(params, mpn, configuration):
         size = "{}mm".format(size)
 
     td = ""
+    size_prefix = ""
+    hole_type = "inside through hole"
     if 'thread_depth' in part_params:
+        hole_type = "inside blind hole"
         td = "_ThreadDepth{}mm".format(part_params['thread_depth'])
+    elif 'ext_thread' in mech_params:
+        hole_type = "external"
+        size_prefix = 'External'
 
     h = part_params['h'] if 'h' in part_params else part_params['h1']
 
-    fp_name = "Mounting_Wuerth_{series}-{size}_H{h}mm{td}_{mpn}".format(
-                    size=size, h=h, mpn=mpn, td=td, series=params['series_prefix'])
+    suffix = ''
+    if 'suffix' in params:
+        suffix = '_{}'.format(params['suffix'])
+
+    fp_name = "Mounting_Wuerth_{series}-{size_prefix}{size}_H{h}mm{td}{suffix}_{mpn}".format(
+                    size=size, h=h, mpn=mpn, td=td, size_prefix=size_prefix,
+                    series=params['series_prefix'], suffix=suffix)
 
     kicad_mod = Footprint(fp_name)
     kicad_mod.setAttribute('smd')
 
-    kicad_mod.setDescription("Mounting Hardware, inside through hole {size}, height {h}, Wureth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=h, mpn=mpn, ds=part_params['datasheet']))
+    kicad_mod.setDescription("Mounting Hardware, {hole_type} {size}, height {h}, Wureth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=h, mpn=mpn, ds=part_params['datasheet'], hole_type=hole_type))
 
     kicad_mod.setTags('Mounting {} {}'.format(size, mpn))
 

@@ -311,7 +311,6 @@ class RingPad(Node):
         self.size = _od
         self.is_circle = _id == 0
 
-
     def _initNumber(self, **kwargs):
         self.number = kwargs.get('number', "")  # default to an un-numbered pad
 
