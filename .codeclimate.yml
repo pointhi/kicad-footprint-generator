@@ -19,4 +19,4 @@ ratings:
 exclude_paths:
 - doc/**/*
 - scripts/**/*
-- KicadModTree/tests/**/*
+- "**/tests/"
