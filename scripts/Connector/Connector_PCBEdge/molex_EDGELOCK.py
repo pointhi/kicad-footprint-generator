@@ -31,6 +31,8 @@ datasheetBtoHousingLeft = 1.9
 datasheetBtoHousingRight = 1.0
 largerR = 0.4
 smallerR = 0.2
+chamferLength = 0.5
+chamferComment = "Chamfer 30 degree " + str(chamferLength) + " mm"
 
 housingHeight = 20.8
 
@@ -236,6 +238,18 @@ for padNum in padNums:
     f.append(PolygoneLine(polygone=[[xHoleLeft, yHoleBottom - holeHeight + largerR],
                                     [xHoleLeft, yHoleBottom - largerR]],
              layer="Edge.Cuts", width=wCut))
+
+    f.append(PolygoneLine(polygone=[[xSpaceLeftRight, yEdge - chamferLength],
+                                    [xSpaceCneterLeftLeft, yEdge - chamferLength]],
+             layer="Cmts.User", width=wCut))
+    f.append(PolygoneLine(polygone=[[xSpaceCneterLeftLeft + centerSpaceWidth, yEdge - chamferLength],
+                                    [xSpaceCneterRightLeft, yEdge - chamferLength]],
+             layer="Cmts.User", width=wCut))
+    f.append(PolygoneLine(polygone=[[xSpaceCneterRightLeft + centerSpaceWidth, yEdge - chamferLength],
+                                    [xSpaceRightLeft, yEdge - chamferLength]],
+             layer="Cmts.User", width=wCut))
+    f.append(Text(type="user", text=chamferComment, at=[xCenter, yEdge + sFabRef[0]],
+                  layer="Cmts.User", size=sFabRef, thickness=t2))
 
     file_handler = KicadFileHandler(f)
     file_handler.writeFile(footprint_name + ".kicad_mod")
