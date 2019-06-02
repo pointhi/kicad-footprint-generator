@@ -241,13 +241,13 @@ for padNum in padNums:
 
     f.append(PolygoneLine(polygone=[[xSpaceLeftRight, yEdge - chamferLength],
                                     [xSpaceCneterLeftLeft, yEdge - chamferLength]],
-             layer="Cmts.User", width=wCut))
+             layer="Dwgs.User", width=wCut))
     f.append(PolygoneLine(polygone=[[xSpaceCneterLeftLeft + centerSpaceWidth, yEdge - chamferLength],
                                     [xSpaceCneterRightLeft, yEdge - chamferLength]],
-             layer="Cmts.User", width=wCut))
+             layer="Dwgs.User", width=wCut))
     f.append(PolygoneLine(polygone=[[xSpaceCneterRightLeft + centerSpaceWidth, yEdge - chamferLength],
                                     [xSpaceRightLeft, yEdge - chamferLength]],
-             layer="Cmts.User", width=wCut))
+             layer="Dwgs.User", width=wCut))
     f.append(Text(type="user", text=chamferComment, at=[xCenter, yEdge + sFabRef[0]],
                   layer="Cmts.User", size=sFabRef, thickness=t2))
 
