@@ -93,6 +93,46 @@ SON-8-1EP_3.0x2.0mm_P0.5mm_EP1.4x1.6mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+WSON-8-1EP_3.0x2.5mm_P0.5mm_EP1.2x1.5mm:
+  device_type: 'WSON'
+  suffix: '_PullBack'
+  library: Package_SON
+  size_source: 'http://www.ti.com/lit/ml/mpds400/mpds400.pdf'
+  ipc_class: 'qfn_pull_back' #'qfn' | 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    nominal: 3.0
+    tolerance: 0.1
+  body_size_y:
+    nominal: 2.5
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.5
+    tolerance: 0.1
+  lead_to_edge: 0.1
+
+  EP_size_x:
+    nominal: 1.2
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 1.5
+    tolerance: 0.1
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.50
+  num_pins_x: 0
+  num_pins_y: 4
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    EP_paste_coverage: 0.75
+    paste_avoid_via: False
+
 WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.0mm:
   device_type: 'WSON'
   library: Package_SON

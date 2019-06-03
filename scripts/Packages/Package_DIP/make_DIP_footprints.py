@@ -7,9 +7,9 @@ import math
 # ensure that the kicad-footprint-generator directory is available
 #sys.path.append(os.environ.get('KIFOOTPRINTGENERATOR'))  # enable package import from parent directory
 #sys.path.append("D:\hardware\KiCAD\kicad-footprint-generator")  # enable package import from parent directory
-sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
-sys.path.append(os.path.join(sys.path[0],"..","..")) # load kicad_mod path
-sys.path.append(os.path.join(sys.path[0],"..","tools")) # load kicad_mod path
+sys.path.append(os.path.join(sys.path[0],"..","..","..","kicad_mod")) # load kicad_mod path
+sys.path.append(os.path.join(sys.path[0],"..","..","..")) # load kicad_mod path
+sys.path.append(os.path.join(sys.path[0],"..","..","tools")) # load kicad_mod path
 
 from KicadModTree import *  # NOQA
 from footprint_scripts_DIP import *
@@ -231,4 +231,28 @@ if __name__ == '__main__':
         makeDIPSwitch(p, rm, pinrow_distanceB, package_width, overlen_top, overlen_bottom, ddrill, pad_smd, switch_width,
                       switch_height, 'Slide', True, ["Copal_CHS-B"], "Buttons_Switches_SMD", [0, 0, 0], [1, 1, 1],
                       [0, 0, 0], "", True)
-    
+
+    #
+    # Special DIP
+    #
+    # http://www.experimentalistsanonymous.com/diy/Datasheets/MN3005.pdf
+    #
+    # common settings
+    overlen_top=1.27
+    overlen_bottom=1.27
+    rm=2.54
+    ddrill=0.8
+    pad=[1.6,1.6]
+    pad_large=[2.4,1.6]
+    pad_smdsocket=[3.1,1.6]
+    pad_smdsocket_small=[1.6,1.6]
+
+    # narrow 7.62 DIPs
+    pins=[8]
+    pinrow_distance=7.62
+    package_width=6.35
+    socket_width=pinrow_distance+2.54
+    makeDIP(16, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad,       False, 0, 0, 0, prefix_name = '8', skip_pin = [3, 4, 5, 6, 11, 12, 13, 14], skip_count = True, right_cnt_start = 5)
+    socket_height = (p / 2 - 1) * rm + 2.54
+    makeDIP(16, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad,       False, socket_width, socket_height,0, ["Socket"],            prefix_name = '8', skip_pin = [3, 4, 5, 6, 11, 12, 13, 14], skip_count = True, right_cnt_start = 5)
+    makeDIP(16, rm, pinrow_distance, package_width, overlen_top, overlen_bottom, ddrill, pad_large, False, socket_width, socket_height,0, ["Socket","LongPads"], prefix_name = '8', skip_pin = [3, 4, 5, 6, 11, 12, 13, 14], skip_count = True, right_cnt_start = 5)

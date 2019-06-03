@@ -95,4 +95,10 @@ kicad_mod.append(Model(filename="example.3dshapes/example_footprint.wrl",
 file_handler = KicadFileHandler(kicad_mod)
 file_handler.writeFile('example_footprint.kicad_mod')
 ```
+## Usage Steps
 
+1. Navigate into the `scripts` directory, and look for the type of footprint you would like to generate. For example, if you wish to generate an SMD inductor footprint, `cd` into `scripts/Inductor_SMD`.
+2. Open the \*.yaml (or \*.yml) file in a text editor. Study a few of the existing footprint definitions to get an idea of how your new footprint entry should be structured.
+3. Add your new footprint by inserting your own new section in the file. An easy way to do this is by simply copying an existing footprint definition, and modifying it to suit your part. Note:  You may have to add or remove additional parameters that are not listed.
+4. Save your edits and close the text editor.
+5. Run the python script, passing the \*.yaml or (\*.yml) file as a parameter, e.g. `python3 Inductor_SMD.py Inductor_SMD.yml`. This will generate the \*.kicad_mod files for each footprint defined in the \*.yaml (or \*.yml).

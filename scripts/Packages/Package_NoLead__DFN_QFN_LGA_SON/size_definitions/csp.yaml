@@ -1,3 +1,127 @@
+LFCSP-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm:
+  device_type: 'LFCSP'
+  library: Package_CSP
+  #manufacturer: 'Analog'
+  #part_number: 'CP-32-2'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/414143737956480539664569cp_32_2.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 5
+  body_size_y:
+    nominal: 5
+  body_height:
+    minimum: 0.8
+    nominal: 0.85
+    maximum: 1
+
+  lead_width:
+    minimum: 0.18
+    nominal: 0.23
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 2.95
+    nominal: 3.1
+    maximum: 3.25
+  EP_size_y:
+    minimum: 2.95
+    nominal: 3.1
+    maximum: 3.25
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [4, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    #EP_paste_coverage: 0.6
+    #grid: [1, 1]
+    # bottom_pad_size:
+    # paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 8
+  num_pins_y: 8
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
+
+LFCSP-48-1EP_7x7mm_P0.5mm_EP4.1x4.1mm:
+  device_type: 'LFCSP'
+  library: Package_CSP
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp_48_5.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  custom_name_format: 'LFCSP-{pincount}-1EP_{size_x:g}x{size_x:g}mm_P{pitch:g}mm_EP{ep_size_x:g}x{ep_size_x:g}mm{vias:s}'
+  body_size_x:
+    nominal: 7
+    tolerance: 0
+  body_size_y:
+    nominal: 7
+    tolerance: 0
+  overall_height:
+    minimum: 0.7
+    nominal: 0.75
+    maximum: 0.8
+
+  lead_width:
+    minimum: 0.18
+    nominal: 0.23
+    maximum: 0.3
+  lead_len:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.45
+
+  EP_size_x:
+    minimum: 3.95
+    nominal: 4.1
+    maximum: 4.25
+  EP_size_y:
+    minimum: 3.95
+    nominal: 4.1
+    maximum: 4.25
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+
+  thermal_vias:
+    count: [4, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
 LFCSP-72-1EP_10x10mm_Pitch0.5mm_EP5.3x5.3mm_ThermalVias:
   device_type: 'LFCSP'
   library: Package_CSP
