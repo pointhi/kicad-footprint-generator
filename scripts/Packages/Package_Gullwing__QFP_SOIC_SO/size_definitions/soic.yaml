@@ -360,6 +360,9 @@ SOIC-8_5.275x5.275mm_P1.27mm:
   overall_size_x:
     minimum: 7.7
     maximum: 8.1
+  overall_height:
+    minimum: 1.75
+    maximum: 2.16
   lead_width:
     minimum: 0.35
     maximum: 0.5
