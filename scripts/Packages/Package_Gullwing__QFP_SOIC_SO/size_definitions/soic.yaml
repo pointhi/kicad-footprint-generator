@@ -350,7 +350,7 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
     paste_avoid_via: False
 
 SOIC-8_5.275x5.275mm_P1.27mm:
-  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/20005045C.pdf'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/20005045C.pdf#page=23'
   body_size_x:
     minimum: 5.15
     maximum: 5.4
