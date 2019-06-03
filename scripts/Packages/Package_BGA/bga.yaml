@@ -1,0 +1,314 @@
+BGA-624_21.0x21.0mm_Layout25x25_P0.8mm:
+  description: "BGA-624"
+  size_source: "https://www.nxp.com/docs/en/package-information/SOT1529-1.pdf"
+  body_size_x: 21.0
+  body_size_y: 21.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.0625
+  layout_x: 25
+  layout_y: 25
+  row_skips: [[1], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+LFBGA-100_10x10mm_Layout10x10_P0.8mm:
+  description: "LFBGA-100"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f103tb.pdf#page=87"
+  body_size_x: 10.0
+  body_size_y: 10.0
+  pitch: 0.8
+  pad_diameter: 0.5
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 10
+  layout_y: 10
+LFBGA-144_10x10mm_Layout12x12_P0.8mm:
+  description: "LFBGA-144"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f103ze.pdf#page=114"
+  body_size_x: 10.0
+  body_size_y: 10.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 12
+  layout_y: 12
+Texas_DSBGA-28_1.9x3.0mm_Layout4x7_P0.4mm:
+  description: "Texas Instruments, DSBGA, area grid"
+  size_source: "http://www.ti.com/lit/ds/symlink/bq51050b.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf"
+  body_size_x: 1.9
+  body_size_y: 3.0
+  overall_height: 0.625
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.05
+  layout_x: 4
+  layout_y: 7
+Texas_DSBGA-49_3.33x3.488mm_Layout7x7_P0.4mm:
+  description: "Texas Instruments, DSBGA, area grid"
+  size_source: "http://www.ti.com/lit/ds/symlink/msp430f2234.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf"
+  body_size_x: 3.33
+  body_size_y: 3.488
+  overall_height: 0.625
+  pitch: 0.4
+  pad_diameter: 0.225
+  layout_x: 7
+  layout_y: 7
+  mask_margin: 0.05
+Texas_DSBGA-64_3.415x3.535mm_Layout8x8_P0.4mm:
+  description: "Texas Instruments, DSBGA, area grid"
+  size_source: "http://www.ti.com/lit/ds/slas718g/slas718g.pdf, http://www.ti.com/lit/an/snva009ag/snva009ag.pdf"
+  body_size_x: 3.415
+  body_size_y: 3.535
+  overall_height: 0.625
+  pitch: 0.4
+  pad_diameter: 0.225
+  layout_x: 8
+  layout_y: 8
+  mask_margin: 0.05
+Texas_DSBGA-8_1.5195x1.5195mm_Layout3x3_P0.5mm:
+  description: "Texas Instruments, DSBGA, area grid, YZR pad definition"
+  size_source: "http://www.ti.com/lit/ml/mxbg270/mxbg270.pdf"
+  body_size_x: 1.5195
+  body_size_y: 1.5195
+  overall_height: 0.6
+  pitch: 0.5
+  pad_diameter: 0.2625
+  layout_x: 3
+  layout_y: 3
+  mask_margin: 0.05
+  row_skips: [[], [2], []]
+Texas_MicroStar_Junior_BGA-113_7.0x7.0mm_Layout12x12_P0.5mm:
+  description: "Texas Instruments, BGA Microstar Junior"
+  size_source: "http://www.ti.com/lit/ml/mpbg674/mpbg674.pdf, http://www.ti.com/lit/wp/ssyz015b/ssyz015b.pdf"
+  body_size_x: 7
+  body_size_y: 7
+  pitch: 0.5
+  pad_diameter: 0.25
+  layout_x: 12
+  layout_y: 12
+  mask_margin: 0.025
+  row_skips: [[], [], [[4, 11]], [3, 10], [3, 10], [3, 6, 7, 10], [3, 6, 7, 10], [3, 10], [3, 10], [[3, 11]], [], []]
+TFBGA-64_5x5mm_Layout8x8_P0.5mm:
+  description: "TFBGA-64"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f100v8.pdf#page=83"
+  body_size_x: 5.0
+  body_size_y: 5.0
+  pitch: 0.5
+  pad_diameter: 0.28
+  mask_margin: 0.045
+  paste_margin: 0.000001
+  layout_x: 8
+  layout_y: 8
+TFBGA-100_8x8mm_Layout10x10_P0.8mm:
+  description: "TFBGA-100"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f746zg.pdf#page=199"
+  body_size_x: 8.0
+  body_size_y: 8.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 10
+  layout_y: 10
+TFBGA-121_10x10mm_Layout11x11_P0.8mm:
+  description: "TFBGA-121"
+  size_source: "http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#p495"
+  body_size_x: 10.0
+  body_size_y: 10.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 11
+  layout_y: 11
+TFBGA-216_13x13mm_Layout15x15_P0.8mm:
+  description: "TFBGA-216"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f746zg.pdf#page=219"
+  body_size_x: 13.0
+  body_size_y: 13.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 15
+  layout_y: 15
+  row_skips: [[], [], [], [], [], [], [[7, 10]], [[7, 10]], [[7, 10]], [], [], [], [], [], []]
+TFBGA-265_14x14mm_Layout17x17_P0.8mm:
+  description: "TFBGA-265"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00387108.pdf#page=223"
+  body_size_x: 14.0
+  body_size_y: 14.0
+  pitch: 0.8
+  pad_diameter: 0.325
+  mask_margin: 0.0325
+  paste_ratio: 0.0125
+  layout_x: 17
+  layout_y: 17
+  row_skips: [[], [], [], [], [], [[6, 13]], [6, 12], [6, 12], [6, 12], [6, 12], [6, 12], [[6, 13]], [], [], [], [], []]
+UCBGA-36_2.5x2.5mm_Layout6x6_P0.4mm:
+  description: "UCBGA-36"
+  size_source: "https://www.latticesemi.com/view_document?document_id=213"
+  body_size_x: 2.5
+  body_size_y: 2.5
+  pitch: 0.4
+  pad_diameter: 0.27
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 6
+  layout_y: 6
+UCBGA-49_3x3mm_Layout7x7_P0.4mm:
+  description: "UCBGA-49"
+  size_source: "https://www.latticesemi.com/view_document?document_id=213"
+  body_size_x: 3
+  body_size_y: 3
+  pitch: 0.4
+  pad_diameter: 0.27
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+UCBGA-81_4x4mm_Layout9x9_P0.4mm:
+  description: "UCBGA-81"
+  size_source: "https://www.latticesemi.com/view_document?document_id=213"
+  body_size_x: 4
+  body_size_y: 4
+  pitch: 0.4
+  pad_diameter: 0.27
+  mask_margin: 0.035
+  paste_margin: 0.000001
+  layout_x: 9
+  layout_y: 9
+UFBGA-64_5x5mm_Layout8x8_P0.5mm:
+  description: "UFBGA-64"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f051t8.pdf#page=91"
+  body_size_x: 5.0
+  body_size_y: 5.0
+  pitch: 0.5
+  pad_diameter: 0.28
+  mask_margin: 0.045
+  paste_margin: 0.000001
+  layout_x: 8
+  layout_y: 8
+UFBGA-100_7x7mm_Layout12x12_P0.5mm:
+  description: "UFBGA-100"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f103tb.pdf#page=93"
+  body_size_x: 7.0
+  body_size_y: 7.0
+  pitch: 0.5
+  pad_diameter: 0.28
+  mask_margin:  0.045
+  paste_margin: 0.000001
+  layout_x: 12
+  layout_y: 12
+  row_skips: [[], [], [6, 7], [[4, 10]], [[4, 10]], [[3, 11]], [[3, 11]], [[4, 10]], [[4, 10]], [6, 7], [], []]
+XBGA-121_10x10mm_Layout11x11_P0.8mm:
+  description: "XBGA-121"
+  size_source: "http://ww1.microchip.com/downloads/en/DeviceDoc/39969b.pdf"
+  body_size_x: 10.0
+  body_size_y: 10.0
+  pitch: 0.8
+  pad_diameter: 0.32
+  mask_margin: 0.04
+  paste_margin: 0.0001
+  layout_x: 11
+  layout_y: 11
+UFBGA-132_7x7mm_Layout12x12_P0.5mm:
+  description: "UFBGA-132"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l152zc.pdf#page=123"
+  body_size_x: 7.0
+  body_size_y: 7.0
+  pitch: 0.5
+  pad_diameter: 0.27
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 12
+  layout_y: 12
+  row_skips: [[], [], [], [], [[5, 9]], [5, 8], [5, 8], [[5, 9]], [], [], [], []]
+UFBGA-144_7x7mm_Layout12x12_P0.5mm:
+  description: "UFBGA-144"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f446ze.pdf#page=186"
+  body_size_x: 7.0
+  body_size_y: 7.0
+  pitch: 0.5
+  pad_diameter: 0.28
+  mask_margin: 0.045
+  paste_margin: 0.000001
+  layout_x: 12
+  layout_y: 12
+UFBGA-144_10x10mm_Layout12x12_P0.8mm:
+  description: "UFBGA-144"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f446ze.pdf#page=189"
+  body_size_x: 10.0
+  body_size_y: 10.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.075
+  paste_margin: 0.000001
+  layout_x: 12
+  layout_y: 12
+UFBGA-169_7x7mm_Layout13x13_P0.5mm:
+  description: "UFBGA-169"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f429ng.pdf#page=218"
+  body_size_x: 7.0
+  body_size_y: 7.0
+  pitch: 0.5
+  pad_diameter: 0.27
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 13
+  layout_y: 13
+UFBGA-201_10x10mm_Layout15x15_P0.65mm:
+  description: "UFBGA-201"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f207vg.pdf#page=166"
+  body_size_x: 10.0
+  body_size_y: 10.0
+  pitch: 0.65
+  pad_diameter: 0.3
+  mask_margin: 0.05
+  paste_margin: 0.000001
+  layout_x: 15
+  layout_y: 15
+  row_skips: [[], [], [], [], [[5, 12]], [5, 11], [5, 11], [5, 11], [5, 11], [5, 11], [[5, 12]], [], [], [], []]
+WLP-4_0.73x0.73mm_Layout2x2_P0.35mm_Ball0.22mm_Pad0.2mm:
+  description: "WLP-4"
+  size_source: "https://datasheets.maximintegrated.com/en/ds/MAX40200.pdf"
+  body_size_x: 0.728
+  body_size_y: 0.728
+  pitch: 0.35
+  pad_diameter: 0.2
+  mask_margin: 0.02
+  paste_margin: 0.000001
+  layout_x: 2
+  layout_y: 2
+  row_skips: [[], []]
+Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.4mm:
+  description: "Lattice caBGA-381, ECP5 FPGAs"
+  size_source: "http://www.latticesemi.com/view_document?document_id=213"
+  body_size_x: 17.0
+  body_size_y: 17.0
+  pitch: 0.8
+  pad_diameter: 0.4
+  mask_margin: 0.075
+  layout_x: 20
+  layout_y: 20
+  row_skips: [[1, 20], [], [], [], [], [], [], [], [], [], [], [], [], [], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [], [], [], [], [1, 4, 9, 10, 13, 18, 20]]
+Lattice_caBGA-381_17.0x17.0mm_Layout20x20_P0.8mm_Ball0.4mm_Pad0.6mm_SMD:
+  description: "Lattice caBGA-381, ECP5 FPGAs"
+  size_source: "http://www.latticesemi.com/view_document?document_id=213"
+  body_size_x: 17.0
+  body_size_y: 17.0
+  pitch: 0.8
+  pad_diameter: 0.6
+  mask_margin: -0.05
+  layout_x: 20
+  layout_y: 20
+  row_skips: [[1, 20], [], [], [], [], [], [], [], [], [], [], [], [], [], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [], [], [], [], [1, 4, 9, 10, 13, 18, 20]]
+Analog_BGA-28_4.0x6.25mm_Layout4x7_P0.8mm_Ball0.45mm_Pad0.4:
+   description: "Analog BGA-28, 0.4mm pad"
+   size_source: "https://www.analog.com/media/en/technical-documentation/data-sheets/8063fa.pdf"
+   body_size_x: 4.0
+   body_size_y: 6.25
+   pitch: 0.8
+   pad_diameter: 0.4
+   mask_margin: 0.05
+   layout_x: 4
+   layout_y: 7

@@ -1,0 +1,458 @@
+WLCSP-12_1.403x1.555mm_P0.4mm_Stagger:
+  description: "WLCSP-12, staggered array"
+  size_source: "http://ww1.microchip.com/downloads/en/devicedoc/atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet.pdf#page=208"
+  body_size_x: 1.403
+  body_size_y: 1.555
+  pitch_x: 0.2
+  pitch_y: 0.346333
+  pad_diameter: 0.215
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 6
+  layout_y: 4
+  row_skips: [[2, 4, 6], [1, 3, 5], [2, 4, 6], [1, 3, 5]]
+ST_WLCSP-25_Die425:
+  description: "WLCSP-25"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l031f6.pdf#page=112"
+  body_size_x: 2.097
+  body_size_y: 2.493
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 5
+  layout_y: 5
+ST_WLCSP-25_Die444:
+  description: "WLCSP-25"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f031k6.pdf#page=93"
+  body_size_x: 2.423
+  body_size_y: 2.325
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 5
+  layout_y: 5
+ST_WLCSP-25_Die457:
+  description: "WLCSP-25"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l011k3.pdf#page=100"
+  body_size_x: 2.133
+  body_size_y: 2.070
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 5
+  layout_y: 5
+ST_WLCSP-36_Die417:
+  description: "WLCSP-36"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l052t8.pdf#page=123"
+  body_size_x: 2.61
+  body_size_y: 2.88
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 6
+  layout_y: 6
+ST_WLCSP-36_Die440:
+  description: "WLCSP-36"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f051t8.pdf#page=103"
+  body_size_x: 2.605
+  body_size_y: 2.703
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 6
+  layout_y: 6
+ST_WLCSP-36_Die445:
+  description: "WLCSP-36"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f042k6.pdf#page=96"
+  body_size_x: 2.605
+  body_size_y: 2.703
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 6
+  layout_y: 6
+ST_WLCSP-36_Die458:
+  description: "WLCSP-36"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f410t8.pdf#page=119"
+  body_size_x: 2.553
+  body_size_y: 2.579
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 6
+  layout_y: 6
+ST_WLCSP-49_Die423:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f401vc.pdf#page=115"
+  body_size_x: 2.965
+  body_size_y: 2.965
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-49_Die431:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f411vc.pdf#page=124"
+  body_size_x: 2.999
+  body_size_y: 3.185
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-49_Die433:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f401ce.pdf#page=116"
+  body_size_x: 3.029
+  body_size_y: 3.029
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-49_Die435:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00257211.pdf#page=191"
+  body_size_x: 3.141
+  body_size_y: 3.127
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-49_Die438:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f303r8.pdf#page=112"
+  body_size_x: 3.89
+  body_size_y: 3.74
+  pitch: 0.5
+  pad_diameter: 0.29
+  mask_margin: 0.03
+  paste_margin: 0.01
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-49_Die439:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f301r8.pdf#page=117"
+  body_size_x: 3.417
+  body_size_y: 3.151
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-49_Die447:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l072kz.pdf#page=134"
+  body_size_x: 3.294
+  body_size_y: 3.258
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-49_Die448:
+  description: "WLCSP-49"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f071v8.pdf#page=106"
+  body_size_x: 3.277
+  body_size_y: 3.109
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 7
+ST_WLCSP-63_Die427:
+  description: "WLCSP-63"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l151cc.pdf#page=125"
+  body_size_x: 3.228
+  body_size_y: 4.164
+  pitch: 0.4
+  pad_diameter: 0.24
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 7
+  layout_y: 9
+ST_WLCSP-64_Die414:
+  description: "WLCSP-64"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f103ze.pdf#page=120"
+  body_size_x: 4.466
+  body_size_y: 4.395
+  pitch: 0.5
+  pad_diameter: 0.25
+  mask_margin: 0.025
+  paste_margin: 0.035
+  layout_x: 8
+  layout_y: 8
+ST_WLCSP-64_Die427:
+  description: "WLCSP-64"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l152zc.pdf#page=126"
+  body_size_x: 4.539
+  body_size_y: 4.911
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 8
+  layout_y: 8
+ST_WLCSP-64_Die435:
+  description: "WLCSP-64"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00257211.pdf#page=188"
+  body_size_x: 3.141
+  body_size_y: 3.127
+  pitch: 0.35
+  pad_diameter: 0.21
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 8
+  layout_y: 8
+ST_WLCSP-64_Die436:
+  description: "WLCSP-64"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l152zd.pdf#page=143"
+  body_size_x: 4.539
+  body_size_y: 4.911
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 8
+  layout_y: 8
+ST_WLCSP-64_Die441:
+  description: "WLCSP-64"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00213872.pdf#page=167"
+  body_size_x: 3.623
+  body_size_y: 3.651
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 8
+  layout_y: 8
+ST_WLCSP-64_Die442:
+  description: "WLCSP-64"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f091vb.pdf#page=109"
+  body_size_x: 3.347
+  body_size_y: 3.585
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 8
+  layout_y: 8
+ST_WLCSP-64_Die462:
+  description: "WLCSP-64"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00340475.pdf#page=189"
+  body_size_x: 3.357
+  body_size_y: 3.657
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 8
+  layout_y: 8
+ST_WLCSP-66_Die411:
+  description: "WLCSP-66"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f207vg.pdf#page=154"
+  body_size_x: 3.639
+  body_size_y: 3.971
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 9
+  layout_y: 9
+  row_skips: [[], [], [[4, 7]], [[4, 7]], [[4, 7]], [[4, 7]], [[4, 7]], [], []]
+ST_WLCSP-66_Die432:
+  description: "WLCSP-66"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f378vc.pdf#page=114"
+  body_size_x: 3.767
+  body_size_y: 4.229
+  pitch: 0.4
+  pad_diameter: 0.24
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 8
+  layout_y: 9
+  row_skips: [[], [], [], [4, 5], [4, 5], [4, 5], [], [], []]
+ST_WLCSP-72_Die415:
+  description: "WLCSP-72"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l476me.pdf#page=255"
+  body_size_x: 4.4084
+  body_size_y: 3.7594
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 9
+  layout_y: 9
+  row_skips: [[], [], [], [[4, 7]], [[4, 7]], [[4, 7]], [], [], []]
+ST_WLCSP-81_Die415:
+  description: "WLCSP-81"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l476me.pdf#page=252"
+  body_size_x: 4.4084
+  body_size_y: 3.7594
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 9
+  layout_y: 9
+ST_WLCSP-81_Die421:
+  description: "WLCSP-81"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f446ze.pdf#page=192"
+  body_size_x: 3.693
+  body_size_y: 3.815
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 9
+  layout_y: 9
+ST_WLCSP-81_Die463:
+  description: "WLCSP-81"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00282249.pdf#page=175"
+  body_size_x: 4.039
+  body_size_y: 3.951
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 9
+  layout_y: 9
+ST_WLCSP-90_Die413:
+  description: "WLCSP-90"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f405og.pdf#page=164"
+  body_size_x: 4.223
+  body_size_y: 3.969
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 10
+  layout_y: 9
+ST_WLCSP-100_Die422:
+  description: "WLCSP-100"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f302vc.pdf#page=133"
+  body_size_x: 4.201
+  body_size_y: 4.663
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 10
+  layout_y: 10
+ST_WLCSP-100_Die446:
+  description: "WLCSP-100"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f303zd.pdf#page=162"
+  body_size_x: 4.775
+  body_size_y: 5.041
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 10
+  layout_y: 10
+ST_WLCSP-100_Die452:
+  description: "WLCSP-100"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00330506.pdf#page=218"
+  body_size_x: 4.201
+  body_size_y: 4.663
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 10
+  layout_y: 10
+ST_WLCSP-100_Die461:
+  description: "WLCSP-100"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00284211.pdf#page=259"
+  body_size_x: 4.618
+  body_size_y: 4.142
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.000001
+  layout_x: 10
+  layout_y: 10
+ST_WLCSP-104_Die437:
+  description: "WLCSP-104"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32l152ze.pdf#page=127"
+  body_size_x: 4.095
+  body_size_y: 5.094
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 9
+  layout_y: 12
+  row_skips: [[], [], [], [], [5], [5], [5], [5], [], [], [], []]
+ST_WLCSP-143_Die419:
+  description: "WLCSP-143"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f429ng.pdf#page=203"
+  body_size_x: 4.521
+  body_size_y: 5.547
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 11
+  layout_y: 13
+ST_WLCSP-143_Die449:
+  description: "WLCSP-143"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f746zg.pdf#page=202"
+  body_size_x: 4.539
+  body_size_y: 5.849
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 11
+  layout_y: 13
+ST_WLCSP-144_Die470:
+  description: "WLCSP-144"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00366448.pdf#page=295"
+  body_size_x: 5.24
+  body_size_y: 5.24
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 12
+  layout_y: 12
+ST_WLCSP-168_Die434:
+  description: "WLCSP-168"
+  size_source: "http://www.st.com/resource/en/datasheet/stm32f469ni.pdf#page=198"
+  body_size_x: 4.891
+  body_size_y: 5.692
+  pitch: 0.4
+  pad_diameter: 0.22
+  mask_margin: 0.04
+  paste_margin: 0.000001
+  layout_x: 12
+  layout_y: 14
+ST_WLCSP-180_Die451:
+  description: "WLCSP-180"
+  size_source: "http://www.st.com/resource/en/datasheet/DM00273119.pdf#page=240"
+  body_size_x: 5.537
+  body_size_y: 6.095
+  pitch: 0.4
+  pad_diameter: 0.225
+  mask_margin: 0.0325
+  paste_margin: 0.0125
+  layout_x: 13
+  layout_y: 14
+  row_skips: [[], [], [], [], [], [], [7], [7], [], [], [], [], [], []]
