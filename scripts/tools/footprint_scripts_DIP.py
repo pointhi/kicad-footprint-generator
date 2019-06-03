@@ -31,7 +31,9 @@ from drawing_tools import *  # NOQA
 #       <----RM---->
 def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bottom, ddrill, pad, smd_pads=False,
             socket_width=0, socket_height=0, socket_pinrow_distance_offset=0, tags_additional=[],
-            lib_name="Housings_DIP", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], DIPName='DIP', DIPDescription='though-hole mounted DIP', DIPTags='THT DIP DIL PDIP'):
+            lib_name="Package_DIP", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0], DIPName='DIP', DIPDescription='though-hole mounted DIP', DIPTags='THT DIP DIL PDIP', 
+            prefix_name = "", skip_pin = [], skip_count = False, right_cnt_start = -1):
+
     pinrow_distance = pinrow_distance_in + socket_pinrow_distance_offset
     h_fab = (pins / 2 - 1) * rm + overlen_top + overlen_bottom
     w_fab = package_width
@@ -71,6 +73,8 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     t_crt = (pins / 2 - 1) * rm / 2 - h_crt / 2
     
     footprint_name = DIPName+"-{0}_W{1}mm".format(pins, round(pinrow_distance, 2))
+    if len(prefix_name) > 0:
+        footprint_name = DIPName+'-'+prefix_name+"-{0}_W{1}mm".format(pins, round(pinrow_distance, 2))
     description = "{0}-lead {3} package, row spacing {1} mm ({2} mils)".format(pins, round(pinrow_distance, 2),
                                                                                int(pinrow_distance / 2.54 * 100),
 																			   DIPDescription)
@@ -133,6 +137,10 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
     x1 = 0
     y1 = 0
     p2 = int(pins / 2 + 1)
+    if right_cnt_start >= 0:
+        # The pins on the right side shall start with a specific value
+        p2 = right_cnt_start
+
     x2 = pinrow_distance
     y2 = (pins / 2 - 1) * rm
     
@@ -148,21 +156,42 @@ def makeDIP(pins, rm, pinrow_distance_in, package_width, overlen_top, overlen_bo
         pad_layers = ['*.Cu', '*.Mask']
     
     for p in range(1, int(pins / 2 + 1)):
-        if p == 1:
-            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=pad_layers))
-        else:
-            kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
-                                  layers=pad_layers))
         
-        kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
+        addpinL = True
+        for sp in skip_pin:
+            if sp == p:
+                # The pin number is among those who should not be added
+                addpinL = False
+
+        if addpinL:
+            if p == 1:
+                kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shape1, at=[x1, y1], size=pad, drill=ddrill,
+                                      layers=pad_layers))
+            else:
+                kicad_modg.append(Pad(number=p1, type=pad_type, shape=pad_shapeother, at=[x1, y1], size=pad, drill=ddrill,
+                                      layers=pad_layers))
+
+        addpinR = True
+        for sp in skip_pin:
+            if sp == p + int(pins / 2):
+                # The pin number is among those who should not be added
+                addpinR = False
+
+        if addpinR:
+            kicad_modg.append(Pad(number=p2, type=pad_type, shape=pad_shapeother, at=[x2, y2], size=pad, drill=ddrill,
                               layers=pad_layers))
-        
-        p1 = p1 + 1
-        p2 = p2 + 1
+
+        # Do not increase the pin number if it should be skipped
+        if not (skip_count and not addpinL):
+            p1 = p1 + 1
+
+        # Do not increase the pin number if it should be skipped
+        if not (skip_count and not addpinR):
+            p2 = p2 + 1
+
         y1 = y1 + rm
         y2 = y2 - rm
-    
+
     # add model
     kicad_modg.append(
         Model(filename="${KISYS3DMOD}/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
@@ -407,7 +436,7 @@ def makeDIPSwitch(pins, rm, pinrow_distance, package_width, overlen_top, overlen
     # add model
     kicad_modg.append(
         Model(filename="${KISYS3DMOD}/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
-    
+
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
