@@ -3,6 +3,7 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   #manufacturer: 'man'
   #part_number: 'mpn'
   size_source: 'http://www.ti.com/lit/ds/symlink/cdclvp1102.pdf'
+  #page=28
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
