@@ -32,7 +32,7 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   EP_num_paste_pads: [2, 2]
   # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
 
-    thermal_vias:
+  thermal_vias:
     count: [2, 2]
     drill: 0.2
     # min_annular_ring: 0.15
