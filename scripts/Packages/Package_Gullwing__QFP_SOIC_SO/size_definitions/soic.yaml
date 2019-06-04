@@ -26,7 +26,6 @@ SOIC-4_4.55x3.7mm_P2.54mm:
   num_pins_y: 3
   exclude_pin_list: [2, 4] #not currently implemented so hand modification is necessary
 
-
 SOIC-4_4.55x2.6mm_P1.27mm:
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12884&prodName=TLP291'
   body_size_x:
@@ -350,6 +349,30 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
     # bottom_pad_size:
     paste_avoid_via: False
 
+SOIC-8_5.275x5.275mm_P1.27mm:
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/20005045C.pdf#page=23'
+  body_size_x:
+    minimum: 5.15
+    maximum: 5.4
+  body_size_y:
+    minimum: 5.15
+    maximum: 5.4
+  overall_size_x:
+    minimum: 7.7
+    maximum: 8.1
+  overall_height:
+    minimum: 1.75
+    maximum: 2.16
+  lead_width:
+    minimum: 0.35
+    maximum: 0.5
+  lead_len:
+    minimum: 0.5
+    maximum: 0.8
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
 SOIC-8_7.5x5.85mm_P1.27mm:
   size_source: 'http://www.ti.com/lit/ml/mpds382b/mpds382b.pdf'
   body_size_x:
@@ -360,7 +383,6 @@ SOIC-8_7.5x5.85mm_P1.27mm:
     maximum: 5.95
   overall_height:
     maximum: 2.8
-
   overall_size_x:
     nominal: 11.5
     tolerance: 0.25
@@ -370,7 +392,6 @@ SOIC-8_7.5x5.85mm_P1.27mm:
   lead_width:
     minimum: 0.31
     maximum: 0.51
-
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
