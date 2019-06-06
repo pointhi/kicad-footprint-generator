@@ -62,7 +62,72 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
-  
+
+LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
+  device_type: 'LFCSP'
+  library: Package_CSP
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/HMC7992.pdf'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    minimum: 2.9
+    nominal: 3
+    minimum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3
+    minimum: 3.1
+  body_height:
+    minimum: 0.75
+    nominal: 0.85
+    maximum: 0.95
+
+  lead_width:
+    maximum: 0.30
+    nominal: 0.25
+    minimum: 0.20
+  lead_len:
+    maximum: 0.35
+    nominal: 0.30
+    minimum: 0.25
+
+  EP_size_x:
+    maximum: 1.92
+    nominal: 1.70
+    minimum: 1.48
+  EP_size_y:
+    maximum: 1.92
+    nominal: 1.70
+    minimum: 1.48
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.3
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
 LFCSP-64-1EP_9x9mm_P0.5mm_EP5.21x5.21mm:
   device_type: 'LFCSP'
   library: Package_CSP
