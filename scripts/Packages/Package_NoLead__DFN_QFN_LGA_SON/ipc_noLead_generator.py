@@ -389,6 +389,12 @@ class NoLead():
 
         pad_width = pad_details['top']['size'][0]
 
+        for key in body_edge:
+            if bounding_box[key] < 0:
+                bounding_box[key] = min(bounding_box[key], body_edge[key])
+            else:
+                bounding_box[key] = max(bounding_box[key], body_edge[key])
+
         # ############################ SilkS ##################################
 
         silk_pad_offset = configuration['silk_pad_clearance'] + configuration['silk_line_width']/2
