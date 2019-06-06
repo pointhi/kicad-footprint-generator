@@ -349,6 +349,38 @@ SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.514x3.2mm:
     # bottom_pad_size:
     paste_avoid_via: False
 
+SOIC-8_5.23x5.23mm_P1.27mm:
+  size_source: 'http://www.winbond.com/resource-files/w25q32jv%20revg%2003272018%20plus.pdf#page=68'
+  body_size_x:
+    minimum: 5.13
+    nominal: 5.23
+    maximum: 5.33
+  body_size_y:
+    minimum: 5.13
+    nominal: 5.23
+    maximum: 5.33
+  overall_height:
+    minimum: 1.75
+    nominal: 1.95
+    maximum: 2.16
+
+  overall_size_x:
+    minimum: 7.7
+    nominal: 7.9
+    maximum: 8.1
+  lead_len:
+    minimum: 0.5
+    nominal: 0.65
+    maximum: 0.8
+  lead_width:
+    minimum: 0.35
+    nominal: 0.42
+    maximum: 0.48
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
 SOIC-8_5.275x5.275mm_P1.27mm:
   size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/20005045C.pdf#page=23'
   body_size_x:
@@ -369,6 +401,7 @@ SOIC-8_5.275x5.275mm_P1.27mm:
   lead_len:
     minimum: 0.5
     maximum: 0.8
+
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
@@ -392,6 +425,7 @@ SOIC-8_7.5x5.85mm_P1.27mm:
   lead_width:
     minimum: 0.31
     maximum: 0.51
+
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 4
