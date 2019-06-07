@@ -483,3 +483,70 @@ MSOP-16-1EP_3x4mm_P0.5mm:
   pitch: 0.5
   num_pins_x: 0
   num_pins_y: 8
+
+# By: JEFO
+# Email: jacob.overgaard.andersen@gmail.com
+MSOP-16_3x4mm_P0.5mm:
+  size_source: 'http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-msop/05081669_A_MS16.pdf'
+  body_size_x:
+    nominal: 3
+    tolerance: 0.102
+  body_size_y:
+    nominal: 4.039
+    tolerance: 0.102
+  overall_size_x:
+    nominal: 4.9
+    tolerance: 0.152
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.152
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 8
+  overall_height:
+    maximum: 1.10
+
+
+# By: JEFO
+# Email: jacob.overgaard.andersen@gmail.com
+MSOP-16-1EP_3x4mm_P0.5mm_EP1.65x2.85mm:
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-msop/05081667_F_MSE16.pdf'
+  body_size_x:
+    nominal: 3
+    tolerance: 0.102
+  body_size_y:
+    nominal: 4.039
+    tolerance: 0.102
+  overall_size_x:
+    nominal: 4.9
+    tolerance: 0.152
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    nominal: 0.53
+    tolerance: 0.152
+  overall_height:
+    maximum: 1.10
+  EP_size_x:
+    nominal: 1.651
+    tolerance: 0.102
+  EP_size_y:
+    nominal: 2.845
+    tolerance: 0.102
+  EP_paste_coverage: 0.7
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.25
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    paste_avoid_via: False
+  
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 8
