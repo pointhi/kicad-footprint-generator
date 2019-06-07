@@ -305,6 +305,65 @@ LQFP-64-1EP_10x10mm_P0.5mm_EP6.5x6.5mm:
     # bottom_pad_size:
     # paste_avoid_via: True
 
+LQFP-64-1EP_10x10mm_P0.5mm_EP5.0x5.0mm:
+  size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/adv7611.pdf'
+  # ipc_density: 'least'
+  # force_small_pitch_ipc_definition: True
+  body_size_x:
+    nominal: 10
+    minimum: 9.8
+    maximum: 10.2
+  body_size_y:
+    nominal: 10
+    minimum: 9.8
+    maximum: 10.2
+  overall_size_x:
+    nominal: 12
+    minimum: 11.8
+    maximum: 12.2
+  overall_size_y:
+    nominal: 12
+    minimum: 11.8
+    maximum: 12.2
+  lead_width:
+    nominal: 0.22
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    nominal: 0.6
+    minimum: 0.45
+    maximum: 0.75
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+
+  EP_size_x:
+    nominal: 5.0
+    minimum: 4.9
+    maximum: 5.1
+  EP_size_y:
+    nominal: 5.0
+    minimum: 4.9
+    maximum: 5.1
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [5, 5]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+  # EP_size_limit_x: 3.6  #for relatively large EP pads (increase clearance)
+  # EP_size_limit_y: 3.6  #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [4, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    paste_between_vias: 1
+    paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    grid: [1.2, 1.2]
+    # bottom_pad_size:
+    # paste_avoid_via: True
+
 LQFP-64_7x7mm_P0.4mm:
   size_source: 'https://www.nxp.com/docs/en/package-information/SOT414-1.pdf'
   body_size_x:
