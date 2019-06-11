@@ -147,8 +147,7 @@ def generate_one_footprint(pins, configuration):
     )
 
     #mounting hole
-    if pins > 1:
-        kicad_mod.append(Pad(at=[-1.5,3.25],type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
+    kicad_mod.append(Pad(at=[-1.5,3.25],type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
 
     #connector outline
 
