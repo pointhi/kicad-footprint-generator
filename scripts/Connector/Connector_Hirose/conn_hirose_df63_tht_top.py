@@ -52,7 +52,7 @@ datasheet = 'https://www.hirose.com/product/en/products/DF63/'
 #pins_per_row per row
 pins_per_row_range = [1,2,3,4,5,6]
 
-#Molex part number
+#Hirose part number
 #n = number of circuits per row
 part_code = "DF63-{n:d}P-3.96DSA"
 
@@ -94,7 +94,7 @@ def generate_one_footprint(pins, configuration):
     footprint_name = footprint_name.replace("__",'_')
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
+    kicad_mod.setDescription("Hirose {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
