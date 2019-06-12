@@ -45,7 +45,7 @@ from footprint_text_fields import addTextFields
 series = ""
 series_long = 'DF63 through hole'
 manufacturer = 'Hirose'
-orientation = 'H'
+orientation = 'V'
 number_of_rows = 1
 datasheet = 'https://www.hirose.com/product/en/products/DF63/'
 
