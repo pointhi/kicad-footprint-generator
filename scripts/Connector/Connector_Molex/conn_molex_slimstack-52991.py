@@ -42,7 +42,7 @@ pins_range = [20,30,40,50,60,70,80]
 
 #Molex part number
 #n = number of circuits per row
-part_code = "52991-0{n:02}0"
+part_code = "52991-0{n:02}8"
 
 pitch = 0.5
 
