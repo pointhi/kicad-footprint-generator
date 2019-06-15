@@ -109,6 +109,8 @@ def generate_one_footprint(pins, configuration):
     #Major dimensions
     B = ( pins - 1 ) * pitch
     A = B + 4.7
+    if pins == 1:
+        A = 6.2
 
     #calculate major dimensions
     x1 = (B - A) / 2
