@@ -54,7 +54,7 @@ pins_per_row_range = [1,2,3,4,5,6]
 
 #Hirose part number
 #n = number of circuits per row
-part_code = "DF63-{n:d}P-3.96DSA"
+part_code = "DF63{f:s}-{n:d}P-3.96DSA"
 
 pitch = 3.96
 drill = 1.8
@@ -78,8 +78,8 @@ if pad_size[1] == pad_size[0]:
 
 
 
-def generate_one_footprint(pins, configuration):
-    mpn = part_code.format(n=pins)
+def generate_one_footprint(pins, form_type, configuration):
+    mpn = part_code.format(n=pins, f=form_type)
     off = configuration['silk_fab_offset']
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
 
@@ -149,7 +149,11 @@ def generate_one_footprint(pins, configuration):
     )
 
     #mounting hole
-    kicad_mod.append(Pad(at=[-1.5,3.25],type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
+    if form_type != 'R':
+        peg_location = [-1.5, 3.25]
+    else:
+        peg_location = [B+1.5, 3.25]
+    kicad_mod.append(Pad(at=peg_location,type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
 
     #connector outline
 
@@ -250,4 +254,5 @@ if __name__ == "__main__":
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins_per_row in pins_per_row_range:
-        generate_one_footprint(pins_per_row, configuration)
+        generate_one_footprint(pins_per_row, '', configuration)
+        generate_one_footprint(pins_per_row, 'R', configuration)
