@@ -52,6 +52,8 @@ datasheet = 'https://www.hirose.com/product/en/products/DF63/'
 #pins_per_row per row
 pins_per_row_range = [1,2,3,4,5,6]
 
+types = ['M', 'R']
+
 #Hirose part number
 #n = number of circuits per row
 part_code = "DF63{f:s}-{n:d}P-3.96DSA"
@@ -254,5 +256,5 @@ if __name__ == "__main__":
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins_per_row in pins_per_row_range:
-        generate_one_footprint(pins_per_row, '', configuration)
-        generate_one_footprint(pins_per_row, 'R', configuration)
+        for form_type in types:
+            generate_one_footprint(pins_per_row, form_type, configuration)
