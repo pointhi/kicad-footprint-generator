@@ -151,7 +151,7 @@ def generate_one_footprint(pins, form_type, configuration):
     )
 
     #mounting hole
-    if form_type != 'R':
+    if form_type == 'M':
         peg_location = [-1.5, 3.25]
     else:
         peg_location = [B+1.5, 3.25]
