@@ -1,5 +1,6 @@
 fp_name_format_string: '{man:s}_{series:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}{mounting_pad:s}_P{pitch:.2f}mm_{orientation:s}'
 fp_name_format_string_shielded: '{man:s}_{series:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}-{shield_pins:d}SH_P{pitch:.2f}mm_{orientation:s}'
+fp_name_no_series_format_string: '{man:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}{mounting_pad:s}_P{pitch:.2f}mm_{orientation:s}'
 fp_name_dual_pitch_format_string: '{man:s}_{series:s}_{mpn:s}_{num_rows:d}x{pins_per_row:02d}{mounting_pad:s}_P{pitch_x:.2f}x{pitch_y:.2f}mm_{orientation:s}'
 fp_name_unequal_row_format_string: '{man:s}_{series:s}_{mpn:s}_{num_rows:d}Rows-{pins:02d}Pins{mounting_pad:s}_P{pitch:.2f}mm_{orientation:s}'
 orientation_options:
