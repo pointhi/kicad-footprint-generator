@@ -10,11 +10,11 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   body_size_x:
     minimum: 2.9
     nominal: 3
-    minimum: 3.1
+    maximum: 3.1
   body_size_y:
     minimum: 2.9
     nominal: 3
-    minimum: 3.1
+    maximum: 3.1
   body_height:
     minimum: 0.7
     nominal: 0.75
@@ -75,11 +75,11 @@ LFCSP-16-1EP_3x3mm_P0.5mm_EP1.7x1.7mm:
   body_size_x:
     minimum: 2.9
     nominal: 3
-    minimum: 3.1
+    maximum: 3.1
   body_size_y:
     minimum: 2.9
     nominal: 3
-    minimum: 3.1
+    maximum: 3.1
   body_height:
     minimum: 0.75
     nominal: 0.85
@@ -141,11 +141,11 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
   body_size_x:
     minimum: 3.9
     nominal: 4
-    minimum: 4.1
+    maximum: 4.1
   body_size_y:
     minimum: 3.9
     nominal: 4
-    minimum: 4.1
+    maximum: 4.1
   body_height:
     minimum: 0.70
     nominal: 0.75
