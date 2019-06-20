@@ -180,7 +180,7 @@ LFCSP-20-1EP_4x4mm_P0.5mm_EP2.6x2.6mm:
     EP_num_paste_pads: [2, 2]
     #paste_between_vias: 1
     #paste_rings_outside: 1
-    EP_paste_coverage: 0.75
+    EP_paste_coverage: 0.70
     #grid: [1, 1]
     # bottom_pad_size:
     paste_avoid_via: False
