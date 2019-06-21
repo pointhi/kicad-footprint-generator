@@ -236,3 +236,31 @@ STC_SOP-16_3.9x9.9mm_P1.27mm:
   pitch: 1.27 # e
   num_pins_x: 0
   num_pins_y: 8
+
+SOP-24_7.5x15.4mm_P1.27mm:
+  size_source: 'http://www.issi.com/WW/pdf/31FL3218.pdf#page=14'
+  body_size_x:
+    minimum: 7.4
+    nominal: 7.5
+    maximum: 7.6
+  body_size_y:
+    minimum: 15.2
+    nominal: 15.4
+    maximum: 15.6
+  overall_height:
+    maximum: 2.65
+
+  overall_size_x:
+    minimum: 10.1
+    nominal: 10.3
+    maximum: 10.61
+  lead_width:
+    minimum: 0.27
+    maximum: 0.48
+  lead_len:
+    minimum: 0.4
+    maximum: 1.27
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 12
