@@ -24,7 +24,7 @@ URL:
 https://www.hirose.com/product/en/products/DF63/
 
 Datasheet:
-https://www.hirose.com/product/en/download_file/key_name/DF63/category/Catalog/doc_file_id/51104/?file_category_id=4&item_id=47&is_series=1
+https://www.hirose.com/product/document?clcode=&productname=&series=DF63&documenttype=Catalog&lang=en&documentid=D31622_en
 """
 
 import sys
