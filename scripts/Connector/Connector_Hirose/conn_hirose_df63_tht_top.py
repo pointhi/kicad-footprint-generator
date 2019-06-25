@@ -42,7 +42,7 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = ""
+series = 'DF63'
 series_long = 'DF63 through hole'
 manufacturer = 'Hirose'
 orientation = 'V'
@@ -88,12 +88,9 @@ def generate_one_footprint(pins, form_type, configuration):
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
-    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
-        series=series,
+    footprint_name = configuration['fp_name_no_series_format_string'].format(man=manufacturer,
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
-
-    footprint_name = footprint_name.replace("__",'_')
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("Hirose {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins, datasheet))
