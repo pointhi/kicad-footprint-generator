@@ -144,7 +144,7 @@ class NoLead():
 
         if 'heel_reduction' in device_size_data:
             print(
-                "\033[1;35mThe use of manual heel reduction is dprecated. It is automatically calculated from the minimum EP to pad clearance (ipc config file)\033[0m"
+                "\033[1;35mThe use of manual heel reduction is deprecated. It is automatically calculated from the minimum EP to pad clearance (ipc config file)\033[0m"
             )
             dimensions['heel_reduction'] = device_size_data.get('heel_reduction', 0)
 
