@@ -24,7 +24,7 @@ URL:
 https://www.hirose.com/product/en/products/DF63/
 
 Datasheet:
-https://www.hirose.com/product/en/download_file/key_name/DF63/category/Catalog/doc_file_id/51104/?file_category_id=4&item_id=47&is_series=1
+https://www.hirose.com/product/document?clcode=&productname=&series=DF63&documenttype=Catalog&lang=en&documentid=D31622_en
 """
 
 import sys
@@ -42,19 +42,21 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = ""
+series = 'DF63'
 series_long = 'DF63 through hole'
 manufacturer = 'Hirose'
-orientation = 'H'
+orientation = 'V'
 number_of_rows = 1
 datasheet = 'https://www.hirose.com/product/en/products/DF63/'
 
 #pins_per_row per row
 pins_per_row_range = [1,2,3,4,5,6]
 
-#Molex part number
+types = ['M', 'R']
+
+#Hirose part number
 #n = number of circuits per row
-part_code = "DF63-{n:d}P-3.96DSA"
+part_code = "DF63{f:s}-{n:d}P-3.96DSA"
 
 pitch = 3.96
 drill = 1.8
@@ -78,23 +80,20 @@ if pad_size[1] == pad_size[0]:
 
 
 
-def generate_one_footprint(pins, configuration):
-    mpn = part_code.format(n=pins)
+def generate_one_footprint(pins, form_type, configuration):
+    mpn = part_code.format(n=pins, f=form_type)
     off = configuration['silk_fab_offset']
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
 
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
-    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
-        series=series,
+    footprint_name = configuration['fp_name_no_series_format_string'].format(man=manufacturer,
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
-    footprint_name = footprint_name.replace("__",'_')
-
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
+    kicad_mod.setDescription("Hirose {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
@@ -109,6 +108,8 @@ def generate_one_footprint(pins, configuration):
     #Major dimensions
     B = ( pins - 1 ) * pitch
     A = B + 4.7
+    if pins == 1:
+        A = 6.2
 
     #calculate major dimensions
     x1 = (B - A) / 2
@@ -147,8 +148,11 @@ def generate_one_footprint(pins, configuration):
     )
 
     #mounting hole
-    if pins > 1:
-        kicad_mod.append(Pad(at=[-1.5,3.25],type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
+    if form_type in ['M', '']:
+        peg_location = [-1.5, 3.25]
+    else:
+        peg_location = [B+1.5, 3.25]
+    kicad_mod.append(Pad(at=peg_location,type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
 
     #connector outline
 
@@ -249,4 +253,9 @@ if __name__ == "__main__":
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins_per_row in pins_per_row_range:
-        generate_one_footprint(pins_per_row, configuration)
+        for form_type in types:
+            if form_type is 'R' and pins_per_row is 6:
+                continue
+            if form_type is 'M' and pins_per_row in [5,6]:
+                form_type = ''
+            generate_one_footprint(pins_per_row, form_type, configuration)
