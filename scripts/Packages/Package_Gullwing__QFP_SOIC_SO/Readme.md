@@ -12,7 +12,7 @@ The script requires python 3.4 or newer. Run it with:
 
 Every file contains a header with parameters applied to all parts. These define the common footprint name prefix and the output library.
 
-```yaml
+``` yaml
 FileHeader:
   library_Suffix: 'QFP' #resulting library name Package_QFP
   device_type: 'EQFP' #footprint names will be of style ...EQFP-pincount_...
@@ -23,47 +23,60 @@ FileHeader:
 Every further entry in the script is assumed to be a package size definition. The top level parameter will give the internal parameter set name. This one must be unique in this file and should be representative of the footprint as it will be used in error messages. (It also makes later maintenance easier if it is easy to determine which footprint was genererated by which parameter set.)
 
 ``` yaml
-internal_name:
-  # parameter list
+internal_package_name:
+  # parameter list (See below)
 ```
 
-The following parameters are supported for every package
+### Documentation and naming parameters
 - Size source to be added to footprint documentation field (`size_source`) {url}
 - footprint name control
   - Manufacturer if specific to one manufacturer (`manufacturer`) {string}
   - Part number if specific to one part (`part_number`) {string}
   - Custom naming (`custom_name_format`) {format string}
+
+### Package dimensions
+![dimension example](./dimension_system.svg)
 - Body size (`body_size_x`, `body_size_y`, `overall_height`) {dimension}
 - Lead dimensions:
   - Over all size representing lead tip to lead tip dimension (`overall_size_x`, `overall_size_y`) {dimension}
   - Lead with (`lead_width`) {dimension}
   - Lead length representing tip till bend (`lead_len`)
-- lead pitch currently equal for all sides (`pitch`) {float}
+- lead pitch, currently equal for all sides (`pitch`) {float}
 - pin count, 0 means no pins in that direction (`num_pins_x`, `num_pins_y`) {int}
-- Exposed pad:
-  - Size of package exposed pad or slug (`EP_size_x`, `EP_size_y`) {dimension}
-  - Optional the size of the footprint pad (`EP_size_x_overwrite`, `EP_size_y_overwrite`) {float}
-  - Optional the size of the mask cutout (`EP_mask_x`, `EP_mask_y`) {float}
-  - Paste can be split into regular grid with (`EP_num_paste_pads`) {[int (x), int (y)]}
-    - Paste coverage multiplicator (`EP_paste_coverage`) {float (0..1)}
-  - Thermal vias (`thermal_vias`) with following sup parameters
-    - Number of vias generated in the regular grid (`count`) {[int (x), int (y)]}
-    - Final hole size (`drill`) {float}
-    - Optional grid (`grid`) {[float (x), float (y)]}
-    - Optional paste coverage overwrite (`EP_paste_coverage`) {float (0..1)}
-    - Should paste avoid vias? (`paste_avoid_via`) {bool}
-      - Can lead to math exceptions (reduce paste coverage)
-      - Clearance between via hole and paste (`paste_via_clearance`) {float}
-    - Number paste pads
-      - given as count value (`EP_num_paste_pads`) {[int (x), int (y)]}
-      - More specific as between vias and outside ring (`paste_between_vias`, `paste_rings_outside`)
+
+
+### Exposed pad handling:
+- Size of package exposed pad or slug (`EP_size_x`, `EP_size_y`) {dimension}
+- Optional the size of the footprint pad, equal to nominal EP_size (`EP_size_x_overwrite`, `EP_size_y_overwrite`) {float}
+- Optional the size of the mask cutout (`EP_mask_x`, `EP_mask_y`) {float}
+- Paste can be split into regular grid with (`EP_num_paste_pads`) {[int (x), int (y)]}
+  - Paste coverage multiplicator (`EP_paste_coverage`) {float (0..1), default=0.65}
+
+### Thermal vias
+A package with exposed pad can generate a version with thermal vias. This will be generated in addition to the normal version.
+``` yaml
+  thermal_vias:
+    # thermal via version parameters
+```
+- Number of vias generated in the regular grid (`count`) {[int (x), int (y)]}
+- Final hole size (`drill`) {float}
+- Optional grid (`grid`) {[float (x), float (y)]}
+  - Auto generated if not given (outermost pad will touch pad edge.)
+- Optional paste coverage overwrite (`EP_paste_coverage`) {float (0..1)}
+  - Increase compared to non thermal via version to combat solder loss through wicking.
+- Should paste avoid vias? (`paste_avoid_via`) {bool}
+  - Can lead to math exceptions (reduce paste coverage)
+  - Clearance between via hole and paste controlled with (`paste_via_clearance`) {float}
+- Number paste pads
+  - given as count value (`EP_num_paste_pads`) {[int (x), int (y)]}
+  - More specific as between vias and outside ring (`paste_between_vias`, `paste_rings_outside`)
 
 
 ## Dimension parameter format
 
 ### String based
 
-The parameter can be given as a string of the format. Whitespace is ignored.
+The parameter can be given as a string of one of the following formats (whitespace characters are ignored).
 
 ```yaml
 parameter_name: 1.2 # nominal only (reference dimension marked as such in datasheet)
@@ -92,6 +105,8 @@ parameter_name: # nominal with asymmetrical tolerance
 ```
 
 ### Deprecated format
+
+Support for this format will be dropped in the future.
 
 ```yaml
 parameter_name_min: 1.1
