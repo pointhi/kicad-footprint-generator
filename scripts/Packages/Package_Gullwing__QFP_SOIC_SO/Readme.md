@@ -46,11 +46,14 @@ internal_package_name:
 
 
 ### Exposed pad handling:
+![exposed pad example](./ep_handling.svg)
 - Size of package exposed pad or slug (`EP_size_x`, `EP_size_y`) {dimension}
-- Optional the size of the footprint pad, equal to nominal EP_size (`EP_size_x_overwrite`, `EP_size_y_overwrite`) {float}
+- Optional the size of the footprint pad (`EP_size_x_overwrite`, `EP_size_y_overwrite`) {float}
+   - Pad size is equal to nominal package pad size if not given.
 - Optional the size of the mask cutout (`EP_mask_x`, `EP_mask_y`) {float}
-- Paste can be split into regular grid with (`EP_num_paste_pads`) {[int (x), int (y)]}
-  - Paste coverage multiplicator (`EP_paste_coverage`) {float (0..1), default=0.65}
+   - Use to create solder mask defined pads (in combination with `EP_size_x_overwrite`)
+- Paste is typically split into a regular grid with (`EP_num_paste_pads`) {[int (x), int (y)]}
+  - The paste coverage multiplicator determines how much of the exposed copper area is covered by paste. (`EP_paste_coverage`) {float (0..1), default=0.65}
 
 ### Thermal vias
 A package with exposed pad can generate a version with thermal vias. This will be generated in addition to the normal version.
