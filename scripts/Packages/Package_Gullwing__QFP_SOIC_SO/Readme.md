@@ -35,7 +35,7 @@ internal_package_name:
   - Custom naming (`custom_name_format`) {format string}
 
 ### Package dimensions
-![dimension example](./dimension_system.svg)
+![dimension example](./documentation/dimension_system.svg)
 - Body size (`body_size_x`, `body_size_y`, `overall_height`) {dimension}
 - Lead dimensions:
   - Over all size representing lead tip to lead tip dimension (`overall_size_x`, `overall_size_y`) {dimension}
@@ -46,7 +46,7 @@ internal_package_name:
 
 
 ### Exposed pad handling:
-![exposed pad example](./ep_handling.svg)
+![exposed pad example](../documentation/ep_handling.svg)
 - Size of package exposed pad or slug (`EP_size_x`, `EP_size_y`) {dimension}
 - Optional the size of the footprint pad (`EP_size_x_overwrite`, `EP_size_y_overwrite`) {float}
    - Pad size is equal to nominal package pad size if not given.
@@ -57,6 +57,9 @@ internal_package_name:
 
 ### Thermal vias
 A package with exposed pad can generate a version with thermal vias. This will be generated in addition to the normal version.
+
+![exposed pad example](../documentation/thermal_vias.svg)
+
 ``` yaml
   thermal_vias:
     # thermal via version parameters
