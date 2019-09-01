@@ -567,7 +567,7 @@ class Gullwing():
         file_handler.writeFile(filename)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
+    parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints. See readme.md for details about the parameter file format.')
     parser.add_argument('files', metavar='file', type=str, nargs='+',
                         help='list of files holding information about what devices should be created.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
@@ -575,7 +575,7 @@ if __name__ == "__main__":
     parser.add_argument('--density', type=str, nargs='?', help='Density level (L,N,M)', default='N')
     parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='../ipc_definitions.yaml')
     parser.add_argument('--force_rectangle_pads', action='store_true', help='Force the generation of rectangle pads instead of rounded rectangle')
-    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints kicad 4 compatible')
+    parser.add_argument('--kicad4_compatible', action='store_true', help='Create footprints compatible with version 4 (avoids round-rect and custom pads).')
     args = parser.parse_args()
 
     if args.density == 'L':
