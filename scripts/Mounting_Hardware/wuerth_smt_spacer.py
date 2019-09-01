@@ -52,7 +52,7 @@ def generate_footprint(params, mpn, configuration):
     kicad_mod = Footprint(fp_name)
     kicad_mod.setAttribute('smd')
 
-    kicad_mod.setDescription("Mounting Hardware, {hole_type} {size}, height {h}, Wureth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=h, mpn=mpn, ds=part_params['datasheet'], hole_type=hole_type))
+    kicad_mod.setDescription("Mounting Hardware, {hole_type} {size}, height {h}, Wuerth electronics {mpn} ({ds:s}), generated with kicad-footprint-generator".format(size=size, h=h, mpn=mpn, ds=part_params['datasheet'], hole_type=hole_type))
 
     kicad_mod.setTags('Mounting {} {}'.format(size, mpn))
 
