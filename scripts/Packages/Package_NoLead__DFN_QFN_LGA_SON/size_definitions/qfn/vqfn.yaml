@@ -560,3 +560,56 @@ VQFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
+
+VQFN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm:
+  device_type: 'VQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT4222H.pdf#page=40'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 5
+    tolerance: 0
+  body_size_y:
+    nominal: 5
+    tolerance: 0
+  overall_height:
+    nominal: 0.85
+    tolerance: 0.05
+  lead_width:
+    nominal: 0.25
+    tolerance: [+0.05, -0.07]
+  lead_len:
+    nominal: 0.4
+    tolerance: 0.05
+
+  EP_size_x:
+    nominal: 3.5
+    tolerance: 0.05
+  EP_size_y:
+    nominal: 3.5
+    tolerance: 0.05
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.3
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 8
+  num_pins_y: 8
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
