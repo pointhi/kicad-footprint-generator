@@ -1,0 +1,15 @@
+SMD_1008:
+  code_imperial: "1008"
+  code_metric: "2520"
+  body_length:
+    nominal: 2.5
+    tolerance: 0.2
+  body_width:
+    nominal: 2.0
+    tolerance: 0.2
+  terminal_length:
+    nominal: 0.6
+    tolerance: 0.25
+  ipc_reference: "ipc_spec_larger_or_equal_0603"
+  size_info: '(Body size source: https://ecsxtal.com/store/pdf/ECS-MPI2520-SMD-POWER-INDUCTOR.pdf)'
+

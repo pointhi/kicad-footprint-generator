@@ -125,7 +125,7 @@ capacitor_tantal_handsolder:
 
 inductor:
     fp_lib_name: 'Inductor_SMD'
-    size_definitions: ['size_default_chip_devices.yaml']
+    size_definitions: ['size_default_chip_devices.yaml', 'size_inductor.yaml']
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     prefix: 'L'
     description: 'Inductor SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
