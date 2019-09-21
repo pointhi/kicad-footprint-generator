@@ -8,7 +8,7 @@ Examples of supported packages include: QFN, SOIC, SO.
 ## Running the script
 
 The script requires python 3.4 or newer. Run it with:
-`python3 ipc_gullwing_generator.py size_definitions/eqfp.yaml` (replace eqfp.yaml with the size definition file that contains your part.)
+`python3 ipc_gullwing_generator.py size_definitions/eqfp.yaml` (replace `eqfp.yaml` with the size definition file that contains your part.)
 
 ### Optional script parameters
 
@@ -45,23 +45,23 @@ internal_package_name:
 - Footprint name generation control
   - Manufacturer name. Will be added as a prefix if given. (`manufacturer`) {string}
   - Part number. Will be added as a prefix if given. (`part_number`) {string}
-  - suffix: A custom suffix (added after pin pitch in default naming format). Can include parameters pad_x and pad_y.
+  - Suffix: A custom suffix (added after pin pitch in default naming format). Can include parameters `pad_x` and `pad_y`.
   - Custom naming (`custom_name_format`) {python format string}
     - The full default format string is '{man:s}_{mpn:s}_{pkg:s}-{pincount:d}-1EP_{size_x:g}x{size_y:g}mm_P{pitch:g}mm{suffix:s}_EP{ep_size_x:g}x{ep_size_y:g}mm_Mask{mask_size_x:g}x{mask_size_y:g}mm{suffix2:s}{vias:s}' (The same parameters can be used in your custom format. Exposed pad parameters are not available for components without exposed pad.)
 
-_Note: Contributions intended for the official library shall not include the manufacturer or part number unless the footprint is specific to that manufacturer or part. Similarly avoid custom naming for official library contributions unless required to achieve the requested name (Example TI specific naming)._
+_Note: Contributions intended for the official library shall not include the manufacturer or part number unless the footprint is specific to that manufacturer or part. Similarly avoid custom naming for official library contributions unless required to achieve the requested name (Example TI-specific naming)._
 
 ### Package dimensions
 ![dimension example](./documentation/dimension_system.svg)
 - Body size (`body_size_x`, `body_size_y`, `overall_height`) {dimension}
 - Lead dimensions:
-  - Over all size representing lead tip to lead tip dimension (`overall_size_x`, `overall_size_y`) {dimension}
-  - Lead with (`lead_width`) {dimension}
+  - Overall size representing lead tip to lead tip dimension (`overall_size_x`, `overall_size_y`) {dimension}
+  - Lead width (`lead_width`) {dimension}
   - Lead length representing tip till bend (`lead_len`)
 - lead pitch, currently equal for all sides (`pitch`) {float}
 - pin count (`num_pins_x`, `num_pins_y`) {int}
   - num_pins_x=0 is used for generating SOIC like packages.
-  - num_pins_y=0 is used to generat SOIC like package footprints but with inverted pin numbering (Mirrored numbering scheme. Some manufactures use this style in their datasheets. Make sure you are not looking at the bottom view before using this. Not supported for QFP and similar.)
+  - num_pins_y=0 is used to generate SOIC like package footprints but with inverted pin numbering (Mirrored numbering scheme. Some manufactures use this style in their datasheets. Make sure you are not looking at the bottom view before using this. Not supported for QFP and similar.)
 
 ### Exposed pad handling:
 ![exposed pad example](../documentation/ep_handling.svg)
