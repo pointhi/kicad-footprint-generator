@@ -126,6 +126,53 @@ SOP-8_3.76x4.96mm_P1.27mm:
   num_pins_x: 0
   num_pins_y: 4
 
+SOP-8_3.9x4.9mm_P1.27mm:
+  size_source: 'http://www.macronix.com/Lists/Datasheet/Attachments/7534/MX25R3235F,%20Wide%20Range,%2032Mb,%20v1.6.pdf#page=79'
+  body_size_x:
+    minimum: 3.80
+    maximum: 4.00
+  body_size_y:
+    minimum: 4.77
+    maximum: 5.03
+  overall_height:
+    minimum: 1.45 # not specified, min.A1(0.10) + min.A2(1.35) gives this value 
+    maximum: 1.75 
+  overall_size_x:
+    minimum: 5.80
+    maximum: 6.20
+  lead_width:
+    minimum: 0.36
+    maximum: 0.51
+  lead_len:
+    minimum: 0.46
+    maximum: 0.86
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+SOP-8_5.28x5.23mm_P1.27mm:
+  size_source: 'http://www.macronix.com/Lists/Datasheet/Attachments/7534/MX25R3235F,%20Wide%20Range,%2032Mb,%20v1.6.pdf#page=80'
+  body_size_x:
+    minimum: 5.18
+    maximum: 5.38
+  body_size_y:
+    minimum: 5.13
+    maximum: 5.33
+  overall_height:
+    minimum: 1.75
+    maximum: 2.16
+  overall_size_x:
+    minimum: 7.70
+    maximum: 8.10
+  lead_width:
+    minimum: 0.36
+    maximum: 0.51
+  lead_len:
+    minimum: 0.50
+    maximum: 0.80
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
 
 SOP-8_6.62x9.15mm_P2.54mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/iso1050.pdf'
