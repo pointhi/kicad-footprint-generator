@@ -1,0 +1,27 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'SC-74'
+
+SC-74-6_1.50mmx2.90mm_P0.95mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT457.pdf'
+  body_size_x:
+    minimum: 1.3
+    maximum: 1.7
+  body_size_y:
+    minimum: 2.7
+    maximum: 3.1
+  overall_size_x:
+    minimum: 2.5
+    maximum: 3.0
+  overall_height:
+    minimum: 0.9
+    maximum: 1.1
+  lead_width:
+    minimum: 0.25
+    maximum: 0.40
+  lead_len:
+    minimum: 0.2
+    maximum: 0.6
+  pitch: 0.95
+  num_pins_x: 0
+  num_pins_y: 3
