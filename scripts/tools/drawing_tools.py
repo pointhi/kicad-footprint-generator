@@ -282,7 +282,7 @@ def addLineWithKeepout(kicad_mod, x1, y1, x2,y2, layer, width, keepouts=[], roun
             hasToDraw = True
 
         x=x+dx; y=y+dy
-    if hasToDraw and ((xs!=x2 and ys!=y2) or (not didDrawAny)):
+    if hasToDraw and ((xs!=x2 or ys!=y2) or (not didDrawAny)):
         kicad_mod.append(Line(start=[roundG(xs, roun), roundG(ys, roun)], end=[roundG(x2, roun), roundG(y2, roun)], layer=layer, width=width))
 
 
