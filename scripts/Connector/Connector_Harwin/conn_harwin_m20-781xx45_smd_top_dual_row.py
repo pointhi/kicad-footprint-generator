@@ -52,6 +52,7 @@ def generate_footprint(pins, configuration):
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_per_row, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
 
+    print(footprint_name)
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("Harwin {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
@@ -89,16 +90,11 @@ def generate_footprint(pins, configuration):
             type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE, size=mount_drill,
             drill=mount_drill, layers=Pad.LAYERS_NPTH))
 
-    #
-    # THT Pegs
-    #
-    kicad_mod.append(PadArray(start=[-1.27, -B/2], initial="", pincount=pins,
-        y_spacing=pitch, type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-        size=peg_drill_tht, drill=peg_drill_tht, layers=Pad.LAYERS_NPTH))
-
-    kicad_mod.append(PadArray(start=[1.27, -B/2], initial="", pincount=pins,
-        y_spacing=pitch, type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
-        size=peg_drill_tht, drill=peg_drill_tht, layers=Pad.LAYERS_NPTH))
+    for pin in range(pins):
+        for x_pitch in [1.27, -1.27]:
+            kicad_mod.append(Pad(at=[x_pitch, -B/2 + pin*pitch], number="",
+                type=Pad.TYPE_NPTH, shape=Pad.SHAPE_CIRCLE,
+                size=peg_drill_tht, drill=peg_drill_tht, layers=Pad.LAYERS_NPTH))
 
     #
     # Add pads
