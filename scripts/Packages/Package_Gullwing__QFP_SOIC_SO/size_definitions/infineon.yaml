@@ -1,0 +1,38 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'PG-DSO'
+
+Infineon_PG-DSO-8-27:
+  size_source: 'https://www.infineon.com/cms/en/product/packages/PG-DSO/PG-DSO-8-27'
+  manufacturer: Infineon
+  custom_name_format: '{man}_PG-DSO-{pincount}-27_{size_x:g}x{size_y:g}mm_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
+
+  body_size_x: 3.9 +/-0.1
+  body_size_y: 4.9 +/-0.1
+  overall_height:
+    maximum: 1.7
+
+  overall_size_x: 6.0 +/-0.2
+  lead_width: 0.41 +/-0.09
+  lead_len: 0.64 +/-0.25
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+  EP_size_x: 2.65 +/-0.2
+  EP_size_y: 3.0 +/-0.2
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.7
+    # grid: [1.3, 1.3]
+    # bottom_pad_size:
+    paste_avoid_via: False
