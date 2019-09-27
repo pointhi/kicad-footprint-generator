@@ -145,13 +145,13 @@ LGA-16_4x4mm_P0.65mm_LayoutBorder4x4y:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
-NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y:
+NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.2mm:
   device_type: 'LGA'
   library: Package_LGA
   use_name_format: 'LGA'
   manufacturer: 'NXP'
-  part_number: 'MPL115A1'
-  size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf'
+  #part_number: 'MPL115A1'
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL115A1.pdf#page=15'
   body_size_x:
     nominal: 3
     tolerance: 0
@@ -159,11 +159,11 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y:
     nominal: 5
     tolerance: 0
   body_height:
-    maximum: 1.2    
+    maximum: 1.2
   lead_width:
     nominal: 0.5
     tolerance: 0.05
-  lead_center_pos_x: 
+  lead_center_pos_x:
     nominal: 1
     tolerance: 0
   lead_len:
@@ -175,7 +175,41 @@ NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y:
   #chamfer_edge_pins: 0.25
   #pin_count_grid:
   #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  suffix: '_H1.2mm'
+  #include_suffix_in_3dpath: 'False'
+
+NXP-8_3x5mm_P1.25mm_LayoutBorder2x4y_H1.1mm:
+  device_type: 'LGA'
+  library: Package_LGA
+  use_name_format: 'LGA'
+  manufacturer: 'NXP'
+  #part_number: 'MPL3115A2'
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/MPL3115A2.pdf#page=42'
+  body_size_x:
+    nominal: 3
+    tolerance: 0
+  body_size_y:
+    nominal: 5
+    tolerance: 0
+  body_height:
+    maximum: 1.1
+    tolerance: 0.1
+  lead_width:
+    nominal: 0.5
+    tolerance: 0.05
+  lead_center_pos_x:
+    nominal: 1
+    tolerance: 0
+  lead_len:
+    nominal: 0.8
+    tolerance: 0.05
+  pitch: 1.25
+  num_pins_x: 0
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  suffix: '_H1.1mm'
   #include_suffix_in_3dpath: 'False'
 
 Bosch_LGA-8_3x3mm_P0.8mm:
