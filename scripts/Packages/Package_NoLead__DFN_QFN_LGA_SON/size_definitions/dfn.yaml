@@ -638,6 +638,29 @@ Broadcom_DFN-6_2.0x2.0mm:
   num_pins_x: 0
   num_pins_y: 3
 
+Texas_VSON-HR_1.5x2mm_P0.5mm:
+  device_type: 'VSON-HR'
+  size_source: 'http://www.ti.com/lit/ds/symlink/tps62823.pdf#page=29'
+  manufacturer: 'Texas'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  body_size_x:
+    minimum: 1.4
+    maximum: 1.6
+  body_size_y:
+    minimum: 1.9
+    maximum: 2.1
+  overall_height:
+    maximum: 1
+  lead_width:
+    minimum: 0.2
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.4
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 4
+
 TDFN-6-1EP_2.5x2.5mm_P0.65mm_EP1.3x2mm:
   device_type: 'TDFN'
   size_source: 'http://www.nve.com/Downloads/ab3.pdf'
