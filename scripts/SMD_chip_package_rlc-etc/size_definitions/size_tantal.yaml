@@ -46,8 +46,6 @@ SMD_2012-12:
     terminal_length:
         nominal: 0.5
         tolerance: 0.2
-    terminal_width_min: 0.8
-    terminal_width_max: 1.0
     terminal_width:
         nominal: 0.9
         tolerance: 0.1

@@ -103,9 +103,6 @@ class TwoTerminalSMDchip():
         return dimensions
 
     def generateFootprints(self):
-        fab_line_width = self.configuration.get('fab_line_width', 0.1)
-        silk_line_width = self.configuration.get('silk_line_width', 0.12)
-
         for group_name in self.footprint_group_definitions:
             #print(device_group)
             footprint_group_data = self.footprint_group_definitions[group_name]
@@ -121,204 +118,215 @@ class TwoTerminalSMDchip():
 
             for size_name in package_size_defintions:
                 device_size_data = package_size_defintions[size_name]
+                try:
+                    self.generateFootprint(device_size_data,
+                            footprint_group_data)
+                except Exception as exc:
+                    print("Failed to generate {size_name} (group: {group_name}):".format(
+                                size_name=size_name, group_name=group_name))
+                    print(exc)
 
-                device_dimensions = TwoTerminalSMDchip.deviceDimensions(device_size_data)
+    def generateFootprint(self, device_size_data, footprint_group_data):
+        fab_line_width = self.configuration.get('fab_line_width', 0.1)
+        silk_line_width = self.configuration.get('silk_line_width', 0.12)
 
-                ipc_reference = footprint_group_data['ipc_reference']
-                ipc_density = footprint_group_data['ipc_density']
-                ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
-                ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
+        device_dimensions = TwoTerminalSMDchip.deviceDimensions(device_size_data)
 
-                pad_details, paste_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base, footprint_group_data)
-                #print(calc_pad_details())
-                #print("generate {name}.kicad_mod".format(name=footprint))
+        ipc_reference = footprint_group_data['ipc_reference']
+        ipc_density = footprint_group_data['ipc_density']
+        ipc_data_set = self.ipc_defintions[ipc_reference][ipc_density]
+        ipc_round_base = self.ipc_defintions[ipc_reference]['round_base']
 
-                suffix = footprint_group_data.get('suffix', '').format(pad_x=pad_details['size'][0],
-                    pad_y=pad_details['size'][1])
-                prefix = footprint_group_data['prefix']
+        pad_details, paste_details = self.calcPadDetails(device_dimensions, ipc_data_set, ipc_round_base, footprint_group_data)
+        #print(calc_pad_details())
+        #print("generate {name}.kicad_mod".format(name=footprint))
 
-                model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
-                suffix_3d = suffix if footprint_group_data.get('include_suffix_in_3dpath', 'True') == 'True' else ""
+        suffix = footprint_group_data.get('suffix', '').format(pad_x=pad_details['size'][0],
+            pad_y=pad_details['size'][1])
+        prefix = footprint_group_data['prefix']
 
-                code_metric = device_size_data.get('code_metric')
-                code_letter = device_size_data.get('code_letter')
-                code_imperial = device_size_data.get('code_imperial')
+        model3d_path_prefix = self.configuration.get('3d_model_prefix','${KISYS3DMOD}')
+        suffix_3d = suffix if footprint_group_data.get('include_suffix_in_3dpath', 'True') == 'True' else ""
 
-                if 'code_letter' in device_size_data:
-                    name_format = self.configuration['fp_name_tantal_format_string']
-                else:
-                    if 'code_metric' in device_size_data:
-                        name_format = self.configuration['fp_name_format_string']
-                    else:
-                        name_format = self.configuration['fp_name_non_metric_format_string']
+        code_metric = device_size_data.get('code_metric')
+        code_letter = device_size_data.get('code_letter')
+        code_imperial = device_size_data.get('code_imperial')
 
-                fp_name = name_format.format(prefix=prefix,
-                    code_imperial=code_imperial, code_metric=code_metric,
-                    code_letter=code_letter, suffix=suffix)
-                fp_name_2 = name_format.format(prefix=prefix,
-                    code_imperial=code_imperial, code_letter=code_letter,
-                    code_metric=code_metric, suffix=suffix_3d)
-                model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
-                    model3d_path_prefix=model3d_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
-                #print(fp_name)
-                #print(pad_details)
+        if 'code_letter' in device_size_data:
+            name_format = self.configuration['fp_name_tantal_format_string']
+        else:
+            if 'code_metric' in device_size_data:
+                name_format = self.configuration['fp_name_format_string']
+            else:
+                name_format = self.configuration['fp_name_non_metric_format_string']
 
-                kicad_mod = Footprint(fp_name)
+        fp_name = name_format.format(prefix=prefix,
+            code_imperial=code_imperial, code_metric=code_metric,
+            code_letter=code_letter, suffix=suffix)
+        fp_name_2 = name_format.format(prefix=prefix,
+            code_imperial=code_imperial, code_letter=code_letter,
+            code_metric=code_metric, suffix=suffix_3d)
+        model_name = '{model3d_path_prefix:s}{lib_name:s}.3dshapes/{fp_name:s}.wrl'.format(
+            model3d_path_prefix=model3d_path_prefix, lib_name=footprint_group_data['fp_lib_name'], fp_name=fp_name_2)
+        #print(fp_name)
+        #print(pad_details)
 
-                # init kicad footprint
-                kicad_mod.setDescription(footprint_group_data['description'].format(code_imperial=code_imperial,
-                    code_metric=code_metric, code_letter=code_letter,
-                    size_info=device_size_data.get('size_info')))
-                kicad_mod.setTags(footprint_group_data['keywords'])
-                kicad_mod.setAttribute('smd')
+        kicad_mod = Footprint(fp_name)
 
-                pad_shape_details = {}
-                pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
-                pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
-                if 'round_rect_max_radius' in configuration:
-                    pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
+        # init kicad footprint
+        kicad_mod.setDescription(footprint_group_data['description'].format(code_imperial=code_imperial,
+            code_metric=code_metric, code_letter=code_letter,
+            size_info=device_size_data.get('size_info')))
+        kicad_mod.setTags(footprint_group_data['keywords'])
+        kicad_mod.setAttribute('smd')
+
+        pad_shape_details = {}
+        pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
+        pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
+        if 'round_rect_max_radius' in configuration:
+            pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
 
 
-                if paste_details is not None:
-                    layers_main = ['F.Cu', 'F.Mask']
+        if paste_details is not None:
+            layers_main = ['F.Cu', 'F.Mask']
 
-                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
-                        layers=['F.Paste'], **merge_dicts(paste_details, pad_shape_details)))
-                    paste_details['at'][0] *= (-1)
-                    kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
-                        layers=['F.Paste'], **merge_dicts(paste_details, pad_shape_details)))
-                else:
-                    layers_main = Pad.LAYERS_SMT
+            kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
+                layers=['F.Paste'], **merge_dicts(paste_details, pad_shape_details)))
+            paste_details['at'][0] *= (-1)
+            kicad_mod.append(Pad(number= '', type=Pad.TYPE_SMT,
+                layers=['F.Paste'], **merge_dicts(paste_details, pad_shape_details)))
+        else:
+            layers_main = Pad.LAYERS_SMT
 
-                P1 = Pad(number= 1, type=Pad.TYPE_SMT,
-                    layers=layers_main, **merge_dicts(pad_details, pad_shape_details))
-                pad_radius = P1.getRoundRadius()
+        P1 = Pad(number= 1, type=Pad.TYPE_SMT,
+            layers=layers_main, **merge_dicts(pad_details, pad_shape_details))
+        pad_radius = P1.getRoundRadius()
 
-                kicad_mod.append(P1)
-                pad_details['at'][0] *= (-1)
-                kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
-                    layers=layers_main, **merge_dicts(pad_details, pad_shape_details)))
+        kicad_mod.append(P1)
+        pad_details['at'][0] *= (-1)
+        kicad_mod.append(Pad(number= 2, type=Pad.TYPE_SMT,
+            layers=layers_main, **merge_dicts(pad_details, pad_shape_details)))
 
-                fab_outline = self.configuration.get('fab_outline', 'typical')
-                if fab_outline == 'max':
-                    outline_size = [device_dimensions['body_length'].maximum, device_dimensions['body_width'].maximum]
-                elif fab_outline == 'min':
-                    outline_size = [device_dimensions['body_length'].minimum, device_dimensions['body_width'].minimum]
-                else:
-                    outline_size = [device_dimensions['body_length'].nominal, device_dimensions['body_width'].nominal]
+        fab_outline = self.configuration.get('fab_outline', 'typical')
+        if fab_outline == 'max':
+            outline_size = [device_dimensions['body_length'].maximum, device_dimensions['body_width'].maximum]
+        elif fab_outline == 'min':
+            outline_size = [device_dimensions['body_length'].minimum, device_dimensions['body_width'].minimum]
+        else:
+            outline_size = [device_dimensions['body_length'].nominal, device_dimensions['body_width'].nominal]
 
-                if footprint_group_data.get('polarization_mark', 'False') == 'True':
-                    polararity_marker_size = self.configuration.get('fab_polarity_factor', 0.25)
-                    polararity_marker_size *= (outline_size[1] if outline_size[1] < outline_size[0] else outline_size[0])
+        if footprint_group_data.get('polarization_mark', 'False') == 'True':
+            polararity_marker_size = self.configuration.get('fab_polarity_factor', 0.25)
+            polararity_marker_size *= (outline_size[1] if outline_size[1] < outline_size[0] else outline_size[0])
 
-                    polarity_marker_thick_line = False
+            polarity_marker_thick_line = False
 
-                    polarity_max_size = self.configuration.get('fab_polarity_max_size', 1)
-                    if polararity_marker_size > polarity_max_size:
-                        polararity_marker_size = polarity_max_size
-                    polarity_min_size = self.configuration.get('fab_polarity_min_size', 0.25)
-                    if polararity_marker_size < polarity_min_size:
-                        if polararity_marker_size < polarity_min_size*0.6:
-                            polarity_marker_thick_line = True
-                        polararity_marker_size = polarity_min_size
+            polarity_max_size = self.configuration.get('fab_polarity_max_size', 1)
+            if polararity_marker_size > polarity_max_size:
+                polararity_marker_size = polarity_max_size
+            polarity_min_size = self.configuration.get('fab_polarity_min_size', 0.25)
+            if polararity_marker_size < polarity_min_size:
+                if polararity_marker_size < polarity_min_size*0.6:
+                    polarity_marker_thick_line = True
+                polararity_marker_size = polarity_min_size
 
-                    silk_x_left = -abs(pad_details['at'][0]) - pad_details['size'][0]/2 - \
-                        self.configuration['silk_pad_clearance'] - silk_line_width/2
+            silk_x_left = -abs(pad_details['at'][0]) - pad_details['size'][0]/2 - \
+                self.configuration['silk_pad_clearance'] - silk_line_width/2
 
-                    silk_y_bottom = max(
-                        self.configuration['silk_pad_clearance'] + silk_line_width/2 + pad_details['size'][1]/2,
-                        outline_size[1]/2 + self.configuration['silk_fab_offset']
-                        )
+            silk_y_bottom = max(
+                self.configuration['silk_pad_clearance'] + silk_line_width/2 + pad_details['size'][1]/2,
+                outline_size[1]/2 + self.configuration['silk_fab_offset']
+                )
 
-                    if polarity_marker_thick_line:
-                        kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
-                            end=[outline_size[0]/2, -outline_size[1]/2],
-                            layer='F.Fab', width=fab_line_width))
-                        x = -outline_size[0]/2 + fab_line_width
-                        kicad_mod.append(Line(start=[x, outline_size[1]/2],
-                            end=[x, -outline_size[1]/2],
-                            layer='F.Fab', width=fab_line_width))
-                        x += fab_line_width
-                        if x < -fab_line_width/2:
-                            kicad_mod.append(Line(start=[x, outline_size[1]/2],
-                                end=[x, -outline_size[1]/2],
-                                layer='F.Fab', width=fab_line_width))
-
-                        kicad_mod.append(Circle(center=[silk_x_left-0.05, 0],
-                            radius=0.05, layer="F.SilkS", width=0.1))
-                    else:
-                        poly_fab= [
-                            {'x':outline_size[0]/2,'y':-outline_size[1]/2},
-                            {'x':polararity_marker_size - outline_size[0]/2,'y':-outline_size[1]/2},
-                            {'x':-outline_size[0]/2,'y':polararity_marker_size-outline_size[1]/2},
-                            {'x':-outline_size[0]/2,'y':outline_size[1]/2},
-                            {'x':outline_size[0]/2,'y':outline_size[1]/2},
-                            {'x':outline_size[0]/2,'y':-outline_size[1]/2}
-                        ]
-                        kicad_mod.append(PolygoneLine(polygone=poly_fab, layer='F.Fab', width=fab_line_width))
-
-                        poly_silk = [
-                            {'x':outline_size[0]/2,'y':-silk_y_bottom},
-                            {'x':silk_x_left,'y':-silk_y_bottom},
-                            {'x':silk_x_left,'y':silk_y_bottom},
-                            {'x':outline_size[0]/2,'y':silk_y_bottom}
-                        ]
-                        kicad_mod.append(PolygoneLine(polygone=poly_silk, layer='F.SilkS', width=silk_line_width))
-                else:
-                    kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
-                        end=[outline_size[0]/2, -outline_size[1]/2],
+            if polarity_marker_thick_line:
+                kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
+                    end=[outline_size[0]/2, -outline_size[1]/2],
+                    layer='F.Fab', width=fab_line_width))
+                x = -outline_size[0]/2 + fab_line_width
+                kicad_mod.append(Line(start=[x, outline_size[1]/2],
+                    end=[x, -outline_size[1]/2],
+                    layer='F.Fab', width=fab_line_width))
+                x += fab_line_width
+                if x < -fab_line_width/2:
+                    kicad_mod.append(Line(start=[x, outline_size[1]/2],
+                        end=[x, -outline_size[1]/2],
                         layer='F.Fab', width=fab_line_width))
 
-                    silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
-                    default_clearance = self.configuration.get('silk_pad_clearance', 0.2)
-                    silk_point_top_right = nearestSilkPointOnOrthogonalLineSmallClerance(
-                        pad_size=pad_details['size'], pad_position=pad_details['at'], pad_radius=pad_radius,
-                        fixed_point=Vector2D(0, silk_outline_y),
-                        moving_point=Vector2D(outline_size[0]/2, silk_outline_y),
-                        silk_pad_offset_default=(silk_line_width/2+default_clearance),
-                        silk_pad_offset_reduced=(silk_line_width/2\
-                            +self.configuration.get('silk_clearance_small_parts', default_clearance)),
-                        min_lenght=configuration.get('silk_line_lenght_min', 0)/2)
+                kicad_mod.append(Circle(center=[silk_x_left-0.05, 0],
+                    radius=0.05, layer="F.SilkS", width=0.1))
+            else:
+                poly_fab= [
+                    {'x':outline_size[0]/2,'y':-outline_size[1]/2},
+                    {'x':polararity_marker_size - outline_size[0]/2,'y':-outline_size[1]/2},
+                    {'x':-outline_size[0]/2,'y':polararity_marker_size-outline_size[1]/2},
+                    {'x':-outline_size[0]/2,'y':outline_size[1]/2},
+                    {'x':outline_size[0]/2,'y':outline_size[1]/2},
+                    {'x':outline_size[0]/2,'y':-outline_size[1]/2}
+                ]
+                kicad_mod.append(PolygoneLine(polygone=poly_fab, layer='F.Fab', width=fab_line_width))
 
-                    if silk_point_top_right:
-                        kicad_mod.append(Line(
-                            start=[-silk_point_top_right.x, -silk_point_top_right.y],
-                            end=[silk_point_top_right.x, -silk_point_top_right.y],
-                            layer='F.SilkS', width=silk_line_width))
-                        kicad_mod.append(Line(
-                            start=[-silk_point_top_right.x, silk_point_top_right.y],
-                            end=silk_point_top_right,
-                            layer='F.SilkS', width=silk_line_width))
+                poly_silk = [
+                    {'x':outline_size[0]/2,'y':-silk_y_bottom},
+                    {'x':silk_x_left,'y':-silk_y_bottom},
+                    {'x':silk_x_left,'y':silk_y_bottom},
+                    {'x':outline_size[0]/2,'y':silk_y_bottom}
+                ]
+                kicad_mod.append(PolygoneLine(polygone=poly_silk, layer='F.SilkS', width=silk_line_width))
+        else:
+            kicad_mod.append(RectLine(start=[-outline_size[0]/2, outline_size[1]/2],
+                end=[outline_size[0]/2, -outline_size[1]/2],
+                layer='F.Fab', width=fab_line_width))
 
-                CrtYd_rect = [None,None]
-                CrtYd_rect[0] = roundToBase(2 * abs(pad_details['at'][0]) + \
-                    pad_details['size'][0] + 2 * ipc_data_set['courtyard'], 0.02)
-                if pad_details['size'][1] > outline_size[1]:
-                    CrtYd_rect[1] = pad_details['size'][1] + 2 * ipc_data_set['courtyard']
-                else:
-                    CrtYd_rect[1] = outline_size[1] + 2 * ipc_data_set['courtyard']
+            silk_outline_y = outline_size[1]/2 + self.configuration['silk_fab_offset']
+            default_clearance = self.configuration.get('silk_pad_clearance', 0.2)
+            silk_point_top_right = nearestSilkPointOnOrthogonalLineSmallClerance(
+                pad_size=pad_details['size'], pad_position=pad_details['at'], pad_radius=pad_radius,
+                fixed_point=Vector2D(0, silk_outline_y),
+                moving_point=Vector2D(outline_size[0]/2, silk_outline_y),
+                silk_pad_offset_default=(silk_line_width/2+default_clearance),
+                silk_pad_offset_reduced=(silk_line_width/2\
+                    +self.configuration.get('silk_clearance_small_parts', default_clearance)),
+                min_lenght=configuration.get('silk_line_lenght_min', 0)/2)
 
-                CrtYd_rect[1] = roundToBase(CrtYd_rect[1], 0.02)
+            if silk_point_top_right:
+                kicad_mod.append(Line(
+                    start=[-silk_point_top_right.x, -silk_point_top_right.y],
+                    end=[silk_point_top_right.x, -silk_point_top_right.y],
+                    layer='F.SilkS', width=silk_line_width))
+                kicad_mod.append(Line(
+                    start=[-silk_point_top_right.x, silk_point_top_right.y],
+                    end=silk_point_top_right,
+                    layer='F.SilkS', width=silk_line_width))
 
-                kicad_mod.append(RectLine(start=[-CrtYd_rect[0]/2, CrtYd_rect[1]/2],
-                    end=[CrtYd_rect[0]/2, -CrtYd_rect[1]/2],
-                    layer='F.CrtYd', width=self.configuration['courtyard_line_width']))
+        CrtYd_rect = [None,None]
+        CrtYd_rect[0] = roundToBase(2 * abs(pad_details['at'][0]) + \
+            pad_details['size'][0] + 2 * ipc_data_set['courtyard'], 0.02)
+        if pad_details['size'][1] > outline_size[1]:
+            CrtYd_rect[1] = pad_details['size'][1] + 2 * ipc_data_set['courtyard']
+        else:
+            CrtYd_rect[1] = outline_size[1] + 2 * ipc_data_set['courtyard']
 
-                ######################### Text Fields ###############################
+        CrtYd_rect[1] = roundToBase(CrtYd_rect[1], 0.02)
 
-                addTextFields(kicad_mod=kicad_mod, configuration=configuration,
-                    body_edges={'left':-outline_size[0]/2,'right':outline_size[0]/2,
-                                'top':-outline_size[1]/2,'bottom':outline_size[1]/2},
-                    courtyard={'top':-CrtYd_rect[1]/2, 'bottom':CrtYd_rect[1]/2}, fp_name=fp_name, text_y_inside_position='center')
+        kicad_mod.append(RectLine(start=[-CrtYd_rect[0]/2, CrtYd_rect[1]/2],
+            end=[CrtYd_rect[0]/2, -CrtYd_rect[1]/2],
+            layer='F.CrtYd', width=self.configuration['courtyard_line_width']))
 
-                kicad_mod.append(Model(filename=model_name))
-                output_dir = '{lib_name:s}.pretty/'.format(lib_name=footprint_group_data['fp_lib_name'])
-                if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
-                    os.makedirs(output_dir)
-                filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=fp_name)
+        ######################### Text Fields ###############################
 
-                file_handler = KicadFileHandler(kicad_mod)
-                file_handler.writeFile(filename)
+        addTextFields(kicad_mod=kicad_mod, configuration=configuration,
+            body_edges={'left':-outline_size[0]/2,'right':outline_size[0]/2,
+                        'top':-outline_size[1]/2,'bottom':outline_size[1]/2},
+            courtyard={'top':-CrtYd_rect[1]/2, 'bottom':CrtYd_rect[1]/2}, fp_name=fp_name, text_y_inside_position='center')
+
+        kicad_mod.append(Model(filename=model_name))
+        output_dir = '{lib_name:s}.pretty/'.format(lib_name=footprint_group_data['fp_lib_name'])
+        if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+            os.makedirs(output_dir)
+        filename =  '{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=fp_name)
+
+        file_handler = KicadFileHandler(kicad_mod)
+        file_handler.writeFile(filename)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='use confing .yaml files to create footprints.')
