@@ -211,6 +211,18 @@ Laird_Technologies_BMI-S-210-F_44.00x30.50mm:
     x_pad_mirror: True
     y_pad_mirror: True
 
+Laird_Technologies_BMI-S-230-F_50.8x38.1mm:
+    description: "Laird Technologies BMI-S-230-F Shielding Cabinet Two Piece SMD 50.8x38.1mm"
+    datasheet: "https://media.digikey.com/pdf/Data%20Sheets/Laird%20Technologies/BMI-S-230-F_Dwg.pdf"
+    courtjard: 0.25
+    pads_width: 1
+    x_part_size: 50.8
+    y_part_size: 38.1
+    x_pad_spacer: [1.9, 4.1, 7.9, 10.1, 13.9, 16.1, 19.9, 22.1, 25.8]
+    y_pad_spacer: [1.9, 4.1, 7.9, 10.1, 13.9, 16.1, 19.45]
+    x_pad_mirror: True
+    y_pad_mirror: True
+
 # page 19
 Laird_Technologies_97-2002_25.40x25.40mm:
     description: "Laird Technologies 97-2002 EZ PEEL Shielding Cabinet One Piece SMD 25.40x25.40mm"

@@ -36,6 +36,7 @@ def create_smd_shielding(name, **kwargs):
     kicad_mod.setDescription(kwargs['description'])
     kicad_mod.setTags('Shielding Cabinet')
     kicad_mod.setAttribute('smd')
+    kicad_mod.append(Model(filename="${KISYS3DMOD}/RF_Shielding.3dshapes/" + name + ".wrl"))
 
     # do some pre calculations
     # TODO: when mirror=False, array has to have even number of array elements
@@ -51,7 +52,7 @@ def create_smd_shielding(name, **kwargs):
     x_pad_max_center = x_pad_max - kwargs['pads_width']/2.
     y_pad_min_center = y_pad_min + kwargs['pads_width']/2.
     y_pad_max_center = y_pad_max - kwargs['pads_width']/2.
-    
+
     x_part_min = -kwargs['x_part_size'] / 2.
     x_part_max = kwargs['x_part_size'] / 2.
     y_part_min = -kwargs['y_part_size'] / 2.
@@ -60,6 +61,7 @@ def create_smd_shielding(name, **kwargs):
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', at=[0, y_pad_min - kwargs['courtjard'] - 0.75], layer='F.SilkS'))
     kicad_mod.append(Text(type='value', text=name, at=[0, y_pad_max + kwargs['courtjard'] + 0.75], layer='F.Fab'))
+    kicad_mod.append(Text(type='user', text='%R', at=[0, 0], layer='F.Fab'))
 
     # create courtyard
     x_courtjard_min = round_to(x_pad_min - kwargs['courtjard'], 0.05)
@@ -67,6 +69,16 @@ def create_smd_shielding(name, **kwargs):
     y_courtjard_min = round_to(y_pad_min - kwargs['courtjard'], 0.05)
     y_courtjard_max = round_to(y_pad_max + kwargs['courtjard'], 0.05)
 
+    kicad_mod.append(RectLine(start=[x_courtjard_min, y_courtjard_min],
+                              end=[x_courtjard_max, y_courtjard_max],
+                              layer='F.CrtYd'))
+
+    # create inner courtyard
+    pad_width = kwargs['pads_width']
+    x_courtjard_min = round_to(x_pad_min + pad_width + kwargs['courtjard'], 0.05)
+    x_courtjard_max = round_to(x_pad_max - pad_width - kwargs['courtjard'], 0.05)
+    y_courtjard_min = round_to(y_pad_min + pad_width + kwargs['courtjard'], 0.05)
+    y_courtjard_max = round_to(y_pad_max - pad_width - kwargs['courtjard'], 0.05)
     kicad_mod.append(RectLine(start=[x_courtjard_min, y_courtjard_min],
                               end=[x_courtjard_max, y_courtjard_max],
                               layer='F.CrtYd'))
@@ -80,7 +92,7 @@ def create_smd_shielding(name, **kwargs):
     general_kwargs = {'number': 1,
                       'type': Pad.TYPE_SMT,
                       'shape': Pad.SHAPE_RECT,
-                      'layers': ['F.Cu', 'F.Mask']}
+                      'layers': ['F.Cu', 'F.Mask', 'F.Paste']}
 
     # create edge pads
     kicad_mod.append(Pad(at=[x_pad_min_center, y_pad_min_center],
