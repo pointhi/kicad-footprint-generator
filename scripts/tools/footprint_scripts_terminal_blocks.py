@@ -33,6 +33,7 @@ slk_offset = lw_slk
 #
 #
 def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_offset, ddrill, pad, screw_diameter, bevel_height, slit_screw=True, screw_pin_offset=[0,0], secondHoleDiameter=0, secondHoleOffset=[0,0], thirdHoleDiameter=0, thirdHoleOffset=[0,0], fourthHoleDiameter=0, fourthHoleOffset=[0,0],secondDrillDiameter=0,secondDrillOffset=[0,0],secondDrillPad=[0,0],nibbleSize=[],nibblePos=[], fabref_offset=[0,0],
+                        stackable=False,
                         tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_Terminal_Blocks", classname="Connectors_Terminal_Blocks", classname_description="terminal block", webpage="", script_generated_note=""):
 
     package_size=[2*leftbottom_offset[0]+(pins-1)*rm, package_height];
@@ -50,8 +51,8 @@ def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_of
     t_slk = t_fab - slk_offset
 
     h_crt = h_fab + 2 * crt_offset
-    w_crt = w_fab + 2 * crt_offset
-    l_crt = l_fab - crt_offset
+    w_crt = w_fab + (0 if stackable else 2 * crt_offset)
+    l_crt = l_fab - (0 if stackable else crt_offset)
     t_crt = t_fab - crt_offset
 
 
@@ -253,6 +254,7 @@ def makeTerminalBlockStd(footprint_name, pins, rm, package_height, leftbottom_of
 #
 #
 def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbottom_offset, ddrill, pad, opening, opening_yoffset, bevel_height, opening_xoffset=0, secondHoleDiameter=0, secondHoleOffset=[0,0], thirdHoleDiameter=0, thirdHoleOffset=[0,0], fourthHoleDiameter=0, fourthHoleOffset=[0,0],secondDrillDiameter=0,secondDrillOffset=[0,0],secondDrillPad=[0,0],nibbleSize=[],nibblePos=[], fabref_offset=[0,0],
+                        stackable=False,
                         tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_Terminal_Blocks", classname="Connectors_Terminal_Blocks", classname_description="terminal block", webpage="", script_generated_note=""):
 
     package_size=[2*leftbottom_offset[0]+(pins-1)*rm, package_height];
@@ -270,8 +272,8 @@ def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbott
     t_slk = t_fab - slk_offset
 
     h_crt = h_fab + 2 * crt_offset
-    w_crt = w_fab + 2 * crt_offset
-    l_crt = l_fab - crt_offset
+    w_crt = w_fab + (0 if stackable else 2 * crt_offset)
+    l_crt = l_fab - (0 if stackable else crt_offset)
     t_crt = t_fab - crt_offset
 
 
@@ -475,6 +477,7 @@ def makeTerminalBlockVertical(footprint_name, pins, rm, package_height, leftbott
 #
 #
 def makeTerminalBlock45Degree(footprint_name, pins, rm, package_height, leftbottom_offset, ddrill, pad, opening, opening_xoffset, opening_yoffset, opening_elliptic=False, bevel_height=[], vsegment_lines_offset=[], secondHoleDiameter=0, secondHoleOffset=[0,0], thirdHoleDiameter=0, thirdHoleOffset=[0,0], fourthHoleDiameter=0, fourthHoleOffset=[0,0], fifthHoleDiameter=0, fifthHoleOffset=[0,0],secondDrillDiameter=0,secondDrillOffset=[0,0],secondDrillPad=[0,0],nibbleSize=[],nibblePos=[], fabref_offset=[0,0],secondEllipseSize=[0,0],secondEllipseOffset=[0,0],
+                        stackable=False,
                         tags_additional=[], lib_name="${{KISYS3DMOD}}/Connectors_Terminal_Blocks", classname="Connectors_Terminal_Blocks", classname_description="terminal block", webpage="", script_generated_note=""):
 
     package_size=[2*leftbottom_offset[0]+(pins-1)*rm, package_height];
@@ -492,8 +495,8 @@ def makeTerminalBlock45Degree(footprint_name, pins, rm, package_height, leftbott
     t_slk = t_fab - slk_offset
 
     h_crt = h_fab + 2 * crt_offset
-    w_crt = w_fab + 2 * crt_offset
-    l_crt = l_fab - crt_offset
+    w_crt = w_fab + (0 if stackable else 2 * crt_offset)
+    l_crt = l_fab - (0 if stackable else crt_offset)
     t_crt = t_fab - crt_offset
 
 

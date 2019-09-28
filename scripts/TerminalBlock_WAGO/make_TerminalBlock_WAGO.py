@@ -121,15 +121,12 @@ if __name__ == '__main__':
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name="${KISYS3DMOD}/"+classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
 
-   
 
-
-    
-    pins=[1,2,3,4,5,6,7,8,9,10,12,16,24]
+    pins=[1,2,3,4,6,8,12,16,24,36,48]
     rm=5
     package_height=14
-    leftbottom_offset=[3.5, 4, 3]
-    ddrill=1.0
+    leftbottom_offset=[3.5, 9, 3.8]
+    ddrill=1.15
     pad=[1.5,3]
     screw_diameter=2.2
     bevel_height=[1,6.7,9.5]
@@ -137,14 +134,14 @@ if __name__ == '__main__':
     opening_xoffset=0.5
     opening_yoffset=1.3#package_height-leftbottom_offset[1]-opening[1]/2
     secondDrillDiameter=ddrill
-    secondDrillOffset=[0,-5]
+    secondDrillOffset=[0,5]
     secondDrillPad=pad
     secondHoleDiameter=[5,14]
-    secondHoleOffset=[0.5,-3]
+    secondHoleOffset=[0.5,2]
     thirdHoleDiameter=[4,1]
-    thirdHoleOffset=[0.5,-2.2]
+    thirdHoleOffset=[0.5,3.2]
     fourthHoleDiameter=[1,2.5]
-    fourthHoleOffset=[0.5,-8.4]
+    fourthHoleOffset=[0.5,-3.4]
     fabref_offset=[0,-1]
     nibbleSize=[]
     nibblePos=[]
@@ -159,16 +156,27 @@ if __name__ == '__main__':
                                   ddrill=ddrill, pad=pad, 
                                   opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, 
                                   bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
+                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                  tags_additional=[], lib_name="${KISYS3DMOD}/"+classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+        name="236-{0}".format(400+p);
+        webpage="";
+        classname_description="Terminal Block WAGO {0}".format(name);
+        footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
+        makeTerminalBlock45Degree(footprint_name=footprint_name, 
+                                  pins=p, rm=rm, 
+                                  package_height=package_height, leftbottom_offset=leftbottom_offset, 
+                                  ddrill=ddrill, pad=pad, 
+                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, 
+                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
                                   secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name="${KISYS3DMOD}/"+classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
 
-      
-    pins=[1,2,3,4,5,6,7,8,9,10,12,16,24]
+    pins=[1,2,3,4,6,8,12,16,24]
     rm=7.5
     package_height=14
-    leftbottom_offset=[3.5, 4, 5.5]
-    ddrill=1.0
+    leftbottom_offset=[3.5, 9, 6.3]
+    ddrill=1.15
     pad=[1.5,3]
     screw_diameter=2.2
     bevel_height=[1,6.7,9.5]
@@ -176,14 +184,14 @@ if __name__ == '__main__':
     opening_xoffset=0.5
     opening_yoffset=1.3#package_height-leftbottom_offset[1]-opening[1]/2
     secondDrillDiameter=ddrill
-    secondDrillOffset=[0,-5]
+    secondDrillOffset=[0,5]
     secondDrillPad=pad
     secondHoleDiameter=[rm,package_height]
-    secondHoleOffset=[1.75,-3]
+    secondHoleOffset=[1.75,2]
     thirdHoleDiameter=[4,1]
-    thirdHoleOffset=[0.5,-2.2]
+    thirdHoleOffset=[0.5,3.2]
     fourthHoleDiameter=1,2.5
-    fourthHoleOffset=[0.5,-8.4]
+    fourthHoleOffset=[0.5,-3.4]
     fabref_offset=[0,-1]
     nibbleSize=[]
     nibblePos=[]
@@ -198,16 +206,27 @@ if __name__ == '__main__':
                                   ddrill=ddrill, pad=pad, 
                                   opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, 
                                   bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
+                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                  tags_additional=[], lib_name="${KISYS3DMOD}/"+classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+        name="236-{0}".format(500+p);
+        webpage="";
+        classname_description="Terminal Block WAGO {0}".format(name);
+        footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
+        makeTerminalBlock45Degree(footprint_name=footprint_name, 
+                                  pins=p, rm=rm, 
+                                  package_height=package_height, leftbottom_offset=leftbottom_offset, 
+                                  ddrill=ddrill, pad=pad, 
+                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, 
+                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
                                   secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name="${KISYS3DMOD}/"+classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
 
-       
-    pins=[1,2,3,4,5,6,7,8,9,10,12,16,24]
+    pins=[1,2,3,4,6,8,12,16,24]
     rm=10
     package_height=14
-    leftbottom_offset=[3.5, 4, 8]
-    ddrill=1.0
+    leftbottom_offset=[3.5, 9, 8.8]
+    ddrill=1.15
     pad=[1.5,3]
     screw_diameter=2.2
     bevel_height=[1,6.7,9.5]
@@ -215,14 +234,14 @@ if __name__ == '__main__':
     opening_xoffset=0.5
     opening_yoffset=1.3#package_height-leftbottom_offset[1]-opening[1]/2
     secondDrillDiameter=ddrill
-    secondDrillOffset=[0,-5]
+    secondDrillOffset=[0,5]
     secondDrillPad=pad
     secondHoleDiameter=[rm,package_height]
-    secondHoleOffset=[3,-3]
+    secondHoleOffset=[3,2]
     thirdHoleDiameter=[4,1]
-    thirdHoleOffset=[0.5,-2.2]
+    thirdHoleOffset=[0.5,3.2]
     fourthHoleDiameter=1,2.5
-    fourthHoleOffset=[0.5,-8.4]
+    fourthHoleOffset=[0.5,-3.4]
     fabref_offset=[0,-1]
     nibbleSize=[]
     nibblePos=[]
@@ -237,8 +256,18 @@ if __name__ == '__main__':
                                   ddrill=ddrill, pad=pad, 
                                   opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, 
                                   bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
+                                  nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
+                                  tags_additional=[], lib_name="${KISYS3DMOD}/"+classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
+        name="236-{0}".format(600+p);
+        webpage="";
+        classname_description="Terminal Block WAGO {0}".format(name);
+        footprint_name="TerminalBlock_WAGO_{0}_1x{2:02}_P{1:3.2f}mm_45Degree".format(name, rm, p)
+        makeTerminalBlock45Degree(footprint_name=footprint_name, 
+                                  pins=p, rm=rm, 
+                                  package_height=package_height, leftbottom_offset=leftbottom_offset, 
+                                  ddrill=ddrill, pad=pad, 
+                                  opening=opening, opening_xoffset=opening_xoffset, opening_yoffset=opening_yoffset, 
+                                  bevel_height=bevel_height, secondHoleDiameter=secondHoleDiameter, secondHoleOffset=secondHoleOffset, thirdHoleDiameter=thirdHoleDiameter, thirdHoleOffset=thirdHoleOffset, fourthHoleDiameter=fourthHoleDiameter, fourthHoleOffset=fourthHoleOffset, 
                                   secondDrillDiameter=secondDrillDiameter,secondDrillOffset=secondDrillOffset,secondDrillPad=secondDrillPad,
                                   nibbleSize=nibbleSize, nibblePos=nibblePos, fabref_offset=fabref_offset,
                                   tags_additional=[], lib_name="${KISYS3DMOD}/"+classname, classname=classname, classname_description=classname_description, webpage=webpage, script_generated_note=script_generated_note)
-
-      
