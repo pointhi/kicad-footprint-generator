@@ -59,9 +59,12 @@ _Note: Contributions intended for the official library shall not include the man
   - Lead width (`lead_width`) {dimension}
   - Lead length Distance between the lead bend and lead tip (`lead_len`) {dimension}
 - Lead pitch, currently equal for all sides (`pitch`) {float}
-- Pin count (`num_pins_x`, `num_pins_y`) {int}
+
+### Pad count
+- Pad count (`num_pins_x`, `num_pins_y`) {int}
   - `num_pins_x`=0 is used for generating SOIC like packages.
   - `num_pins_y`=0 is used to generate SOIC like package footprints but with inverted pin numbering (Mirrored numbering scheme. Some manufactures use this style in their datasheets. Make sure you are not looking at the bottom view before using this. Not supported for QFP and similar.)
+- Exclude pads by pad number (`exclude_pin_list`) {[`pad number`]}
 
 ### Exposed pad handling:
 ![exposed pad example](../documentation/ep_handling.svg)
