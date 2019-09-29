@@ -1,6 +1,6 @@
 # IPC gullwing generator
 
-This generator uses IPC-7351B equations and fillet definitions to derive a footprint for gullwing style packages from the dimensions of the package (The suggested footprint is only used to determine the size of the exposed pad). Fillet size definitions can be changed by pointing to a personalized IPC parameter file. The script generates footprints in zero orientation version A (pin 1 at top left corner).
+This generator uses IPC-7351B equations and fillet definitions to derive a footprint for gullwing style packages from the dimensions of the package. (The suggested footprint is only used to determine the size of the exposed pad.) Fillet size definitions can be changed by pointing to a personalized IPC parameter file. The script generates footprints in zero orientation version A (pin 1 at top left corner).
 Pads are generated using rounded rectangle pads as suggested in preliminary releases of IPC-7351C.
 
 Examples of supported packages include: QFP, SOIC, SO.
@@ -12,8 +12,8 @@ The script requires python 3.4 or newer. Run it with:
 
 ### Optional script parameters
 
-* --global_config: the config file defining how the footprint will look like. (KLC)' (default='../../tools/global_config_files/config_KLCv3.0.yaml')
-* --series_config: the config file defining series parameters (footprint naming). (default='../package_config_KLCv3.yaml')
+* --global_config: the config file defining how the footprint will look like. (KLC) (default=`../../tools/global_config_files/config_KLCv3.0.yaml`)
+* --series_config: the config file defining series parameters (footprint naming). (default=`../package_config_KLCv3.yaml`)
 
 * --density: IPC density level (L,N,M) (default=`N`)
 * --ipc_doc: IPC definition document (default=`../ipc_definitions.yaml`)
@@ -57,7 +57,7 @@ _Note: Contributions intended for the official library shall not include the man
 - Lead dimensions:
   - Overall size representing lead tip to lead tip dimension (`overall_size_x`, `overall_size_y`) {dimension}
   - Lead width (`lead_width`) {dimension}
-  - Lead length Distance between the lead bend and lead tip (`lead_len`) {dimension}
+  - Lead length distance between the lead bend and lead tip (`lead_len`) {dimension}
 - Lead pitch, currently equal for all sides (`pitch`) {float}
 
 ### Pad count
@@ -73,8 +73,8 @@ _Note: Contributions intended for the official library shall not include the man
    - Pad size is equal to nominal package pad size if not given.
    - Use this to create a soldermask-defined pad.
 - Optional the size of the mask cutout (`EP_mask_x`, `EP_mask_y`) {float}
-   - Use to create solder mask defined pads (in combination with `EP_size_x_overwrite`)
-- Paste is typically split into a regular grid with (`EP_num_paste_pads`) {[int (x), int (y)]}
+   - Use to create soldermask-defined pads (in combination with `EP_size_x_overwrite`)
+- Paste is split into a regular grid with (`EP_num_paste_pads`) {[int (x), int (y)]}
   - The optional paste coverage multiplier determines how much of the exposed copper area is covered by paste. (`EP_paste_coverage`) {float (0..1), default=0.65}
 
 ### Thermal vias
@@ -91,8 +91,8 @@ A package with exposed pad can generate a version with thermal vias. This will b
 - Optional grid (`grid`) {[float (x), float (y)]}
   - Auto generated if not given (outermost pad will touch pad edge).
 - Paste coverage overwrite [optional] (`EP_paste_coverage`) {float (0..1)}
-  - Thermal via version might need higher paste coverage compared to non via version to compensate solder losed by wicking.
-- Paste generator can be setup to avoid placing paste on top of vias (`paste_avoid_via`) {bool}
+  - Thermal via version might need higher paste coverage compared to non-via version to compensate solder lost due to wicking.
+- Paste generator can be set up to avoid placing paste on top of vias (`paste_avoid_via`) {bool}
   - Clearance between via hole and paste (`paste_via_clearance`) {float}
   - Can lead to math exceptions. Possible fixes:
      - Reduce paste coverage (make sure you still have enough paste)
@@ -100,7 +100,7 @@ A package with exposed pad can generate a version with thermal vias. This will b
      - If no fix is satisfactory then select avoid vias as false and increase paste coverage to combat solder loss.
 - Number paste pads
   - Quantity of paste pads (`EP_num_paste_pads`) {[int (x), int (y)]}
-  - Alternative available if paste avoid via is true
+  - Alternative available if `paste_avoid_via` is true
     - Number of paste pads between 4 vias (`paste_between_vias`) {[int (x), int (y)]}
     - Number of additional paste pad rings outside the outermost vias [optional] (`paste_rings_outside`) {[int (x), int (y)]}
 
