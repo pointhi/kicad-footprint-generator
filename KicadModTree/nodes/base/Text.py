@@ -32,6 +32,8 @@ class Text(Node):
           position of text
         * *rotation* (``float``) --
           rotation of text (default: 0)
+        * *mirror* (``bool``) --
+          mirror text (default: False)
         * *layer* (``str``) --
           layer on which the text is drawn (default: 'F.SilkS')
         * *size* (``Vector2D``) --
@@ -60,6 +62,7 @@ class Text(Node):
         self.text = kwargs['text']
         self.at = Vector2D(kwargs['at'])
         self.rotation = kwargs.get('rotation', 0)
+        self.mirror = kwargs.get('mirror', False)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.size = Vector2D(kwargs.get('size', [1, 1]))

@@ -238,13 +238,16 @@ class KicadFileHandler(FileHandler):
             sexpr.append('hide')
         sexpr.append(SexprSerializer.NEW_LINE)
 
-        sexpr.append(['effects',
-                      ['font',
-                       ['size', node.size.x, node.size.y],
-                       ['thickness', node.thickness]
-                      ]
-                     ]
-                    )  # NOQA
+        effects = [
+                'effects',
+                ['font',
+                    ['size', node.size.x, node.size.y],
+                    ['thickness', node.thickness]]]
+
+        if node.mirror:
+            effects.append(['justify', 'mirror'])
+
+        sexpr.append(effects)
         sexpr.append(SexprSerializer.NEW_LINE)
 
         return sexpr
