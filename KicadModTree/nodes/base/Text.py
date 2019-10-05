@@ -48,9 +48,15 @@ class Text(Node):
     >>> Text(type='value', text="footprint name", at=[0, 3], layer='F.Fab')
     """
 
+    TYPE_REFERENCE = 'reference'
+    TYPE_VALUE = 'value'
+    TYPE_USER = 'user'
+    _TYPES = [TYPE_REFERENCE, TYPE_VALUE, TYPE_USER]
+
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.type = kwargs['type']
+        self._initType(**kwargs)
+
         self.text = kwargs['text']
         self.at = Vector2D(kwargs['at'])
         self.rotation = kwargs.get('rotation', 0)
@@ -60,6 +66,41 @@ class Text(Node):
         self.thickness = kwargs.get('thickness', 0.15)
 
         self.hide = kwargs.get('hide', False)
+
+    def _initType(self, **kwargs):
+        self.type = kwargs['type']
+        if self.type not in Text._TYPES:
+            raise ValueError('Illegal type selected for text field.')
+
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate text around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *origin* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
+        self.at.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        a = angle if use_degrees else math.degrees(angle)
+
+        # subtraction because kicad text field rotation is the wrong way round
+        self.rotation -= a
+        return self
+
+    def translate(self, distance_vector):
+        r""" Translate text
+
+        :params:
+            * *distance_vector* (``Vector2D``)
+                2D vector defining by how much and in what direction to translate.
+        """
+
+        self.at += distance_vector
+        return self
 
     def calculateBoundingBox(self):
         width = len(self.text)*self.size['x']

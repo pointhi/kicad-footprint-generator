@@ -241,6 +241,36 @@ class Pad(Node):
             raise ValueError('{shape} is an illegal specifier for the shape in zone option'
                              .format(shape=self.shape_in_zone))
 
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate pad around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *origin* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
+        self.at.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        a = angle if use_degrees else math.degrees(angle)
+
+        # subtraction because kicad text field rotation is the wrong way round
+        self.rotation -= a
+        return self
+
+    def translate(self, distance_vector):
+        r""" Translate pad
+
+        :params:
+            * *distance_vector* (``Vector2D``)
+                2D vector defining by how much and in what direction to translate.
+        """
+
+        self.at += distance_vector
+        return self
+
     # calculate the outline of a pad
     def calculateBoundingBox(self):
         return Node.calculateBoundingBox(self)

@@ -16,3 +16,5 @@
 from .test_simple_footprints import SimpleFootprintTests
 from .test_kicad5_padshapes import Kicad5PadsTests
 from .test_exposed_pad import ExposedPadTests
+from .test_arc import ArcTests
+from .test_rotation import RotationTests

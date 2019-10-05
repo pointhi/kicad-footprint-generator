@@ -143,6 +143,37 @@ class PolygonPoints(object):
 
         self.nodes.insert(idx_self+1, other[idx_other])
 
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate points around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *origin* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
+        for p in self.nodes:
+            p.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        return self
+
+    def translate(self, distance_vector):
+        r""" Translate points
+
+        :params:
+            * *distance_vector* (``Vector2D``)
+                2D vector defining by how much and in what direction to translate.
+        """
+
+        for p in self.nodes:
+            p += distance_vector
+        return self
+
+    def __copy__(self):
+        return PolygonPoints(nodes=self.nodes)
+
     def __iter__(self):
         for n in self.nodes:
             yield n

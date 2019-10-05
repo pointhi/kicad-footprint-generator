@@ -21,7 +21,10 @@ def formatFloat(val):
     '''
     return well formated float
     '''
-    return ('%f' % val).rstrip('0').rstrip('.')
+    result = ('%f' % val).rstrip('0').rstrip('.')
+    if result == '-0':
+        result = '0'
+    return result
 
 
 def lispString(string):

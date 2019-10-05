@@ -14,7 +14,7 @@
 # (C) 2018 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
 import unittest
-
+import math
 from KicadModTree.Vector import *
 
 
@@ -162,3 +162,32 @@ class Vector2DTests(unittest.TestCase):
 
         # TODO: division by zero tests
         # TODO: invalid type tests
+
+    def test_polar(self):
+        p1 = Vector2D.from_polar(math.sqrt(2), 45, use_degrees=True)
+        self.assertAlmostEqual(p1.x, 1)
+        self.assertAlmostEqual(p1.y, 1)
+
+        p1 = Vector2D.from_polar(2, -90, use_degrees=True, origin=(6, 1))
+        self.assertAlmostEqual(p1.x, 6)
+        self.assertAlmostEqual(p1.y, -1)
+
+        r, a = p1.to_polar(use_degrees=True, origin=(6, 1))
+        self.assertAlmostEqual(r, 2)
+        self.assertAlmostEqual(a, -90)
+
+        p1.rotate(90, use_degrees=True, origin=(6, 1))
+        self.assertAlmostEqual(p1.x, 8)
+        self.assertAlmostEqual(p1.y, 1)
+
+        p1 = Vector2D.from_polar(math.sqrt(2), 135, use_degrees=True)
+        self.assertAlmostEqual(p1.x, -1)
+        self.assertAlmostEqual(p1.y, 1)
+
+        p1.rotate(90, use_degrees=True)
+        self.assertAlmostEqual(p1.x, -1)
+        self.assertAlmostEqual(p1.y, -1)
+
+        r, a = p1.to_polar(use_degrees=True)
+        self.assertAlmostEqual(r, math.sqrt(2))
+        self.assertAlmostEqual(a, -135)

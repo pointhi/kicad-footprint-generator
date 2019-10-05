@@ -15,9 +15,10 @@
 
 from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
+from KicadModTree.util.geometric_util import geometricCircle, BaseNodeIntersection
 
 
-class Circle(Node):
+class Circle(Node, geometricCircle):
     r"""Add a Circle to the render tree
 
     :param \**kwargs:
@@ -41,13 +42,42 @@ class Circle(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = Vector2D(kwargs['center'])
-        self.radius = kwargs['radius']
-
-        self.end_pos = Vector2D([self.center_pos.x+self.radius, self.center_pos.y])
+        geometricCircle.__init__(self, Vector2D(kwargs['center']), float(kwargs['radius']))
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
+
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate circle around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *origin* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
+        self.center_pos.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        return self
+
+    def translate(self, distance_vector):
+        r""" Translate circle
+
+        :params:
+            * *distance_vector* (``Vector2D``)
+                2D vector defining by how much and in what direction to translate.
+        """
+
+        self.center_pos += distance_vector
+        return self
+
+    def cut(self, *other):
+        raise NotImplemented("cut for circles not yet implemented")
+
+    def getRadius(self):
+        return self.radius
 
     def calculateBoundingBox(self):
         min_x = self.center_pos.x-self.radius

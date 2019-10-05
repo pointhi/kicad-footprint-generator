@@ -16,19 +16,29 @@
 from KicadModTree.Vector import *
 from KicadModTree.nodes.Node import Node
 import math
+from KicadModTree.util.geometric_util import geometricArc, BaseNodeIntersection
 
 
-class Arc(Node):
+class Arc(Node, geometricArc):
     r"""Add an Arc to the render tree
 
     :param \**kwargs:
         See below
 
     :Keyword Arguments:
+        * *geometry* (``geometricArc``)
+          alternative to using geometric parameters
         * *center* (``Vector2D``) --
           center of arc
         * *start* (``Vector2D``) --
           start point of arc
+        * *midpoint* (``Vector2D``) --
+          alternative to start point
+          point is on arc and defines point of equal distance to both arc ends
+          arcs of this form are given as midpoint, center plus angle
+        * *end* (``Vector2D``) --
+          alternative to angle
+          arcs of this form are given as start, end and center
         * *angle* (``float``) --
           angle of arc
         * *layer* (``str``) --
@@ -44,12 +54,33 @@ class Arc(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self)
-        self.center_pos = Vector2D(kwargs['center'])
-        self.start_pos = Vector2D(kwargs['start'])
-        self.angle = kwargs['angle']
+        geometricArc.__init__(self, **kwargs)
 
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
+
+    def copyReplaceGeometry(self, geometry):
+        return Arc(geometry=geometry, layer=self.layer, width=self.width)
+
+    def copy(self):
+        return Arc(
+            center=self.center_pos, start=self.start_pos, angle=self.angle,
+            layer=self.layer, width=self.width
+            )
+
+    def cut(self, *other):
+        r""" cut line with given other element
+
+        :params:
+            * *other* (``Line``, ``Circle``, ``Arc``)
+                cut the element on any intersection with the given geometric element
+        """
+        result = []
+        garcs = geometricArc.cut(self, *other)
+        for g in garcs:
+            result.append(self.copyReplaceGeometry(g))
+
+        return result
 
     def calculateBoundingBox(self):
         # TODO: finish implementation
@@ -75,25 +106,6 @@ class Arc(Node):
         '''
 
         return Node.calculateBoundingBox({'min': Vector2D((min_x, min_y)), 'max': Vector2D((max_x, max_y))})
-
-    def _calulateEndPos(self):
-        radius = self._calculateRadius()
-
-        angle = self._calculateStartAngle() + math.radians(self.angle)
-
-        return Vector2D(math.sin(angle)*radius, math.cos(angle)*radius)
-
-    def _calculateRadius(self):
-        x_size = self.start_pos.x - self.center_pos.x
-        y_size = self.start_pos.y - self.center_pos.y
-
-        return math.sqrt(math.pow(x_size, 2) + math.pow(y_size, 2))
-
-    def _calculateStartAngle(self):
-        x_size = self.start_pos.x - self.center_pos.x
-        y_size = self.start_pos.y - self.center_pos.y
-
-        return math.atan2(y_size, x_size)
 
     def _getRenderTreeText(self):
         render_strings = ['fp_arc']

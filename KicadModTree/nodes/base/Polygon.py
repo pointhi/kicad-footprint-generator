@@ -49,6 +49,32 @@ class Polygon(Node):
         self.layer = kwargs.get('layer', 'F.SilkS')
         self.width = kwargs.get('width')
 
+    def rotate(self, angle, origin=(0, 0), use_degrees=True):
+        r""" Rotate polygon around given origin
+
+        :params:
+            * *angle* (``float``)
+                rotation angle
+            * *origin* (``Vector2D``)
+                origin point for the rotation. default: (0, 0)
+            * *use_degrees* (``boolean``)
+                rotation angle is given in degrees. default:True
+        """
+
+        self.nodes.rotate(angle=angle, origin=origin, use_degrees=use_degrees)
+        return self
+
+    def translate(self, distance_vector):
+        r""" Translate polygon
+
+        :params:
+            * *distance_vector* (``Vector2D``)
+                2D vector defining by how much and in what direction to translate.
+        """
+
+        self.nodes.translate(distance_vector)
+        return self
+
     def calculateBoundingBox(self):
         return nodes.calculateBoundingBox()
 

@@ -1,0 +1,789 @@
+2.25mm:
+  series_prefix: WA-SMST
+  footprint:
+    ring:
+      id: 3
+      od: 5.3
+      paste:
+        clearance: 0.6
+        id: 3.1
+        od: 5.12
+    npth: 3
+  mechanical:
+    id: 2.25
+    od: 4.35
+    od1: 2.8
+    h1: 1.4
+  parts:
+    9774010943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010943.pdf
+      h: 1
+    9774015943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015943.pdf
+      h: 1.5
+    9774020943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020943.pdf
+      h: 2
+    9774025943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025943.pdf
+      h: 2.5
+    9774030943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030943.pdf
+      h: 3
+    9774035943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774035943.pdf
+      h: 3.5
+    9774040943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040943.pdf
+      h: 4
+    9774045943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774045943.pdf
+      h: 4.5
+    9774050943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050943.pdf
+      h: 5
+    9774060943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060943.pdf
+      h: 6
+    9774070943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070943.pdf
+      h: 7
+    9774080943:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080943.pdf
+      h: 8
+
+2.7mm:
+  series_prefix: WA-SMST
+  footprint:
+    ring:
+      id: 3.7
+      od: 6
+      paste:
+        clearance: 0.65
+        id: 3.8
+        od: 5.84
+    npth: 3.7
+  mechanical:
+    id: 2.7
+    od: 5.1
+    od1: 3.5
+    h1: 1.4
+  parts:
+    9774010951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010951.pdf
+      h: 1
+    9774015951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015951.pdf
+      h: 1.5
+    9774020951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020951.pdf
+      h: 2
+    9774025951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025951.pdf
+      h: 2.5
+    9774030951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030951.pdf
+      h: 3
+    9774040951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040951.pdf
+      h: 4
+    9774050951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050951.pdf
+      h: 5
+    9774055951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774055951.pdf
+      h: 5.5
+    9774060951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060951.pdf
+      h: 6
+    9774065951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774065951.pdf
+      h: 6.5
+    9774070951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070951.pdf
+      h: 7
+    9774080951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080951.pdf
+      h: 8
+    9774090951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090951.pdf
+      h: 9
+    9774100951:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100951.pdf
+      h: 10
+
+3.3mm:
+  series_prefix: WA-SMST
+  footprint:
+    ring:
+      id: 4.4
+      od: 7.4
+      paste: # measured from eagle footprint (not dimensioned in datasheet)
+        clearance: 0.5
+        id: 4.72
+        od: 6.92
+    npth: 4.4
+  mechanical:
+    id: 3.3
+    od: 6
+    od1: 4.2
+    h1: 1.4
+  parts:
+    9774010960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010960.pdf,
+      h: 1
+    9774015960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015960.pdf,
+      h: 1.5
+    9774020960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020960.pdf,
+      h: 2
+    9774025960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025960.pdf,
+      h: 2.5
+    9774030960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030960.pdf,
+      h: 3
+    9774040960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040960.pdf,
+      h: 4
+    9774050960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050960.pdf,
+      h: 5
+    9774060960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060960.pdf,
+      h: 6
+    9774070960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070960.pdf,
+      h: 7
+    9774080960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080960.pdf,
+      h: 8
+    9774090960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090960.pdf,
+      h: 9
+    9774100960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100960.pdf,
+      h: 10
+    9774110960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774110960.pdf,
+      h: 11
+    9774120960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774120960.pdf,
+      h: 12
+    9774130960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774130960.pdf,
+      h: 13
+    9774140960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774140960.pdf,
+      h: 14
+    9774150960:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774150960.pdf,
+      h: 15
+
+4.5mm:
+  series_prefix: WA-SMST
+  footprint:
+    ring:
+      id: 5.4
+      od: 9.4
+      paste:
+        clearance: 0.8
+        id: 5.48
+        od: 9.27
+    npth: 5.4
+  mechanical:
+    id: 4.5
+    od: 8.2
+    od1: 5.2
+    h1: 1.4
+  parts:
+    9774010982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010982.pdf
+      h: 1
+    9774020982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020982.pdf
+      h: 2
+    9774030982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030982.pdf
+      h: 3
+    9774040982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040982.pdf
+      h: 4
+    9774050982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050982.pdf
+      h: 5
+    9774060982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060982.pdf
+      h: 6
+    9774070982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070982.pdf
+      h: 7
+    9774080982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080982.pdf
+      h: 8
+    9774090982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090982.pdf
+      h: 9
+    9774100982:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100982.pdf
+      h: 10
+
+M1.6:
+  series_prefix: WA-SMSI
+  footprint:
+    ring:
+      id: 2.1
+      od: 4
+      paste:
+        clearance: 0.4
+        id: 2.2
+        od: 3.8
+    npth: 2.1
+  mechanical:
+    id: M1.6
+    od: 3.3
+    od1: 1.9
+    h1: 0.7
+  parts:
+    9774010633:
+      datasheet: https://katalog.we-online.com/em/datasheet/9774010633.pdf
+      h: 1
+    9774015633:
+      datasheet: https://katalog.we-online.com/em/datasheet/9774015633.pdf
+      h: 1.5
+    9774020633:
+      datasheet: https://katalog.we-online.com/em/datasheet/9774020633.pdf
+      h: 2
+    9774025633:
+      datasheet: https://katalog.we-online.com/em/datasheet/9774025633.pdf
+      h: 2.5
+    9774030633:
+      datasheet: https://katalog.we-online.com/em/datasheet/9774030633.pdf
+      h: 3
+    97730356334:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730356334.pdf
+      h: 3.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730406334:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730406334.pdf
+      h: 4
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730456334:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730456334.pdf
+      h: 4.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730506334:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730506334.pdf
+      h: 5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730606334:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730606334.pdf
+      h: 6
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+
+M1.6_s:
+  series_prefix: WA-SMSI
+  footprint:
+    ring:
+      id: 1
+      od: 4
+      paste:
+        paste_count: 2
+        clearance: 1.1
+        id: 1.2
+        od: 3.8
+    npth: 1
+  mechanical:
+    id: M1.6
+    od: 3.3
+    od1: 0.8
+    h1: 0.5
+  parts:
+    97730256332:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730256332.pdf
+      h: 2.5
+      thread_depth: 1.5
+      drill_depth: 1.63 # from 3d model
+    97730306332:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730306332.pdf
+      h: 3
+      thread_depth: 1.8
+      drill_depth: 1.93 # from 3d model
+    97730356332:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730356332.pdf
+      h: 3.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730406332:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730406332.pdf
+      h: 4
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730456332:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730456332.pdf
+      h: 4.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730506332:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730506332.pdf
+      h: 5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730606332:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730606332.pdf
+      h: 6
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+
+M1.6_smt:
+  series_prefix: WA-SMSI
+  suffix: NoNPTH
+  footprint:
+    ring:
+      id: 0
+      od: 4
+      paste:
+        clearance: 0.3
+        id: 0.6 # 2*clearance to ensure proper handling (would need to implement a segment instead of an arc to really handle this. Too much work for now.)
+        od: 3.8
+  mechanical:
+    id: M1.6
+    od: 3.3
+  parts:
+    97730256330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730256330R.pdf
+      h: 2.5
+      thread_depth: 1.5
+      drill_depth: 1.63 # from 3d model
+    97730306330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730306330.pdf
+      h: 3
+      thread_depth: 1.8
+      drill_depth: 1.93 # from 3d model
+    97730356330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730356330.pdf
+      h: 3.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730406330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730406330.pdf
+      h: 4
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730456330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730456330.pdf
+      h: 4.5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730506330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730506330.pdf
+      h: 5
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+    97730606330:
+      datasheet: https://katalog.we-online.com/em/datasheet/97730606330.pdf
+      h: 6
+      thread_depth: 2
+      drill_depth: 3.13 # from 3d model
+
+M2:
+  series_prefix: WA-SMSI
+  footprint:
+    ring:
+      id: 3
+      od: 5.3
+      paste: # from 2.25mm ID version (Has same mechanical dimensions)
+        clearance: 0.6
+        id: 3.1
+        od: 5.12
+    npth: 3
+  mechanical:
+    id: M2
+    od: 4.35
+    od1: 2.8
+    h1: 1.4
+  parts:
+    9774010243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010243.pdf
+      h: 1
+    9774015243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015243.pdf
+      h: 1.5
+    9774020243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020243.pdf
+      h: 2
+    9774025243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025243.pdf
+      h: 2.5
+    9774030243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030243.pdf
+      h: 3
+    9774035243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774035243.pdf
+      h: 3.5
+    9774040243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040243.pdf
+      h: 4
+    9774045243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774045243.pdf
+      h: 4.5
+    9774050243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050243.pdf
+      h: 5
+    9774060243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060243.pdf
+      h: 6
+    9774070243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070243.pdf
+      h: 7
+    9774080243:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080243.pdf
+      h: 8
+
+M3:
+  series_prefix: WA-SMSI
+  footprint:
+    ring:
+      id: 4.4
+      od: 7.4
+      paste: # measured from eagle footprint (not dimensioned in datasheet)
+        clearance: 0.5
+        id: 4.72
+        od: 6.92
+    npth: 4.4
+  mechanical:
+    id: M3
+    od: 6
+    od1: 4.2
+    h1: 1.4
+  parts:
+    9774010360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010360.pdf
+      h: 1
+    9774015360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774015360.pdf
+      h: 1.5
+    9774020360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020360.pdf
+      h: 2
+    9774025360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774025360.pdf
+      h: 2.5
+    9774030360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030360R.pdf
+      h: 3
+    9774040360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040360.pdf
+      h: 4
+    9774050360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050360.pdf
+      h: 5
+    9774060360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060360.pdf
+      h: 6
+    9774070360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070360.pdf
+      h: 7
+    9774080360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080360.pdf
+      h: 8
+    9774090360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090360.pdf
+      h: 9
+    9774100360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100360.pdf
+      h: 10
+    9774110360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774110360.pdf
+      h: 11
+    9774120360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774120360.pdf
+      h: 12
+    9774130360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774130360.pdf
+      h: 13
+    9774140360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774140360.pdf
+      h: 14
+    9774150360:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774150360.pdf
+      h: 15
+
+M4:
+  series_prefix: WA-SMSI
+  footprint:
+    ring:
+      id: 5.4
+      od: 9.4
+      paste:
+        clearance: 0.8
+        id: 5.48
+        od: 9.27
+    npth: 5.4
+  mechanical:
+    id: 4.5
+    od: 8.2
+    od1: 5.2
+    h1: 1.4
+  parts:
+    9774010482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774010482.pdf
+      h: 1
+    9774020482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774020482.pdf
+      h: 2
+    9774030482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774030482.pdf
+      h: 3
+    9774040482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774040482.pdf
+      h: 4
+    9774050482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774050482.pdf
+      h: 5
+    9774060482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774060482.pdf
+      h: 6
+    9774070482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774070482.pdf
+      h: 7
+    9774080482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774080482.pdf
+      h: 8
+    9774090482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774090482.pdf
+      h: 9
+    9774100482:
+      datasheet: https://katalog.we-online.de/em/datasheet/9774100482.pdf
+      h: 10
+
+3.2R:
+  series_prefix: WA-SMSR
+  suffix: ReverseMount
+  footprint:
+    ring:
+      id: 4.5
+      od: 7.4
+      paste:
+        clearance: 0.8
+        id: 4.58
+        od: 7.27
+    npth: 4.4
+  mechanical:
+    id: 3.2
+    od: 6
+    od1: 4.2
+    h: 1
+  parts:
+    9775026960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775026960R.pdf
+      h1: 2.6
+    9775031960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775031960.pdf
+      h1: 3.1
+    9775036960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775036960.pdf
+      h1: 3.6
+    9775041960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775041960.pdf
+      h1: 4.1
+    9775046960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775046960.pdf
+      h1: 4.6
+    9775051960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775051960.pdf
+      h1: 5.1
+    9775056960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775056960.pdf
+      h1: 5.6
+    9775066960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775066960.pdf
+      h1: 6.6
+    9775076960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775076960.pdf
+      h1: 7.6
+    9775086960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775086960.pdf
+      h1: 8.6
+    9775096960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775096960.pdf
+      h1: 9.6
+    9775106960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775106960.pdf
+      h1: 10.6
+    9775116960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775116960.pdf
+      h1: 11.6
+
+M3R:
+  series_prefix: WA-SMSR
+  suffix: ReverseMount
+  footprint:
+    ring:
+      id: 4.5
+      od: 7.4
+      paste:
+        clearance: 0.8
+        id: 4.58
+        od: 7.27
+    npth: 4.4
+  mechanical:
+    id: M3
+    od: 6
+    od1: 4.2
+    h: 1
+  parts:
+    9775026360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775026360.pdf
+      h1: 2.6
+    9775031360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775031360.pdf
+      h1: 3.1
+    9775036360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775036360.pdf
+      h1: 3.6
+    9775041360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775041360.pdf
+      h1: 4.1
+    9775046360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775046360.pdf
+      h1: 4.6
+    9775051360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775051360.pdf
+      h1: 5.1
+    9775056360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775056360.pdf
+      h1: 5.6
+    9775066360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775066360.pdf
+      h1: 6.6
+    9775076360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775076360.pdf
+      h1: 7.6
+    9775086360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775086360.pdf
+      h1: 8.6
+    9775096360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775096360.pdf
+      h1: 9.6
+    9775106360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775106360.pdf
+      h1: 10.6
+    9775116360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9775116360.pdf
+      h1: 11.6
+
+snap:
+  series_prefix: WA-SMSSR
+  suffix: SnapRivet
+  footprint:
+    ring:
+      id: 4.4
+      od: 7.4
+      paste:
+        clearance: 0.8
+        id: 4.48
+        od: 7.27
+    npth: 4.4
+  mechanical:
+    id: 3.3
+    id1: 2.15
+    t1: 0.5
+    od: 6
+    od1: 4.2
+    h1: 1.4
+  parts:
+    9776100960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776100960R.pdf
+      h: 10
+    9776020960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776020960.pdf
+      h: 2
+    9776025960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776025960.pdf
+      h: 2.5
+    9776030960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776030960.pdf
+      h: 3
+    9776040960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776040960.pdf
+      h: 4
+    9776050960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776050960.pdf
+      h: 5
+    9776060960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776060960.pdf
+      h: 6
+    9776070960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776070960.pdf
+      h: 7
+    9776080960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776080960.pdf
+      h: 8
+    9776090960:
+      datasheet: https://katalog.we-online.com/em/datasheet/9776090960.pdf
+      h: 9
+
+external_m3:
+  series_prefix: WA-SMSE
+  footprint:
+    ring:
+      id: 1
+      od: 7.4
+      paste:
+        paste_count: 2
+        clearance: 1.06
+        id: 1.2
+        od: 7.2
+    npth: 1
+  mechanical:
+    ext_thread:
+      od: M3
+      L: 6
+      undercut:
+        od: 2.2
+        L: [0.5, 1.25]
+        r: 0.2
+    od: 6
+    od1: 0.8
+    h1: 0.5
+  parts:
+    9771050360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771050360.pdf
+      h: 5
+    9771060360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771060360.pdf
+      h: 6
+    9771070360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771070360.pdf
+      h: 7
+    9771080360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771080360.pdf
+      h: 8
+    9771090360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771090360.pdf
+      h: 9
+    9771100360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771100360.pdf
+      h: 10
+    9771110360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771110360.pdf
+      h: 11
+    9771120360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771120360.pdf
+      h: 12
+    9771130360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771130360.pdf
+      h: 13
+    9771140360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771140360.pdf
+      h: 14
+    9771150360:
+      datasheet: https://katalog.we-online.com/em/datasheet/9771150360.pdf
+      h: 15
