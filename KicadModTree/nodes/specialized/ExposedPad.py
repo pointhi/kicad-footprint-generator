@@ -206,7 +206,7 @@ class ExposedPad(Node):
         if (self.via_layout[idx]-1)*self.via_grid[idx] <= self.paste_area_size[idx]:
             return self.via_layout[idx]
         else:
-            return self.paste_area_size[idx]//(self.via_grid[idx])
+            return int(self.paste_area_size[idx]//(self.via_grid[idx]))
 
     def _initPasteForAvoidingVias(self, **kwargs):
         self.via_clarance = kwargs.get('via_paste_clarance', 0.05)
