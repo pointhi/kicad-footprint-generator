@@ -2,6 +2,29 @@ group_definitions:
     manufacturer: 'Hirose'
 
 device_definition:
+    DF3EA:
+        series: ''
+        mpn_format_string: 'DF3EA-{pincount:02d}P-2H'
+        orientation: 'H'
+        datasheet: 'https://www.hirose.com/product/document?clcode=CL0543-0332-0-51&productname=DF3EA-5P-2H(51)&series=DF3&documenttype=2DDrawing&lang=en&documentid=0001163317'
+        pinrange: ['list', [2,3,4,5,6,7,8,9,10,11,12,13,14,15]]
+        text_inside_pos: 'center'
+        pitch: 2
+        pad1_position: 'top-left'
+        mounting_pad_size: [2.3, 3.3]
+        # x position mounting inner mounting pad edge relative to nearest pad center
+        center_pad_to_mounting_pad_edge: 3.37 #(D-B)/2
+        # y dimensions for pad given relative to mounting pad edge
+        rel_pad_y_outside_edge: 8.8
+        rel_pad_y_inside_edge: 5.7
+        pad_size_x: 1.2
+        # y position for body edge relative to mounting pad edge (positive -> body extends outside bounding box)
+        rel_body_edge_y: 0.45
+        body_size_y: 5.9
+        # body_fin_protrusion: 1.6
+        # body_fin_width: 0.8
+        # x body edge relative to nearest pin
+        rel_body_edge_x: 3.25
     # DF13C:
     #     series: 'DF13C'
     #     mpn_format_string: 'CL535-04{pincount:02d}-{param_1:s}-51'
