@@ -1,3 +1,45 @@
+QFN-64-1EP_9x9mm_P0.5mm_EP3.8x3.8xmm:
+  device_type: 'QFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://datasheet.lcsc.com/szlcsc/Realtek-Semicon-RTL8211EG-VB-CG_C69264.pdf#page=77'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x: 9.0
+  body_size_y: 9.0
+  lead_width: 0.18 .. 0.25 .. 0.30
+  lead_len: 0.30 .. 0.40 .. 0.50
+
+  EP_size_x: 3.55 .. 3.80 .. 4.05
+  EP_size_y: 3.55 .. 3.80 .. 4.05
+  
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [3, 3]
+  #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    # EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    # EP_paste_coverage: 0.65
+    #grid: [1, 1]
+    # bottom_pad_size:
+    # paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 16
+  num_pins_y: 16
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
 QFN-64-1EP_9x9mm_P0.5mm_EP4.7x4.7mm:
   device_type: 'QFN'
   #manufacturer: 'man'
