@@ -40,7 +40,7 @@ pad_copper_y_solder_length = 0.5 #How much copper should be in y direction?
 min_annular_ring = 0.15
 drill = 1.7 # 1.65 +0.1/-0.0 -> 1.7+/-0.05
 mh_drill = 1.45
-mh_at = [-1.5, -3.4] #contratiction (y position) in datasheet!
+mh_at = [-1.5, -3.4]
 
 pin_range = range(2, 11) #number of pins in each row
 

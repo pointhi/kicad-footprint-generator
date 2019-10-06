@@ -43,21 +43,32 @@ min_annular_ring = 0.15
 
 #FP name strings
 
-part_base = "B{n:d}P-{suffix:s}"
+part_base = "B{n:d}P{n_total:s}-{suffix:s}"
 
 def generate_one_footprint(pins, series_params, configuration):
     #calculate dimensions
     A = (pins - 1) * pitch
     B = A + 3.9
+    
+    post_omitted = True if len(series_params) == 4 else False
+    pins_used = pins - len(series_params[3]) if post_omitted else pins
+    
+    # if removed pins are a fixed pattern (every 2 pins, every 3 pins, etc.),
+    # then we can determine an effective pitch
+    # if all pins are loaded or removed pins are disorderly use the default pitch
+    pitch_effective = pitch
+    if post_omitted:
+        if ((pins - 1) % (pins_used - 1)) == 0:
+            pitch_effective = ((pins - 1) / (pins_used - 1)) * pitch
 
     #generate name
-    mpn = part_base.format(n=pins, suffix=series_params[1])
+    mpn = part_base.format(n = pins_used, n_total = str(pins) if post_omitted else '', suffix=series_params[1])
 
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
         series=series,
-        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
-        pitch=pitch, orientation=orientation_str)
+        mpn=mpn, num_rows=number_of_rows, pins_per_row=pins_used, mounting_pad = "",
+        pitch=pitch_effective, orientation=orientation_str)
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("JST {:s} series connector, {:s} ({:s}), generated with kicad-footprint-generator".format(series_params[2], mpn, datasheet))
@@ -148,12 +159,35 @@ def generate_one_footprint(pins, series_params, configuration):
         optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
     else:
         optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
+        optional_pad_params['radius_ratio'] = 0.25
+        optional_pad_params['maximum_radius'] = 0.25
 
-    kicad_mod.append(PadArray(
-        pincount=pins, x_spacing=pitch,
-        type=Pad.TYPE_THT, shape=shape,
-        size=pad_size, drill=drill, layers=Pad.LAYERS_THT,
-        **optional_pad_params))
+    exclude_pin_list = series_params[3] if post_omitted else []
+    if post_omitted:
+        if pins > 3 and len(series_params[3]) == 1:
+            for pin in range(1, pins + 1):
+                if pin != series_params[3][0]:
+                    #shape = optional_pad_params['tht_pad1_shape'] if pin == 1 else shape
+                    kicad_mod.append(Pad(
+                        number=pin, at=[(pin - 1) * pitch_effective, 0],
+                        type=Pad.TYPE_THT,
+                        shape=optional_pad_params['tht_pad1_shape'] if pin == 1 else shape,
+                        size=pad_size, drill=drill, layers=Pad.LAYERS_THT,
+                        **optional_pad_params))
+        else:
+            for pin in range(1, pins_used + 1):
+                kicad_mod.append(Pad(
+                    number=pin, at=[(pin - 1) * pitch_effective, 0],
+                    type=Pad.TYPE_THT,
+                    shape=optional_pad_params['tht_pad1_shape'] if pin == 1 else shape,
+                    size=pad_size, drill=drill, layers=Pad.LAYERS_THT,
+                    **optional_pad_params))
+    else:
+        kicad_mod.append(PadArray(
+            pincount=pins, x_spacing=pitch,
+            type=Pad.TYPE_THT, shape=shape,
+            size=pad_size, drill=drill, layers=Pad.LAYERS_THT,
+            **optional_pad_params))
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
@@ -196,6 +230,15 @@ if __name__ == "__main__":
 
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
-    for series_params in [(11, "VH", "VH", "vh"), (12, "VH-B", "VH PBT", "vh pbt")]:
-        for pincount in range(2, series_params[0]):
+    #tuple argument meaning: [start,end] list for range of pin counts, MPN suffix, material, optional list of missing pins
+    #the first two tuples generate the fully-stuffed parts while the last tuple makes a 3-pin part with pin 2 missing
+    #here are examples from page 4 of the datasheet (this can generate non-contiguous pin numbers so be careful!):
+    #1) B6P7-VH: ([7,8], series, series, [6])
+    #2) B6P7-VH-L: ([7,8], series + "-L", series, [2])
+    #3) 1. B4P7-VH: ([7,8], series, series, [2,4,6])
+    #3) 2. B3P7-VH: ([7,8], series, series, [2,3,5,6])
+    #3) 3. B3P9-VH: ([9,10], series, series, [2,3,4,6,7,8])
+    #for series_params in [([7,8], series, series, [6]), ([7,8], series + "-L", series, [2]), ([7,8], series, series, [2,4,6]), ([7,8], series, series, [2,3,5,6]), ([9,10], series, series, [2,3,4,6,7,8])]:
+    for series_params in [([2,11], series, series), ([2,12], series + "-B", series + " PBT"), ([3,4], series, series, [2])]:
+        for pincount in range(series_params[0][0], series_params[0][1]):
             generate_one_footprint(pincount, series_params, configuration)
