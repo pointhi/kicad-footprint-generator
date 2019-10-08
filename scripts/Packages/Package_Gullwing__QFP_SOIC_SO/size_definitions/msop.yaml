@@ -2,6 +2,17 @@ FileHeader:
   library_Suffix: 'SO'
   device_type: 'MSOP'
 
+MSOP-8_3x3mm_P0.65mm:
+  size_source: 'https://www.jedec.org/system/files/docs/mo-187F.pdf variant AA'
+  body_size_x: 3 +/-0.2
+  body_size_y: 3 +/-0.2
+  overall_size_x: 4.9 +/-0.25
+  lead_width: 0.22 .. 0.38
+  lead_len: 0.4 .. 0.6 .. 0.8
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 4
+
 MSOP-8-1EP_3x3mm_P0.65mm_EP1.68x1.88mm:
   size_source: 'https://www.analog.com/media/en/technical-documentation/data-sheets/4440fb.pdf#page=13'
   force_small_pitch_ipc_definition: True
