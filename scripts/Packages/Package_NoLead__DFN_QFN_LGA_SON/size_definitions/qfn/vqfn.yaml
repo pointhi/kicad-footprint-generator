@@ -614,6 +614,49 @@ VQFN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
+VQFN-46-1EP_5x6mm_P0.4mm_EP2.8x3.8mm:
+  device_type: 'VQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.ti.com/lit/ds/symlink/lp5036.pdf#page=59'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x: 4.9 .. 5.1
+  body_size_y: 5.9 .. 6.1
+  overall_height: 1.0
+  lead_width: 0.15 .. 0.25
+  lead_len: 0.25 .. 0.45
+
+  EP_size_x:
+    nominal: 2.8
+    tolerance: 0.05
+  EP_size_y:
+    nominal: 3.8
+    tolerance: 0.05
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 3]
+
+  thermal_vias:
+    count: [3, 4]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0
+    # EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.4
+  num_pins_x: 10
+  num_pins_y: 13
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'
+
 VQFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
