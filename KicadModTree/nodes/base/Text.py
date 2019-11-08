@@ -48,6 +48,7 @@ class Text(Node):
     >>> from KicadModTree import *
     >>> Text(type='reference', text='REF**', at=[0, -3], layer='F.SilkS')
     >>> Text(type='value', text="footprint name", at=[0, 3], layer='F.Fab')
+    >>> Text(type='user', text='test', at=[0, 0], layer='Cmts.User')
     """
 
     TYPE_REFERENCE = 'reference'
