@@ -1,0 +1,10 @@
+MountingHole_5.3x7.3mm_M5_Pad_Via:
+    description: "Mounting Hole 5.3x7.3mm, M5, including vias"
+    courtjard: 0.25
+    hole_x: 7.3
+    hole_y: 5.3
+    anular_ring: 2
+    via: True
+    via_diameter: 0.6
+    via_count: 16
+
