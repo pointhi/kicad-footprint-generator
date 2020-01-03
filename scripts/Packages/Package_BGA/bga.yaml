@@ -324,3 +324,13 @@ Analog_BGA-28_4.0x6.25mm_Layout4x7_P0.8mm_Ball0.45mm_Pad0.4:
    mask_margin: 0.05
    layout_x: 4
    layout_y: 7
+ST_uTFBGA-36_3.6x3.6mm_Layout6x6_P0.5mm:
+   description: "ST uTFBGA-36, 0.25mm pad"
+   size_source: "https://www.st.com/resource/en/datasheet/stulpi01a.pdf"
+   body_size_x: 3.6
+   body_size_y: 3.6
+   pitch: 0.5
+   pad_diameter: 0.25
+   mask_margin: 0.05
+   layout_x: 6
+   layout_y: 6
