@@ -326,13 +326,14 @@ class NoLead():
             pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
 
         if device_dimensions['has_EP']:
+            ep_pad_number = device_params.get('EP_pin_number', pincount+1)
             if with_thermal_vias:
                 thermals = device_params['thermal_vias']
                 paste_coverage = thermals.get('EP_paste_coverage',
                                                device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE))
 
                 kicad_mod.append(ExposedPad(
-                    number=pincount+1, size=EP_size,
+                    number=ep_pad_number, size=EP_size,
                     at=EP_center,
                     paste_layout=thermals.get('EP_num_paste_pads', device_params.get('EP_num_paste_pads', 1)),
                     paste_coverage=paste_coverage,
@@ -350,7 +351,7 @@ class NoLead():
                     ))
             else:
                 kicad_mod.append(ExposedPad(
-                    number=pincount+1, size=EP_size,
+                    number=ep_pad_number, size=EP_size,
                     at=EP_center,
                     paste_layout=device_params.get('EP_num_paste_pads', 1),
                     paste_coverage=device_params.get('EP_paste_coverage', DEFAULT_PASTE_COVERAGE),

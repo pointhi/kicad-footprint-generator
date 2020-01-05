@@ -16,6 +16,7 @@
 # (C) 2017 by @SchrodingersGat
 # (C) 2017 by Thomas Pointhuber, <thomas.pointhuber@gmx.at>
 
+from types import GeneratorType
 from KicadModTree.nodes.base.Pad import *
 from KicadModTree.nodes.specialized.ChamferedPad import *
 from KicadModTree.nodes.Node import Node
@@ -208,8 +209,10 @@ class PadArray(Node):
             pad_numbers = [self.initialPin]
             for idx in range(1, self.pincount):
                 pad_numbers.append(self.increment(pad_numbers[-1]))
+        elif type(self.increment) == GeneratorType:
+            pad_numbers = [next(self.increment) for i in range(self.pincount)]
         else:
-            raise TypeError("Wrong type for increment. It must be either a int or callable.")
+            raise TypeError("Wrong type for increment. It must be either a int, callable or generator.")
 
         end_pad_params = copy(kwargs)
         if kwargs.get('end_pads_size_reduction'):
