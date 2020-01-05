@@ -1,32 +1,5 @@
 #!/usr/bin/env python3
 
-'''
-kicad-footprint-generator is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-kicad-footprint-generator is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with kicad-footprint-generator. If not, see < http://www.gnu.org/licenses/ >.
-'''
-
-"""
-footprint specific details to go here
-
-Hirose DF63
-
-URL:
-https://www.hirose.com/product/en/products/DF63/
-
-Datasheet:
-https://www.hirose.com/product/document?clcode=&productname=&series=DF63&documenttype=Catalog&lang=en&documentid=D31622_en
-"""
-
 import sys
 import os
 #sys.path.append(os.path.join(sys.path[0],"..","..","kicad_mod")) # load kicad_mod path
@@ -42,28 +15,25 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = 'DF63'
-series_long = 'DF63 through hole'
+series = 'DF11'
+series_long = 'DF11 through hole'
 manufacturer = 'Hirose'
 orientation = 'V'
-number_of_rows = 1
-datasheet = 'https://www.hirose.com/product/en/products/DF63/'
+number_of_rows = 2
+datasheet = 'https://www.hirose.com/product/document?clcode=&productname=&series=DF11&documenttype=Catalog&lang=en&documentid=D31688_en'
 
-#pins_per_row per row
-pins_per_row_range = [1,2,3,4,5,6]
+# pins_per_row per row
+pins_per_row_range = range(2,17)
 
-types = ['M', 'R']
+# Part number
+# n = number of circuits total
+part_code = "DF11-{n}DP-2DSA"
 
-#Hirose part number
-#n = number of circuits per row
-part_code = "DF63{f:s}-{n:d}P-3.96DSA"
+pitch = 2
+drill = 0.85
 
-pitch = 3.96
-drill = 1.8
-mount_size = 1.6
-
-pad_to_pad_clearance = 1.5
-max_annular_ring = 0.5
+pad_to_pad_clearance = 0.8
+max_annular_ring = 0.4
 min_annular_ring = 0.15
 
 
@@ -80,17 +50,17 @@ if pad_size[1] == pad_size[0]:
 
 
 
-def generate_one_footprint(pins, form_type, configuration):
-    mpn = part_code.format(n=pins, f=form_type)
-    off = configuration['silk_fab_offset']
-    pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
-
+def generate_one_footprint(pins, configuration):
+    mpn = part_code.format(n=pins*2)
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
     footprint_name = configuration['fp_name_no_series_format_string'].format(man=manufacturer,
+        series=series,
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
+
+    footprint_name = footprint_name.replace("__",'_')
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setDescription("{:s} {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(manufacturer, series_long, mpn, pins_per_row, datasheet))
@@ -98,22 +68,26 @@ def generate_one_footprint(pins, form_type, configuration):
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
 
+    A = (pins - 1) * pitch
+    B = A + 4
 
+    # create pads
+    optional_pad_params = {}
+    if configuration['kicad4_compatible']:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
+    else:
+        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
 
-    #vertical center of connector
-    y2 = 3.25 + mount_size / 2
-    y1 = y2 - 7.05
-    yt = y2 - 8
+    for initial, initial_y in zip([1, 2], [0, pitch]):
+        kicad_mod.append(PadArray(start=[0, initial_y], initial=initial, increment=2, pincount=pins, x_spacing=pitch,
+            type=Pad.TYPE_THT, shape=pad_shape, size=pad_size,
+            drill=drill, layers=Pad.LAYERS_THT,
+            **optional_pad_params))
 
-    #Major dimensions
-    B = ( pins - 1 ) * pitch
-    A = B + 4.7
-    if pins == 1:
-        A = 6.2
-
-    #calculate major dimensions
-    x1 = (B - A) / 2
-    x2 = x1 + A
+    x1 = -(B-A) / 2
+    y1 = -1.5
+    x2 = x1 + B
+    y2 = 1.5 + pitch
 
     body_edge={
         'left':x1,
@@ -122,76 +96,12 @@ def generate_one_footprint(pins, form_type, configuration):
         'top': y1
         }
     bounding_box = body_edge.copy()
-    bounding_box['top'] = yt
 
-    #pins
-
-    optional_pad_params = {}
-    if configuration['kicad4_compatible']:
-        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_RECT
-    else:
-        optional_pad_params['tht_pad1_shape'] = Pad.SHAPE_ROUNDRECT
-
-    kicad_mod.append(
-        PadArray(
-                pincount=pins,
-                initial = 1,
-                start = [0, 0],
-                x_spacing = pitch,
-                type = Pad.TYPE_THT,
-                layers = Pad.LAYERS_THT,
-                shape = pad_shape,
-                size = pad_size,
-                drill = drill,
-                **optional_pad_params
-                )
-    )
-
-    #mounting hole
-    if form_type in ['M', '']:
-        peg_location = [-1.5, 3.25]
-    else:
-        peg_location = [B+1.5, 3.25]
-    kicad_mod.append(Pad(at=peg_location,type=Pad.TYPE_NPTH,layers=Pad.LAYERS_NPTH,shape=Pad.SHAPE_CIRCLE,size=mount_size,drill=mount_size))
-
-    #connector outline
-
-    #tab thickness
-    t = 1.2
-
-    def outline(offset=0):
-        outline = [
-        {'x': B/2, 'y': y2 + offset},
-        {'x': x1 - offset, 'y': y2 + offset},
-        {'x': x1 - offset, 'y': yt - offset},
-        {'x': x1 + t + offset, 'y': yt - offset},
-        {'x': x1 + t + offset, 'y': y1 - offset},
-        {'x': B/2, 'y': y1 - offset},
-        ]
-
-        return outline
-
-    kicad_mod.append(PolygoneLine(polygone=outline(),layer='F.Fab', width=configuration['fab_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=outline(),x_mirror=B/2,
+    # Fab
+    kicad_mod.append(RectLine(
+        start={'x': x1,'y': y1}, end={'x': x2,'y': y2},
         layer='F.Fab', width=configuration['fab_line_width']))
-
-    kicad_mod.append(PolygoneLine(polygone=outline(offset=off),
-        layer='F.SilkS', width=configuration['silk_line_width']))
-    kicad_mod.append(PolygoneLine(polygone=outline(offset=off),x_mirror=B/2,
-        layer='F.SilkS', width=configuration['silk_line_width']))
-
-    #draw lines between pads on F.Fab
-    for i in range(pins - 1):
-        x = (i + 0.5) * pitch
-
-        kicad_mod.append(Line(start=[x,y1], end=[x,y2],
-            layer='F.Fab', width=configuration['fab_line_width']))
-
-    #pin-1 indicator
-    kicad_mod.append(Circle(center=[0,-3.75], radius=0.25,
-        layer='F.SilkS', width=configuration['silk_line_width']))
-
-    sl=2
+    sl=1
     pin = [
         {'y': body_edge['top'], 'x': -sl/2},
         {'y': body_edge['top'] + sl/sqrt(2), 'x': 0},
@@ -199,6 +109,74 @@ def generate_one_footprint(pins, form_type, configuration):
     ]
     kicad_mod.append(PolygoneLine(polygone=pin,
         width=configuration['fab_line_width'], layer='F.Fab'))
+
+    #line offset
+    off = 0.1
+
+    x1 -= off
+    y1 -= off
+
+    x2 += off
+    y2 += off
+
+    #draw the main outline around the footprint
+    kicad_mod.append(RectLine(start={'x':x1,'y':y1},end={'x':x2,'y':y2},
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    #add pin-1 marker
+    p1_off = configuration['silk_fab_offset'] + 0.3
+    L = 1.5
+    pin = [
+        {'y': body_edge['top'] + L, 'x': body_edge['left'] - p1_off},
+        {'y': body_edge['top'] - p1_off, 'x': body_edge['left'] - p1_off},
+        {'y': body_edge['top'] - p1_off, 'x': body_edge['left'] + L}
+    ]
+    kicad_mod.append(PolygoneLine(polygone=pin,
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    #side-wall thickness S
+    S = 0.4
+
+    #bottom line
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            {'x':x1,'y':2},
+            {'x':x1+S,'y':2},
+            {'x':x1+S,'y':y2-S},
+            {'x':x2-S,'y':y2-S},
+            {'x':x2-S,'y':2},
+            {'x':x2,'y':2}],
+        layer='F.SilkS', width=configuration['silk_line_width']))
+    
+    #left mark
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            {'x':x1,'y':1},
+            {'x':x1+S,'y':1},
+            {'x':x1+S,'y':y1+S},
+            {'x':0.5,'y':y1+S},
+            {'x':0.5,'y':y1}],
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    #right mark
+    kicad_mod.append(PolygoneLine(
+        polygone=[
+            {'x':x2,'y':1},
+            {'x':x2-S,'y':1},
+            {'x':x2-S,'y':y1+S},
+            {'x':x2-2.5-off,'y':y1+S},
+            {'x':x2-2.5-off,'y':y1}],
+        layer='F.SilkS', width=configuration['silk_line_width']))
+
+    #middle line
+    if pins > 2:
+        kicad_mod.append(PolygoneLine(
+            polygone=[
+                {'x':1.5,'y':y1},
+                {'x':1.5,'y':y1+S},
+                {'x':x2-3.5-off,'y':y1+S},
+                {'x':x2-3.5-off,'y':y1}],
+            layer='F.SilkS', width=configuration['silk_line_width']))
 
     ########################### CrtYd #################################
     cx1 = roundToBase(bounding_box['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])
@@ -213,7 +191,7 @@ def generate_one_footprint(pins, form_type, configuration):
 
     ######################### Text Fields ###############################
     addTextFields(kicad_mod=kicad_mod, configuration=configuration, body_edges=body_edge,
-        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position=-3.75)
+        courtyard={'top':cy1, 'bottom':cy2}, fp_name=footprint_name, text_y_inside_position='bottom')
 
     ##################### Output and 3d model ############################
     model3d_path_prefix = configuration.get('3d_model_prefix','${KISYS3DMOD}/')
@@ -253,9 +231,4 @@ if __name__ == "__main__":
     configuration['kicad4_compatible'] = args.kicad4_compatible
 
     for pins_per_row in pins_per_row_range:
-        for form_type in types:
-            if form_type is 'R' and pins_per_row is 6:
-                continue
-            if form_type is 'M' and pins_per_row in [5,6]:
-                form_type = ''
-            generate_one_footprint(pins_per_row, form_type, configuration)
+        generate_one_footprint(pins_per_row, configuration)

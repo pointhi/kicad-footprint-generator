@@ -15,7 +15,7 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = ""
+series = 'DF13'
 series_long = 'DF13 through hole'
 manufacturer = 'Hirose'
 orientation = 'V'
@@ -55,7 +55,7 @@ def generate_one_footprint(pins, configuration):
     pad_silk_off = configuration['silk_line_width']/2 + configuration['silk_pad_clearance']
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
-    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+    footprint_name = configuration['fp_name_no_series_format_string'].format(man=manufacturer,
         series=series,
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "",
         pitch=pitch, orientation=orientation_str)
@@ -63,7 +63,7 @@ def generate_one_footprint(pins, configuration):
     footprint_name = footprint_name.replace("__",'_')
 
     kicad_mod = Footprint(footprint_name)
-    kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
+    kicad_mod.setDescription("{:s} {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(manufacturer, series_long, mpn, pins_per_row, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
@@ -175,7 +175,14 @@ def generate_one_footprint(pins, configuration):
         layer='F.SilkS', width=configuration['silk_line_width']))
 
     #middle line
-    kicad_mod.append(PolygoneLine(
+    if pins == 2:
+        polygone=[{'x':x1+2*S,'y':y1+1.5*S},
+            {'x':0.2*pitch,'y':y1+1.5*S},
+            {'x':0.2*pitch,'y':y1+0.5*S},
+            {'x':0.8*pitch,'y':y1+0.5*S},
+            {'x':0.8*pitch,'y':y1+1.5*S},
+            {'x':x2-2*S,'y':y1+1.5*S}]
+    else:
         polygone=[
             {'x':x1+2*S,'y':y1+1.5*S},
             {'x':0.2*pitch,'y':y1+1.5*S},
@@ -186,8 +193,8 @@ def generate_one_footprint(pins, configuration):
             {'x':A-0.8*pitch,'y':y1+0.5*S},
             {'x':A-0.2*pitch,'y':y1+0.5*S},
             {'x':A-0.2*pitch,'y':y1+1.5*S},
-            {'x':x2-2*S,'y':y1+1.5*S}],
-        layer='F.SilkS', width=configuration['silk_line_width']))
+            {'x':x2-2*S,'y':y1+1.5*S}]
+    kicad_mod.append(PolygoneLine(polygone=polygone, layer='F.SilkS', width=configuration['silk_line_width']))
 
     ########################### CrtYd #################################
     cx1 = roundToBase(bounding_box['left']-configuration['courtyard_offset']['connector'], configuration['courtyard_grid'])

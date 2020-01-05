@@ -231,10 +231,11 @@ class PadArray(Node):
             delta_pos = Vector2D(0, 0)
 
         for i, number in enumerate(pad_numbers):
-            includePad = (i + self.initialPin) not in self.exclude_pin_list
-            for exi in self.exclude_pin_list:
-                if (i + self.initialPin) == exi:
-                    includePad = False
+            includePad = True
+            if type(self.initialPin) == 'int':
+                includePad = (self.initialPin + i) not in self.exclude_pin_list
+            else:
+                includePad = number not in self.exclude_pin_list
 
             if includePad:
                 current_pad_pos = Vector2D(

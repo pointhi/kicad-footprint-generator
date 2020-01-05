@@ -16,7 +16,7 @@ sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent p
 from footprint_text_fields import addTextFields
 from footprint_keepout_area import addRectangularKeepout
 
-series = "DF13C"
+series = 'DF13C'
 series_long = 'DF13C SMD'
 manufacturer = 'Hirose'
 orientation = 'V'
@@ -63,7 +63,7 @@ def generate_one_footprint(idx, pins, configuration):
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setAttribute('smd')
-    kicad_mod.setDescription("Molex {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
+    kicad_mod.setDescription("{:s} {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(manufacturer, series_long, mpn, pins_per_row, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))

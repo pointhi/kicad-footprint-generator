@@ -16,7 +16,7 @@ sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent p
 from footprint_text_fields import addTextFields
 from footprint_keepout_area import addRectangularKeepout
 
-series = ""
+series = 'FH12'
 series_long = 'FH12, FFC/FPC connector'
 manufacturer = 'Hirose'
 orientation = 'H'
@@ -57,7 +57,7 @@ def generate_one_footprint(pins, configuration):
     off = configuration['silk_fab_offset']
     # handle arguments
     orientation_str = configuration['orientation_options'][orientation]
-    footprint_name = configuration['fp_name_format_string'].format(man=manufacturer,
+    footprint_name = configuration['fp_name_no_series_format_string'].format(man=manufacturer,
         series=series,
         mpn=mpn, num_rows=number_of_rows, pins_per_row=pins, mounting_pad = "-1MP",
         pitch=pitch, orientation=orientation_str)
@@ -66,7 +66,7 @@ def generate_one_footprint(pins, configuration):
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setAttribute('smd')
-    kicad_mod.setDescription("Hirose {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins_per_row, datasheet))
+    kicad_mod.setDescription("{:s} {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(manufacturer, series_long, mpn, pins_per_row, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))

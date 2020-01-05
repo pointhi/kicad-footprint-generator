@@ -30,7 +30,7 @@ from KicadModTree import *
 sys.path.append(os.path.join(sys.path[0], "..", "..", "tools"))  # load parent path of tools
 from footprint_text_fields import addTextFields
 
-series = "DF12"
+series = 'DF12'
 series_long = 'DF12E SMD'
 manufacturer = 'Hirose'
 orientation = 'V'
@@ -59,7 +59,7 @@ def generate_one_footprint(idx, pins, configuration):
 
     kicad_mod = Footprint(footprint_name)
     kicad_mod.setAttribute('smd')
-    kicad_mod.setDescription("Hirose {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(series_long, mpn, pins, datasheet))
+    kicad_mod.setDescription("{:s} {:s}, {:s}, {:d} Pins per row ({:s}), generated with kicad-footprint-generator".format(manufacturer, series_long, mpn, pins, datasheet))
     kicad_mod.setTags(configuration['keyword_fp_string'].format(series=series,
         orientation=orientation_str, man=manufacturer,
         entry=configuration['entry_direction'][orientation]))
@@ -112,11 +112,11 @@ def generate_one_footprint(idx, pins, configuration):
         type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Cu", "F.Mask"]))
 
     #F.Paste
-    kicad_mod.append(PadArray(start=[-B/2, 2], initial="",
+    kicad_mod.append(PadArray(start=[-B/2, 2], initial='', increment=0,
         pincount=CPins,  x_spacing=pitch, size=pad_size_paste,
         type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Paste"]))
 
-    kicad_mod.append(PadArray(start=[-B/2, -2], initial="",
+    kicad_mod.append(PadArray(start=[-B/2, -2], initial='', increment=0,
         pincount=CPins,  x_spacing=pitch, size=pad_size_paste,
         type=Pad.TYPE_SMT, shape=Pad.SHAPE_RECT, layers=["F.Paste"]))
 
@@ -220,13 +220,13 @@ if __name__ == "__main__":
 
     with open(args.global_config, 'r') as config_stream:
         try:
-            configuration = yaml.load(config_stream)
+            configuration = yaml.safe_load(config_stream)
         except yaml.YAMLError as exc:
             print(exc)
 
     with open(args.series_config, 'r') as config_stream:
         try:
-            configuration.update(yaml.load(config_stream))
+            configuration.update(yaml.safe_load(config_stream))
         except yaml.YAMLError as exc:
             print(exc)
 
