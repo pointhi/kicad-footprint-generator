@@ -51,6 +51,47 @@ TQFN-16-1EP_3x3mm_P0.5mm_EP1.23x1.23mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
+TQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
+  device_type: 'TQFN'
+  ipc_class: 'qfn'
+  size_source: 'https://www.diodes.com/assets/Datasheets/PI6C5946002.pdf#page=12'
+  body_size_x:
+    minimum: 2.9
+    nominal: 3.0
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3.0
+    maximum: 3.1
+  overall_height:
+    minimum: 0.7
+    nominal: 0.75
+    maximum: 0.8
+
+  lead_width:
+    minimum: 0.18
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 1.6
+    nominal: 1.8
+    maximum: 1.9
+  EP_size_y:
+    minimum: 1.6
+    nominal: 1.8
+    maximum: 1.9
+  EP_size_x_overwrite: 1.6
+  EP_size_y_overwrite: 1.6
+
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+
 TQFN-16-1EP_5x5mm_P0.8mm_EP2.29x2.29mm:
   device_type: 'TQFN'
   #manufacturer: 'man'
