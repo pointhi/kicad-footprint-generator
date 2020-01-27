@@ -17,6 +17,9 @@ from footprint_text_fields import addTextFields
 from ipc_pad_size_calculators import *
 from quad_dual_pad_border import add_dual_or_quad_pad_border
 
+sys.path.append(os.path.join(sys.path[0], "..", "utils"))
+from ep_handling_utils import getEpRoundRadiusParams
+
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
 category = 'NoLead'
@@ -41,8 +44,14 @@ class NoLead():
                 self.ipc_defintions = yaml.safe_load(ipc_stream)
 
                 self.configuration['min_ep_to_pad_clearance'] = 0.2
+
+                #ToDo: find a settings file that can contain these.
+                self.configuration['paste_radius_ratio'] = 0.25
+                self.configuration['paste_maximum_radius'] = 0.25
+
                 if 'ipc_generic_rules' in self.ipc_defintions:
                     self.configuration['min_ep_to_pad_clearance'] = self.ipc_defintions['ipc_generic_rules'].get('min_ep_to_pad_clearance', 0.2)
+
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -96,7 +105,7 @@ class NoLead():
                     pull_back=pull_back
                     )
 
-        min_ep_to_pad_clearance = configuration['min_ep_to_pad_clearance']
+        min_ep_to_pad_clearance = self.configuration['min_ep_to_pad_clearance']
 
         heel_reduction_max = 0
 
@@ -319,13 +328,10 @@ class NoLead():
             ).lstrip())
         kicad_mod.setAttribute('smd')
 
-        pad_shape_details = {}
-        pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
-        pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
-        if 'round_rect_max_radius' in configuration:
-            pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
+        pad_radius = add_dual_or_quad_pad_border(kicad_mod, self.configuration, pad_details, device_params)
 
         if device_dimensions['has_EP']:
+            pad_shape_details = getEpRoundRadiusParams(device_params, self.configuration, pad_radius)
             ep_pad_number = device_params.get('EP_pin_number', pincount+1)
             if with_thermal_vias:
                 thermals = device_params['thermal_vias']
@@ -358,8 +364,6 @@ class NoLead():
                     kicad4_compatible=args.kicad4_compatible,
                     **pad_shape_details
                     ))
-
-        add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
 
         body_edge = {
             'left': -size_x/2,

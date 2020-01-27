@@ -180,11 +180,18 @@ class ChamferedPadGrid(Node):
           mirror y direction around offset "point"
 
         * *radius_ratio* (``float``) --
-          The radius ratio used if the pad has no chamfer
-          Default: 0 means pads do not included rounded corners (normal rectangles are used)
+          The radius ratio of the rounded rectangle.
+          (default 0 for backwards compatibility)
         * *maximum_radius* (``float``) --
-          Only used if a radius ratio is given.
-          Limits the radius.
+          The maximum radius for the rounded rectangle.
+          If the radius produced by the radius_ratio parameter for the pad would
+          exceed the maximum radius, the ratio is reduced to limit the radius.
+          (This is useful for IPC-7351C compliance as it suggests 25% ratio with limit 0.25mm)
+        * *round_radius_exact* (``float``) --
+          Set an exact round radius for a pad.
+        * *round_radius_handler* (``RoundRadiusHandler``) --
+          An instance of the RoundRadiusHandler class
+          If this is given then all other round radius specifiers are ignored
     """
 
     def __init__(self, **kwargs):
@@ -230,11 +237,18 @@ class ChamferedPadGrid(Node):
             self.chamfer_size = toVectorUseCopyIfNumber(
                 kwargs.get('chamfer_size'), low_limit=0, must_be_larger=False)
 
+        if('round_radius_handler' in kwargs):
+            self.round_radius_handler = kwargs['round_radius_handler']
+        else:
+            # default radius ration 0 for backwards compatibility
+            self.round_radius_handler = RoundRadiusHandler(default_radius_ratio=0, **kwargs)
+
         self.padargs = copy(kwargs)
         self.padargs.pop('size', None)
         self.padargs.pop('number', None)
         self.padargs.pop('at', None)
         self.padargs.pop('chamfer_size', None)
+        self.padargs.pop('round_radius_handler', None)
 
     def chamferAvoidCircle(self, center, diameter, clearance=0):
         r""" set the chamfer such that the pad avoids a cricle located at near corner.
@@ -332,6 +346,7 @@ class ChamferedPadGrid(Node):
                     at=[x, y], number=self.number, size=self.size,
                     chamfer_size=self.chamfer_size,
                     corner_selection=corner,
+                    round_radius_handler=self.round_radius_handler,
                     **self.padargs
                     ))
         return pads

@@ -59,64 +59,6 @@ QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
-QFN-14-1EP_0.64x0.64mm_P0.4mm_EP1.6x1.6mm:
-  device_type: 'QFN'
-  #manufacturer: 'man'
-  #part_number: 'mpn'
-  size_source: 'http://www.skyworksinc.com/uploads/documents/SKY13575_639LF_203270D.pdf'
-  ipc_class: 'qfn' # 'qfn_pull_back'
-  #ipc_density: 'least' #overwrite global value for this device.
-  # custom_name_format:
-  body_size_x:
-    nominal: 1.6
-  body_size_y:
-    nominal: 1.6
-  body_height:
-    minimum: 0.41
-    nominal: 0.45
-    maximum: 0.5
-
-  lead_width:
-    nominal: 0.18
-    tolerance: 0.05
-  lead_len:
-    nominal: 0.2
-    tolerance: 0.05
-
-  EP_size_x:
-    minimum: 0.59
-    nominal: 0.74
-    maximum: 0.84
-  EP_size_y:
-    minimum: 0.59
-    nominal: 0.74
-    maximum: 0.84
-  # EP_paste_coverage: 0.65
-  EP_num_paste_pads: [2, 2]
-  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
-
-  thermal_vias:
-    count: [2, 2]
-    drill: 0.2
-    # min_annular_ring: 0.15
-    paste_via_clearance: 0.1
-    EP_num_paste_pads: [2, 2]
-    #paste_between_vias: 1
-    #paste_rings_outside: 1
-    EP_paste_coverage: 0.75
-    #grid: [1, 1]
-    # bottom_pad_size:
-    paste_avoid_via: False
-
-  pitch: 0.4
-  num_pins_x: 3
-  num_pins_y: 4
-  #chamfer_edge_pins: 0.25
-  #pin_count_grid:
-  #pad_length_addition: 0.5
-  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
-  #include_suffix_in_3dpath: 'False'
-
 QFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   device_type: 'QFN'
   #manufacturer: 'man'

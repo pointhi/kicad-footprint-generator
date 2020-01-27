@@ -352,7 +352,6 @@ QFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm:
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
-  body_size_x_min: 3.9
   body_size_x:
     nominal: 4
     tolerance: 0.1

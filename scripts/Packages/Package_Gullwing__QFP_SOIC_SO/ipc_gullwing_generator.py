@@ -16,6 +16,9 @@ from ipc_pad_size_calculators import *
 from quad_dual_pad_border import add_dual_or_quad_pad_border
 from drawing_tools import nearestSilkPointOnOrthogonalLine
 
+sys.path.append(os.path.join(sys.path[0], "..", "utils"))
+from ep_handling_utils import getEpRoundRadiusParams
+
 ipc_density = 'nominal'
 ipc_doc_file = '../ipc_definitions.yaml'
 
@@ -34,8 +37,14 @@ class Gullwing():
                 self.ipc_defintions = yaml.safe_load(ipc_stream)
 
                 self.configuration['min_ep_to_pad_clearance'] = 0.2
+
+                #ToDo: find a settings file that can contain these.
+                self.configuration['paste_radius_ratio'] = 0.25
+                self.configuration['paste_maximum_radius'] = 0.25
+
                 if 'ipc_generic_rules' in self.ipc_defintions:
                     self.configuration['min_ep_to_pad_clearance'] = self.ipc_defintions['ipc_generic_rules'].get('min_ep_to_pad_clearance', 0.2)
+
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -251,14 +260,11 @@ class Gullwing():
             ).lstrip())
         kicad_mod.setAttribute('smd')
 
-        pad_shape_details = {}
-        pad_shape_details['shape'] = Pad.SHAPE_ROUNDRECT
-        pad_shape_details['radius_ratio'] = configuration.get('round_rect_radius_ratio', 0)
-        if 'round_rect_max_radius' in configuration:
-            pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
+        pad_radius = add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
 
         EP_round_radius = 0
         if dimensions['has_EP']:
+            pad_shape_details = getEpRoundRadiusParams(device_params, self.configuration, pad_radius)
             EP_mask_size = EP_mask_size if EP_mask_size['x'] > 0 else None
 
             if with_thermal_vias:
@@ -291,8 +297,6 @@ class Gullwing():
 
             kicad_mod.append(EP)
             EP_round_radius = EP.getRoundRadius()
-
-        pad_radius = add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
 
         body_edge = {
             'left': -dimensions['body_size_x'].nominal/2,

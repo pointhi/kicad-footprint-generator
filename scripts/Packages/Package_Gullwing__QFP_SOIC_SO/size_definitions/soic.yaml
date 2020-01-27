@@ -24,7 +24,7 @@ SOIC-4_4.55x3.7mm_P2.54mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 3
-  exclude_pin_list: [2, 4] #not currently implemented so hand modification is necessary
+  exclude_pin_list: [2, 5]
 
 SOIC-4_4.55x2.6mm_P1.27mm:
   size_source: 'https://toshiba.semicon-storage.com/info/docget.jsp?did=12884&prodName=TLP291'

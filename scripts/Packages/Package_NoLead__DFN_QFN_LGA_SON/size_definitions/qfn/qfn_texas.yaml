@@ -109,7 +109,7 @@ Texas_S-PWQFN-N16_EP:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/drv8801.pdf#page=31'
+  size_source: 'http://www.ti.com/lit/ds/symlink/drv8801.pdf#page=31 MO-220 variation VGGC'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PWQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -381,7 +381,7 @@ Texas_S-PVQFN-N24_EP:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5720.pdf#page=111'
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5720.pdf#page=108'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -492,7 +492,7 @@ Texas_S-PWQFN-N32_EP:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'https://www.ti.com/lit/ds/symlink/bq25703a.pdf#page=91'
+  size_source: 'https://www.ti.com/lit/ds/symlink/bq25703a.pdf#page=90'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PWQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -548,7 +548,7 @@ Texas_S-PVQFN-N32_EP:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f1122.pdf#page=46'
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f1122.pdf#page=54'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -603,7 +603,7 @@ Texas_S-PVQFN-N36_EP:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/slvsba5d/slvsba5d.pdf#page=31'
+  size_source: 'http://www.ti.com/lit/ds/slvsba5d/slvsba5d.pdf#page=35'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -659,7 +659,7 @@ Texas_S-PVQFN-N40_EP2.9x2.9mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5731.pdf#page=114'
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430fr5731.pdf#page=111 JEDEC MO-220 variation VJJD-2'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -715,7 +715,7 @@ Texas_S-PVQFN-N40_EP3.52x2.62mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/drv8308.pdf#page=56'
+  size_source: 'http://www.ti.com/lit/ds/symlink/drv8308.pdf#page=56 JEDEC MO-220 variation VJJD-2'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -771,7 +771,7 @@ Texas_S-PVQFN-N40_EP4.15x4.15mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2755.pdf#page=70'
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430g2755.pdf#page=70 JEDEC MO-220 variation VJJD-2'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -827,7 +827,7 @@ Texas_S-PVQFN-N40_EP4.6x4.6mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/dac7750.pdf#page=55'
+  size_source: 'http://www.ti.com/lit/ds/symlink/dac7750.pdf#page=54'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -883,7 +883,7 @@ Texas_S-PVQFN-N48_EP: #RGZ0048A
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5232.pdf#page=112'
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5232.pdf#page=111'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -938,7 +938,7 @@ Texas_S-PVQFN-N64_EP: #RGC0064B
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5217.pdf#page=117'
+  size_source: 'http://www.ti.com/lit/ds/symlink/msp430f5217.pdf#page=120'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_S-PVQFN-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -994,7 +994,7 @@ Texas_VQFN_RGE0024H:
   device_type: 'QFN'
   manufacturer: 'Texas'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=43'
+  size_source: 'http://www.ti.com/lit/ds/symlink/tlc5971.pdf#page=39'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_RGE00{pincount}H_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
@@ -1048,7 +1048,7 @@ Texas_VQFN_RGE0024C:
   device_type: 'QFN'
   manufacturer: 'Texas'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/pca9548a.pdf#page=34'
+  size_source: 'http://www.ti.com/lit/ds/symlink/pca9548a.pdf#page=37'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   custom_name_format: 'Texas_RGE00{pincount}C_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'

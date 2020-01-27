@@ -164,3 +164,44 @@ def toVectorUseCopyIfNumber(value, length=2, low_limit=None, must_be_larger=True
         raise ValueError("One value in ({}) too small. Limit is {}.".format(result, low_limit))
 
     return result
+
+
+def getOptionalNumberTypeParam(
+        kwargs, param_name, default_value=None,
+        low_limit=None, high_limit=None, allow_equal_limit=True):
+    r""" Get a named parameter from packed dict and guarantee it is a number (float or int)
+
+    :param param_name:
+        The name of the parameter (=key)
+
+    :param default_value: -- default: None
+        The value to be used if the parameter is not in the dict
+
+    :param low_limit: -- default: None
+        The minimum allowable value
+
+    :param high_limit: -- default: None
+        The maximum allowable value
+
+    :param allow_equal_limit: -- default: True
+        Limits are included in range of allowable values
+        (min <= x <= max if true else min < x < max)
+
+    :param **kwargs:
+        The parameters as packed dict
+    """
+    val = kwargs.get(param_name, default_value)
+    if val is not None:
+        if type(val) not in [int, float]:
+            raise TypeError('{} needs to be of type int or float'.format(param_name))
+        if low_limit is not None:
+            if val < low_limit or (val == low_limit and not allow_equal_limit):
+                raise ValueError(
+                        '{} with value {} violates the low limit of {}'
+                        .format(param_name, val, low_limit))
+        if high_limit is not None:
+            if val > high_limit or (val == low_limit and not allow_equal_limit):
+                raise ValueError(
+                        '{} with value {} violates the high limit of {}'
+                        .format(param_name, val, high_limit))
+    return val

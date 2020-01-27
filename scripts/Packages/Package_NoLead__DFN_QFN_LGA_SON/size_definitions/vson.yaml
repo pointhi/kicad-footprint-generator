@@ -1,0 +1,53 @@
+VSON-10_3x3mm_P0.5mm_EP1.2x2mm:
+  device_type: 'VSON'
+  library: Package_SON
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://rohmfs.rohm.com/en/products/databook/datasheet/ic/power/switching_regulator/bd8314nuv-e.pdf (Page 20)'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  # custom_name_format:
+  body_size_x:
+    nominal: 3
+    tolerance: 0.1
+  body_size_y:
+    nominal: 3
+    tolerance: 0.1
+  lead_width_min: 0.21
+  lead_width_max: 0.3
+  lead_len_min: 0.3
+  lead_len_max: 0.5
+
+  # heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
+  EP_size_x_min: 1.1
+  EP_size_x: 1.2
+  EP_size_x_max: 1.3
+  EP_size_y_min: 1.9
+  EP_size_y: 2.0
+  EP_size_y_max: 2.2
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+  #heel_reduction: 0.05 #for relatively large EP pads (increase clearance)
+
+  thermal_vias:
+    count: [1, 2]
+    drill: 0.3
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
+  #include_suffix_in_3dpath: 'False'

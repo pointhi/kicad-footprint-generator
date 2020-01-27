@@ -57,7 +57,7 @@ VQFN-16-1EP_3x3mm_P0.5mm_EP1.45x1.45mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/sbos354a/sbos354a.pdf'
+  size_source: 'http://www.ti.com/lit/ds/sbos354a/sbos354a.pdf, JEDEC MO-220 variant VEED-6'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
@@ -446,7 +446,7 @@ VQFN-28-1EP_4x5mm_P0.5mm_EP2.55x3.55mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/lm5175.pdf#page=37'
+  size_source: 'http://www.ti.com/lit/ds/symlink/lm5175.pdf#page=40'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:

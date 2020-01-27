@@ -105,11 +105,22 @@ class ExposedPad(Node):
           0 means no rounding
 
         * *radius_ratio* (``float``) --
-          The radius ratio for all pads (copper, paste and mask)
-          Default: 0 means pads do not included rounded corners (normal rectangles are used)
+          The radius ratio of the main pads.
         * *maximum_radius* (``float``) --
-          Only used if a radius ratio is given.
-          Limits the radius.
+          The maximum radius for the main pads.
+          If the radius produced by the radius_ratio parameter for the pad would
+          exceed the maximum radius, the ratio is reduced to limit the radius.
+        * *round_radius_exact* (``float``) --
+          Set an exact round radius for the main pads.
+
+        * *paste_radius_ratio* (``float``) --
+          The radius ratio of the paste pads.
+        * *paste_maximum_radius* (``float``) --
+          The maximum radius for the paste pads.
+          If the radius produced by the paste_radius_ratio parameter for the paste pad would
+          exceed the maximum radius, the ratio is reduced to limit the radius.
+        * *paste_round_radius_exact* (``float``) --
+          Set an exact round radius for the paste pads.
 
         * *kicad4_compatible* (``bool``) --
           Makes sure the resulting pad is compatible with kicad 4. default False
@@ -126,13 +137,15 @@ class ExposedPad(Node):
         self.size_round_base = kwargs.get('size_round_base', 0.01)
         self.grid_round_base = kwargs.get('grid_round_base', 0.01)
 
-        self.radius_ratio = kwargs.get('radius_ratio', 0)
-        self.maximum_radius = kwargs.get('maximum_radius')
+        self.round_radius_handler = RoundRadiusHandler(default_radius_ratio=0, **kwargs)
 
         self.kicad4_compatible = kwargs.get('kicad4_compatible', False)
-        if self.kicad4_compatible:
-            self.radius_ratio = 0
-            self.maximum_radius = None
+        self.paste_round_radius_handler = RoundRadiusHandler(
+                radius_ratio=kwargs.get('paste_radius_ratio', 0),
+                maximum_radius=kwargs.get('paste_maximum_radius', None),
+                round_radius_exact=kwargs.get('paste_round_radius_exact', None),
+                kicad4_compatible=self.kicad4_compatible
+            )
 
         self._initNumber(**kwargs)
         self._initSize(**kwargs)
@@ -268,7 +281,7 @@ class ExposedPad(Node):
                     center=self.at, size=paste_size, layers=['F.Paste'],
                     chamfer_size=0, chamfer_selection=0,
                     pincount=self.paste_layout, grid=paste_grid,
-                    radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
+                    round_radius_handler=self.paste_round_radius_handler
                     )]
 
     @staticmethod
@@ -312,7 +325,7 @@ class ExposedPad(Node):
                 center=[0, 0], size=self.inner_size, layers=['F.Paste'],
                 chamfer_size=0, chamfer_selection=corner,
                 pincount=self.paste_between_vias, grid=self.inner_grid,
-                radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
+                round_radius_handler=self.paste_round_radius_handler
                 )
 
         if not self.kicad4_compatible:
@@ -342,7 +355,7 @@ class ExposedPad(Node):
             chamfer_size=0, chamfer_selection=corner,
             pincount=[self.paste_rings_outside[0], self.paste_between_vias[1]],
             grid=[self.outer_paste_grid[0], self.inner_grid[1]],
-            radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
+            round_radius_handler=self.paste_round_radius_handler
             )
 
         if not self.kicad4_compatible:
@@ -388,7 +401,7 @@ class ExposedPad(Node):
             chamfer_size=0, chamfer_selection=corner,
             pincount=[self.paste_between_vias[0], self.paste_rings_outside[1]],
             grid=[self.inner_grid[0], self.outer_paste_grid[1]],
-            radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
+            round_radius_handler=self.paste_round_radius_handler
             )
 
         if not self.kicad4_compatible:
@@ -436,7 +449,7 @@ class ExposedPad(Node):
             chamfer_size=0, chamfer_selection=0,
             pincount=self.paste_rings_outside,
             grid=self.outer_paste_grid,
-            radius_ratio=self.radius_ratio, maximum_radius=self.maximum_radius
+            round_radius_handler=self.paste_round_radius_handler
             )
 
         if not self.kicad4_compatible:
@@ -498,13 +511,13 @@ class ExposedPad(Node):
             pads.append(Pad(
                 number="", at=self.at, size=self.mask_size,
                 shape=Pad.SHAPE_ROUNDRECT, type=Pad.TYPE_SMT, layers=['F.Mask'],
-                radius_ratio=self.radius_ratio, maximum_radius=self.main_max_radius
+                round_radius_handler=self.round_radius_handler
             ))
 
         pads.append(Pad(
             number=self.number, at=self.at, size=self.size,
             shape=Pad.SHAPE_ROUNDRECT, type=Pad.TYPE_SMT, layers=layers_main,
-            radius_ratio=self.radius_ratio, maximum_radius=self.main_max_radius
+            round_radius_handler=self.round_radius_handler
         ))
 
         return pads
@@ -533,7 +546,7 @@ class ExposedPad(Node):
                 number=self.number, at=self.at, size=self.bottom_size,
                 shape=Pad.SHAPE_ROUNDRECT, type=Pad.TYPE_SMT,
                 layers=self.bottom_pad_Layers,
-                radius_ratio=self.radius_ratio, maximum_radius=self.main_max_radius
+                round_radius_handler=self.round_radius_handler
             ))
 
         return pads
@@ -541,12 +554,7 @@ class ExposedPad(Node):
     def getVirtualChilds(self):
         # traceback.print_stack()
         if self.has_vias:
-            if self.maximum_radius:
-                self.main_max_radius = min(self.maximum_radius, self.via_size/2)
-            else:
-                self.main_max_radius = self.via_size/2
-        else:
-            self.main_max_radius = self.maximum_radius
+            self.round_radius_handler.limitMaxRadius(self.via_size/2)
 
         pads = []
         pads += self.__createMainPad()
@@ -556,4 +564,4 @@ class ExposedPad(Node):
         return pads
 
     def getRoundRadius(self):
-        return min(self.radius_ratio*min(self.size), self.maximum_radius)
+        return self.round_radius_handler.getRoundRadius(min(self.size))

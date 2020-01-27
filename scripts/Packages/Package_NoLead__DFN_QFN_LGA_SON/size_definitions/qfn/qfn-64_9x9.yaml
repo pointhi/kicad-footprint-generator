@@ -13,7 +13,7 @@ QFN-64-1EP_9x9mm_P0.5mm_EP3.8x3.8xmm:
 
   EP_size_x: 3.55 .. 3.80 .. 4.05
   EP_size_y: 3.55 .. 3.80 .. 4.05
-  
+
   # EP_paste_coverage: 0.65
   EP_num_paste_pads: [3, 3]
   #heel_reduction: 0.1 #for relatively large EP pads (increase clearance)
@@ -146,7 +146,7 @@ QFN-64-1EP_9x9mm_P0.5mm_EP6x6mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'http://www.ti.com/lit/ds/symlink/tusb8041.pdf'
+  size_source: 'http://www.ti.com/lit/ds/symlink/tusb8041.pdf#page=42'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:

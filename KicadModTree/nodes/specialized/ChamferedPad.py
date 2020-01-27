@@ -19,7 +19,7 @@ from copy import copy
 from KicadModTree.util.paramUtil import *
 from KicadModTree.Vector import *
 from KicadModTree.nodes.base.Polygon import *
-from KicadModTree.nodes.base.Pad import Pad
+from KicadModTree.nodes.base.Pad import Pad, RoundRadiusHandler
 from math import sqrt
 
 
@@ -212,11 +212,18 @@ class ChamferedPad(Node):
           mirror y direction around offset "point"
 
         * *radius_ratio* (``float``) --
-          The radius ratio used if the pad has no chamfer
-          Default: 0 means pads do not included rounded corners (normal rectangles are used)
+          The radius ratio of the rounded rectangle.
+          (default 0 for backwards compatibility)
         * *maximum_radius* (``float``) --
-          Only used if a radius ratio is given.
-          Limits the radius.
+          The maximum radius for the rounded rectangle.
+          If the radius produced by the radius_ratio parameter for the pad would
+          exceed the maximum radius, the ratio is reduced to limit the radius.
+          (This is useful for IPC-7351C compliance as it suggests 25% ratio with limit 0.25mm)
+        * *round_radius_exact* (``float``) --
+          Set an exact round radius for a pad.
+        * *round_radius_handler* (``RoundRadiusHandler``) --
+          An instance of the RoundRadiusHandler class
+          If this is given then all other round radius specifiers are ignored
     """
 
     def __init__(self, **kwargs):
@@ -225,8 +232,7 @@ class ChamferedPad(Node):
         self._initSize(**kwargs)
         self._initMirror(**kwargs)
         self._initPadSettings(**kwargs)
-        self.radius_ratio = kwargs.get('radius_ratio', 0)
-        self.maximum_radius = kwargs.get('maximum_radius')
+
         self.pad = self._generatePad()
 
     def _initSize(self, **kwargs):
@@ -258,10 +264,17 @@ class ChamferedPad(Node):
             self.chamfer_size = toVectorUseCopyIfNumber(
                 kwargs.get('chamfer_size'), low_limit=0, must_be_larger=False)
 
+        if('round_radius_handler' in kwargs):
+            self.round_radius_handler = kwargs['round_radius_handler']
+        else:
+            # default radius ration 0 for backwards compatibility
+            self.round_radius_handler = RoundRadiusHandler(default_radius_ratio=0, **kwargs)
+
         self.padargs = copy(kwargs)
         self.padargs.pop('size', None)
         self.padargs.pop('shape', None)
         self.padargs.pop('at', None)
+        self.padargs.pop('round_radius_handler', None)
 
     def _generatePad(self):
         if self.chamfer_size[0] >= self.size[0] or self.chamfer_size[1] >= self.size[1]:
@@ -271,10 +284,7 @@ class ChamferedPad(Node):
         if self.corner_selection.isAnySelected() and self.chamfer_size[0] > 0 and self.chamfer_size[1] > 0:
             is_chamfered = True
 
-        shortest_sidlength = min(self.size)
-        radius = shortest_sidlength*self.radius_ratio
-        if self.maximum_radius and radius > self.maximum_radius:
-            radius = self.maximum_radius
+        radius = self.round_radius_handler.getRoundRadius(min(self.size))
 
         if is_chamfered:
             outside = Vector2D(self.size.x/2, self.size.y/2)
@@ -284,9 +294,12 @@ class ChamferedPad(Node):
                       ]
 
             polygon_width = 0
-            if self.radius_ratio > 0:
+            if self.round_radius_handler.roundingRequested():
                 if self.chamfer_size[0] != self.chamfer_size[1]:
-                    raise NotImplementedError('rounded chamfered pads are only supported for 45 degree chamfers')
+                    raise NotImplementedError(
+                            'Rounded chamfered pads are only supported for 45 degree chamfers.'
+                            ' Chamfer {}'.format(self.chamfer_size)
+                            )
                 # We prefer the use of rounded rectangle over chamfered pads.
                 r_chamfer = self.chamfer_size[0] + sqrt(2)*self.chamfer_size[0]/2
                 if radius >= r_chamfer:
@@ -326,7 +339,7 @@ class ChamferedPad(Node):
         else:
             return Pad(
                     at=self.at, shape=Pad.SHAPE_ROUNDRECT, size=self.size,
-                    **self.padargs
+                    round_radius_handler=self.round_radius_handler, **self.padargs
                 )
 
     def chamferAvoidCircle(self, center, diameter, clearance=0):

@@ -77,6 +77,18 @@ _Note: Contributions intended for the official library shall not include the man
 - Paste is split into a regular grid with (`EP_num_paste_pads`) {[int (x), int (y)]}
   - The optional paste coverage multiplier determines how much of the exposed copper area is covered by paste. (`EP_paste_coverage`) {float (0..1), default=0.65}
 
+### Rounding of exposed pad features
+IPC excludes exposed pads from the requirement for rounding its corners. By default the exposed pad does therefore not use rounded corners. Some datasheets do however suggest the use of rounded corners either specified to a specific value or implicitly shown to be equal to the normal pads.
+
+![rounded exposed pad example](../documentation/ep_handling_rounded.svg)
+
+- Paste corner rounding is controlled by global config parameters `paste_radius_ratio` and
+`paste_maximum_radius` {float}
+- The round radius of the exposed pad can be directly set with `EP_round_radius` {float/"pad"}
+  - The string "pad" can be used to use the same radius for the exposed pad as for the normal pads.
+  - Alternatively the round radius ratio and max radius can be set using `EP_round_radius_ratio` and `EP_maximum_radius` {float}
+    - Both these can be set per footprint or in the global config file.
+
 ### Thermal vias
 A package with exposed pad can generate a version with thermal vias. This will be generated in addition to the normal version.
 
