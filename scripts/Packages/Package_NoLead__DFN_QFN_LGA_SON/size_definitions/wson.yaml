@@ -281,6 +281,64 @@ Texas_S-PWSON-N8:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
+  device_type: 'WSON'
+  library: Package_SON
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.ti.com/lit/gpn/tps63030#page=24'
+  ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
+  #custom_name_format: 'Texas_S-PWSON-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    minimum: 2.4
+    maximum: 2.6
+  body_size_y:
+    minimum: 2.4
+    maximum: 2.6
+  overall_height:
+    minimum: 0.6
+    maximum: 0.8
+
+  lead_width:
+    minimum: 0.2
+    maximum: 0.3
+  lead_len:
+    minimum: 0.35
+    maximum: 0.45
+
+  EP_size_x:
+    nominal: 1.2
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2
+    tolerance: 0.1
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    #EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 2
+    #paste_rings_outside: 1
+    EP_paste_coverage: 0.75
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  #suffix: '_PullBack'
+  #include_suffix_in_3dpath: 'False'
+  #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
 WSON-12-1EP_4x4mm_P0.5mm_EP2.6x3mm:
   device_type: 'WSON'
   library: Package_SON
