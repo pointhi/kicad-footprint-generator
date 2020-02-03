@@ -42,7 +42,7 @@ if output_dir and not output_dir.endswith(os.sep):
     output_dir += os.sep
         
 #import KicadModTree files
-sys.path.append("..\\..")
+sys.path.append(os.path.join(sys.path[0], "..", ".."))
 from KicadModTree import *
 from KicadModTree.nodes.specialized.PadArray import PadArray
 
@@ -818,4 +818,3 @@ for inductor in inductors:
     
     file_handler = KicadFileHandler(fp)
     file_handler.writeFile(filename)
-    
