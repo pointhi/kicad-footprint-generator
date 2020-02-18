@@ -1,0 +1,672 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'TSSOP'
+
+##############################################################################
+# TSSOP Variations - 0.40 PITCH
+# BODY WIDTH (E1) = 4.40 NOM
+##############################################################################
+
+TSSOP-24_4.4x5mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var CA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 5.0 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 12
+
+TSSOP-32_4.4x6.5mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var CB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 6.5 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 16
+
+TSSOP-36_4.4x7.8mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var CC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 7.8 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 18
+
+TSSOP-48_4.4x9.7mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var CD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 24
+
+##############################################################################
+# TSSOP Variations - 0.40 PITCH
+# BODY WIDTH (E1) = 6.10 NOM
+##############################################################################
+
+TSSOP-36_6.1x7.8mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var FA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 7.8 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 18
+
+TSSOP-48_6.1x9.7mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var FB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 24
+
+TSSOP-52_6.1x11mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var FC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 26
+
+TSSOP-56_6.1x12.5mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var FD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 28
+
+TSSOP-64_6.1x14mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var FE https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 14.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 32
+
+TSSOP-80_6.1x17mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var FF https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 17.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 40
+
+##############################################################################
+# TSSOP Variations - 0.40 PITCH
+# BODY WIDTH (E1) = 8.00 NOM
+##############################################################################
+
+TSSOP-48_8x9.7mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var JA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 24
+
+TSSOP-52_8x11mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var JB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 26
+
+TSSOP-56_8x12.5mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var JC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 28
+
+TSSOP-60_8x12.5mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var JC-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 30
+
+TSSOP-64_8x14mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var JD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 14.0 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 32
+
+TSSOP-68_8x14mm_P0.4mm:
+  size_source: 'JEDEC MO-153 Var JD-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 14.0 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.13 .. 0.23
+  lead_len: 0.6 +/-0.15
+  pitch: 0.4
+  num_pins_x: 0
+  num_pins_y: 34
+
+##############################################################################
+# TSSOP Variations - 0.50 PITCH
+# BODY WIDTH (E1) = 4.40 NOM
+##############################################################################
+
+TSSOP-20_4.4x5mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 5.0 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 10
+
+TSSOP-24_4.4x6.5mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 6.5 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 12
+
+TSSOP-28_4.4x7.8mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 7.8 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 14
+
+TSSOP-30_4.4x7.8mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BC-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 7.8 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 15
+
+TSSOP-36_4.4x9.7mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 18
+
+TSSOP-38_4.4x9.7mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 19
+
+TSSOP-44_4.4x11mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BE https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 22
+
+TSSOP-50_4.4x12.5mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var BF https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 25
+
+##############################################################################
+# TSSOP Variations - 0.50 PITCH
+# BODY WIDTH (E1) = 6.10 NOM
+##############################################################################
+
+TSSOP-28_6.1x7.8mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var EA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 7.8 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 14
+
+TSSOP-36_6.1x9.7mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var EB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 18
+
+TSSOP-40_6.1x11mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var EC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 20
+
+TSSOP-44_6.1x11mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var EC-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 22
+
+TSSOP-48_6.1x12.5mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var ED https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 24
+
+TSSOP-56_6.1x14mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var EE https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 14.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 28
+
+TSSOP-64_6.1x17mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var EF https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 17.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 32
+
+##############################################################################
+# TSSOP Variations - 0.50 PITCH
+# BODY WIDTH (E1) = 8.00 NOM
+##############################################################################
+
+TSSOP-36_8x9.7mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var HA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 18
+
+TSSOP-40_8x11mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var HB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 20
+
+TSSOP-48_8x12.5mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var HC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 24
+
+TSSOP-56_8x14mm_P0.5mm:
+  size_source: 'JEDEC MO-153 Var HD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 14.0 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 28
+
+##############################################################################
+# TSSOP Variations - 0.65 PITCH
+# BODY WIDTH (E1) = 4.40 NOM
+##############################################################################
+
+TSSOP-8_4.4x3mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var AA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 3.0 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 4
+
+TSSOP-16_4.4x5mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 5.0 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+
+TSSOP-14_4.4x5mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var AB-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 5.0 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 7
+
+TSSOP-20_4.4x6.5mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var AC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 6.5 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 10
+
+TSSOP-24_4.4x7.8mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var AD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 7.8 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 12
+
+TSSOP-28_4.4x9.7mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var AE https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 6.4
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 14
+
+##############################################################################
+# TSSOP Variations - 0.65 PITCH
+# BODY WIDTH (E1) = 6.10 NOM
+##############################################################################
+
+TSSOP-24_6.1x7.8mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var DA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 7.8 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 12
+
+TSSOP-28_6.1x9.7mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var DB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 14
+
+TSSOP-30_6.1x9.7mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var DB-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 15
+
+TSSOP-32_6.1x11mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var DC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 16
+
+TSSOP-36_6.1x12.5mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var DD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 18
+
+TSSOP-38_6.1x12.5mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var DD-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 19
+
+TSSOP-40_6.1x14mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var DE https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 6.1 +/-0.1
+  body_size_y: 14.0 +/-0.1
+  overall_size_x: 8.1
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 20
+
+##############################################################################
+# TSSOP Variations - 0.65 PITCH
+# BODY WIDTH (E1) = 8.0 NOM
+##############################################################################
+
+TSSOP-28_8x9.7mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var GA https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 9.7 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 14
+
+TSSOP-32_8x11mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var GB https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 11.0 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 16
+
+TSSOP-36_8x12.5mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var GC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 12.5 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 18
+
+TSSOP-40_8x14mm_P0.65mm:
+  size_source: 'JEDEC MO-153 Var GD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
+  body_size_x: 8.0 +/-0.1
+  body_size_y: 14.0 +/-0.1
+  overall_size_x: 10.0
+  body_height: 1.2
+  lead_width: 0.17 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 20
