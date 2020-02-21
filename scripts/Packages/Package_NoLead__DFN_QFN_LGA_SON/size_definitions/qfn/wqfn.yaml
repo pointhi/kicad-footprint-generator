@@ -280,3 +280,44 @@ WQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   #pad_length_addition: 0.5
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
+
+WQFN-42-1EP_3.5x9mm_P0.5mm_EP2.05x7.55mm:
+  device_type: 'WQFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'http://www.ti.com/lit/ds/symlink/ts3l501e.pdf#page=23'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  body_size_x:
+    minimum: 3.4
+    maximum: 3.6
+  body_size_y:
+    minimum: 8.9
+    maximum: 9.1
+  overall_height:
+    minimum: 0.7
+    maximum: 0.8
+
+  lead_width:
+    minimum: 0.2
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    nominal: 2.05
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 7.55
+    tolerance: 0.1
+  EP_num_paste_pads: [2, 7]
+
+  thermal_vias:
+    count: [3, 8]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 17
