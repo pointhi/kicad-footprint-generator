@@ -4,6 +4,7 @@ FileHeader:
 
 MSOP-8_3x3mm_P0.65mm:
   size_source: 'https://www.jedec.org/system/files/docs/mo-187F.pdf variant AA'
+  force_small_pitch_ipc_definition: True
   body_size_x: 3 +/-0.2
   body_size_y: 3 +/-0.2
   overall_size_x: 4.9 +/-0.25
