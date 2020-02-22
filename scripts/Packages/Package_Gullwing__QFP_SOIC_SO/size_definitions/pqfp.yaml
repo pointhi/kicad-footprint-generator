@@ -2,8 +2,9 @@ FileHeader:
   library_Suffix: 'QFP'
   device_type: 'PQFP'
 
-PQFP_100:
+PQFP-100_14x20mm_P0.65mm:
   size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 14
     tolerance: 0
@@ -28,8 +29,9 @@ PQFP_100:
   num_pins_x: 20
   num_pins_y: 30
 
-PQFP_144:
+PQFP-144_28x28mm_P0.65mm:
   size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 28
   body_size_y:
@@ -48,8 +50,9 @@ PQFP_144:
   num_pins_x: 36
   num_pins_y: 36
 
-PQFP_160:
+PQFP-160_28x28mm_P0.65mm:
   size_source: 'http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095'
+  force_small_pitch_ipc_definition: True
   body_size_x:
     nominal: 28
   body_size_y:
