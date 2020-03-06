@@ -310,7 +310,7 @@ fuse:
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     prefix: 'Fuse'
     description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
-    keywords: 'resistor'
+    keywords: 'fuse'
     ipc_density: 'nominal'
     pad_length_addition: 0
     suffix: ""
@@ -321,7 +321,7 @@ fuse_smaller_0603:
     ipc_reference: "ipc_spec_smaller_0603"
     prefix: 'Fuse'
     description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
-    keywords: 'resistor'
+    keywords: 'fuse'
     ipc_density: 'nominal'
     pad_length_addition: 0
     suffix: ""
@@ -332,7 +332,7 @@ fuse_smaller_0402:
     ipc_reference: "ipc_spec_smaller_0603"
     prefix: 'Fuse'
     description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal, {size_info:s}, generated with kicad-footprint-generator'
-    keywords: 'resistor'
+    keywords: 'fuse'
     ipc_density: 'nominal'
     pad_length_addition: 0
     suffix: ""
@@ -346,8 +346,19 @@ fuse_handsolder:
     ipc_reference: "ipc_spec_larger_or_equal_0603"
     prefix: 'Fuse'
     description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. {size_info:s}, generated with kicad-footprint-generator'
-    keywords: 'resistor handsolder'
+    keywords: 'fuse handsolder'
     ipc_density: 'nominal'
     pad_length_addition: 0.35
     suffix: "_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder"
     include_suffix_in_3dpath: 'False'
+
+fuse_castellated:
+    fp_lib_name: 'Fuse'
+    size_definitions: ['size_default_chip_devices.yaml', 'size_fuse.yaml']
+    ipc_reference: "ipc_spec_castellated"
+    prefix: 'Fuse'
+    description: 'Fuse SMD {code_imperial:s} ({code_metric:s} Metric), castellated end terminal, IPC_7351. {size_info:s}, generated with kicad-footprint-generator'
+    keywords: 'fuse castellated'
+    ipc_density: 'nominal'
+    pad_length_addition: 0
+    suffix: "_Castellated"
