@@ -1,7 +1,67 @@
 FileHeader:
   library_Suffix: 'SO'
   device_type: 'SO'
-    
+
+SO-8_5.3x6.2mm_P1.27mm:
+  size_source: 'https://www.ti.com/lit/ml/msop001a/msop001a.pdf'
+  body_size_x: 5.00 .. 5.60
+  body_size_y: 5.90 .. 6.50
+  overall_height: 2.00
+  overall_size_x: 7.40 .. 8.20
+  lead_width: 0.35 .. 0.51
+  lead_len: 0.55 .. 0.95
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+SO-14_5.3x10.2mm_P1.27mm:
+  size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
+  body_size_x: 5.00 .. 5.60
+  body_size_y: 9.90 .. 10.50
+  overall_height: 2.00
+  overall_size_x: 7.40 .. 8.20
+  lead_width: 0.35 .. 0.51
+  lead_len: 0.55 .. 1.05
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 7
+
+SO-16_5.3x10.2mm_P1.27mm:
+  size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
+  body_size_x: 5.00 .. 5.60
+  body_size_y: 9.90 .. 10.50
+  overall_height: 2.00
+  overall_size_x: 7.40 .. 8.20
+  lead_width: 0.35 .. 0.51
+  lead_len: 0.55 .. 1.05
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+
+SO-20_5.3x12.6mm_P1.27mm:
+  size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
+  body_size_x: 5.00 .. 5.60
+  body_size_y: 12.30 .. 12.90
+  overall_height: 2.00
+  overall_size_x: 7.40 .. 8.20
+  lead_width: 0.35 .. 0.51
+  lead_len: 0.55 .. 1.05
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 10
+
+SO-24_5.3x15mm_P1.27mm:
+  size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
+  body_size_x: 5.00 .. 5.60
+  body_size_y: 14.70 .. 15.30
+  overall_height: 2.00
+  overall_size_x: 7.40 .. 8.20
+  lead_width: 0.35 .. 0.51
+  lead_len: 0.55 .. 1.05
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 12
+
 SO-8_4.0x5.0mm_P1.27mm:
   size_source: 'https://www.nxp.com/docs/en/data-sheet/PCF8523.pdf'
   body_size_x:
