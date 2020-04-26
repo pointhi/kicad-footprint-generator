@@ -38,7 +38,7 @@ number_of_rows = 1
 datasheet = 'http://www.molex.com/pdm_docs/sd/022272021_sd.pdf'
 
 pitch = 2.54
-drill = 1.2 # square pins:0.64mm -> touching circle: ~0.9mm -> minimum drill accourding to KLC: 1.1mm
+drill = 1.19 # from datasheet
 start_pos_x = 0 # Where should pin 1 be located.
 pad_to_pad_clearance = 0.8
 max_annular_ring = 0.5 #How much copper should be in y direction?
