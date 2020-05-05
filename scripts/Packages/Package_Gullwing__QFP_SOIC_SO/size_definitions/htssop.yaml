@@ -115,6 +115,38 @@ HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP3.4x6.5mm_Mask2.4x3.7mm:
   EP_mask_y: 3.7
   EP_num_paste_pads: [1, 2]
 
+HTSSOP-20-1EP_4.4x6.5mm_P0.65mm_EP2.85x4mm:
+  size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0108.PDF U20E-1'
+  body_size_x:
+    minimum: 4.3
+    maximum: 4.5
+  body_size_y:
+    minimum: 6.4
+    maximum: 6.6
+  body_height:
+    maximum: 1.1
+  overall_size_x:
+    minimum: 6.25
+    maximum: 6.5
+  lead_width:
+    minimum: 0.19
+    maximum: 0.30
+  lead_len:
+    minimum: 0.5
+    maximum: 0.7
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 10
+
+
+  EP_size_x:
+    minimum: 2.6
+    maximum: 3.1   
+  EP_size_y:
+    minimum: 3.8
+    maximum: 4.2
+  EP_num_paste_pads: [1, 2]
+
 HTSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.2x5mm:
   size_source: 'https://www.st.com/resource/en/datasheet/stp16cp05.pdf#page=25'
   body_size_x:
