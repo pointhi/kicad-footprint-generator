@@ -737,6 +737,56 @@ TDFN-6-1EP_2.5x2.5mm_P0.65mm_EP1.3x2mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+TDFN-10-1EP_2x3mm_P0.5mm_EP2.0x0.8mm:
+  device_type: 'TDFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0429.PDF'
+  # ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    nominal: 2.0
+    tolerance: 0.1
+  body_size_y:
+    nominal: 3.0
+    tolerance: 0.1
+  overall_height:
+    nominal: 0.75
+    tolerance: 0.05
+
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    nominal: 0.30
+    tolerance: 0.1
+
+  EP_size_x:
+    nominal: 0.9
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2.0
+    tolerance: 0.1
+
+  EP_num_paste_pads: [1, 2]
+
+  thermal_vias:
+    count: [1, 2]
+    drill: 0.3
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [1, 2]
+    #paste_between_vias: 1
+    #paste_rings_outside: 1
+    #EP_paste_coverage: 0.7
+    #grid: [1, 1]
+    # bottom_pad_size:
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+
 TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.30mm:
   device_type: 'TDFN'
   size_source: 'https://pdfserv.maximintegrated.com/package_dwgs/21-0168.PDF'
@@ -760,3 +810,4 @@ TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.30mm:
   suffix: ''
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
