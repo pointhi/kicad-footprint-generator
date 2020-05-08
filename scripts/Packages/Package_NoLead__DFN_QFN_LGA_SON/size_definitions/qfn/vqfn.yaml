@@ -335,7 +335,7 @@ VQFN-20-1EP_3x3mm_P0.45mm_EP1.55x1.55mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
-VQFN-24-1EP_4x4mm_P0.5mm:
+VQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
