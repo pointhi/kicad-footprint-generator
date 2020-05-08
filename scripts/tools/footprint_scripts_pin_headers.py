@@ -15,10 +15,12 @@ from drawing_tools import *  # NOQA
 from math import sqrt
 
 crt_offset = 0.5 # different for connectors
+txt_offset = 1
+slk_offset = 0.11             
 
 def makePinHeadStraight(rows, cols, rm, coldist, package_width, overlen_top, overlen_bottom, ddrill, pad,
-                        tags_additional=[], lib_name="${{KISYS3DMOD}}/Pin_Headers", classname="Pin_Header", classname_description="pin header", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
-                        rotate3d=[0, 0, 0], isSocket=False):
+                        tags_additional=[], lib_name="Pin_Headers", classname="Pin_Header", classname_description="pin header", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
+                        rotate3d=[0, 0, 0], model3d_path_prefix="${KISYS3DMOD}", isSocket=False):
     h_fab = (rows - 1) * rm + overlen_top + overlen_bottom
     w_fab = package_width
     l_fab = (coldist * (cols - 1) - w_fab) / 2
@@ -261,15 +263,239 @@ def makePinHeadStraight(rows, cols, rm, coldist, package_width, overlen_top, ove
     
     # add model
     kicad_modg.append(
-        Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
+        Model(filename=model3d_path_prefix + "/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
     
     # write file
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile(footprint_name + '.kicad_mod')
+    file_handler.writeFile('{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name))
+
+
+def makeIdcHeader(rows, cols, rm, coldist, body_width, overlen_top, overlen_bottom, body_offset, ddrill, pad,
+                        mating_overlen, wall_thickness, notch_width,
+                        orientation, latching,
+                        latch_len=0, latch_width=0,
+                        mh_ddrill=0, mh_pad=[0,0], mh_overlen=0, mh_offset=0, mh_number='MP',
+                        tags_additional=[], extra_description=False, lib_name="Connector_IDC", classname="IDC-Header", classname_description="IDC box header", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
+                        rotate3d=[0, 0, 0], model3d_path_prefix="${KISYS3DMOD}"):
+    pin_size = 0.64 # square pin side length; this appears to be the same for all connectors so use a fixed internal value
+    
+    mh_present = True if mh_ddrill > 0 and mh_pad[0] > 0 and mh_pad[1] > 0 and mh_overlen > 0 else False
+    mh_y = [-mh_overlen, (rows - 1) * rm + mh_overlen]
+    
+    h_fab = (rows - 1) * rm + overlen_top + overlen_bottom
+    w_fab = body_width
+    l_fab = (coldist * (cols - 1) - w_fab) / 2 if body_offset == 0 else body_offset
+    t_fab = -overlen_top
+    
+    h_slk = h_fab + 2 * slk_offset
+    w_slk = max(w_fab + 2 * slk_offset, coldist * (cols - 1) - pad[0] - 4 * slk_offset)
+    l_slk = (coldist * (cols - 1) - w_slk) / 2 if body_offset == 0 else body_offset
+    t_slk = -overlen_top - slk_offset
+    
+    # these calculations are so tight that new body styles will probably break them
+    h_crt = max(max(h_fab, (rows - 1) * rm + pad[1]) + 2 * latch_len, (rows - 1) * rm + 2 * mh_overlen + mh_pad[1]) + 2 * crt_offset
+    w_crt = max(body_width, coldist * (cols - 1) + pad[0]) + 2 * crt_offset if body_offset <= 0 else pad[0] / 2 + body_offset + body_width + 2 * crt_offset
+    l_crt = l_fab - crt_offset if body_offset <= 0 else -pad[0] / 2 - crt_offset
+    t_crt = min(t_fab - latch_len, -mh_overlen - mh_pad[1] / 2) - crt_offset
+    #if orientation == 'Horizontal' and latching and mh_ddrill > 0:
+    if mh_present and (mh_offset - mh_pad[0] / 2 < l_fab):
+        # horizontal latching with mounting holes is a special case
+        l_crt = mh_offset - mh_pad[0] / 2 - crt_offset
+        w_crt = -l_crt + body_width + body_offset + crt_offset
+    
+    # center of the body (horizontal: middle pin or the center of the middle pins for vertical)
+    center_fab = [coldist * (cols - 1) / 2 if orientation == 'Vertical' else body_offset + body_width / 2, t_fab + h_fab / 2]
+    center_fp = [l_crt + w_crt / 2, center_fab[1]]
+    
+    text_size = w_fab*0.6
+    fab_text_size_max = 1.0
+    if text_size < fab_text_size_min:
+        text_size = fab_text_size_min
+    elif text_size > fab_text_size_max:
+        text_size = fab_text_size_max
+    text_size = round(text_size, 2)
+    text_size = [text_size,text_size]
+    text_t = text_size[0] * 0.15
+    
+    footprint_name = "{3}_{0}x{1:02}{7}_P{2:03.2f}mm{4}{5}_{6}".format(cols, rows, rm, classname, "_Latch" if latching else "", "{0:03.1f}mm".format(latch_len) if latch_len > 0 else "", orientation, "-1MP" if mh_present else "")
+    #footprint_name = footprint_name_base + "_MountHole" if mh_present else footprint_name_base
+    
+    if cols == 1:
+        description_rows = "single row"
+        tags_rows = "single row"
+    elif cols == 2:
+        description_rows = "double rows"
+        tags_rows = "double row"
+    elif cols == 3:
+        description_rows = "triple rows"
+        tags_rows = "triple row"
+    elif cols == 4:
+        description_rows = "quadruple rows"
+        tags_rows = "quadruple row"
+    
+    description = "Through hole {3}, {0}x{1:02}, {2:03.2f}mm pitch, DIN 41651 / IEC 60603-13, {4}{5}{6}{7}".format(cols, rows, rm, classname_description, description_rows, ", {0:03.1f}mm".format(latch_len) if latch_len > 0 else "", " latches" if latching else "", ", mounting holes" if mh_present else "", orientation.lower())
+    tags = "Through hole {5} {3} THT {0}x{1:02} {2:03.2f}mm {4}".format(cols, rows, rm, classname_description, tags_rows, orientation.lower())
+    
+    if (len(tags_additional) > 0):
+        for t in tags_additional:
+            footprint_name = footprint_name + "_" + t
+            description = description + ", " + t
+            tags = tags + " " + t
+    
+    if extra_description:
+        description = description + ", " + extra_description
+    
+    print(footprint_name)
+    
+    # init kicad footprint
+    kicad_mod = Footprint(footprint_name)
+    kicad_mod.setDescription(description)
+    kicad_mod.setTags(tags)
+    
+    # instantiate footprint (SMD origin at center, THT at pin 1)
+    kicad_modg = Footprint(footprint_name)
+    kicad_mod.append(kicad_modg)
+    
+    # set general values
+    kicad_modg.append(Text(type='reference', text='REF**', at=[center_fp[0], t_crt - text_size[1] / 2], layer='F.SilkS'))
+    kicad_modg.append(Text(type='user', text='%R', at=[center_fab[0], center_fab[1]], rotation=90, layer='F.Fab', size=text_size, thickness=text_t))
+    kicad_modg.append(Text(type='value', text=footprint_name, at=[center_fp[0], t_crt + h_crt + text_size[1] / 2], layer='F.Fab'))
+    
+    # for shrouded headers, fab and silk layers have very similar geometry
+    # can use the same code to build lines on both layers with slight changes in values between layers
+    # zip together lists with fab and then silk layer settings as the list elements so the same code can draw both layers
+    for layer, line_width, lyr_offset, chamfer in zip(['F.Fab', 'F.SilkS'], [lw_fab, lw_slk], [0, slk_offset], [min(1, w_fab / 4), 0]):
+        # body outline
+        if orientation == 'Horizontal' and latching:
+            # body outline taken from existing KiCad footprint
+            body_polygon = [{'x':body_offset - lyr_offset, 'y':t_fab - lyr_offset}, {'x':l_fab + 6.98 + lyr_offset, 'y':t_fab - lyr_offset},
+                {'x':l_fab + w_fab + lyr_offset, 'y':t_fab + 3.17 - lyr_offset}, {'x':l_fab + w_fab + lyr_offset, 'y':t_fab + 6.99 + lyr_offset},
+                {'x':l_fab + 12.7 + lyr_offset, 'y':t_fab + 9.14 + lyr_offset}, {'x':l_fab + 12.7 + lyr_offset, 'y':t_fab + h_fab - 9.14 - lyr_offset},
+                {'x':l_fab + w_fab + lyr_offset, 'y':t_fab + h_fab - 6.99 - lyr_offset}, {'x':l_fab + w_fab + lyr_offset, 'y':t_fab + h_fab - 3.17 + lyr_offset},
+                {'x':l_fab + 6.98 + lyr_offset, 'y':t_fab + h_fab + lyr_offset}, {'x':body_offset - lyr_offset, 'y':t_fab + h_fab + lyr_offset}]
+            # body outline taken from simplified 3M 3000 model (also modify arguments: body_offset=-1.24 and body_width=1.24+15.53)
+            # https://www.3m.com/3M/en_US/company-us/all-3m-products/~/3M-Four-Wall-Header-3000-Series/?N=5002385+3290316872&preselect=8709318+8710652+8733900+8734573&rt=rud
+            body_polygon = [{'x':body_offset - lyr_offset, 'y':t_fab - lyr_offset}, {'x':l_fab + 7.11 + lyr_offset, 'y':t_fab - lyr_offset},
+                {'x':l_fab + 16.77 + lyr_offset, 'y':t_fab + 3.47 - lyr_offset}, {'x':l_fab + 16.77 + lyr_offset, 'y':t_fab + 7.44 + lyr_offset},
+                {'x':l_fab + 13.21 + lyr_offset, 'y':t_fab + 8.07 + lyr_offset}, {'x':l_fab + 13.21 + lyr_offset, 'y':t_fab + h_fab - 8.07 - lyr_offset},
+                {'x':l_fab + 16.77 + lyr_offset, 'y':t_fab + h_fab - 7.44 - lyr_offset}, {'x':l_fab + 16.77 + lyr_offset, 'y':t_fab + h_fab - 3.47 + lyr_offset},
+                {'x':l_fab + 7.11 + lyr_offset, 'y':t_fab + h_fab + lyr_offset}, {'x':body_offset - lyr_offset, 'y':t_fab + h_fab + lyr_offset}]
+            kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+            # now draw the left side vertical line, which may be broken on the silk layer around mounting holes
+            if layer == 'F.SilkS' and mh_present and mh_pad[0]/2 - mh_offset > -body_offset + slk_offset * 1.5:
+                body_polygon = [{'x':body_offset - lyr_offset, 'y':t_fab - lyr_offset}, {'x':body_offset - lyr_offset, 'y':mh_y[0] - mh_pad[0]/2}]
+                kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+                body_polygon = [{'x':body_offset - lyr_offset, 'y':mh_y[0] + mh_pad[0]/2}, {'x':body_offset - lyr_offset, 'y':mh_y[1] - mh_pad[0]/2}]
+                kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+                body_polygon = [{'x':body_offset - lyr_offset, 'y':mh_y[1] + mh_pad[0]/2}, {'x':body_offset - lyr_offset, 'y':t_fab + h_fab + lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+            else:
+                body_polygon = [{'x':body_offset - lyr_offset, 'y':t_fab + h_fab + lyr_offset}, {'x':body_offset - lyr_offset, 'y':t_fab - lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+        else:
+            # body outline silk lines need to clear the mounting hole on vertical headers
+            if mh_present and layer == 'F.SilkS':
+                body_polygon = [{'x':mh_offset + mh_pad[0]/2 - lyr_offset, 'y':t_fab - lyr_offset}, {'x':l_fab + w_fab + lyr_offset, 'y':t_fab - lyr_offset},
+                    {'x':l_fab + w_fab + lyr_offset, 'y':t_fab + h_fab + lyr_offset}, {'x':mh_offset + mh_pad[0]/2 - lyr_offset, 'y':t_fab + h_fab + lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+                body_polygon = [{'x':mh_offset - mh_pad[0]/2 + lyr_offset, 'y':t_fab - lyr_offset}, {'x':l_fab - lyr_offset, 'y':t_fab - lyr_offset},
+                    {'x':l_fab - lyr_offset, 'y':t_fab + h_fab + lyr_offset}, {'x':mh_offset - mh_pad[0]/2 + lyr_offset, 'y':t_fab + h_fab + lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+            else:
+                body_polygon = [{'x':l_fab + chamfer - lyr_offset, 'y':t_fab - lyr_offset}, {'x':l_fab + w_fab + lyr_offset, 'y':t_fab - lyr_offset},
+                    {'x':l_fab + w_fab + lyr_offset, 'y':t_fab + h_fab + lyr_offset}, {'x':l_fab - lyr_offset, 'y':t_fab + h_fab + lyr_offset},
+                    {'x':l_fab - lyr_offset, 'y':t_fab + chamfer - lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=body_polygon, layer=layer, width=line_width))
+        if chamfer > 0 and not (orientation == 'Horizontal' and latching):
+            kicad_modg.append(Line(start=[l_fab, t_fab + chamfer], end=[l_fab + chamfer, t_fab], layer=layer, width=line_width))
+        
+        # vertical mating connector outline (this is the same for both layers)
+        if orientation == 'Vertical':
+            mating_conn_polygon = [{'x':l_fab - lyr_offset, 'y':center_fab[1] - notch_width/2}, {'x':l_fab + wall_thickness, 'y':center_fab[1] - notch_width/2},
+                {'x':l_fab + wall_thickness, 'y':-mating_overlen}, {'x':l_fab + w_fab - wall_thickness, 'y':-mating_overlen},
+                {'x':l_fab + w_fab - wall_thickness, 'y':(rows - 1) * rm + mating_overlen}, {'x':l_fab + wall_thickness, 'y':(rows - 1) * rm + mating_overlen},
+                {'x':l_fab + wall_thickness, 'y':center_fab[1] + notch_width/2}, {'x':l_fab + wall_thickness, 'y':center_fab[1] + notch_width/2},
+                {'x':l_fab - lyr_offset, 'y':center_fab[1] + notch_width/2}]
+            kicad_mod.append(PolygoneLine(polygone=mating_conn_polygon, layer=layer, width=line_width))
+        
+        # horizontal mating connector 'notch' lines
+        if orientation == 'Horizontal' and not latching:
+            kicad_modg.append(Line(start=[body_offset - lyr_offset, center_fab[1] - notch_width / 2], end=[l_fab + w_fab + lyr_offset, center_fab[1] - notch_width / 2], layer=layer, width=line_width))
+            kicad_modg.append(Line(start=[body_offset - lyr_offset, center_fab[1] + notch_width / 2], end=[l_fab + w_fab + lyr_offset, center_fab[1] + notch_width / 2], layer=layer, width=line_width))
+        
+        # vertical latches (horizontal latches are off the PCB and not shown)
+        if orientation == 'Vertical' and latching and latch_len > 0:
+            # body outline silk lines need to clear the mounting hole on vertical headers
+            if mh_present and layer == 'F.SilkS':
+                # top latch
+                latch_top_polygon = [{'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':mh_y[0] - mh_pad[1]/2 + lyr_offset}, {'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':t_fab - latch_len - lyr_offset},
+                    {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':t_fab - latch_len - lyr_offset}, {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':mh_y[0] - mh_pad[1]/2 + lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=latch_top_polygon, layer=layer, width=line_width))
+                # bottom latch
+                latch_bottom_polygon = [{'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':mh_y[1] + mh_pad[1]/2 - lyr_offset}, {'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':t_fab + h_fab + latch_len + lyr_offset},
+                    {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':t_fab + h_fab + latch_len + lyr_offset}, {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':mh_y[1] + mh_pad[1]/2 - lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=latch_bottom_polygon, layer=layer, width=line_width))
+            else:
+                # top latch
+                latch_top_polygon = [{'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':t_fab - lyr_offset}, {'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':t_fab - latch_len - lyr_offset},
+                    {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':t_fab - latch_len - lyr_offset}, {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':t_fab - lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=latch_top_polygon, layer=layer, width=line_width))
+                # bottom latch
+                latch_bottom_polygon = [{'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':t_fab + h_fab + lyr_offset}, {'x':center_fab[0] - latch_width/2 - lyr_offset, 'y':t_fab + h_fab + latch_len + lyr_offset},
+                    {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':t_fab + h_fab + latch_len + lyr_offset}, {'x':center_fab[0] + latch_width/2 + lyr_offset, 'y':t_fab + h_fab + lyr_offset}]
+                kicad_mod.append(PolygoneLine(polygone=latch_bottom_polygon, layer=layer, width=line_width))
+    
+    # horizontal pin outlines (only applies if the body is right of the leftmost pin row)
+    #if orientation == 'Horizontal' and not latching:
+    if body_offset > 0:
+        for row in range(rows):
+            horiz_pin_polygon = [{'x':body_offset, 'y':rm * row - pin_size / 2}, {'x':-pin_size / 2, 'y':rm * row - pin_size / 2},
+                {'x':-pin_size / 2, 'y':rm * row + pin_size / 2}, {'x':body_offset, 'y':rm * row + pin_size / 2}]
+            kicad_modg.append(PolygoneLine(polygone=horiz_pin_polygon, layer='F.Fab', width=lw_fab))
+    
+    # silk pin 1 mark (triangle to the left of pin 1)
+    slk_mark_height = 1
+    slk_mark_width = 1
+    slk_mark_tip = min(l_fab, -pad[0] / 2) - 0.5 # offset 0.5mm from pin 1 or the body
+    slk_polygon = [{'x':slk_mark_tip, 'y':0}, {'x':slk_mark_tip - slk_mark_width, 'y':-slk_mark_height / 2},
+        {'x':slk_mark_tip - slk_mark_width, 'y':slk_mark_height / 2}, {'x':slk_mark_tip, 'y':0}]
+    kicad_mod.append(PolygoneLine(polygone=slk_polygon, layer='F.SilkS', width=lw_slk))
+    
+    # create courtyard
+    kicad_mod.append(RectLine(start=[roundCrt(l_crt), roundCrt(t_crt)], end=[roundCrt(l_crt + w_crt),
+                roundCrt(t_crt + h_crt)], layer='F.CrtYd', width=lw_crt))
+    
+    # create pads (first the left row then the right row)
+    for start_pos, initial in zip([0, coldist], range(1, cols + 1)):
+        kicad_modg.append(PadArray(pincount=rows, spacing=[0,rm], start=[start_pos,0], initial=initial, increment=cols,
+            type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, size=pad, drill=ddrill, layers=Pad.LAYERS_THT))
+    
+    # create mounting hole pads
+    if mh_present:
+        for mh_y_offset in mh_y:
+            kicad_modg.append(Pad(number=mh_number, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[mh_offset, mh_y_offset], size=mh_pad,
+                drill=mh_ddrill, layers=Pad.LAYERS_THT))
+    
+    # add model (even if there are mounting holes on the footprint do not include that in the 3D model)
+    kicad_modg.append(Model(filename="{0}/{1}.3dshapes/{2}.wrl".format(model3d_path_prefix, lib_name, footprint_name), at=offset3d, scale=scale3d, rotate=rotate3d))
+    
+    # print render tree
+    # print(kicad_mod.getRenderTree())
+    # print(kicad_mod.getCompleteRenderTree())
+    
+    # write file
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
+    file_handler = KicadFileHandler(kicad_mod)
+    file_handler.writeFile('{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name))
 
 
 #
@@ -288,9 +514,9 @@ def makePinHeadStraight(rows, cols, rm, coldist, package_width, overlen_top, ove
 #                 +-------+                                    rm
 #
 def makePinHeadAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_length, pin_width, ddrill, pad,
-                      tags_additional=[], lib_name="${{KISYS3DMOD}}/Pin_Headers", classname="Pin_Header",
+                      tags_additional=[], lib_name="Pin_Headers", classname="Pin_Header",
                       classname_description="pin header", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
-                      rotate3d=[0, 0, 0]):
+                      rotate3d=[0, 0, 0], model3d_path_prefix="${KISYS3DMOD}"):
     h_fabb = (rows - 1) * rm + rm / 2 + rm / 2
     w_fabb = pack_width
     l_fabb = coldist * (cols - 1) + pack_offset
@@ -542,16 +768,18 @@ def makePinHeadAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_leng
     
     # add model
     kicad_modg.append(
-        Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
+        Model(filename=model3d_path_prefix + "/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
     
     # write file
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile(footprint_name + '.kicad_mod')
-
+    file_handler.writeFile('{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name))
 
 #
 #                                                          <-->pack_offset
@@ -568,9 +796,9 @@ def makePinHeadAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_leng
 #                 +---------------------------------------+
 #
 def makeSocketStripAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_width, ddrill, pad,
-                      tags_additional=[], lib_name="${{KISYS3DMOD}}/Socket_Strips", classname="Socket_Strip",
+                      tags_additional=[], lib_name="$Socket_Strips", classname="Socket_Strip",
                       classname_description="socket strip", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
-                      rotate3d=[0, 0, 0]):
+                      rotate3d=[0, 0, 0], model3d_path_prefix="${KISYS3DMOD}"):
     h_fabb = (rows - 1) * rm + rm / 2 + rm / 2
     w_fabb = -pack_width
     l_fabb = -1*(coldist * (cols - 1) + pack_offset)
@@ -719,24 +947,26 @@ def makeSocketStripAngled(rows, cols, rm, coldist, pack_width, pack_offset, pin_
     
     # add model
     kicad_modg.append(
-        Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
+        Model(filename=model3d_path_prefix + "/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
     
     # write file
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile(footprint_name + '.kicad_mod')
-    
+    file_handler.writeFile('{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name))    
     
     
     
     
     
 def makePinHeadStraightSMD(rows, cols, rm, coldist, rmx_pad_offset,rmx_pin_length, pin_width, package_width, overlen_top, overlen_bottom, pad,
-                        start_left=True, tags_additional=[], lib_name="${{KISYS3DMOD}}/Pin_Headers", classname="Pin_Header", classname_description="pin header", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
-                        rotate3d=[0, 0, 0], isSocket=False):
+                        start_left=True, tags_additional=[], lib_name="$Pin_Headers", classname="Pin_Header", classname_description="pin header", offset3d=[0, 0, 0], scale3d=[1, 1, 1],
+                        rotate3d=[0, 0, 0], model3d_path_prefix="${KISYS3DMOD}", isSocket=False):
     ddrill=0.5
     h_fab = (rows - 1) * rm + overlen_top + overlen_bottom
     w_fab = package_width
@@ -916,14 +1146,17 @@ def makePinHeadStraightSMD(rows, cols, rm, coldist, rmx_pad_offset,rmx_pin_lengt
                 kicad_modg.append(Pad(number=p, type=pad_type, shape=pad_shape1, at=[rmx_pad_offset+rm/2, c * rm], size=pad, drill=ddrill,layers=pad_layers))
                 p=p+1
 
-    
     # add model
-    kicad_modg.append(Model(filename=lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
+    kicad_modg.append(
+        Model(filename=model3d_path_prefix + "/" + lib_name + ".3dshapes/" + footprint_name + ".wrl", at=offset3d, scale=scale3d, rotate=rotate3d))
     
     # print render tree
     # print(kicad_mod.getRenderTree())
     # print(kicad_mod.getCompleteRenderTree())
     
     # write file
+    output_dir = '{lib_name:s}.pretty/'.format(lib_name=lib_name)
+    if not os.path.isdir(output_dir): #returns false if path does not yet exist!! (Does not check path validity)
+        os.makedirs(output_dir)
     file_handler = KicadFileHandler(kicad_mod)
-    file_handler.writeFile(footprint_name + '.kicad_mod')
+    file_handler.writeFile('{outdir:s}{fp_name:s}.kicad_mod'.format(outdir=output_dir, fp_name=footprint_name))
