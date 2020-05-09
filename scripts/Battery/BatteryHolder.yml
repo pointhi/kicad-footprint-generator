@@ -83,9 +83,9 @@ BatteryHolder_Keystone_2468_2xAAA:
 BatteryHolder_Keystone_2479_3xAAA:
   description: "Keystone Battery Holder, 2479, Battery Type 3xAAA"
   datasheet: "http://www.keyelco.com/product-pdf.cfm?p=1041"
-  tags: "Keystone Battery Holder, 2479, Battery Type 3xAAA"
+  tags: "Keystone Battery Holder 2479 Battery Type 3xAAA"
   extratexts: [[-4.5, -0.05, "+", "F.SilkS", 3.0, 3.0]]
-  at: [-2.59, 6.045]
+  at: [-2.59, 6.995]
   size: [52.63, 37.49]
   pins: [["tht", "1", 0, 0, 3.0, 3.0, 1.1], ["tht", "2", 0, -12.70, 3.0, 3.0, 1.1], ["npth", "", 23.72, 0, 3.45, 0, 3.45], ["npth", "", 23.72, -23.50, 3.45, 0, 3.45]]
 
