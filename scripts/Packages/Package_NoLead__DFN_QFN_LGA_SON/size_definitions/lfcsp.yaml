@@ -128,6 +128,56 @@ LFCSP-WD-10-1EP_3x3mm_P0.5mm_EP1.64x2.38mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
+LFCSP-16-1EP_3x3mm_P0.5mm_EP1.3x1.3mm:
+  device_type: 'LFCSP'
+  library: Package_CSP
+  # manufacturer: 'Analog'
+  # part_number: 'CP-16-21'
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/lfcspcp/cp-16/CP_16_21.pdf'
+
+  body_size_x:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3
+    maximum: 3.1
+  body_height:
+    minimum: 0.7
+    nominal: 0.75
+    maximum: 0.8
+
+  lead_width:
+    maximum: 0.30
+    nominal: 0.23
+    minimum: 0.18
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    maximum: 1.45
+    nominal: 1.30
+    minimum: 1.15
+  EP_size_y:
+    maximum: 1.45
+    nominal: 1.30
+    minimum: 1.15
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.3
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+
 LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
   device_type: 'LFCSP'
   library: Package_CSP
@@ -507,8 +557,8 @@ LFCSP-64-1EP_9x9mm_P0.5mm_EP5.21x5.21mm:
     #grid: [1, 1]
     # bottom_pad_size:
     paste_avoid_via: False
-    
-    
+
+
   pitch: 0.5
   num_pins_x: 16
   num_pins_y: 16
