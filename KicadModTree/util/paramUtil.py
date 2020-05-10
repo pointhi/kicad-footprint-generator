@@ -52,7 +52,8 @@ def toNumberArray(value, length=2, min_value=1, member_type=int):
             result = value[:length]
     elif type(value) in [Vector2D, Vector3D]:
         if len(value) < length:
-            raise TypeError('Vector dimensions ({}) are too low. Must be at least {}'.format(len(value), length))
+            raise TypeError(
+                'Vector dimensions ({}) are too low. Must be at least {}'.format(len(value), length))
         result = list(value)
     else:
         raise TypeError('Unsupported type: {}'.format(type(value)))
@@ -60,7 +61,8 @@ def toNumberArray(value, length=2, min_value=1, member_type=int):
     result = [member_type(v) for v in result]
 
     if min_value is not None and isAnyLarger(result, min_value, False):
-        raise ValueError("At least one value in ({}) too small. Linit is {}.".format(result, min_value))
+        raise ValueError(
+            "At least one value in ({}) too small. Linit is {}.".format(result, min_value))
 
     return result
 
@@ -197,11 +199,27 @@ def getOptionalNumberTypeParam(
         if low_limit is not None:
             if val < low_limit or (val == low_limit and not allow_equal_limit):
                 raise ValueError(
-                        '{} with value {} violates the low limit of {}'
-                        .format(param_name, val, low_limit))
+                    '{} with value {} violates the low limit of {}'
+                    .format(param_name, val, low_limit))
         if high_limit is not None:
             if val > high_limit or (val == low_limit and not allow_equal_limit):
                 raise ValueError(
-                        '{} with value {} violates the high limit of {}'
-                        .format(param_name, val, high_limit))
+                    '{} with value {} violates the high limit of {}'
+                    .format(param_name, val, high_limit))
     return val
+
+
+def round_to(value, base):
+    r""" Round a value to a given base value
+
+    :param value:
+        The value to round
+
+    :param base:
+        The base value. The resulting value will be rounded to a multiple of it
+
+    :return:
+        The rounded value
+    """
+
+    return round(value/base) * base

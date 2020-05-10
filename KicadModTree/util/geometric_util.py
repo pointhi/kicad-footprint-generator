@@ -109,7 +109,6 @@ class geometricLine():
             * *other* (``Line``, ``Circle``, ``Arc``)
                 cut the element on any intersection with the given geometric element
         """
-
         ip = BaseNodeIntersection.intersectTwoNodes(self, *other)
         cp = []
         for p in ip:
@@ -170,6 +169,9 @@ class geometricCircle():
     def __init__(self, center, radius):
         self.center_pos = Vector2D(center)
         self.radius = float(radius)
+
+    def getRadius(self):
+        return self.radius
 
     def rotate(self, angle, origin=(0, 0), use_degrees=True):
         r""" Rotate around given origin
@@ -556,6 +558,8 @@ class BaseNodeIntersection():
         if len(lines) == 1 and len(circles) == 1:
             return BaseNodeIntersection.intersectLineWithCircle(lines[0], circles[0])
 
+        print(lines)
+        print(circles)
         raise NotImplementedError('unsupported combination of parameter types')
 
     @staticmethod

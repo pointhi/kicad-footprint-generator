@@ -45,7 +45,7 @@ class Vector2D(object):
                 raise TypeError('you have to give x and y coordinate')
         elif isinstance(coordinates, Vector2D):
             # convert Vector2D as well as Vector3D to dict
-            coordinates = coordinates.__dict__()
+            coordinates = coordinates.to_dict()
 
         # parse vectors with format: Vector2D({'x':0, 'y':0})
         if type(coordinates) is dict:
@@ -149,7 +149,7 @@ class Vector2D(object):
     def __truediv__(self, obj):
         return self.__div__(obj)
 
-    def __dict__(self):
+    def to_dict(self):
         return {'x': self.x, 'y': self.y}
 
     def render(self, formatcode):
@@ -161,10 +161,10 @@ class Vector2D(object):
                                  y=formatFloat(self.y))
 
     def __repr__(self):
-        return "Vector2D (x={x}, y={y})".format(**self.__dict__())
+        return "Vector2D (x={x}, y={y})".format(**self.to_dict())
 
     def __str__(self):
-        return "(x={x}, y={y})".format(**self.__dict__())
+        return "(x={x}, y={y})".format(**self.to_dict())
 
     def __getitem__(self, key):
         if key == 0 or key == 'x':
@@ -307,7 +307,7 @@ class Vector3D(Vector2D):
                 raise TypeError('you have to give at least x and y coordinate')
         elif isinstance(coordinates, Vector2D):
             # convert Vector2D as well as Vector3D to dict
-            coordinates = coordinates.__dict__()
+            coordinates = coordinates.to_dict()
 
         # parse vectors with format: Vector2D({'x':0, 'y':0})
         if type(coordinates) is dict:
@@ -431,7 +431,7 @@ class Vector3D(Vector2D):
     def __truediv__(self, obj):
         return self.__div__(obj)
 
-    def __dict__(self):
+    def to_dict(self):
         return {'x': self.x, 'y': self.y, 'z': self.z}
 
     def render(self, formatcode):
@@ -444,10 +444,10 @@ class Vector3D(Vector2D):
                                  z=formatFloat(self.z))
 
     def __repr__(self):
-        return "Vector3D (x={x}, y={y}, z={z})".format(**self.__dict__())
+        return "Vector3D (x={x}, y={y}, z={z})".format(**self.to_dict())
 
     def __str__(self):
-        return "(x={x}, y={y}, z={z})".format(**self.__dict__())
+        return "(x={x}, y={y}, z={z})".format(**self.to_dict())
 
     def __getitem__(self, key):
         if key == 0 or key == 'x':

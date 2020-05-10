@@ -38,6 +38,11 @@ def _getTextFieldDetails(field_definition, body_edges, courtyard, text_y_inside_
         else:
             fs = _roundToBase(body_size[rotation]/4, 0.01)
             size = [fs, fs]
+
+        if size[1] > body_size[(rotation+1)%2]-0.2:
+            fs = max(body_size[(rotation+1)%2]-0.2, size_min[1])
+            size = [fs, fs]
+
         fontwidth = _roundToBase(field_definition['thickness_factor']*size[0], 0.01)
     else:
         rotation = 0

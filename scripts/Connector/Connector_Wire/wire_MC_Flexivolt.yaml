@@ -1,0 +1,127 @@
+"FLEXI-E_0.1":
+  source: 'Multi-Contact FLEXI-E 0.1 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 0.1
+  #awg:
+  diameter: 0.4
+  outer_diameter: 1
+
+"FLEXI-E/HK_0.127":
+  source: 'Multi-Contact FLEXI-E/HK 0.127 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 0.127
+  #awg:
+  diameter: 0.48
+  outer_diameter: 1
+
+"FLEXI-E_0.15":
+  source: 'Multi-Contact FLEXI-E 0.15 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 0.15
+  #awg:
+  diameter: 0.5
+  outer_diameter: 1.5
+
+"FLEXI-E_0.25":
+  source: 'Multi-Contact FLEXI-E_0.25 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 0.25
+  #awg:
+  diameter: 0.65
+  outer_diameter: 1.7
+
+"FLEXI-E_0.5":
+  source: 'Multi-Contact FLEXI-E 0.5 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 0.5
+  #awg:
+  diameter: 0.9
+  outer_diameter: 2.1
+
+"FLEXI-E_0.75":
+  source: 'Multi-Contact FLEXI-E 0.75 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 0.75
+  #awg:
+  diameter: 1.25
+  outer_diameter: 2.3
+
+"FLEXI-E_1":
+  source: 'Multi-Contact FLEXI-E 1.0 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 1
+  #awg:
+  diameter: 1.4
+  outer_diameter: 2.7
+
+"FLEXI-E_1.5":
+  source: 'Multi-Contact FLEXI-E 1.5 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 1.5
+  #awg:
+  diameter: 1.7
+  outer_diameter: 3
+
+"FLEXI-E_2.5":
+  source: 'Multi-Contact FLEXI-E 2.5 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'basic'
+  area: 2.5
+  #awg:
+  diameter: 2.4
+  outer_diameter: 3.6
+
+"FLEXI-2V_0.25":
+  source: 'Multi-Contact FLEXI-2V 0.25 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'reinforced'
+  area: 0.25
+  #awg:
+  diameter: 0.65
+  outer_diameter: 2
+
+"FLEXI-xV_0.5":
+  source: 'Multi-Contact FLEXI-xV 0.5 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'reinforced'
+  area: 0.5
+  #awg:
+  diameter: 0.9
+  outer_diameter: 2.3
+
+"FLEXI-xV_0.75":
+  source: 'Multi-Contact FLEXI-xV 0.75 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'reinforced'
+  area: 0.75
+  #awg:
+  diameter: 1.25
+  outer_diameter: 3.5
+
+"FLEXI-xV_1.0":
+  source: 'Multi-Contact FLEXI-xV 1.0 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'reinforced'
+  area: 1
+  #awg:
+  diameter: 1.4
+  outer_diameter: 3.9
+
+"FLEXI-xV_1.5":
+  source: 'Multi-Contact FLEXI-xV 1.5 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'reinforced'
+  area: 1.5
+  #awg:
+  diameter: 1.7
+  outer_diameter: 3.9
+
+"FLEXI-xV_2.0":
+  source: 'Multi-Contact FLEXI-xV 2.0 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'reinforced'
+  area: 2.0
+  #awg:
+  diameter: 2.0
+  outer_diameter: 3.9
+
+"FLEXI-xV_2.5":
+  source: 'Multi-Contact FLEXI-xV 2.5 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf)'
+  insulation: 'reinforced'
+  area: 2.5
+  #awg:
+  diameter: 2.4
+  outer_diameter: 4.4
