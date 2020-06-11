@@ -341,6 +341,22 @@ DFN-8-1EP_2x2mm_P0.5mm_EP0.9x1.5mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+DFN-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm:
+  device_type: 'DFN'
+  size_source: 'https://www.st.com/resource/en/datasheet/lm2903.pdf#page=16'
+  body_size_x: 1.85 .. 2.00 .. 2.15
+  body_size_y: 1.85 .. 2.00 .. 2.15
+  lead_width: 0.18 .. 0.25 .. 0.30
+  lead_len: 0.20 .. 0.30 .. 0.50 # only max given in DS.
+                                 # Min and nominal from JEDEC MO-229 V2020D-3
+
+  EP_size_x: 0.75 .. 0.9 .. 1.00
+  EP_size_y: 1.45 .. 1.6 .. 1.70
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 4
+
 DFN-8-1EP_3x3mm_P0.65mm_EP1.7x2.05mm:
   device_type: 'DFN'
   #manufacturer: 'man'
