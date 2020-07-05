@@ -334,3 +334,14 @@ ST_uTFBGA-36_3.6x3.6mm_Layout6x6_P0.5mm:
    mask_margin: 0.05
    layout_x: 6
    layout_y: 6
+WLP-9_1.448x1.468mm_Layout3x3_P0.4mm_Ball0.27mm_Pad0.25mm:
+  description: "WLP-9"
+  size_source: "https://pdfserv.maximintegrated.com/package_dwgs/21-100168.PDF"
+  body_size_x: 1.468
+  body_size_y: 1.448
+  pitch: 0.4
+  pad_diameter: 0.27
+  mask_margin: 0.02
+  paste_margin: 0.000001
+  layout_x: 3
+  layout_y: 3
