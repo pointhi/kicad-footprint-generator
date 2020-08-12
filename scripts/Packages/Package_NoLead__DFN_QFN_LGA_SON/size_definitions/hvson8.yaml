@@ -32,3 +32,44 @@ HVSON-8-1EP_4x4mm_P0.8mm_EP2.2x3.1mm:
   num_pins_x: 0
   num_pins_y: 4
 
+HVSON-8-1EP_3x3mm_P0.65mm_EP1.6x2.4mm:
+  device_type: 'HVSON'
+  library: Package_SON
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/TJA1051.pdf#page=16'
+  ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    minimum: 2.9
+    nominal: 3.0
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3.0
+    maximum: 3.1
+  overall_height:
+    minimum: 0.8
+    nominal: 0.85
+    maximum: 1.0
+  lead_width:
+    minimum: 0.25
+    nominal: 0.3
+    maximum: 0.35
+  lead_len:
+    minimum: 0.35
+    nominal: 0.4
+    maximum: 0.45
+
+  EP_size_x:
+    minimum: 1.55
+    nominal: 1.6
+    maximum: 1.65
+  EP_size_y:
+    minimum: 2.35
+    nominal: 2.4
+    maximum: 2.45
+  # EP_paste_coverage: 0.65
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 4
