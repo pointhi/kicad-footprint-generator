@@ -943,3 +943,27 @@ TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.30mm:
   suffix: ''
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
+TDFN-8-1EP_3x2mm_P0.5mm_EP1.3x1.4mm:
+  device_type: 'TDFN'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6V66-Family-Data-Sheet-DS20006266A.pdf#page=35'
+  body_size_x: 3.0
+  body_size_y: 2.0
+  overall_height: 0.75
+  lead_width: 0.25 +/-0.05
+  lead_len: 0.3 +0.15 -0.05
+
+  EP_size_x: 1.3 +/-0.05
+  EP_size_y: 1.4 +/-0.05
+  #EP_size_y_overwrite: 1.30 +/-0.1
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.50
+  num_pins_x: 0
+  num_pins_y: 4
+  #chamfer_edge_pins: 0.25
+  #pin_count_grid:
+  #pad_length_addition: 0.5
+  suffix: ''
+  #include_suffix_in_3dpath: 'False'
+  #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
