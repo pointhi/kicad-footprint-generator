@@ -421,11 +421,11 @@ QFN-44-1EP_8x8mm_P0.65mm_EP6.45x6.45mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
-QFN-48-1EP_5x5mm_P0.5mm_EP3.7x3.7mm:
+QFN-48-1EP_5x5mm_P0.35mm_EP3.7x3.7mm:
   device_type: 'QFN'
   #manufacturer: 'man'
   #part_number: 'mpn'
-  size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf#page=38'
+  size_source: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf#page=47'
   ipc_class: 'qfn' # 'qfn_pull_back'
   #ipc_density: 'least' #overwrite global value for this device.
   # custom_name_format:
