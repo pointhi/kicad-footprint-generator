@@ -1,3 +1,40 @@
+HVQFN-16-1EP_3x3mm_P0.5mm_EP1.5x1.5mm:
+  device_type: 'HVQFN'
+  #manufacturer: 'NXP'
+  #part_number: 'SOT758-1'
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT758-1.pdf'
+  ipc_class: 'qfn'
+  body_size_x:
+    minimum: 2.9
+    nominal: 3.0
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    nominal: 3.0
+    maximum: 3.1
+  overall_height:
+    maximum: 1
+  lead_width:
+    minimum: 0.18
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 1.45
+    maximum: 1.75
+  EP_size_y:
+    minimum: 1.45
+    maximum: 1.75
+  EP_size_x_overwrite: 1.5
+  EP_size_y_overwrite: 1.5
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.5
+  num_pins_x: 4
+  num_pins_y: 4
+
 HVQFN-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm:
   device_type: 'HVQFN'
   #manufacturer: 'man'
