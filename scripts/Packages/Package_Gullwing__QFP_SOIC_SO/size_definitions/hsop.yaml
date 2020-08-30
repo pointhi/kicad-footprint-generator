@@ -48,3 +48,44 @@ HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.41x3.1mm_ThermalVias:
     # grid: [1.5, 1.5]
     # bottom_pad_size:
     paste_avoid_via: False
+
+HSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.3x2.3mm_ThermalVias:
+  size_source: 'https://www.st.com/resource/en/datasheet/l7980.pdf'
+  body_size_x:
+    nominal: 3.9
+    tolerance: 0.1
+  body_size_y:
+    nominal: 4.9
+    tolerance: 0.1
+  overall_size_x:
+    nominal: 6
+    tolerance: 0.2
+  lead_width:
+    minimum: 0.31
+    maximum: 0.51
+  lead_len:
+    minimum: 0.40
+    maximum: 1.27
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
+
+
+  EP_size_x:
+    nominal: 2.3
+  EP_size_y:
+    nominal: 2.3
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.2
+    # min_annular_ring: 0.15
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [2, 2]
+    # paste_between_vias: 1
+    # paste_rings_outside: 1
+    EP_paste_coverage: 0.65
+    # grid: [1.5, 1.5]
+    # bottom_pad_size:
+    paste_avoid_via: False
