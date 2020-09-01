@@ -345,3 +345,13 @@ WLP-9_1.448x1.468mm_Layout3x3_P0.4mm_Ball0.27mm_Pad0.25mm:
   paste_margin: 0.000001
   layout_x: 3
   layout_y: 3
+VFBGA-86_6x6mm_Layout10x10_P0.55mm_Ball0.25mm_Pad0.2mm:
+  description: "VFBGA-86"
+  size_source: "https://www.dialog-semiconductor.com/sites/default/files/da1469x_datasheet_3v1.pdf#page=740"
+  body_size_x: 6.0
+  body_size_y: 6.0
+  pitch: 0.55
+  pad_diameter: 0.2
+  layout_x: 10
+  layout_y: 10
+  row_skips: [[], [6], [5, 7], [4, 7, 8], [3, 5, 7], [6, 8], [7], [4, 6], [], []]
