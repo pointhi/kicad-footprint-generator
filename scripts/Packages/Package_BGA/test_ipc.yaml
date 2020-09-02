@@ -1,0 +1,72 @@
+# these test the IPC pad size generator and error handling
+
+# uses IPC pads with collapsible balls
+Collapsible_balls:
+  description: 'BGA-100'
+  size_source: ''
+  body_size_x: 6.0
+  body_size_y: 6.0
+  pitch: 0.55
+  ball_type: 'collapsible'
+  ball_diameter: 0.25
+  layout_x: 10
+  layout_y: 10
+
+Non-collapsible_balls:
+  description: 'BGA-100'
+  size_source: ''
+  body_size_x: 6.0
+  body_size_y: 6.0
+  pitch: 0.55
+  ball_type: 'non-collapsible'
+  ball_diameter: 0.25
+  layout_x: 10
+  layout_y: 10
+
+Fixed_pad_size:
+  description: 'BGA-100'
+  size_source: ''
+  body_size_x: 6.0
+  body_size_y: 6.0
+  pitch: 0.55
+  pad_diameter: 0.21
+  layout_x: 10
+  layout_y: 10
+
+# warning as both fixed pad size and IPD ball info present
+Doubled_pad_size:
+  description: 'BGA-100'
+  size_source: ''
+  body_size_x: 6.0
+  body_size_y: 6.0
+  pitch: 0.55
+  pad_diameter: 0.22
+  ball_type: 'collapsible'
+  ball_diameter: 0.25
+  layout_x: 10
+  layout_y: 10
+
+# failure as ball diameter is not in the IPC table
+# can also change ball type to an illegal value
+Invalid_ball_size:
+  description: 'BGA-100'
+  size_source: ''
+  body_size_x: 6.0
+  body_size_y: 6.0
+  pitch: 0.55
+  ball_type: 'collapsible' # change this to an illegal value
+  ball_diameter: 0.1234 # not an IPC ball diameter
+  layout_x: 10
+  layout_y: 10
+
+# failure as ball_diameter is given but not ball_type
+# can also test condition where ball type is given by not diameter
+Missing_ball_type:
+  description: 'BGA-100'
+  size_source: ''
+  body_size_x: 6.0
+  body_size_y: 6.0
+  pitch: 0.55
+  ball_diameter: 0.25
+  layout_x: 10
+  layout_y: 10

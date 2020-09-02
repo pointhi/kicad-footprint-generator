@@ -18,8 +18,38 @@ import itertools
 from string import ascii_uppercase
 
 def generateFootprint(config, fpParams, fpId):
-    print('Building footprint for parameter set: {}'.format(fpId))
+    createFp = False
     
+    # use IPC-derived pad size if possible, then fall back to user-defined pads
+    if "ball_type" in fpParams and "ball_diameter" in fpParams:
+        try:
+            padSize = configuration[fpParams["ball_type"]]
+            try:
+                padSize = configuration[fpParams["ball_type"]][fpParams["ball_diameter"]]["max"]
+                fpParams["pad_size"] = [padSize, padSize]
+                createFp = True
+            except KeyError as e:
+                print("{}mm is an invalid ball diameter. See ipc_7351b_bga_land_patterns.yaml for valid values. No footprint generated.".format(e))
+        except KeyError:
+            print("{} is an invalid ball type. See ipc_7351b_bga_land_patterns.yaml for valid values. No footprint generated.".format(e))
+        
+        if "pad_diameter" in fpParams:
+            print("Pad size is being derived using IPC rules even though pad diameter is defined.")
+    elif "ball_type" in fpParams and not "ball_diameter" in fpParams:
+        raise KeyError("Ball diameter is missing. No footprint generated.")
+    elif "ball_diameter" in fpParams and not "ball_type" in fpParams:
+        raise KeyError("Ball type is missing. No footprint generated.")
+    elif "pad_diameter" in fpParams:
+        fpParams["pad_size"] = [fpParams["pad_diameter"], fpParams["pad_diameter"]]
+        print("Pads size is set by the footprint definition. This should only be done for manufacturer-specific footprints.")
+        createFp = True
+    else:
+        print("The config file must include 'ball_type' and 'ball_diameter' or 'pad_diameter'. No footprint generated.")
+
+    if createFp:
+        __createFootprintVariant(config, fpParams, fpId)
+
+def __createFootprintVariant(config, fpParams, fpId):
     pkgX = fpParams["body_size_x"]
     pkgY = fpParams["body_size_y"]
     layoutX = fpParams["layout_x"]
@@ -153,6 +183,7 @@ def generateFootprint(config, fpParams, fpId):
 
     # Pads
     balls = layoutX * layoutY
+    
     if rowSkips == []:
         for _ in range(layoutY):
             rowSkips.append([])
@@ -171,7 +202,7 @@ def generateFootprint(config, fpParams, fpId):
             f.append(Pad(number="{}{}".format(row, col), type=Pad.TYPE_SMT,
                          shape=padShape,
                          at=[xPadLeft + (col-1) * pitchX, yPadTop + rowNum * pitchY],
-                         size=[fpParams["pad_diameter"], fpParams["pad_diameter"]],
+                         size=fpParams["pad_size"],
                          layers=Pad.LAYERS_SMT, 
                          radius_ratio=config['round_rect_radius_ratio']))
 
@@ -203,8 +234,12 @@ if __name__ == '__main__':
                         help='list of files holding information about what devices should be created.')
     parser.add_argument('--global_config', type=str, nargs='?', help='the config file defining how the footprint will look like. (KLC)', default='../../tools/global_config_files/config_KLCv3.0.yaml')
     # parser.add_argument('--series_config', type=str, nargs='?', help='the config file defining series parameters.', default='../package_config_KLCv3.yaml')
-
+    parser.add_argument('--ipc_doc', type=str, nargs='?', help='IPC definition document', default='ipc_7351b_bga_land_patterns.yaml')
+    parser.add_argument('-v', '--verbose', action='count', help='set debug level')
     args = parser.parse_args()
+    
+    if args.verbose:
+        DEBUG_LEVEL = args.verbose
     
     with open(args.global_config, 'r') as config_stream:
         try:
@@ -218,6 +253,12 @@ if __name__ == '__main__':
         # except yaml.YAMLError as exc:
             # print(exc)
     
+    with open(args.ipc_doc, 'r') as config_stream:
+        try:
+            configuration.update(yaml.safe_load(config_stream))
+        except yaml.YAMLError as exc:
+            print(exc)
+
     # generate dict of A, B .. Y, Z, AA, AB .. CY less easily-confused letters
     rowNamesList = [x for x in ascii_uppercase if x not in ["I", "O", "Q", "S", "X", "Z"]]
     configuration.update({'row_names': list(itertools.islice(rowNameGenerator(rowNamesList), 80))})
@@ -229,4 +270,5 @@ if __name__ == '__main__':
             except yaml.YAMLError as exc:
                 print(exc)
         for pkg in cmd_file:
+            print("generating part for parameter set {}".format(pkg))
             generateFootprint(configuration, cmd_file[pkg], pkg)
