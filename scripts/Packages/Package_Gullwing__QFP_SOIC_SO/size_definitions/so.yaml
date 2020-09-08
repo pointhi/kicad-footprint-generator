@@ -38,6 +38,30 @@ SO-14_5.3x10.2mm_P1.27mm:
   num_pins_x: 0
   num_pins_y: 7
 
+SO-16_3.9x9.9mm_P1.27mm:
+  size_source: 'https://www.nxp.com/docs/en/package-information/SOT109-1.pdf'
+  body_size_x:
+    nominal: 3.9
+    minimum: 3.8
+    maximum: 4.0
+  body_size_y:
+    nominal: 9.9
+    minimum: 9.8
+    maximum: 10.0
+  overall_height: 1.75
+  overall_size_x:
+    minimum: 5.8
+    maximum: 6.2
+  lead_width:
+    minimum: 0.36
+    maximum: 0.49
+  lead_len:
+    minimum: 0.4
+    maximum: 1.0
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+
 SO-16_5.3x10.2mm_P1.27mm:
   size_source: 'https://www.ti.com/lit/ml/msop002a/msop002a.pdf'
   body_size_x: 5.00 .. 5.60
@@ -79,9 +103,9 @@ SO-8_4.0x5.0mm_P1.27mm:
   body_size_x:
     minimum: 3.8
     maximum: 4.0
-    # alternatively one can also specify the tolerance instead of minimum and maximum values. 
-    # If minimum and maximum values are given then the nominal value is optional. 
-    # It should only be included if it is given in the datasheet. 
+    # alternatively one can also specify the tolerance instead of minimum and maximum values.
+    # If minimum and maximum values are given then the nominal value is optional.
+    # It should only be included if it is given in the datasheet.
     # (If it is in the datasheet then it must be included.)
   body_size_y:
     minimum: 4.8
@@ -159,7 +183,7 @@ Texas_PowerPAD_SO-20-1EP_7.52x12.83mm_P1.27mm:
     maximum: 4.32
   EP_size_y_overwrite: 12.09 # 0.476"
   EP_mask_y: 4.47
-  
+
   thermal_vias:
     count: [3, 8]
     # x-pitch 0.026" = 0.66 mm
@@ -170,4 +194,4 @@ Texas_PowerPAD_SO-20-1EP_7.52x12.83mm_P1.27mm:
     EP_paste_coverage: 0.75
     grid: [0.66, 0.495]
     paste_avoid_via: False
-    EP_num_paste_pads: [2, 2]  
+    EP_num_paste_pads: [2, 2]
