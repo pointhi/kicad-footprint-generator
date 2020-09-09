@@ -456,3 +456,12 @@ ST_WLCSP-180_Die451:
   layout_x: 13
   layout_y: 14
   row_skips: [[], [], [], [], [], [], [7], [7], [], [], [], [], [], []]
+WLCSP-16_1.409x1.409mm_P0.35mm:
+  description: "WLCSP-16"
+  size_source: 'http://www.latticesemi.com/view_document?document_id=213'
+  body_size_x: 1.409
+  body_size_y: 1.409
+  pitch: 0.35
+  pad_diameter: 0.2
+  layout_x: 4
+  layout_y: 4
