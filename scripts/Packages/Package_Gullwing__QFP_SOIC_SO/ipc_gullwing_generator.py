@@ -140,10 +140,21 @@ class Gullwing():
     def generateFootprint(self, device_params, header):
         dimensions = Gullwing.deviceDimensions(device_params)
 
-        if dimensions['has_EP'] and 'thermal_vias' in device_params:
-            self.__createFootprintVariant(device_params, header, dimensions, True)
+        if 'deleted_pins' in device_params:
+            if type(device_params['deleted_pins']) is int:
+                device_params['deleted_pins'] = [device_params['deleted_pins']]
 
-        self.__createFootprintVariant(device_params, header, dimensions, False)
+        if 'hidden_pins' in device_params:
+            if type(device_params['hidden_pins']) is int:
+                device_params['hidden_pins'] = [device_params['hidden_pins']]
+
+        if 'deleted_pins' in device_params and 'hidden_pins' in device_params:
+            print("A footprint may not have deleted pins and hidden pins.")
+        else:
+            if dimensions['has_EP'] and 'thermal_vias' in device_params:
+                self.__createFootprintVariant(device_params, header, dimensions, True)
+
+            self.__createFootprintVariant(device_params, header, dimensions, False)
 
     def __createFootprintVariant(self, device_params, header, dimensions, with_thermal_vias):
         fab_line_width = self.configuration.get('fab_line_width', 0.1)
@@ -154,7 +165,17 @@ class Gullwing():
         size_x = dimensions['body_size_x'].nominal
         size_y = dimensions['body_size_y'].nominal
 
-        pincount = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
+        pincount_full = device_params['num_pins_x']*2 + device_params['num_pins_y']*2
+        
+        if 'hidden_pins' in device_params:
+            pincount_text = '{}-{}'.format(pincount_full - len(device_params['hidden_pins']), pincount_full)
+            pincount = pincount_full - len(device_params['hidden_pins'])
+        elif 'deleted_pins' in device_params:
+            pincount_text = '{}-{}'.format(pincount_full, pincount_full - len(device_params['deleted_pins']))
+            pincount = pincount_full - len(device_params['deleted_pins'])
+        else:
+            pincount_text = '{}'.format(pincount_full)
+            pincount = pincount_full
 
         ipc_reference = 'ipc_spec_gw_large_pitch' if device_params['pitch'] >= 0.625 else 'ipc_spec_gw_small_pitch'
         if device_params.get('force_small_pitch_ipc_definition', False):
@@ -166,12 +187,12 @@ class Gullwing():
 
         pitch = device_params['pitch']
 
-        name_format = self.configuration['fp_name_format_string_no_trailing_zero']
+        name_format = self.configuration['fp_name_format_string_no_trailing_zero_pincount_text']
         EP_size = {'x':0, 'y':0}
         EP_mask_size = {'x':0, 'y':0}
 
         if dimensions['has_EP']:
-            name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero']
+            name_format = self.configuration['fp_name_EP_format_string_no_trailing_zero_pincount_text']
             if 'EP_size_x_overwrite' in device_params:
                 EP_size = {
                     'x':device_params['EP_size_x_overwrite'],
@@ -183,7 +204,7 @@ class Gullwing():
                     'y':dimensions['EP_size_y'].nominal
                     }
             if 'EP_mask_x' in dimensions:
-                name_format = self.configuration['fp_name_EP_custom_mask_format_string_no_trailing_zero']
+                name_format = self.configuration['fp_name_EP_custom_mask_format_string_no_trailing_zero_pincount_text']
                 EP_mask_size = {'x':dimensions['EP_mask_x'].nominal, 'y':dimensions['EP_mask_y'].nominal}
         EP_size = Vector2D(EP_size)
 
@@ -201,7 +222,7 @@ class Gullwing():
             man=device_params.get('manufacturer',''),
             mpn=device_params.get('part_number',''),
             pkg=header['device_type'],
-            pincount=pincount,
+            pincount=pincount_text,
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
@@ -218,7 +239,7 @@ class Gullwing():
             man=device_params.get('manufacturer',''),
             mpn=device_params.get('part_number',''),
             pkg=header['device_type'],
-            pincount=pincount,
+            pincount=pincount_text,
             size_y=size_y,
             size_x=size_x,
             pitch=device_params['pitch'],
@@ -240,7 +261,7 @@ class Gullwing():
 
         kicad_mod = Footprint(fp_name)
 
-                # init kicad footprint
+        # init kicad footprint
         kicad_mod.setDescription(
             "{manufacturer} {mpn} {package}, {pincount} Pin ({datasheet}), generated with kicad-footprint-generator {scriptname}"\
             .format(
@@ -260,7 +281,10 @@ class Gullwing():
             ).lstrip())
         kicad_mod.setAttribute('smd')
 
-        pad_radius = add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
+        if 'custom_pad_layout' in device_params:
+            pad_radius = add_custom_pad_layout(kicad_mod, configuration, pad_details, device_params)
+        else:
+            pad_radius = add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_params)
 
         EP_round_radius = 0
         if dimensions['has_EP']:

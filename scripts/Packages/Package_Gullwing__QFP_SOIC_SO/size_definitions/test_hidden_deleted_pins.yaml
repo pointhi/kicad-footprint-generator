@@ -1,0 +1,150 @@
+# hidden and deleted pins are defined and described by IPC 7351B naming convention
+# http://ohm.bu.edu/~pbohn/__Engineering_Reference/pcb_layout/pcbmatrix/IPC-7x51%20&%20PCBM%20Land%20Pattern%20Naming%20Convention.pdf
+# hidden pins remove a pin location and pin number (for example, going from pad 1 to pad 3 with pin 2 missing from the package)
+# deleted pins remove a pin location but not pin number (for example, pin 2 is missing from the package but the footprint has pad 2)
+# deleted pins do not support custom numbering schemes https://github.com/pointhi/kicad-footprint-generator/pull/371
+
+FileHeader:
+  library_Suffix: 'TO_SOT_SMD'
+  device_type: 'SOT'
+
+# test add_quad_pad_border() in quad_dual_pad_border.py
+LQFP-48_7x7mm_P0.5mm:
+  size_source: '~'
+  body_size_x: 7
+  body_size_y: 7
+  overall_size_x: 9
+  overall_size_y: 9
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.45 .. 0.75
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+
+# test add_quad_pad_border() in quad_dual_pad_border.py with hidden pins
+LQFP-48_7x7mm_P0.5mm_hidden:
+  size_source: '~'
+  body_size_x: 7
+  body_size_y: 7
+  overall_size_x: 9
+  overall_size_y: 9
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.45 .. 0.75
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+  hidden_pins: [1,15,24,30,31,44]
+
+# test add_quad_pad_border() in quad_dual_pad_border.py with deleted pins
+LQFP-48_7x7mm_P0.5mm_deleted:
+  size_source: '~'
+  body_size_x: 7
+  body_size_y: 7
+  overall_size_x: 9
+  overall_size_y: 9
+  lead_width: 0.17 .. 0.27
+  lead_len: 0.45 .. 0.75
+  pitch: 0.5
+  num_pins_x: 12
+  num_pins_y: 12
+  deleted_pins: [1,15,24,30,31,44]
+
+# test add_dual_pad_border_y() in quad_dual_pad_border.py
+SOT-23-6:
+  size_source: '~'
+  custom_name_format: 'SOT-23-6'
+  body_size_x: 1.6
+  body_size_y: 2.9
+  overall_size_x: 2.8
+  lead_width: 0.3 .. 0.5
+  lead_len: 0.3 .. 0.45 .. 0.6
+  pitch: 0.95
+  num_pins_x: 0
+  num_pins_y: 3
+
+# test add_dual_pad_border_y() in quad_dual_pad_border.py with hidden pins
+# manually-made footprint merged at https://github.com/KiCad/kicad-footprints/pull/2298
+SOIC-14-16_3.9x9.9mm_P1.27mm:
+  size_source: '~'
+  body_size_x: 3.8 .. 4.0
+  body_size_y: 9.8 .. 10
+  overall_height:
+    maximum: 1.75
+
+  overall_size_x: 6 +/-0.2
+  lead_len: 0.4 .. 1.27
+  lead_width: 0.31 .. 0.51
+
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 8
+  hidden_pins: [2, 13]
+
+# test add_dual_pad_border_y() in quad_dual_pad_border.py with deleted pins
+SOT-23-5:
+  size_source: '~'
+  custom_name_format: 'SOT-23-5'
+  body_size_x: 1.6
+  body_size_y: 2.9
+  overall_size_x: 2.8
+  lead_width: 0.3 .. 0.5
+  lead_len: 0.3 .. 0.45 .. 0.6
+  pitch: 0.95
+  num_pins_x: 0
+  num_pins_y: 3
+  deleted_pins: 5
+
+# test add_dual_pad_border_x() in quad_dual_pad_border.py
+SOT-23-6R:
+  size_source: '~'
+  custom_name_format: 'SOT-23-6R'
+  body_size_x: 1.6
+  body_size_y: 2.9
+  overall_size_x: 2.8
+  lead_width: 0.3 .. 0.5
+  lead_len: 0.3 .. 0.45 .. 0.6
+  pitch: 0.95
+  num_pins_x: 3
+  num_pins_y: 0
+
+# test add_dual_pad_border_x() in quad_dual_pad_border.py with hidden pins
+SOT-23-6R_hidden:
+  size_source: '~'
+  custom_name_format: 'SOT-23-6R_Hidden'
+  body_size_x: 1.6
+  body_size_y: 2.9
+  overall_size_x: 2.8
+  lead_width: 0.3 .. 0.5
+  lead_len: 0.3 .. 0.45 .. 0.6
+  pitch: 0.95
+  num_pins_x: 3
+  num_pins_y: 0
+  hidden_pins: [5]
+
+# test add_dual_pad_border_x() in quad_dual_pad_border.py with deleted pins
+SOT-23-6R_deleted:
+  size_source: '~'
+  custom_name_format: 'SOT-23-6R_Deleted'
+  body_size_x: 1.6
+  body_size_y: 2.9
+  overall_size_x: 2.8
+  lead_width: 0.3 .. 0.5
+  lead_len: 0.3 .. 0.45 .. 0.6
+  pitch: 0.95
+  num_pins_x: 3
+  num_pins_y: 0
+  deleted_pins: [5]
+
+# test footprint with removed pins on both sides
+SOT-23:
+  size_source: '~'
+  custom_name_format: 'SOT-23'
+  body_size_x: 1.6
+  body_size_y: 2.9
+  overall_size_x: 2.8
+  lead_width: 0.3 .. 0.5
+  lead_len: 0.3 .. 0.45 .. 0.6
+  pitch: 0.95
+  num_pins_x: 0
+  num_pins_y: 3
+  deleted_pins: [2, 4, 6]

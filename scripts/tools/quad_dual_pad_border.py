@@ -12,8 +12,10 @@ def add_dual_or_quad_pad_border(kicad_mod, configuration, pad_details, device_pa
     if 'round_rect_max_radius' in configuration:
         pad_shape_details['maximum_radius'] = configuration['round_rect_max_radius']
 
-    if 'exclude_pin_list' in device_params:
-        pad_shape_details['exclude_pin_list'] = device_params['exclude_pin_list']
+    if 'hidden_pins' in device_params:
+        pad_shape_details['hidden_pins'] = device_params['hidden_pins']
+    if 'deleted_pins' in device_params:
+        pad_shape_details['deleted_pins'] = device_params['deleted_pins']
 
     if device_params['num_pins_x'] == 0:
         radius = add_dual_pad_border_y(kicad_mod, pad_details, device_params, pad_shape_details)

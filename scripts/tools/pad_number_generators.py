@@ -6,7 +6,8 @@ Using the generators an iterable is generated following the scheme.
 
 Available generators:
 ----------------------
-- increment: Is a simple generator that increments the pin number by one.
+- increment: Generates pin numbers increasing by one and supports skipping pin numbers
+            using the deleted_pins kwarg (skipped pins return a bogus value of -1)
 - cw_dual: Generates pin numbers counting clockwise from the starting position
 - ccw_dual: Generates pin numbers counting counter-clockwise from the starting position
 
@@ -23,9 +24,22 @@ To use a generator add the following to the device config:
 
 def increment(pincount, init=1, **kwargs):
     i = init
+    j = init # pad number for deleted pins
+
+    if kwargs.get("deleted_pins"):
+        skip_pins = kwargs["deleted_pins"]
+
     while i <= pincount:
-        yield i
-        i += 1
+        if kwargs.get("deleted_pins"):
+            if i in skip_pins:
+                yield None
+            else:
+                yield j
+                j += 1
+            i += 1 # i acts like pin location for deleted pins
+        else:
+            yield i
+            i += 1
 
 
 def _get_pin_cw(pincount, loc):
@@ -146,7 +160,7 @@ def get_generator(device_params):
     pad_nums = device_params.get("pad_numbers")
 
     if not pad_nums:
-        return generators["increment"](pincount)
+        return generators["increment"](pincount, **device_params)
 
     init = pad_nums.get("init", 1)
 
