@@ -15,7 +15,7 @@ from drawing_tools import *
 from footprint_global_properties import *
 
 
-def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset, footprint_name, description, tags, lib_name):
+def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset, footprint_name, description, tags, lib_name, missing_pins=[]):
     padx=pad[0]
     pady=pad[1]
     
@@ -27,8 +27,7 @@ def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset
     h_slk = h_fab + 2 * slk_offset
     w_slk = w_fab + 2 * slk_offset
     l_slk = l_fab - slk_offset
-    t_slk = t_fab-slk_offset
-    
+    t_slk = t_fab - slk_offset
     w_crt = w_fab + 2 * crt_offset
     h_crt = h_fab + 2 * crt_offset
     l_crt = min(l_fab, -padx / 2) - crt_offset
@@ -50,18 +49,18 @@ def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset
    
     # create pads
     keepout=[]
-    kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[0, 0], size=pad, drill=ddrill,
-                         layers=['*.Cu', '*.Mask']))
-    keepout=keepout+addKeepoutRect(0,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
+    if not 1 in missing_pins:
+        kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[0, 0], size=pad, drill=ddrill,
+                             layers=['*.Cu', '*.Mask']))
+        keepout=keepout+addKeepoutRect(0,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
     for x in range(2, pins + 1):
-        kicad_mod.append(Pad(number=x, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[(x - 1) * rm, 0], size=pad,
-                             drill=ddrill, layers=['*.Cu', '*.Mask']))
-        if (padx/pady)<1.05 and (padx/pady)>.95:
-            keepout=keepout+addKeepoutRect((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
-        else:
-            keepout=keepout+addKeepoutRound((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
-    
-        
+        if not x in missing_pins:
+            kicad_mod.append(Pad(number=x, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[(x - 1) * rm, 0], size=pad,
+                                 drill=ddrill, layers=['*.Cu', '*.Mask']))
+            if (padx/pady)<1.05 and (padx/pady)>.95:
+                keepout=keepout+addKeepoutRect((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
+            else:
+                keepout=keepout+addKeepoutRound((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', at=[(pins-1) / 2 * rm, min(-pady/2,t_slk) - txt_offset], layer='F.SilkS'))
     kicad_mod.append(Text(type='user', text='%R', at=[(pins-1) / 2 * rm, t_fab +h_fab/2], layer='F.Fab'))
@@ -69,7 +68,7 @@ def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset
     
     # create FAB-layer
     pin1TL=True
-    pin1size=min(1, h_fab/2);
+    pin1size=min(1, h_fab/2)
     if top_offset>h_fab/2:
         bevelRectBL(kicad_mod, x=[l_fab, t_fab], size=[w_fab, h_fab], bevel_size=pin1size, layer='F.Fab', width=lw_fab)
         pin1TL=False
@@ -108,7 +107,7 @@ def makeSIPVertical(pins, rm, ddrill, pad, package_size, left_offset, top_offset
     
 
 
-def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bottom_offset, footprint_name, description, tags, lib_name):
+def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bottom_offset, footprint_name, description, tags, lib_name, missing_pins=[]):
     padx=pad[0]
     pady=pad[1]
     
@@ -140,29 +139,29 @@ def makeSIPHorizontal(pins, rm, ddrill, pad, package_size, left_offset, pin_bott
    
     # create pads
     keepout=[]
-    kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[0, 0], size=pad, drill=ddrill,
-                         layers=['*.Cu', '*.Mask']))
-    keepout=keepout+addKeepoutRect(0,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
-    kicad_mod.append(Line(start=[-lw_fab/2, 0], end=[-lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
-    kicad_mod.append(Line(start=[lw_fab/2, 0], end=[lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
+    if not 1 in missing_pins:
+        kicad_mod.append(Pad(number=1, type=Pad.TYPE_THT, shape=Pad.SHAPE_RECT, at=[0, 0], size=pad, drill=ddrill,
+                             layers=['*.Cu', '*.Mask']))
+        keepout=keepout+addKeepoutRect(0,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
+        kicad_mod.append(Line(start=[-lw_fab/2, 0], end=[-lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
+        kicad_mod.append(Line(start=[lw_fab/2, 0], end=[lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
     for x in range(2, pins + 1):
-        kicad_mod.append(Pad(number=x, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[(x - 1) * rm, 0], size=pad,
-                             drill=ddrill, layers=['*.Cu', '*.Mask']))
-        kicad_mod.append(Line(start=[(x - 1) * rm-lw_fab/2, 0], end=[(x - 1) * rm-lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
-        kicad_mod.append(Line(start=[(x - 1) * rm+lw_fab/2, 0], end=[(x - 1) * rm+lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
-        if (padx/pady)<1.05 and (padx/pady)>.95:
-            keepout=keepout+addKeepoutRect((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
-        else:
-            keepout=keepout+addKeepoutRound((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
-    
-        
+        if not x in missing_pins:
+            kicad_mod.append(Pad(number=x, type=Pad.TYPE_THT, shape=Pad.SHAPE_OVAL, at=[(x - 1) * rm, 0], size=pad,
+                                 drill=ddrill, layers=['*.Cu', '*.Mask']))
+            kicad_mod.append(Line(start=[(x - 1) * rm-lw_fab/2, 0], end=[(x - 1) * rm-lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
+            kicad_mod.append(Line(start=[(x - 1) * rm+lw_fab/2, 0], end=[(x - 1) * rm+lw_fab/2,-pin_bottom_offset], layer='F.Fab', width=lw_fab))
+            if (padx/pady)<1.05 and (padx/pady)>.95:
+                keepout=keepout+addKeepoutRect((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
+            else:
+                keepout=keepout+addKeepoutRound((x - 1) * rm,0,pad[0]+2*min_pad_distance+2*lw_slk, pad[1]+2*min_pad_distance+2*lw_slk)
     # set general values
     kicad_mod.append(Text(type='reference', text='REF**', at=[(pins-1) / 2 * rm, min(-pady/2,t_slk) - txt_offset], layer='F.SilkS'))
     kicad_mod.append(Text(type='user', text='%R', at=[(pins-1) / 2 * rm, t_fab +h_fab/2], layer='F.Fab'))
     kicad_mod.append(Text(type='value', text=footprint_name, at=[(pins-1) / 2 * rm, pady/2 + txt_offset], layer='F.Fab'))
     
     # create FAB-layer
-    pin1size=min(1, h_fab/2);
+    pin1size=min(1, h_fab/2)
     bevelRectBL(kicad_mod, x=[l_fab, t_fab], size=[w_fab, h_fab], bevel_size=pin1size, layer='F.Fab', width=lw_fab)
     
     # create SILKSCREEN-layer
