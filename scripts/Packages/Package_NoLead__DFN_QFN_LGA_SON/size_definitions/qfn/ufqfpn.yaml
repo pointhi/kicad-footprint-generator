@@ -1,0 +1,44 @@
+UFQFPN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm:
+  device_type: 'UFQFPN'
+  size_source: 'https://www.st.com/resource/en/datasheet/stm32g071k8.pdf'
+  body_size_x:
+    minimum: 4.9
+    nominal: 5
+    maximum: 5.1
+  body_size_y:
+    minimum: 4.9
+    nominal: 5
+    maximum: 5.1
+  overall_height:
+    minimum: 0.5
+    nominal: 0.55
+    maximum: 0.6
+
+  lead_width:
+    minimum: 0.18
+    nominal: 0.23
+    maximum: 0.28
+  lead_len:
+    minimum: 0.3
+    nominal: 0.4
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 3.4
+    nominal: 3.5
+    maximum: 3.6
+  EP_size_y:
+    minimum: 3.4
+    nominal: 3.5
+    maximum: 3.6
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    paste_avoid_via: False
+
+  pitch: 0.50
+  num_pins_x: 8
+  num_pins_y: 8
