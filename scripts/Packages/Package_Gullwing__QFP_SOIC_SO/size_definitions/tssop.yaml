@@ -517,6 +517,47 @@ TSSOP-24_4.4x7.8mm_P0.65mm:
   num_pins_x: 0
   num_pins_y: 12
 
+TSSOP-24-1EP_4.4x7.8mm_P0.65mm_EP3.2x5mm:
+  size_source: 'https://www.st.com/resource/en/datasheet/led1642gw.pdf#page=37'
+  
+  body_size_x:
+    minimum: 4.30 
+    nominal: 4.40 
+    maximum: 4.50 
+  body_size_y:
+    minimum: 7.70
+    nominal: 7.80
+    maximum: 7.90
+
+  overall_size_x: 
+    minimum: 6.30
+    nominal: 6.40
+    maximum: 6.50
+
+  body_height: 1.20
+
+  lead_width: 0.19 .. 0.30
+
+  lead_len: 
+    minimum: 0.45
+    nominal: 0.60
+    maximum: 0.75
+
+  pitch: 0.65
+
+  num_pins_x: 0
+  num_pins_y: 12
+
+  EP_size_x:
+    minimum: 3.00
+    nominal: 3.20
+    maximum: 3.40
+  EP_size_y:
+    minimum: 4.80
+    nominal: 5.00
+    maximum: 5.20
+  EP_num_paste_pads: [2, 3]
+
 TSSOP-28_4.4x9.7mm_P0.65mm:
   size_source: 'JEDEC MO-153 Var AE https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
   body_size_x: 4.4 +/-0.1
