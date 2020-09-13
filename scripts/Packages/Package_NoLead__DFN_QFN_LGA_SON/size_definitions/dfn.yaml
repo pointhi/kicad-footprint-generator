@@ -678,6 +678,29 @@ Texas_S-PDSO-N10_EP1.2x2.0mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+WDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm:
+  device_type: 'WDFN'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/20005474E.pdf#page=25'
+  ipc_class: 'qfn' # 'qfn_pull_back'
+  body_size_x: 2.0
+  body_size_y: 2.0
+  lead_width: 0.25 +/- 0.05
+  lead_len: 0.3 +/- 0.05
+
+  EP_size_x:
+    minimum: 0.7
+    nominal: 0.8
+    maximum: 0.9
+  EP_size_y:
+    minimum: 1.1
+    nominal: 1.2
+    maximum: 1.3
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 4
+
 WDFN-8-1EP_3x2mm_P0.5mm_EP1.3x1.4mm:
   device_type: 'WDFN'
   #manufacturer: 'man'
