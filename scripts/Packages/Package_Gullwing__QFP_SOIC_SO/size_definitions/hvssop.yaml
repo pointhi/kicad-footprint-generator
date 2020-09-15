@@ -1,0 +1,40 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'HVSSOP'
+
+HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.57x1.88mm:
+  size_source: 'https://www.ti.com/lit/ds/symlink/bq24090.pdf'
+
+  body_size_x:
+    nominal: 3
+    tolerance: 0.100
+  body_size_y:
+    nominal: 3
+    tolerance: 0.100
+  overall_height:
+    maximum: 1.1
+
+  overall_size_x:
+    minimum: 4.75
+    maximum: 5.05
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.4
+    maximum: 0.7
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 5
+
+  EP_size_x:
+    nominal: 1.57
+  EP_size_y:
+    nominal: 1.88
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [2, 2]
+    EP_num_paste_pads: [2, 2]
+    paste_avoid_via: False
