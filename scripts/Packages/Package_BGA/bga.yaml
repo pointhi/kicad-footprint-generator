@@ -355,3 +355,15 @@ VFBGA-86_6x6mm_Layout10x10_P0.55mm_Ball0.25mm_Pad0.2mm:
   layout_x: 10
   layout_y: 10
   row_skips: [[], [6], [5, 7], [4, 7, 8], [3, 5, 7], [6, 8], [7], [4, 6], [], []]
+BGA-200_10.0x14.5mm_Layout12x22_P0.80x0.65mm:
+  description: "BGA-200"
+  size_source: "http://www.issi.com/WW/pdf/43-46LQ32256A-AL.pdf"
+  body_size_x: 10.0
+  body_size_y: 14.5
+  pitch_x: 0.80
+  pitch_y: 0.65
+  pad_diameter: 0.27
+  layout_x: 12
+  layout_y: 22
+  row_skips: [[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[[1,13]],[[1,13]],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7],[6,7]]
+
