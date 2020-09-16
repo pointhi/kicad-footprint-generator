@@ -106,3 +106,24 @@ SSOP-32_11.3x20.5mm_P1.27mm:
   pitch: 1.27
   num_pins_x: 0
   num_pins_y: 16
+
+SSOP-48_5.3x12.8mm_P0.5mm:
+  size_source: 'https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-ssop/05081887_A_G48.pdf'
+  body_size_x:
+    minimum: 5.00
+    maximum: 5.60
+  body_size_y:
+    minimum: 12.50
+    maximum: 13.10
+  overall_size_x:
+    minimum: 7.40
+    maximum: 8.20
+  lead_width:
+    minimum: 0.20
+    maximum: 0.315
+  lead_len:
+    minimum: 0.55
+    maximum: 0.95
+  pitch: 0.50
+  num_pins_x: 0
+  num_pins_y: 24
