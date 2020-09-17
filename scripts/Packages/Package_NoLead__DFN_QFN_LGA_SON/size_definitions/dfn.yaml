@@ -1034,3 +1034,31 @@ TDFN-8-1EP_3x2mm_P0.5mm_EP1.3x1.4mm:
   suffix: ''
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+
+TDFN-8-1EP_3x2mm_P0.5mm_EP1.4x1.4mm:
+  device_type: 'TDFN'
+  size_source: 'http://ww1.microchip.com/downloads/en/devicedoc/20005514a.pdf#page=35'
+  body_size_x: 3.00
+  body_size_y: 2.00
+  overall_height: 
+    minimum: 0.70
+    nominal: 0.75
+    maximum: 0.80
+  lead_width: 
+    minimum: 0.20
+    nominal: 0.25
+    maximum: 0.30
+  lead_len: 
+    minimum: 0.25
+    nominal: 0.30
+    maximum: 0.45
+
+  EP_size_x: 1.20 .. 1.60
+  EP_size_y: 1.20 .. 1.60
+  EP_num_paste_pads: [2, 2]
+
+  pitch: 0.50
+  num_pins_x: 0
+  num_pins_y: 4
+
+
