@@ -465,3 +465,12 @@ WLCSP-16_1.409x1.409mm_P0.35mm:
   pad_diameter: 0.2
   layout_x: 4
   layout_y: 4
+WLCSP-8_1.551x2.284mm_P0.5mm:
+  description: "WLCSP-8"
+  size_source: "https://www.adestotech.com/wp-content/uploads/AT25SL321_112.pdf#page=75"
+  body_size_x: 1.551
+  body_size_y: 2.284
+  pitch: 0.5
+  pad_diameter: 0.2
+  layout_x: 2
+  layout_y: 4
