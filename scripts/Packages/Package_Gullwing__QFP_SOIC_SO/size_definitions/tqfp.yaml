@@ -2,6 +2,19 @@ FileHeader:
   library_Suffix: 'QFP'
   device_type: 'TQFP'
 
+TQFP-48_7x7mm_P0.5mm:
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/48L_TQFP_7x7x1_0mm_PT_C04-00300d.pdf'
+  body_size_x: 7.00 # basic
+  body_size_y: 7.00 # basic
+  overall_height: 1.00 .. 1.20 # min calculated from A1_min + A2_min
+  overall_size_x: 9.00 # basic
+  overall_size_y: 9.00 # basic
+  lead_width: 0.17 .. 0.22 .. 0.27
+  lead_len: 0.45 .. 0.60 .. 0.75
+  pitch: 0.50
+  num_pins_x: 12
+  num_pins_y: 12
+
 TQFP-48-1EP_7x7mm_P0.5mm_EP5.0x5.0mm:
   size_source: 'https://www.trinamic.com/fileadmin/assets/Products/ICs_Documents/TMC2100_datasheet_Rev1.08.pdf (page 45)'
   body_size_x:
