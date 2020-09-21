@@ -481,6 +481,28 @@ TSSOP-16_4.4x5mm_P0.65mm:
   num_pins_x: 0
   num_pins_y: 8
 
+TSSOP-16-1EP_4.4x5mm_P0.65mm_EP3x3mm:
+  size_source: 'Allegro A4954 https://www.allegromicro.com/-/media/Files/Datasheets/A4954-Datasheet.ashx'
+  body_size_x: 4.4 +/-0.1
+  body_size_y: 5.0 +/-0.1
+  overall_size_x: 6.4 +/-0.2
+  body_height: 1.2
+  lead_width: 0.19 .. 0.30
+  lead_len: 0.6 +/-0.15
+  pitch: 0.65
+  num_pins_x: 0
+  num_pins_y: 8
+  EP_size_x:
+    nominal: 3
+  EP_size_y:
+    nominal: 3
+  EP_num_paste_pads: [2, 2]
+  thermal_vias:
+    count: [2, 2]
+    drill: 0.3
+    paste_avoid_via: false
+    EP_num_paste_pads: [2, 2]
+
 TSSOP-14_4.4x5mm_P0.65mm:
   size_source: 'JEDEC MO-153 Var AB-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153'
   body_size_x: 4.4 +/-0.1
