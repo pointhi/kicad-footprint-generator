@@ -251,6 +251,31 @@ HTSSOP-28-1EP_4.4x9.7mm_P0.65mm_EP2.85x5.4mm:
     paste_avoid_via: false
     EP_num_paste_pads: [1, 3]
 
+HTSSOP-44_6.1x14.0mm_P0.5mm_TopEP4.14x7.01mm:
+  size_source: 'http://www.ti.com/lit/ds/symlink/tpa3251.pdf#page=38'
+  custom_name_format: 'HTSSOP-{pincount}_{size_x:g}x{size_y:g}mm_P{pitch}mm_TopEP4.14x7.01mm'
+  body_size_x:
+    minimum: 6.0
+    maximum: 6.2
+  body_size_y:
+    minimum: 13.9
+    maximum: 14.1
+  overall_size_y:
+    minimum: 7.9
+    maximum: 8.3
+  lead_width:
+    minimum: 0.17
+    maximum: 0.27
+  lead_len:
+    minimum: 0.5
+    maximum: 0.75
+  pitch: 0.635
+  num_pins_y: 22
+  num_pins_x: 0
+  #top_heatsink:
+    #x: 4.14
+    #y: 7.01
+
 Texas_PWP_R-PDSO-G14:
 # HTSSOP-14-1EP_4.4x5.0mm_P0.65mm_EP3.4x5.0mm_Mask3.0x3.1mm:
   size_source: 'http://www.ti.com/lit/ds/symlink/lm5161.pdf#page=34'
