@@ -280,6 +280,48 @@ Texas_S-PWSON-N8:
   #suffix: '_PullBack'
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
+  
+Texas_S-PWSON-N8_EP1.45x2.4mm:
+  device_type: 'WSON'
+  library: Package_SON
+  size_source: 'https://www.ti.com/lit/ds/symlink/ina333.pdf#page=30'
+  ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
+  custom_name_format: 'Texas_S-PWSON-N{pincount}_EP{ep_size_x:g}x{ep_size_y:g}mm{vias:s}'
+  body_size_x:
+    minimum: 2.9
+    maximum: 3.1
+  body_size_y:
+    minimum: 2.9
+    maximum: 3.1
+  overall_height:
+    minimum: 0.7
+    maximum: 0.8
+
+  lead_width:
+    nominal: 0.25
+    tolerance: 0.05
+  lead_len:
+    minimum: 0.4
+    maximum: 0.6
+
+  EP_size_x:
+    nominal: 1.45
+    tolerance: 0.1
+  EP_size_y:
+    nominal: 2.4
+    tolerance: 0.1
+  EP_num_paste_pads: [1, 2]
+
+  thermal_vias:
+    count: [2, 3]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    EP_paste_coverage: 0.75
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 4
 
 WSON-10-1EP_2.5x2.5mm_P0.5mm_EP1.2x2mm:
   device_type: 'WSON'
