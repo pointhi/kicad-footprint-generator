@@ -474,3 +474,12 @@ WLCSP-8_1.551x2.284mm_P0.5mm:
   pad_diameter: 0.2
   layout_x: 2
   layout_y: 4
+WLCSP-4-X1-WLB0909-4_0.89x0.89mm_P0.5mm:
+  description: "X1-WLB0909"
+  size_source: 'https://www.diodes.com/assets/Datasheets/AP22913.pdf'
+  body_size_x: 0.89
+  body_size_y: 0.89
+  pitch: 0.5
+  pad_diameter: 0.235 # even though ball_diameter is 0.235 analog recommends a landing pad of 0.235
+  layout_x: 2
+  layout_y: 2
