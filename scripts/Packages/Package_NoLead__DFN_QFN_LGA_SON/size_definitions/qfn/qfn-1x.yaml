@@ -1,3 +1,44 @@
+QFN-12-1EP_3x3mm_P0.5mm_EP1.6x1.6mm:
+  device_type: 'QFN'
+  size_source: 'https://www.nxp.com/docs/en/data-sheet/MMZ09332B.pdf'
+  ipc_class: 'qfn'
+  body_size_x:
+    nominal: 3
+  body_size_y:
+    nominal: 3
+  overall_height:
+    minimum: 0.8
+    maximum: 0.9
+
+  lead_width:
+    minimum: 0.18
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    minimum: 1.40
+    maximum: 1.60
+  EP_size_y:
+    minimum: 1.40
+    maximum: 1.60
+  EP_size_x_overwrite: 1.6
+  EP_size_y_overwrite: 1.6
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3,3]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    EP_num_paste_pads: [3, 3]
+    EP_paste_coverage: 0.75
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 3
+  num_pins_y: 3
+  
 QFN-12-1EP_3x3mm_P0.5mm_EP1.65x1.65mm:
   device_type: 'QFN'
   #manufacturer: 'man'
