@@ -1172,4 +1172,35 @@ TDFN-8-1EP_3x2mm_P0.5mm_EP1.4x1.4mm:
   num_pins_x: 0
   num_pins_y: 4
 
+DFN-14_1.35x3.5mm_P0.5mm:
+  device_type: 'DFN'
+  #manufacturer: 'man'
+  #part_number: 'mpn'
+  size_source: 'https://m.littelfuse.com/~/media/electronics/datasheets/tvs_diode_arrays/littelfuse_tvs_diode_array_sp3012_datasheet.pdf.pdf#page=7'
+  # ipc_class: 'qfn' # 'qfn_pull_back'
+  #ipc_density: 'least' #overwrite global value for this device.
+  body_size_x:
+    minimum: 1.25
+    nominal: 1.35
+    maximum: 1.45
+  body_size_y:
+    minimum: 3.4
+    nominal: 3.5
+    maximum: 3.6
+  overall_height:
+    minimum: 0.45
+    nominal: 0.5
+    maximum: 0.55
 
+  lead_width:
+    minimum: 0.15
+    nominal: 0.2
+    maximum: 0.25
+  lead_len:
+    minimum: 0.25
+    nominal: 0.3
+    maximum: 0.35
+
+  pitch: 0.5
+  num_pins_x: 0
+  num_pins_y: 7
