@@ -1,0 +1,26 @@
+FileHeader:
+  library_Suffix: 'SO'
+  device_type: 'SSO'
+
+SSO-8-N7_9.78x6.4mm_P2.54mm:
+  size_source: 'https://b2b-api.panasonic.eu/file_stream/pids/fileversion/2787'
+  body_size_y:
+    nominal: 9.78
+    tolerance: 0.1
+  body_size_x:
+    nominal: 6.4
+    tolerance: 0.1
+  overall_size_x:
+    nominal: 9.62 # 7.62 + 1 + 1 +/- 0.1
+    tolerance: 0.1
+  lead_width:
+    nominal: 1.2 # refers to fatter part of the lead, not the 0.5 at the lead ends
+    tolerance: 0.1
+  lead_len:
+    nominal: 1
+    tolerance: 0.1 # refers to area that can contact pad
+  pitch: 2.54
+  num_pins_y: 4
+  num_pins_x: 0
+  hidden_pins: [7]
+
