@@ -285,7 +285,7 @@ if __name__ == '__main__':
                         lib_name="Crystals",
                         offset3d=[0, 0, 0], scale3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], rotate3d=[0, 0, 0],
                         script3d=script3dhc49, height3d=6)
-    makeCrystalHC49Vert(footprint_name="Resonator_muRata_DSN6", pins=3, addSizeFootprintName=True,
+    makeCrystalHC49Vert(footprint_name="Resonator_Murata_DSN6", pins=3, addSizeFootprintName=True,
                         rm=5, pad_size=1.7, ddrill=1, pack_width=7, pack_height=2.54,
                         innerpack_width=7, innerpack_height=2.54,
                         tags=standardtagsres+" DSN6",
@@ -293,7 +293,7 @@ if __name__ == '__main__':
                         lib_name="Crystals",
                         offset3d=[0, 0, 0], scale3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], rotate3d=[0, 0, 0],
                         script3d=script3dres3, height3d=8)
-    makeCrystalHC49Vert(footprint_name="Resonator_muRata_DSS6", pins=3, addSizeFootprintName=True,
+    makeCrystalHC49Vert(footprint_name="Resonator_Murata_DSS6", pins=3, addSizeFootprintName=True,
                         rm=5, pad_size=1.7, ddrill=1, pack_width=7, pack_height=2.54,
                         innerpack_width=7, innerpack_height=2.54,
                         tags=standardtagsres + " DSS6",
@@ -301,7 +301,7 @@ if __name__ == '__main__':
                         lib_name="Crystals",
                         offset3d=[0, 0, 0], scale3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], rotate3d=[0, 0, 0],
                         script3d=script3dres3, height3d=7)
-    makeCrystalHC49Vert(footprint_name="Resonator_muRata_CSTLSxxxG", pins=3, addSizeFootprintName=True,
+    makeCrystalHC49Vert(footprint_name="Resonator_Murata_CSTLSxxxG", pins=3, addSizeFootprintName=True,
                         rm=5, pad_size=1.7, ddrill=1, pack_width=8, pack_height=3,
                         innerpack_width=8, innerpack_height=3,
                         tags=standardtagsres + " CSTLSxxxG",
@@ -309,7 +309,7 @@ if __name__ == '__main__':
                         lib_name="Crystals",
                         offset3d=[0, 0, 0], scale3d=[1 / 2.54, 1 / 2.54, 1 / 2.54], rotate3d=[0, 0, 0],
                         script3d=script3dres3, height3d=5.5)
-    makeCrystalHC49Vert(footprint_name="Resonator_muRata_CSTLSxxxX", pins=3, addSizeFootprintName=True,
+    makeCrystalHC49Vert(footprint_name="Resonator_Murata_CSTLSxxxX", pins=3, addSizeFootprintName=True,
                         rm=5, pad_size=1.7, ddrill=1, pack_width=5.5, pack_height=3,
                         innerpack_width=5.5, innerpack_height=3,
                         tags=standardtagsres + " CSTLSxxxX",

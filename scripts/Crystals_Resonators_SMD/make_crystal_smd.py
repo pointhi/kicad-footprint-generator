@@ -376,7 +376,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter 7.2x3.0mm, Murata CSTCC8M00G53-R0; 8MHz resonator, SMD, Farnell (Element 14) #1170435, http://www.farnell.com/datasheets/19296.pdf?_ga=1.247244932.122297557.1475167906",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_SFECV", addSizeFootprintName=True, pins=3,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_Murata_SFECV", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.85, pad_sep_y=0,
                           pad=[1.2, 4], pack_width=6.9, pack_height=2.9, pack_bevel=0, hasAdhesive=False,
@@ -385,7 +385,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter Murata SFECV, http://cdn-reichelt.de/documents/datenblatt/B400/SFECV-107.pdf",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_SFSKA", addSizeFootprintName=True, pins=3,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_Murata_SFSKA", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,
                           pad=[1, 4.8], pack_width=7.9, pack_height=3.8, pack_bevel=0, hasAdhesive=False,
@@ -394,7 +394,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter Murata SFSKA, http://cdn-reichelt.de/documents/datenblatt/B400/SFECV-107.pdf",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_TPSKA", addSizeFootprintName=True, pins=3,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_Murata_TPSKA", addSizeFootprintName=True, pins=3,
                           style="rect",
                           pad_sep_x=2.5, pad_sep_y=0,
                           pad=[1, 4.8], pack_width=7.9, pack_height=3.8, pack_bevel=0, hasAdhesive=False,
@@ -403,7 +403,7 @@ if __name__ == '__main__':
                           description="SMD Resomator/Filter Murata TPSKA, http://cdn-reichelt.de/documents/datenblatt/B400/SFECV-107.pdf",
                           tags=standardtagsres + " filter",
                           lib_name="Crystals", offset3d=[0, 0, 0], scale3d=[1, 1, 1], rotate3d=[0, 0, 0])
-    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_muRata_CDSCB", addSizeFootprintName=True, pins=2,
+    makeSMDCrystalAndHand(footprint_name="Resonator_SMD_Murata_CDSCB", addSizeFootprintName=True, pins=2,
                               style="rect",
                               pad_sep_x=3, pad_sep_y=0,
                               pad=[1, 2.6], pack_width=4.5, pack_height=2, pack_bevel=0, hasAdhesive=False,
