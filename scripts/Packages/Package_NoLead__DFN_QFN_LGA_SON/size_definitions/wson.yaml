@@ -223,6 +223,45 @@ WSON-8-1EP_6x5mm_P1.27mm_E3.4x4.3mm:
   #include_suffix_in_3dpath: 'False'
   #include_pad_size: 'fp_name_only' # 'both' | 'none' (default)
 
+WSON-8-1EP_4x4mm_P0.8mm_EP2.6x3mm:
+  device_type: 'WSON'
+  library: Package_SON
+  size_source: 'https://www.ti.com/lit/ds/symlink/lp2951-n.pdf#page=43'
+  ipc_class: 'qfn' #'qfn' | 'qfn_pull_back'
+  body_size_x:
+    minimum: 3.9
+    maximum: 4.1
+  body_size_y:
+    minimum: 3.9
+    maximum: 4.1
+  overall_height:
+    maximum: 0.8
+
+  lead_width:
+    maximum: 0.35
+    minimum: 0.25
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x:
+    nominal: 2.6
+    tolerance: 0.05
+  EP_size_y:
+    nominal: 3
+    tolerance: 0.05
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [1, 3]
+    drill: 0.2
+    paste_via_clearance: 0.1
+    paste_avoid_via: True
+
+  pitch: 0.8
+  num_pins_x: 0
+  num_pins_y: 4
+
 WSON-8-1EP_3x3mm_P0.5mm_EP1.2x2mm:
   device_type: 'WSON'
   library: Package_SON
