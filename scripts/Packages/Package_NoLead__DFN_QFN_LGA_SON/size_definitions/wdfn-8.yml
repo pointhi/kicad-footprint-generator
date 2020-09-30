@@ -1,0 +1,20 @@
+WDFN-8-1EP_6x5mm_P1.27mm_EP3.4x4mm:
+  device_type: 'WDFN'
+  size_source: 'http://ww1.microchip.com/downloads/en/DeviceDoc/8L_WDFN_5x6mm_MF_C04210B.pdf'
+  ipc_class: 'qfn'
+  body_size_x:
+    nominal: 6.0
+    tolerance: 0
+  body_size_y:
+    nominal: 5.0
+    tolerance: 0
+  lead_width_min: 0.35
+  lead_width_max: 0.48
+  lead_len_min: 0.50
+  lead_len_max: 0.70
+  EP_size_x: 3.4
+  EP_size_y: 4
+  EP_num_paste_pads: [2, 2]
+  pitch: 1.27
+  num_pins_x: 0
+  num_pins_y: 4
