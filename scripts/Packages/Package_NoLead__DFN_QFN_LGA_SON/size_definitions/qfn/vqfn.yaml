@@ -561,6 +561,35 @@ VQFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm:
   #suffix: '_Pad{pad_x:.2f}x{pad_y:.2f}mm_HandSolder'
   #include_suffix_in_3dpath: 'False'
 
+VQFN-32-1EP_5x5mm_P0.5mm_EP3.15x3.15mm:
+  device_type: 'VQFN'
+  size_source: 'https://www.ti.com/lit/ds/slvs589d/slvs589d.pdf#page=33'
+  ipc_class: 'qfn'
+  body_size_x: 5.0 +/- 0.15
+  body_size_y: 5.0 +/- 0.15
+  overall_height:
+    minimum: 0.8
+    maximum: 1
+  lead_width:
+    minimum: 0.18
+    maximum: 0.3
+  lead_len:
+    minimum: 0.3
+    maximum: 0.5
+
+  EP_size_x: 3.15 +/- 0.1
+  EP_size_y: 3.15 +/- 0.1
+  EP_num_paste_pads: [2, 2]
+
+  thermal_vias:
+    count: [3, 3]
+    drill: 0.2
+    paste_avoid_via: False
+
+  pitch: 0.5
+  num_pins_x: 8
+  num_pins_y: 8
+
 VQFN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm:
   device_type: 'VQFN'
   #manufacturer: 'man'
