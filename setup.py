@@ -8,12 +8,10 @@ from setuptools import find_packages
 
 
 long_description = open(os.path.join(sys.path[0], 'README.md')).read()
-requirements = map(str.strip, open('requirements.txt').readlines())
-dev_requirements = map(str.strip, open('requirements-dev.txt').readlines())
 
 setup(
     name='KicadModTree',
-    version='1.1.0',
+    version='1.1.1',
     author='Thomas Pointhuber',
     author_email='thomas.pointhuber@gmx.at',
     url='https://github.com/pointhi/kicad-footprint-generator',
@@ -22,9 +20,18 @@ setup(
     long_description_content_type='text/markdown',
     license="GPL3+",
 
-    install_requires=requirements,
+    install_requires=[
+        'future',
+        'pyyaml'
+    ],
     extras_require={
-        'test': dev_requirements
+        'test': [
+            'pep8',
+            'flake8',
+            'unittest2',
+            'nose2',
+            'nose2-cov'
+        ]
     },
     packages=find_packages('.', exclude=["*tests*", "*examples*"]),
     test_suite='tests',
