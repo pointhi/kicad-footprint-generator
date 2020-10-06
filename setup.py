@@ -11,7 +11,7 @@ long_description = open(os.path.join(sys.path[0], 'README.md')).read()
 
 setup(
     name='KicadModTree',
-    version='1.1.1',
+    version='1.1.2',
     author='Thomas Pointhuber',
     author_email='thomas.pointhuber@gmx.at',
     url='https://github.com/pointhi/kicad-footprint-generator',
