@@ -1,3 +1,8 @@
+## :warning: 301 Moved Permanently
+Location: https://gitlab.com/kicad/libraries/kicad-footprint-generator
+
+---
+
 This repository contains scripts to generate custom KiCAD footprints using python, and a framework which allows us to
 create custom KiCAD footprint. A big bunch of footprints of the KiCad library was developed using this framework.
 
